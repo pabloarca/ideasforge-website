@@ -1,0 +1,30 @@
+{
+  "name": "ideasforge-astro",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "astro": "astro",
+    "check:copy": "node scripts/check-copy.mjs"
+  },
+  "engines": {
+    "node": ">=18.17.1"
+  },
+  "dependencies": {
+    "astro": "^5.7.0",
+    "@astrojs/sitemap": "^3.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@fontsource-variable/inter": "^5.1.1",
+    "@tailwindcss/typography": "^0.5.16",
+    "@tailwindcss/vite": "^4.1.0",
+    "tailwindcss": "^4.1.0",
+    "typescript": "^5.7.3"
+  }
+}

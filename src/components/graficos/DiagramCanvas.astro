@@ -1,0 +1,70 @@
+---
+/**
+ * Lienzo de coordenadas fijas que se escala para caber en su contenedor.
+ * Dibujas en píxeles absolutos (width × height) y nunca se recorta.
+ */
+export interface Props {
+  width?: number;
+  height?: number;
+  /** Desplaza el lienzo dentro del marco, p. ej. para dejar sitio al título */
+  offsetTop?: string;
+  class?: string;
+}
+const { width = 1100, height = 300, offsetTop = '0px', class: className = '' } = Astro.props;
+---
+
+<div class:list={['dg-fit', className]} data-w={width} data-h={height} style={`margin-top:${offsetTop}`}>
+  <div class="dg-canvas" style={`width:${width}px;height:${height}px`}>
+    <svg class="dg-edges" viewBox={`0 0 ${width} ${height}`} fill="none" aria-hidden="true">
+      <defs>
+        <marker id="dg-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#fff" />
+        </marker>
+      </defs>
+      <slot name="edges" />
+    </svg>
+    <slot />
+  </div>
+</div>
+
+<style>
+  .dg-fit {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: visible;
+  }
+  .dg-canvas {
+    position: relative;
+    flex: none;
+    transform-origin: top center;
+  }
+  .dg-edges {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .dg-edges :global(path) {
+    stroke: rgba(255, 255, 255, 0.85);
+    stroke-width: 1.3;
+  }
+</style>
+
+<script>
+  const fit = (box: HTMLElement) => {
+    const canvas = box.querySelector<HTMLElement>('.dg-canvas');
+    if (!canvas) return;
+    const w = Number(box.dataset.w) || 1100;
+    const h = Number(box.dataset.h) || 300;
+    const s = Math.min(1, box.clientWidth / w);
+    canvas.style.transform = `scale(${s})`;
+    box.style.height = `${h * s}px`;
+  };
+
+  document.querySelectorAll<HTMLElement>('.dg-fit').forEach((box) => {
+    fit(box);
+    new ResizeObserver(() => fit(box)).observe(box);
+  });
+</script>

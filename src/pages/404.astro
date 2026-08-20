@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getLangFromUrl, localizedPath } from '../i18n/utils';
+import { content } from '../i18n/ui';
+
+// Best-effort language from the requested URL (static 404 defaults to ES).
+const lang = getLangFromUrl(Astro.url);
+const t = content[lang];
+const copy =
+  lang === 'es'
+    ? { title: 'Página no encontrada', body: 'La página que buscas no existe o se ha movido.', cta: 'Volver al inicio' }
+    : { title: 'Page not found', body: 'The page you are looking for does not exist or has moved.', cta: 'Back to home' };
+---
+
+<BaseLayout lang={lang} title={`404, ${copy.title}`} description={copy.body}>
+  <section class="mx-auto grid min-h-[60vh] max-w-3xl place-items-center px-5 py-24 text-center sm:px-8">
+    <div>
+      <p class="font-mono text-7xl font-bold text-primary">404</p>
+      <h1 class="mt-4 text-3xl font-semibold tracking-tight text-fg">{copy.title}</h1>
+      <p class="mt-3 text-muted">{copy.body}</p>
+      <a
+        href={localizedPath('/', lang)}
+        class="mt-8 inline-flex rounded-lg bg-primary px-6 py-3 font-medium text-white transition-colors hover:bg-primary-hover"
+      >
+        {copy.cta}
+      </a>
+    </div>
+  </section>
+</BaseLayout>

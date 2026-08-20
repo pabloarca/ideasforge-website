@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { content } from '../../i18n/ui';
+import { altsFor, localizedPath } from '../../i18n/utils';
+
+const lang = 'en' as const;
+const t = content[lang];
+const p = t.pages.accounting;
+---
+
+<BaseLayout
+  lang={lang}
+  title={t.meta.accountingTitle}
+  description={t.meta.accountingDescription}
+  alternates={altsFor('accounting')}
+>
+  <section class="bg-bg py-16 sm:py-24">
+    <div class="mx-auto max-w-4xl px-5 text-center sm:px-8">
+      <span class="eyebrow-pill">{p.hero.eyebrow}</span>
+      <h1 class="mt-7 text-balance text-4xl font-bold leading-[1.05] tracking-tight text-fg sm:text-5xl lg:text-6xl">
+        {p.hero.title}
+      </h1>
+      <p class="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
+        {p.hero.subtitle}
+      </p>
+      <div class="mt-9">
+        <a href={localizedPath('/#contacto', lang)} class="btn-primary hover:btn-primary-hover">
+          {p.hero.cta}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bg-soft py-16 sm:py-20">
+    <div class="mx-auto grid max-w-6xl gap-6 px-5 sm:px-8 md:grid-cols-2">
+      <div class="card-soft p-8">
+        <h2 class="text-2xl font-bold text-fg">{p.problem.heading}</h2>
+        <p class="mt-4 text-[15px] leading-relaxed text-muted">{p.problem.body}</p>
+      </div>
+      <div class="card-soft p-8">
+        <h2 class="text-2xl font-bold text-fg">{p.solution.heading}</h2>
+        <p class="mt-4 text-[15px] leading-relaxed text-muted">{p.solution.body}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bg py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">
+      <p class="eyebrow">{p.proof.heading}</p>
+      <p class="mt-4 text-balance text-2xl font-bold leading-snug text-fg sm:text-3xl">
+        {p.proof.body}
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-bg-soft py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">
+      <h2 class="text-3xl font-bold tracking-tight text-fg sm:text-4xl">{p.cta.heading}</h2>
+      <p class="mt-4 text-lg text-muted">{p.cta.body}</p>
+      <div class="mt-7">
+        <a href={localizedPath('/#contacto', lang)} class="btn-primary hover:btn-primary-hover">
+          {p.cta.button}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,254 @@
+---
+import { type Lang, content } from '../i18n/ui';
+import FlowDiagram from './FlowDiagram.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].whyUs;
+---
+
+<section class="bg-bg py-20 sm:py-28">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <header class="mx-auto max-w-2xl text-center">
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h2 class="mt-4 text-4xl font-bold tracking-tight text-fg sm:text-5xl">
+        {t.title}
+      </h2>
+      <p class="mt-4 text-lg text-muted">{t.subtitle}</p>
+    </header>
+
+    <ul class="mt-14 grid gap-6 lg:grid-cols-3">
+      {
+        t.items.map((item, i) => (
+          <li class="card-soft rainbow-ring group relative flex h-full flex-col p-8">
+            {/* Square icon with a chevron. On hover the box scales slightly
+                and the chevron slides right (Stripe-style). Decorative
+                (pointer-events-none) so the whole-card click target
+                underneath catches the event. */}
+            <div
+              class="pointer-events-none absolute right-6 top-6 z-10 grid h-11 w-11 place-items-center rounded-md bg-bg-soft transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-5 w-5 text-fg transition-transform duration-300 group-hover:translate-x-0.5"
+              >
+                <polyline points="9 6 15 12 9 18" />
+              </svg>
+            </div>
+
+            <h3 class="pr-14 text-xl font-bold leading-snug text-fg">{item.title}</h3>
+            <p class="mt-4 text-[15px] leading-relaxed text-muted">{item.body}</p>
+
+            {/* Invisible full-card click target. Sits above the static text so
+                clicks anywhere on the card trigger the modal. */}
+            <button
+              type="button"
+              data-modal-trigger={`whyus-modal-${i}`}
+              aria-label={`Ver más: ${item.title}`}
+              class="absolute inset-0 cursor-pointer rounded-[15px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  {/* Modals live as siblings of the <ul> because <dialog> is not a valid
+      child of <ul>. They are opened/closed by the script below. */}
+  {
+    t.items.map((item, i) => {
+      const titleId = `whyus-modal-${i}-title`;
+      return (
+        <dialog
+          id={`whyus-modal-${i}`}
+          data-whyus-modal
+          aria-labelledby={titleId}
+        >
+          {/* Close button: small square pill, top-right inside the modal */}
+          <button
+            type="button"
+            data-modal-close
+            aria-label="Cerrar"
+            class="absolute right-5 top-5 z-20 grid h-9 w-9 place-items-center rounded-lg bg-bg-soft text-accent transition-colors hover:bg-border"
+          >
+            <svg
+              class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+            >
+              <line x1="6" y1="6" x2="18" y2="18" />
+              <line x1="18" y1="6" x2="6" y2="18" />
+            </svg>
+          </button>
+
+          {/* Scrollable content area, scrollbar hidden by .no-scrollbar */}
+          <div class="no-scrollbar h-full overflow-y-auto px-6 py-12 sm:px-12 sm:py-16 lg:px-20 lg:py-20">
+            <div class="mx-auto max-w-6xl">
+              {/* Two-column header: left = title + subtitle + CTA, right = bullet list */}
+              <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+                <div>
+                  <h2
+                    id={titleId}
+                    class="text-balance text-3xl font-bold tracking-tight text-fg sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]"
+                  >
+                    {item.modal.title}
+                  </h2>
+                  <p class="mt-6 text-pretty text-lg leading-relaxed text-muted">
+                    {item.modal.subtitle}
+                  </p>
+                  <div class="mt-9">
+                    <a
+                      href={item.modal.cta.href}
+                      data-modal-close
+                      class="btn-primary hover:btn-primary-hover inline-flex items-center gap-2"
+                    >
+                      {item.modal.cta.label}
+                      <svg
+                        class="h-4 w-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+
+                <ul class="space-y-6 lg:pt-3">
+                  {item.modal.bullets.map((b) => (
+                    <li class="flex items-start gap-3">
+                      <span
+                        class="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent text-bg"
+                        aria-hidden="true"
+                      >
+                        <svg
+                          class="h-3 w-3"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="3"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </span>
+                      <span>
+                        <span class="block font-bold leading-snug text-fg">{b.title}</span>
+                        <span class="mt-1 block text-[15px] leading-snug text-muted">{b.body}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Experience notes: opening line, story, hard numbers, closing line */}
+              <div class="mx-auto mt-14 max-w-3xl border-t border-border-soft pt-12">
+                <p class="text-balance text-2xl font-bold leading-snug tracking-tight text-fg sm:text-[1.75rem]">
+                  {item.modal.openingLine}
+                </p>
+
+                <div class="mt-8 space-y-6">
+                  {item.modal.paragraphs.slice(0, 2).map((p, k) => (
+                    <>
+                      {typeof p === 'string' ? (
+                        <p class="text-[15px] leading-relaxed text-muted sm:text-base" set:html={p} />
+                      ) : (
+                        <div>
+                          <h3 class="text-base font-bold text-fg">{p.heading}</h3>
+                          <p class="mt-2 text-[15px] leading-relaxed text-muted sm:text-base" set:html={p.body} />
+                        </div>
+                      )}
+                      {item.modal.diagramAfter === k && <FlowDiagram lang={lang} />}
+                    </>
+                  ))}
+                </div>
+
+                {item.modal.stats && item.modal.stats.length > 0 && (
+                  <dl class="mt-12 grid gap-5 sm:grid-cols-3">
+                    {item.modal.stats.map((s) => (
+                      <div class="rounded-xl bg-bg-soft p-6">
+                        <dt class="text-[1.75rem] font-bold leading-none tracking-tight text-accent">
+                          {s.value}
+                        </dt>
+                        <dd class="mt-3 text-sm leading-snug text-muted">{s.label}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+
+                <div class="mt-12 space-y-6">
+                  {item.modal.paragraphs.slice(2).map((p, k) => (
+                    <>
+                      {typeof p === 'string' ? (
+                        <p class="text-[15px] leading-relaxed text-muted sm:text-base" set:html={p} />
+                      ) : (
+                        <div>
+                          <h3 class="text-base font-bold text-fg">{p.heading}</h3>
+                          <p class="mt-2 text-[15px] leading-relaxed text-muted sm:text-base" set:html={p.body} />
+                        </div>
+                      )}
+                      {item.modal.diagramAfter === k + 2 && <FlowDiagram lang={lang} />}
+                    </>
+                  ))}
+                </div>
+
+                {item.modal.closingLine && (
+                  <p class="mt-12 border-l-2 border-accent pl-5 text-lg font-medium leading-relaxed text-fg">
+                    {item.modal.closingLine}
+                  </p>
+                )}
+
+                <div class="mt-12 rounded-2xl border border-border bg-bg-soft p-7">
+                  <h3 class="text-base font-bold text-fg">{item.modal.notPromised.heading}</h3>
+                  <p class="mt-3 text-[15px] leading-relaxed text-muted">
+                    {item.modal.notPromised.body}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </dialog>
+      );
+    })
+  }
+</section>
+
+<script>
+  // Open a dialog when any element with [data-modal-trigger] is clicked.
+  document.querySelectorAll<HTMLElement>('[data-modal-trigger]').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const id = trigger.dataset.modalTrigger;
+      if (!id) return;
+      const dialog = document.getElementById(id) as HTMLDialogElement | null;
+      dialog?.showModal();
+    });
+  });
+
+  // Close on X button, on ESC (native), or on backdrop click.
+  document.querySelectorAll<HTMLDialogElement>('dialog[data-whyus-modal]').forEach((dialog) => {
+    dialog.querySelectorAll<HTMLButtonElement>('[data-modal-close]').forEach((btn) => {
+      btn.addEventListener('click', () => dialog.close());
+    });
+    dialog.addEventListener('click', (e) => {
+      // Clicks on the ::backdrop bubble up with event.target === dialog
+      if (e.target === dialog) dialog.close();
+    });
+  });
+</script>

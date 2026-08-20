@@ -1,0 +1,61 @@
+---
+import { type Lang, content } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].trustedBy;
+
+const clients = [
+  { name: 'Stanton', src: '/logos/stanton.png' },
+  { name: 'The Dazzwebs Studio', src: '/logos/dazzwebs.png' },
+  { name: 'AIMO', src: '/logos/aimo.webp' },
+  { name: 'Barceloneta Premium', src: '/logos/bcnpremium.png' },
+  { name: 'Savian', src: '/logos/savian.png' },
+  { name: 'Baba', src: '/logos/baba.png' },
+  { name: 'Wazzy', src: '/logos/wazzy.png' },
+  { name: 'Amigo & Amigo', src: '/logos/amigoamigo.png' },
+];
+---
+
+<section class="bg-bg py-20 sm:py-24">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <h2 class="text-center text-2xl font-bold text-faint sm:text-3xl">
+      {t.heading}
+    </h2>
+    {t.subheading && (
+      <p class="mx-auto mt-4 max-w-2xl text-center text-[15px] text-muted">{t.subheading}</p>
+    )}
+
+    <!-- Marquee strip: logos slide right-to-left, pause on hover. -->
+    <div
+      class="marquee-mask relative mt-14 overflow-hidden"
+      style="--marquee-duration: 50s;"
+    >
+      <div class="marquee-track flex items-center gap-x-24">
+        {[0, 1].map((dupKey) => (
+          <ul
+            class="flex shrink-0 items-center gap-x-24"
+            aria-hidden={dupKey === 1 ? 'true' : undefined}
+          >
+            {clients.map((c) => (
+              <li class="shrink-0">
+                <img
+                  src={c.src}
+                  alt={dupKey === 0 ? c.name : ''}
+                  loading="lazy"
+                  decoding="async"
+                  class="h-16 w-auto opacity-80 grayscale transition hover:opacity-100 hover:grayscale-0 sm:h-20"
+                />
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
+      <!-- Edge fades -->
+      <div class="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-bg to-transparent"></div>
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-bg to-transparent"></div>
+    </div>
+  </div>
+</section>

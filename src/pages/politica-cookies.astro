@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { content } from '../i18n/ui';
+import { altsFor } from '../i18n/utils';
+
+const lang = 'es' as const;
+const t = content[lang];
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${t.footer.cookies}, Ideasforge`}
+  description="Política de cookies de Ideasforge."
+  alternates={altsFor('cookies')}
+>
+  <article class="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-24">
+    <h1 class="text-4xl font-bold tracking-tight text-fg sm:text-5xl">{t.footer.cookies}</h1>
+
+    <div class="prose mt-10 max-w-none prose-headings:text-fg prose-headings:tracking-tight prose-a:text-accent prose-strong:text-fg">
+      <h2>1. ¿Qué son las Cookies?</h2>
+      <p>
+        Las cookies son pequeños archivos de datos que se colocan en tu dispositivo cuando visitas
+        un sitio web. Las cookies son ampliamente utilizadas por los propietarios de sitios web
+        para hacer que sus sitios web funcionen, o para que funcionen de manera más eficiente, así
+        como para proporcionar información de informes.
+      </p>
+
+      <h2>2. Cookies que Utilizamos</h2>
+      <p>
+        Utilizamos tanto cookies propias como de terceros en nuestro sitio web. Las cookies
+        establecidas por nosotros se llaman «cookies propias». Las cookies establecidas por
+        terceros, como Google, se llaman «cookies de terceros». Estas cookies de terceros permiten
+        que se proporcionen funciones o características (como análisis y publicidad) en o a través
+        de nuestro sitio web.
+      </p>
+      <p>
+        Utilizamos Google Analytics para recopilar información sobre cómo los visitantes usan
+        nuestro sitio. Estas cookies rastrean cosas como cómo llegaste al sitio, con qué frecuencia
+        lo visitas y qué páginas visitas más. Esta información nos ayuda a comprender cómo podemos
+        mejorar el sitio web para nuestros usuarios.
+      </p>
+
+      <h2>3. Tus Opciones sobre las Cookies</h2>
+      <p>
+        Tienes derecho a decidir si aceptas o rechazas las cookies. Puedes ejercer tus preferencias
+        sobre cookies ajustando la configuración en tu navegador. Si eliges rechazar las cookies,
+        aún puedes usar nuestro sitio web, pero tu acceso a algunas funcionalidades y áreas del
+        sitio puede estar restringido.
+      </p>
+
+      <h2>4. Cambios a Esta Política de Cookies</h2>
+      <p>
+        Podemos actualizar esta Política de Cookies periódicamente para reflejar cambios en
+        nuestras prácticas o por otras razones operativas, legales o reglamentarias. Revisa esta
+        política periódicamente para mantenerte informado sobre cómo estamos utilizando las
+        cookies.
+      </p>
+
+      <h2>5. Contáctanos</h2>
+      <p>
+        Si tienes alguna pregunta sobre el uso de cookies o de otras tecnologías, por favor
+        contáctanos en:
+      </p>
+      <p>
+        Ideasforge<br />
+        Sitio web: <a href="https://www.ideasforge.io">www.ideasforge.io</a>
+      </p>
+    </div>
+  </article>
+</BaseLayout>

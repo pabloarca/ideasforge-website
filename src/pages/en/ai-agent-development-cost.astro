@@ -1,0 +1,11 @@
+---
+import LongFormPage from '../../components/LongFormPage.astro';
+import { content } from '../../i18n/ui';
+import { altsFor } from '../../i18n/utils';
+
+const lang = 'en' as const;
+// EN-only page (see routeMap note): the ES tandas showed no cost-query market.
+const page = content[lang].pages.cost!;
+---
+
+<LongFormPage lang={lang} page={page} alternates={altsFor('cost')} />

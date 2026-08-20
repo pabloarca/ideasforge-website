@@ -1,0 +1,211 @@
+---
+import { type Lang, content } from '../i18n/ui';
+import { routeMap } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].start;
+const c = content[lang].contact;
+const f = t.form;
+const privacyHref = routeMap.privacy[lang];
+
+// Shared control styling. Kept in one place so the eight inputs on this page
+// cannot drift apart from each other.
+const field =
+  'rounded-lg border border-border-soft bg-bg px-4 py-3 text-fg placeholder:text-faint focus:border-accent focus:outline-none';
+---
+
+<section class="bg-bg py-16 sm:py-24">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8">
+    <header class="max-w-3xl">
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h1 class="mt-4 text-balance text-4xl font-bold tracking-tight text-fg sm:text-5xl">
+        {t.title}
+      </h1>
+      <p class="mt-5 text-pretty text-lg leading-relaxed text-muted">{t.subtitle}</p>
+    </header>
+
+    <div class="mt-14 grid gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
+      {/*
+        Posts to Web3Forms, same as the home form: fully static hosting, no
+        backend. Without JS the browser posts natively and lands on the
+        Web3Forms confirmation page.
+      */}
+      <form action="https://api.web3forms.com/submit" method="POST" class="grid gap-6">
+        <input type="hidden" name="access_key" value="YOUR-WEB3FORMS-ACCESS-KEY" />
+        <input type="hidden" name="subject" value={f.subject} />
+        <input
+          type="checkbox"
+          name="botcheck"
+          class="hidden"
+          style="display:none"
+          tabindex="-1"
+          autocomplete="off"
+        />
+
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div class="grid gap-2">
+            <label for="name" class="text-sm font-bold text-fg">{f.name.label}</label>
+            <input id="name" name="name" type="text" required autocomplete="name" class={field} />
+          </div>
+
+          <div class="grid gap-2">
+            <label for="email" class="text-sm font-bold text-fg">{f.email.label}</label>
+            <input id="email" name="email" type="email" required autocomplete="email" class={field} />
+          </div>
+
+          <div class="grid gap-2">
+            <label for="company" class="text-sm font-bold text-fg">{f.company.label}</label>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              required
+              autocomplete="organization"
+              class={field}
+            />
+          </div>
+
+          <div class="grid gap-2">
+            <label for="website" class="text-sm font-bold text-fg">
+              {f.website.label}
+              <span class="ml-1.5 font-normal text-faint">{f.website.hint}</span>
+            </label>
+            <input
+              id="website"
+              name="website"
+              type="url"
+              inputmode="url"
+              placeholder="https://"
+              autocomplete="url"
+              class={field}
+            />
+          </div>
+        </div>
+
+        <div class="grid gap-2">
+          <label for="company_size" class="text-sm font-bold text-fg">{f.size.label}</label>
+          <select id="company_size" name="company_size" class={field}>
+            {f.size.options?.map((opt, i) => (
+              <option value={i === 0 ? '' : opt} selected={i === 0} disabled={i === 0}>
+                {opt}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div class="grid gap-2">
+          <label for="problem" class="text-sm font-bold text-fg">{f.problem.label}</label>
+          <p id="problem-hint" class="text-[13px] leading-snug text-faint">{f.problem.hint}</p>
+          <textarea
+            id="problem"
+            name="problem"
+            rows="5"
+            required
+            aria-describedby="problem-hint"
+            class={`resize-y ${field}`}></textarea>
+        </div>
+
+        <div class="grid gap-2">
+          <label for="data_location" class="text-sm font-bold text-fg">{f.dataHome.label}</label>
+          <select id="data_location" name="data_location" class={field}>
+            {f.dataHome.options?.map((opt, i) => (
+              <option value={i === 0 ? '' : opt} selected={i === 0} disabled={i === 0}>
+                {opt}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div class="grid gap-2">
+          <label for="data_can_leave" class="text-sm font-bold text-fg">{f.dataOut.label}</label>
+          <select id="data_can_leave" name="data_can_leave" class={field}>
+            {f.dataOut.options?.map((opt, i) => (
+              <option value={i === 0 ? '' : opt} selected={i === 0} disabled={i === 0}>
+                {opt}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div class="grid gap-2">
+          <label for="timeline" class="text-sm font-bold text-fg">{f.timeline.label}</label>
+          <select id="timeline" name="timeline" class={field}>
+            {f.timeline.options?.map((opt, i) => (
+              <option value={i === 0 ? '' : opt} selected={i === 0} disabled={i === 0}>
+                {opt}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <label class="flex items-start gap-3 text-sm text-muted">
+          <input
+            type="checkbox"
+            name="privacy"
+            required
+            class="mt-0.5 h-4 w-4 rounded border-border-soft bg-bg accent-accent"
+          />
+          <span>
+            {c.privacyPre}
+            <a href={privacyHref} class="text-accent underline-offset-2 hover:underline">
+              {c.privacyLink}
+            </a>.
+          </span>
+        </label>
+
+        <button
+          type="submit"
+          class="btn-primary hover:btn-primary-hover mt-2 w-full justify-center sm:w-auto sm:self-start"
+        >
+          {f.submit}
+        </button>
+      </form>
+
+      {/* Stays in view while the form is filled in, so the promise is on screen
+          at the moment the reader decides whether to finish. */}
+      <aside class="lg:sticky lg:top-28 lg:self-start">
+        <div class="rounded-2xl bg-bg-soft p-7">
+          <h2 class="text-lg font-bold text-fg">{t.getHeading}</h2>
+          <ul class="mt-4 space-y-3.5">
+            {t.get.map((item) => (
+              <li class="flex items-start gap-3 text-[15px] leading-snug text-fg">
+                <span
+                  class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent text-bg"
+                  aria-hidden="true"
+                >
+                  <svg
+                    class="h-3 w-3"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="mt-6 rounded-2xl border border-border p-7">
+          <h2 class="text-lg font-bold text-fg">{t.notHeading}</h2>
+          <ul class="mt-4 space-y-3.5">
+            {t.not.map((item) => (
+              <li class="flex items-start gap-3 text-[15px] leading-snug text-muted">
+                <span class="mt-2 h-px w-3 shrink-0 bg-faint" aria-hidden="true" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>

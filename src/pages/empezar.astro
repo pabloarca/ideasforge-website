@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StartForm from '../components/StartForm.astro';
+import { content } from '../i18n/ui';
+import { altsFor } from '../i18n/utils';
+
+const lang = 'es' as const;
+const t = content[lang].start;
+---
+
+<BaseLayout
+  lang={lang}
+  title={t.metaTitle}
+  description={t.metaDescription}
+  alternates={altsFor('start')}
+>
+  <StartForm lang={lang} />
+</BaseLayout>

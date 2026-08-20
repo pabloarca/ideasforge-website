@@ -1,0 +1,142 @@
+---
+/*
+  Shared renderer for the long-form pages (guide, service clusters, about).
+  Pages stay thin: they pick their LongFormPageContent from ui.ts and pass it
+  here together with the routeMap alternates.
+
+  Two optional levers matter for copy:
+  - `hero.ctaHref` lets informational pages point at an in-page anchor instead
+    of asking for the sale on first contact.
+  - `stats` surfaces hard numbers right under the hero. Competitors rarely show
+    any, so this is where the page earns trust fastest.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { type Lang, type LongFormPageContent } from '../i18n/ui';
+import FlowDiagram from './FlowDiagram.astro';
+import { localizedPath } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  page: LongFormPageContent;
+  alternates: Partial<Record<Lang, string>>;
+}
+const { lang, page, alternates } = Astro.props;
+const heroCta = page.hero.ctaHref ?? localizedPath('/#contacto', lang);
+const hasFaq = Boolean(page.faq && page.faq.length > 0);
+// Keep the light/dark section rhythm consistent once the FAQ is optional.
+const faqBg = page.sections.length % 2 === 0 ? 'bg-bg-soft' : 'bg-bg';
+---
+
+<BaseLayout
+  lang={lang}
+  title={page.metaTitle}
+  description={page.metaDescription}
+  alternates={alternates}
+>
+  <!-- Hero -->
+  <section class="bg-bg py-16 sm:py-24">
+    <div class="mx-auto max-w-4xl px-5 text-center sm:px-8">
+      <span class="eyebrow-pill">{page.hero.eyebrow}</span>
+      <h1 class="mt-7 text-balance text-4xl font-bold leading-[1.05] tracking-tight text-fg sm:text-5xl lg:text-6xl">
+        {page.hero.title}
+      </h1>
+      <p class="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
+        {page.hero.subtitle}
+      </p>
+      <div class="mt-9">
+        <a href={heroCta} class="btn-primary hover:btn-primary-hover">
+          {page.hero.cta}
+        </a>
+      </div>
+    </div>
+
+    {
+      page.stats && page.stats.length > 0 && (
+        <dl
+          class={`mx-auto mt-14 grid max-w-3xl gap-5 px-5 sm:px-8 ${
+            page.stats.length === 2 ? 'sm:grid-cols-2' : 'sm:grid-cols-3'
+          }`}
+        >
+          {page.stats.map((s) => (
+            <div class="rounded-xl bg-bg-soft p-6 text-center">
+              <dt class="text-[1.75rem] font-bold leading-none tracking-tight text-accent">
+                {s.value}
+              </dt>
+              <dd class="mt-3 text-sm leading-snug text-muted">{s.label}</dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
+  </section>
+
+  <!-- Body sections, alternating background -->
+  {
+    page.sections.map((section, i) => (
+      <section id={section.id} class={`${i % 2 === 0 ? 'bg-bg-soft' : 'bg-bg'} scroll-mt-24 py-14 sm:py-16`}>
+        <div class="mx-auto max-w-3xl px-5 sm:px-8">
+          <h2 class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">{section.heading}</h2>
+          <div class="mt-5 space-y-4">
+            {section.paragraphs.map((p) => (
+              <p class="text-[15px] leading-relaxed text-muted sm:text-base">{p}</p>
+            ))}
+          </div>
+          {section.diagram && <FlowDiagram lang={lang} />}
+          {section.bullets && (
+            <ul class="mt-6 space-y-3">
+              {section.bullets.map((b) => (
+                <li class="flex items-start gap-3 text-[15px] leading-relaxed text-fg sm:text-base">
+                  <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent text-bg" aria-hidden="true">
+                    <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {section.link && (
+            <div class="mt-6">
+              <a href={section.link.href} class="text-accent underline-offset-2 hover:underline">
+                {section.link.label} →
+              </a>
+            </div>
+          )}
+        </div>
+      </section>
+    ))
+  }
+
+  <!-- FAQ (skipped on pages without one, e.g. About) -->
+  {
+    hasFaq && (
+      <section class={`${faqBg} py-14 sm:py-16`}>
+        <div class="mx-auto max-w-3xl px-5 sm:px-8">
+          <h2 class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">{page.faqHeading}</h2>
+          <dl class="mt-7 space-y-6">
+            {page.faq!.map((item) => (
+              <div class="card-soft p-6">
+                <dt class="font-bold text-fg">{item.q}</dt>
+                <dd class="mt-2 text-[15px] leading-relaxed text-muted">{item.a}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Final CTA -->
+  <section class="bg-bg-soft py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">
+      <h2 class="text-3xl font-bold tracking-tight text-fg sm:text-4xl">{page.cta.heading}</h2>
+      <p class="mt-4 text-lg text-muted">{page.cta.body}</p>
+      <div class="mt-7">
+        <a href={localizedPath('/#contacto', lang)} class="btn-primary hover:btn-primary-hover">
+          {page.cta.button}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

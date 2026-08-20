@@ -1,0 +1,82 @@
+---
+import { type Lang, content } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].faq;
+---
+
+<section id="faqs" class="relative scroll-mt-24 overflow-hidden bg-bg py-20 sm:py-28">
+  <!-- Floating decorative crystal (desktop only) -->
+  <img
+    src="/decor/diamond.png"
+    alt=""
+    aria-hidden="true"
+    class="pointer-events-none absolute left-[8%] top-16 hidden h-32 w-32 select-none object-contain lg:block xl:h-40 xl:w-40"
+    style="transform: rotate(-12deg);"
+  />
+
+  <div class="mx-auto max-w-4xl px-5 sm:px-8">
+    <header class="text-center">
+      <h2 class="text-5xl font-bold tracking-tight text-fg sm:text-6xl">{t.eyebrow}</h2>
+      <p class="mt-5 text-lg text-muted">{t.subtitle}</p>
+    </header>
+
+    <div class="mt-12 space-y-4">
+      {
+        t.items.map((item) => (
+          <details name="faq" class="group overflow-hidden rounded-[28px] border border-border bg-bg [&_summary]:list-none">
+            <summary class="flex cursor-pointer items-center gap-4 px-6 py-5 text-left font-semibold text-fg [&::-webkit-details-marker]:hidden">
+              <span class="grid h-6 w-6 shrink-0 place-items-center text-accent" aria-hidden="true">
+                {/* Thin stroke +, swaps to a minus when the panel is open */}
+                <svg
+                  class="h-5 w-5 group-open:hidden"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                <svg
+                  class="hidden h-5 w-5 group-open:block"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </span>
+              <span class="text-base sm:text-[17px]">{item.q}</span>
+            </summary>
+
+            {item.image ? (
+              <div>
+                <img
+                  src={item.image}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  class="aspect-[21/9] w-full object-cover"
+                />
+                <p class="px-6 pb-6 pl-[3.5rem] pr-10 pt-5 text-[15px] leading-relaxed text-muted">
+                  {item.a}
+                </p>
+              </div>
+            ) : (
+              <p class="px-6 pb-5 pl-[3.5rem] pr-10 text-[15px] leading-relaxed text-muted">
+                {item.a}
+              </p>
+            )}
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

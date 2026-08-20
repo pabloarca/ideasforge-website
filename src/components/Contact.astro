@@ -1,0 +1,126 @@
+---
+import { type Lang, content } from '../i18n/ui';
+import { routeMap } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].contact;
+const privacyHref = routeMap.privacy[lang];
+const startHref = routeMap.start[lang];
+
+// Shared control styling, mirrors the longer form on the exploration page.
+const field =
+  'rounded-lg border border-border-soft bg-bg px-4 py-3 text-fg placeholder:text-faint focus:border-accent focus:outline-none';
+---
+
+<section id="contacto" class="relative scroll-mt-24 overflow-hidden bg-bg py-20 sm:py-28">
+  <!-- Floating decorative cube (desktop only) -->
+  <img
+    src="/decor/cube.png"
+    alt=""
+    aria-hidden="true"
+    class="pointer-events-none absolute right-[8%] top-12 hidden h-32 w-32 select-none object-contain lg:block xl:h-40 xl:w-40"
+  />
+
+  <div class="mx-auto max-w-2xl px-5 sm:px-8">
+    <header class="text-center">
+      <h2 class="text-5xl font-bold tracking-tight text-fg sm:text-6xl">{t.eyebrow}</h2>
+      <p class="mt-5 text-balance text-lg text-muted">{t.heading}</p>
+      <p class="mt-3 text-balance text-[15px] text-faint">{t.subhead}</p>
+    </header>
+
+    <!--
+      Posts to Web3Forms (works on fully static hosting with no backend).
+      Create a free access key at https://web3forms.com and paste it below.
+    -->
+    <form
+      action="https://api.web3forms.com/submit"
+      method="POST"
+      class="mt-12 grid gap-6"
+    >
+      <input type="hidden" name="access_key" value="YOUR-WEB3FORMS-ACCESS-KEY" />
+      <input type="hidden" name="subject" value="Nuevo mensaje desde ideasforge.io" />
+      <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+
+      <div class="grid gap-6 sm:grid-cols-2">
+        <div class="grid gap-2">
+          <label for="name" class="text-sm font-bold text-fg">{t.name}</label>
+          <input id="name" name="name" type="text" required autocomplete="name" class={field} />
+        </div>
+
+        <div class="grid gap-2">
+          <label for="email" class="text-sm font-bold text-fg">{t.email}</label>
+          <input id="email" name="email" type="email" required autocomplete="email" class={field} />
+        </div>
+
+        <div class="grid gap-2">
+          <label for="company" class="text-sm font-bold text-fg">{t.company}</label>
+          <input
+            id="company"
+            name="company"
+            type="text"
+            autocomplete="organization"
+            class={field}
+          />
+        </div>
+
+        <div class="grid gap-2">
+          <label for="website" class="text-sm font-bold text-fg">
+            {t.website}
+            <span class="ml-1.5 font-normal text-faint">{t.optional}</span>
+          </label>
+          <input
+            id="website"
+            name="website"
+            type="url"
+            inputmode="url"
+            placeholder="https://"
+            autocomplete="url"
+            class={field}
+          />
+        </div>
+      </div>
+
+      <div class="grid gap-2">
+        <label for="message" class="text-sm font-bold text-fg">{t.message}</label>
+        <p id="message-hint" class="text-[13px] leading-snug text-faint">{t.messageHint}</p>
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          required
+          aria-describedby="message-hint"
+          class={`resize-y ${field}`}></textarea>
+      </div>
+
+      <label class="flex items-start gap-3 text-sm text-muted">
+        <input
+          type="checkbox"
+          name="privacy"
+          required
+          class="mt-0.5 h-4 w-4 rounded border-border-soft bg-bg accent-accent"
+        />
+        <span>
+          {t.privacyPre}
+          <a href={privacyHref} class="text-accent underline-offset-2 hover:underline">{t.privacyLink}</a>.
+        </span>
+      </label>
+
+      <button
+        type="submit"
+        class="btn-primary hover:btn-primary-hover mt-2 w-full justify-center sm:w-auto sm:self-stretch"
+      >
+        {t.submit}
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-[15px] text-muted">
+      {t.startPre}<a
+        href={startHref}
+        class="text-accent underline-offset-2 hover:underline">{t.startLink}</a
+      >{t.startPost}
+    </p>
+  </div>
+</section>

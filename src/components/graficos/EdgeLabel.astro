@@ -1,0 +1,22 @@
+---
+/** Etiqueta monoespaciada sobre una flecha, en coordenadas del lienzo. */
+export interface Props {
+  x: number;
+  y: number;
+}
+const { x, y } = Astro.props;
+---
+
+<span class="dg-edge-label" style={`left:${x}px;top:${y}px`}><slot /></span>
+
+<style>
+  .dg-edge-label {
+    position: absolute;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-family: var(--font-mono, ui-monospace, 'SF Mono', 'JetBrains Mono', monospace);
+    font-size: 11px;
+    letter-spacing: 0.4px;
+    color: rgba(255, 255, 255, 0.75);
+  }
+</style>

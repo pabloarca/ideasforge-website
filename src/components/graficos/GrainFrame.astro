@@ -1,0 +1,150 @@
+---
+export interface Props {
+  /** Altura del gráfico (CSS length) */
+  height?: string;
+  /** Radio de esquina exterior */
+  radius?: string;
+  /** Intensidad del grano, 0–0.35 */
+  grain?: number;
+  /** Margen del marco respecto al borde del fondo */
+  inset?: string;
+  /** Puntos blancos en las esquinas del marco */
+  dots?: boolean;
+  /** Familia de degradado */
+  gradient?: 'azul' | 'noche' | 'teal';
+  /** Etiqueta monoespaciada arriba-izquierda, p. ej. "FIG. 01" */
+  label?: string;
+  /** Título del gráfico, debajo de la etiqueta */
+  title?: string;
+  class?: string;
+}
+
+const {
+  height = '560px',
+  radius = 'var(--radius-card, 15px)',
+  grain = 0.16,
+  inset = '16px',
+  dots = true,
+  gradient = 'azul',
+  label,
+  title,
+  class: className = '',
+} = Astro.props;
+
+const gradients = {
+  azul:
+    'radial-gradient(80% 110% at 14% 0%, rgba(0,45,253,.5) 0%, rgba(0,45,253,0) 55%),' +
+    'radial-gradient(90% 120% at 100% 110%, rgba(2,4,26,.9) 0%, rgba(2,4,26,0) 60%),' +
+    'linear-gradient(126deg, #0b2fd6 0%, #0721a6 42%, #04116b 72%, #02061f 100%)',
+  noche:
+    'radial-gradient(75% 105% at 20% 0%, rgba(90,110,190,.4) 0%, rgba(90,110,190,0) 55%),' +
+    'linear-gradient(140deg, #1a1e33 0%, #0d1020 50%, #05060d 100%)',
+  teal:
+    'radial-gradient(80% 110% at 14% 0%, rgba(40,180,160,.45) 0%, rgba(40,180,160,0) 55%),' +
+    'linear-gradient(126deg, #0d4f4a 0%, #093b3c 45%, #05242a 100%)',
+};
+---
+
+<figure
+  class:list={['gf', className]}
+  define:vars={{
+    gfHeight: height,
+    gfRadius: radius,
+    gfGrain: String(grain),
+    gfInset: inset,
+    gfBg: gradients[gradient] ?? gradients.azul,
+  }}
+>
+  <div class="gf-grain" aria-hidden="true"></div>
+  <div class="gf-frame" aria-hidden="true">
+    {dots && (
+      <>
+        <span class="gf-dot gf-tl"></span>
+        <span class="gf-dot gf-tr"></span>
+        <span class="gf-dot gf-bl"></span>
+        <span class="gf-dot gf-br"></span>
+      </>
+    )}
+  </div>
+
+  {(label || title) && (
+    <header class="gf-head">
+      {label && <span class="gf-label">{label}</span>}
+      {title && <span class="gf-title">{title}</span>}
+    </header>
+  )}
+
+  <div class="gf-body"><slot /></div>
+</figure>
+
+<style>
+  .gf {
+    position: relative;
+    margin: 0;
+    height: var(--gfHeight);
+    border-radius: var(--gfRadius);
+    overflow: hidden;
+    background: var(--gfBg);
+    box-shadow:
+      0 0 10px 0 var(--color-glow, #c9c7ff),
+      inset 0 0 140px rgba(2, 4, 20, 0.5);
+    color: #fff;
+  }
+  .gf-grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    opacity: var(--gfGrain);
+    background-size: 280px 280px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .gf-frame {
+    position: absolute;
+    inset: var(--gfInset);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+  .gf-dot {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 7px rgba(255, 255, 255, 0.45);
+  }
+  .gf-tl { top: -3px; left: -3px; }
+  .gf-tr { top: -3px; right: -3px; }
+  .gf-bl { bottom: -3px; left: -3px; }
+  .gf-br { bottom: -3px; right: -3px; }
+
+  .gf-head {
+    position: absolute;
+    left: calc(var(--gfInset) + 36px);
+    top: calc(var(--gfInset) + 34px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .gf-label {
+    font-family: var(--font-mono, ui-monospace, 'SF Mono', 'JetBrains Mono', monospace);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .gf-title {
+    font-family: var(--font-sans, 'Space Grotesk', sans-serif);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    color: #fff;
+  }
+  .gf-body {
+    position: absolute;
+    inset: var(--gfInset);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

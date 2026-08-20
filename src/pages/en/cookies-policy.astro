@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { content } from '../../i18n/ui';
+import { altsFor } from '../../i18n/utils';
+
+const lang = 'en' as const;
+const t = content[lang];
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${t.footer.cookies}, Ideasforge`}
+  description="Ideasforge cookies policy."
+  alternates={altsFor('cookies')}
+>
+  <article class="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-24">
+    <h1 class="text-4xl font-bold tracking-tight text-fg sm:text-5xl">{t.footer.cookies}</h1>
+
+    <div class="prose mt-10 max-w-none prose-headings:text-fg prose-headings:tracking-tight prose-a:text-accent prose-strong:text-fg">
+      <h2>1. What Are Cookies?</h2>
+      <p>
+        Cookies are small data files that are placed on your device when you visit a website.
+        Cookies are widely used by website owners to make their websites work, or to work more
+        efficiently, as well as to provide reporting information.
+      </p>
+
+      <h2>2. Cookies We Use</h2>
+      <p>
+        We use both first-party and third-party cookies on our website. Cookies set by us are
+        called "first-party cookies." Cookies set by third parties, such as Google, are called
+        "third-party cookies." These third-party cookies enable features or functionality (such as
+        analytics and advertising) to be provided on or through our website.
+      </p>
+      <p>
+        We use Google Analytics to collect information about how visitors use our site. These
+        cookies track things like how you arrived at the site, how often you visit and which pages
+        you visit most. This information helps us understand how we can improve the website for
+        our users.
+      </p>
+
+      <h2>3. Your Choices About Cookies</h2>
+      <p>
+        You have the right to decide whether to accept or reject cookies. You can exercise your
+        cookie preferences by adjusting the settings in your browser. If you choose to reject
+        cookies, you can still use our website, but your access to some functionality and areas of
+        the site may be restricted.
+      </p>
+
+      <h2>4. Changes to This Cookies Policy</h2>
+      <p>
+        We may update this Cookies Policy from time to time to reflect changes in our practices or
+        for other operational, legal or regulatory reasons. Please review this policy periodically
+        to stay informed about how we are using cookies.
+      </p>
+
+      <h2>5. Contact Us</h2>
+      <p>If you have any questions about the use of cookies or other technologies, please contact us at:</p>
+      <p>
+        Ideasforge<br />
+        Website: <a href="https://www.ideasforge.io">www.ideasforge.io</a>
+      </p>
+    </div>
+  </article>
+</BaseLayout>

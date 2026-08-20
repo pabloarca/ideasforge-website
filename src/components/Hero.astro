@@ -1,0 +1,54 @@
+---
+import { type Lang, content } from '../i18n/ui';
+import { localizedPath } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].hero;
+---
+
+<section class="bg-bg">
+  <div class="mx-auto max-w-7xl px-5 pb-10 pt-16 sm:px-8 sm:pt-20">
+    <!-- Stacked, centered intro -->
+    <div class="mx-auto max-w-4xl text-center">
+      <span class="eyebrow-pill">{t.eyebrow}</span>
+      <h1
+        class="mt-7 text-balance text-4xl font-bold leading-[1.05] tracking-tight text-fg sm:text-6xl lg:text-[4.25rem]"
+      >
+        {t.title}
+      </h1>
+      <p class="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
+        {t.subtitle}
+      </p>
+      <div class="mt-9 flex justify-center">
+        <a
+          href={localizedPath('/#contacto', lang)}
+          class="btn-primary hover:btn-primary-hover"
+        >
+          {t.ctaPrimary}
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Full-width video card below -->
+    <div class="mt-14 sm:mt-20">
+      <div
+        class="card-soft mx-auto aspect-[16/9] max-w-6xl overflow-hidden"
+      >
+        <video
+          class="h-full w-full object-cover"
+          src="/videos/genaisolutions.mp4"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          aria-hidden="true"
+        ></video>
+      </div>
+    </div>
+  </div>
+</section>

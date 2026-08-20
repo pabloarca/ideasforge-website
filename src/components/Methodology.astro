@@ -1,0 +1,129 @@
+---
+import { type Lang, content } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].methodology;
+const last = t.steps.length - 1;
+---
+
+{/* Runs during parse, before the section paints, so the steps are never
+    hidden unless the reveal can actually run. No JS, no IntersectionObserver
+    or a script error means the route renders fully visible. */}
+<script is:inline>
+  if ('IntersectionObserver' in window) {
+    document.documentElement.classList.add('route-anim');
+  }
+</script>
+
+<section class="bg-bg-soft py-20 sm:py-28">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <header class="mx-auto max-w-2xl text-center">
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h2 class="mt-4 text-4xl font-bold tracking-tight text-fg sm:text-5xl">
+        {t.title}
+      </h2>
+      <p class="mt-4 text-lg text-muted">{t.subtitle}</p>
+    </header>
+
+    {/* The route. Each step is a two-column grid: a rail holding the numbered
+        marker and the segment that links it to the next one, and the content.
+        The rail column stretches to the full height of the row, so the segment
+        spans exactly the gap down to the following marker. */}
+    <ol class="mx-auto mt-16 max-w-4xl sm:mt-20">
+      {
+        t.steps.map((step, i) => (
+          <li
+            data-route-step
+            class="grid grid-cols-[2.75rem_1fr] gap-x-5 sm:grid-cols-[3.5rem_1fr] sm:gap-x-9"
+            style={`transition-delay: ${i === 0 ? 0 : 60}ms`}
+          >
+            <div class="flex flex-col items-center">
+              <span class="route-marker grid h-11 w-11 shrink-0 place-items-center rounded-full border-2 border-border bg-bg text-base font-bold text-accent sm:h-14 sm:w-14 sm:text-xl">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              {i < last && (
+                <span class="route-line mt-4 w-0.5 flex-1 rounded-full bg-border" aria-hidden="true" />
+              )}
+            </div>
+
+            <div class={i < last ? 'pb-14 sm:pb-20' : ''}>
+              <h3 class="text-2xl font-bold leading-tight tracking-tight text-fg sm:text-3xl">
+                {step.title}
+              </h3>
+              <p
+                class="mt-3 max-w-2xl text-base leading-relaxed text-muted sm:text-lg"
+                set:html={step.body}
+              />
+
+              <p class="mt-7 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-faint">
+                {t.outputsLabel}
+              </p>
+              <ul class="mt-3 space-y-2.5">
+                {step.outputs.map((out) => (
+                  <li class="flex items-start gap-3 text-[15px] leading-snug text-fg">
+                    <span
+                      class="mt-[0.5em] h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                      aria-hidden="true"
+                    />
+                    <span>{out}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    {/* The route ends by handing the reader step 1 for real. */}
+    <div class="mx-auto mt-14 max-w-4xl sm:mt-16 sm:pl-[4.4rem]">
+      <a
+        href={t.cta.href}
+        class="btn-primary hover:btn-primary-hover inline-flex w-full justify-center sm:w-auto"
+      >
+        {t.cta.label}
+        <svg
+          class="h-4 w-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Reveal each step once it enters the viewport, then stop watching it: the
+  // route is a one-way read, so nothing needs to hide again on the way back up.
+  const steps = document.querySelectorAll<HTMLElement>('[data-route-step]');
+
+  if (!('IntersectionObserver' in window)) {
+    steps.forEach((step) => step.classList.add('is-in'));
+  } else {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-in');
+          observer.unobserve(entry.target);
+        });
+      },
+      // Fires a little before the step is fully in view, so the segment is
+      // already drawing by the time the marker reaches comfortable reading height.
+      { rootMargin: '0px 0px -12% 0px', threshold: 0.2 }
+    );
+
+    steps.forEach((step) => observer.observe(step));
+  }
+</script>

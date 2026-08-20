@@ -1,0 +1,101 @@
+---
+/** Nodo de diagrama en coordenadas del lienzo. */
+export interface Props {
+  x: number;
+  y: number;
+  w?: number;
+  h?: number;
+  shape?: 'caja' | 'rombo' | 'cilindro';
+}
+const { x, y, w = 180, h = 46, shape = 'caja' } = Astro.props;
+---
+
+{shape === 'caja' && (
+  <div class="dg-node dg-box" style={`left:${x}px;top:${y}px;width:${w}px;height:${h}px`}>
+    <slot />
+  </div>
+)}
+
+{shape === 'rombo' && (
+  <div class="dg-node dg-diamond-wrap" style={`left:${x}px;top:${y}px;width:${w}px;height:${w}px`}>
+    <div class="dg-diamond"></div>
+    <div class="dg-diamond-label"><slot /></div>
+  </div>
+)}
+
+{shape === 'cilindro' && (
+  <div class="dg-node dg-cyl" style={`left:${x}px;top:${y}px;width:${w}px;height:${h}px`}>
+    <div class="dg-cyl-body"></div>
+    <div class="dg-cyl-top"></div>
+    <div class="dg-cyl-label"><slot /></div>
+  </div>
+)}
+
+<style>
+  .dg-node {
+    position: absolute;
+    box-sizing: border-box;
+    font-family: var(--font-sans, 'Space Grotesk', sans-serif);
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    text-align: center;
+  }
+  .dg-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    border: 1.3px solid rgba(255, 255, 255, 0.92);
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.055);
+  }
+
+  .dg-diamond {
+    position: absolute;
+    inset: 0;
+    transform: rotate(45deg);
+    border: 1.3px solid rgba(255, 255, 255, 0.92);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.055);
+    box-sizing: border-box;
+  }
+  .dg-diamond-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .dg-cyl-body {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 13px;
+    bottom: 0;
+    border: 1.3px solid rgba(255, 255, 255, 0.92);
+    border-top: none;
+    border-radius: 0 0 50% 50% / 0 0 13px 13px;
+    background: rgba(255, 255, 255, 0.03);
+    box-sizing: border-box;
+  }
+  .dg-cyl-top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 26px;
+    border: 1.3px solid rgba(255, 255, 255, 0.92);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    box-sizing: border-box;
+  }
+  .dg-cyl-label {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 36px;
+  }
+</style>

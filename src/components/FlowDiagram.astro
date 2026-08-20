@@ -1,0 +1,59 @@
+---
+/*
+  The house diagram: where a request goes and who decides what at each point.
+  It is the one picture the whole positioning rests on, so it gets the shared
+  graphics kit in `./graficos` and every future diagram should use the same
+  kit, so they all look like they came from the same place.
+
+  Layout lives here, copy lives in `content[lang].flowDiagram`. The canvas has
+  fixed coordinates (1100 × 300) and scales down to fit, so the node positions
+  below are absolute pixels and the same numbers serve both languages. Labels
+  have to stay short: this style has no room for sentences.
+*/
+import { type Lang, content } from '../i18n/ui';
+import GrainFrame from './graficos/GrainFrame.astro';
+import DiagramCanvas from './graficos/DiagramCanvas.astro';
+import DiagramNode from './graficos/DiagramNode.astro';
+import EdgeLabel from './graficos/EdgeLabel.astro';
+
+interface Props {
+  lang: Lang;
+  /** Drops the legend when the surrounding copy already makes the point. */
+  bare?: boolean;
+}
+const { lang, bare = false } = Astro.props;
+const d = content[lang].flowDiagram;
+const n = d.nodes;
+const e = d.edges;
+---
+
+<figure class="my-10">
+  <GrainFrame height="560px" label={d.label} title={d.title}>
+    <DiagramCanvas width={1100} height={300} offsetTop="90px">
+      <path slot="edges" d="M190,150 L232,150" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M362,150 L455,150" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M525,88 L525,80 Q525,70 535,70 L684,70" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M525,212 L525,220 Q525,230 535,230 L684,230" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M902,230 L938,230" marker-end="url(#dg-arrow)" />
+
+      <DiagramNode x={0} y={127} w={184}>{n.question}</DiagramNode>
+      <DiagramNode x={238} y={127} w={118}>{n.model}</DiagramNode>
+      <DiagramNode x={481} y={106} w={88} shape="rombo">{n.validator}</DiagramNode>
+      <DiagramNode x={690} y={47} w={120}>{n.blocked}</DiagramNode>
+      <DiagramNode x={690} y={207} w={206}>{n.query}</DiagramNode>
+      <DiagramNode x={950} y={189} w={148} h={82} shape="cilindro">{n.database}</DiagramNode>
+
+      <EdgeLabel x={408} y={128}>{e.contract}</EdgeLabel>
+      <EdgeLabel x={610} y={49}>{e.rejects}</EdgeLabel>
+      <EdgeLabel x={610} y={209}>{e.accepts}</EdgeLabel>
+    </DiagramCanvas>
+  </GrainFrame>
+
+  {
+    !bare && (
+      <figcaption class="mt-6 border-l-2 border-accent pl-4 text-[15px] leading-relaxed text-fg">
+        {d.legend}
+      </figcaption>
+    )
+  }
+</figure>

@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import TrustedBy from '../components/TrustedBy.astro';
+import CaseStudies from '../components/CaseStudies.astro';
+import Services from '../components/Services.astro';
+import WhyUs from '../components/WhyUs.astro';
+import Methodology from '../components/Methodology.astro';
+import Integrations from '../components/Integrations.astro';
+import BlogPreview from '../components/BlogPreview.astro';
+import Faq from '../components/Faq.astro';
+import Contact from '../components/Contact.astro';
+import { content } from '../i18n/ui';
+import { altsFor } from '../i18n/utils';
+
+const lang = 'es' as const;
+const meta = content[lang].meta;
+---
+
+<BaseLayout
+  lang={lang}
+  title={meta.homeTitle}
+  description={meta.homeDescription}
+  alternates={altsFor('home')}
+>
+  <Hero lang={lang} />
+  <TrustedBy lang={lang} />
+  <CaseStudies lang={lang} />
+  <Services lang={lang} />
+  <WhyUs lang={lang} />
+  <Methodology lang={lang} />
+  <Integrations lang={lang} />
+  <BlogPreview lang={lang} />
+  <Faq lang={lang} />
+  <Contact lang={lang} />
+</BaseLayout>

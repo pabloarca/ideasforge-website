@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { content } from '../../../i18n/ui';
+import { localizedPath } from '../../../i18n/utils';
+
+const lang = 'en' as const;
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => data.lang === 'en' && !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id.replace(/^en\//, '') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const t = content[lang];
+
+// Link to the Spanish translation (same translationId), if it exists.
+const all = await getCollection('blog');
+const es = all.find((p) => p.data.translationId === post.data.translationId && p.data.lang === 'es');
+const alternates: Partial<Record<'es' | 'en', string>> = {
+  en: localizedPath(`/blog/${post.id.replace(/^en\//, '')}`, 'en'),
+};
+if (es) alternates.es = localizedPath(`/blog/${es.id.replace(/^es\//, '')}`, 'es');
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+// Article structured data.
+const site = Astro.site ?? new URL('https://ideasforge.io');
+const articleJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.pubDate.toISOString(),
+  inLanguage: 'en-US',
+  ...(post.data.heroImage ? { image: new URL(post.data.heroImage, site).href } : {}),
+  author: { '@type': 'Organization', name: 'Ideasforge', url: site.href },
+  publisher: { '@type': 'Organization', name: 'Ideasforge', url: site.href },
+});
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${post.data.title}, Ideasforge`}
+  description={post.data.description}
+  alternates={alternates}
+  ogType="article"
+>
+  <script is:inline slot="head" type="application/ld+json" set:html={articleJsonLd} />
+  <article class="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-24">
+    <a href={localizedPath('/blog', lang)} class="font-mono text-sm text-muted transition-colors hover:text-fg">
+      {t.blog.backToBlog}
+    </a>
+
+    <header class="mt-6 border-b border-border pb-8">
+      <div class="flex flex-wrap items-center gap-3">
+        <time datetime={post.data.pubDate.toISOString()} class="font-mono text-xs text-faint">
+          {t.blog.publishedOn} {fmt(post.data.pubDate)}
+        </time>
+        {post.data.tags.map((tag) => (
+          <span class="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted">{tag}</span>
+        ))}
+      </div>
+      <h1 class="mt-4 text-balance text-4xl font-semibold leading-tight tracking-tight text-fg">
+        {post.data.title}
+      </h1>
+      <p class="mt-4 text-lg text-muted">{post.data.description}</p>
+    </header>
+
+    <div
+      class="prose mt-10 max-w-none prose-headings:tracking-tight prose-headings:text-fg prose-a:text-accent prose-strong:text-fg"
+    >
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,164 @@
+---
+import { type Lang, content } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].caseStudies;
+---
+
+<section id="proyectos" class="relative scroll-mt-24 bg-bg py-16 sm:py-24">
+  <div class="relative mx-auto max-w-7xl px-5 sm:px-8">
+    <!-- Prev / next buttons (desktop only), blue chevrons just like the original -->
+    <button
+      type="button"
+      data-carousel-prev
+      aria-label="Previous"
+      class="absolute left-0 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center text-accent transition-opacity hover:opacity-70 lg:flex"
+    >
+      <svg class="h-9 w-9" viewBox="0 0 1000 1000" fill="currentColor" aria-hidden="true">
+        <path d="M646 125C629 125 613 133 604 142L308 442C296 454 292 471 292 487 292 504 296 521 308 533L604 854C617 867 629 875 646 875 663 875 679 871 692 858 704 846 713 829 713 812 713 796 708 779 692 767L438 487 692 225C700 217 708 204 708 187 708 171 704 154 692 142 675 129 663 125 646 125Z" />
+      </svg>
+    </button>
+    <button
+      type="button"
+      data-carousel-next
+      aria-label="Next"
+      class="absolute right-0 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center text-accent transition-opacity hover:opacity-70 lg:flex"
+    >
+      <svg class="h-9 w-9" viewBox="0 0 1000 1000" fill="currentColor" aria-hidden="true">
+        <path d="M696 533C708 521 713 504 713 487 713 471 708 454 696 446L400 146C388 133 375 125 354 125 338 125 325 129 313 142 300 154 292 171 292 187 292 204 296 221 308 233L563 492 304 771C292 783 288 800 288 817 288 833 296 850 308 863 321 871 338 875 354 875 371 875 388 867 400 854L696 533Z" />
+      </svg>
+    </button>
+
+    <!-- Carousel viewport -->
+    <div class="overflow-x-clip lg:px-12">
+      <div
+        data-carousel-track
+        class="flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-p-4 px-4 py-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {
+          t.items.map((item) => (
+            <article
+              data-carousel-slide
+              class="card-soft grid w-full shrink-0 snap-center overflow-hidden lg:grid-cols-2 lg:min-h-[480px]"
+            >
+              <div class="flex flex-col p-8 sm:p-12">
+                {item.clientLogo ? (
+                  <img
+                    src={item.clientLogo}
+                    alt={item.client}
+                    class="h-14 w-auto self-start object-contain"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <span class="self-start text-xs font-semibold uppercase tracking-[0.18em] text-faint">
+                    {item.client}
+                  </span>
+                )}
+                <h3 class="mt-8 text-balance text-3xl font-bold leading-tight text-fg sm:text-[2rem]">
+                  {item.title}
+                </h3>
+                <p class="mt-5 text-[15px] leading-relaxed text-muted">{item.body}</p>
+                <div class="mt-auto pt-10">
+                  <hr class="border-t border-border-soft" />
+                  <div class="mt-5 flex flex-wrap items-baseline gap-x-5 gap-y-1">
+                    <span class="text-2xl font-bold text-fg sm:text-[1.75rem]">{item.metricBig}</span>
+                    <span class="text-[15px] leading-snug text-muted">{item.metricSmall}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="relative min-h-[280px] overflow-hidden lg:min-h-full">
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    class="absolute inset-0 h-full w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div
+                    class="absolute inset-0 h-full w-full"
+                    style="background: linear-gradient(135deg, #e9e7ff 0%, #c9c7ff 60%, #b3b0ff 100%);"
+                    aria-hidden="true"
+                  />
+                )}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Pagination dots -->
+    <div data-carousel-dots class="mt-8 flex justify-center gap-2.5">
+      {
+        t.items.map((_, i) => (
+          <button
+            type="button"
+            data-carousel-dot
+            data-index={i}
+            aria-label={`Slide ${i + 1}`}
+            class="h-2.5 w-2.5 rounded-full bg-border transition-colors"
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  // Scroll-snap carousel: one slide visible at a time, prev/next buttons +
+  // pagination dots tracked by IntersectionObserver.
+  function initCarousel(section: HTMLElement) {
+    const track = section.querySelector<HTMLElement>('[data-carousel-track]');
+    const prev = section.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+    const next = section.querySelector<HTMLButtonElement>('[data-carousel-next]');
+    const slides = Array.from(section.querySelectorAll<HTMLElement>('[data-carousel-slide]'));
+    const dots = Array.from(section.querySelectorAll<HTMLButtonElement>('[data-carousel-dot]'));
+    if (!track || slides.length === 0) return;
+
+    let activeIndex = 0;
+
+    const setActive = (i: number) => {
+      activeIndex = i;
+      dots.forEach((d, idx) => {
+        const on = idx === i;
+        d.classList.toggle('bg-fg', on);
+        d.classList.toggle('bg-border', !on);
+        d.setAttribute('aria-current', on ? 'true' : 'false');
+      });
+    };
+
+    const scrollToIndex = (i: number) => {
+      const n = slides.length;
+      const wrapped = ((i % n) + n) % n;
+      slides[wrapped]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    };
+
+    prev?.addEventListener('click', () => scrollToIndex(activeIndex - 1));
+    next?.addEventListener('click', () => scrollToIndex(activeIndex + 1));
+    dots.forEach((d, i) => d.addEventListener('click', () => scrollToIndex(i)));
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const top = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!top) return;
+        const idx = slides.indexOf(top.target as HTMLElement);
+        if (idx >= 0) setActive(idx);
+      },
+      { root: track, threshold: [0.5, 0.75, 1] }
+    );
+    slides.forEach((s) => io.observe(s));
+
+    setActive(0);
+  }
+
+  document.querySelectorAll<HTMLElement>('#proyectos').forEach(initCarousel);
+</script>
