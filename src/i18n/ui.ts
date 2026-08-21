@@ -2759,12 +2759,12 @@ export const content: Record<Lang, SiteContent> = {
       compliance: {
         metaTitle: 'GDPR-Compliant AI Development, Ideasforge',
         metaDescription:
-          'AI agents built to run on infrastructure you own, with isolation enforced in code and logs that cannot receive personal data. What we build, what we record and what your DPO can inspect.',
+          'What GDPR-compliant AI means when a system actually ships: where data goes, isolation enforced in code, health data under Article 9 and the records your DPO will ask for. From five systems in production.',
         hero: {
           eyebrow: 'Data sovereignty',
           title: 'GDPR-compliant AI on infrastructure you own',
           subtitle:
-            'We build AI agents for European companies that cannot send their data anywhere. Everything runs in a cloud account under your name, isolation is enforced by code rather than by instructions to a model, and every decision the system makes is recorded for someone to inspect.',
+            'We build AI agents for European companies whose data cannot leave their control. Everything runs in a cloud account under your name, isolation is enforced by code rather than by instructions to a model, and every decision is recorded so that someone can inspect it later. Written from five systems in production, and updated for the EU AI Act obligations that took effect on 2 August 2026.',
           cta: 'See how it is built',
           ctaHref: '#isolation',
         },
@@ -2777,79 +2777,221 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'What we do and what we do not',
             paragraphs: [
-              'We are engineers, not auditors. We do not certify your compliance, we do not issue legal opinions and we do not sign off on your risk classification. Those are jobs for your lawyers and your data protection officer.',
-              'What we do is build the system underneath so that those people have something to work with. When your DPO asks where the data went, who could see it and why the assistant answered what it answered, the answer exists and can be shown. That is the difference this page is about.',
+              'We are engineers, not auditors. We do not certify your compliance, we do not issue legal opinions and we do not sign off on your risk classification. Those are jobs for your lawyers and your data protection officer, and any provider who offers to settle them for you in a sales call is offering something they cannot deliver.',
+              'What we do is build the system underneath so that those people have something solid to assess. When your DPO asks where the data went, who could have seen it and why the assistant answered what it answered, the answer exists, is written down and can be shown. Most AI projects cannot do that, which is why so many of them stall the moment legal gets involved.',
+              'This page explains, mechanism by mechanism, how our systems make those answers possible. It is written for the person who has to defend the project in front of a committee. If that is you, by the end you should know exactly which questions to put to us, or to anyone else bidding for the work.',
+            ],
+          },
+          {
+            heading: 'What GDPR-compliant AI actually means',
+            id: 'meaning',
+            paragraphs: [
+              'A GDPR-compliant AI system is one whose owner can answer three questions with evidence rather than assurances.',
+            ],
+            bullets: [
+              'Where does personal data travel when someone uses the system, including every third party in the chain.',
+              'Who can see what, and which piece of software enforces that boundary when someone pushes against it.',
+              'Why did the system answer what it answered, reconstructed after the fact from records rather than from memory.',
+            ],
+          },
+          {
+            heading: 'Compliance is an architecture decision, not a paperwork one',
+            paragraphs: [
+              'The regulation itself never mentions artificial intelligence by name. It regulates personal data, and an assistant that reads invoices, books appointments or answers questions about your operations is soaked in personal data from the first day. So the same familiar principles apply, and each of them lands on a concrete engineering choice.',
+              'Data minimisation stops being a policy line and becomes a question about context. A language model can only leak what it was given, so the real control is what enters the prompt in the first place. Purpose limitation becomes a question about tools. An agent that can only call three approved functions cannot quietly repurpose your data, because it has no path to do so. And accountability becomes a question about records. If the system cannot show why it did what it did, no policy document will show it either.',
+              'This is why we say the paperwork is downstream of the architecture. A well-built system makes the DPA, the impact assessment and the register of processing activities faster to write and easier to defend, because every claim in those documents points at something that actually exists in the code. The reverse does not work. No amount of documentation makes an unaccountable system accountable.',
+            ],
+          },
+          {
+            heading: 'EU AI Act compliance, in plain terms',
+            id: 'eu-ai-act',
+            paragraphs: [
+              'Two European rules now apply to a company deploying AI, and they answer different questions. The GDPR governs what you may do with personal data, whoever processes it. The AI Act governs the systems themselves, sorted by how much harm they could do. You comply with both at once, not with one or the other.',
+              'The AI Act arrived in stages. Bans on a short list of unacceptable practices, social scoring among them, have applied since 2 February 2025. Obligations for the providers of general-purpose models followed on 2 August 2025. The broad middle of the regulation, including the duties of companies that deploy high-risk systems, applies since 2 August 2026. A final tranche for AI embedded in already-regulated products arrives in 2027.',
+              'The fines are tiered. Prohibited practices reach 35 million euros or 7 percent of worldwide turnover, most other breaches reach 15 million or 3 percent, and which bracket a given failure falls into is, again, a question for counsel. What matters for a buyer is the shape of the duties underneath, because for deployers they are mostly about being able to demonstrate things. Keeping logs the system produced itself. Assigning real human oversight instead of nominal oversight. Knowing which data went in and being able to say so.',
+              'Whether your particular use counts as high-risk is a legal judgment and we will not make it for you. What we can tell you is that the systems we build record the decision rather than only the result, and that this is precisely the capability that is expensive to retrofit once a system is live. Teams that treated logging as an afterthought are now rebuilding pipelines that we switch on from day one.',
+              'One more piece of the landscape matters when you buy. In December 2024 the European Data Protection Board published Opinion 28/2024, its first word on AI models themselves. Two findings stand out. Whether a trained model is anonymous gets assessed case by case, and legitimate interest can only carry AI processing after a documented three-step assessment. Neither is a rubber stamp. Both reward providers who can show their homework, which is the posture this whole page describes.',
             ],
           },
           {
             heading: 'Where your data actually goes',
             id: 'infrastructure',
             paragraphs: [
-              'The infrastructure runs in a cloud account that belongs to you, not to us, and the repository is in your name from the first day. We do not host your assistant on our side and hand you a login.',
-              'The only outbound path is the call to the model provider, and you approve which calls happen and what travels inside them. Nothing else leaves. If we part ways, the system stays where it already was, with its documentation and its history.',
+              'The infrastructure runs in a cloud account that belongs to you, not to us, and the repository is in your name from the first day. We do not host your assistant on our side and hand you a login. This is unusual in the sector and it is deliberate, because it collapses a whole family of questions your DPO would otherwise have to chase. There is no second controller to map, no vendor database holding a copy of your records and no exit negotiation if we part ways. The system stays where it always was, with its documentation and its history.',
+              'The only outbound path is the call to the model provider, the company that runs the language model itself. You approve which provider, under which agreement and with which settings, and you approve what is allowed to travel inside those calls. Nothing else leaves the account. Model providers sign data processing agreements, the contracts that bind a supplier to process data only on your instructions, and the serious ones offer European processing regions. Whether a given setup satisfies the rules on international transfers is your lawyers’ assessment to make. Our job is to hand them a complete map of what flows where, so the assessment takes days instead of months.',
+              'Everything else in this page builds on that starting point. Isolation, records and health-data handling all assume the data already sits inside an account you control, because that is the only place from which the rest can be guaranteed.',
             ],
-            link: { label: 'What it costs to run one', href: '/en/ai-agent-development-cost' },
+            link: { label: 'What it costs to build and run one', href: '/en/ai-agent-development-cost' },
+          },
+          {
+            heading: 'What actually travels in a model call',
+            paragraphs: [
+              'Minimisation stops being abstract the moment you look inside one call. A request to a language model carries three things: the instructions that tell the model its job, the context it may use for this answer and the question the person just asked. That is the entire surface. The model never connects to your database, never browses your systems and never receives what the code did not put in the envelope.',
+              'So the real engineering question is what the code puts in the envelope, and the answer should embarrass nobody. A well-built agent sends the few rows or paragraphs the person is entitled to, already filtered, rather than shovelling tables in and hoping the model quotes the right part. Sending less is safer. It also happens to be cheaper and more accurate, because a model reasons more reliably over one page of relevant material than over fifty pages of noise.',
+              'When your DPO asks what the provider can see, the envelope is the answer, documented per use case. In our deployments that document is short, and more than one reviewer has been surprised by how little actually leaves. The assistant that answers production questions does not export your production database. It sends one person’s question and that person’s permitted slice of context, then throws the reply into the same records everything else goes through.',
+            ],
+          },
+          {
+            heading: 'So is using ChatGPT itself GDPR-compliant?',
+            paragraphs: [
+              'It is the question every committee asks first, and it is usually the wrong question, because "ChatGPT" names several different products with different data terms. A free browser tab, a paid workspace subscription and an API contract, the machine-to-machine interface a system like ours calls, are three different legal surfaces. Terms about training, retention and European processing differ across them, and they change over time, so a blanket yes or no printed on this page would be worthless the month after we wrote it.',
+              'The useful question is which surface your data enters and under which agreement. An employee pasting a customer email into a free consumer tool is one situation. A system calling an API under a signed data processing agreement, in a European region, with training excluded and with only a filtered context in the envelope, is a different situation entirely, even when the model underneath carries the same name. Your lawyers assess the agreement. We build the second situation, and we hand them the evidence that it is what actually runs.',
+              'This is also why a company that bans AI tools outright often ends up with less control, not more. The demand does not disappear, it moves to personal accounts and phones where no agreement, no logging and no filter applies. A sanctioned assistant with the right architecture gives people the capability inside a perimeter someone actually governs.',
+            ],
+          },
+          {
+            heading: 'AI data sovereignty, without the slogan',
+            id: 'sovereignty',
+            paragraphs: [
+              'Data sovereignty gets used as a marketing word, so it is worth pinning down. It means that the location of your data, the keys that open it and the identity system that says who is who all answer to you, under a jurisdiction you chose. Location alone does not get you there. A system whose data sits in Frankfurt but whose access keys, admin accounts and logs belong to a vendor is sovereign in the brochure and nowhere else.',
+              'There is a spectrum, and honesty about it beats slogans. At one end sits shared software where your data lives in someone else’s multi-tenant product under their terms. Then comes running in a European region of a large cloud, then a cloud account of your own, then your own servers in your own building. Each step buys control and costs convenience. We build in the third position by default, your own cloud account, because it delivers the control that matters, ownership of data, keys and identity, without asking your team to run physical machines.',
+              'The honest paragraph, and the one most providers skip. The application we build runs entirely inside infrastructure you own. The language model itself usually does not, because we call it as a service from the provider you approve. Running an open model on your own hardware would close that last gap, and it is a different project with different costs and different quality trade-offs. We have not deployed open models in production, so we will not sell you that experience as if we had it. If full on-premise inference is a hard requirement for you, say so in the first conversation, because it changes the architecture from the foundations up.',
+              'Questions about third-country access statutes, the American ones included, belong in that same first conversation. They are legal terrain and your counsel will have a view. What we control is the engineering that determines how much there is to worry about, which is the subject of the next two sections.',
+            ],
           },
           {
             heading: 'Isolation that does not depend on the model behaving',
             id: 'isolation',
             paragraphs: [
-              'An early version of one of our assistants kept companies apart by telling the model, in its instructions, never to omit a filter. That worked until it did not. The difference between a guarantee and a polite request is that only one of them survives a bad day.',
-              'Today the separation is enforced in four places, and the model is not one of them.',
+              'An early version of one of our assistants kept companies apart by telling the model, in its instructions, never to omit a filter. It worked in every test we ran. It was still wrong, because an instruction to a language model is a request, and a model can fail to honour a request for reasons nobody can predict from outside. We have described that lesson to clients as the difference between a guarantee and a polite request, and it reshaped how we build. Security has to hold even when the model fails.',
+              'Today, in the agent that answers questions about live business data for several companies at once, the separation is enforced in four places, and the model is not one of them.',
             ],
             bullets: [
-              'The context only ever contains what the person asking is allowed to see, so the assistant cannot even formulate a question about someone else’s data.',
-              'Name matching is confined to the sites that person is authorised for, so a near-miss cannot drift into a neighbouring company.',
-              'Code validates the request against an allow-list before any query is built. The model proposes, the code decides.',
-              'The final query carries an unconditional filter. If the permission list arrives empty, it resolves to a condition that matches nothing rather than to everything.',
+              'The context, the information the model is allowed to read while answering, only ever contains what the person asking is entitled to see. The assistant cannot leak what it never held, and it cannot even formulate a question about a company that does not exist in its world.',
+              'Name matching is confined to the sites that person is authorised for. When someone types a misspelt site name, the correction can only land inside their own perimeter, so a near-miss cannot drift into a neighbouring company.',
+              'Code validates every request against an allow-list, a closed list of permitted values, before any query is built. The model proposes, the code decides.',
+              'The final query carries an unconditional filter. If the permission list ever arrives empty, the query resolves to a condition that matches nothing. Failure closes the door instead of opening it.',
             ],
-            link: { label: 'Why the model is never the authority', href: '/en/blog/i-dont-like-ai-agents' },
+          },
+          {
+            heading: 'When we fixed the architecture, a whole class of bugs died',
+            paragraphs: [
+              'Layers are good. Changing the ground so the failure cannot exist is better, and one of our systems shows the difference. Its isolation originally worked by filtering, every query carrying a condition that said which company’s rows were allowed. We later rebuilt the data store so that each company lives in its own schema, its own sealed compartment inside the database, and the combined view joins them with the company stamped onto every single row. After that change, adding two companies into one figure stopped being a bug that a filter must catch and became a query that cannot be written.',
+              'The practical effect showed up immediately. A fuzzy name comparison that had been a genuine security worry under the filtering design simply stopped mattering, because even a wrong match could no longer cross a schema boundary. Fixing the architecture killed the entire class of failures, not one instance of it. That is the standard we aim for wherever the data allows it, and it is a useful question to ask any provider. Which failures are impossible in your design, rather than merely caught.',
+            ],
+          },
+          {
+            heading: 'The model is never the authority',
+            paragraphs: [
+              'Our systems share one design rule. Judgment lives in the code, interpretation of the world lives in the model, and knowledge lives in the data. The model reads a person’s question and hands over a structured form, a contract in a fixed format whose fields we defined in advance. Code validates that form, checks the permissions of whoever is asking and decides what actually happens. The queries that touch your data are built by the code from the validated form, with values passed as parameters and column names drawn from a closed list, never assembled from text the model wrote.',
+              'Where records matter most we go a step further. In one of our assistants the model does not even return the text that ends up in front of the user. It returns a key, an identifier, and the code looks up the canonical text that key points to. What the person reads is guaranteed to be what was approved, word for word, no matter what the model generated around it.',
+              'Identity follows the same rule. When an assistant queries an internal system on someone’s behalf, it carries that person’s own identity token, the credential your systems already use to know who is asking. Every downstream call runs with the permissions of the human, not with the broad permissions of a robot account. If the person cannot open a record by hand, the assistant cannot open it for them. A whole family of GDPR access questions dissolves at that point, because the access model of the assistant is the access model your company already audited.',
+            ],
+            link: { label: 'Why we distrust agentic architectures, in detail', href: '/en/blog/i-dont-like-ai-agents' },
           },
           {
             heading: 'Health data, under the strictest article there is',
             paragraphs: [
-              'Our own appointments product runs in dental, physiotherapy and aesthetics clinics, which means it handles health data under Article 9.2.h of the GDPR. That is the category with the least room for improvisation.',
-              'It is encrypted field by field with AES-256-GCM. Deletion respects the five years that Spanish clinical record law requires, so a deletion request does not quietly break a legal retention duty. We built that because we had to, and it is the reason we can talk about this from experience rather than from a checklist.',
+              'Wazzy, our own appointments product, runs in dental, physiotherapy and aesthetics clinics. An appointment note that says who visits which clinic and why is health data, which the GDPR places in its most protected category and permits us to process under Article 9.2.h, the ground that covers healthcare provision. We did not choose the hardest category to make a point. The product needed it, and the result is that our practices were shaped by the strictest case first.',
+              'Every sensitive field is encrypted on its own, with AES-256-GCM, rather than relying on the disk being encrypted underneath. The difference matters in practice. Disk encryption protects you if someone steals the hardware, while field-level encryption protects the data from every process and person that touches the database in normal operation. Deletion is designed against the law rather than against instinct, because Spanish clinical-record law requires keeping medical history for five years. A deletion request must honour the patient without quietly breaking a legal retention duty, so the system separates what is erased now from what is retained under obligation, and can show which is which.',
+              'We built all of that because we had to. It is the reason this page can speak from experience rather than from a checklist, and it is the standard the rest of our client work inherits.',
+            ],
+          },
+          {
+            heading: 'The person on the other side is told, and can reach a human',
+            paragraphs: [
+              'Compliance talk tends to fixate on databases and forget the person typing. Two duties meet there. The GDPR expects honesty about how personal data is used, and the AI Act, in the obligations that apply since August 2026, requires that people be told when they are interacting with a machine. Neither duty is exotic to implement, but both are easy to fail by omission, one vague welcome message at a time.',
+              'Our conversational systems present themselves as what they are, and the escalation path is part of the design rather than an apology. In Wazzy, our appointments product, an urgent case does not get a soothing paragraph from a model. It gets escalated to the clinic’s staff, because a machine that recognises its limit and hands over is safer than one that improvises confidence. The same shape repeats in our client work. The assistant does the repetitive volume, and the moments that need a human reach a human, with the conversation’s trail attached.',
+              'There is a quieter benefit. When the handover is designed, the humans behind the assistant stop being a fiction in the privacy policy and become an actual queue with actual owners, which is exactly the kind of claim an authority can verify and find true.',
             ],
           },
           {
             heading: 'What we record, and what we cannot record',
+            id: 'records',
             paragraphs: [
-              'Every decision is written down: what the assistant understood, what it asked for, what the validator rejected and why. The log is append-only and it is not read back during execution, so it can never influence an answer. It exists to be inspected afterwards.',
-              'The telemetry works the other way round. It runs on an allow-list, which means the internal records are structurally unable to receive personal data. Not "we try not to log it", but "the field is not on the list, so it cannot arrive".',
+              'Record the decision, not only the result. Every meaningful step is written down, what the assistant understood, what it asked for, what the validator rejected and why. The log is append-only, meaning entries can be added but never edited or removed, and the system never reads it back during execution, so it cannot influence an answer even in principle. It exists for one purpose, to be inspected afterwards by someone with a question. That someone might be your DPO, an auditor or a supervisory authority, and the answer they get is the record of what happened, not a reconstruction from memory.',
+              'The telemetry, the technical measurements the system sends home about its own health, works the other way round. It runs on an allow-list, so a field that is not explicitly on the list cannot be transmitted at all. The internal records are structurally unable to receive personal data. Not "we try not to log it", but "the field is not on the list, so it cannot arrive". When a regulator asks what your monitoring collects, the answer is a short, closed list rather than an investigation.',
+              'Even expiry is designed to be visible. Access tokens, the temporary credentials that prove who is asking, die after about an hour, and re-running an old request with a dead token produces a clear 401 error instead of silently borrowing fresher credentials. We would rather a system fail loudly and honestly than succeed in a way nobody can account for. A new and visible error is a better posture than a comfortable silence.',
             ],
-            link: { label: 'How we measure what a system does', href: '/en/ai-agent-development' },
+          },
+          {
+            heading: 'What your DPO will ask us, and what we hand over',
+            id: 'dpo',
+            paragraphs: [
+              'Buying AI in Europe now involves a predictable review. Legal and the DPO will want a data protection impact assessment, the structured study of what could go wrong for the people whose data is processed, and they will want a data processing agreement with every supplier in the chain. We do not run that review, it is theirs to run. We shorten it, because the inputs it needs are things our systems produce anyway.',
+            ],
+            bullets: [
+              'A data-flow map: which data enters the system, where it is stored, which calls leave the account and what travels inside them.',
+              'The list of suppliers underneath the system, starting with the model provider you approved, with the agreements that govern each one.',
+              'Retention and deletion, as configured: what is kept, for how long, what a deletion request touches and what it lawfully must not touch.',
+              'The isolation design in writing, from the four enforcement layers to what the model can and cannot see.',
+              'The records themselves: the decision log, the allow-listed telemetry and how both are consulted when someone asks a question.',
+            ],
+          },
+          {
+            heading: 'How we keep it true after launch',
+            paragraphs: [
+              'A compliance story that was true at launch and unmeasured afterwards is a story, and the ground under these systems moves. Model providers update models without changing their names, your documentation grows and your data drifts. So we run two rhythms, kept deliberately separate. Before any change ships, a regression battery, a bank of real annotated cases the system must answer correctly, blocks the release if quality drops. And once a week, on the live system, we run a real conversation from end to end and check what actually happened.',
+              'This is the same discipline that catches a model quietly getting worse, applied to the promises on this page. The isolation, the records and the refusal behaviours are tested like features, because that is what they are. When your DPO asks in March whether the guarantees from the September review still hold, the honest answer is a test result, not a shrug.',
+            ],
+            link: { label: 'Why keeping AI alive is the hard part', href: '/en/blog/keeping-ai-alive' },
+          },
+          {
+            heading: 'Eight questions to put to any provider, including us',
+            paragraphs: [
+              'The introduction promised you would leave knowing what to ask. These are the questions we would ask in your chair, in the order that exposes the most.',
+            ],
+            bullets: [
+              'In whose cloud account does the system run, and what happens to it the day we stop working together.',
+              'What exactly leaves that account in a model call, shown for our concrete use case rather than in general terms.',
+              'Which pieces of software enforce isolation, and does any of them consist of an instruction to the model. Ask for the honest history of that answer.',
+              'What does the system do when a permission list arrives empty, fail open or fail closed.',
+              'Show me the decision log for one real interaction, and tell me who can edit it. The correct answer to the second half is nobody.',
+              'What can your telemetry physically receive, a closed list or whatever the code happens to send.',
+              'What gates a release, and what watches the live system between releases. Two different answers, or it is one answer pretending to be two.',
+              'Who owns the repository, today, not at the end of a payment plan.',
+            ],
           },
           {
             heading: 'Where this shows up in what we build',
             paragraphs: [
-              'This is not a separate product. It is how the four things we build are built, and each one meets the question from a different angle.',
+              'This page is not a separate product and you cannot buy it on its own. It is how the four things we build are built, and each one meets the question from a different angle.',
             ],
             bullets: [
-              'Assistants over internal documentation, where the hard part is that someone only ever retrieves the documents their role allows.',
+              'Assistants over internal documentation, where the work is making sure a person only ever retrieves the documents their role allows.',
               'Agents that query live business data, where isolation between companies has to hold at the level of the query, not the prompt.',
-              'Workflow automation over documents, where the record of what was extracted and what was rejected is the audit trail.',
-              'Customer-facing chatbots, where the data subject is a person who did not choose to talk to a machine.',
+              'Workflow automation over documents, where the record of what was extracted, validated and rejected is the audit trail.',
+              'Customer-facing chatbots, where the data subject is a person who did not choose to talk to a machine, and deserves the strictest handling of all.',
             ],
           },
         ],
         faqHeading: 'What clients ask before legal gets involved',
         faq: [
           {
+            q: 'Is it even allowed to use a US-based model provider under GDPR?',
+            a: 'That assessment belongs to your lawyers, and serious providers give them real material to work with: data processing agreements, European processing regions and no-training commitments. What we control is the engineering side of the question, which data ever travels in a model call, and we keep that surface as small as the use case allows and documented field by field. Many of our deployments send far less than people assume, because the model often works on a question and a permitted context rather than on your database.',
+          },
+          {
             q: 'Does our data train anyone’s model?',
-            a: 'Not with the providers and settings we deploy. Model calls run under agreements and configuration that exclude training on your content, and the choice of provider is yours to approve. If a provider changes those terms, that is a decision you get to take, not one we take for you.',
+            a: 'Not with the providers and settings we deploy. Model calls run under agreements and configuration that exclude training on your content, and the choice of provider is yours to approve. If a provider ever changes those terms, that is a decision you get to take with full information, not one we take for you.',
           },
           {
             q: 'Can this run entirely on our own servers?',
-            a: 'The system we build can, and does run in infrastructure you own. The model itself is the part to talk about honestly: running a model on your own hardware is a different project with a different cost, and we have not deployed open models in production. If that is a requirement, say so early, because it changes the architecture.',
+            a: 'The system we build can, and does, run in infrastructure you own. The model is the part to be honest about. We call models as a service from providers you approve, we have not deployed open models in production, and we will not sell that experience as if we had it. Raise the requirement before anything is quoted and we will tell you plainly what it would take.',
           },
           {
-            q: 'The EU AI Act came into force in August. Does that change what we can build?',
-            a: 'It changes what you have to be able to demonstrate, which is mostly about record-keeping, human oversight and knowing what your system did. Whether your particular use is high-risk is a legal call and not ours to make. What we can say is that the systems we build already record the decision rather than only the result, which is the part that is expensive to retrofit later.',
+            q: 'Do we need a DPIA for an AI assistant?',
+            a: 'Quite often yes, and always when the processing is large in scale or touches special categories like health data. The call is your DPO’s to make, not ours. What we change is the cost of making it. The technical half of a DPIA is a description of data flows, risks and safeguards, and our systems produce that description from what is actually built rather than from interviews and guesswork.',
+          },
+          {
+            q: 'What does the EU AI Act change for us in practice?',
+            a: 'For most deployers it changes what you must be able to demonstrate: logs the system kept about itself, human oversight that actually functions, and knowledge of what data went in. Whether your specific use is high-risk is a legal classification and we stay out of it. The engineering consequence is simpler, systems that record their decisions from day one are cheap to defend, and systems that do not are expensive to retrofit. Ours record from day one.',
+          },
+          {
+            q: 'What happens when someone asks the assistant for data they should not see?',
+            a: 'Nothing dramatic, which is the point. In one of our agents the columns about individual people’s hours and absences exist in the database and are simply not exposed to the assistant, so the question cannot be answered from what it holds. The refusal is built into what the system can reach, not into a phrase in its instructions, and the attempt is recorded like any other decision.',
+          },
+          {
+            q: 'Which model providers do you work with?',
+            a: 'More than one, and the choice is yours to approve. Our systems in production run on more than one provider, Gemini among them, because different projects justified different calls. We are not a reseller for anyone, so the recommendation follows the use case, the agreement on offer and where the data may travel, in that order.',
+          },
+          {
+            q: 'Our people already paste things into chatbots. Does building an official assistant make that worse?',
+            a: 'In our experience it points the other way. The pasting happens because people need the capability and have no sanctioned place to get it, so the data flows through personal accounts nobody governs. An official assistant with a filtered context, an approved provider and real records gives them a better tool inside a perimeter your DPO can actually describe. Policy alone rarely wins that fight. A better option usually does.',
           },
           {
             q: 'Who owns the code?',
-            a: 'You do, from day one. Repositories, documentation and architecture are yours, in a cloud account under your name. There is no black box and no lock-in.',
+            a: 'You do, from day one. Repositories, documentation and architecture are yours, in a cloud account under your name. There is no black box and no lock-in, and if we stop working together the system does not notice.',
           },
         ],
         cta: {
