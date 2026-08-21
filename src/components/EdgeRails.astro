@@ -1,0 +1,32 @@
+---
+/*
+  Dos líneas verticales que marcan dónde empieza y acaba la columna de
+  contenido, al estilo de stripe.com.
+
+  Van fijas al viewport, no dentro del flujo, por dos motivos: se leen como dos
+  líneas continuas mientras se baja, y así no hay que añadir un borde a cada
+  sección ni preocuparse por las costuras entre una y otra.
+
+  Se colocan en el borde EXTERIOR del contenedor de las secciones (`max-w-7xl`),
+  no donde empieza el texto. Esa distinción importa por dos motivos: deja el
+  acolchado de la sección (`px-5 sm:px-8`) como aire entre la línea y las
+  tarjetas, y recoge dentro las flechas del carrusel, que se posicionan contra
+  ese mismo borde. Si algún día cambia el `max-w` de las secciones, hay que
+  cambiarlo aquí también.
+
+  Solo aparecen a partir de 1360 px, que es cuando el contenedor deja de ocupar
+  todo el ancho y hay margen lateral de verdad que delimitar. Por debajo, las
+  líneas caerían pegadas al borde de la ventana y parecerían un defecto.
+
+  z-30 las deja por encima de los fondos opacos de las secciones y por debajo
+  de la cabecera pegajosa (z-40), de sus menús (z-50) y de los modales, que van
+  en la capa superior del navegador.
+*/
+---
+
+<div
+  class="pointer-events-none fixed inset-y-0 left-0 z-30 hidden w-full min-[1360px]:block"
+  aria-hidden="true"
+>
+  <div class="mx-auto h-full w-full max-w-7xl border-x border-rail"></div>
+</div>

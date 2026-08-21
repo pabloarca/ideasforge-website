@@ -1,4 +1,7 @@
 ---
+import GridBackdrop from './GridBackdrop.astro';
+import { gradients } from './gradients';
+
 export interface Props {
   /** Altura del gráfico (CSS length) */
   height?: string;
@@ -8,13 +11,21 @@ export interface Props {
   grain?: number;
   /** Margen del marco respecto al borde del fondo */
   inset?: string;
+  /** Aire entre la línea del marco y el contenido. El diagrama nunca debe
+   *  tocar la línea ni los puntos de las esquinas. */
+  pad?: string;
   /** Puntos blancos en las esquinas del marco */
   dots?: boolean;
+  /** Cuadrícula tenue dentro del marco, detrás del contenido */
+  grid?: boolean;
+  /** Cambia el sorteo de la cuadrícula sin dejar de ser reproducible */
+  gridSeed?: number;
   /** Familia de degradado */
   gradient?: 'azul' | 'noche' | 'teal';
-  /** Etiqueta monoespaciada arriba-izquierda, p. ej. "FIG. 01" */
+  /** Numeración del gráfico, p. ej. "FIG. 01". Se imprime fuera del marco,
+   *  abajo a la derecha, como el pie de plancha de un libro. */
   label?: string;
-  /** Título del gráfico, debajo de la etiqueta */
+  /** Título del gráfico, arriba a la izquierda dentro del marco */
   title?: string;
   class?: string;
 }
@@ -24,63 +35,70 @@ const {
   radius = 'var(--radius-card, 15px)',
   grain = 0.16,
   inset = '16px',
+  pad = '36px',
   dots = true,
+  grid = true,
+  gridSeed = 7,
   gradient = 'azul',
   label,
   title,
   class: className = '',
 } = Astro.props;
-
-const gradients = {
-  azul:
-    'radial-gradient(80% 110% at 14% 0%, rgba(0,45,253,.5) 0%, rgba(0,45,253,0) 55%),' +
-    'radial-gradient(90% 120% at 100% 110%, rgba(2,4,26,.9) 0%, rgba(2,4,26,0) 60%),' +
-    'linear-gradient(126deg, #0b2fd6 0%, #0721a6 42%, #04116b 72%, #02061f 100%)',
-  noche:
-    'radial-gradient(75% 105% at 20% 0%, rgba(90,110,190,.4) 0%, rgba(90,110,190,0) 55%),' +
-    'linear-gradient(140deg, #1a1e33 0%, #0d1020 50%, #05060d 100%)',
-  teal:
-    'radial-gradient(80% 110% at 14% 0%, rgba(40,180,160,.45) 0%, rgba(40,180,160,0) 55%),' +
-    'linear-gradient(126deg, #0d4f4a 0%, #093b3c 45%, #05242a 100%)',
-};
 ---
 
-<figure
-  class:list={['gf', className]}
-  define:vars={{
-    gfHeight: height,
-    gfRadius: radius,
-    gfGrain: String(grain),
-    gfInset: inset,
-    gfBg: gradients[gradient] ?? gradients.azul,
-  }}
->
-  <div class="gf-grain" aria-hidden="true"></div>
-  <div class="gf-frame" aria-hidden="true">
-    {dots && (
-      <>
-        <span class="gf-dot gf-tl"></span>
-        <span class="gf-dot gf-tr"></span>
-        <span class="gf-dot gf-bl"></span>
-        <span class="gf-dot gf-br"></span>
-      </>
+<div class:list={['gf-wrap', className]}>
+  {/*
+    Las variables van en un `style` explícito y no con `define:vars`: esa
+    directiva solo funciona en <style> y <script>, y sobre un elemento HTML
+    Astro la descarta sin avisar. El resultado era un marco sin altura ni fondo.
+  */}
+  <div
+    class="gf"
+    style={[
+      `--gfHeight:${height}`,
+      `--gfRadius:${radius}`,
+      `--gfGrain:${grain}`,
+      `--gfInset:${inset}`,
+      `--gfPad:${pad}`,
+      `--gfBg:${gradients[gradient] ?? gradients.azul}`,
+    ].join(';')}
+  >
+    {grid && (
+      <div class="gf-grid" aria-hidden="true">
+        <GridBackdrop seed={gridSeed} />
+      </div>
     )}
+
+    <div class="gf-grain" aria-hidden="true"></div>
+    <div class="gf-frame" aria-hidden="true">
+      {dots && (
+        <>
+          <span class="gf-dot gf-tl"></span>
+          <span class="gf-dot gf-tr"></span>
+          <span class="gf-dot gf-bl"></span>
+          <span class="gf-dot gf-br"></span>
+        </>
+      )}
+    </div>
+
+    {title && (
+      <header class="gf-head">
+        <span class="gf-title">{title}</span>
+      </header>
+    )}
+
+    <div class:list={['gf-body', title && 'has-title']}><slot /></div>
   </div>
 
-  {(label || title) && (
-    <header class="gf-head">
-      {label && <span class="gf-label">{label}</span>}
-      {title && <span class="gf-title">{title}</span>}
-    </header>
-  )}
-
-  <div class="gf-body"><slot /></div>
-</figure>
+  {label && <p class="gf-fig">{label}</p>}
+</div>
 
 <style>
+  .gf-wrap {
+    margin: 0;
+  }
   .gf {
     position: relative;
-    margin: 0;
     height: var(--gfHeight);
     border-radius: var(--gfRadius);
     overflow: hidden;
@@ -90,6 +108,17 @@ const gradients = {
       inset 0 0 140px rgba(2, 4, 20, 0.5);
     color: #fff;
   }
+
+  /* La cuadrícula vive dentro de la línea del marco y por debajo de todo lo
+     demás, así que el grano la matiza y el diagrama se apoya encima. */
+  .gf-grid {
+    position: absolute;
+    inset: var(--gfInset);
+    border-radius: 3px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
   .gf-grain {
     position: absolute;
     inset: 0;
@@ -121,17 +150,8 @@ const gradients = {
 
   .gf-head {
     position: absolute;
-    left: calc(var(--gfInset) + 36px);
-    top: calc(var(--gfInset) + 34px);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .gf-label {
-    font-family: var(--font-mono, ui-monospace, 'SF Mono', 'JetBrains Mono', monospace);
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.6);
+    left: calc(var(--gfInset) + var(--gfPad));
+    top: calc(var(--gfInset) + var(--gfPad));
   }
   .gf-title {
     font-family: var(--font-sans, 'Space Grotesk', sans-serif);
@@ -140,11 +160,29 @@ const gradients = {
     letter-spacing: 0.2px;
     color: #fff;
   }
+
+  /* El contenido respeta la línea del marco por los cuatro lados. Con título,
+     además baja lo suficiente para no invadirlo, sin que cada gráfico tenga
+     que ajustar su propio desplazamiento a mano. */
   .gf-body {
     position: absolute;
-    inset: var(--gfInset);
+    inset: calc(var(--gfInset) + var(--gfPad));
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .gf-body.has-title {
+    top: calc(var(--gfInset) + var(--gfPad) + 46px);
+  }
+
+  /* Numeración fuera del marco: va sobre el fondo de la página, así que toma
+     el gris de metadatos del kit y no el blanco del interior del gráfico. */
+  .gf-fig {
+    margin: 10px 0 0;
+    text-align: right;
+    font-family: var(--font-mono, ui-monospace, 'SF Mono', 'JetBrains Mono', monospace);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--color-faint, #a3a3a3);
   }
 </style>

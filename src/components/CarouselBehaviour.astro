@@ -1,0 +1,95 @@
+---
+/*
+  Comportamiento compartido de los carruseles. Solo trae el script, sin
+  marcado: se incluye una vez desde cada sección que lo necesite y Astro lo
+  empaqueta una sola vez aunque aparezca varias veces en la misma página.
+
+  Contrato del marcado, todo opcional salvo el contenedor y las diapositivas:
+
+    [data-carousel]           el contenedor de la sección
+      [data-carousel-track]   la pista con desplazamiento horizontal
+      [data-carousel-slide]   cada diapositiva
+      [data-carousel-prev]    botón anterior
+      [data-carousel-next]    botón siguiente
+      [data-carousel-dot]     un punto por diapositiva, en orden
+      [data-carousel-index]   recibe el número de la diapositiva visible
+
+  Sirve tanto para una diapositiva a pantalla completa (casos de estudio) como
+  para varias tarjetas a la vez (blog): el índice activo es siempre el de la
+  primera diapositiva visible, que es lo que espera el lector en ambos casos.
+*/
+---
+
+<script>
+  function initCarousel(section: HTMLElement) {
+    // Astro deduplica los scripts, pero si alguna vez dejara de hacerlo esto
+    // evita registrar los mismos escuchadores dos veces.
+    if (section.dataset.carouselReady === 'true') return;
+
+    const track = section.querySelector<HTMLElement>('[data-carousel-track]');
+    const slides = Array.from(section.querySelectorAll<HTMLElement>('[data-carousel-slide]'));
+    if (!track || slides.length === 0) return;
+    section.dataset.carouselReady = 'true';
+
+    const prev = section.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+    const next = section.querySelector<HTMLButtonElement>('[data-carousel-next]');
+    const dots = Array.from(section.querySelectorAll<HTMLButtonElement>('[data-carousel-dot]'));
+    const indexEl = section.querySelector<HTMLElement>('[data-carousel-index]');
+
+    let activeIndex = 0;
+
+    const setActive = (i: number) => {
+      activeIndex = i;
+      dots.forEach((d, idx) => {
+        const on = idx === i;
+        d.classList.toggle('bg-fg', on);
+        d.classList.toggle('bg-border', !on);
+        d.setAttribute('aria-current', on ? 'true' : 'false');
+      });
+      if (indexEl) indexEl.textContent = String(i + 1);
+    };
+
+    // Desplaza SOLO la pista, nunca la pagina. `scrollIntoView` parece lo
+    // natural aqui, pero mueve todos los ancestros con scroll: si la ficha no
+    // cabe entera en vertical, arrastra el documento y deja los controles
+    // fuera de la pantalla. Calculando el desplazamiento y aplicandolo al
+    // contenedor, el resto de la pagina se queda quieto.
+    const suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const centrar = (caja: HTMLElement, pieza: HTMLElement) => {
+      const left = pieza.offsetLeft - caja.offsetLeft - (caja.clientWidth - pieza.offsetWidth) / 2;
+      caja.scrollTo({ left, behavior: suave ? 'smooth' : 'auto' });
+    };
+
+    const scrollToIndex = (i: number) => {
+      const n = slides.length;
+      const wrapped = ((i % n) + n) % n;
+      const slide = slides[wrapped];
+      if (slide) centrar(track, slide);
+    };
+
+    prev?.addEventListener('click', () => scrollToIndex(activeIndex - 1));
+    next?.addEventListener('click', () => scrollToIndex(activeIndex + 1));
+    dots.forEach((d, i) => d.addEventListener('click', () => scrollToIndex(i)));
+
+    // Se mantiene el conjunto de diapositivas visibles en vez de mirar solo las
+    // entradas que acaban de cambiar: con varias tarjetas a la vista, la que
+    // manda es la primera de ellas y eso hay que saberlo en todo momento.
+    const visible = new Set<Element>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) visible.add(e.target);
+          else visible.delete(e.target);
+        });
+        const first = slides.findIndex((s) => visible.has(s));
+        if (first >= 0) setActive(first);
+      },
+      { root: track, threshold: 0.6 }
+    );
+    slides.forEach((s) => io.observe(s));
+
+    setActive(0);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(initCarousel);
+</script>

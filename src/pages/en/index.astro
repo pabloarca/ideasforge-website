@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import RailDots from '../../components/RailDots.astro';
+import DotReveal from '../../components/DotReveal.astro';
+import EdgeRails from '../../components/EdgeRails.astro';
 import Hero from '../../components/Hero.astro';
 import TrustedBy from '../../components/TrustedBy.astro';
 import CaseStudies from '../../components/CaseStudies.astro';
@@ -23,14 +26,42 @@ const meta = content[lang].meta;
   description={meta.homeDescription}
   alternates={altsFor('home')}
 >
+  <EdgeRails />
+  <DotReveal />
   <Hero lang={lang} />
   <TrustedBy lang={lang} />
   <CaseStudies lang={lang} />
+  {/*
+    Costuras entre secciones. Cada una necesita una linea que cruzar, y hay
+    dos maneras de tenerla:
+
+      Sin `line`, la linea es el cambio de fondo. Vale solo donde los fondos
+      son distintos de verdad:
+        CaseStudies (blanco) -> Services (gris)
+        Services (gris)      -> WhyUs (blanco)
+        WhyUs (blanco)       -> Methodology (gris)
+        Methodology (gris)   -> Integrations (blanco)
+
+      Con `line`, la dibuja el propio componente. Es lo que hace falta entre
+      las tres ultimas, todas blancas:
+        Integrations -> BlogPreview -> Faq -> Contact
+
+    Si se cambia el fondo de alguna seccion hay que revisar este reparto: una
+    costura que pase a tener cambio de color ya no necesita `line`, y una que
+    lo pierda deja de tener linea si no se le pone.
+  */}
+  <RailDots seed={419} />
   <Services lang={lang} />
+  <RailDots seed={431} />
   <WhyUs lang={lang} />
+  <RailDots seed={443} />
   <Methodology lang={lang} />
+  <RailDots seed={457} />
   <Integrations lang={lang} />
+  <RailDots seed={541} line />
   <BlogPreview lang={lang} />
+  <RailDots seed={547} line />
   <Faq lang={lang} />
+  <RailDots seed={557} line />
   <Contact lang={lang} />
 </BaseLayout>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Icon from '../../../components/Icon.astro';
 import { getCollection, render } from 'astro:content';
 import { content } from '../../../i18n/ui';
 import { localizedPath } from '../../../i18n/utils';
@@ -53,7 +54,13 @@ const articleJsonLd = JSON.stringify({
 >
   <script is:inline slot="head" type="application/ld+json" set:html={articleJsonLd} />
   <article class="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-24">
-    <a href={localizedPath('/blog', lang)} class="font-mono text-sm text-muted transition-colors hover:text-fg">
+    {/* Misma flecha que el resto del sitio, reflejada. Antes era el caracter
+        «←», que se dibuja con la tipografia y no casa con las demas. */}
+    <a
+      href={localizedPath('/blog', lang)}
+      class="group inline-flex items-center gap-1.5 font-mono text-sm text-muted transition-colors hover:text-fg"
+    >
+      <Icon name="flecha-izquierda" size={16} class="shrink-0 transition-transform duration-300 group-hover:-translate-x-0.5" />
       {t.blog.backToBlog}
     </a>
 

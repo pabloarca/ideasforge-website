@@ -1,0 +1,67 @@
+---
+/*
+  Lista de preguntas frecuentes, compartida por la FAQ de la home y por las
+  páginas largas (guías, servicios, guía de coste). Antes cada sitio tenía la
+  suya: la home un acordeón y las páginas largas tarjetas estáticas con sombra,
+  así que la misma pieza se veía y se comportaba distinto según la página.
+
+  El aspecto es el del lenguaje de retícula del sitio: bloque continuo sin
+  radios ni sombras, con `divide-y` entre preguntas y `border-y` cerrando por
+  arriba y por abajo para que ninguna quede con el filete colgando.
+
+  Acordeón nativo con <details name="...">: el atributo `name` agrupa los
+  desplegables y el navegador cierra solo el que estuviera abierto. Sin
+  JavaScript. `group` da nombre único por instancia para que dos FAQ en la
+  misma página no compartan grupo.
+*/
+import { type Faq } from '../i18n/ui';
+import Icon from './Icon.astro';
+
+interface Props {
+  items: Faq[];
+  /** Nombre del grupo de <details>. Único por instancia en la página. */
+  group?: string;
+  class?: string;
+}
+const { items, group = 'faq', class: className = '' } = Astro.props;
+---
+
+<div class:list={['divide-y divide-border-soft border-y border-border-soft', className]}>
+  {
+    items.map((item) => (
+      <details name={group} class="group [&_summary]:list-none">
+        <summary class="flex cursor-pointer items-center gap-4 px-6 py-5 text-left font-semibold text-fg [&::-webkit-details-marker]:hidden">
+          <span class="grid h-6 w-6 shrink-0 place-items-center text-accent" aria-hidden="true">
+            {/* Galón del set. Gira al abrirse en vez de cambiar de símbolo:
+                el set no trae más/menos y un galón dice lo mismo. */}
+            <Icon
+              name="chevron-abajo"
+              size={20}
+              class="transition-transform duration-200 group-open:rotate-180"
+            />
+          </span>
+          <span class="text-base sm:text-[17px]">{item.q}</span>
+        </summary>
+
+        {item.image ? (
+          <div>
+            <img
+              src={item.image}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              class="aspect-[21/9] w-full object-cover"
+            />
+            <p class="px-6 pb-6 pl-[3.5rem] pr-10 pt-5 text-[15px] leading-relaxed text-muted">
+              {item.a}
+            </p>
+          </div>
+        ) : (
+          <p class="px-6 pb-5 pl-[3.5rem] pr-10 text-[15px] leading-relaxed text-muted">
+            {item.a}
+          </p>
+        )}
+      </details>
+    ))
+  }
+</div>

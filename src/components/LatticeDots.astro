@@ -1,0 +1,75 @@
+---
+/*
+  Puntos en los cruces de una retícula. Se coloca dentro de cada celda y marca
+  sus cuatro esquinas, que es donde convergen las líneas de separación.
+
+  Cuáles aparecen se sortea, pero con semilla: el mismo número da siempre el
+  mismo dibujo, así que dos compilaciones seguidas no producen diferencias.
+
+  Las celdas vecinas comparten esquina, así que un mismo cruce puede recibir
+  punto de una o de la otra. Al caer exactamente en el mismo sitio no se nota,
+  y a cambio no hay que saber nada de la cuadrícula para colocarlos: cada celda
+  se ocupa de las suyas y el conjunto sale solo, sea cual sea el número de
+  columnas en cada tamaño de pantalla.
+*/
+import { entrada, prng } from '../lib/prng';
+
+interface Props {
+  /** Cambia el sorteo sin dejar de ser reproducible. */
+  seed: number;
+  /** Probabilidad de que una esquina lleve punto. */
+  chance?: number;
+  /** Numero exacto de esquinas, elegidas al azar. Tiene prioridad sobre
+   *  `chance`, para cuando se quiere una cantidad concreta y no un sorteo. */
+  count?: number;
+  /** Muestra los puntos solo a partir de 1360 px, que es cuando existen los
+   *  railes verticales. Se usa donde el cruce depende de ellos. */
+  gated?: boolean;
+}
+const { seed, chance = 0.4, count, gated = false } = Astro.props;
+
+// Las cuatro esquinas de la celda. El desplazamiento de media unidad centra el
+// punto sobre la línea en vez de dejarlo colgando por dentro.
+const CORNERS = [
+  'left-0 top-0 -translate-x-1/2 -translate-y-1/2',
+  'right-0 top-0 translate-x-1/2 -translate-y-1/2',
+  'left-0 bottom-0 -translate-x-1/2 translate-y-1/2',
+  'right-0 bottom-0 translate-x-1/2 translate-y-1/2',
+];
+
+const rand = prng(seed);
+
+let on: boolean[];
+if (count === undefined) {
+  on = CORNERS.map(() => rand() < chance);
+} else {
+  // Baraja los indices y se queda con los primeros: asi salen exactamente
+  // `count` esquinas y nunca dos veces la misma.
+  const orden = CORNERS.map((_, i) => i);
+  for (let i = orden.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(rand() * (i + 1));
+    [orden[i], orden[j]] = [orden[j], orden[i]];
+  }
+  const elegidas = new Set(orden.slice(0, count));
+  on = CORNERS.map((_, i) => elegidas.has(i));
+}
+
+const via = CORNERS.map(() => entrada(rand));
+---
+
+{
+  on.some(Boolean) && (
+    <span class:list={['pointer-events-none absolute inset-0 z-10', gated && 'hidden min-[1360px]:block']} aria-hidden="true">
+      {CORNERS.map(
+        (pos, i) =>
+          on[i] && (
+            <span
+              data-crystal
+              class={`absolute h-[3px] w-[3px] bg-accent/35 ${pos}`}
+              style={`--dx:${via[i].dx};--dy:${via[i].dy};--cs:${via[i].cs};--cd:${via[i].cd}`}
+            />
+          )
+      )}
+    </span>
+  )
+}

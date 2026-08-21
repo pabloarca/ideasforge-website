@@ -1,7 +1,29 @@
 ---
+/*
+  Últimas entradas del blog, en acordeón horizontal tipo libro, siguiendo la
+  sección «lo último» de stripe.com.
+
+  Funciona como un carrusel que rota: la abierta ocupa siempre la primera
+  posición por la izquierda y las que vienen detrás se escalonan a la derecha
+  menguando a la mitad cada una. Al pasar de página, la que sale por delante
+  vuelve a entrar por el final, así que ninguna desaparece nunca.
+
+  Las hojas van en posición absoluta con borde y ancho en porcentaje, y no en
+  una fila flexible reordenada. El motivo es que `order` cambia de golpe, así
+  que la fila pegaba un brinco y solo se animaban los anchos. Con posiciones
+  calculadas, el desplazamiento hacia la izquierda se anima entero y se ve.
+
+  Cada panel es un enlace de verdad al post, no un botón: así los buscadores
+  encuentran las entradas y sin JavaScript la sección sigue siendo navegable.
+  Con JavaScript, pulsar un canto lo abre en vez de navegar; pulsar el que ya
+  está abierto sí navega.
+*/
 import { getCollection } from 'astro:content';
+import Icon from './Icon.astro';
 import { type Lang, content } from '../i18n/ui';
 import { localizedPath } from '../i18n/utils';
+import { layoutFor } from '../lib/book-layout';
+import PostCover from './PostCover.astro';
 
 interface Props {
   lang: Lang;
@@ -9,67 +31,477 @@ interface Props {
 const { lang } = Astro.props;
 const t = content[lang].blog;
 
-const posts = (await getCollection('blog', ({ data }) => data.lang === lang && !data.draft))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 4);
+// Van TODAS las entradas, no las seis últimas. El acordeón rota, así que la
+// que sale por delante vuelve a entrar por el final y ninguna queda fuera de
+// la home. Con el corte anterior las cuatro entradas que traen fotografía
+// propia, todas de 2025, caían en las posiciones 10 a 13 y no se veían nunca.
+// El reparto de `layoutFor` normaliza a 100 %, y el peso de cola existe para
+// que los cantos del quinto en adelante sigan siendo visibles.
+const posts = (await getCollection('blog', ({ data }) => data.lang === lang && !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 
 const slugOf = (id: string) => id.replace(/^(es|en)\//, '');
+const hrefOf = (id: string) => localizedPath(`/blog/${slugOf(id)}`, lang);
+
+// El HTML se sirve ya colocado con la primera abierta, así que la sección se
+// ve igual antes de que arranque el JavaScript.
+const slots = layoutFor(posts.length, 0);
 ---
 
-<section class="bg-bg py-20 sm:py-28">
+<section data-book class="bg-bg py-20 sm:py-28">
   <div class="mx-auto max-w-7xl px-5 sm:px-8">
-    <h2 class="text-center text-5xl font-bold tracking-tight text-fg sm:text-6xl">
-      {t.eyebrow}
-    </h2>
+    <div class="flex items-end justify-between gap-8">
+      <header class="max-w-2xl">
+        {/* No eyebrow here: a "Blog" label over the blog section said nothing.
+            `blog.eyebrow` stays in ui.ts because /blog uses it as its H1. */}
+        <h2 class="mt-4 text-4xl font-bold tracking-tight text-fg sm:text-5xl">
+          {t.heading}
+        </h2>
+        <p class="mt-4 text-lg text-muted">{t.subtitle}</p>
+        {/* El enlace al blog cierra la entradilla, en vez de ir suelto al pie
+            de la seccion: alli quedaba despues del acordeon y de la ficha, tan
+            abajo que ya no se leia como la salida hacia el resto de entradas. */}
+        <a
+          href={localizedPath('/blog', lang)}
+          class="group mt-5 inline-flex items-center gap-1.5 text-[15px] font-medium text-accent"
+        >
+          <span class="underline-offset-4 group-hover:underline">{t.viewAll}</span>
+          <Icon name="flecha-derecha" size={16} class="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" />
+        </a>
+      </header>
 
-    <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Mismo tratamiento que el icono de las tarjetas de compromisos:
+          cuadrado con fondo suave, galon fino, y al pasar por encima la caja
+          crece y el galon se desplaza en su sentido. */}
+      {/* Solo avance. El acordeon rota, asi que desde cualquier hoja se llega
+          a todas siguiendo hacia delante, y el gesto de pasar pagina se lee
+          siempre en el mismo sentido. */}
+      <div class="hidden shrink-0 pb-2 sm:flex">
+        <button
+          type="button"
+          data-book-next
+          aria-label={lang === 'es' ? 'Siguiente' : 'Next'}
+          class="group grid h-11 w-11 place-items-center rounded-md bg-bg-soft transition-transform duration-300 hover:scale-110"
+        >
+          <Icon name="flecha-derecha" size={20} class="text-fg transition-transform duration-300 group-hover:translate-x-0.5" />
+        </button>
+      </div>
+    </div>
+
+    <div data-book-row class="relative mt-12 h-[340px] sm:h-[420px]">
       {
-        posts.map((post) => (
-          <article class="card-soft rainbow-ring hover:card-soft-hover relative flex flex-col overflow-hidden">
-            <div class="aspect-[16/10] w-full overflow-hidden bg-bg-soft">
-              {post.data.heroImage ? (
-                <img
-                  src={post.data.heroImage}
-                  alt={post.data.title}
-                  loading="lazy"
-                  decoding="async"
-                  class="h-full w-full object-cover"
-                />
-              ) : (
-                <div
-                  class="h-full w-full"
-                  style="background: linear-gradient(135deg, #e9e7ff, #c9c7ff);"
-                />
-              )}
-            </div>
-
-            <div class="flex flex-1 flex-col p-6">
-              <h3 class="line-clamp-3 text-lg font-bold leading-snug text-fg">
-                <a href={localizedPath(`/blog/${slugOf(post.id)}`, lang)} class="after:absolute after:inset-0">
-                  {post.data.title}
-                </a>
-              </h3>
-              <p class="mt-3 line-clamp-3 text-[15px] leading-relaxed text-muted">
-                {post.data.description}
-              </p>
-              {/* mt-auto pins the CTA to the bottom of every card regardless of
-                  title/description height, so the row of buttons stays aligned. */}
-              <div class="mt-auto pt-6">
-                <span class="btn-ghost">{t.readMore}</span>
-              </div>
-            </div>
-          </article>
+        posts.map((post, i) => (
+          <a
+            data-book-panel
+            href={hrefOf(post.id)}
+            style={`--l:${slots[i].left.toFixed(3)};--r:${slots[i].right.toFixed(3)}`}
+            aria-current={i === 0 ? 'true' : 'false'}
+            aria-label={post.data.title}
+            class="group absolute inset-y-0 block overflow-hidden rounded-[var(--radius-card)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            <PostCover title={post.data.title} image={post.data.heroImage} />
+            {/* Velo que oscurece los cantos, para que la abierta destaque. */}
+            <span
+              class="pointer-events-none absolute inset-0 bg-black/25 transition-opacity duration-700 group-aria-[current=true]:opacity-0"
+              aria-hidden="true"
+            />
+          </a>
         ))
       }
     </div>
 
-    <div class="mt-14 text-center">
-      <a
-        href={localizedPath('/blog', lang)}
-        class="btn-primary hover:btn-primary-hover"
-      >
-        {t.viewAll}
-      </a>
+    <div class="mt-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      {/* Alto fijo y recorte con puntos suspensivos: manda el hueco, no el
+          texto. Antes un titulo largo empujaba la seccion hacia abajo y movia
+          todo lo que venia detras. Las seis fichas se apilan en el mismo sitio
+          y se funden, asi que cambiar de hoja no mueve nada de la pagina. */}
+      <div class="relative h-[7.5rem] w-full max-w-xl sm:h-[8rem]">
+        {
+          posts.map((post, i) => (
+            <div
+              data-book-text
+              data-on={i === 0 ? 'true' : 'false'}
+              aria-hidden={i === 0 ? 'false' : 'true'}
+              class="absolute inset-0"
+            >
+              <h3 class="line-clamp-2 text-xl font-bold leading-snug text-fg sm:text-2xl">
+                {post.data.title}
+              </h3>
+              <p class="mt-2 line-clamp-2 text-[15px] leading-relaxed text-muted">
+                {post.data.description}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      {/* El boton arranca a la altura del titulo de la ficha, no al pie de la
+          columna: comparte el `mt-8` del contenedor y por eso la fila lleva
+          `sm:items-start`. Fuera el contador de entradas, que competia con el
+          boton y no orientaba. */}
+      <div class="flex shrink-0 items-center">
+        <a
+          data-book-cta
+          href={hrefOf(posts[0].id)}
+          class="btn-primary hover:btn-primary-hover inline-flex items-center gap-2"
+        >
+          {t.readMore}
+          <Icon name="flecha-derecha" size={16} class="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" />
+        </a>
+      </div>
     </div>
+
   </div>
 </section>
+
+<style>
+  /*
+    REGLA DEL MARGEN. La separacion entre hojas no puede desaparecer nunca, ni
+    a mitad de una transicion. Se sostiene sobre dos condiciones que hay que
+    respetar al tocar cualquier cosa de aqui:
+
+    1. Todo lo que se mueve a la vez comparte curva y duracion. Con los dos
+       bordes animados por separado y el mismo ritmo, la distancia entre dos
+       hojas vecinas solo puede interpolar entre la de antes y la de despues,
+       ambas iguales a GAP, asi que se mantiene en todo momento.
+
+    2. Las hojas que dan la vuelta no se repliegan donde estan: salen de la
+       fila por la izquierda TRASLADANDOSE EN BLOQUE, con su ancho intacto, y
+       vuelven a entrar por la derecha igual. Una traslacion rigida conserva
+       las separaciones por definicion. Replegarlas en el sitio era el fallo
+       anterior: dejaban su cuerpo en mitad del camino que las demas tenian que
+       recorrer, y se montaban unas sobre otras.
+
+    Comprobado con una simulacion del recorrido completo: el margen minimo se
+    queda en GAP exacto en los cinco destinos posibles.
+
+    Curva simetrica y 750 ms a proposito: con una salida rapida el ojo no
+    llega a leer el desplazamiento, que es justo lo que tiene que percibirse.
+  */
+
+  /* Recorta lo que sale de la fila mientras da la vuelta. */
+  [data-book-row] {
+    overflow: hidden;
+  }
+
+  [data-book-panel] {
+    left: calc(var(--l) * 1%);
+    right: calc(var(--r) * 1%);
+    opacity: 1;
+    transition:
+      left 750ms cubic-bezier(0.65, 0.05, 0.36, 1),
+      right 750ms cubic-bezier(0.65, 0.05, 0.36, 1);
+  }
+
+  /* El texto de la portada solo en la hoja abierta: sobre un canto de
+     veinticinco pixeles no se leeria nada. */
+  /* `:global` es obligatorio aqui: el titulo lo pinta PostCover, que tiene su
+     propio ambito de estilos, asi que sin esto Astro le exige a ese elemento
+     una marca que nunca va a llevar y la regla no casa con nada. El padre si
+     queda con ambito, de modo que solo afecta a las hojas de esta seccion. */
+  [data-book-panel] :global([data-cover-title]) {
+    opacity: 0;
+    transition: opacity 400ms ease;
+  }
+  /* El retardo iguala al desplazamiento: el texto no se pinta hasta que la
+     hoja ha llegado del todo a su sitio. Al marcharse no espera, porque una
+     hoja en movimiento con el rotulo de otra encima se lee fatal. */
+  [data-book-panel][aria-current='true'] :global([data-cover-title]) {
+    opacity: 1;
+    transition: opacity 400ms ease 750ms;
+  }
+
+  [data-book-text] {
+    opacity: 0;
+    transition: opacity 350ms ease;
+  }
+  [data-book-text][data-on='true'] {
+    opacity: 1;
+    transition: opacity 350ms ease 750ms;
+  }
+
+  /* La hoja que se repliega pasa por debajo mientras las demas ocupan su sitio,
+     y no acepta el raton para no disparar un hover en pleno viaje. */
+  [data-book-panel][data-folding='true'] {
+    z-index: 0;
+    pointer-events: none;
+    transition:
+      left 375ms cubic-bezier(0.65, 0.05, 0.36, 1),
+      right 375ms cubic-bezier(0.65, 0.05, 0.36, 1);
+  }
+
+  /* El hover pide respuesta inmediata: con los 750 ms del paso de pagina se
+     sentiria pastoso. */
+  [data-book-row][data-hovering='true'] [data-book-panel] {
+    transition-duration: 320ms;
+  }
+  /* El salto al otro extremo es el unico tramo sin animar: la hoja llega
+     recogida y desde ahi se despliega. */
+  [data-book-panel][data-jump='true'] {
+    transition: none;
+  }
+
+  /* En pantallas estrechas el acordeon no cabe: los cantos serian de unos
+     pocos pixeles. Ahi la fila pasa a ser un carrusel de tarjetas anchas, con
+     el orden del documento y sin posiciones calculadas. */
+  @media (max-width: 767px) {
+    [data-book-row] {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+    [data-book-row]::-webkit-scrollbar {
+      display: none;
+    }
+    [data-book-panel] {
+      position: static;
+      flex: 0 0 82%;
+      opacity: 1;
+      scroll-snap-align: center;
+      transition: none;
+    }
+    [data-book-panel] :global([data-cover-title]) {
+      opacity: 1;
+    }
+    /* En movil la hoja activa la decide el arrastre, no un salto de 750 ms:
+       esperar tanto se sentiria roto. */
+    [data-book-text][data-on='true'] {
+      transition-delay: 0ms;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-book-panel] {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { layoutFor, wrappingSet } from '../lib/book-layout';
+
+  /** Salida por la izquierda y entrada por la derecha. Encadenadas suman los
+   *  750 ms del desplazamiento principal del CSS, asi que pasar pagina dura
+   *  siempre lo mismo se de la vuelta alguna hoja o no. */
+  const FOLD = 375;
+
+  function initBook(section: HTMLElement) {
+    const panels = Array.from(section.querySelectorAll<HTMLAnchorElement>('[data-book-panel]'));
+    if (panels.length === 0) return;
+
+    const row = section.querySelector<HTMLElement>('[data-book-row]');
+    const texts = Array.from(section.querySelectorAll<HTMLElement>('[data-book-text]'));
+    const cta = section.querySelector<HTMLAnchorElement>('[data-book-cta]');
+    const next = section.querySelector<HTMLButtonElement>('[data-book-next]');
+
+    const narrow = window.matchMedia('(max-width: 767px)');
+    const n = panels.length;
+    let active = 0;
+    let hovered = -1;
+    // Generacion del ultimo paso de pagina: si llega otro antes de terminar,
+    // los tramos pendientes del anterior se descartan en vez de pisarse.
+    let run = 0;
+    // Hojas a mitad de viaje. El reparto normal no las toca hasta que llegan.
+    const folding = new Set<number>();
+
+    // Se fijan los dos bordes, no el borde izquierdo y el ancho. Al animarse
+    // cada uno por separado, ninguno puede pasarse de su destino y volver:
+    // el canto derecho llega a la linea del maximo despliegue y se para ahi.
+    const place = (panel: HTMLElement, left: number, width: number) => {
+      panel.style.setProperty('--l', left.toFixed(3));
+      panel.style.setProperty('--r', (100 - left - width).toFixed(3));
+    };
+
+    const paint = () => {
+      const slots = layoutFor(n, active, narrow.matches ? -1 : hovered);
+      panels.forEach((panel, i) => {
+        if (!folding.has(i)) place(panel, slots[i].left, slots[i].width);
+        panel.setAttribute('aria-current', i === active ? 'true' : 'false');
+      });
+      texts.forEach((el, i) => {
+        const on = i === active;
+        el.dataset.on = on ? 'true' : 'false';
+        el.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+      const href = panels[active]?.getAttribute('href');
+      if (cta && href) cta.setAttribute('href', href);
+    };
+
+    /*
+      Cierra de golpe un repliegue a medias.
+
+      Hace falta porque los tramos pendientes de un paso de pagina se descartan
+      cuando llega otro (el `token !== run`), y hasta ahora se descartaban sin
+      recoger: la hoja se quedaba dentro de `folding` para siempre, `paint` la
+      saltaba por diseno, y como el ultimo sitio que le habian dado estaba
+      fuera de la fila, su hueco no volvia a llenarse nunca. Ese era el rastro
+      de huecos que dejaba pasar paginas deprisa.
+
+      Se la coloca donde le toca ahora y se la devuelve al reparto normal. El
+      salto va sin animar, con el mismo `data-jump` que usa la reentrada: si se
+      animara, la hoja cruzaria la fila por delante de las demas.
+    */
+    const settleFolding = (hoverNow: number) => {
+      if (folding.size === 0) return;
+      const slots = layoutFor(n, active, hoverNow);
+      folding.forEach((idx) => {
+        const panel = panels[idx];
+        panel.dataset.jump = 'true';
+        place(panel, slots[idx].left, slots[idx].width);
+        void panel.offsetWidth; // fuerza el reflujo antes de devolver la transicion
+        delete panel.dataset.jump;
+        delete panel.dataset.folding;
+      });
+      folding.clear();
+    };
+
+    const setActive = (i: number, scroll = false, forward = true) => {
+      const before = active;
+      const target = ((i % n) + n) % n;
+      if (target === before) return;
+
+      const hoverBefore = narrow.matches ? -1 : hovered;
+      // Antes de calcular nada: lo que quedara a medio viaje se recoge, de modo
+      // que `from` describa lo que de verdad hay en pantalla.
+      settleFolding(hoverBefore);
+      active = target;
+      hovered = -1;
+      if (row) delete row.dataset.hovering;
+
+      if (narrow.matches) {
+        paint();
+        const panel = panels[active];
+        if (scroll && row && panel) {
+          // Igual que en el carrusel de proyectos: se desplaza la fila, no la
+          // pagina. `scrollIntoView` mueve todos los ancestros con scroll y se
+          // llevaria el documento con el, dejando los controles fuera de vista.
+          const suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          row.scrollTo({
+            left: panel.offsetLeft - row.offsetLeft - (row.clientWidth - panel.offsetWidth) / 2,
+            behavior: suave ? 'smooth' : 'auto',
+          });
+        }
+        return;
+      }
+
+      const wrapping = wrappingSet(n, before, active, forward);
+      // El punto de partida se calcula con el hover que hubiera, porque es lo
+      // que hay pintado en pantalla. Sin esto, el repliegue arrancaria desde
+      // un sitio en el que la hoja no esta y daria un tiron.
+      const from = layoutFor(n, before, hoverBefore);
+      const to = layoutFor(n, active);
+      const token = (run += 1);
+
+      // Traslacion en bloque: se desplaza al grupo entero lo justo para que su
+      // borde derecho quede en cero, y al volver, lo justo para que su borde
+      // izquierdo arranque en cien. Al moverse rigido conserva sus propias
+      // separaciones, y por eso la regla del margen se cumple por definicion.
+      const wrapped = [...wrapping];
+      const exitShift = Math.max(...wrapped.map((i) => from[i].left + from[i].width));
+      const entryShift = 100 - Math.min(...wrapped.map((i) => to[i].left));
+
+      // Primer tramo: salen de la fila por la izquierda, con su ancho intacto,
+      // dejando libre el camino que las demas tienen que recorrer.
+      wrapped.forEach((idx) => {
+        folding.add(idx);
+        panels[idx].dataset.folding = 'true';
+        place(panels[idx], from[idx].left - exitShift, from[idx].width);
+      });
+
+      // Las demas se desplazan a su sitio nuevo mientras tanto.
+      paint();
+      if (wrapping.size === 0) return;
+
+      window.setTimeout(() => {
+        if (token !== run) return;
+
+        // Reaparecen fuera de la fila por la derecha, ya con su tamano nuevo.
+        // Ese salto es el unico tramo sin animar, y ocurre fuera de la vista.
+        wrapped.forEach((idx) => {
+          panels[idx].dataset.jump = 'true';
+          place(panels[idx], to[idx].left + entryShift, to[idx].width);
+        });
+
+        // Dos fotogramas: uno para que el navegador acepte el sitio nuevo sin
+        // animarlo, y otro para que la entrada si se anime.
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => {
+            if (token !== run) return;
+            wrapped.forEach((idx) => {
+              delete panels[idx].dataset.jump;
+              place(panels[idx], to[idx].left, to[idx].width);
+            });
+          })
+        );
+
+        window.setTimeout(() => {
+          if (token !== run) return;
+          wrapped.forEach((idx) => {
+            folding.delete(idx);
+            delete panels[idx].dataset.folding;
+          });
+        }, FOLD);
+      }, FOLD);
+    };
+
+    panels.forEach((panel, i) => {
+      panel.addEventListener('click', (e) => {
+        // En movil el panel es solo un enlace. En escritorio, pulsar un canto
+        // lo abre y pulsar el ya abierto navega.
+        if (narrow.matches || i === active) return;
+        e.preventDefault();
+        setActive(i);
+      });
+
+      panel.addEventListener('pointerenter', () => {
+        if (narrow.matches || folding.has(i)) return;
+        hovered = i;
+        if (row) row.dataset.hovering = 'true';
+        paint();
+      });
+
+      panel.addEventListener('pointerleave', () => {
+        if (narrow.matches || hovered !== i) return;
+        hovered = -1;
+        paint();
+        // La marca se retira al acabar, para que la vuelta al sitio conserve
+        // el ritmo corto del hover en lugar del largo del paso de pagina.
+        window.setTimeout(() => {
+          if (hovered === -1 && row) delete row.dataset.hovering;
+        }, 320);
+      });
+    });
+
+    // Pulsar una hoja siempre pasa pagina hacia delante, aunque sea la ultima:
+    // el desplazamiento tiene que leerse hacia la izquierda siempre.
+    next?.addEventListener('click', () => setActive(active + 1, narrow.matches));
+
+    narrow.addEventListener('change', () => paint());
+
+    // Solo cuenta en movil, donde la fila se desplaza de verdad: en escritorio
+    // no hay desbordamiento y el observador peleria con las pulsaciones.
+    if (row) {
+      const visible = new Set<Element>();
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (!narrow.matches) return;
+          entries.forEach((e) =>
+            e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)
+          );
+          const first = panels.findIndex((p) => visible.has(p));
+          if (first >= 0 && first !== active) {
+            active = first;
+            paint();
+          }
+        },
+        { root: row, threshold: 0.6 }
+      );
+      panels.forEach((p) => io.observe(p));
+    }
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-book]').forEach(initBook);
+</script>

@@ -22,6 +22,8 @@
   --color-primary-hover: #1a1a1a;
   --color-accent: #002dfd;         /* blue accent (eyebrow, arrows, links) */
   --color-glow: #c9c7ff;           /* lavender card shadow */
+  --color-rail: rgba(0, 0, 0, 0.06); /* vertical margin rails, must read on
+                                        both --color-bg and --color-bg-soft */
 
   /* Type, Space Grotesk dominates the original site */
   --font-sans: "Space Grotesk", ui-sans-serif, system-ui, -apple-system,
@@ -31,9 +33,16 @@
 
   --container-8xl: 90rem;
 
-  /* Card system used across project / blog / faq cards */
-  --radius-card: 15px;
+  /* Card system used across project / blog / faq cards.
+     Corners are deliberately restrained: the original kit rounded everything
+     to 15px and up, which reads soft next to the reference (stripe.com). The
+     Tailwind scale below is lowered with it, so `rounded-xl` and friends stay
+     in step with `--radius-card` instead of drifting rounder. */
+  --radius-card: 8px;
   --radius-pill: 9999px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --radius-2xl: 10px;
   --shadow-card: 0 0 10px 0 var(--color-glow);
   --shadow-card-hover: 0 6px 20px -2px rgba(0, 45, 253, 0.18), 0 0 0 1px var(--color-glow);
 }
@@ -92,7 +101,11 @@ body {
   letter-spacing: 0.005em;
 }
 
-/* Soft card with the trademark lavender shadow + 15px radius */
+/* RETIRADA (21 ago 2026). La tarjeta antigua: sombra lavanda + radio. Ya no
+   la usa nadie: el sitio entero habla en retícula plana con filetes, y las
+   superficies flotantes usan `panel-float`. Se conserva la definición solo
+   como referencia histórica; no volver a usarla en contenido nuevo. Tailwind
+   v4 no la emite al CSS final mientras ninguna clase la invoque. */
 @utility card-soft {
   background-color: var(--color-surface);
   border-radius: var(--radius-card);
@@ -171,6 +184,18 @@ body {
   transition: background-color 0.2s ease;
 }
 
+/* Floating panel: dropdowns and any surface that hovers over the page.
+   These need elevation to read as a layer, but they must speak the current
+   flat language, not the old card: straight corners, fine gray border and a
+   NEUTRAL shadow. `card-soft` here leaked the lavender glow and the radius
+   into the one place the old look survived. The modal already uses a neutral
+   black shadow; this matches it at dropdown scale. */
+@utility panel-float {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.18);
+}
+
 /* Eyebrow text (no pill), used for small uppercase labels if needed */
 @utility eyebrow {
   font-family: var(--font-sans);
@@ -179,6 +204,31 @@ body {
   text-transform: uppercase;
   color: var(--color-accent);
   font-weight: 500;
+}
+
+/* ---- Icono de expandir --------------------------------------------------
+   Las dos cuñas se apartan cuando el ratón entra en la tarjeta que las
+   contiene, no cuando entra en el icono: el icono es decorativo y no recibe
+   puntero, así que el disparador es el `group` de la tarjeta.
+
+   El desplazamiento va en la dirección a la que apunta cada cuña, así que se
+   lee como que el elemento se abre. Las unidades son las del viewBox del
+   icono (24 × 24), no píxeles de pantalla: dentro de un SVG, una transformación
+   de CSS opera en el sistema de coordenadas local. */
+.icon-expand [data-piece] {
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.group:hover .icon-expand [data-piece='0'] {
+  transform: translate(1.25px, -1px);
+}
+.group:hover .icon-expand [data-piece='1'] {
+  transform: translate(-1.25px, 1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .icon-expand [data-piece] {
+    transform: none;
+  }
 }
 
 /* ---- Animated rainbow ring (on hover) -----------------------------------
@@ -257,7 +307,7 @@ dialog[data-whyus-modal] {
   max-height: none;
   padding: 0;
   border: none;
-  border-radius: 1.25rem;
+  border-radius: 0.75rem;
   background: var(--color-surface);
   color: var(--color-fg);
   overflow: hidden;
@@ -351,20 +401,59 @@ dialog[data-whyus-modal][open]::backdrop {
   transform: scaleY(1);
 }
 
-.route-marker {
-  transition:
-    border-color 450ms ease,
-    box-shadow 450ms ease;
+/* The rail counts with bars, not numbers. Each step adds one bar on top of the
+   ones the previous step already showed, so only that new bar draws itself,
+   left to right. The rest are static because they are carried over. */
+.route-anim [data-route-step] .route-bar-new {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1) 120ms;
 }
 
-[data-route-step].is-in .route-marker {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 5px color-mix(in oklab, var(--color-accent) 9%, transparent);
+.route-anim [data-route-step].is-in .route-bar-new {
+  transform: scaleX(1);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .route-anim [data-route-step],
-  .route-anim [data-route-step] .route-line {
+  .route-anim [data-route-step] .route-line,
+  .route-anim [data-route-step] .route-bar-new {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- Cristalizacion de los puntos ---------------------------------------
+   Los puntos de los cruces no aparecen: llegan desde fuera, grandes y
+   difusos, y se posan en su sitio al tamano final. Es el gesto contrario a
+   una explosion.
+
+   El desplazamiento y la escala de partida vienen en `--dx`, `--dy` y `--cs`,
+   sorteados con semilla en el servidor, y `--cd` escalona la llegada para que
+   no se posen todos a la vez.
+
+   Se usa `transform` y no las utilidades de Tailwind a proposito: en v4 esas
+   escriben la propiedad `translate`, que es la que ya centra cada punto sobre
+   su linea. Al ser propiedades distintas, se componen en vez de pisarse.
+
+   Visible por defecto. `crystal-anim` lo enciende un script en linea solo si
+   el navegador tiene IntersectionObserver, asi que sin JavaScript los puntos
+   estan en su sitio desde el principio. */
+.crystal-anim [data-crystal] {
+  opacity: 0;
+  transform: translate(var(--dx), var(--dy)) scale(var(--cs));
+  transition:
+    opacity 600ms ease var(--cd),
+    transform 900ms cubic-bezier(0.16, 1, 0.3, 1) var(--cd);
+}
+
+.crystal-anim [data-crystal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crystal-anim [data-crystal] {
     opacity: 1;
     transform: none;
   }

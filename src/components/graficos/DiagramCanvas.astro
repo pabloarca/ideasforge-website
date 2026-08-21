@@ -56,6 +56,11 @@ const { width = 1100, height = 300, offsetTop = '0px', class: className = '' } =
   const fit = (box: HTMLElement) => {
     const canvas = box.querySelector<HTMLElement>('.dg-canvas');
     if (!canvas) return;
+    // Dentro de un contenedor oculto (un <dialog> cerrado, una pestaña) el
+    // ancho es 0. Sin esta guarda saldría scale(0) y el gráfico se quedaría
+    // invisible para siempre. Se deja sin tocar y el ResizeObserver lo ajusta
+    // en cuanto el contenedor se muestra.
+    if (!box.clientWidth) return;
     const w = Number(box.dataset.w) || 1100;
     const h = Number(box.dataset.h) || 300;
     const s = Math.min(1, box.clientWidth / w);
@@ -66,5 +71,12 @@ const { width = 1100, height = 300, offsetTop = '0px', class: className = '' } =
   document.querySelectorAll<HTMLElement>('.dg-fit').forEach((box) => {
     fit(box);
     new ResizeObserver(() => fit(box)).observe(box);
+  });
+
+  // Quien muestre un lienzo que estaba oculto puede pedir el reajuste con
+  // `document.dispatchEvent(new Event('dg:refit'))`. El ResizeObserver ya
+  // debería bastar; esto solo evita depender de ello.
+  document.addEventListener('dg:refit', () => {
+    document.querySelectorAll<HTMLElement>('.dg-fit').forEach(fit);
   });
 </script>

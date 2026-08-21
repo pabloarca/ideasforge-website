@@ -1,6 +1,8 @@
 ---
 import { type Lang, content } from '../i18n/ui';
 import FlowDiagram from './FlowDiagram.astro';
+import Icon from './Icon.astro';
+import LatticeDots from './LatticeDots.astro';
 
 interface Props {
   lang: Lang;
@@ -19,42 +21,50 @@ const t = content[lang].whyUs;
       <p class="mt-4 text-lg text-muted">{t.subtitle}</p>
     </header>
 
-    <ul class="mt-14 grid gap-6 lg:grid-cols-3">
+    {/* Reticula continua, igual que en servicios: las cajas comparten linea en
+        vez de ir sueltas con su sombra. El `gap-px` sobre un fondo del color
+        del borde dibuja la cuadricula sola. Sin esquinas redondeadas, para
+        que el bloque se lea como una sola pieza.
+
+        Cuadradas solo a partir de `lg`, que es donde van tres en fila. Por
+        debajo se apilan a una columna y un cuadrado a todo el ancho seria una
+        caja enorme y casi vacia. */}
+    <ul class="mt-14 grid gap-px border border-border bg-border lg:grid-cols-3">
       {
         t.items.map((item, i) => (
-          <li class="card-soft rainbow-ring group relative flex h-full flex-col p-8">
-            {/* Square icon with a chevron. On hover the box scales slightly
-                and the chevron slides right (Stripe-style). Decorative
-                (pointer-events-none) so the whole-card click target
-                underneath catches the event. */}
-            <div
-              class="pointer-events-none absolute right-6 top-6 z-10 grid h-11 w-11 place-items-center rounded-md bg-bg-soft transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="h-5 w-5 text-fg transition-transform duration-300 group-hover:translate-x-0.5"
+          <li class="relative bg-bg lg:aspect-square">
+            <div class="group relative flex h-full flex-col overflow-hidden p-7 transition-colors duration-300 hover:bg-border/30 lg:p-8">
+              {/* El icono aqui no describe el compromiso, que ya lo dice el
+                  titulo: avisa de que la tarjeta se abre, porque al pulsarla
+                  aparece un modal. Un icono tematico distinto por tarjeta
+                  contaba el tema y se comia esa senal, y una flecha a la
+                  derecha prometia navegacion a otra pagina.
+
+                  `expandir` son dos cuñas contrapuestas que al pasar por
+                  encima se apartan, de modo que el propio gesto es el mensaje.
+                  Decorativo (`pointer-events-none`) para que el boton
+                  invisible de debajo reciba la pulsacion. */}
+              <div
+                class="pointer-events-none absolute right-6 top-6 z-10 grid h-11 w-11 place-items-center rounded-md bg-bg-soft transition-transform duration-300 group-hover:scale-110"
+                aria-hidden="true"
               >
-                <polyline points="9 6 15 12 9 18" />
-              </svg>
+                <Icon name="expandir" size={24} class="icon-expand text-fg" />
+              </div>
+
+              <h3 class="pr-14 text-xl font-bold leading-snug text-fg">{item.title}</h3>
+              <p class="mt-4 line-clamp-6 text-[15px] leading-relaxed text-muted">{item.body}</p>
+
+              {/* Invisible full-card click target. Sits above the static text so
+                  clicks anywhere on the card trigger the modal. Sin redondeo
+                  propio: ahora las esquinas las pone el contenedor. */}
+              <button
+                type="button"
+                data-modal-trigger={`whyus-modal-${i}`}
+                aria-label={`Ver más: ${item.title}`}
+                class="absolute inset-0 cursor-pointer focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+              />
             </div>
-
-            <h3 class="pr-14 text-xl font-bold leading-snug text-fg">{item.title}</h3>
-            <p class="mt-4 text-[15px] leading-relaxed text-muted">{item.body}</p>
-
-            {/* Invisible full-card click target. Sits above the static text so
-                clicks anywhere on the card trigger the modal. */}
-            <button
-              type="button"
-              data-modal-trigger={`whyus-modal-${i}`}
-              aria-label={`Ver más: ${item.title}`}
-              class="absolute inset-0 cursor-pointer rounded-[15px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            />
+            <LatticeDots seed={307 + i * 7} />
           </li>
         ))
       }
@@ -72,24 +82,17 @@ const t = content[lang].whyUs;
           data-whyus-modal
           aria-labelledby={titleId}
         >
-          {/* Close button: small square pill, top-right inside the modal */}
+          {/* Close button: small square pill, top-right inside the modal.
+              El icono va a 20 y no a 16 porque `cerrar` declara `minSize: 20`:
+              por debajo, el corte del cruce baja de un pixel y los cuatro
+              brazos se empastan en dos barras. */}
           <button
             type="button"
             data-modal-close
-            aria-label="Cerrar"
+            aria-label={lang === 'es' ? 'Cerrar' : 'Close'}
             class="absolute right-5 top-5 z-20 grid h-9 w-9 place-items-center rounded-lg bg-bg-soft text-accent transition-colors hover:bg-border"
           >
-            <svg
-              class="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.75"
-              stroke-linecap="round"
-            >
-              <line x1="6" y1="6" x2="18" y2="18" />
-              <line x1="18" y1="6" x2="6" y2="18" />
-            </svg>
+            <Icon name="cerrar" size={20} />
           </button>
 
           {/* Scrollable content area, scrollbar hidden by .no-scrollbar */}
@@ -114,18 +117,7 @@ const t = content[lang].whyUs;
                       class="btn-primary hover:btn-primary-hover inline-flex items-center gap-2"
                     >
                       {item.modal.cta.label}
-                      <svg
-                        class="h-4 w-4"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                        <polyline points="12 5 19 12 12 19" />
-                      </svg>
+                      <Icon name="flecha-derecha" size={16} />
                     </a>
                   </div>
                 </div>
@@ -137,17 +129,7 @@ const t = content[lang].whyUs;
                         class="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent text-bg"
                         aria-hidden="true"
                       >
-                        <svg
-                          class="h-3 w-3"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="3"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
+                        <Icon name="correcto" size={12} />
                       </span>
                       <span>
                         <span class="block font-bold leading-snug text-fg">{b.title}</span>
@@ -238,6 +220,9 @@ const t = content[lang].whyUs;
       if (!id) return;
       const dialog = document.getElementById(id) as HTMLDialogElement | null;
       dialog?.showModal();
+      // Los diagramas dentro del modal se miden a sí mismos, y mientras el
+      // <dialog> está cerrado su ancho es 0. Al abrirlo, que se reajusten.
+      document.dispatchEvent(new Event('dg:refit'));
     });
   });
 

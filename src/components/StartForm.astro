@@ -1,5 +1,6 @@
 ---
 import { type Lang, content } from '../i18n/ui';
+import Icon from './Icon.astro';
 import { routeMap } from '../i18n/utils';
 
 interface Props {
@@ -167,7 +168,7 @@ const field =
       {/* Stays in view while the form is filled in, so the promise is on screen
           at the moment the reader decides whether to finish. */}
       <aside class="lg:sticky lg:top-28 lg:self-start">
-        <div class="rounded-2xl bg-bg-soft p-7">
+        <div class="bg-bg-soft p-7">
           <h2 class="text-lg font-bold text-fg">{t.getHeading}</h2>
           <ul class="mt-4 space-y-3.5">
             {t.get.map((item) => (
@@ -176,17 +177,7 @@ const field =
                   class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent text-bg"
                   aria-hidden="true"
                 >
-                  <svg
-                    class="h-3 w-3"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="3"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+                  <Icon name="correcto" size={12} />
                 </span>
                 <span>{item}</span>
               </li>
@@ -194,7 +185,7 @@ const field =
           </ul>
         </div>
 
-        <div class="mt-6 rounded-2xl border border-border p-7">
+        <div class="mt-6 border border-border-soft p-7">
           <h2 class="text-lg font-bold text-fg">{t.notHeading}</h2>
           <ul class="mt-4 space-y-3.5">
             {t.not.map((item) => (

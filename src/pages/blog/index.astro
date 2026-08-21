@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { content } from '../../i18n/ui';
 import { altsFor, localizedPath } from '../../i18n/utils';
+import PostCover from '../../components/PostCover.astro';
 
 const lang = 'es' as const;
 const t = content[lang];
@@ -28,25 +29,18 @@ const fmt = (d: Date) =>
       <p class="mt-5 text-lg text-muted">{t.blog.subtitle}</p>
     </header>
 
-    <div class="mt-14 grid gap-6">
+    {/* Filas de un bloque continuo, no tarjetas sueltas: el lenguaje de la
+        home (carrusel, FAQ, servicios). `divide-y` separa las entradas y
+        `border-y` cierra el bloque. El hover pasa de sombra a fondo suave. */}
+    <div class="mt-14 divide-y divide-border-soft border-y border-border-soft">
       {
         posts.map((post) => (
-          <article class="card-soft hover:card-soft-hover group relative flex flex-col overflow-hidden sm:flex-row">
+          <article class="group relative flex flex-col overflow-hidden bg-bg transition-colors duration-300 hover:bg-border/30 sm:flex-row">
             <div class="aspect-[4/3] w-full shrink-0 overflow-hidden bg-bg-soft sm:aspect-auto sm:w-72 lg:w-80">
-              {post.data.heroImage ? (
-                <img
-                  src={post.data.heroImage}
-                  alt={post.data.title}
-                  loading="lazy"
-                  decoding="async"
-                  class="h-full w-full object-cover"
-                />
-              ) : (
-                <div
-                  class="h-full w-full"
-                  style="background: linear-gradient(135deg, #e9e7ff, #c9c7ff);"
-                />
-              )}
+              {/* Misma portada que el acordeon de la home: si el post no trae
+                  imagen, se genera con la paleta del diamante. `compact` deja
+                  el titulo fuera porque la tarjeta ya lo muestra al lado. */}
+              <PostCover title={post.data.title} image={post.data.heroImage} compact />
             </div>
             <div class="flex flex-1 flex-col p-7 sm:p-8">
               <div class="flex flex-wrap items-center gap-3">

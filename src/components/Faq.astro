@@ -1,5 +1,6 @@
 ---
 import { type Lang, content } from '../i18n/ui';
+import FaqList from './FaqList.astro';
 
 interface Props {
   lang: Lang;
@@ -24,59 +25,8 @@ const t = content[lang].faq;
       <p class="mt-5 text-lg text-muted">{t.subtitle}</p>
     </header>
 
-    <div class="mt-12 space-y-4">
-      {
-        t.items.map((item) => (
-          <details name="faq" class="group overflow-hidden rounded-[28px] border border-border bg-bg [&_summary]:list-none">
-            <summary class="flex cursor-pointer items-center gap-4 px-6 py-5 text-left font-semibold text-fg [&::-webkit-details-marker]:hidden">
-              <span class="grid h-6 w-6 shrink-0 place-items-center text-accent" aria-hidden="true">
-                {/* Thin stroke +, swaps to a minus when the panel is open */}
-                <svg
-                  class="h-5 w-5 group-open:hidden"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.75"
-                  stroke-linecap="round"
-                >
-                  <line x1="12" y1="5" x2="12" y2="19" />
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                <svg
-                  class="hidden h-5 w-5 group-open:block"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.75"
-                  stroke-linecap="round"
-                >
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-              </span>
-              <span class="text-base sm:text-[17px]">{item.q}</span>
-            </summary>
-
-            {item.image ? (
-              <div>
-                <img
-                  src={item.image}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  class="aspect-[21/9] w-full object-cover"
-                />
-                <p class="px-6 pb-6 pl-[3.5rem] pr-10 pt-5 text-[15px] leading-relaxed text-muted">
-                  {item.a}
-                </p>
-              </div>
-            ) : (
-              <p class="px-6 pb-5 pl-[3.5rem] pr-10 text-[15px] leading-relaxed text-muted">
-                {item.a}
-              </p>
-            )}
-          </details>
-        ))
-      }
-    </div>
+    {/* La lista vive en FaqList, compartida con las páginas largas para que la
+        misma pieza se vea y se comporte igual en todo el sitio. */}
+    <FaqList items={t.items} group="faq-home" class="mt-12" />
   </div>
 </section>

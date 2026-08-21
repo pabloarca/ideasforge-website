@@ -1,0 +1,68 @@
+---
+/*
+  Puntos en el cruce entre una costura de sección y los raíles verticales.
+
+  Van en el flujo del documento y no dentro de `EdgeRails`, y no es un capricho:
+  los raíles están fijos al viewport, así que no se mueven al bajar y no pueden
+  llevar marcas ancladas a un punto concreto de la página. El cruce sí es un
+  punto concreto, de modo que la marca tiene que viajar con el documento.
+
+  La anchura replica la del contenedor de las secciones pero SIN su acolchado
+  lateral, que es lo que hace que la linea llegue justo hasta los railes en vez
+  de quedarse a 32 px de ellos.
+
+  Dos formas de usarlo, segun de donde salga la linea:
+
+  - Con `line`: la dibuja este componente. Es lo que hace falta entre dos
+    secciones del mismo color, donde si no no habria nada que cruzar.
+  - Sin `line`: la linea es el propio cambio de fondo de una seccion a la
+    siguiente. Solo vale si los fondos son de verdad distintos. Entre dos
+    blancas, un punto aqui marcaria un cruce que nadie ve y se lee como
+    suciedad, asi que hay que comprobarlo antes de anadir uno nuevo.
+
+  Los puntos se reservan para 1360 px en adelante, que es cuando existen los
+  railes. La linea, cuando la hay, se ve siempre.
+*/
+import { entrada, prng } from '../lib/prng';
+
+interface Props {
+  /** Cambia el sorteo sin dejar de ser reproducible. */
+  seed: number;
+  /** Probabilidad de que ese lado lleve punto. */
+  chance?: number;
+  /** Dibuja la linea. Necesario entre secciones del mismo color. */
+  line?: boolean;
+}
+const { seed, chance = 0.7, line = false } = Astro.props;
+
+const rand = prng(seed);
+const izquierda = rand() < chance;
+const derecha = rand() < chance;
+const viaIzq = entrada(rand);
+const viaDer = entrada(rand);
+---
+
+<div class="relative mx-auto w-full max-w-7xl" aria-hidden="true">
+  {line && <div class="border-t border-border"></div>}
+
+  {
+    (izquierda || derecha) && (
+      <div class="pointer-events-none absolute inset-x-0 top-0 z-30 hidden h-0 min-[1360px]:block">
+        {izquierda && (
+          <span
+            data-crystal
+            class="absolute -left-[1.5px] -top-[1.5px] h-[3px] w-[3px] bg-accent/35"
+            style={`--dx:${viaIzq.dx};--dy:${viaIzq.dy};--cs:${viaIzq.cs};--cd:${viaIzq.cd}`}
+          />
+        )}
+        {derecha && (
+          <span
+            data-crystal
+            class="absolute -right-[1.5px] -top-[1.5px] h-[3px] w-[3px] bg-accent/35"
+            style={`--dx:${viaDer.dx};--dy:${viaDer.dy};--cs:${viaDer.cs};--cd:${viaDer.cd}`}
+          />
+        )}
+      </div>
+    )
+  }
+</div>

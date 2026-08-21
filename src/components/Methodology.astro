@@ -1,5 +1,6 @@
 ---
 import { type Lang, content } from '../i18n/ui';
+import Icon from './Icon.astro';
 
 interface Props {
   lang: Lang;
@@ -21,18 +22,29 @@ const last = t.steps.length - 1;
 <section class="bg-bg-soft py-20 sm:py-28">
   <div class="mx-auto max-w-7xl px-5 sm:px-8">
     <header class="mx-auto max-w-2xl text-center">
-      <p class="eyebrow">{t.eyebrow}</p>
+      {/* No eyebrow here: "Nuestro método" was a synonym of the heading below. */}
       <h2 class="mt-4 text-4xl font-bold tracking-tight text-fg sm:text-5xl">
         {t.title}
       </h2>
       <p class="mt-4 text-lg text-muted">{t.subtitle}</p>
     </header>
 
-    {/* The route. Each step is a two-column grid: a rail holding the numbered
-        marker and the segment that links it to the next one, and the content.
-        The rail column stretches to the full height of the row, so the segment
-        spans exactly the gap down to the following marker. */}
-    <ol class="mx-auto mt-16 max-w-4xl sm:mt-20">
+    {/* The route. Each step is a two-column grid: a rail holding the tally and
+        the segment that links it to the next one, and the content. The rail
+        column stretches to the full height of the row, so the segment spans
+        exactly the gap down to the following marker.
+
+        The rail counts with bars instead of "01/02/03". Each step shows one
+        bar more than the one above it and the new bar is the topmost, so the
+        tally grows upward as the reader descends and ends as four black bars.
+        The stack is bottom-anchored (`justify-end`) inside a box sized to the
+        full four, which keeps the bottom bar on the same line as the heading
+        no matter how many bars that step draws.
+
+        `role="list"` is here because Tailwind's preflight removes the list
+        marker, and with it VoiceOver drops the list semantics. Those semantics
+        are what now carry the step order, since the visible number is gone. */}
+    <ol role="list" class="mx-auto mt-16 max-w-4xl sm:mt-20">
       {
         t.steps.map((step, i) => (
           <li
@@ -41,9 +53,40 @@ const last = t.steps.length - 1;
             style={`transition-delay: ${i === 0 ? 0 : 60}ms`}
           >
             <div class="flex flex-col items-center">
-              <span class="route-marker grid h-11 w-11 shrink-0 place-items-center rounded-full border-2 border-border bg-bg text-base font-bold text-accent sm:h-14 sm:w-14 sm:text-xl">
-                {String(i + 1).padStart(2, '0')}
-              </span>
+              {/* Two measurements make the tally sit right, and both are tied
+                  to the heading rather than guessed:
+
+                  - Height is `1em` at the heading's own size (hence the
+                    text-2xl/text-3xl on a box that holds no text). The font's
+                    ascent is one em, so the bottom edge of this box lands on
+                    the heading's baseline. Anchoring the stack to the bottom
+                    of the full line box instead left the bars floating below
+                    the text, because a line box also reserves descender room.
+                  - Bars are 2px with a 2-3px gap, so all four stack to 14px on
+                    mobile and 17px from `sm` up, against a cap height of about
+                    0.7em (17px and 21px). Four bars therefore never grow past
+                    the capital letters they sit beside.
+
+                  Bar width is then set to that same 14/17px, so the finished
+                  four-bar tally is square rather than a wide strip. The width
+                  is tied to the stack height on purpose: change the bar
+                  thickness or the gap and this number has to follow, or the
+                  block stops being square. */}
+              <div
+                class="flex h-[1em] w-[14px] shrink-0 flex-col justify-end gap-0.5 text-2xl sm:w-[17px] sm:gap-[3px] sm:text-3xl"
+                aria-hidden="true"
+              >
+                {Array.from({ length: i + 1 }, (_, j) => (
+                  <span
+                    class:list={[
+                      'h-0.5 w-full rounded-full bg-fg',
+                      /* Only the bar this step adds draws itself in. The ones
+                         below it were already there on the step above. */
+                      j === 0 && 'route-bar-new',
+                    ]}
+                  />
+                ))}
+              </div>
               {i < last && (
                 <span class="route-line mt-4 w-0.5 flex-1 rounded-full bg-border" aria-hidden="true" />
               )}
@@ -85,19 +128,7 @@ const last = t.steps.length - 1;
         class="btn-primary hover:btn-primary-hover inline-flex w-full justify-center sm:w-auto"
       >
         {t.cta.label}
-        <svg
-          class="h-4 w-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <line x1="5" y1="12" x2="19" y2="12" />
-          <polyline points="12 5 19 12 12 19" />
-        </svg>
+        <Icon name="flecha-derecha" size={16} />
       </a>
     </div>
   </div>

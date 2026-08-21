@@ -1,0 +1,94 @@
+---
+/*
+  Página vertical (inmobiliarias, gestorías y sus espejos ingleses). El mismo
+  marcado estaba copiado en cuatro archivos y cada retoque había que hacerlo
+  cuatro veces: aquí vive una sola vez y las páginas quedan en diez líneas.
+
+  Problema y solución van en retícula continua, el lenguaje de la home: celdas
+  que comparten línea (`gap-px` sobre fondo del color del borde), sin sombras
+  ni esquinas redondeadas. Antes eran dos tarjetas sueltas con sombra lavanda.
+
+  El ritmo de fondos depende de si hay bloque `extra` (solo lo usa
+  real-estate): hero blanco, retícula suave, prueba blanca, y a partir de ahí
+  extra suave y CTA blanca, o CTA suave si no hay extra. Así nunca quedan dos
+  bandas seguidas del mismo color.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { type Lang, type VerticalPageContent } from '../i18n/ui';
+import { altsFor, localizedPath, routeMap } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  page: VerticalPageContent;
+  title: string;
+  description: string;
+  routeKey: keyof typeof routeMap;
+}
+const { lang, page: p, title, description, routeKey } = Astro.props;
+---
+
+<BaseLayout lang={lang} title={title} description={description} alternates={altsFor(routeKey)}>
+  <section class="bg-bg py-16 sm:py-24">
+    <div class="mx-auto max-w-4xl px-5 text-center sm:px-8">
+      {p.hero.eyebrow && <span class="eyebrow-pill">{p.hero.eyebrow}</span>}
+      <h1 class="mt-7 text-balance text-4xl font-bold leading-[1.05] tracking-tight text-fg sm:text-5xl lg:text-6xl">
+        {p.hero.title}
+      </h1>
+      <p class="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
+        {p.hero.subtitle}
+      </p>
+      <div class="mt-9">
+        <a href={localizedPath('/#contacto', lang)} class="btn-primary hover:btn-primary-hover">
+          {p.hero.cta}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bg-soft py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <div class="grid gap-px border border-border bg-border md:grid-cols-2">
+        <div class="bg-bg p-8">
+          <h2 class="text-2xl font-bold text-fg">{p.problem.heading}</h2>
+          <p class="mt-4 text-[15px] leading-relaxed text-muted">{p.problem.body}</p>
+        </div>
+        <div class="bg-bg p-8">
+          <h2 class="text-2xl font-bold text-fg">{p.solution.heading}</h2>
+          <p class="mt-4 text-[15px] leading-relaxed text-muted">{p.solution.body}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bg py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">
+      <p class="eyebrow">{p.proof.heading}</p>
+      <p class="mt-4 text-balance text-2xl font-bold leading-snug text-fg sm:text-3xl">
+        {p.proof.body}
+      </p>
+    </div>
+  </section>
+
+  {
+    p.extra && (
+      <section class="bg-bg-soft py-16 sm:py-20">
+        <div class="mx-auto max-w-3xl px-5 sm:px-8">
+          <h2 class="text-2xl font-bold text-fg sm:text-3xl">{p.extra.heading}</h2>
+          <p class="mt-4 text-[15px] leading-relaxed text-muted sm:text-base">{p.extra.body}</p>
+        </div>
+      </section>
+    )
+  }
+
+  <section class={`${p.extra ? 'bg-bg' : 'bg-bg-soft'} py-16 sm:py-20`}>
+    <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">
+      <h2 class="text-3xl font-bold tracking-tight text-fg sm:text-4xl">{p.cta.heading}</h2>
+      <p class="mt-4 text-lg text-muted">{p.cta.body}</p>
+      <div class="mt-7">
+        <a href={localizedPath('/#contacto', lang)} class="btn-primary hover:btn-primary-hover">
+          {p.cta.button}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,59 @@
+---
+/*
+  Portada de una entrada del blog. Si el post trae `heroImage`, se usa esa. Si
+  no, se genera una con el lenguaje del kit de gráficos: degradado oscuro,
+  cuadrícula tenue y el título encima.
+
+  El sorteo va con semilla derivada del título, así que cada entrada tiene
+  siempre la misma portada y dos compilaciones seguidas no producen
+  diferencias. La familia rota entre las tres del diamante (cian, magenta y
+  cálido sobre base azul) para que una fila de portadas no se vea monótona sin
+  salirse de la figura de la que salen los colores.
+*/
+import GridBackdrop from './graficos/GridBackdrop.astro';
+import { coverFamilies, seedFrom } from './graficos/gradients';
+
+interface Props {
+  title: string;
+  image?: string;
+  /** Oculta el título sobre la portada generada, para miniaturas pequeñas. */
+  compact?: boolean;
+  class?: string;
+}
+const { title, image, compact = false, class: className = '' } = Astro.props;
+
+const seed = seedFrom(title);
+const family = coverFamilies[seed % coverFamilies.length];
+---
+
+{
+  image ? (
+    <img
+      src={image}
+      alt=""
+      loading="lazy"
+      decoding="async"
+      class:list={['h-full w-full object-cover', className]}
+    />
+  ) : (
+    <div
+      class:list={['relative h-full w-full overflow-hidden', className]}
+      style={`background:${family}`}
+    >
+      <GridBackdrop seed={seed % 9973} cell={44} fillChance={0.22} dotChance={0.26} />
+      {/*
+        `data-cover-title` es el asidero para que quien coloque la portada
+        decida si el título se ve. En el acordeón del blog solo se muestra en la
+        hoja abierta: sobre un canto de veinticinco píxeles no se leería nada.
+      */}
+      {!compact && (
+        <p
+          data-cover-title
+          class="absolute inset-x-0 bottom-0 line-clamp-4 p-6 text-lg font-bold leading-snug text-white"
+        >
+          {title}
+        </p>
+      )}
+    </div>
+  )
+}

@@ -10,6 +10,8 @@ export const languages = {
   en: 'English',
 } as const;
 
+import type { IconName } from '../lib/icons';
+
 export type Lang = keyof typeof languages;
 
 export const defaultLang: Lang = 'es';
@@ -33,6 +35,15 @@ export interface ServiceItem {
   description: string;
   proof?: string;             // short chip text, e.g. "Como en Barceloneta Premium"
   href?: string;              // optional path to a dedicated landing
+  /** Nombre de la página de destino, en el mismo vocabulario que el
+   *  desplegable de la cabecera. La tarjeta vende el resultado y esto dice a
+   *  dónde lleva, que es el puente que faltaba entre las dos listas. En dos
+   *  casos hace además de aviso: la tarjeta ofrece un servicio y la etiqueta
+   *  avisa de que se aterriza en un vertical. */
+  pageLabel?: string;
+  /** Icono del set «Astilla» que se revela al pasar por encima de la tarjeta.
+   *  Tipado contra el set: un nombre inventado rompe la compilación. */
+  icon?: IconName;
 }
 
 export interface ServiceGroup {
@@ -229,8 +240,13 @@ export interface SiteContent {
     subtitle: string;
     readMore: string;
     viewAll: string;
+    /** Sin flecha en el texto: la pone el icono compartido. */
     backToBlog: string;
     publishedOn: string;
+    /** Posición dentro del carrusel: «Artículo 3 de 8». Se parte en dos para
+     *  que el número lo escriba el script sin tocar la traducción. */
+    counterLabel: string;
+    counterOf: string;
   };
   faq: {
     eyebrow: string;
@@ -307,7 +323,8 @@ export interface EnterprisePageContent {
 }
 
 export interface SmbPageContent {
-  hero: { eyebrow: string; title: string; subtitle: string; cta: string };
+  /** Optional: dropped when the H1 already carries the eyebrow's subject. */
+  hero: { eyebrow?: string; title: string; subtitle: string; cta: string };
   packages: {
     heading: string;
     subtitle: string;
@@ -317,7 +334,8 @@ export interface SmbPageContent {
 }
 
 export interface VerticalPageContent {
-  hero: { eyebrow: string; title: string; subtitle: string; cta: string };
+  /** Optional: dropped when the H1 already carries the eyebrow's subject. */
+  hero: { eyebrow?: string; title: string; subtitle: string; cta: string };
   problem: { heading: string; body: string };
   solution: { heading: string; body: string };
   proof: { heading: string; body: string };
@@ -347,7 +365,7 @@ export interface LongFormPageContent {
    * `ctaHref` overrides the default contact anchor. Informational pages point
    * it at an in-page section so they don't ask for the sale on first contact.
    */
-  hero: { eyebrow: string; title: string; subtitle: string; cta: string; ctaHref?: string };
+  hero: { eyebrow?: string; title: string; subtitle: string; cta: string; ctaHref?: string };
   sections: LongFormSection[];
   /** Hard numbers, rendered right after the hero. Only real ones: two beat three padded. */
   stats?: WhyUsStat[];
@@ -459,30 +477,38 @@ export const content: Record<Lang, SiteContent> = {
         items: [
           {
             title: 'Respuestas sobre tu documentación interna',
+            icon: 'documentacion',
             description:
               'Un asistente que responde preguntas a partir de tu documentación interna y tus sistemas, sin que tu equipo tenga que buscar.',
-            proof: 'Caso en producción en industria',
+            proof: 'Empresa industrial',
+            pageLabel: 'Documentación interna',
             href: '/servicios/conocimiento-corporativo',
           },
           {
             title: 'Pregúntale a tus datos',
+            icon: 'tus-datos',
             description:
               'Tu equipo consulta los datos operativos en lenguaje natural, sin esperar a analítica.',
             proof: 'Como en Savian',
+            pageLabel: 'Desarrollo de agentes de IA',
             href: '/servicios/desarrollo-de-agentes-de-ia',
           },
           {
             title: 'Un agente para el trabajo repetitivo',
+            icon: 'automatizacion',
             description:
               'Registra facturas, lanza alertas y deja los datos en tus sistemas sin que nadie teclee. Tu equipo solo revisa lo dudoso.',
             proof: 'Como en Stanton',
+            pageLabel: 'Automatización de procesos con IA',
             href: '/servicios/automatizacion-de-procesos-con-ia',
           },
           {
             title: 'Consultoría y arquitectura',
+            icon: 'consultoria',
             description:
               'Diseñamos contigo el plan de IA y la arquitectura, sin venderte tecnología que no necesitas.',
-            href: '/agentes-de-ia',
+            pageLabel: 'Empezar la exploración',
+            href: '/empezar',
           },
         ],
       },
@@ -491,23 +517,29 @@ export const content: Record<Lang, SiteContent> = {
         items: [
           {
             title: 'Atención 24/7',
+            icon: 'atencion-247',
             description:
               'Un agente que atiende solicitudes en WhatsApp o web, responde lo habitual y cualifica al resto sin saturar al equipo.',
             proof: 'Como en Wazzy',
+            pageLabel: 'Agentes conversacionales',
             href: '/servicios/agentes-conversacionales',
           },
           {
             title: 'Cualificación de interesados',
+            icon: 'cualificacion',
             description:
               'Filtramos a los interesados antes de que lleguen al equipo de ventas, con tu CRM y tu proceso de ventas.',
             proof: 'Como en Barceloneta Premium',
+            pageLabel: 'IA para inmobiliarias',
             href: '/inmobiliarias',
           },
           {
             title: 'Soporte y mantenimiento',
+            icon: 'soporte',
             description:
               'No te dejamos un sistema y nos vamos. Lo operamos contigo, lo afinamos y absorbemos los modelos nuevos cuando salen.',
             proof: '103 controles en producción',
+            pageLabel: 'IA para pymes',
             href: '/pymes',
           },
         ],
@@ -728,12 +760,14 @@ export const content: Record<Lang, SiteContent> = {
     },
     blog: {
       eyebrow: 'Blog',
-      heading: 'Ideas y aprendizajes',
+      heading: 'Blog',
       subtitle: 'Lo que vamos descubriendo construyendo IA en producción con nuestros clientes.',
       readMore: 'Leer más',
       viewAll: 'Visitar blog',
-      backToBlog: '← Volver al blog',
+      backToBlog: 'Volver al blog',
       publishedOn: 'Publicado el',
+      counterLabel: 'Artículo',
+      counterOf: 'de',
     },
     faq: {
       eyebrow: 'FAQs',
@@ -881,6 +915,8 @@ export const content: Record<Lang, SiteContent> = {
         { label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
         { label: 'Documentación interna', href: '/servicios/conocimiento-corporativo' },
         { label: 'IA para pymes', href: '/pymes' },
+        { label: 'IA para inmobiliarias', href: '/inmobiliarias' },
+        { label: 'IA para gestorías', href: '/gestorias' },
       ],
     },
     pages: {
@@ -949,7 +985,6 @@ export const content: Record<Lang, SiteContent> = {
       },
       smb: {
         hero: {
-          eyebrow: 'Para pymes',
           title: 'La misma ingeniería, empaquetada para tu pyme',
           subtitle:
             'Cada paquete se acota a un resultado concreto y se presupuesta cerrado, con la misma profundidad técnica que usamos en proyectos grandes.',
@@ -991,7 +1026,6 @@ export const content: Record<Lang, SiteContent> = {
       },
       realEstate: {
         hero: {
-          eyebrow: 'Vertical · Inmobiliarias',
           title: 'Tu inmobiliaria atendiendo 24/7, sin desbordar al equipo',
           subtitle:
             'Un agente de IA que recibe la solicitud, hace las preguntas de calificación y solo escala al equipo humano las solicitudes que cumplen los criterios. Especialmente útil en los picos de demanda de alquiler.',
@@ -1017,7 +1051,7 @@ export const content: Record<Lang, SiteContent> = {
       },
       accounting: {
         hero: {
-          eyebrow: 'Vertical · Gestorías',
+          eyebrow: 'Gestorías',
           title: 'Documentos sin tocar: del PDF al ERP',
           subtitle:
             'Facturas, tickets y formularios escaneados que el equipo ya no tiene que copiar a mano. El OCR los lee, el modelo los estructura y una capa de validación comprueba que los totales cuadran.',
@@ -1046,7 +1080,6 @@ export const content: Record<Lang, SiteContent> = {
         metaDescription:
           'Un equipo pequeño que construye y mantiene sistemas de IA en producción y que opera su propio producto. Así trabajamos y por qué lo contamos con datos.',
         hero: {
-          eyebrow: 'Quiénes somos',
           title: 'Un equipo pequeño que mantiene lo que construye',
           subtitle:
             'No entregamos un sistema y desaparecemos. Operamos software propio en producción, con usuarios reales y esa experiencia es la que aplicamos en cada proyecto de cliente.',
@@ -1525,30 +1558,38 @@ export const content: Record<Lang, SiteContent> = {
         items: [
           {
             title: 'Answers from your internal documentation',
+            icon: 'documentacion',
             description:
               'An assistant that answers questions from your internal documentation and systems, so your team does not have to search.',
-            proof: 'In production at an industrial company',
+            proof: 'Industrial company',
+            pageLabel: 'Internal documentation',
             href: '/en/services/corporate-knowledge',
           },
           {
             title: 'Ask your data',
+            icon: 'tus-datos',
             description:
               'Your team queries operational data in natural language, no need to wait on analytics.',
             proof: 'Like at Savian',
+            pageLabel: 'AI agent development',
             href: '/en/ai-agent-development',
           },
           {
             title: 'An agent for repetitive work',
+            icon: 'automatizacion',
             description:
               'Registers invoices, fires alerts and lands the data in your systems with nobody typing. Your team only reviews the doubtful cases.',
             proof: 'Like at Stanton',
+            pageLabel: 'AI workflow automation',
             href: '/en/ai-workflow-automation',
           },
           {
             title: 'Consulting and architecture',
+            icon: 'consultoria',
             description:
               'We design the AI plan and architecture with you, without selling you tech you do not need.',
-            href: '/en/ai-automation',
+            pageLabel: 'Start the exploration',
+            href: '/en/get-started',
           },
         ],
       },
@@ -1557,23 +1598,29 @@ export const content: Record<Lang, SiteContent> = {
         items: [
           {
             title: '24/7 customer support',
+            icon: 'atencion-247',
             description:
               'An agent that handles requests on WhatsApp or web, answers the usual ones and qualifies the rest without overloading the team.',
             proof: 'Like at Wazzy',
+            pageLabel: 'Conversational AI',
             href: '/en/conversational-ai',
           },
           {
             title: 'Lead qualifier',
+            icon: 'cualificacion',
             description:
               'We filter prospects before they reach your sales team, with your CRM and your pipeline.',
             proof: 'Like at Barceloneta Premium',
+            pageLabel: 'AI for real estate',
             href: '/en/real-estate',
           },
           {
             title: 'Support and maintenance',
+            icon: 'soporte',
             description:
               'We do not drop a system and leave. We run it with you, tune it and absorb new models as they ship.',
             proof: '103 controls in production',
+            pageLabel: 'AI for small business',
             href: '/en/smb',
           },
         ],
@@ -1792,12 +1839,14 @@ export const content: Record<Lang, SiteContent> = {
     },
     blog: {
       eyebrow: 'Blog',
-      heading: 'Ideas and learnings',
+      heading: 'Blog',
       subtitle: 'What we discover while building AI in production with our clients.',
       readMore: 'Read more',
       viewAll: 'Visit blog',
-      backToBlog: '← Back to blog',
+      backToBlog: 'Back to blog',
       publishedOn: 'Published on',
+      counterLabel: 'Article',
+      counterOf: 'of',
     },
     faq: {
       eyebrow: 'FAQs',
@@ -1949,6 +1998,8 @@ export const content: Record<Lang, SiteContent> = {
         { label: 'Conversational AI', href: '/en/conversational-ai' },
         { label: 'Internal documentation', href: '/en/services/corporate-knowledge' },
         { label: 'AI for small business', href: '/en/smb' },
+        { label: 'AI for real estate', href: '/en/real-estate' },
+        { label: 'AI for accounting firms', href: '/en/accounting-firms' },
         { label: 'What an AI agent costs', href: '/en/ai-agent-development-cost' },
       ],
     },
@@ -2018,7 +2069,6 @@ export const content: Record<Lang, SiteContent> = {
       },
       smb: {
         hero: {
-          eyebrow: 'For small businesses',
           title: 'Same engineering, packaged for your small business',
           subtitle:
             'Each package is scoped to one concrete outcome and quoted as a fixed price, with the same depth we use on larger projects.',
@@ -2060,7 +2110,7 @@ export const content: Record<Lang, SiteContent> = {
       },
       realEstate: {
         hero: {
-          eyebrow: 'Vertical · Real estate and property management',
+          eyebrow: 'Real estate and property management',
           title: 'Your agency answering 24/7, without overloading the team',
           subtitle:
             'An AI agent that receives the request, asks the qualifying questions and only escalates the leads that match. Especially useful during rental-demand peaks.',
@@ -2090,7 +2140,7 @@ export const content: Record<Lang, SiteContent> = {
       },
       accounting: {
         hero: {
-          eyebrow: 'Vertical · Accounting firms',
+          eyebrow: 'Accounting firms',
           title: 'Documents untouched: from PDF to ERP',
           subtitle:
             'Invoices, tickets and scanned forms the team no longer needs to type in by hand. OCR reads them, the model structures them and a validation layer checks the totals add up.',
@@ -2119,7 +2169,6 @@ export const content: Record<Lang, SiteContent> = {
         metaDescription:
           'A small team that builds and maintains AI systems in production, and runs its own product. How we work and why we back it with numbers.',
         hero: {
-          eyebrow: 'About us',
           title: 'A small team that maintains what it builds',
           subtitle:
             'We don’t hand over a system and disappear. We run our own software in production, with real users, and that experience is what we bring to every client project.',
