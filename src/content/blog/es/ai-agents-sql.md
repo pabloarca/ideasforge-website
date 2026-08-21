@@ -1,25 +1,34 @@
 ---
-title: 'Agentes de IA que consultan tus datos: el patrón text-to-SQL'
-description: 'Cómo un agente de IA traduce preguntas en lenguaje natural a consultas SQL seguras, para que cualquiera del equipo obtenga respuestas sin esperar a analítica.'
+title: 'El agente que consulta tus datos no escribe SQL'
+description: 'El patrón text-to-SQL promete que el modelo escriba consultas. Nosotros lo construimos para Savian con la decisión contraria. Esa decisión es la que lo hace seguro.'
 lang: 'es'
 pubDate: 2025-08-12
+updatedDate: 2026-08-21
 translationId: 'ai-agents-sql'
-tags: ['Datos', 'Agentes', 'SQL']
+tags: ['Datos', 'Agentes', 'Seguridad']
 heroImage: '/blog/portada-sql.jpg'
 ---
 
-Acceder a los datos de la empresa no debería requerir saber SQL. Empresas como Uber o Pinterest llevan tiempo construyendo asistentes que traducen preguntas en lenguaje natural a consultas SQL, de modo que cualquier persona del equipo pueda obtener respuestas sin esperar a analítica.
+El patrón text-to-SQL es una de las promesas más repetidas del sector. Preguntas en lenguaje natural, «¿cuántos pedidos cerramos el mes pasado?». Un modelo escribe la consulta, la ejecuta y te devuelve la cifra. Nosotros construimos exactamente eso para Savian, un agente por el que dueños y responsables consultan sus datos de producción sin esperar a analítica. Y la decisión central del diseño fue la contraria a la que el nombre del patrón sugiere. Nuestro modelo no escribe SQL.
 
-## El patrón text-to-SQL
+## Por qué no dejamos que lo escriba
 
-La idea es sencilla: el usuario pregunta "¿cuántos pedidos cerramos el mes pasado?" y el agente genera la consulta, la ejecuta contra la base de datos y devuelve el resultado en lenguaje claro.
+Una consulta generada por un modelo es texto libre con acceso a una base de datos y el texto libre no se puede validar del todo. Puedes revisar mil consultas bien escritas sin ver la forma mil uno de equivocarse, la tabla equivocada con nombre parecido, el filtro que falta, la suma que cruza lo que no debía cruzarse. Con datos de varias empresas en el mismo almacén, ese margen de error no es un defecto estético. Es el riesgo entero del proyecto.
 
-## Dónde está la dificultad
+## Lo que entrega en su lugar
 
-El reto no es generar SQL, sino generar el SQL **correcto**: entender el esquema, respetar permisos, manejar tablas grandes y evitar consultas peligrosas. Ahí es donde el diseño del sistema marca la diferencia.
+El modelo entiende la pregunta y entrega un contrato en JSON con un esquema cerrado, el periodo, el ámbito, los filtros, la métrica y las agrupaciones. Nada más. Un código determinista valida ese contrato y construye la consulta con parámetros, con las columnas salidas de una lista cerrada que definimos nosotros. Ningún identificador se interpola desde texto del modelo, jamás.
 
-## Conclusión
+La diferencia práctica cabe en una frase. Un contrato con cinco campos conocidos se puede validar entero antes de ejecutar nada. Una consulta libre, no. El modelo hace lo que sabe hacer, entender la pregunta. El código hace lo que exige garantías, tocar los datos.
 
-Bien implementado, un agente text-to-SQL democratiza el acceso a los datos y acelera la toma de decisiones, sin convertir a todo el mundo en analista.
+## Lo que esa decisión compra
 
-Es el mismo patrón que usamos en nuestros proyectos. Si quieres ver cómo lo llevamos a producción, te lo contamos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia).
+Compra seguridad demostrable, porque los permisos se aplican sobre el contrato validado y la consulta final lleva su filtro incondicional, la última de las [cuatro capas de aislamiento](/blog/cuatro-capas-de-aislamiento) que contamos aparte. Y compra el resultado de negocio que justifica el proyecto, la espera por una cifra pasó de horas a segundos, sin abrir la puerta que el patrón ingenuo deja entornada.
+
+## La honestidad también se diseña
+
+Dos detalles del agente de Savian enseñan el resto del criterio. Cada respuesta abre declarando el periodo que se ha consultado, para que nadie tome una cifra de marzo por una de abril. Y cuando el sistema trabaja en modo degradado, con alguna fuente caída, lo dice y avisa de qué datos pueden faltar, en lugar de entregar un total incompleto con cara de completo.
+
+Las cifras, además, nunca salen de la memoria de la conversación. Un auditor interno fuerza una consulta fresca para cada número que se entrega. Esa pieza tiene [su propio artículo](/blog/el-auditor-que-no-se-fia).
+
+Si tu equipo espera horas por cada cifra, este patrón bien construido es de lo más rentable que existe. Así lo trabajamos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia), con el contrato, las capas y el auditor puestos desde el primer día.
