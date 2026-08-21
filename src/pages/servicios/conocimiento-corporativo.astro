@@ -1,14 +1,9 @@
 ---
-import EnterprisePage from '../../components/EnterprisePage.astro';
+import LongFormPage from '../../components/LongFormPage.astro';
 import { content } from '../../i18n/ui';
+import { altsFor } from '../../i18n/utils';
 
 const lang = 'es' as const;
-const t = content[lang];
 ---
 
-<EnterprisePage
-  lang={lang}
-  page={t.pages.enterprise}
-  title={t.meta.enterpriseTitle}
-  description={t.meta.enterpriseDescription}
-/>
+<LongFormPage lang={lang} page={content[lang].pages.enterprise} alternates={altsFor('enterprise')} />

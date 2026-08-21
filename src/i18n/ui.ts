@@ -315,7 +315,8 @@ export interface SiteContent {
   };
   /** Content blocks for the dedicated landing pages. */
   pages: {
-    enterprise: EnterprisePageContent;
+    /** Migrada a LongFormPage el 21 ago 2026: partes, FAQ y satélites de serie. */
+    enterprise: LongFormPageContent;
     smb: SmbPageContent;
     realEstate: VerticalPageContent;
     accounting: VerticalPageContent;
@@ -338,22 +339,6 @@ export interface SiteContent {
     /** Satelite del pilar de cumplimiento: posee `eu ai act compliance`. */
     aiAct?: LongFormPageContent;
   };
-}
-
-export interface EnterprisePageContent {
-  hero: { eyebrow: string; title: string; subtitle: string; cta: string };
-  forWhom: { heading: string; body: string };
-  problem: { heading: string; body: string };
-  whatWeBuild: { heading: string; body: string };
-  how: { heading: string; body: string };
-  /** `link` opcional: lleva al pilar de cumplimiento sin repetir su contenido. */
-  guarantees: { heading: string; body: string; link?: { label: string; href: string } };
-  proof: { heading: string; body: string };
-  capabilities: {
-    heading: string;
-    items: Array<{ title: string; body: string }>;
-  };
-  cta: { heading: string; body: string; button: string };
 }
 
 export interface SmbPageContent {
@@ -991,62 +976,156 @@ export const content: Record<Lang, SiteContent> = {
     },
     pages: {
       enterprise: {
+        tocHeading: 'Qué recorre esta página',
+        metaTitle: 'Asistente de IA sobre tu documentación interna, Ideasforge',
+        metaDescription:
+          'Para medianas y grandes empresas, un asistente que responde en lenguaje natural consultando tu documentación, tus wikis y tus sistemas. Con la prueba de un caso industrial en producción y sus números.',
         hero: {
           eyebrow: 'Para grandes empresas',
           title: 'Un asistente de IA sobre tu documentación y tu conocimiento interno',
           subtitle:
-            'Un asistente conversacional a medida que entiende preguntas en lenguaje natural y responde consultando tu documentación y tus sistemas internos, y, cuando hace falta, guía paso a paso o ejecuta acciones.',
-          cta: 'Cuéntanos tu reto',
+            'Un asistente conversacional a medida que entiende preguntas en lenguaje natural y responde consultando tu documentación y tus sistemas internos, con la referencia de dónde salió cada respuesta. Cuando hace falta, guía paso a paso o ejecuta acciones. Funciona hoy en una gran empresa industrial y esta página lo cuenta con números.',
+          cta: 'Ver la prueba en producción',
+          ctaHref: '#prueba',
         },
-        forWhom: {
-          heading: 'Para quién',
-          body: 'Medianas y grandes empresas con conocimiento y datos repartidos en documentación, wikis y sistemas internos (SharePoint, Azure, Confluence, ERP, sistemas industriales).',
-        },
-        problem: {
-          heading: 'El problema',
-          body: 'El conocimiento crítico vive en documentos densos, en sistemas distintos y en la cabeza de las personas con más experiencia. Encontrar una respuesta o diagnosticar un problema cuesta tiempo y depende de pocos.',
-        },
-        whatWeBuild: {
-          heading: 'Qué construimos',
-          body: 'Un buscador te devuelve diez documentos, pero no te da la respuesta. Aquí la persona pregunta con sus palabras y recibe la respuesta, con la referencia de dónde sale. Y cuando la consulta necesita un dato vivo de un sistema interno, el asistente va a buscarlo en lugar de citar un documento de hace dos años.',
-        },
-        how: {
-          heading: 'Cómo',
-          body: 'Búsqueda de calidad productiva sobre tu documentación, integración con tus sistemas y varios agentes coordinados que dirigen cada consulta al sitio correcto.',
-        },
-        guarantees: {
-          heading: 'Garantías para grandes empresas',
-          body: 'En tus servidores o en tu nube, con tu identidad corporativa y tus datos donde tú decidas. Y con la calidad medida de forma continua, no supuesta.',
-        },
-        proof: {
-          heading: 'Prueba en producción',
-          body: 'Construimos un asistente de planta para una gran empresa industrial. Operarios y supervisores consultan datos de producción y averías, hacen diagnóstico guiado de problemas en máquinas y resuelven dudas técnicas, todo en lenguaje natural, sobre su propia infraestructura.',
-        },
-        capabilities: {
-          heading: 'Capacidades técnicas',
-          items: [
-            {
-              title: 'Arquitectura multi-agente',
-              body: 'Un orquestador entiende la intención de cada consulta y la dirige a agentes especializados. Escala a múltiples casos de uso sin convertirse en un monolito difícil de mantener.',
-            },
-            {
-              title: 'Recuperación fiable de documentos',
-              body: 'La búsqueda que alimenta al modelo (RAG) está diseñada para dar respuestas completas y correctas, sin filtrar al usuario final detalles internos que no le corresponden.',
-            },
-            {
-              title: 'Calidad medible',
-              body: 'Bancos de pruebas que verifican automáticamente, antes de cada cambio, que el asistente sigue entendiendo y respondiendo bien.',
-            },
-            {
-              title: 'Integración con tus sistemas',
-              body: 'ERP, bases de datos, identidad corporativa y sistemas industriales.',
-            },
-            {
-              title: 'Seguridad y soberanía del dato',
-              body: 'En tus servidores o en tu propia nube, con las cuentas corporativas de tu organización y tus datos donde tú decidas.',
-            },
-          ],
-        },
+        stats: [
+          { value: '72 % → 91 %', label: 'de acierto del enrutado tras calibrarlo sobre 118 casos reales' },
+          { value: '6', label: 'agentes especializados coordinados por un orquestador en el caso industrial' },
+          { value: '~92 %', label: 'el techo que asumimos a conciencia, porque perseguir el cien moldea el examen' },
+        ],
+        sections: [
+          {
+            heading: 'Para quién es esta página',
+            part: 'A quién le pasa',
+            paragraphs: [
+              'Para medianas y grandes empresas cuyo conocimiento vive repartido entre documentación, wikis y sistemas, SharePoint, Azure, Confluence, el ERP, los sistemas industriales. Y en particular para la persona de I+D o de innovación que tiene que defender este proyecto delante de un comité, porque cada sección de esta página está pensada para darle argumentos que sobrevivan a las preguntas de seguridad, de sistemas y de legal.',
+              'Si tu empresa cabe en una frase, es esta. Hay respuestas que existen dentro de la organización y encontrarlas cuesta más que merecería, porque viven en un documento denso, en un sistema aparte o en la cabeza de las tres personas más veteranas.',
+            ],
+          },
+          {
+            heading: 'El conocimiento atrapado cuesta dinero todos los días',
+            part: 'A quién le pasa',
+            paragraphs: [
+              'El síntoma es conocido. Alguien necesita un dato técnico, un procedimiento o el histórico de un problema y la respuesta existe, pero está enterrada. Se pregunta al compañero, el compañero pregunta al veterano y el veterano lo sabe de memoria porque el documento que lo cuenta tiene doscientas páginas. Cada consulta de estas roba minutos a dos o tres personas a la vez, siempre a las mismas.',
+              'La factura real no son solo los minutos. Es la dependencia de unos pocos, que convierte cada vacación y cada jubilación en un riesgo operativo. Es la decisión tomada sin el dato, porque buscarlo costaba más que arriesgarse. Y es el conocimiento nuevo que deja de escribirse, porque nadie escribe para un archivo donde nada se encuentra.',
+            ],
+          },
+          {
+            heading: 'Un buscador te da diez documentos, esto te da la respuesta',
+            part: 'Lo que construimos',
+            paragraphs: [
+              'La diferencia con el buscador de siempre está en quién hace el trabajo final. Un buscador devuelve diez documentos donde puede estar la respuesta y la persona sigue teniendo que leerlos. Este asistente responde a la pregunta, en el idioma de quien pregunta. Y acompaña la respuesta con la referencia de dónde salió, para que verificar cueste un clic en lugar de una tarde.',
+              'Por debajo hay una búsqueda de calidad de producción sobre tu documentación, lo que el sector llama RAG, una recuperación de fragmentos relevantes que alimenta al modelo para que responda desde tus fuentes en lugar de desde su memoria. La palabra importa menos que el listón. Un RAG de demostración encuentra lo fácil. Uno de producción tiene que encontrar lo difícil, con documentos densos, vocabulario propio de la casa y preguntas mal formuladas a las tres de la tarde.',
+            ],
+          },
+          {
+            heading: 'Cuando la respuesta necesita datos vivos',
+            part: 'Lo que construimos',
+            paragraphs: [
+              'Hay preguntas que ningún documento responde bien, porque la respuesta cambia cada hora. El estado de una máquina, el histórico reciente de una avería, un dato de producción. Para esas, el asistente no cita un documento de hace dos años, consulta el sistema interno que tiene el dato y responde con lo que hay ahora mismo.',
+              'Esa mezcla es la que hace útil al asistente en el trabajo real, documentación para el conocimiento que se escribe una vez y sistemas para el que cambia cada día. Y cuando la consulta lo pide, el asistente guía paso a paso, un diagnóstico, un procedimiento. O ejecuta la acción directamente sobre los sistemas que tú apruebes.',
+            ],
+          },
+          {
+            heading: 'Media docena de agentes, un solo interlocutor',
+            part: 'Lo que construimos',
+            paragraphs: [
+              'A cierta escala, un solo agente que lo hace todo se convierte en un monolito imposible de mantener. Nuestra arquitectura para estos casos es otra. Un orquestador entiende la intención de cada pregunta y la enruta al agente especializado que corresponde, uno por dominio de conocimiento. En el caso industrial que sostiene esta página, ese orquestador coordina media docena de agentes especializados y el conjunto suma unos 86 nodos.',
+              'Para quien pregunta, nada de esto se ve. Escribe su pregunta y recibe su respuesta. La arquitectura importa por lo que permite, añadir un dominio nuevo sin tocar los demás, medir cada agente por separado y que un fallo en uno no arrastre al conjunto.',
+            ],
+          },
+          {
+            heading: 'Los dos «no» que un asistente serio distingue',
+            part: 'Cómo se gana la confianza',
+            paragraphs: [
+              'La confianza no se gana respondiendo bien, se gana respondiendo bien y negándose bien. Hay dos «no» distintos. El «esto queda fuera del producto», que se responde al instante y con texto de catálogo, sin gastar una búsqueda. Y el «esto debería estar documentado y no lo está», que solo se dice después de buscar de verdad y deja rastro, porque es una tarea para el equipo de documentación.',
+              'Confundirlos sale caro en las dos direcciones y separarlos tiene más ingeniería detrás de la que parece. Lo contamos con detalle en un artículo propio.',
+            ],
+            link: { label: 'Dos «no» que no son el mismo', href: '/blog/dos-noes-que-no-son-el-mismo' },
+          },
+          {
+            heading: 'La aclaración que no gasta un turno',
+            part: 'Cómo se gana la confianza',
+            paragraphs: [
+              'Un detalle de diseño que enseña cómo pensamos. Cuando el asistente ofrece varias opciones, la respuesta corta de la persona, un ordinal, un término suelto, un «la segunda», se resuelve sin llamar al modelo, con una lógica de términos y ordinales que caduca a los quince minutos. Parece un ahorro menor y es tres cosas a la vez, una respuesta instantánea, una llamada menos que pagar y un turno menos expuesto a instrucciones maliciosas escondidas en el texto.',
+              'La regla general detrás del detalle es que el modelo se usa donde aporta, entender lenguaje abierto. Se evita donde un programa normal hace el mismo trabajo más rápido, más barato y sin sorpresas.',
+            ],
+          },
+          {
+            heading: 'Cada uno ve lo que su rol permite, también aquí',
+            part: 'Cómo se gana la confianza',
+            paragraphs: [
+              'Un asistente que lee toda la documentación de la empresa plantea una pregunta obvia, la de quién puede preguntarle qué. Nuestra respuesta es que el asistente hereda los permisos que ya existen. La recuperación de documentos respeta el rol de quien pregunta, así que nadie recibe en una respuesta un fragmento que no podría abrir a mano. Y cuando el asistente consulta un sistema interno, viaja con la identidad de la persona, no con una cuenta de robot que lo ve todo.',
+              'Cada decisión queda además registrada, qué entendió, a dónde enrutó, qué respondió. Ese registro no se consulta durante la ejecución, existe para que alguien con una pregunta incómoda la pueda responder después con hechos.',
+            ],
+          },
+          {
+            heading: 'La prueba, un asistente de planta en una gran industrial',
+            id: 'prueba',
+            part: 'La prueba',
+            paragraphs: [
+              'Todo lo anterior funciona hoy en una gran empresa industrial. Operarios y supervisores consultan datos de producción y de averías, siguen diagnósticos guiados de máquinas y resuelven dudas técnicas, en lenguaje natural y sobre la infraestructura de la propia empresa.',
+              'Los números son públicos porque los medimos nosotros. La calibración del enrutado, la pieza que decide qué agente atiende cada pregunta, se midió sobre 118 casos reales y pasó del 72 % al 91 % de acierto. Probamos también un modelo más barato para esa pieza y el banco de pruebas lo vetó, perdía diez puntos globales. Y asumimos un techo a conciencia, alrededor del 92 %, porque perseguir el cien por cien acaba moldeando el examen a favor del sistema en lugar de mejorar el sistema.',
+              'Esa última decisión es la que más confianza suele generar en un comité técnico, porque es la que un vendedor de humo jamás contaría.',
+            ],
+          },
+          {
+            heading: 'Garantías para grandes empresas',
+            part: 'Garantías y encaje',
+            paragraphs: [
+              'El asistente corre en tu infraestructura, en tu nube o en tus servidores, con tu identidad corporativa para el acceso y con los datos donde tú decidas. El repositorio está a tu nombre desde el primer día. Y la calidad no se declara, se mide de continuo, con una batería de casos reales que frena cualquier cambio que empeore el sistema y una vigilancia semanal de lo que está en producción.',
+              'El coste de un sistema de este tamaño se presupuesta por proyecto, porque depende de tus fuentes, tus sistemas y tu exigencia de validación. La guía de coste explica qué mueve cada cifra y dónde se sale del rango estándar.',
+            ],
+            link: { label: 'Cuánto cuesta un agente de IA', href: '/cuanto-cuesta-un-agente-de-ia' },
+          },
+          {
+            heading: 'Capacidades técnicas',
+            part: 'Garantías y encaje',
+            kind: 'lattice',
+            paragraphs: [
+              'Para la revisión técnica, esto es lo que hay debajo, en una línea cada pieza.',
+            ],
+            bullets: [
+              'Arquitectura multiagente. Un orquestador entiende la intención y enruta a agentes especializados. Escala por dominios sin volverse un monolito.',
+              'Recuperación fiable. La búsqueda que alimenta al modelo está diseñada para respuestas completas y correctas, sin filtrar detalles internos a quien no debe verlos.',
+              'Calidad medible. Baterías de prueba que verifican antes de cada cambio que el asistente sigue entendiendo y respondiendo bien.',
+              'Integración con tus sistemas. ERP, bases de datos, identidad corporativa y sistemas industriales, con los permisos de cada persona.',
+              'Registro de decisiones. Cada interacción deja escrito qué se entendió y por qué se respondió lo que se respondió, para poder auditarlo después.',
+              'Soberanía del dato. Tu nube o tus servidores, tu identidad, tus datos donde decidas y el repositorio a tu nombre.',
+            ],
+          },
+        ],
+        faqHeading: 'Lo que preguntan antes de empezar',
+        faq: [
+          {
+            q: '¿Cuánto cuesta un asistente de conocimiento corporativo?',
+            a: 'Se presupuesta por proyecto, porque el coste depende del volumen y estado de tus fuentes, de cuántos sistemas se integran y de cuánta validación exiges antes de salir. Los sistemas multiagente de este tamaño quedan fuera de los rangos estándar que publicamos para agentes de un solo trabajo. La estructura del precio, construcción más operación mensual, es la misma. La guía de coste la desglosa.',
+          },
+          {
+            q: '¿Qué pasa con las preguntas que la documentación no cubre?',
+            a: 'El asistente lo dice, con honestidad y con rastro. Distinguimos el «queda fuera del producto» del «falta documentación», cada uno con su respuesta y su cola de trabajo, así que los huecos reales acaban convertidos en tareas para quien documenta. Un asistente que rellena huecos con seguridad fingida es exactamente lo que no construimos.',
+          },
+          {
+            q: '¿Los empleados verán documentos que no les tocan?',
+            a: 'No. La recuperación respeta los permisos de cada rol antes de que el modelo vea nada, así que un fragmento restringido no llega ni al contexto de la respuesta. Y las consultas a sistemas viajan con la identidad de quien pregunta, con sus permisos de siempre. Si alguien no puede abrir un dato a mano, su asistente tampoco.',
+          },
+          {
+            q: '¿Cómo se mantiene al día cuando la documentación cambia?',
+            a: 'La ingesta de documentos se relanza con los cambios y la calidad se vigila con dos ritmos, una batería de casos reales antes de cada cambio nuestro y una prueba semanal sobre el sistema vivo. Cuando algo deja de encontrarse o de entenderse bien, lo vemos en las métricas antes de que se convierta en queja.',
+          },
+          {
+            q: '¿Funciona con nuestro vocabulario y en varios idiomas?',
+            a: 'El vocabulario propio de la casa es precisamente el caso difícil para el que se calibra la búsqueda, con casos reales de tu gente y no con ejemplos de laboratorio. Los idiomas que hagan falta se definen en la exploración, el asistente responde en el idioma en el que se le pregunta.',
+          },
+          {
+            q: '¿Puede correr sin salir de nuestra infraestructura?',
+            a: 'El sistema completo corre en infraestructura tuya, nube o servidores propios. La llamada al modelo de lenguaje es la única pieza externa, va bajo los acuerdos y la configuración que apruebes y sin que tu contenido se use para entrenar. Desplegar el propio modelo en tus máquinas es un proyecto distinto que no hemos hecho en producción. Si es requisito hay que decirlo en la primera conversación.',
+          },
+          {
+            q: '¿Cuánto se tarda?',
+            a: 'La exploración lo responde con tus fuentes delante, no antes. La forma del proyecto sí es constante, un primer dominio de conocimiento acotado que entra en producción con su medición puesta y crecimiento dominio a dominio desde ahí. El caso industrial creció exactamente así.',
+          },
+        ],
         cta: {
           heading: '¿Te interesa para tu empresa?',
           body: 'Cuéntanos tu reto. Si no le vemos retorno, te lo diremos.',
@@ -2337,66 +2416,156 @@ export const content: Record<Lang, SiteContent> = {
     },
     pages: {
       enterprise: {
+        tocHeading: 'What this page covers',
+        metaTitle: 'AI Assistant over Your Internal Documentation, Ideasforge',
+        metaDescription:
+          'For mid-size and large companies, an assistant that answers in natural language by querying your documentation, wikis and systems. With the proof of an industrial case in production and its numbers.',
         hero: {
           eyebrow: 'Enterprise offering',
           title: 'An AI assistant over your internal documentation and knowledge',
           subtitle:
-            'A custom conversational assistant that understands natural-language questions and answers by querying your documentation and internal systems, and, when needed, guides step by step or takes actions.',
-          cta: 'Tell us your challenge',
+            'A custom conversational assistant that understands natural-language questions and answers by querying your documentation and internal systems, with a reference to where each answer came from. When needed, it guides step by step or takes actions. It runs today at a large industrial company, and this page tells that story with numbers.',
+          cta: 'See the proof in production',
+          ctaHref: '#proof',
         },
-        forWhom: {
-          heading: 'For whom',
-          body: 'Mid-size and large companies whose knowledge and data are scattered across documentation, wikis and internal systems (SharePoint, Azure, Confluence, ERP, industrial systems).',
-        },
-        problem: {
-          heading: 'The problem',
-          body: 'Critical knowledge lives in dense documents, in separate systems and in the heads of the most experienced people. Finding an answer or diagnosing a problem takes time and depends on a few.',
-        },
-        whatWeBuild: {
-          heading: 'What we build',
-          body: 'A search box returns ten documents; it does not give you the answer. Here a person asks in their own words and gets the answer, with a reference to where it came from. And when the question needs live data from an internal system, the assistant goes and fetches it instead of quoting a two-year-old document.',
-        },
-        how: {
-          heading: 'How',
-          body: 'Production-grade search over your documentation, integration with your systems and several coordinated agents that route each query to the right place.',
-        },
-        guarantees: {
-          heading: 'Enterprise guarantees',
-          body: 'On your infrastructure (on-premise or your cloud), with your corporate identity (SSO / Azure AD) and your data wherever you decide. With observability: we measure quality continuously.',
-          link: {
-            label: 'How this holds up under GDPR and the EU AI Act',
-            href: '/en/gdpr-compliant-ai',
+        stats: [
+          { value: '72% → 91%', label: 'routing accuracy after calibration on 118 real cases' },
+          { value: '6', label: 'specialised agents coordinated by one orchestrator in the industrial case' },
+          { value: '~92%', label: 'the ceiling we accept on purpose, because chasing 100 shapes the exam' },
+        ],
+        sections: [
+          {
+            heading: 'Who this page is for',
+            part: 'Who it happens to',
+            paragraphs: [
+              'For mid-size and large companies whose knowledge lives scattered across documentation, wikis and systems, SharePoint, Azure, Confluence, the ERP, the industrial systems. And in particular for the R&D or innovation lead who has to defend this project in front of a committee, because every section here is meant to hand that person arguments that survive the questions from security, IT and legal.',
+              'If your company fits in one sentence, it is this one. Answers exist inside the organisation, and finding them costs more than it should, because they live in a dense document, in a separate system or in the heads of the three most senior people.',
+            ],
           },
-        },
-        proof: {
-          heading: 'Proof in production',
-          body: 'We built a plant-floor assistant for a large industrial company. Operators and supervisors query production and fault data, run guided troubleshooting for machines and resolve technical questions, in natural language, on their own infrastructure.',
-        },
-        capabilities: {
-          heading: 'Technical capabilities',
-          items: [
-            {
-              title: 'Multi-agent architecture',
-              body: 'An orchestrator understands each query’s intent and routes it to specialized agents. Scales to multiple use cases without becoming an unmaintainable monolith.',
-            },
-            {
-              title: 'Reliable document retrieval',
-              body: 'The search that feeds the model (RAG) is designed to return complete and correct answers, without leaking internal details to the end user.',
-            },
-            {
-              title: 'Measurable quality',
-              body: 'Test suites that automatically verify, before every change, that the assistant still understands and answers correctly.',
-            },
-            {
-              title: 'Integration with your systems',
-              body: 'ERP, databases, corporate identity and industrial systems.',
-            },
-            {
-              title: 'Security and data sovereignty',
-              body: 'On-premise or your own cloud, corporate SSO, your data wherever you decide.',
-            },
-          ],
-        },
+          {
+            heading: 'Trapped knowledge costs money every day',
+            part: 'Who it happens to',
+            paragraphs: [
+              'The symptom is familiar. Someone needs a technical fact, a procedure or the history of a problem, and the answer exists but is buried. They ask a colleague, the colleague asks the veteran and the veteran knows it by heart because the document that holds it is two hundred pages long. Each of these queries steals minutes from two or three people at once, always the same ones.',
+              'The real bill is not only the minutes. It is the dependence on a few people, which turns every holiday and every retirement into an operational risk. It is the decision taken without the fact, because finding it cost more than the gamble. And it is the new knowledge that stops being written down, because nobody writes for an archive where nothing can be found.',
+            ],
+          },
+          {
+            heading: 'A search box gives you ten documents, this gives you the answer',
+            part: 'What we build',
+            paragraphs: [
+              'The difference from a search box is who does the final work. A search box returns ten documents where the answer might be, and the person still has to read them. This assistant answers the question, in the language of whoever asked, and attaches the reference of where the answer came from, so verifying costs one click instead of one afternoon.',
+              'Underneath sits production-grade retrieval over your documentation, what the sector calls RAG, a search that feeds relevant fragments to the model so it answers from your sources rather than from its memory. The word matters less than the bar. A demo RAG finds the easy things. A production one has to find the hard things, dense documents, house vocabulary and badly phrased questions at three in the afternoon.',
+            ],
+          },
+          {
+            heading: 'When the answer needs live data',
+            part: 'What we build',
+            paragraphs: [
+              'Some questions no document answers well, because the answer changes every hour. The state of a machine, the recent history of a fault, a production figure. For those, the assistant does not quote a two-year-old document. It queries the internal system that holds the fact and answers with what is true right now.',
+              'That mix is what makes the assistant useful in real work, documentation for the knowledge that gets written once, systems for the knowledge that changes daily. And when the query calls for it, the assistant guides step by step, a diagnosis, a procedure, or executes the action directly on the systems you approve.',
+            ],
+          },
+          {
+            heading: 'Half a dozen agents, one conversation',
+            part: 'What we build',
+            paragraphs: [
+              'At a certain scale, a single agent that does everything becomes a monolith nobody can maintain. Our architecture for these cases is different. An orchestrator understands the intent of each question and routes it to the specialised agent for that domain, one per area of knowledge. In the industrial case behind this page, that orchestrator coordinates half a dozen specialised agents and the whole adds up to some 86 nodes.',
+              'The person asking sees none of this. They write their question and get their answer. The architecture matters for what it allows, adding a new domain without touching the others, measuring each agent separately and keeping a failure in one from dragging down the rest.',
+            ],
+          },
+          {
+            heading: 'The two kinds of "no" a serious assistant tells apart',
+            part: 'How trust is earned',
+            paragraphs: [
+              'Trust is not earned by answering well alone. It is earned by answering well and refusing well. There are two different kinds of "no". The "this is outside the product", answered instantly with catalogue text, no search spent. And the "this should be documented and is not", said only after genuinely searching, and leaving a trace, because it is a task for whoever owns the documentation.',
+              'Confusing them is expensive in both directions, and separating them takes more engineering than it seems. We tell it in full in its own article.',
+            ],
+            link: { label: 'Two kinds of "no" that are not the same', href: '/en/blog/two-kinds-of-no' },
+          },
+          {
+            heading: 'The clarification that spends no turn',
+            part: 'How trust is earned',
+            paragraphs: [
+              'One design detail that shows how we think. When the assistant offers several options, the person’s short reply, an ordinal, a bare term, a "the second one", is resolved without calling the model, through plain term-and-ordinal logic that expires after fifteen minutes. It looks like a minor saving and is three things at once, an instant response, one less call to pay for and one less turn exposed to malicious instructions hidden in text.',
+              'The general rule behind the detail is that the model gets used where it earns its place, understanding open language, and avoided where an ordinary program does the same job faster, cheaper and without surprises.',
+            ],
+          },
+          {
+            heading: 'Everyone sees what their role allows, here too',
+            part: 'How trust is earned',
+            paragraphs: [
+              'An assistant that reads all of the company’s documentation raises an obvious question, who may ask it what. Our answer is that the assistant inherits the permissions that already exist. Retrieval respects the role of whoever asks, so nobody receives in an answer a fragment they could not open by hand. And when the assistant queries an internal system, it travels with the person’s identity, not with an all-seeing robot account.',
+              'Every decision is recorded as well, what was understood, where it was routed, what was answered. That record is never consulted during execution. It exists so that someone with an uncomfortable question can answer it later with facts.',
+            ],
+          },
+          {
+            heading: 'The proof, a plant-floor assistant at a large industrial company',
+            id: 'proof',
+            part: 'The proof',
+            paragraphs: [
+              'Everything above runs today at a large industrial company. Operators and supervisors query production and fault data, follow guided machine diagnoses and resolve technical questions, in natural language, on the company’s own infrastructure.',
+              'The numbers are public because we measured them. Routing calibration, the piece that decides which agent takes each question, was measured on 118 real cases and went from 72 to 91 percent accuracy. We also tried a cheaper model for that piece and the test battery vetoed it, ten points lost overall. And we accepted a ceiling on purpose, around 92 percent, because chasing one hundred percent ends up shaping the exam in the system’s favour instead of improving the system.',
+              'That last decision tends to earn the most trust in a technical committee, because it is the one a smoke seller would never tell.',
+            ],
+          },
+          {
+            heading: 'Enterprise guarantees',
+            part: 'Guarantees and fit',
+            paragraphs: [
+              'The assistant runs on your infrastructure, your cloud or your own servers, with your corporate identity for access and your data wherever you decide. The repository is in your name from day one. And quality is not declared, it is measured continuously, with a battery of real cases that blocks any change that degrades the system and a weekly watch on what is live.',
+              'A system of this size is quoted per project, because the cost depends on your sources, your systems and how much validation you demand. For how the rules of European data protection shape all of this, the full story is on its own page.',
+            ],
+            link: { label: 'GDPR-compliant AI on infrastructure you own', href: '/en/gdpr-compliant-ai' },
+          },
+          {
+            heading: 'Technical capabilities',
+            part: 'Guarantees and fit',
+            kind: 'lattice',
+            paragraphs: [
+              'For the technical review, this is what sits underneath, one line per piece.',
+            ],
+            bullets: [
+              'Multi-agent architecture. An orchestrator understands intent and routes to specialised agents. Scales by domain without becoming a monolith.',
+              'Reliable retrieval. The search that feeds the model is designed for complete, correct answers, without leaking internal detail to the wrong reader.',
+              'Measurable quality. Test batteries verify before every change that the assistant still understands and answers correctly.',
+              'Integration with your systems. ERP, databases, corporate identity and industrial systems, under each person’s own permissions.',
+              'Decision log. Every interaction leaves a written record of what was understood and why the answer was given, auditable afterwards.',
+              'Data sovereignty. Your cloud or your servers, your identity, your data where you decide and the repository in your name.',
+            ],
+          },
+        ],
+        faqHeading: 'What gets asked before starting',
+        faq: [
+          {
+            q: 'How much does a corporate knowledge assistant cost?',
+            a: 'It is quoted per project, because the cost depends on the volume and state of your sources, how many systems get integrated and how much validation you demand before going live. Multi-agent systems of this size sit outside the standard ranges we publish for single-job agents. The price structure, build plus monthly operation, is the same, and the cost guide breaks it down.',
+          },
+          {
+            q: 'What about questions the documentation does not cover?',
+            a: 'The assistant says so, honestly and with a trace. We separate "outside the product" from "missing documentation", each with its own answer and its own work queue, so real gaps end up as tasks for whoever owns the documentation. An assistant that fills gaps with fake confidence is exactly what we refuse to build.',
+          },
+          {
+            q: 'Will employees see documents that are not theirs to see?',
+            a: 'No. Retrieval respects each role’s permissions before the model sees anything, so a restricted fragment never even enters the answer’s context. And system queries travel with the identity of the person asking, under their usual permissions. If someone cannot open a record by hand, their assistant cannot either.',
+          },
+          {
+            q: 'How does it stay current when documentation changes?',
+            a: 'Document ingestion is re-run as things change, and quality is watched with two rhythms, a battery of real cases before each change of ours and a weekly probe on the live system. When something stops being found or understood, it shows in the metrics before it becomes a complaint.',
+          },
+          {
+            q: 'Does it handle our house vocabulary, and several languages?',
+            a: 'House vocabulary is precisely the hard case the retrieval gets calibrated for, with real cases from your people rather than lab examples. The languages you need are defined during exploration, and the assistant answers in the language it is asked in.',
+          },
+          {
+            q: 'Can it run without leaving our infrastructure?',
+            a: 'The full system runs on infrastructure you own, cloud or on-premise servers. The call to the language model is the only external piece, it runs under agreements and settings you approve, with training on your content excluded. Deploying the model itself on your hardware is a different project we have not done in production, and if it is a requirement it belongs in the first conversation.',
+          },
+          {
+            q: 'How long does it take?',
+            a: 'Exploration answers that with your sources in front of us, not before. The shape of the project is constant though, a first bounded knowledge domain that reaches production with its measurement in place, then growth domain by domain. The industrial case grew exactly that way.',
+          },
+        ],
         cta: {
           heading: 'Interested for your company?',
           body: 'Tell us your challenge. If we don’t see a return, we’ll tell you.',
