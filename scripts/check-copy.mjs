@@ -30,9 +30,22 @@ function soloProsa(txt) {
   return txt
     .replace(/<[^>]+>/g, ' ')          // etiquetas
     .replace(/^\s*[a-zA-Z]+:\s*$/gm, ' ') // claves sueltas
+    // Claves de objeto y de frontmatter con valor en la misma línea
+    // (`title: '…'`, `body: '…'`, `pubDate: 2026-…`). Antes su dos puntos se
+    // contaba como prosa y la mitad de los avisos eran ruido de código. Se
+    // quita SOLO la clave y su dos puntos: el valor sigue revisándose, así
+    // que un título con dos puntos dentro sí se detecta.
+    .replace(/(^|[\s{,])[a-zA-Z_]+:\s*(?=['"\[{\d]|true|false)/g, '$1')
     .replace(/https?:\/\/\S+/g, ' ')   // urls
     .replace(/\/[a-z0-9-]+(\/[a-z0-9-]+)*/g, ' '); // rutas
 }
+
+// Excepciones declaradas: dos puntos que el propietario decidió conservar.
+// Cada entrada lleva su porqué y su rastro en el registro del árbitro (§9).
+const EXCEPCIONES_DOS_PUNTOS = [
+  // Gancho del título del post de agénticas, retitulado deliberado del 20 ago 2026.
+  'Te cuento un secreto: no me gustan',
+];
 
 const PALABRAS_VETADAS = [
   'crucial', 'fundamental', 'esencial', 'robusto', 'vibrante', 'innovador',
@@ -79,10 +92,27 @@ function revisa(nombre, textoBruto) {
   }
 
   // Dos puntos: válidos solo si introducen tres o más elementos.
-  // Heurística: se cuentan las comas hasta el final de la frase.
+  // Heurística: comas hasta el final de la frase. Una enumeración de tres
+  // escrita a la manera de la casa («a, b y c») solo tiene una coma, así que
+  // también cuenta como válida la combinación de al menos una coma con una
+  // conjunción posterior. Dos ideas unidas («X: porque Y») no tienen ninguna.
+  // Una frase no cruza un salto de línea en estas fuentes, así que el resto
+  // se corta también ahí: sin ese corte, el dos puntos de un título de
+  // frontmatter se validaba con las comas de la descripción vecina.
+  // Un dos puntos a final de línea que abre tres o más bloques en negrita o
+  // viñetas también enumera, aunque sus elementos no lleven comas.
   for (const m of [...t.matchAll(/:\s/g)]) {
-    const resto = t.slice(m.index + 2, m.index + 220).split(/\.\s/)[0];
-    if ((resto.match(/,/g) || []).length < 2) {
+    const alrededor = t.slice(Math.max(0, m.index - 90), m.index + 90);
+    if (EXCEPCIONES_DOS_PUNTOS.some((e) => alrededor.includes(e))) continue;
+    const tras = t.slice(m.index + 1);
+    if (/^[ \t]*\n/.test(tras)) {
+      const bloques = (tras.slice(0, 1500).match(/\n[ \t]*(\*\*|- )/g) || []).length;
+      if (bloques >= 3) continue;
+    }
+    const resto = t.slice(m.index + 2, m.index + 220).split(/\.\s|\n/)[0];
+    const comas = (resto.match(/,/g) || []).length;
+    const conjTrasComa = /,[^,]*\s(y|e|o|u)\s/.test(resto);
+    if (comas < 2 && !(comas >= 1 && conjTrasComa)) {
       avisos.push(['dos puntos que no enumeran', contexto(t, m.index)]);
     }
   }

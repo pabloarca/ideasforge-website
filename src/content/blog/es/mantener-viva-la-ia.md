@@ -9,7 +9,7 @@ tags: ['Mantenimiento', 'Observabilidad', 'Negocio']
 
 Es fácil iniciar proyectos de IA geniales. La demostración sale bien, el vídeo circula, todo el mundo aplaude. Lo que es casi imposible es mantener ese proyecto con vida seis meses. ¿Proyectos de IA rentables? Fáciles de empezar y fáciles de mantener. Esa asimetría es el filtro con el que decidimos qué construir.
 
-No es una opinión rara: [Gartner estima](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) que más del 40 % de los proyectos de IA agéntica se cancelarán antes de que acabe 2027. La mortalidad no está en arrancar, está en sobrevivir.
+No es una opinión rara. [Gartner estima](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) que más del 40 % de los proyectos de IA agéntica se cancelarán antes de que acabe 2027. La mortalidad no está en arrancar, está en sobrevivir.
 
 ## Lo que mata a los proyectos no es el modelo
 
@@ -31,6 +31,6 @@ La diferencia entre el proyecto genial y el rentable no es el talento ni el mode
 
 ## La pregunta incómoda para tu proveedor
 
-Si estás evaluando un proyecto de IA, la pregunta que más información te dará no es sobre el modelo ni sobre la demostración. Es esta: ¿qué pasa el día 180? ¿Quién mira las alarmas, quién ejecuta las pruebas, quién se entera si el sistema empeora en silencio?
+Si estás evaluando un proyecto de IA, la pregunta que más información te dará no es sobre el modelo ni sobre la demostración. ¿Qué pasa el día 180? ¿Quién mira las alarmas, quién ejecuta las pruebas, quién se entera si el sistema empeora en silencio?
 
 Nosotros respondemos con lo que llamamos observabilidad por defecto y está en el centro de cómo hacemos [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia). Si prefieres empezar por el mapa general, está en la [guía de agentes](/agentes-de-ia).

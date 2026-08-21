@@ -449,7 +449,7 @@ export const content: Record<Lang, SiteContent> = {
     },
     hero: {
       eyebrow: 'Somos la forja de tus ideas',
-      title: 'Deja de buscar en tus sistemas: agentes de IA que responden y actúan.',
+      title: 'Deja de buscar en tus sistemas. Agentes de IA que responden y actúan.',
       subtitle:
         'En Ideasforge diseñamos y mantenemos agentes de IA a medida para medianas y grandes empresas, sobre tu infraestructura y medidos antes de cada cambio.',
       ctaPrimary: 'Cuéntanos tu reto',
@@ -466,7 +466,7 @@ export const content: Record<Lang, SiteContent> = {
           client: 'Empresa industrial',
           image: '/case-studies/industrial.jpg',
           title: 'Diagnóstico guiado para quien está delante de la máquina',
-          body: 'El conocimiento de planta vivía en manuales densos y en la cabeza de los más veteranos. Construimos un asistente sobre los sistemas de la propia empresa: los operarios consultan datos de producción y averías y reciben el diagnóstico guiado paso a paso cuando una máquina se para.',
+          body: 'El conocimiento de planta vivía en manuales densos y en la cabeza de los más veteranos. Construimos un asistente sobre los sistemas de la propia empresa. Los operarios consultan datos de producción y averías y reciben el diagnóstico guiado paso a paso cuando una máquina se para.',
           metricBig: '6 agentes',
           metricSmall:
             'especializados, coordinados por un orquestador que dirige cada consulta.',
@@ -817,7 +817,7 @@ export const content: Record<Lang, SiteContent> = {
       items: [
         {
           q: '¿Mis datos salen de mi infraestructura?',
-          a: 'Solo si tú decides. Desplegamos sobre tu nube o tus propios servidores, con tu identidad corporativa y el sistema guarda lo mínimo para funcionar. La única salida son las llamadas al proveedor del modelo y tú apruebas cuáles se hacen y qué viaja en ellas.',
+          a: 'Solo si tú decides. Desplegamos sobre tu nube o tus propios servidores, con las cuentas de tu organización y el sistema guarda lo mínimo para funcionar. La única salida son las llamadas al proveedor del modelo y tú apruebas cuáles se hacen y qué viaja en ellas.',
         },
         {
           q: '¿De quién es el código que construís?',
@@ -1073,7 +1073,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Garantías para grandes empresas',
             part: 'Garantías y encaje',
             paragraphs: [
-              'El asistente corre en tu infraestructura, en tu nube o en tus servidores, con tu identidad corporativa para el acceso y con los datos donde tú decidas. El repositorio está a tu nombre desde el primer día. Y la calidad no se declara, se mide de continuo, con una batería de casos reales que frena cualquier cambio que empeore el sistema y una vigilancia semanal de lo que está en producción.',
+              'El asistente corre en tu infraestructura, en tu nube o en tus servidores, con las cuentas de tu organización para el acceso y con los datos donde tú decidas. El repositorio está a tu nombre desde el primer día. Y la calidad no se declara, se mide de continuo, con una batería de casos reales que frena cualquier cambio que empeore el sistema y una vigilancia semanal de lo que está en producción.',
               'El coste de un sistema de este tamaño se presupuesta por proyecto, porque depende de tus fuentes, tus sistemas y tu exigencia de validación. La guía de coste explica qué mueve cada cifra y dónde se sale del rango estándar.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA', href: '/cuanto-cuesta-un-agente-de-ia' },
@@ -1089,9 +1089,9 @@ export const content: Record<Lang, SiteContent> = {
               'Arquitectura multiagente. Un orquestador entiende la intención y enruta a agentes especializados. Escala por dominios sin volverse un monolito.',
               'Recuperación fiable. La búsqueda que alimenta al modelo está diseñada para respuestas completas y correctas, sin filtrar detalles internos a quien no debe verlos.',
               'Calidad medible. Baterías de prueba que verifican antes de cada cambio que el asistente sigue entendiendo y respondiendo bien.',
-              'Integración con tus sistemas. ERP, bases de datos, identidad corporativa y sistemas industriales, con los permisos de cada persona.',
+              'Integración con tus sistemas. ERP, bases de datos, cuentas de tu organización y sistemas industriales, con los permisos de cada persona.',
               'Registro de decisiones. Cada interacción deja escrito qué se entendió y por qué se respondió lo que se respondió, para poder auditarlo después.',
-              'Soberanía del dato. Tu nube o tus servidores, tu identidad, tus datos donde decidas y el repositorio a tu nombre.',
+              'Soberanía del dato. Tu nube o tus servidores, tus cuentas, tus datos donde decidas y el repositorio a tu nombre.',
             ],
           },
         ],
@@ -1205,7 +1205,7 @@ export const content: Record<Lang, SiteContent> = {
       accounting: {
         hero: {
           eyebrow: 'Gestorías',
-          title: 'Documentos sin tocar: del PDF al ERP',
+          title: 'Documentos sin tocar, del PDF al ERP',
           subtitle:
             'Facturas, tickets y formularios escaneados que el equipo ya no tiene que copiar a mano. El OCR los lee, el modelo los estructura y una capa de validación comprueba que los totales cuadran.',
           cta: 'Cuéntanos tu reto',
@@ -1250,7 +1250,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Lo que nos ha enseñado producción',
             paragraphs: [
-              'Que el fallo más caro de un sistema con IA no hace saltar ninguna alarma: es una respuesta impecable y falsa. Que un banco de pruebas que replica al sistema en lugar de ejercitarlo acaba midiendo otra cosa. Que una alerta ruidosa puede agotar la cuota de avisos y dejarte ciego justo cuando falla algo de verdad.',
+              'Que el fallo más caro de un sistema con IA no hace saltar ninguna alarma, porque es una respuesta impecable y falsa. Que un banco de pruebas que replica al sistema en lugar de ejercitarlo acaba midiendo otra cosa. Que una alerta ruidosa puede agotar la cuota de avisos y dejarte ciego justo cuando falla algo de verdad.',
               'Ninguna de esas lecciones sale de un manual. Salen de haberlas sufrido y por eso las contamos con nombre y número en lugar de con adjetivos.',
             ],
             link: { label: 'Cómo trabajamos', href: '/#servicios' },
@@ -1547,20 +1547,20 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Desarrollo de agentes de IA',
           title: 'Agentes de IA para empresas que llegan a producción',
           subtitle:
-            'Diseñamos, construimos y mantenemos agentes de IA a medida para medianas y grandes empresas. Sobre tu infraestructura, con tu identidad corporativa y medidos antes de cada cambio.',
+            'Diseñamos, construimos y mantenemos agentes de IA a medida para medianas y grandes empresas. Sobre tu infraestructura, con las cuentas de tu organización y medidos antes de cada cambio.',
           cta: 'Cuéntanos tu reto',
         },
         stats: [
           { value: '118', label: 'casos reales en el banco de pruebas' },
           { value: '72 % → 91 %', label: 'de acierto tras calibrar el enrutado' },
-          { value: '10 puntos', label: 'que perdía el modelo más barato: descartado' },
+          { value: '10 puntos', label: 'que perdía el modelo más barato, descartado' },
         ],
         sections: [
           {
             heading: 'Qué construimos',
             paragraphs: [
               'Agentes de IA a medida que hacen trabajo real: responden preguntas sobre tu documentación y tus bases de datos, guían diagnósticos, cualifican solicitudes y ejecutan acciones sobre los sistemas que apruebes. Cada agente se construye para una tarea y se conecta a las herramientas que esa tarea necesita.',
-              'Cuando un agente no basta, construimos la arquitectura que coordina varios: un orquestador entiende cada consulta y la dirige al especialista. Uno de nuestros sistemas en producción funciona así, con media docena de agentes especializados detrás.',
+              'Cuando un agente no basta, construimos la arquitectura que coordina varios. Un orquestador entiende cada consulta y la dirige al especialista. Uno de nuestros sistemas en producción funciona así, con media docena de agentes especializados detrás.',
             ],
             link: { label: 'Si estás situando el concepto, empieza por la guía de agentes de IA', href: '/agentes-de-ia' },
           },
@@ -1575,7 +1575,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'La seguridad es el punto de partida',
           diagram: true,
             paragraphs: [
-              'El modelo decide, pero nunca es la autoridad: elige dentro de un conjunto cerrado de acciones que el código revisa antes de ejecutar nada. Los agentes actúan con los permisos de la persona que los usa, a través de tu identidad corporativa. Si tu organización le retira el acceso a alguien, el agente también lo pierde.',
+              'El modelo decide, pero nunca es la autoridad. Elige dentro de un conjunto cerrado de acciones que el código revisa antes de ejecutar nada. Los agentes actúan con los permisos de la persona que los usa, a través de las cuentas de tu organización. Si le retiras el acceso a alguien, el agente también lo pierde.',
             ],
           },
           {
@@ -1596,7 +1596,7 @@ export const content: Record<Lang, SiteContent> = {
         faq: [
           {
             q: '¿Qué significa «para empresas» en la práctica?',
-            a: 'Tu infraestructura o tu nube, tu identidad corporativa, tus datos donde tú decidas y la calidad medida de forma continua. Las garantías por las que va a preguntar tu comité de seguridad, respondidas antes de la reunión.',
+            a: 'Tu infraestructura o tu nube, las cuentas de tu organización, tus datos donde tú decidas y la calidad medida de forma continua. Las garantías por las que va a preguntar tu comité de seguridad, respondidas antes de la reunión.',
           },
           {
             q: '¿El agente puede conectarse a nuestros sistemas internos?',
@@ -1608,7 +1608,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Qué pasa si el proveedor del modelo sube el precio o lo retira?',
-            a: 'El modelo va detrás de una capa de abstracción, así que cambiarlo es configuración y una pasada del banco de pruebas. Lo hemos hecho: descartamos un modelo más barato porque las pruebas mostraron que perdía diez puntos de acierto.',
+            a: 'El modelo va detrás de una capa de abstracción, así que cambiarlo es configuración y una pasada del banco de pruebas. Lo hemos hecho. Descartamos un modelo más barato porque las pruebas mostraron que perdía diez puntos de acierto.',
           },
         ],
         cta: {
@@ -1642,7 +1642,7 @@ export const content: Record<Lang, SiteContent> = {
               'Entrada de documentos: facturas, tickets y formularios escaneados que se leen, se validan y se registran en tu ERP.',
               'Gestión de solicitudes: consultas entrantes atendidas, cualificadas y dirigidas las 24 horas.',
               'Acceso a datos: preguntas de negocio convertidas en consultas seguras a la base de datos, respondidas en segundos.',
-              'Escalado: los casos que necesitan criterio llegan a tu equipo con todo el contexto.',
+              'Escalado. Los casos que necesitan criterio llegan a tu equipo con todo el contexto.',
             ],
           },
           {
@@ -1654,7 +1654,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Prueba en producción',
             paragraphs: [
-              'En una gestora inmobiliaria, las facturas de suministros que se tecleaban a mano hoy entran solas: dos agentes de IA en producción y un plan para extender la automatización a más áreas. En una agencia inmobiliaria, el flujo de cualificación de solicitudes ahorra al equipo más de tres horas al día.',
+              'En una gestora inmobiliaria, las facturas de suministros que se tecleaban a mano hoy entran solas, con dos agentes de IA en producción y un plan para extender la automatización a más áreas. En una agencia inmobiliaria, el flujo de cualificación de solicitudes ahorra al equipo más de tres horas al día.',
             ],
             link: { label: 'Ver los proyectos', href: '/#proyectos' },
           },
@@ -1680,7 +1680,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿En qué se diferencia de la automatización clásica?',
-            a: 'La automatización clásica repite reglas fijas y se rompe cuando la entrada varía. La IA absorbe la variación: una factura con otro formato o una solicitud redactada de otra manera siguen fluyendo.',
+            a: 'La automatización clásica repite reglas fijas y se rompe cuando la entrada varía. La IA absorbe la variación. Una factura con otro formato o una solicitud redactada de otra manera siguen fluyendo.',
           },
           {
             q: '¿Y si la IA lee mal un documento?',
@@ -1688,7 +1688,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Cuánto del proceso queda automatizado de verdad?',
-            a: 'Depende de cuántos casos raros tenga. Lo honesto es medirlo: el sistema registra qué resuelve solo y qué escala a una persona y ese porcentaje se ve desde el primer mes.',
+            a: 'Depende de cuántos casos raros tenga. Lo honesto es medirlo. El sistema registra qué resuelve solo y qué escala a una persona y ese porcentaje se ve desde el primer mes.',
           },
         ],
         cta: {
@@ -1717,7 +1717,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué construimos',
             paragraphs: [
               'Chatbots con inteligencia artificial para los canales donde ya están tus clientes: WhatsApp, web y herramientas internas. El agente entiende lenguaje natural, consulta tus sistemas reales (agenda, CRM, base de datos) y termina la tarea dentro de la conversación.',
-              'La misma ingeniería sirve hacia dentro: empleados que preguntan a sus datos o a la documentación de la empresa y obtienen la respuesta en segundos.',
+              'La misma ingeniería sirve hacia dentro, con empleados que preguntan a sus datos o a la documentación de la empresa y obtienen la respuesta en segundos.',
             ],
             link: { label: 'Asistente sobre tu documentación interna', href: '/servicios/conocimiento-corporativo' },
           },
@@ -1730,9 +1730,9 @@ export const content: Record<Lang, SiteContent> = {
             link: { label: 'El caso de la inmobiliaria', href: '/inmobiliarias' },
           },
           {
-            heading: 'Wazzy: nuestro producto conversacional',
+            heading: 'Wazzy, nuestro producto conversacional',
             paragraphs: [
-              'Operamos nuestro propio producto en producción: Wazzy, un asistente en WhatsApp que gestiona reservas, cambios y cancelaciones de citas para clínicas y negocios de servicios. Consulta la disponibilidad en tiempo real, actualiza agenda y ficha y escala las urgencias al equipo. Mantener un producto propio nos obliga a ser buenos: cada lección vuelve a los proyectos de cliente.',
+              'Operamos nuestro propio producto en producción, Wazzy, un asistente en WhatsApp que gestiona reservas, cambios y cancelaciones de citas para clínicas y negocios de servicios. Consulta la disponibilidad en tiempo real, actualiza agenda y ficha y escala las urgencias al equipo. Mantener un producto propio nos obliga a ser buenos, porque cada lección vuelve a los proyectos de cliente.',
             ],
             link: { label: 'Conocer Wazzy', href: 'https://wazzy.io' },
           },
@@ -1745,7 +1745,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Medido, no supuesto',
             paragraphs: [
-              'Los sistemas conversacionales se degradan en silencio: una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
+              'Los sistemas conversacionales se degradan en silencio. Una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
             ],
           },
         ],
@@ -1886,7 +1886,7 @@ export const content: Record<Lang, SiteContent> = {
     },
     hero: {
       eyebrow: 'We are the forge of your ideas',
-      title: 'Stop searching your systems: AI agents that answer and act.',
+      title: 'Stop searching your systems. AI agents that answer and act.',
       subtitle:
         'At Ideasforge we design and maintain custom AI agents for mid-size and large companies, on your infrastructure and measured before every change.',
       ctaPrimary: 'Tell us your challenge',
@@ -1903,7 +1903,7 @@ export const content: Record<Lang, SiteContent> = {
           client: 'Industrial company',
           image: '/case-studies/industrial.jpg',
           title: 'Guided troubleshooting for whoever is at the machine',
-          body: 'Plant knowledge lived in dense manuals and in the heads of the most experienced people. We built an assistant on the company’s own systems: operators query production and fault data, and get step-by-step guided troubleshooting when a machine stops.',
+          body: 'Plant knowledge lived in dense manuals and in the heads of the most experienced people. We built an assistant on the company’s own systems. Operators query production and fault data, and get step-by-step guided troubleshooting when a machine stops.',
           metricBig: '6 agents',
           metricSmall:
             'specialized, coordinated by an orchestrator that routes every query.',
@@ -2252,7 +2252,7 @@ export const content: Record<Lang, SiteContent> = {
       items: [
         {
           q: 'Does my data leave my infrastructure?',
-          a: 'Only if you decide so. We deploy on your cloud or your own servers, under your corporate identity, and the system stores the minimum it needs. The only outbound path is the calls to the model provider, and you approve which ones happen and what travels in them.',
+          a: 'Only if you decide so. We deploy on your cloud or your own servers, with your organization’s accounts, and the system stores the minimum it needs. The only outbound path is the calls to the model provider, and you approve which ones happen and what travels in them.',
         },
         {
           q: 'Who owns the code you build?',
@@ -2513,7 +2513,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Enterprise guarantees',
             part: 'Guarantees and fit',
             paragraphs: [
-              'The assistant runs on your infrastructure, your cloud or your own servers, with your corporate identity for access and your data wherever you decide. The repository is in your name from day one. And quality is not declared, it is measured continuously, with a battery of real cases that blocks any change that degrades the system and a weekly watch on what is live.',
+              'The assistant runs on your infrastructure, your cloud or your own servers, with your organization’s accounts for access and your data wherever you decide. The repository is in your name from day one. And quality is not declared, it is measured continuously, with a battery of real cases that blocks any change that degrades the system and a weekly watch on what is live.',
               'A system of this size is quoted per project, because the cost depends on your sources, your systems and how much validation you demand. For how the rules of European data protection shape all of this, the full story is on its own page.',
             ],
             link: { label: 'GDPR-compliant AI on infrastructure you own', href: '/en/gdpr-compliant-ai' },
@@ -2529,7 +2529,7 @@ export const content: Record<Lang, SiteContent> = {
               'Multi-agent architecture. An orchestrator understands intent and routes to specialised agents. Scales by domain without becoming a monolith.',
               'Reliable retrieval. The search that feeds the model is designed for complete, correct answers, without leaking internal detail to the wrong reader.',
               'Measurable quality. Test batteries verify before every change that the assistant still understands and answers correctly.',
-              'Integration with your systems. ERP, databases, corporate identity and industrial systems, under each person’s own permissions.',
+              'Integration with your systems. ERP, databases, your organization’s accounts and industrial systems, under each person’s own permissions.',
               'Decision log. Every interaction leaves a written record of what was understood and why the answer was given, auditable afterwards.',
               'Data sovereignty. Your cloud or your servers, your identity, your data where you decide and the repository in your name.',
             ],
@@ -2646,7 +2646,7 @@ export const content: Record<Lang, SiteContent> = {
       accounting: {
         hero: {
           eyebrow: 'Accounting firms',
-          title: 'Documents untouched: from PDF to ERP',
+          title: 'Documents untouched, from PDF to ERP',
           subtitle:
             'Invoices, tickets and scanned forms the team no longer needs to type in by hand. OCR reads them, the model structures them and a validation layer checks the totals add up.',
           cta: 'Tell us your challenge',
@@ -2691,7 +2691,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'What production has taught us',
             paragraphs: [
-              'That the most expensive failure in an AI system sets off no alarm: it is a flawless answer that happens to be false. That a test suite which replicates the system instead of exercising it ends up measuring something else. That one noisy alert can burn through your alerting quota and leave you blind exactly when something real breaks.',
+              'That the most expensive failure in an AI system sets off no alarm, because it is a flawless answer that happens to be false. That a test suite which replicates the system instead of exercising it ends up measuring something else. That one noisy alert can burn through your alerting quota and leave you blind exactly when something real breaks.',
               'None of those lessons come from a manual. They come from having lived them, which is why we tell them with names and numbers instead of adjectives.',
             ],
             link: { label: 'How we work', href: '/en/#servicios' },
@@ -2984,20 +2984,20 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'AI agent development',
           title: 'Enterprise AI agents that reach production',
           subtitle:
-            'We design, build and maintain custom AI agents for mid-size and large companies. On your infrastructure, under your corporate identity, and measured before every change.',
+            'We design, build and maintain custom AI agents for mid-size and large companies. On your infrastructure, with your organization’s accounts, and measured before every change.',
           cta: 'Tell us your challenge',
         },
         stats: [
           { value: '118', label: 'real cases in the test battery' },
           { value: '72% → 91%', label: 'accuracy after calibrating the routing' },
-          { value: '10 points', label: 'lost by the cheaper model: rejected' },
+          { value: '10 points', label: 'lost by the cheaper model, rejected' },
         ],
         sections: [
           {
             heading: 'What custom AI agent development covers',
             paragraphs: [
               'Custom AI agents that do real work: they answer questions against your documentation and databases, run guided diagnostics, qualify requests and execute actions on the systems you approve. Each agent is built for one job and connected to the tools that job needs.',
-              'When one agent is not enough, we build the architecture that coordinates several: an orchestrator understands each query and routes it to the specialist. One of our production systems runs this way, with half a dozen specialized agents behind the orchestrator.',
+              'When one agent is not enough, we build the architecture that coordinates several. An orchestrator understands each query and routes it to the specialist. One of our production systems runs this way, with half a dozen specialized agents behind the orchestrator.',
             ],
             link: { label: 'New to the concept? Start with the AI automation guide', href: '/en/ai-automation' },
           },
@@ -3012,7 +3012,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Security is the starting point',
           diagram: true,
             paragraphs: [
-              'The model decides, but it is never the authority: it picks from a closed set of actions that the code reviews before anything runs. Agents act with the permissions of the person using them, through your corporate identity. If your organization revokes someone’s access, the agent loses it too.',
+              'The model decides, but it is never the authority. It picks from a closed set of actions that the code reviews before anything runs. Agents act with the permissions of the person using them, through your organization’s accounts. If you revoke someone’s access, the agent loses it too.',
             ],
             link: { label: 'Built to run under EU rules', href: '/en/gdpr-compliant-ai' },
           },
@@ -3034,7 +3034,7 @@ export const content: Record<Lang, SiteContent> = {
         faq: [
           {
             q: 'What does “enterprise” mean in practice?',
-            a: 'Your infrastructure or your cloud, your corporate identity, your data where you decide, and quality measured continuously. The guarantees your security committee will ask about, answered before the meeting.',
+            a: 'Your infrastructure or your cloud, your organization’s accounts, your data where you decide, and quality measured continuously. The guarantees your security committee will ask about, answered before the meeting.',
           },
           {
             q: 'Can the agent connect to our internal systems?',
@@ -3046,7 +3046,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'What if the model provider raises prices or retires the model?',
-            a: 'The model sits behind an abstraction layer, so swapping it is configuration plus a test run. We have done it: we rejected a cheaper model because the suite showed it lost ten points of accuracy.',
+            a: 'The model sits behind an abstraction layer, so swapping it is configuration plus a test run. We have done it. We rejected a cheaper model because the suite showed it lost ten points of accuracy.',
           },
         ],
         cta: {
@@ -3080,7 +3080,7 @@ export const content: Record<Lang, SiteContent> = {
               'Document intake: scanned invoices, receipts and forms read, validated and registered in your ERP.',
               'Request handling: incoming enquiries answered, qualified and routed around the clock.',
               'Data access: business questions turned into safe database queries, answered in seconds.',
-              'Escalation: the cases that need judgment reach your team with full context.',
+              'Escalation. The cases that need judgment reach your team with full context.',
             ],
           },
           {
@@ -3092,7 +3092,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Proof in production',
             paragraphs: [
-              'For a property manager, the utility invoices that used to be typed in by hand now flow in on their own: two AI agents in production and a plan to extend the automation further. For a real-estate agency, the request-qualification workflow saves the team more than three hours a day.',
+              'For a property manager, the utility invoices that used to be typed in by hand now flow in on their own, with two AI agents in production and a plan to extend the automation further. For a real-estate agency, the request-qualification workflow saves the team more than three hours a day.',
             ],
             link: { label: 'See the projects', href: '/en/#proyectos' },
           },
@@ -3119,7 +3119,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'How is it different from RPA?',
-            a: 'RPA repeats fixed steps and breaks when the input changes. AI workflow automation absorbs variation: a new invoice layout or a differently phrased request keeps flowing.',
+            a: 'RPA repeats fixed steps and breaks when the input changes. AI workflow automation absorbs variation. A new invoice layout or a differently phrased request keeps flowing.',
           },
           {
             q: 'What if the AI misreads a document?',
@@ -3127,7 +3127,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'How much of the process actually gets automated?',
-            a: 'It depends how many odd cases it has. The honest answer is to measure it: the system records what it resolves on its own and what it escalates to a person, and you see that share from the first month.',
+            a: 'It depends how many odd cases it has. The honest answer is to measure it. The system records what it resolves on its own and what it escalates to a person, and you see that share from the first month.',
           },
         ],
         cta: {
@@ -3156,7 +3156,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What we build',
             paragraphs: [
               'AI chatbot development for the channels your customers already use: WhatsApp, web and internal tools. The assistant understands natural language, checks your real systems (calendar, CRM, database) and completes the task inside the conversation.',
-              'The same engineering works inward: employees asking their own data or their company’s documentation and getting the answer in seconds.',
+              'The same engineering works inward, with employees asking their own data or their company’s documentation and getting the answer in seconds.',
             ],
             link: { label: 'Assistant over your internal documentation', href: '/en/services/corporate-knowledge' },
           },
@@ -3169,9 +3169,9 @@ export const content: Record<Lang, SiteContent> = {
             link: { label: 'The real-estate case', href: '/en/real-estate' },
           },
           {
-            heading: 'Wazzy: our own conversational product',
+            heading: 'Wazzy, our own conversational product',
             paragraphs: [
-              'We run our own product in production: Wazzy, a WhatsApp assistant that manages appointment bookings, changes and cancellations for clinics and service businesses. It checks real-time availability, updates calendar and records, and escalates urgencies to the team. Operating our own product keeps us sharp: every lesson lands back in client projects.',
+              'We run our own product in production, Wazzy, a WhatsApp assistant that manages appointment bookings, changes and cancellations for clinics and service businesses. It checks real-time availability, updates calendar and records, and escalates urgencies to the team. Operating our own product keeps us sharp, because every lesson lands back in client projects.',
             ],
             link: { label: 'Meet Wazzy', href: 'https://wazzy.io' },
           },
@@ -3185,7 +3185,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Measured, not assumed',
             paragraphs: [
-              'Conversational systems degrade quietly: a model update or a new document can change answers with no visible error. Every change runs against a test battery before shipping, and every conversation leaves a record that can be reconstructed.',
+              'Conversational systems degrade quietly. A model update or a new document can change answers with no visible error. Every change runs against a test battery before shipping, and every conversation leaves a record that can be reconstructed.',
             ],
           },
         ],

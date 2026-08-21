@@ -15,15 +15,15 @@ La respuesta barata es una traza técnica: «connection refused», un objeto a m
 
 En uno de nuestros asistentes de planta, cada herramienta tiene una ficha de estado: un contador de fallos, el último error y su fecha. Un validador inspecciona la salida de cada agente y reconoce los patrones de rotura: respuestas vacías, trazas de conexión, objetos mal serializados, flujos inactivos. Si una herramienta encadena fallos dentro de una ventana de tiempo, el sistema la desactiva.
 
-Lo que ve el usuario entonces no es un error técnico. Es un mensaje de degradación amable y específico: esa funcionalidad concreta no está disponible, el resto del asistente sigue en pie. La avería de una pieza deja de contaminar al conjunto y de paso ninguna traza interna, con sus nombres de servidor y sus rutas, viaja a la pantalla de nadie.
+Lo que ve el usuario entonces no es un error técnico. Es un mensaje de degradación amable y específico. Esa funcionalidad concreta no está disponible, el resto del asistente sigue en pie. La avería de una pieza deja de contaminar al conjunto y de paso ninguna traza interna, con sus nombres de servidor y sus rutas, viaja a la pantalla de nadie.
 
 ## Tres lecciones que nos dio producción
 
 **Un contador que solo sube, miente.** Sin decaimiento temporal, una herramienta perfectamente sana arrastra el contador alto de un incidente de hace meses. Parece enferma y está curada. Toda lectura del contador se cruza ahora con la fecha del último fallo, porque un número sin fecha es un rumor.
 
-**No hay recuperación automática gratis.** Abrir el disyuntor es fácil. Decidir cuándo cerrarlo exige criterio. Optamos por reactivación manual y consciente y lo dejamos escrito, porque lo peligroso no es la decisión sino el silencio: una herramienta caída que nadie recuerda es peor que una caída ruidosa.
+**No hay recuperación automática gratis.** Abrir el disyuntor es fácil. Decidir cuándo cerrarlo exige criterio. Optamos por reactivación manual y consciente y lo dejamos escrito, porque lo peligroso no es la decisión sino el silencio. Una herramienta caída que nadie recuerda es peor que una caída ruidosa.
 
-**«Habilitado» no significa «alcanzable».** El hallazgo más incómodo. Una auditoría reveló una herramienta que figuraba sana y operativa en su tabla de estado mientras el enrutador no tenía forma de llegar a ella: faltaba en las reglas de entrada. La salud declarada y la alcanzabilidad real son propiedades distintas y solo una prueba de extremo a extremo las verifica a la vez.
+**«Habilitado» no significa «alcanzable».** El hallazgo más incómodo. Una auditoría reveló una herramienta que figuraba sana y operativa en su tabla de estado mientras el enrutador no tenía forma de llegar a ella, porque faltaba en las reglas de entrada. La salud declarada y la alcanzabilidad real son propiedades distintas y solo una prueba de extremo a extremo las verifica a la vez.
 
 ## La fiabilidad se diseña antes del fallo
 

@@ -7,7 +7,7 @@ translationId: 'symptom-signature'
 tags: ['Observabilidad', 'Mantenimiento', 'Agentes']
 ---
 
-Cuando un sistema falla, casi todos los equipos documentan lo mismo: qué se rompió y cómo se arregló. Nosotros documentamos otra cosa primero: cómo se reconoce ese fallo desde fuera, antes de saber qué lo causa. Lo llamamos la firma del síntoma y es uno de los activos menos visibles y más útiles que mantenemos en nuestros sistemas.
+Cuando un sistema falla, casi todos los equipos documentan lo mismo, qué se rompió y cómo se arregló. Nosotros documentamos otra cosa primero. Cómo se reconoce ese fallo desde fuera, antes de saber qué lo causa. Lo llamamos la firma del síntoma y es uno de los activos menos visibles y más útiles que mantenemos en nuestros sistemas.
 
 La razón es simple. El arreglo se aplica una vez. La firma se reutiliza cada vez que el sistema vuelve a comportarse raro y con componentes no deterministas eso pasa más de lo que a nadie le gustaría admitir.
 
@@ -15,11 +15,11 @@ La razón es simple. El arreglo se aplica una vez. La firma se reutiliza cada ve
 
 Estas tres salen del catálogo de uno de nuestros asistentes en producción, un sistema con un orquestador y varios agentes especializados detrás.
 
-**Todo cae en «sin candidatos» con puntuación nula.** El instinto dice: el modelo se ha roto o el prompt o los umbrales. La firma dice otra cosa: son vectores sin generar. Alguien añadió ejemplos nuevos al catálogo sin relanzar la ingesta y la búsqueda descarta todo lo que no tiene vector. Del susto salió un procedimiento: tras cualquier alta en el catálogo, ejecutar la ingesta y verificar que quedan cero pendientes antes de tocar nada más.
+**Todo cae en «sin candidatos» con puntuación nula.** El instinto culpa al modelo, al prompt o a los umbrales. La firma dice que son vectores sin generar. Alguien añadió ejemplos nuevos al catálogo sin relanzar la ingesta y la búsqueda descarta todo lo que no tiene vector. Del susto salió un procedimiento. Tras cualquier alta en el catálogo, ejecutar la ingesta y verificar que quedan cero pendientes antes de tocar nada más.
 
-**Todo lo que pasa por el modelo devuelve nulo, pero las continuaciones funcionan.** Las continuaciones son el único camino del sistema que no invoca al modelo. Si ellas viven y lo demás no, el diagnóstico es inmediato: el problema está en la conexión con el modelo, no en las instrucciones. Aquella vez apuntaba a un despliegue inexistente tras un cambio manual. Veinte minutos de diagnóstico convertidos en dos.
+**Todo lo que pasa por el modelo devuelve nulo, pero las continuaciones funcionan.** Las continuaciones son el único camino del sistema que no invoca al modelo. Si ellas viven y lo demás no, el diagnóstico es inmediato. El problema está en la conexión con el modelo, no en las instrucciones. Aquella vez apuntaba a un despliegue inexistente tras un cambio manual. Veinte minutos de diagnóstico convertidos en dos.
 
-**Funciona en producción y falla en las pruebas o al revés.** La firma más incómoda, porque nadie quiere mirarla. El mensaje llegaba en un campo de la petición distinto del que leía el código. No era un fallo del banco de pruebas: era un fallo latente que también afectaba a producción si el sistema de origen cambiaba de campo. Lo detectó una persona leyendo con atención, no una alarma. También eso es un dato: hay firmas que todavía no sabemos automatizar.
+**Funciona en producción y falla en las pruebas o al revés.** La firma más incómoda, porque nadie quiere mirarla. El mensaje llegaba en un campo de la petición distinto del que leía el código. No era un fallo del banco de pruebas, era un fallo latente que también afectaba a producción si el sistema de origen cambiaba de campo. Lo detectó una persona leyendo con atención, no una alarma. También eso es un dato. Hay firmas que todavía no sabemos automatizar.
 
 ## Por qué esto le importa a quien compra IA
 

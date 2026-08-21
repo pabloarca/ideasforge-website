@@ -15,15 +15,15 @@ The cheap answer is a technical trace: "connection refused", a half-serialized o
 
 In one of our plant-floor assistants, every tool has a status record: a failure counter, the last error and its timestamp. A validator inspects each agent's output and recognizes the breakage patterns: empty responses, connection traces, badly serialized objects, inactive flows. If a tool chains failures within a time window, the system disables it.
 
-What the user sees then is not a technical error. It is a polite, specific degradation message: that particular capability is unavailable, the rest of the assistant still stands. One broken piece stops contaminating the whole, and no internal trace, with its host names and paths, ever travels to anyone's screen.
+What the user sees then is not a technical error. It is a polite, specific degradation message. That particular capability is unavailable, the rest of the assistant still stands. One broken piece stops contaminating the whole, and no internal trace, with its host names and paths, ever travels to anyone's screen.
 
 ## Three lessons production taught us
 
 **A counter that only goes up, lies.** Without decay over time, a perfectly healthy tool drags around the high counter of an incident from months ago. It looks sick and it is cured. Every counter reading now gets crossed with the date of the last failure, because a number without a date is a rumor.
 
-**There is no free automatic recovery.** Opening the breaker is easy; deciding when to close it takes judgment. We chose manual, deliberate reactivation, and we wrote it down, because the danger is not the decision but the silence: a downed tool nobody remembers is worse than a noisy outage.
+**There is no free automatic recovery.** Opening the breaker is easy; deciding when to close it takes judgment. We chose manual, deliberate reactivation, and we wrote it down, because the danger is not the decision but the silence. A downed tool nobody remembers is worse than a noisy outage.
 
-**"Enabled" does not mean "reachable".** The most uncomfortable finding. An audit revealed a tool that showed as healthy and operational in its status table while the router had no way to reach it: it was missing from the routing rules. Declared health and actual reachability are different properties, and only an end-to-end test verifies both at once.
+**"Enabled" does not mean "reachable".** The most uncomfortable finding. An audit revealed a tool that showed as healthy and operational in its status table while the router had no way to reach it, because it was missing from the routing rules. Declared health and actual reachability are different properties, and only an end-to-end test verifies both at once.
 
 ## Reliability is designed before the failure
 

@@ -1,5 +1,5 @@
 ---
-title: 'Dos «no» que no son el mismo: límite de producto o hueco de documentación'
+title: 'Dos «no» que no son el mismo'
 description: 'Cuando un asistente de IA no puede responder, hay dos causas de naturaleza distinta. Confundirlas es el error clásico que hincha la documentación sin arreglar nada.'
 lang: 'es'
 pubDate: 2026-06-09
@@ -9,15 +9,15 @@ tags: ['Agentes', 'Conocimiento', 'Producto']
 
 Todo asistente de IA dice «no» muchas veces al día. La pregunta interesante es cuál de los dos noes está diciendo, porque hay dos y no se parecen en nada.
 
-El primero es **«eso no se puede hacer»**. Una política de producto: el sistema no cubre ese caso de uso. Preguntarle por variables en tiempo real a un asistente documental o pedirle una gestión que nadie ha conectado. La limitación es funcional y la respuesta correcta existe antes de buscar nada.
+El primero es **«eso no se puede hacer»**. Es una política de producto, el sistema no cubre ese caso de uso. Preguntarle por variables en tiempo real a un asistente documental o pedirle una gestión que nadie ha conectado. La limitación es funcional y la respuesta correcta existe antes de buscar nada.
 
-El segundo es **«eso no está documentado»**. Una ausencia de evidencia: el sistema buscó y no había. La pregunta era legítima, el caso está cubierto, pero falta la página de documentación que lo responda.
+El segundo es **«eso no está documentado»**. Es una ausencia de evidencia, el sistema buscó y no había. La pregunta era legítima, el caso está cubierto, pero falta la página de documentación que lo responda.
 
 ## Por qué confundirlos sale caro
 
-Porque cada «no» apunta a una cola de trabajo distinta, con un dueño distinto. El primero alimenta las decisiones de producto: qué funcionalidades faltan y cuáles no compensan. El segundo alimenta el trabajo de contenido: qué páginas de documentación hay que escribir.
+Porque cada «no» apunta a una cola de trabajo distinta, con un dueño distinto. El primero alimenta las decisiones de producto, qué funcionalidades faltan y cuáles no compensan. El segundo alimenta el trabajo de contenido, qué páginas de documentación hay que escribir.
 
-Confundirlos es el error clásico de los asistentes documentales. El equipo ve muchos «no», concluye que falta documentación y se pone a escribir páginas para resolver lo que en realidad es una limitación funcional. O al revés: descarta como «fuera de alcance» preguntas perfectamente cubiertas cuya única falta era una página de wiki. Meses de esfuerzo en la dirección equivocada, con la sensación de estar mejorando algo.
+Confundirlos es el error clásico de los asistentes documentales. El equipo ve muchos «no», concluye que falta documentación y se pone a escribir páginas para resolver lo que en realidad es una limitación funcional. O al revés, descarta como «fuera de alcance» preguntas perfectamente cubiertas cuya única falta era una página de wiki. Meses de esfuerzo en la dirección equivocada, con la sensación de estar mejorando algo.
 
 ## Cada «no» en su capa
 
@@ -25,7 +25,7 @@ En el asistente de planta que mantenemos para una empresa industrial, los dos no
 
 El límite de producto se responde sin buscar nada, con un texto oficial que sale de un catálogo versionado. El modelo identifica el caso, pero el texto no lo redacta él. Así la política del producto es consistente, auditable y no depende del humor de un generador.
 
-La falta de documentación, en cambio, solo se puede pronunciar después de haber buscado. Y deja rastro: cada turno registra una etiqueta corta de necesidad no satisfecha, con un vocabulario controlado en lugar de texto libre. Esas etiquetas convierten los noes en datos y los datos en dos colas de trabajo separadas.
+La falta de documentación, en cambio, solo se puede pronunciar después de haber buscado. Y deja rastro. Cada turno registra una etiqueta corta de necesidad no satisfecha, con un vocabulario controlado en lugar de texto libre. Esas etiquetas convierten los noes en datos y los datos en dos colas de trabajo separadas.
 
 ## El matiz que nos costó encontrar
 

@@ -9,7 +9,7 @@ tags: ['Maintenance', 'Observability', 'Business']
 
 Starting brilliant AI projects is easy. The demo goes well, the video circulates, everyone applauds. What is nearly impossible is keeping that project alive for six months. Profitable AI projects? Easy to start and easy to maintain. That asymmetry is the filter we use to decide what to build.
 
-It is not a fringe view: [Gartner estimates](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) that over 40% of agentic AI projects will be canceled by the end of 2027. The mortality is not in launching. It is in surviving.
+It is not a fringe view. [Gartner estimates](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) that over 40% of agentic AI projects will be canceled by the end of 2027. The mortality is not in launching. It is in surviving.
 
 ## What kills projects is not the model
 
@@ -33,6 +33,6 @@ The difference between the brilliant project and the profitable one is not talen
 
 ## The uncomfortable question for your vendor
 
-If you are evaluating an AI project, the question that will tell you the most is not about the model or the demo. It is this: what happens on day 180? Who watches the alarms, who runs the tests, who finds out if the system degrades in silence?
+If you are evaluating an AI project, the question that will tell you the most is not about the model or the demo. What happens on day 180? Who watches the alarms, who runs the tests, who finds out if the system degrades in silence?
 
 Our answer is what we call observability by default, and it sits at the center of how we do [AI agent development](/en/ai-agent-development). If you would rather start with the general map, it is in the [AI automation guide](/en/ai-automation).
