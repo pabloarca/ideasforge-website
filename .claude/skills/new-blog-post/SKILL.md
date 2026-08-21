@@ -14,7 +14,7 @@ so the language switcher and hreflang link them automatically.
 The body copy of any post MUST follow the `redactar` skill workflow: read
 `.private/base-editorial.md` first (facts bank, style rules, keyword map),
 use only VERIFICADO facts, and self-check against its acceptance criteria
-before showing a draft. `PENDIENTES.md` (section 6) holds the
+before showing a draft. `.private/PENDIENTES.md` (section 9) holds the
 writing queue, with the verified facts backing each piece and the service page
 it supports; prefer those when the user has no specific topic.
 

@@ -13,7 +13,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from './Icon.astro';
 import { type Lang, type LongFormPageContent } from '../i18n/ui';
+import ClusterPosts from './ClusterPosts.astro';
 import FaqList from './FaqList.astro';
+import { pillarFromUrl } from '../lib/cluster';
 import FlowDiagram from './FlowDiagram.astro';
 import { localizedPath } from '../i18n/utils';
 
@@ -127,6 +129,12 @@ const faqBg = page.sections.length % 2 === 0 ? 'bg-bg-soft' : 'bg-bg';
       </section>
     ))
   }
+
+  {/* Las entradas que desarrollan lo que cuenta la página. La ruta sale de la
+      URL, así que la página no tiene que declararse a sí misma, y el conjunto
+      se deriva de los enlaces que los propios posts ya traen. Va detrás del
+      cuerpo y delante de la FAQ, que junto al CTA forma el cierre. */}
+  <ClusterPosts lang={lang} pillar={pillarFromUrl(Astro.url.pathname)} bg={faqBg === 'bg-bg-soft' ? 'bg-bg' : 'bg-bg-soft'} />
 
   <!-- FAQ (skipped on pages without one, e.g. About) -->
   {

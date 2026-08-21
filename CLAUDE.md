@@ -72,7 +72,9 @@ al propietario del proyecto antes de tocar textos.
   nuevo, y actualízalo cuando cierres algo.
 - **`.private/ROADMAP.md`**: registro histórico de lo ya hecho y por qué.
 - **`.private/base-editorial.md`**: documento árbitro del contenido (ver
-  arriba).
+  arriba). Su sección 9 es el único registro de cambios de contenido.
+- **`.private/README.md`**: el índice de toda la carpeta privada, con el
+  estado de cada documento. Documento nuevo que no esté ahí, no existe.
 
 **El repositorio es PÚBLICO.** Todo `.private/` está fuera del control de
 versiones y ahí vive el material que no puede publicarse: nombres y datos de
@@ -80,12 +82,12 @@ cliente, cifras sin publicar, precios, estrategia y los términos que
 identifican al cliente industrial. Antes de escribir cualquier documento nuevo,
 decide si va en `.private/` o en la raíz. Ante la duda, `.private/`.
 
-## Ideas de mejora (no implementadas aún)
+## Regla operativa: la bandeja de entrada
 
-- Feed RSS por idioma con `@astrojs/rss`.
-- Datos estructurados JSON-LD (Organization / Article).
-- Optimización de imágenes con `astro:assets`.
-- Si en el futuro necesitas formularios/endpoints server-side: añade un adapter
-  (`@astrojs/node`, Vercel, Netlify o Cloudflare) y `export const prerender = false`
-  en esas rutas. `hybrid` ya no existe en Astro 5.
-- Para subir a Astro 6 cuando toque: `npx @astrojs/upgrade`.
+Cualquier hallazgo, fallo, idea o decisión pendiente que surja en mitad de una
+tarea se anota EN EL MOMENTO en la sección 0 de `.private/PENDIENTES.md`, en
+una línea y sin clasificar. Se clasifica al cerrar. Nada de «lo apunto luego»:
+es la causa número uno de descubrimientos perdidos.
+
+Las ideas técnicas de mejora (RSS, JSON-LD pendientes, `astro:assets`, futuros
+adapters) viven en `.private/PENDIENTES.md`, no aquí: una sola lista.

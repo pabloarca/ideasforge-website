@@ -8,7 +8,9 @@
   sueltas con la sombra lavanda antigua.
 */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ClusterPosts from './ClusterPosts.astro';
 import { type Lang, type SmbPageContent } from '../i18n/ui';
+import { pillarFromUrl } from '../lib/cluster';
 import { altsFor, localizedPath } from '../i18n/utils';
 
 interface Props {
@@ -64,6 +66,11 @@ const { lang, page: p, title, description } = Astro.props;
       </ul>
     </div>
   </section>
+
+  {/* Entradas del blog de este grupo. Se derivan de los enlaces que los
+      propios posts declaran, asi que publicar una entrada nueva la
+      incorpora sola. Si el grupo no tiene ninguna, no pinta nada. */}
+  <ClusterPosts lang={lang} pillar={pillarFromUrl(Astro.url.pathname)} />
 
   <section class="bg-bg py-16 sm:py-20">
     <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">

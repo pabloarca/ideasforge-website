@@ -1,6 +1,6 @@
 ---
 import GridBackdrop from './GridBackdrop.astro';
-import { gradients } from './gradients';
+import { fondos, TINTAS, type FondoName } from './gradients';
 
 export interface Props {
   /** Altura del gráfico (CSS length) */
@@ -20,8 +20,16 @@ export interface Props {
   grid?: boolean;
   /** Cambia el sorteo de la cuadrícula sin dejar de ser reproducible */
   gridSeed?: number;
-  /** Familia de degradado */
-  gradient?: 'azul' | 'noche' | 'teal';
+  /** Familia del catalogo. Trae fondo y tinta juntos, asi que con los claros
+   *  el dibujo se invierte solo. */
+  fondo?: FondoName;
+  /** Escotilla de escape: cualquier valor de `background` (un color plano, un
+   *  degradado, lo que sea). Tiene prioridad sobre `fondo`. Al no venir del
+   *  catalogo no trae tinta, asi que conviene declararla con `tinta`. */
+  background?: string;
+  /** Con que color se dibuja lo de encima. Solo hace falta junto a
+   *  `background`; con `fondo` la trae la familia. */
+  tinta?: 'clara' | 'oscura';
   /** Numeración del gráfico, p. ej. "FIG. 01". Se imprime fuera del marco,
    *  abajo a la derecha, como el pie de plancha de un libro. */
   label?: string;
@@ -39,11 +47,20 @@ const {
   dots = true,
   grid = true,
   gridSeed = 7,
-  gradient = 'azul',
+  fondo = 'azul',
+  background,
+  tinta,
   label,
   title,
   class: className = '',
 } = Astro.props;
+
+const familia = fondos[fondo] ?? fondos.azul;
+const fondoCss = background ?? familia.css;
+// Con `background` a mano y sin `tinta`, se asume clara: es lo que espera
+// quien pasa un degradado propio, que casi siempre sera oscuro.
+const tono = tinta ?? (background ? 'clara' : familia.tinta);
+const inkCss = TINTAS[tono];
 ---
 
 <div class:list={['gf-wrap', className]}>
@@ -60,12 +77,16 @@ const {
       `--gfGrain:${grain}`,
       `--gfInset:${inset}`,
       `--gfPad:${pad}`,
-      `--gfBg:${gradients[gradient] ?? gradients.azul}`,
+      `--gfBg:${fondoCss}`,
+      `--gfInk:${inkCss}`,
+      // La vineta interior solo tiene sentido sobre fondo oscuro: sobre uno
+      // claro ensuciaria las esquinas en vez de recogerlas.
+      `--gfVign:${tono === 'clara' ? 'rgba(2, 4, 20, 0.5)' : 'transparent'}`,
     ].join(';')}
   >
     {grid && (
       <div class="gf-grid" aria-hidden="true">
-        <GridBackdrop seed={gridSeed} />
+        <GridBackdrop seed={gridSeed} color={inkCss} />
       </div>
     )}
 
@@ -105,8 +126,8 @@ const {
     background: var(--gfBg);
     box-shadow:
       0 0 10px 0 var(--color-glow, #c9c7ff),
-      inset 0 0 140px rgba(2, 4, 20, 0.5);
-    color: #fff;
+      inset 0 0 140px var(--gfVign);
+    color: var(--gfInk);
   }
 
   /* La cuadrícula vive dentro de la línea del marco y por debajo de todo lo
@@ -131,7 +152,7 @@ const {
   .gf-frame {
     position: absolute;
     inset: var(--gfInset);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid color-mix(in oklab, var(--gfInk) 30%, transparent);
     border-radius: 3px;
     pointer-events: none;
   }
@@ -140,8 +161,8 @@ const {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 7px rgba(255, 255, 255, 0.45);
+    background: var(--gfInk);
+    box-shadow: 0 0 7px color-mix(in oklab, var(--gfInk) 45%, transparent);
   }
   .gf-tl { top: -3px; left: -3px; }
   .gf-tr { top: -3px; right: -3px; }
@@ -158,7 +179,7 @@ const {
     font-size: 22px;
     font-weight: 500;
     letter-spacing: 0.2px;
-    color: #fff;
+    color: var(--gfInk);
   }
 
   /* El contenido respeta la línea del marco por los cuatro lados. Con título,

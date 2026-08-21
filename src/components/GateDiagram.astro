@@ -1,0 +1,69 @@
+---
+/*
+  El segundo diagrama de la casa: qué le pasa a un cambio antes de publicarse.
+
+  Esquematiza la frase del modal de observabilidad, «cada cambio pasa por una
+  batería de preguntas reales con su respuesta correcta ya anotada, y si hace
+  fallar alguna que antes acertaba no se publica». Lo que el dibujo añade y el
+  texto no dice es que las preguntas de siempre no se retiran cuando entra un
+  cambio: se le suman las nuevas.
+
+  Va en `papel` y no en `azul` para que no se confunda con el diagrama de
+  arquitectura, que vive en el otro modal. Dos gráficos del mismo color en la
+  misma página se leerían como el mismo gráfico.
+
+  Como en el otro, la maquetación vive aquí y las palabras en
+  `content[lang].gateDiagram`. El lienzo tiene coordenadas fijas y se escala
+  para caber, así que estas posiciones sirven para los dos idiomas.
+*/
+import { type Lang, content } from '../i18n/ui';
+import GrainFrame from './graficos/GrainFrame.astro';
+import DiagramCanvas from './graficos/DiagramCanvas.astro';
+import DiagramNode from './graficos/DiagramNode.astro';
+import EdgeLabel from './graficos/EdgeLabel.astro';
+
+interface Props {
+  lang: Lang;
+  /** Quita la leyenda cuando el texto de alrededor ya hace ese trabajo. */
+  bare?: boolean;
+}
+const { lang, bare = false } = Astro.props;
+const d = content[lang].gateDiagram;
+const n = d.nodes;
+const e = d.edges;
+---
+
+<figure class="my-10">
+  <GrainFrame fondo="papel" height="560px" title={d.title}>
+    <DiagramCanvas width={1100} height={300}>
+      {/* El cambio se reparte hacia las dos tandas de preguntas. */}
+      <path slot="edges" d="M180,150 H200 Q210,150 210,140 L210,121 Q210,111 220,111 L246,111" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M180,150 H200 Q210,150 210,160 L210,179 Q210,189 220,189 L246,189" marker-end="url(#dg-arrow)" />
+
+      {/* Las dos se juntan en una sola llave y entran juntas al examen. */}
+      <path slot="edges" d="M470,111 H490 Q500,111 500,121 L500,179 Q500,189 490,189 L470,189" />
+      <path slot="edges" d="M500,150 L516,150" marker-end="url(#dg-arrow)" />
+
+      <path slot="edges" d="M564,106 V93 Q564,83 574,83 L684,83" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M564,194 V207 Q564,217 574,217 L684,217" marker-end="url(#dg-arrow)" />
+
+      <DiagramNode x={0} y={127} w={180}>{n.change}</DiagramNode>
+      <DiagramNode x={250} y={88} w={220}>{n.known}</DiagramNode>
+      <DiagramNode x={250} y={166} w={220}>{n.fresh}</DiagramNode>
+      <DiagramNode x={520} y={106} w={88} shape="rombo">{n.gate}</DiagramNode>
+      <DiagramNode x={690} y={60} w={190}>{n.review}</DiagramNode>
+      <DiagramNode x={690} y={194} w={190}>{n.production}</DiagramNode>
+
+      <EdgeLabel x={630} y={62}>{e.fails}</EdgeLabel>
+      <EdgeLabel x={630} y={196}>{e.passes}</EdgeLabel>
+    </DiagramCanvas>
+  </GrainFrame>
+
+  {
+    !bare && (
+      <figcaption class="mt-6 border-l-2 border-accent pl-4 text-[15px] leading-relaxed text-fg">
+        {d.legend}
+      </figcaption>
+    )
+  }
+</figure>

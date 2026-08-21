@@ -22,7 +22,9 @@ Copia la carpeta a `src/components/graficos/`. Sin dependencias, sin imágenes: 
 | `grid` | `true` | cuadrícula tenue dentro del marco, detrás del contenido |
 | `gridSeed` | `7` | cambia el sorteo de la cuadrícula sin dejar de ser reproducible |
 | `dots` | `true` | puntos en las esquinas |
-| `gradient` | `azul` | `azul` · `noche` · `teal` |
+| `fondo` | `azul` | familia del catálogo, ver abajo |
+| `background` | — | valor de `background` libre, tiene prioridad sobre `fondo` |
+| `tinta` | la de la familia | `clara` · `oscura`, solo hace falta junto a `background` |
 | `title` | — | título dentro del marco, arriba a la izquierda |
 | `label` | — | numeración fuera del marco, abajo a la derecha |
 
@@ -46,6 +48,39 @@ hace falta usarlo suelto. Props: `cell`, `width`, `height`, `seed`,
 Las flechas son `<path slot="edges">` dentro de `DiagramCanvas`; usa `marker-end="url(#dg-arrow)"` para la punta. El trazo y el grosor ya vienen aplicados.
 
 **`EjemploFlujo.astro`** — el flowchart de validación completo, listo para copiar como plantilla.
+
+## Fondos
+
+Cada familia declara **fondo y tinta**. La tinta es el color con el que se
+dibuja todo lo que va encima (marco, rótulos, cuadrícula, nodos del diagrama),
+y por eso hay familias claras sin que el gráfico se quede en blanco sobre
+blanco.
+
+| Familia | Tinta | Para qué |
+| --- | --- | --- |
+| `azul` | clara | El de siempre, el acento de marca |
+| `noche` | clara | Azul apagado, cuando el azul compite con algo |
+| `teal` | clara | Fuera de la familia azul |
+| `prisma` | clara | Diamante, reflejo cian |
+| `iris` | clara | Diamante, reflejo magenta |
+| `espectro` | clara | Diamante, reflejo cálido |
+| `hielo` | oscura | Claro con un velo azul |
+| `papel` | oscura | Claro cálido, sin azul |
+| `lienzo` | oscura | Gris plano del sitio, sin degradado |
+
+```astro
+<GrainFrame fondo="hielo" label="FIG. 02" title="Arquitectura">…</GrainFrame>
+```
+
+Para algo que no está en el catálogo, `background` acepta cualquier valor y
+`tinta` dice con qué color dibujar encima:
+
+```astro
+<GrainFrame background="#1b0033" tinta="clara">…</GrainFrame>
+```
+
+Añadir una familia es **una sola edición** en `gradients.ts`: el tipo sale del
+propio objeto, así que el componente la acepta sin tocar nada más.
 
 ## Tipografía
 

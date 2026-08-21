@@ -9,7 +9,10 @@
   tarjetas sueltas con la sombra lavanda antigua.
 */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ClusterPosts from './ClusterPosts.astro';
+import Icon from './Icon.astro';
 import { type Lang, type EnterprisePageContent } from '../i18n/ui';
+import { pillarFromUrl } from '../lib/cluster';
 import { altsFor, localizedPath } from '../i18n/utils';
 
 interface Props {
@@ -77,6 +80,17 @@ const { lang, page: p, title, description } = Astro.props;
         <div class="bg-bg p-8">
           <h2 class="text-2xl font-bold text-fg">{p.guarantees.heading}</h2>
           <p class="mt-4 text-[15px] leading-relaxed text-muted">{p.guarantees.body}</p>
+          {
+            p.guarantees.link && (
+              <a
+                href={p.guarantees.link.href}
+                class="group mt-5 inline-flex items-center gap-1.5 text-[15px] font-medium text-accent"
+              >
+                <span class="underline-offset-4 group-hover:underline">{p.guarantees.link.label}</span>
+                <Icon name="flecha-derecha" size={16} class="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" />
+              </a>
+            )
+          }
         </div>
         <div class="bg-bg p-8">
           <h2 class="text-2xl font-bold text-fg">{p.proof.heading}</h2>
@@ -104,6 +118,11 @@ const { lang, page: p, title, description } = Astro.props;
       </ul>
     </div>
   </section>
+
+  {/* Entradas del blog de este grupo. Se derivan de los enlaces que los
+      propios posts declaran, asi que publicar una entrada nueva la
+      incorpora sola. Si el grupo no tiene ninguna, no pinta nada. */}
+  <ClusterPosts lang={lang} pillar={pillarFromUrl(Astro.url.pathname)} />
 
   <!-- Final CTA -->
   <section class="bg-bg-soft py-16 sm:py-20">

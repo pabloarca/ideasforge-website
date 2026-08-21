@@ -1,6 +1,7 @@
 ---
 import { type Lang, content } from '../i18n/ui';
 import FlowDiagram from './FlowDiagram.astro';
+import GateDiagram from './GateDiagram.astro';
 import Icon from './Icon.astro';
 import LatticeDots from './LatticeDots.astro';
 
@@ -157,7 +158,12 @@ const t = content[lang].whyUs;
                           <p class="mt-2 text-[15px] leading-relaxed text-muted sm:text-base" set:html={p.body} />
                         </div>
                       )}
-                      {item.modal.diagramAfter === k && <FlowDiagram lang={lang} />}
+                      {item.modal.diagram?.after === k &&
+                        (item.modal.diagram.kind === 'gate' ? (
+                          <GateDiagram lang={lang} />
+                        ) : (
+                          <FlowDiagram lang={lang} />
+                        ))}
                     </>
                   ))}
                 </div>
@@ -186,7 +192,12 @@ const t = content[lang].whyUs;
                           <p class="mt-2 text-[15px] leading-relaxed text-muted sm:text-base" set:html={p.body} />
                         </div>
                       )}
-                      {item.modal.diagramAfter === k + 2 && <FlowDiagram lang={lang} />}
+                      {item.modal.diagram?.after === k + 2 &&
+                        (item.modal.diagram.kind === 'gate' ? (
+                          <GateDiagram lang={lang} />
+                        ) : (
+                          <FlowDiagram lang={lang} />
+                        ))}
                     </>
                   ))}
                 </div>

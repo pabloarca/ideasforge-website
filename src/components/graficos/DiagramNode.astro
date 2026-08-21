@@ -38,7 +38,7 @@ const { x, y, w = 180, h = 46, shape = 'caja' } = Astro.props;
     font-family: var(--font-sans, 'Space Grotesk', sans-serif);
     font-size: 15px;
     font-weight: 500;
-    color: #fff;
+    color: currentColor;
     text-align: center;
   }
   .dg-box {
@@ -46,18 +46,18 @@ const { x, y, w = 180, h = 46, shape = 'caja' } = Astro.props;
     align-items: center;
     justify-content: center;
     padding: 0 12px;
-    border: 1.3px solid rgba(255, 255, 255, 0.92);
+    border: 1.3px solid color-mix(in oklab, currentColor 92%, transparent);
     border-radius: 7px;
-    background: rgba(255, 255, 255, 0.055);
+    background: color-mix(in oklab, currentColor 6%, transparent);
   }
 
   .dg-diamond {
     position: absolute;
     inset: 0;
     transform: rotate(45deg);
-    border: 1.3px solid rgba(255, 255, 255, 0.92);
+    border: 1.3px solid color-mix(in oklab, currentColor 92%, transparent);
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.055);
+    background: color-mix(in oklab, currentColor 6%, transparent);
     box-sizing: border-box;
   }
   .dg-diamond-label {
@@ -75,10 +75,10 @@ const { x, y, w = 180, h = 46, shape = 'caja' } = Astro.props;
     right: 0;
     top: 13px;
     bottom: 0;
-    border: 1.3px solid rgba(255, 255, 255, 0.92);
+    border: 1.3px solid color-mix(in oklab, currentColor 92%, transparent);
     border-top: none;
     border-radius: 0 0 50% 50% / 0 0 13px 13px;
-    background: rgba(255, 255, 255, 0.03);
+    background: color-mix(in oklab, currentColor 3%, transparent);
     box-sizing: border-box;
   }
   .dg-cyl-top {
@@ -87,9 +87,9 @@ const { x, y, w = 180, h = 46, shape = 'caja' } = Astro.props;
     right: 0;
     top: 0;
     height: 26px;
-    border: 1.3px solid rgba(255, 255, 255, 0.92);
+    border: 1.3px solid color-mix(in oklab, currentColor 92%, transparent);
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.07);
+    background: color-mix(in oklab, currentColor 7%, transparent);
     box-sizing: border-box;
   }
   .dg-cyl-label {

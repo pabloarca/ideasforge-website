@@ -1,0 +1,67 @@
+---
+/*
+  Las entradas del blog que desarrollan lo que cuenta esta página.
+
+  Cierra la mitad que faltaba del enlazado de grupo: los posts ya enlazaban
+  hacia su página pilar, pero ninguna pilar devolvía el enlace. El conjunto se
+  deriva de esos mismos enlaces (ver `lib/cluster.ts`), así que publicar una
+  entrada nueva la incorpora sola, sin tocar ninguna lista.
+
+  Si el grupo no tiene entradas, el componente no pinta nada.
+*/
+import { type Lang, content } from '../i18n/ui';
+import { localizedPath } from '../i18n/utils';
+import { postsForPillar } from '../lib/cluster';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+  /** Ruta de la página pilar, tal como la enlazan los posts. */
+  pillar: string;
+  /** Fondo de la banda, para encajar en la alternancia de la página. */
+  bg?: string;
+}
+const { lang, pillar, bg = 'bg-bg-soft' } = Astro.props;
+
+const t = content[lang].blog;
+const posts = await postsForPillar(lang, pillar);
+
+const slugOf = (id: string) => id.replace(/^(es|en)\//, '');
+---
+
+{
+  posts.length > 0 && (
+    <section class={`${bg} py-14 sm:py-16`}>
+      <div class="mx-auto max-w-3xl px-5 sm:px-8">
+        <h2 class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">
+          {t.clusterHeading}
+        </h2>
+
+        <ul class="mt-7 divide-y divide-border-soft border-y border-border-soft">
+          {posts.map((post) => (
+            <li>
+              <a
+                href={localizedPath(`/blog/${slugOf(post.id)}`, lang)}
+                class="group flex items-start justify-between gap-6 py-5 transition-colors duration-300 hover:bg-border/20"
+              >
+                <span class="min-w-0">
+                  <span class="block font-bold leading-snug text-fg">{post.data.title}</span>
+                  <span class="mt-1 block text-[15px] leading-relaxed text-muted">
+                    {post.data.description}
+                  </span>
+                </span>
+                <span class="mt-1 shrink-0 text-accent" aria-hidden="true">
+                  <Icon
+                    name="flecha-derecha"
+                    size={20}
+                    class="transition-transform duration-300 group-hover:translate-x-0.5"
+                  />
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}

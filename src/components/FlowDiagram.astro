@@ -28,7 +28,7 @@ const e = d.edges;
 ---
 
 <figure class="my-10">
-  <GrainFrame height="560px" label={d.label} title={d.title}>
+  <GrainFrame height="560px" title={d.title}>
     {/* Sin `offsetTop`: ahora el propio marco reserva el sitio del título. */}
     <DiagramCanvas width={1100} height={300}>
       <path slot="edges" d="M190,150 L232,150" marker-end="url(#dg-arrow)" />

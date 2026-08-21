@@ -29,6 +29,10 @@ export interface Props {
   dotChance?: number;
   dotOpacity?: number;
   lineOpacity?: number;
+  /** Color de las lineas, rellenos y puntos. Lo pasa GrainFrame segun la
+   *  tinta de la familia, para que la cuadricula tambien funcione sobre un
+   *  fondo claro en vez de desaparecer. */
+  color?: string;
 }
 
 const {
@@ -42,6 +46,7 @@ const {
   dotChance = 0.3,
   dotOpacity = 0.32,
   lineOpacity = 0.07,
+  color = '#fff',
 } = Astro.props;
 
 const rand = prng(seed);
@@ -84,7 +89,7 @@ const patternId = `gb-${cell}-${seed}`;
       <path
         d={`M ${cell} 0 L 0 0 0 ${cell}`}
         fill="none"
-        stroke="#fff"
+        stroke={color}
         stroke-width="1"
         opacity={lineOpacity}
       />
@@ -97,13 +102,13 @@ const patternId = `gb-${cell}-${seed}`;
     El color y la opacidad comunes viven en el <g> y no en cada elemento: con
     varios cientos de nodos, repetirlos engorda el HTML sin aportar nada.
   */}
-  <g fill="#fff">
+  <g fill={color}>
     {fills.map((f) => (
       <rect x={f.x} y={f.y} width={cell} height={cell} opacity={f.o} />
     ))}
   </g>
 
-  <g fill="#fff" opacity={dotOpacity}>
+  <g fill={color} opacity={dotOpacity}>
     {dots.map((d) => <circle cx={d.x} cy={d.y} r="1.75" />)}
   </g>
 </svg>

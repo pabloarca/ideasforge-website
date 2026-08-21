@@ -15,8 +15,8 @@ Lee `.private/base-editorial.md` COMPLETO antes de escribir una palabra.
 Contiene: banco de hechos con estado de verificación, criterios de aceptación
 (sección 2), decisiones cerradas (3), posicionamiento (4), mapa de palabras
 clave (5), brief por página (6), reglas de estilo (7), régimen de iteración
-(8). La cola de piezas de blog y todo lo pendiente viven en
-`PENDIENTES.md` (raíz); léelo también si la tarea es un post o si
+(8). La cola de piezas de blog (sección 9) y todo lo pendiente viven en
+`.private/PENDIENTES.md`; léelo también si la tarea es un post o si
 necesitas saber qué datos siguen sin confirmar.
 
 Si el archivo no existe en esta copia del proyecto, DETENTE y pídeselo al

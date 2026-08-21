@@ -85,8 +85,9 @@ export interface WhyUsModal {
    * Bodies support inline HTML: <u> for emphasis, <a class="link-inline"> for links.
    */
   paragraphs: Array<string | { heading: string; body: string }>;
-  /** Index of the paragraph after which the shared FlowDiagram is rendered. */
-  diagramAfter?: number;
+  /** Que diagrama va dentro del modal y tras que parrafo. `flow` es el de la
+   *  arquitectura, `gate` el del examen previo a publicar. */
+  diagram?: { after: number; kind: 'flow' | 'gate' };
   stats?: WhyUsStat[];
   /** Standalone line that closes the body section. Omit it when the argument
    *  already lands inside a paragraph. */
@@ -111,8 +112,6 @@ export interface MethodologyStep {
  * sentences. Anything longer belongs in `legend`, which sits outside the frame.
  */
 export interface FlowDiagramContent {
-  /** Monospaced tag in the frame corner, e.g. «FIG. 01». */
-  label: string;
   title: string;
   nodes: {
     question: string;
@@ -124,6 +123,25 @@ export interface FlowDiagramContent {
   };
   edges: { contract: string; rejects: string; accepts: string };
   /** The point the picture makes, in plain text under the frame. */
+  legend: string;
+}
+
+/**
+ * El segundo diagrama: el examen por el que pasa un cambio antes de salir.
+ * Misma forma que FlowDiagramContent, con sus propios nodos. Las etiquetas se
+ * mantienen cortas a proposito: el lienzo tiene anchos fijos.
+ */
+export interface GateDiagramContent {
+  title: string;
+  nodes: {
+    change: string;
+    known: string;
+    fresh: string;
+    gate: string;
+    review: string;
+    production: string;
+  };
+  edges: { fails: string; passes: string };
   legend: string;
 }
 
@@ -236,6 +254,8 @@ export interface SiteContent {
   };
   blog: {
     eyebrow: string;
+    /** Encabezado del bloque de entradas relacionadas en las páginas pilar. */
+    clusterHeading: string;
     heading: string;
     subtitle: string;
     readMore: string;
@@ -277,6 +297,8 @@ export interface SiteContent {
   start: StartPageContent;
   /** Shared architecture diagram, reused wherever the argument is made. */
   flowDiagram: FlowDiagramContent;
+  /** Diagrama del examen previo a publicar, en el modal de observabilidad. */
+  gateDiagram: GateDiagramContent;
   footer: {
     tagline: string;
     menu: string;
@@ -302,8 +324,15 @@ export interface SiteContent {
     agentDev: LongFormPageContent;
     processAuto: LongFormPageContent;
     conversational: LongFormPageContent;
-    /** Cost guide. EN-only for now: the ES tandas showed no cost-query market. */
+    /** Cost guide. Existe en los dos idiomas desde el 21 ago 2026. */
     cost?: LongFormPageContent;
+    /**
+     * Pilar de confianza sobre cumplimiento y soberanía del dato. NO es una
+     * página de servicio: no vende una línea nueva, explica cómo están
+     * construidas las cuatro que ya hay. Solo inglés hasta que el planificador
+     * vea demanda española.
+     */
+    compliance?: LongFormPageContent;
   };
 }
 
@@ -313,7 +342,8 @@ export interface EnterprisePageContent {
   problem: { heading: string; body: string };
   whatWeBuild: { heading: string; body: string };
   how: { heading: string; body: string };
-  guarantees: { heading: string; body: string };
+  /** `link` opcional: lleva al pilar de cumplimiento sin repetir su contenido. */
+  guarantees: { heading: string; body: string; link?: { label: string; href: string } };
   proof: { heading: string; body: string };
   capabilities: {
     heading: string;
@@ -566,6 +596,7 @@ export const content: Record<Lang, SiteContent> = {
               { title: 'Vigilamos al proveedor', body: 'Si actualiza el modelo por su cuenta, lo notamos nosotros primero.' },
               { title: 'Avisa cuando va incompleto', body: 'Dice qué ha consultado y qué se ha dejado fuera.' },
             ],
+            diagram: { after: 3, kind: 'gate' },
             openingLine:
               'El fallo más caro no hace saltar ninguna alarma, es una respuesta impecable (pero falsa).',
             paragraphs: [
@@ -589,10 +620,6 @@ export const content: Record<Lang, SiteContent> = {
                 heading: 'Lo que ve quien pregunta',
                 body: 'Parte de lo que medimos se lo enseñamos al usuario y fue una decisión pensada. En uno de nuestros asistentes cada respuesta empieza diciendo qué periodo ha consultado, porque descubrimos que «el mes pasado» significaba cosas distintas según quién preguntara. Y si alguna fuente de datos no está disponible, el sistema responde con las que sí tiene y dice cuál se ha quedado fuera. Preferimos una respuesta que admite lo que le falta a una cifra incompleta con aspecto de completa.',
               },
-            ],
-            stats: [
-              { value: '97,6 % → 2,4 %', label: 'lo que se desplomó un modelo comercial en tres meses, sin avisar (Stanford y Berkeley, 2023)' },
-              { value: '72 % → 91 %', label: 'de acierto en uno de nuestros sistemas tras corregirlo, sin bajar el listón de la prueba' },
             ],
             closingLine: 'Medir no evita que el sistema falle. Evita que falle en silencio.',
             notPromised: {
@@ -663,7 +690,7 @@ export const content: Record<Lang, SiteContent> = {
               { title: 'Solo habla con lo que apruebes', body: 'Contención por permisos, no por filtros.' },
               { title: 'RGPD', body: 'Borrado real y plazos legales cumplidos.' },
             ],
-            diagramAfter: 2,
+            diagram: { after: 2, kind: 'flow' },
             openingLine: 'El modelo decide, pero nunca es la autoridad.',
             paragraphs: [
               {
@@ -760,6 +787,7 @@ export const content: Record<Lang, SiteContent> = {
     },
     blog: {
       eyebrow: 'Blog',
+      clusterHeading: 'Lo contamos en detalle',
       heading: 'Blog',
       subtitle: 'Lo que vamos descubriendo construyendo IA en producción con nuestros clientes.',
       readMore: 'Leer más',
@@ -811,7 +839,6 @@ export const content: Record<Lang, SiteContent> = {
       startPost: ' recoge lo que necesitamos para ponernos en marcha.',
     },
     flowDiagram: {
-      label: 'FIG. 01',
       title: 'El modelo interpreta, el código decide',
       nodes: {
         question: 'Pregunta del usuario',
@@ -824,6 +851,20 @@ export const content: Record<Lang, SiteContent> = {
       edges: { contract: 'contrato JSON', rejects: 'rechaza', accepts: 'acepta' },
       legend:
         'El modelo nunca llega a tocar tus sistemas. Interpreta la pregunta y entrega un contrato. A partir de ahí decide el código, que sí se comporta igual siempre. Lo peor que puede conseguir un mensaje malicioso es que se elija mal dentro de una lista que ya hemos revisado.',
+    },
+    gateDiagram: {
+      title: 'Qué le pasa a un cambio antes de salir',
+      nodes: {
+        change: 'Un cambio nuevo',
+        known: 'Las preguntas de siempre',
+        fresh: 'Las nuevas del cambio',
+        gate: '¿Falla alguna?',
+        review: 'Vuelve a revisión',
+        production: 'Sale a producción',
+      },
+      edges: { fails: 'falla', passes: 'no falla' },
+      legend:
+        'Las preguntas de siempre no se retiran cuando entra un cambio, se le suman las nuevas. Por eso una mejora en un sitio no puede estropear otro sin que nos enteremos antes de publicar, que es cuando todavía sale barato.',
     },
     start: {
       metaTitle: 'Empezar la exploración, Ideasforge',
@@ -914,6 +955,7 @@ export const content: Record<Lang, SiteContent> = {
         { label: 'Automatización de procesos con IA', href: '/servicios/automatizacion-de-procesos-con-ia' },
         { label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
         { label: 'Documentación interna', href: '/servicios/conocimiento-corporativo' },
+        { label: 'Qué cuesta un agente de IA', href: '/cuanto-cuesta-un-agente-de-ia' },
         { label: 'IA para pymes', href: '/pymes' },
         { label: 'IA para inmobiliarias', href: '/inmobiliarias' },
         { label: 'IA para gestorías', href: '/gestorias' },
@@ -1454,6 +1496,84 @@ export const content: Record<Lang, SiteContent> = {
           button: 'Cuéntanos tu reto',
         },
       },
+      cost: {
+        metaTitle: 'Cuánto cuesta un agente de IA, Ideasforge',
+        metaDescription:
+          'Un agente de IA a medida cuesta entre 2.500 y 10.000 € de construcción, más 150 a 500 € al mes de operación. Desglosamos qué mueve el precio, a dónde va la cuota mensual y qué es tuyo al final.',
+        hero: {
+          eyebrow: 'Guía de precios',
+          title: '¿Cuánto cuesta un agente de IA?',
+          subtitle:
+            'Un agente de IA a medida construido por Ideasforge cuesta entre 2.500 y 10.000 € de construcción, más 150 a 500 € al mes para mantenerlo funcionando y medido. Esta página explica qué mueve esa cifra, con datos de coste reales de nuestros sistemas en producción.',
+          cta: 'Ver qué mueve el precio',
+          ctaHref: '#factores',
+        },
+        stats: [
+          { value: '5', label: 'sistemas en producción detrás de estas cifras' },
+          { value: '145', label: 'conversaciones anotadas frenan cada cambio de nuestro asistente de citas' },
+          { value: '~0,05 €', label: 'cuesta la prueba semanal de extremo a extremo sobre un sistema vivo' },
+        ],
+        sections: [
+          {
+            heading: 'La respuesta corta',
+            id: 'respuesta',
+            paragraphs: [
+              'Un agente de un solo trabajo se queda en la parte baja del rango. Un canal, un sistema al que conectarse y una tarea acotada, como leer las facturas que llegan a un chat y convertir cada una en una fila normalizada. Construirlo arranca en torno a 2.500 €. Operarlo, en torno a 150 € al mes.',
+              'La parte alta es para agentes que tocan varios sistemas y necesitan más validación antes de salir, como un asistente que responde desde tu documentación y además consulta datos vivos. Esas construcciones se acercan a los 10.000 € y su operación se sitúa en la parte alta del rango mensual.',
+              'Los sistemas multiagente más grandes, como un asistente de planta que enruta cada pregunta a subagentes especializados, quedan fuera de estos rangos y se presupuestan por proyecto.',
+            ],
+          },
+          {
+            heading: 'Qué mueve el precio',
+            id: 'factores',
+            paragraphs: ['Cuatro cosas explican casi cualquier presupuesto que enviamos.'],
+            bullets: [
+              'A cuántos sistemas se conecta. Un agente que solo responde preguntas es más barato que uno que además escribe en tu calendario, en tu CRM o en tu base de datos, porque cada sistema conectado necesita sus propios permisos y sus propias pruebas.',
+              'El estado de tus datos. Si el conocimiento que el agente necesita vive en fuentes limpias y legibles, el modelo rinde mejor y la construcción se acorta. Solemos ganar más ordenando los datos y las herramientas que puliendo instrucciones.',
+              'Cuánta prueba necesitas antes de salir. Nuestro asistente de citas Wazzy no publica un cambio hasta que pasa una batería de 145 conversaciones anotadas. No todos los proyectos necesitan esa profundidad. Elegirla forma parte de la conversación del precio.',
+              'Quién lo opera después. La cuota mensual cubre vigilar el sistema en producción. La siguiente sección enseña a dónde va ese dinero.',
+            ],
+          },
+          {
+            heading: 'A dónde va la cuota mensual',
+            id: 'operacion',
+            paragraphs: [
+              'Cada mensaje que envía una persona dispara llamadas al proveedor del modelo y esas llamadas son el coste bruto de tener un agente en marcha. En Wazzy lo medimos por capas: leer y estructurar el mensaje que entra se lleva entre el 52 y el 57 % del gasto de modelo, decidir qué hacer a continuación entre el 24 y el 31 % y escribir la respuesta entre el 16 y el 19 %.',
+              'Conocer ese reparto es lo que convierte recortar coste en una medición y no en una apuesta. En uno de nuestros sistemas probamos un modelo más barato y la batería de pruebas lo vetó, porque la calidad general bajaba diez puntos.',
+              'El resto de la cuota paga la vigilancia. Una vez por semana lanzamos una conversación real contra el sistema vivo de principio a fin, por unos cinco céntimos. Y antes de publicar cualquier cambio tiene que pasar una batería de regresión. Son dos ritmos separados a propósito. La batería frena los cambios, la prueba semanal vigila lo que ya está funcionando.',
+            ],
+            link: { label: 'Por qué mantener viva la IA es lo difícil', href: '/blog/mantener-viva-la-ia' },
+          },
+          {
+            heading: 'Qué es tuyo al final',
+            paragraphs: [
+              'El repositorio está a tu nombre desde el primer día y la infraestructura corre en una cuenta de nube que es tuya, no nuestra. Si nos separamos, el sistema se queda contigo, con su documentación y su historia.',
+              'Eso explica también qué no incluye la cuota. No estás alquilando el agente, así que el coste mensual es operación y no una licencia que deja de funcionar cuando dejas de pagar.',
+            ],
+            link: { label: 'Cómo construimos agentes de IA', href: '/servicios/desarrollo-de-agentes-de-ia' },
+          },
+        ],
+        faqHeading: 'Las preguntas de precio que más nos hacen',
+        faq: [
+          {
+            q: '¿Cuánto cuesta un chatbot con IA?',
+            a: 'Un chatbot de atención se queda en la parte baja del rango, desde 2.500 € de construcción, porque suele vivir en un solo canal y beber de una sola fuente de conocimiento. El precio sube cuando deja de solo responder y empieza a actuar, reservando citas o actualizando fichas, porque cada acción necesita sus permisos y sus pruebas.',
+          },
+          {
+            q: '¿Por qué hay una cuota mensual?',
+            a: 'Porque el modelo sobre el que corre tu agente cambia por debajo. Los proveedores actualizan modelos sin cambiarles el nombre. Un sistema que ayer respondía bien puede empezar a fallar en silencio. La cuota paga la medición y la prueba semanal que lo detectan antes que tus usuarios.',
+          },
+          {
+            q: '¿Podemos operarlo sin vosotros?',
+            a: 'Sí. Todo es tuyo, así que puedes tomar el relevo cuando quieras y hacemos sesiones de traspaso cuando un cliente las pide. Ten en cuenta una cosa, eso sí. Operar un agente significa medirlo y si nadie sigue midiendo, los fallos se vuelven silenciosos.',
+          },
+        ],
+        cta: {
+          heading: '¿Quieres una cifra para tu caso?',
+          body: 'Cuéntanos tu reto y respondemos en menos de 24 horas laborables. Si no vemos retorno, te lo decimos.',
+          button: 'Cuéntanos tu reto',
+        },
+      },
     },
   },
 
@@ -1647,6 +1767,7 @@ export const content: Record<Lang, SiteContent> = {
               { title: 'We watch your provider', body: 'If they update the model on their own, we notice first.' },
               { title: 'It flags partial answers', body: 'It states what it queried and what was left out.' },
             ],
+            diagram: { after: 3, kind: 'gate' },
             openingLine:
               'The most expensive failure sets off no alarm, it is a flawless answer (that happens to be false).',
             paragraphs: [
@@ -1670,10 +1791,6 @@ export const content: Record<Lang, SiteContent> = {
                 heading: 'What the person asking sees',
                 body: 'Some of what we measure is shown to the person asking, and that was deliberate. In one of our assistants every answer opens by stating which period it queried, because we found that \'last month\' meant different things to different people. And if a data source is unavailable, the system answers with the ones it has and says which was left out. We prefer an answer that admits what it is missing to an incomplete figure that looks complete.',
               },
-            ],
-            stats: [
-              { value: '97.6% → 2.4%', label: 'how far a commercial model fell in three months, unannounced (Stanford and Berkeley, 2023)' },
-              { value: '72% → 91%', label: 'accuracy in one of our systems after fixing it, without lowering the test bar' },
             ],
             closingLine: 'Measuring does not stop the system from failing. It stops it from failing in silence.',
             notPromised: {
@@ -1743,7 +1860,7 @@ export const content: Record<Lang, SiteContent> = {
               { title: 'It only talks to what you approve', body: 'Contained by permissions, not filters.' },
               { title: 'GDPR', body: 'Real deletion and legal retention periods met.' },
             ],
-            diagramAfter: 2,
+            diagram: { after: 2, kind: 'flow' },
             openingLine: 'The model decides, but it is never the authority.',
             paragraphs: [
               {
@@ -1839,6 +1956,7 @@ export const content: Record<Lang, SiteContent> = {
     },
     blog: {
       eyebrow: 'Blog',
+      clusterHeading: 'We cover this in detail',
       heading: 'Blog',
       subtitle: 'What we discover while building AI in production with our clients.',
       readMore: 'Read more',
@@ -1894,7 +2012,6 @@ export const content: Record<Lang, SiteContent> = {
       startPost: ' collects what we need to get going.',
     },
     flowDiagram: {
-      label: 'FIG. 01',
       title: 'The model interprets, the code decides',
       nodes: {
         question: 'User question',
@@ -1907,6 +2024,20 @@ export const content: Record<Lang, SiteContent> = {
       edges: { contract: 'JSON contract', rejects: 'rejects', accepts: 'accepts' },
       legend:
         'The model never reaches your systems. It interprets the question and hands over a contract, and from there the code decides, and the code does behave the same every time. The worst a malicious message can achieve is a wrong pick from a list we have already reviewed.',
+    },
+    gateDiagram: {
+      title: 'What happens to a change before it ships',
+      nodes: {
+        change: 'A new change',
+        known: 'The usual questions',
+        fresh: 'The new ones it brings',
+        gate: 'Any failures?',
+        review: 'Back to review',
+        production: 'Goes to production',
+      },
+      edges: { fails: 'fails', passes: 'passes' },
+      legend:
+        'The usual questions are not retired when a change arrives, the new ones are added to them. That is why an improvement in one place cannot break another without us finding out before it ships, which is while it is still cheap.',
     },
     start: {
       metaTitle: 'Start the exploration, Ideasforge',
@@ -1997,6 +2128,7 @@ export const content: Record<Lang, SiteContent> = {
         { label: 'AI workflow automation', href: '/en/ai-workflow-automation' },
         { label: 'Conversational AI', href: '/en/conversational-ai' },
         { label: 'Internal documentation', href: '/en/services/corporate-knowledge' },
+        { label: 'GDPR-compliant AI', href: '/en/gdpr-compliant-ai' },
         { label: 'AI for small business', href: '/en/smb' },
         { label: 'AI for real estate', href: '/en/real-estate' },
         { label: 'AI for accounting firms', href: '/en/accounting-firms' },
@@ -2031,6 +2163,10 @@ export const content: Record<Lang, SiteContent> = {
         guarantees: {
           heading: 'Enterprise guarantees',
           body: 'On your infrastructure (on-premise or your cloud), with your corporate identity (SSO / Azure AD) and your data wherever you decide. With observability: we measure quality continuously.',
+          link: {
+            label: 'How this holds up under GDPR and the EU AI Act',
+            href: '/en/gdpr-compliant-ai',
+          },
         },
         proof: {
           heading: 'Proof in production',
@@ -2305,7 +2441,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       agentDev: {
-        metaTitle: 'AI Agent Development for Enterprises, Ideasforge',
+        metaTitle: 'Custom AI Agent Development for Enterprises, Ideasforge',
         metaDescription:
           'Custom AI agent development services for mid-size and large companies: enterprise AI agents on your infrastructure, under your identity, measured before every release.',
         hero: {
@@ -2322,7 +2458,7 @@ export const content: Record<Lang, SiteContent> = {
         ],
         sections: [
           {
-            heading: 'What we build',
+            heading: 'What custom AI agent development covers',
             paragraphs: [
               'Custom AI agents that do real work: they answer questions against your documentation and databases, run guided diagnostics, qualify requests and execute actions on the systems you approve. Each agent is built for one job and connected to the tools that job needs.',
               'When one agent is not enough, we build the architecture that coordinates several: an orchestrator understands each query and routes it to the specialist. One of our production systems runs this way, with half a dozen specialized agents behind the orchestrator.',
@@ -2342,6 +2478,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'The model decides, but it is never the authority: it picks from a closed set of actions that the code reviews before anything runs. Agents act with the permissions of the person using them, through your corporate identity. If your organization revokes someone’s access, the agent loses it too.',
             ],
+            link: { label: 'Built to run under EU rules', href: '/en/gdpr-compliant-ai' },
           },
           {
             heading: 'Proof in production',
@@ -2428,6 +2565,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Every change runs against a battery of tests before going live, and every run leaves a record. If data is missing, the system answers with what it has and says what was left out, instead of returning a figure that looks complete.',
             ],
+            link: { label: 'Where your data goes, and what we log', href: '/en/gdpr-compliant-ai' },
           },
           {
             heading: 'Your systems stay put',
@@ -2506,6 +2644,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Wazzy handles health data, the most protected category under GDPR: field-by-field encryption, deletion aligned with clinical-record retention law, and internal records that cannot receive personal data. If your sector has compliance requirements, the discipline is already in place.',
             ],
+            link: { label: 'How we handle data and compliance', href: '/en/gdpr-compliant-ai' },
           },
           {
             heading: 'Measured, not assumed',
@@ -2613,6 +2752,108 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Want a number for your case?',
+          body: 'Tell us your challenge and we reply within 24 business hours. If we don’t see a return, we’ll tell you.',
+          button: 'Tell us your challenge',
+        },
+      },
+      compliance: {
+        metaTitle: 'GDPR-Compliant AI Development, Ideasforge',
+        metaDescription:
+          'AI agents built to run on infrastructure you own, with isolation enforced in code and logs that cannot receive personal data. What we build, what we record and what your DPO can inspect.',
+        hero: {
+          eyebrow: 'Data sovereignty',
+          title: 'GDPR-compliant AI on infrastructure you own',
+          subtitle:
+            'We build AI agents for European companies that cannot send their data anywhere. Everything runs in a cloud account under your name, isolation is enforced by code rather than by instructions to a model, and every decision the system makes is recorded for someone to inspect.',
+          cta: 'See how it is built',
+          ctaHref: '#isolation',
+        },
+        stats: [
+          { value: '5', label: 'systems in production built this way' },
+          { value: 'Art. 9', label: 'GDPR health data handled in production, the strictest category' },
+          { value: '4', label: 'layers of isolation between one company’s data and another’s' },
+        ],
+        sections: [
+          {
+            heading: 'What we do and what we do not',
+            paragraphs: [
+              'We are engineers, not auditors. We do not certify your compliance, we do not issue legal opinions and we do not sign off on your risk classification. Those are jobs for your lawyers and your data protection officer.',
+              'What we do is build the system underneath so that those people have something to work with. When your DPO asks where the data went, who could see it and why the assistant answered what it answered, the answer exists and can be shown. That is the difference this page is about.',
+            ],
+          },
+          {
+            heading: 'Where your data actually goes',
+            id: 'infrastructure',
+            paragraphs: [
+              'The infrastructure runs in a cloud account that belongs to you, not to us, and the repository is in your name from the first day. We do not host your assistant on our side and hand you a login.',
+              'The only outbound path is the call to the model provider, and you approve which calls happen and what travels inside them. Nothing else leaves. If we part ways, the system stays where it already was, with its documentation and its history.',
+            ],
+            link: { label: 'What it costs to run one', href: '/en/ai-agent-development-cost' },
+          },
+          {
+            heading: 'Isolation that does not depend on the model behaving',
+            id: 'isolation',
+            paragraphs: [
+              'An early version of one of our assistants kept companies apart by telling the model, in its instructions, never to omit a filter. That worked until it did not. The difference between a guarantee and a polite request is that only one of them survives a bad day.',
+              'Today the separation is enforced in four places, and the model is not one of them.',
+            ],
+            bullets: [
+              'The context only ever contains what the person asking is allowed to see, so the assistant cannot even formulate a question about someone else’s data.',
+              'Name matching is confined to the sites that person is authorised for, so a near-miss cannot drift into a neighbouring company.',
+              'Code validates the request against an allow-list before any query is built. The model proposes, the code decides.',
+              'The final query carries an unconditional filter. If the permission list arrives empty, it resolves to a condition that matches nothing rather than to everything.',
+            ],
+            link: { label: 'Why the model is never the authority', href: '/en/blog/i-dont-like-ai-agents' },
+          },
+          {
+            heading: 'Health data, under the strictest article there is',
+            paragraphs: [
+              'Our own appointments product runs in dental, physiotherapy and aesthetics clinics, which means it handles health data under Article 9.2.h of the GDPR. That is the category with the least room for improvisation.',
+              'It is encrypted field by field with AES-256-GCM. Deletion respects the five years that Spanish clinical record law requires, so a deletion request does not quietly break a legal retention duty. We built that because we had to, and it is the reason we can talk about this from experience rather than from a checklist.',
+            ],
+          },
+          {
+            heading: 'What we record, and what we cannot record',
+            paragraphs: [
+              'Every decision is written down: what the assistant understood, what it asked for, what the validator rejected and why. The log is append-only and it is not read back during execution, so it can never influence an answer. It exists to be inspected afterwards.',
+              'The telemetry works the other way round. It runs on an allow-list, which means the internal records are structurally unable to receive personal data. Not "we try not to log it", but "the field is not on the list, so it cannot arrive".',
+            ],
+            link: { label: 'How we measure what a system does', href: '/en/ai-agent-development' },
+          },
+          {
+            heading: 'Where this shows up in what we build',
+            paragraphs: [
+              'This is not a separate product. It is how the four things we build are built, and each one meets the question from a different angle.',
+            ],
+            bullets: [
+              'Assistants over internal documentation, where the hard part is that someone only ever retrieves the documents their role allows.',
+              'Agents that query live business data, where isolation between companies has to hold at the level of the query, not the prompt.',
+              'Workflow automation over documents, where the record of what was extracted and what was rejected is the audit trail.',
+              'Customer-facing chatbots, where the data subject is a person who did not choose to talk to a machine.',
+            ],
+          },
+        ],
+        faqHeading: 'What clients ask before legal gets involved',
+        faq: [
+          {
+            q: 'Does our data train anyone’s model?',
+            a: 'Not with the providers and settings we deploy. Model calls run under agreements and configuration that exclude training on your content, and the choice of provider is yours to approve. If a provider changes those terms, that is a decision you get to take, not one we take for you.',
+          },
+          {
+            q: 'Can this run entirely on our own servers?',
+            a: 'The system we build can, and does run in infrastructure you own. The model itself is the part to talk about honestly: running a model on your own hardware is a different project with a different cost, and we have not deployed open models in production. If that is a requirement, say so early, because it changes the architecture.',
+          },
+          {
+            q: 'The EU AI Act came into force in August. Does that change what we can build?',
+            a: 'It changes what you have to be able to demonstrate, which is mostly about record-keeping, human oversight and knowing what your system did. Whether your particular use is high-risk is a legal call and not ours to make. What we can say is that the systems we build already record the decision rather than only the result, which is the part that is expensive to retrofit later.',
+          },
+          {
+            q: 'Who owns the code?',
+            a: 'You do, from day one. Repositories, documentation and architecture are yours, in a cloud account under your name. There is no black box and no lock-in.',
+          },
+        ],
+        cta: {
+          heading: 'Does your data have to stay where it is?',
           body: 'Tell us your challenge and we reply within 24 business hours. If we don’t see a return, we’ll tell you.',
           button: 'Tell us your challenge',
         },

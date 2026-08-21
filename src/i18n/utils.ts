@@ -50,10 +50,15 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   processAuto: { es: '/servicios/automatizacion-de-procesos-con-ia', en: '/en/ai-workflow-automation' },
   conversational: { es: '/servicios/agentes-conversacionales', en: '/en/conversational-ai' },
   smb:         { es: '/pymes',                         en: '/en/smb' },
-  // EN-only for now: the Spanish market showed no measurable cost-query demand
-  // (see .private/kw/analisis-tandas-es-ago2026.md). Add an `es` mirror only if
-  // Search Console shows Spanish impressions for cost queries.
-  cost:        {                                       en: '/en/ai-agent-development-cost' },
+  // El espejo español se añadió el 21 ago 2026: las tandas comerciales dieron
+  // `cuanto cuesta un agente de ia` con crecimiento interanual infinito, o sea
+  // término recién nacido. Antes esta entrada era solo inglesa porque en agosto
+  // no había demanda medible de coste en español.
+  cost:        { es: '/cuanto-cuesta-un-agente-de-ia',  en: '/en/ai-agent-development-cost' },
+  // Pilar de confianza, solo inglés: `gdpr compliant ai` crece un 9.900 % con
+  // competencia 0, pero en español el planificador aún no ve nada. Se añade el
+  // espejo cuando lo vea.
+  compliance:  {                                        en: '/en/gdpr-compliant-ai' },
   realEstate:  { es: '/inmobiliarias',                 en: '/en/real-estate' },
   accounting:  { es: '/gestorias',                     en: '/en/accounting-firms' },
 };

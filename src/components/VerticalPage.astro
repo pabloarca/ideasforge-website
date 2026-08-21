@@ -14,7 +14,9 @@
   bandas seguidas del mismo color.
 */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ClusterPosts from './ClusterPosts.astro';
 import { type Lang, type VerticalPageContent } from '../i18n/ui';
+import { pillarFromUrl } from '../lib/cluster';
 import { altsFor, localizedPath, routeMap } from '../i18n/utils';
 
 interface Props {
@@ -79,6 +81,11 @@ const { lang, page: p, title, description, routeKey } = Astro.props;
       </section>
     )
   }
+
+  {/* Entradas del blog de este grupo. Se derivan de los enlaces que los
+      propios posts declaran, asi que publicar una entrada nueva la
+      incorpora sola. Si el grupo no tiene ninguna, no pinta nada. */}
+  <ClusterPosts lang={lang} pillar={pillarFromUrl(Astro.url.pathname)} />
 
   <section class={`${p.extra ? 'bg-bg' : 'bg-bg-soft'} py-16 sm:py-20`}>
     <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">
