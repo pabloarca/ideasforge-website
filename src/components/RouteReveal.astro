@@ -1,0 +1,47 @@
+---
+/*
+  Enciende el dibujado de las rutas numeradas y lo dispara al bajar.
+
+  Va aparte porque ahora hay dos sitios que las usan: la sección «Cómo
+  trabajamos» de la home y las secciones de tipo `checklist` de las páginas
+  largas. El observador tiene que ser uno solo, así que cada página lo incluye
+  una vez y el componente se ocupa de todas las rutas que encuentre.
+
+  Los estilos viven en `global.css`, bajo `.route-anim`.
+*/
+---
+
+{/*
+  Corre durante el análisis del documento, antes de que se pinte nada: si el
+  navegador no tiene IntersectionObserver, la clase no se pone y los pasos se
+  quedan visibles con su línea entera, en vez de desaparecer para siempre.
+*/}
+<script is:inline>
+  if ('IntersectionObserver' in window) {
+    document.documentElement.classList.add('route-anim');
+  }
+</script>
+
+<script>
+  const steps = document.querySelectorAll<HTMLElement>('[data-route-step]');
+
+  if (!('IntersectionObserver' in window)) {
+    steps.forEach((step) => step.classList.add('is-in'));
+  } else {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-in');
+          // La ruta es una lectura de ida: no se deshace al volver a subir.
+          observer.unobserve(entry.target);
+        });
+      },
+      // Se dispara algo antes de que el paso esté del todo dentro, para que la
+      // línea ya se esté dibujando cuando el marcador llega a altura de lectura.
+      { rootMargin: '0px 0px -12% 0px', threshold: 0.2 }
+    );
+
+    steps.forEach((step) => observer.observe(step));
+  }
+</script>

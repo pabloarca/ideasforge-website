@@ -59,6 +59,8 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   // competencia 0, pero en español el planificador aún no ve nada. Se añade el
   // espejo cuando lo vea.
   compliance:  {                                        en: '/en/gdpr-compliant-ai' },
+  // Satelite del pilar de cumplimiento. Solo ingles, como su pilar.
+  aiAct:       {                                        en: '/en/eu-ai-act-compliance' },
   realEstate:  { es: '/inmobiliarias',                 en: '/en/real-estate' },
   accounting:  { es: '/gestorias',                     en: '/en/accounting-firms' },
 };

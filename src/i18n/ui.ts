@@ -333,6 +333,8 @@ export interface SiteContent {
      * vea demanda española.
      */
     compliance?: LongFormPageContent;
+    /** Satelite del pilar de cumplimiento: posee `eu ai act compliance`. */
+    aiAct?: LongFormPageContent;
   };
 }
 
@@ -375,6 +377,21 @@ export interface VerticalPageContent {
 }
 
 /* Long-form SEO pages (keyword architecture). Rendered by LongFormPage.astro. */
+/**
+ * Cómo se dibuja una sección larga. Las tres hablan el idioma de la home:
+ *
+ * - `prose`     texto corrido con viñetas de comprobación. El de siempre.
+ * - `lattice`   las viñetas pasan a retícula continua de filetes compartidos,
+ *               como «Lo que construimos». Para listas de elementos paralelos.
+ * - `checklist` las viñetas pasan a ruta vertical numerada que se dibuja al
+ *               bajar, como «Cómo trabajamos». Para secuencias y para listas
+ *               que el lector va a recorrer una por una.
+ *
+ * Sirve para romper el muro: una página de dieciocho secciones idénticas no
+ * tiene jerarquía, y el lector no distingue un argumento de una lista.
+ */
+export type LongFormKind = 'prose' | 'lattice' | 'checklist';
+
 export interface LongFormSection {
   heading: string;
   /** Anchor id, so the hero CTA can jump here. */
@@ -386,9 +403,17 @@ export interface LongFormSection {
   link?: { label: string; href: string };
   /** Renders the shared FlowDiagram after this section's paragraphs. */
   diagram?: boolean;
+  /** Cómo se dibuja. Por defecto `prose`. */
+  kind?: LongFormKind;
+  /** Nombre de la parte a la que pertenece. Cuando cambia respecto a la
+   *  sección anterior, el renderizador abre una parte nueva con su portada y
+   *  la añade al índice. Las páginas cortas no lo usan. */
+  part?: string;
 }
 
 export interface LongFormPageContent {
+  /** Rótulo del índice de partes, si la página está dividida en partes. */
+  tocHeading?: string;
   metaTitle: string;
   metaDescription: string;
   /**
@@ -2758,6 +2783,7 @@ export const content: Record<Lang, SiteContent> = {
       },
       compliance: {
         metaTitle: 'GDPR-Compliant AI Development, Ideasforge',
+        tocHeading: 'What this page covers',
         metaDescription:
           'What GDPR-compliant AI means when a system actually ships: where data goes, isolation enforced in code, health data under Article 9 and the records your DPO will ask for. From five systems in production.',
         hero: {
@@ -2776,6 +2802,7 @@ export const content: Record<Lang, SiteContent> = {
         sections: [
           {
             heading: 'What we do and what we do not',
+          part: 'The short answer',
             paragraphs: [
               'We are engineers, not auditors. We do not certify your compliance, we do not issue legal opinions and we do not sign off on your risk classification. Those are jobs for your lawyers and your data protection officer, and any provider who offers to settle them for you in a sales call is offering something they cannot deliver.',
               'What we do is build the system underneath so that those people have something solid to assess. When your DPO asks where the data went, who could have seen it and why the assistant answered what it answered, the answer exists, is written down and can be shown. Most AI projects cannot do that, which is why so many of them stall the moment legal gets involved.',
@@ -2784,6 +2811,8 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'What GDPR-compliant AI actually means',
+          part: 'What compliance means',
+          kind: 'lattice',
             id: 'meaning',
             paragraphs: [
               'A GDPR-compliant AI system is one whose owner can answer three questions with evidence rather than assurances.',
@@ -2803,18 +2832,16 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
-            heading: 'EU AI Act compliance, in plain terms',
-            id: 'eu-ai-act',
+            heading: 'Two European rules, one architecture',
             paragraphs: [
-              'Two European rules now apply to a company deploying AI, and they answer different questions. The GDPR governs what you may do with personal data, whoever processes it. The AI Act governs the systems themselves, sorted by how much harm they could do. You comply with both at once, not with one or the other.',
-              'The AI Act arrived in stages. Bans on a short list of unacceptable practices, social scoring among them, have applied since 2 February 2025. Obligations for the providers of general-purpose models followed on 2 August 2025. The broad middle of the regulation, including the duties of companies that deploy high-risk systems, applies since 2 August 2026. A final tranche for AI embedded in already-regulated products arrives in 2027.',
-              'The fines are tiered. Prohibited practices reach 35 million euros or 7 percent of worldwide turnover, most other breaches reach 15 million or 3 percent, and which bracket a given failure falls into is, again, a question for counsel. What matters for a buyer is the shape of the duties underneath, because for deployers they are mostly about being able to demonstrate things. Keeping logs the system produced itself. Assigning real human oversight instead of nominal oversight. Knowing which data went in and being able to say so.',
-              'Whether your particular use counts as high-risk is a legal judgment and we will not make it for you. What we can tell you is that the systems we build record the decision rather than only the result, and that this is precisely the capability that is expensive to retrofit once a system is live. Teams that treated logging as an afterthought are now rebuilding pipelines that we switch on from day one.',
-              'One more piece of the landscape matters when you buy. In December 2024 the European Data Protection Board published Opinion 28/2024, its first word on AI models themselves. Two findings stand out. Whether a trained model is anonymous gets assessed case by case, and legitimate interest can only carry AI processing after a documented three-step assessment. Neither is a rubber stamp. Both reward providers who can show their homework, which is the posture this whole page describes.',
+              'A company deploying AI in Europe now answers to two regulations at once. The GDPR governs what may happen to personal data, whoever processes it. The AI Act sorts systems by the risk of their use, from banned practices to minimal risk, and hangs concrete duties on companies that deploy the risky ones, oversight, monitoring and logs among them. Its broad middle applies since 2 August 2026, with fines tiered up to 35 million euros or 7 percent of turnover at the top of the scale.',
+              'We keep the full map of that second regulation on its own page, role by role and duty by duty, because it deserves the space. One piece belongs here, though, since it is about data rather than systems. In December 2024 the European Data Protection Board published Opinion 28/2024, its first word on AI models themselves, and two findings matter for a buyer. Whether a trained model is anonymous gets assessed case by case, and legitimate interest can only carry AI processing after a documented three-step assessment. Neither is a rubber stamp. Both reward providers who can show their homework, which is the posture this whole page describes.',
             ],
+            link: { label: 'The full guide: EU AI Act compliance for deployers', href: '/en/eu-ai-act-compliance' },
           },
           {
             heading: 'Where your data actually goes',
+          part: 'Where your data goes',
             id: 'infrastructure',
             paragraphs: [
               'The infrastructure runs in a cloud account that belongs to you, not to us, and the repository is in your name from the first day. We do not host your assistant on our side and hand you a login. This is unusual in the sector and it is deliberate, because it collapses a whole family of questions your DPO would otherwise have to chase. There is no second controller to map, no vendor database holding a copy of your records and no exit negotiation if we part ways. The system stays where it always was, with its documentation and its history.',
@@ -2851,6 +2878,8 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'Isolation that does not depend on the model behaving',
+          part: 'How isolation is enforced',
+          kind: 'checklist',
             id: 'isolation',
             paragraphs: [
               'An early version of one of our assistants kept companies apart by telling the model, in its instructions, never to omit a filter. It worked in every test we ran. It was still wrong, because an instruction to a language model is a request, and a model can fail to honour a request for reasons nobody can predict from outside. We have described that lesson to clients as the difference between a guarantee and a polite request, and it reshaped how we build. Security has to hold even when the model fails.',
@@ -2872,6 +2901,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'The model is never the authority',
+          diagram: true,
             paragraphs: [
               'Our systems share one design rule. Judgment lives in the code, interpretation of the world lives in the model, and knowledge lives in the data. The model reads a person’s question and hands over a structured form, a contract in a fixed format whose fields we defined in advance. Code validates that form, checks the permissions of whoever is asking and decides what actually happens. The queries that touch your data are built by the code from the validated form, with values passed as parameters and column names drawn from a closed list, never assembled from text the model wrote.',
               'Where records matter most we go a step further. In one of our assistants the model does not even return the text that ends up in front of the user. It returns a key, an identifier, and the code looks up the canonical text that key points to. What the person reads is guaranteed to be what was approved, word for word, no matter what the model generated around it.',
@@ -2881,6 +2911,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'Health data, under the strictest article there is',
+          part: 'What it looks like in practice',
             paragraphs: [
               'Wazzy, our own appointments product, runs in dental, physiotherapy and aesthetics clinics. An appointment note that says who visits which clinic and why is health data, which the GDPR places in its most protected category and permits us to process under Article 9.2.h, the ground that covers healthcare provision. We did not choose the hardest category to make a point. The product needed it, and the result is that our practices were shaped by the strictest case first.',
               'Every sensitive field is encrypted on its own, with AES-256-GCM, rather than relying on the disk being encrypted underneath. The difference matters in practice. Disk encryption protects you if someone steals the hardware, while field-level encryption protects the data from every process and person that touches the database in normal operation. Deletion is designed against the law rather than against instinct, because Spanish clinical-record law requires keeping medical history for five years. A deletion request must honour the patient without quietly breaking a legal retention duty, so the system separates what is erased now from what is retained under obligation, and can show which is which.',
@@ -2906,6 +2937,8 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'What your DPO will ask us, and what we hand over',
+          part: 'What you get, and what to ask',
+          kind: 'lattice',
             id: 'dpo',
             paragraphs: [
               'Buying AI in Europe now involves a predictable review. Legal and the DPO will want a data protection impact assessment, the structured study of what could go wrong for the people whose data is processed, and they will want a data processing agreement with every supplier in the chain. We do not run that review, it is theirs to run. We shorten it, because the inputs it needs are things our systems produce anyway.',
@@ -2928,6 +2961,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'Eight questions to put to any provider, including us',
+          kind: 'checklist',
             paragraphs: [
               'The introduction promised you would leave knowing what to ask. These are the questions we would ask in your chair, in the order that exposes the most.',
             ],
@@ -2944,6 +2978,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'Where this shows up in what we build',
+          kind: 'lattice',
             paragraphs: [
               'This page is not a separate product and you cannot buy it on its own. It is how the four things we build are built, and each one meets the question from a different angle.',
             ],
@@ -2996,6 +3031,290 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Does your data have to stay where it is?',
+          body: 'Tell us your challenge and we reply within 24 business hours. If we don’t see a return, we’ll tell you.',
+          button: 'Tell us your challenge',
+        },
+      },
+      aiAct: {
+        tocHeading: 'What this page covers',
+        metaTitle: 'EU AI Act Compliance for Companies That Deploy AI, Ideasforge',
+        metaDescription:
+          'What the EU AI Act asks of a company that deploys AI: roles, the eight high-risk domains, Article 26 duty by duty, logs, oversight and a first pass you can run this week. Written by engineers, not lawyers.',
+        hero: {
+          eyebrow: 'EU AI Act',
+          title: 'EU AI Act compliance, for companies that deploy AI',
+          subtitle:
+            'Most companies are deployers under the EU AI Act, and for them the regulation is a list of things they must be able to demonstrate: oversight that works, logs that exist and knowing what their systems do. The heaviest obligations apply since 2 August 2026. This guide walks the whole map in plain terms, written by engineers who build systems that have to survive these reviews, not by lawyers selling the review.',
+          cta: 'Start with the short version',
+          ctaHref: '#short',
+        },
+        stats: [
+          { value: '2 Aug 2026', label: 'the date the broad middle of the Act, deployer duties included, became applicable' },
+          { value: '6 months', label: 'minimum retention for the logs a high-risk deployer must keep under its control' },
+          { value: '3%', label: 'of worldwide turnover, the fine bracket most company breaches fall into, with 7% reserved for prohibited practices' },
+        ],
+        sections: [
+          {
+            heading: 'Who this page is for, and who wrote it',
+            part: 'The short answer',
+            paragraphs: [
+              'This page is for the people inside a company who have been handed the question "are we fine under the AI Act" and need to give an answer with structure. It maps the regulation from the point of view of a deployer, the legal word for a company that uses AI professionally rather than building it for the market, because that is what most companies are.',
+              'It is written by engineers. We build AI agents that run inside European companies, which means our work sits on the receiving end of these reviews, and we are Spanish, so our national supervisor is AESIA, the first dedicated AI authority in Europe. What follows is the map we wish every client had before the first meeting. It is not legal advice, we do not classify your risk and the calls that need a lawyer are marked as such throughout.',
+              'If you want the deeper story of how our systems handle data, isolation and records, that lives in our page on GDPR-compliant AI, which this guide extends on the AI Act side.',
+            ],
+            link: { label: 'The pillar this guide extends: GDPR-compliant AI', href: '/en/gdpr-compliant-ai' },
+          },
+          {
+            heading: 'The whole Act in six sentences',
+            id: 'short',
+            part: 'The short answer',
+            kind: 'lattice',
+            paragraphs: [
+              'Everything below unpacks these six statements. If you only remember six things, make them these.',
+            ],
+            bullets: [
+              'The Act follows the market, not your address. If your system or its output is used in the Union, you are in scope, headquartered wherever you like.',
+              'It sorts systems by risk into four levels: prohibited, high, limited and minimal. Your duties depend on the level, not on how advanced the technology is.',
+              'Roles decide everything else. Providers build and place systems on the market, deployers use them, and most companies reading this are deployers.',
+              'Deploying a high-risk system triggers Article 26, a concrete list of duties around oversight, input data, monitoring and logs.',
+              'The calendar has already happened. Bans and AI literacy since February 2025, general-purpose model rules since August 2025, the broad middle since August 2026.',
+              'Fines are tiered, up to 35 million euros or 7 percent of turnover for prohibited practices and up to 15 million or 3 percent for most other breaches.',
+            ],
+          },
+          {
+            heading: 'Four risk levels, and where normal companies land',
+            part: 'The map of the law',
+            paragraphs: [
+              'The Act does not regulate artificial intelligence as a substance. It regulates uses, sorted by how much damage a failure could do to a person’s rights, safety or livelihood. A short list of practices is prohibited outright, social scoring and manipulative techniques among them. A defined set of uses is high-risk and carries the heavy machinery of the regulation. A middle band carries transparency duties, telling people they are dealing with a machine. Everything else is minimal risk and carries almost nothing.',
+              'General-purpose models, the large models systems like ours call as a service, sit on a separate axis with their own obligations for the companies that train and provide them. That axis is mostly the provider’s problem, not yours, but it matters when you buy, because the documentation your integrator receives from the model provider feeds the file you may one day show an authority.',
+              'Here is the honest orientation most guides bury. An internal assistant that answers questions about documentation, a chatbot that books appointments or an agent that reads invoices lands, in most configurations, in the limited or minimal band. The heavy regime is triggered by domain, not by sophistication. The moment AI touches hiring, credit, education, essential services, biometrics or the other domains in the Act’s Annex III, the same underlying technology becomes high-risk with everything that follows. Which band your concrete use falls into is the first question for your lawyers, and the next sections give you the vocabulary for that conversation.',
+            ],
+          },
+          {
+            heading: 'The separate axis, general-purpose models',
+            part: 'The map of the law',
+            paragraphs: [
+              'The large models that systems like ours call as a service live under their own chapter, in force since August 2025 for the companies that provide them. Providers of general-purpose models owe technical documentation, information to the companies building on top, a copyright policy and a summary of the content used for training, and the handful of models classed as systemic risk owe more on top of that.',
+              'Little of it is your duty as a deployer, and all of it is your business as a buyer. The documentation a model provider publishes flows downhill into your compliance file, because the description of your system leans on the description of the model underneath. When we assemble the file for a client, the model provider’s terms and documentation go in it, which is one more reason the choice of provider is approved by you rather than defaulted by us.',
+              'The practical ask is short. Whoever sells you anything built on a large model should be able to name the model, point at its provider’s AI Act documentation and show what of your data reaches it. If any of those three draws a blank, the gap is yours to carry.',
+            ],
+          },
+          {
+            heading: 'The calendar already happened',
+            part: 'The map of the law',
+            kind: 'checklist',
+            paragraphs: [
+              'The Act entered into force in August 2024 and has been switching on in stages. Every date below is in the past, which is worth letting sink in, because a surprising number of companies still file the whole subject under "future".',
+            ],
+            bullets: [
+              'Since 2 February 2025. The prohibited practices became illegal, and Article 4 began requiring AI literacy, meaning staff who work with AI systems must be trained to a level appropriate to their role. This applies to every AI system, high-risk or not.',
+              'Since 2 August 2025. The obligations for providers of general-purpose models apply, including the regime for models with systemic risk. If you deploy systems built on large models, your providers have been under duties for a year.',
+              'Since 2 August 2026. The broad middle of the regulation applies, including Article 26 for deployers of high-risk systems and the Article 50 transparency duties, like telling people they are interacting with a machine.',
+              'Through 2027. The remaining tranche arrives for high-risk AI embedded in products already covered by EU safety law, medical devices and machinery among them, with its own dates.',
+            ],
+          },
+          {
+            heading: 'The fines, and who actually gets inspected',
+            part: 'The map of the law',
+            paragraphs: [
+              'The penalty structure is tiered like the GDPR’s. Prohibited practices reach 35 million euros or 7 percent of worldwide turnover, whichever is higher. Most other breaches, deployer duties included, reach 15 million or 3 percent. Supplying misleading information to authorities has its own lower tier. Which bracket a concrete failure lands in is a legal question, and the honest answer to "how likely is an inspection" is that nobody selling you certainty deserves your trust.',
+              'What can be said with evidence is who is watching. Each member state names its market surveillance authority, and ours is a useful preview of the breed because it moved first. AESIA, the Spanish agency created by Royal Decree 729/2023, was the first dedicated national AI supervisor in Europe, has held full sanctioning powers since August 2025 and published sixteen compliance guides within months of the regulation biting. Its public posture through 2026 has been warnings before sanctions, and it has already opened preliminary investigations into systems deployed by Spanish organisations. The window in which nobody was looking is closing on schedule, not with a bang.',
+              'The practical consequence for a buyer is timing. Building demonstrability into a system while it is being built costs little, and we know because it is how we work anyway. Retrofitting it under an authority’s deadline is the expensive version of the same project.',
+            ],
+          },
+          {
+            heading: 'Is it even an AI system under the Act?',
+            part: 'Which box you are in',
+            paragraphs: [
+              'Committees lose real time here, so settle it early. The Act defines an AI system through seven elements, and the load-bearing one is inference: a machine-based system, operating with some autonomy, that infers from its input how to generate outputs like predictions, recommendations or decisions. The European Commission published guidelines on this exact definition in February 2025, precisely because every company asked the same question.',
+              'The practical reading is narrower than the panic. A calculator, a fixed spreadsheet formula or a rules engine that applies the same written logic every time does not infer, and generally falls outside. A system that learns patterns, ranks candidates, scores risk or generates text does infer, and is in. The borderline cases exist, they belong to counsel, and the reasoning is worth writing down either way.',
+              'For anything built on a language model the question answers itself, models infer, that is their entire job. So we never spend a client’s money arguing that an agent is not AI. We spend it building the agent so that the duties that follow are already met.',
+            ],
+          },
+          {
+            heading: 'Provider or deployer, the question that decides your duties',
+            part: 'Which box you are in',
+            paragraphs: [
+              'Two roles carry almost all of the weight. A provider develops an AI system, or has one developed, and places it on the market under its own name. A deployer uses an AI system professionally, under its own authority, for its own purposes. The provider owes the design-side duties, conformity, documentation and registration where it applies. The deployer owes the use-side duties, and they are the subject of this guide.',
+              'A bank that buys a credit-scoring system from a vendor is a deployer, with duties about oversight, monitoring and logs. The vendor is the provider, with duties about how the system was built and documented. The same split repeats down the market: the clinic using an appointment assistant, the manufacturer using a diagnostic aid and the gestoría running document extraction are deployers of those systems, whoever built them.',
+              'When we build a custom agent for a client, the question of who counts as provider of that specific system is exactly the kind of boundary a contract should fix in writing rather than leave to vibes. We flag it in the first conversation, our lawyers and yours settle the wording, and the engineering side of the answer, who documents what, who keeps which records, is designed in rather than argued about later.',
+            ],
+          },
+          {
+            heading: 'How a deployer becomes a provider without noticing',
+            part: 'Which box you are in',
+            paragraphs: [
+              'The roles are not permanent labels. The Act moves a deployer into the provider seat when it puts its own name or trademark on a high-risk system, when it substantially modifies one, or when it changes a system’s intended purpose into high-risk territory. The third one is the quiet trap, because intended purpose sounds like marketing language and is actually the load-bearing concept of the whole regulation.',
+              'Concretely. A company that licenses a general document assistant and turns it into a tool that screens job applications has changed the purpose into an Annex III domain, and with it, possibly, its own role. A company that rebadges a vendor’s system as its own product has walked into provider duties by branding. None of this outlaws customisation, it prices it, and the price is documentation and duties that someone must consciously accept.',
+              'Whether any specific modification is "substantial" is a legal judgment. Our contribution is narrower and earlier. Systems built with a written intended purpose, a record of what changed and logs of what the system actually does give your lawyers the raw material to make that judgment cheaply. Systems assembled informally give them nothing to work with, and the default answer of a careful lawyer holding nothing is the expensive one.',
+            ],
+          },
+          {
+            heading: 'Annex III in plain terms, the eight domains',
+            part: 'Which box you are in',
+            kind: 'lattice',
+            paragraphs: [
+              'High-risk by domain means the Act lists where the stakes are high enough for the heavy regime. Annex III names eight areas. If your use of AI touches one of them, assume high-risk until your lawyers conclude otherwise.',
+            ],
+            bullets: [
+              'Biometrics: identification, categorisation of people and emotion recognition, with the narrow exceptions the Act itself carves.',
+              'Critical infrastructure: safety components in traffic, water, gas, heating and electricity.',
+              'Education and training: admission, evaluation, level placement and exam surveillance.',
+              'Employment and worker management: recruitment, screening, promotion, termination, task allocation and performance monitoring.',
+              'Essential services: creditworthiness and credit scoring, insurance risk and pricing for life and health, public benefits and emergency dispatch.',
+              'Law enforcement, covering the uses police and prosecutors may make of AI about people.',
+              'Migration, asylum and border control, from risk assessments to application processing.',
+              'Justice and democracy, assisting courts in interpreting facts and law or influencing elections.',
+            ],
+          },
+          {
+            heading: 'The escape hatch, and the trap inside it',
+            part: 'Which box you are in',
+            paragraphs: [
+              'Article 6(3) opens a narrow exit. A system that lands in an Annex III domain may still avoid high-risk status when it only performs a narrow procedural task, improves the result of a human activity that is already complete, or detects patterns without replacing human judgment. A tool that formats interview notes touches employment and plainly is not deciding anyone’s career.',
+              'Two conditions guard the exit. The exemption must be documented, a written assessment of why the system qualifies, produced before you rely on it rather than after someone asks. And profiling slams the door shut. A system in an Annex III domain that profiles people, in the GDPR sense of evaluating aspects of their life like performance, reliability or economic situation, is always high-risk, whatever else it does.',
+              'Our advice as builders is unglamorous. Decide which side of this line a system is meant to live on before it is built, write that intention down and design the data flows so the system cannot quietly drift across. Drift is the real risk here, a helpful tool that gains one feature per quarter until it is doing the thing nobody classified.',
+            ],
+          },
+          {
+            heading: 'Article 26, duty by duty',
+            id: 'article-26',
+            part: 'What deployers must do',
+            kind: 'checklist',
+            paragraphs: [
+              'If a system you deploy is high-risk, Article 26 is your list. In plain terms, duty by duty, this is what it asks.',
+            ],
+            bullets: [
+              'Use the system as the provider’s instructions say. The instructions of use stop being a leaflet nobody reads and become the reference an authority measures you against.',
+              'Assign human oversight to named people with the competence, training and authority to act, including the authority to not use the system’s output. A name in a document with no power to intervene does not satisfy this.',
+              'Keep your input data relevant and sufficiently representative, to the extent you control it. Feeding a scoring system data it was never designed for is a deployer failure, not a provider one.',
+              'Monitor the system’s operation against those instructions, and tell the provider, and where required the authorities, when you see risk or serious incidents.',
+              'Keep the automatically generated logs that are under your control for at least six months, longer where other law says so. No logs, no defence.',
+              'Tell workers and their representatives before putting a high-risk system over them at the workplace. Quietly switching on monitoring is its own breach.',
+              'Use the provider’s information to run your data protection impact assessment where one is due. The two regulations meet exactly here.',
+              'Cooperate with the market surveillance authority when it comes asking, which folds every duty above into one practical question, can you show your homework.',
+            ],
+          },
+          {
+            heading: 'The extra step some deployers owe, a rights assessment',
+            part: 'What deployers must do',
+            paragraphs: [
+              'Article 27 adds one more duty for a defined group. Deployers that are public bodies, private companies providing public services, and deployers using high-risk systems for credit scoring or for risk and pricing in life and health insurance must run a fundamental rights impact assessment before first use. It is what it sounds like, a structured look at which rights the system could touch, who is exposed, and what happens when it goes wrong.',
+              'The Act allows leaning on work already done. A deployer may rely on an assessment the provider carried out, or on an existing impact assessment that covers the ground, which in practice means the exercise overlaps heavily with the DPIA your data protection officer already knows how to run. Same discipline, wider lens.',
+              'Our role in it stays the same as everywhere else on this page. The assessment is yours to run and sign. The description of the system it needs, what it does, what enters it, who oversees it and what gets recorded, is the file our systems produce as a side effect of being built.',
+            ],
+          },
+          {
+            heading: 'AI literacy is already mandatory, for everyone',
+            part: 'What deployers must do',
+            paragraphs: [
+              'Article 4 is the obligation companies keep missing because it looks soft. Since February 2025, providers and deployers must ensure a sufficient level of AI literacy in the people who operate and use AI systems on their behalf, proportional to their role and the context. It applies to every AI system, high-risk or not, which makes it the one duty in the Act that almost certainly applies to you today.',
+              'Sufficient is not defined as a certificate, and the point is not sending everyone to a course. The person approving model outputs should understand what a model can and cannot be trusted with. The person operating an assistant should know what it must never be fed. The person overseeing a high-risk system needs enough depth to justify overriding it. Training that maps to roles, written down, with dates, is both the legal expectation and the cheapest risk reduction on this entire page.',
+              'It is also, quietly, a procurement question. Ask any vendor what material they hand your team for this, because a supplier whose answer is a shrug is planning for your people to misuse their system.',
+            ],
+          },
+          {
+            heading: 'Telling people they are talking to a machine',
+            part: 'What deployers must do',
+            paragraphs: [
+              'The transparency duties in Article 50 apply since August 2026 and they are refreshingly concrete. People interacting with an AI system must be informed they are doing so, unless it is obvious from context. Synthetic audio, image and video content must be marked as artificially generated. Deployers of emotion recognition or biometric categorisation must inform the people exposed to them.',
+              'For the systems most companies actually run, this reduces to honest interface design. The assistant introduces itself as an assistant, the generated report says it was generated and the escalation path to a human is real. We covered how our own conversational systems present themselves and hand urgent cases to staff on the sovereignty page, and the same design serves this article without modification. Duties that are cheap to meet when designed in, and embarrassing to meet retroactively, are a pattern by now.',
+            ],
+            link: { label: 'How our systems present themselves and escalate', href: '/en/gdpr-compliant-ai' },
+          },
+          {
+            heading: 'Most of Article 26 is an engineering property',
+            part: 'How it lands in a real system',
+            paragraphs: [
+              'Read the duty list again with an engineer’s eye and it decomposes into three system properties. Things the system must produce about itself, logs and records. Things a human must be able to do to it, inspect, intervene and override. And things it must never silently change, its purpose and its inputs. None of the three can be added convincingly after the fact, all three are cheap when they are design decisions.',
+              'This is where our practice happens to line up with the regulation, not because we built for the Act but because production forced the same conclusions earlier. Our systems write down each decision as it happens, in a record that can be added to but never edited, and the system itself never reads that record back, so it documents behaviour without influencing it. Oversight is not a name in a file. The people behind our assistants get real queues with real trails, and every action a system takes on someone’s behalf runs under that person’s own permissions, so the question "who could have done this" always has an answer your identity system already knew.',
+              'Monitoring, the duty that sounds vaguest, is the one we can show most concretely. Before any change ships, a battery of real annotated cases must pass, and one of our systems carries 118 of them. After shipping, a weekly probe runs a real conversation against the live system end to end. Two rhythms, deliberately separate, and together they are precisely the "monitor the operation of the system" evidence Article 26 asks a deployer to have.',
+            ],
+            link: { label: 'The records, isolation and identity design in full', href: '/en/gdpr-compliant-ai' },
+          },
+          {
+            heading: 'What we hand you for the AI Act file',
+            part: 'How it lands in a real system',
+            kind: 'lattice',
+            paragraphs: [
+              'When a system we built enters your compliance review, these artefacts exist because the build produced them, not because someone reconstructed them for the meeting.',
+            ],
+            bullets: [
+              'A written intended purpose for the system, the sentence every classification question starts from.',
+              'The technical description of what it does, which data enters it and which calls leave it, per use case.',
+              'The oversight design: which humans can inspect, intervene and stop what, and through which interface.',
+              'The decision log and how to consult it, with retention configured to your obligations, six months being the floor for high-risk deployers.',
+              'The evaluation evidence, meaning the battery of cases that gates each release and the weekly probe that watches the live system.',
+              'The supplier chain under the system, starting with the model provider you approved and the terms that bind them.',
+            ],
+          },
+          {
+            heading: 'A first pass you can run this week',
+            part: 'What to do now',
+            kind: 'checklist',
+            paragraphs: [
+              'None of this requires a consultant to start. A competent internal owner with a spreadsheet gets a company from "no idea" to "mapped, with open questions for counsel" in days, and the open questions come out sharp instead of vague.',
+            ],
+            bullets: [
+              'Inventory every AI system in professional use, including the ones that arrived inside other products, the copilots, the scoring module in the HR suite, the chatbot in the support desk. Shadow tools count, because the Act does not care that procurement never saw them.',
+              'Assign a role per system, provider or deployer, and note who else sits in the chain. Most entries will read deployer, and the exceptions are where your lawyers should look first.',
+              'Screen each system against the eight Annex III domains. Anything that touches one gets flagged, and anything flagged either goes to counsel or gets a documented Article 6(3) assessment, written now, not when asked.',
+              'Name the oversight for anything plausibly high-risk, real people with authority to override, and check they would pass the literacy bar for their role.',
+              'Verify the paper: instructions of use from each provider, worker information where systems touch the workplace, and logs, switched on, retained, and readable by someone.',
+              'Put the vendor questions in writing, what is the intended purpose, what documentation accompanies the system, what will you give us for oversight, literacy and logging. A vendor who answers slowly has told you something too.',
+            ],
+          },
+          {
+            heading: 'Where this sits in the bigger picture',
+            part: 'What to do now',
+            paragraphs: [
+              'The AI Act and the GDPR ask different questions about the same system. One regulates the use by risk, the other the personal data inside, and a system that answers both well tends to be one system, built once, with records, oversight and restraint designed in rather than promised. That architecture is what our sovereignty page describes mechanism by mechanism, and it is the standard everything we build inherits, whether or not a given system ever goes near Annex III.',
+              'If you are deciding whether to build something under these rules, the same honesty applies to budgets, and we publish ours. And if what you need first is the map of duties turned into a working system, that is the actual job description of an AI agent development company operating in Europe in 2026.',
+            ],
+            link: { label: 'What an AI agent costs to build and run', href: '/en/ai-agent-development-cost' },
+          },
+        ],
+        faqHeading: 'The questions committees actually ask',
+        faq: [
+          {
+            q: 'We are not based in the EU. Does the Act reach us?',
+            a: 'It can. The Act applies by market, covering providers and deployers outside the Union whenever the system is placed on the EU market or its output is used in the Union. A US company whose AI serves EU customers is in scope, headquartered wherever it likes. Whether your specific setup crosses that line is a question for counsel, and it is a short one to ask.',
+          },
+          {
+            q: 'We only use ChatGPT and the AI inside Microsoft 365. Are we a provider?',
+            a: 'In the normal case you are a deployer of those systems, and the provider duties sit with the companies that build them. The role can shift if you rebadge a system as your own product or substantially modify it, and where the line sits is a legal call. What you certainly keep either way are the deployer-side habits, literacy for your people, honesty with the people exposed to the output and knowing which of your uses could touch Annex III domains.',
+          },
+          {
+            q: 'Is a customer-service chatbot high-risk?',
+            a: 'By itself, normally not. Its home duty is transparency, people must know they are talking to a machine. It moves toward high-risk when the use crosses into an Annex III domain or when it profiles people in the GDPR sense. A support bot that starts making decisions about refunds based on scoring a customer’s reliability has changed category in substance, whatever it says on the tin. Classification is your lawyers’ call, drift is the thing to watch.',
+          },
+          {
+            q: 'HR wants AI to screen CVs. What does that trigger?',
+            a: 'Employment is one of the eight Annex III domains, and screening candidates is named in it, so the working assumption is high-risk with everything that follows, Article 26 duties, worker information and oversight included. Profiling makes the narrow exemption unavailable. This is the single most common way a mid-size company acquires its first high-risk system without noticing, usually inside an HR suite update, so it deserves a named owner and a conversation with counsel before the feature is switched on.',
+          },
+          {
+            q: 'We are GDPR-compliant. Are we done?',
+            a: 'No, and the inverse is also false. The GDPR governs the personal data in the system, the AI Act governs the system by its use and risk, and each has duties the other never mentions. The good news is architectural, one well-built system feeds both files, because records, oversight and data discipline are what both regulations reward. That overlap is deliberate in how we build, and it is why our GDPR page and this one describe the same systems from two angles.',
+          },
+          {
+            q: 'What logs do we actually have to keep, and for how long?',
+            a: 'Deployers of high-risk systems must keep the automatically generated logs under their control for at least six months, longer where other law applies. Our position goes further for a practical reason, we design systems to record their decisions from day one whatever their classification, because the record costs little while the system is being built and cannot be conjured afterwards, and because a company’s risk classification can change while its architecture stays.',
+          },
+          {
+            q: 'Do we need a fundamental rights impact assessment?',
+            a: 'Only a defined group does. Public bodies, private companies providing public services, and deployers using high-risk AI for credit scoring or for life and health insurance pricing must run one before first use. If you are in that group, the good news is reuse, the Act lets you lean on assessments already done, including the provider’s, and the exercise overlaps with the DPIA your organisation likely knows. Whether you are in the group is, one more time, a question for counsel.',
+          },
+          {
+            q: 'Is there any relief for smaller companies?',
+            a: 'Some, and it is real but narrow. The Act mandates regulatory sandboxes, controlled environments where companies test systems with the regulator watching, and Spain’s ran early, with AESIA selecting twelve companies in 2025. Simplified documentation for small providers exists in places. What does not exist is an SME exemption from the substance, a small company deploying a high-risk system carries the same core duties as a large one, scaled by proportionality, not waived.',
+          },
+          {
+            q: 'If an authority asks about a system you built for us, what do we show them?',
+            a: 'The file from this page: the written intended purpose, the technical description, the oversight design, the decision log with its retention, the evaluation evidence and the supplier chain. What we never promise is the outcome of the inspection, because that depends on your use, your classification and calls that belong to your counsel. What we promise is that the questions will have answers that exist in writing, which is more than most systems can say.',
+          },
+        ],
+        cta: {
+          heading: 'Deploying AI under these rules?',
           body: 'Tell us your challenge and we reply within 24 business hours. If we don’t see a return, we’ll tell you.',
           button: 'Tell us your challenge',
         },

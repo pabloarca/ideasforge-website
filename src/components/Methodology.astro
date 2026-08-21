@@ -1,5 +1,6 @@
 ---
 import { type Lang, content } from '../i18n/ui';
+import RouteReveal from './RouteReveal.astro';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -10,14 +11,6 @@ const t = content[lang].methodology;
 const last = t.steps.length - 1;
 ---
 
-{/* Runs during parse, before the section paints, so the steps are never
-    hidden unless the reveal can actually run. No JS, no IntersectionObserver
-    or a script error means the route renders fully visible. */}
-<script is:inline>
-  if ('IntersectionObserver' in window) {
-    document.documentElement.classList.add('route-anim');
-  }
-</script>
 
 <section class="bg-bg-soft py-20 sm:py-28">
   <div class="mx-auto max-w-7xl px-5 sm:px-8">
@@ -134,27 +127,4 @@ const last = t.steps.length - 1;
   </div>
 </section>
 
-<script>
-  // Reveal each step once it enters the viewport, then stop watching it: the
-  // route is a one-way read, so nothing needs to hide again on the way back up.
-  const steps = document.querySelectorAll<HTMLElement>('[data-route-step]');
-
-  if (!('IntersectionObserver' in window)) {
-    steps.forEach((step) => step.classList.add('is-in'));
-  } else {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('is-in');
-          observer.unobserve(entry.target);
-        });
-      },
-      // Fires a little before the step is fully in view, so the segment is
-      // already drawing by the time the marker reaches comfortable reading height.
-      { rootMargin: '0px 0px -12% 0px', threshold: 0.2 }
-    );
-
-    steps.forEach((step) => observer.observe(step));
-  }
-</script>
+<RouteReveal />
