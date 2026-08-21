@@ -448,9 +448,9 @@ export const content: Record<Lang, SiteContent> = {
       realEstateTitle: 'IA para inmobiliarias y agencias de alquiler, Ideasforge',
       realEstateDescription:
         'Un agente de IA que atiende solicitudes 24/7, cualifica a los interesados y solo escala al equipo los que cumplen criterio. Especialmente útil en picos de demanda de alquiler.',
-      accountingTitle: 'IA para gestorías y administradores de fincas, Ideasforge',
+      accountingTitle: 'IA para gestorías, asesorías y administradores de fincas, Ideasforge',
       accountingDescription:
-        'Automatización documental con IA: facturas, tickets y formularios escaneados que entran al ERP sin pasar a mano.',
+        'Automatización documental con IA para gestorías y asesorías fiscales: facturas, tickets y formularios escaneados que dejan de pasar a mano.',
     },
     nav: {
       services: 'Servicios',
@@ -1447,7 +1447,7 @@ export const content: Record<Lang, SiteContent> = {
       conversational: {
         metaTitle: 'Chatbot con IA y agentes conversacionales, Ideasforge',
         metaDescription:
-          'Desarrollo de chatbots con inteligencia artificial y agentes conversacionales que atienden, cualifican y actúan: citas reservadas, solicitudes filtradas y dudas resueltas sobre tus sistemas.',
+          'Desarrollo de chatbots para empresas y agentes conversacionales que atienden, cualifican y actúan: citas reservadas, solicitudes filtradas y dudas resueltas sobre tus sistemas. Un servicio de chatbot con ingeniería de producción.',
         hero: {
           eyebrow: 'Agentes conversacionales',
           title: 'Chatbots con IA que terminan la tarea',
