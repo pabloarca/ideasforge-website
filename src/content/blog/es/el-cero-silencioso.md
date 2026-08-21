@@ -31,6 +31,6 @@ Dos cosas y ninguna es un filtro mágico.
 
 La primera: el sistema declara lo que ha hecho. Cada respuesta abre diciendo qué periodo se ha consultado, porque descubrimos que «el último mes» significaba cosas distintas según quién preguntara. Y si una fuente no está disponible, el sistema responde con las que sí y dice en voz alta cuál se ha omitido. La transparencia convierte el tercer cero en el primero.
 
-La segunda: clasificamos. Cada conversación que termina sin datos queda etiquetada con su causa y esas etiquetas forman colas de trabajo distintas. Un cero verdadero no necesita nada. Una consulta mal hecha es un fallo que corregir. Una fuente omitida es un agujero de diseño. Tratarlas igual es no tratar ninguna.
+La segunda: clasificamos. Cada conversación que termina sin datos queda etiquetada con su causa y esas etiquetas forman colas de trabajo distintas. Un cero verdadero no necesita nada. Una consulta mal hecha es un fallo que corregir. Una fuente omitida es un agujero de diseño. Tratarlas igual es no tratar ninguna. La otra mitad de la disciplina es no fiarse de las cifras que sí llegan, que es justo el trabajo de [el auditor que no se fía](/blog/el-auditor-que-no-se-fia).
 
 Este tipo de disciplina es lo que separa un asistente que funciona en la demostración de uno que aguanta meses de producción. Contamos cómo la aplicamos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia) y si vienes desde cero, la [guía de agentes](/agentes-de-ia) es el mejor punto de partida.

@@ -27,6 +27,6 @@ Esta es la clase de instrumento que casi nunca aparece en una demostración, por
 
 ## Desconfiar es un diseño, no una actitud
 
-Nada de esto depende de que el modelo «se porte bien». El auditor fuerza la reconsulta, la ventana corta reduce la materia prima del error y la métrica de herramientas delata las excepciones. Tres piezas de arquitectura para un mismo principio: en un sistema que da cifras de negocio, la frescura del dato no se pide por favor, se impone por diseño.
+Nada de esto depende de que el modelo «se porte bien». El auditor fuerza la reconsulta, la ventana corta reduce la materia prima del error y la métrica de herramientas delata las excepciones. Tres piezas de arquitectura para un mismo principio: en un sistema que da cifras de negocio, la frescura del dato no se pide por favor, se impone por diseño. Y cuando lo que llega es un cero, la desconfianza cambia de forma. Esa historia la contamos en [el cero silencioso](/blog/el-cero-silencioso).
 
 Si tu equipo espera a analítica para cada número, mira lo que construimos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia). Y si el problema es un proceso entero, no una consulta, empieza por [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia).

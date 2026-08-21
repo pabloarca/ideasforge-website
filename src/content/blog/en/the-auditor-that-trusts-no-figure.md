@@ -27,6 +27,6 @@ This is the kind of instrument that almost never shows up in a demo, because in 
 
 ## Distrust is a design, not an attitude
 
-None of this depends on the model behaving. The auditor forces the re-query, the short window shrinks the raw material for the error, and the tool metric flags the exceptions. Three pieces of architecture serving one principle: in a system that hands out business figures, data freshness is not requested politely, it is imposed by design.
+None of this depends on the model behaving. The auditor forces the re-query, the short window shrinks the raw material for the error, and the tool metric flags the exceptions. Three pieces of architecture serving one principle: in a system that hands out business figures, data freshness is not requested politely, it is imposed by design. And when what arrives is a zero, distrust changes shape. We tell that story in [the silent zero](/en/blog/the-silent-zero).
 
 If your team waits on analytics for every number, see what we build in [AI agent development](/en/ai-agent-development). And if the problem is a whole process rather than a query, start with [AI workflow automation](/en/ai-workflow-automation).

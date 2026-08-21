@@ -25,6 +25,6 @@ These three come from the catalog of one of our production assistants, a system 
 
 Because maintenance is where AI projects live or die, and maintenance moves exactly at the speed of diagnosis. A signature catalog turns "it's acting strange" into a short list of checks anyone on the team can run, including the person who joins in two years and sat in none of the meetings.
 
-That is why, when we hand over a system, the incident catalog that ships with the repository does not just say how each problem was fixed. It says how it is recognized. It is one of the handover pieces our clients' technical teams appreciate most, and one almost nobody asks for because almost nobody knows it exists.
+That is why, when we hand over a system, the incident catalog that ships with the repository does not just say how each problem was fixed. It says how it is recognized. It is one of the handover pieces our clients' technical teams appreciate most, and one almost nobody asks for because almost nobody knows it exists. The catalogue has a real-time relative, the circuit breaker that decides what happens while a tool is down, and it has [an article of its own](/en/blog/when-a-tool-goes-down).
 
 To understand what else it takes for an assistant to survive production, continue with the [AI automation guide](/en/ai-automation) or see how we approach [custom AI agent development](/en/ai-agent-development).

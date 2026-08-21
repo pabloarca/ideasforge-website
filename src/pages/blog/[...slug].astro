@@ -38,6 +38,7 @@ const articleJsonLd = JSON.stringify({
   headline: post.data.title,
   description: post.data.description,
   datePublished: post.data.pubDate.toISOString(),
+  ...(post.data.updatedDate ? { dateModified: post.data.updatedDate.toISOString() } : {}),
   inLanguage: 'es-ES',
   ...(post.data.heroImage ? { image: new URL(post.data.heroImage, site).href } : {}),
   author: { '@type': 'Organization', name: 'Ideasforge', url: site.href },
@@ -69,6 +70,11 @@ const articleJsonLd = JSON.stringify({
         <time datetime={post.data.pubDate.toISOString()} class="font-mono text-xs text-faint">
           {t.blog.publishedOn} {fmt(post.data.pubDate)}
         </time>
+        {post.data.updatedDate && (
+          <time datetime={post.data.updatedDate.toISOString()} class="font-mono text-xs text-faint">
+            · {t.blog.updatedOn} {fmt(post.data.updatedDate)}
+          </time>
+        )}
         {post.data.tags.map((tag) => (
           <span class="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted">{tag}</span>
         ))}

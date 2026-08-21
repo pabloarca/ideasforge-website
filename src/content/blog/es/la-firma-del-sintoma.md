@@ -25,6 +25,6 @@ Estas tres salen del catálogo de uno de nuestros asistentes en producción, un 
 
 Porque el mantenimiento es donde los proyectos de IA viven o mueren y el mantenimiento va exactamente a la velocidad del diagnóstico. Un catálogo de firmas convierte el «se comporta raro» en una lista corta de comprobaciones que cualquiera del equipo puede ejecutar, incluida la persona que llegue dentro de dos años y no estuviera en ninguna reunión.
 
-Por eso, cuando entregamos un sistema, el catálogo de incidencias que acompaña al repositorio no cuenta solo cómo se arregló cada problema. Cuenta cómo se reconoce. Es una de las piezas del traspaso que más agradecen los equipos técnicos de nuestros clientes y una de las que casi nadie pide porque casi nadie sabe que existe.
+Por eso, cuando entregamos un sistema, el catálogo de incidencias que acompaña al repositorio no cuenta solo cómo se arregló cada problema. Cuenta cómo se reconoce. Es una de las piezas del traspaso que más agradecen los equipos técnicos de nuestros clientes y una de las que casi nadie pide porque casi nadie sabe que existe. El catálogo tiene además un pariente en tiempo real, el disyuntor que decide qué pasa mientras una herramienta está caída. Le dedicamos [su propio artículo](/blog/cuando-una-herramienta-se-cae).
 
 Si quieres entender qué más hace falta para que un asistente aguante producción, sigue por la [guía de agentes de IA](/agentes-de-ia) o mira cómo trabajamos el [desarrollo de agentes a medida](/servicios/desarrollo-de-agentes-de-ia).

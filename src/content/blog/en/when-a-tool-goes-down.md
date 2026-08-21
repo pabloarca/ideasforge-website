@@ -27,6 +27,6 @@ What the user sees then is not a technical error. It is a polite, specific degra
 
 ## Reliability is designed before the failure
 
-None of this gets improvised the day a third-party service goes down at eleven in the morning. The breaker, the degradation messages and the reachability tests are built earlier, when everything works, which is exactly when they look unnecessary.
+None of this gets improvised the day a third-party service goes down at eleven in the morning. The breaker, the degradation messages and the reachability tests are built earlier, when everything works, which is exactly when they look unnecessary. Every outage that does happen also leaves its trace in the incident catalogue, the piece we describe in [the symptom signature](/en/blog/the-symptom-signature).
 
 If you are considering an assistant that depends on your real systems, this is part of what we call [conversational AI](/en/conversational-ai). And if you want the full map before deciding, start with the [AI automation guide](/en/ai-automation).

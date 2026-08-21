@@ -27,6 +27,6 @@ Lo que ve el usuario entonces no es un error técnico. Es un mensaje de degradac
 
 ## La fiabilidad se diseña antes del fallo
 
-Nada de esto se improvisa el día que un servicio de terceros se cae a las once de la mañana. El disyuntor, los mensajes de degradación y las pruebas de alcanzabilidad se construyen antes, cuando todo funciona, que es exactamente cuando parecen innecesarios.
+Nada de esto se improvisa el día que un servicio de terceros se cae a las once de la mañana. El disyuntor, los mensajes de degradación y las pruebas de alcanzabilidad se construyen antes, cuando todo funciona, que es exactamente cuando parecen innecesarios. Cada caída que sí ocurre deja además su huella en el catálogo de incidencias, la pieza que contamos en [la firma del síntoma](/blog/la-firma-del-sintoma).
 
 Si estás pensando en un asistente que dependa de tus sistemas reales, esto es parte de lo que llamamos [agentes conversacionales](/servicios/agentes-conversacionales). Y si quieres el mapa completo antes de decidir, empieza por la [guía de agentes de IA](/agentes-de-ia).

@@ -259,6 +259,8 @@ export interface SiteContent {
     heading: string;
     subtitle: string;
     readMore: string;
+    /** Etiqueta de la fecha de actualización visible en los posts. */
+    updatedOn: string;
     viewAll: string;
     /** Sin flecha en el texto: la pone el icono compartido. */
     backToBlog: string;
@@ -816,6 +818,7 @@ export const content: Record<Lang, SiteContent> = {
       heading: 'Blog',
       subtitle: 'Lo que vamos descubriendo construyendo IA en producción con nuestros clientes.',
       readMore: 'Leer más',
+      updatedOn: 'Actualizado el',
       viewAll: 'Visitar blog',
       backToBlog: 'Volver al blog',
       publishedOn: 'Publicado el',
@@ -1985,6 +1988,7 @@ export const content: Record<Lang, SiteContent> = {
       heading: 'Blog',
       subtitle: 'What we discover while building AI in production with our clients.',
       readMore: 'Read more',
+      updatedOn: 'Updated on',
       viewAll: 'Visit blog',
       backToBlog: 'Back to blog',
       publishedOn: 'Published on',
