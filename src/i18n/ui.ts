@@ -449,7 +449,7 @@ export const content: Record<Lang, SiteContent> = {
         'Soluciones de IA paquetizadas por resultado para pymes: atención 24/7, cualificación de solicitudes y automatización documental, con la misma ingeniería que en proyectos grandes.',
       realEstateTitle: 'IA para inmobiliarias y agencias de alquiler, Ideasforge',
       realEstateDescription:
-        'Un agente de IA que atiende solicitudes 24/7, cualifica a los interesados y solo escala al equipo los que cumplen criterio. Especialmente útil en picos de demanda de alquiler.',
+        'IA para inmobiliarias que atiende solicitudes 24/7, cualifica a los interesados y solo escala al equipo los que cumplen criterio. Especialmente útil en picos de demanda de alquiler.',
       accountingTitle: 'IA para gestorías, asesorías y administradores de fincas, Ideasforge',
       accountingDescription:
         'Automatización documental con IA para gestorías y asesorías fiscales: facturas, tickets y formularios escaneados que dejan de pasar a mano.',
@@ -1107,11 +1107,15 @@ export const content: Record<Lang, SiteContent> = {
         },
         solution: {
           heading: 'La solución',
-          body: 'Un agente conversacional que recibe la solicitud, pregunta zona, presupuesto, fechas y requisitos y solo escala al equipo las solicitudes que pasan el filtro. Devuelve respuesta inmediata al cliente y deja el rastro completo en el CRM.',
+          body: 'Un agente conversacional que recibe la solicitud, pregunta zona, presupuesto, fechas y requisitos y solo escala al equipo las solicitudes que pasan el filtro. El equipo recibe un resumen por correo con el veredicto de apto o no apto y un párrafo que lo justifica. El interesado recibe respuesta inmediata y el rastro completo queda en el CRM.',
         },
         proof: {
           heading: 'Prueba en producción',
           body: 'Es el sistema que construimos para Barceloneta Premium. Más de tres horas ahorradas al día solo en gestionar solicitudes entrantes y un equipo humano que ya solo concierta visitas en lugar de hacer triaje.',
+        },
+        extra: {
+          heading: 'Del alquiler a la venta y los procesos internos',
+          body: 'La señal de que la primera pieza funciona es lo que viene después. La agencia está ampliando el agente a la venta de viviendas y a procesos internos, sobre la misma base que ya filtra el alquiler. Ese es el patrón que recomendamos a cualquier inmobiliaria, empezar por el proceso que más horas se lleva, medirlo y crecer desde ahí.',
         },
         cta: {
           heading: '¿Encaja para tu agencia?',

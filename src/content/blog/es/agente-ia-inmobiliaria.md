@@ -1,25 +1,36 @@
 ---
-title: 'Agente de IA para inmobiliaria'
-description: 'Atender solicitudes 24/7 en tu agencia inmobiliaria sin desbordar a tu equipo: te contamos cómo desplegamos un agente que filtra leads y libera horas cada día.'
+title: 'Un agente de IA para inmobiliarias, contado desde dentro'
+description: 'Decenas de mensajes de WhatsApp al día, cinco a diez minutos por consulta y un equipo desbordado. Lo que hace exactamente el agente que filtra solicitudes para una agencia de Barcelona.'
 lang: 'es'
 pubDate: 2025-06-15
+updatedDate: 2026-08-21
 translationId: 'real-estate-agent'
-tags: ['Agentes', 'Inmobiliaria', 'Automatización']
+tags: ['Agentes', 'Inmobiliarias', 'Automatización']
 heroImage: '/blog/inmo.jpg'
 ---
 
-Una agencia inmobiliaria que vive de los picos de demanda no puede permitirse perder leads por no responder a tiempo. El reto era atender solicitudes 24/7 sin contratar más personas ni sobrecargar al equipo actual.
+Barceloneta Premium, una agencia de Barcelona, recibía decenas de mensajes de WhatsApp al día de personas interesadas en alquilar. Cada consulta exigía entre cinco y diez minutos de comprobación manual antes de saber si valía la pena seguir. Multiplica esos minutos por decenas de mensajes y sale la cuenta que se comía al equipo, un día entero de trabajo repartido en interrupciones de diez minutos.
 
-## El antes
+La respuesta obvia habría sido contratar a alguien para hacer triaje. La respuesta interesante fue quitar el triaje de en medio.
 
-Cada solicitud entrante pasaba por el mismo cuello de botella: alguien tenía que leerla, calificarla y decidir si valía la pena programar una visita. En picos de alquiler se acumulaban horas de retraso y muchos leads se enfriaban antes de la primera respuesta.
+## Qué hace el agente, paso a paso
 
-## El después
+El agente recibe cada mensaje y mantiene la conversación necesaria para extraer tres cosas, el motivo de la consulta, el presupuesto y la documentación disponible. No suelta un formulario, pregunta como preguntaría una persona del equipo y en el idioma del interesado.
 
-Desplegamos un agente de IA que recibe la solicitud, hace las preguntas de calificación (zona, presupuesto, fechas, requisitos) y solo escala al equipo humano los leads que cumplen los criterios. Devuelve al cliente una respuesta inmediata y deja el rastro completo en el CRM.
+Con la información completa, el agente no decide a solas ni deja la conversación en el aire. Envía al equipo un resumen por correo con un veredicto de apto o no apto y un párrafo que justifica el porqué. La persona de la agencia abre el correo, lee tres líneas y decide si programa la visita. El criterio sigue siendo suyo. Lo que desaparece son los diez minutos de comprobaciones para llegar a ese criterio.
 
-## Resultado
+## El resultado, en horas y no en promesas
 
-Más de tres horas ahorradas al día solo en gestionar las solicitudes entrantes y un equipo humano que ya solo concierta visitas en lugar de hacer triaje. Especialmente útil en los picos de demanda de alquiler.
+Más de tres horas al día ahorradas solo en gestionar solicitudes entrantes. El equipo pasó de hacer triaje a concertar visitas, que es la parte del trabajo que produce ingresos. Y las personas interesadas reciben respuesta inmediata a cualquier hora, incluidos los picos de demanda de alquiler en los que antes se enfriaban esperando.
 
-Construimos este tipo de sistemas como [agentes conversacionales](/servicios/agentes-conversacionales) y tenemos una página dedicada a [inmobiliarias](/inmobiliarias).
+Ese es además el criterio con el que medimos si un proyecto de IA merece existir, que mueva una cifra de negocio y no una sensación. Lo contamos en [medir la IA por las ganancias](/blog/medir-la-ia-por-las-ganancias).
+
+## Lo que hace falta para que no sea una demo
+
+Un agente así toca datos personales, calendario y reputación, así que la parte invisible pesa más que la visible. La conversación deja rastro completo, cada solicitud queda registrada con su veredicto y su justificación. El filtro que decide qué se escala no vive en las instrucciones del modelo, vive en código que se ejecuta siempre. Son las mismas reglas de construcción que aplicamos a todos nuestros [agentes conversacionales](/servicios/agentes-conversacionales), estén atendiendo una inmobiliaria o una clínica.
+
+## Y después del alquiler, lo demás
+
+La señal de que un sistema funciona es lo que pasa después. La agencia está ampliando el agente a la venta de viviendas y a procesos internos, sobre la misma base que ya filtra el alquiler. Empezar por un proceso doloroso y crecer desde ahí es el patrón que vemos repetirse en los proyectos que sobreviven.
+
+Si tu agencia se parece a esto, el vertical de [IA para inmobiliarias](/inmobiliarias) explica el sistema completo con su prueba en producción. Y si lo tuyo es otro sector con el mismo cuello de botella, la conversación empieza igual, contándonos dónde se van las horas.
