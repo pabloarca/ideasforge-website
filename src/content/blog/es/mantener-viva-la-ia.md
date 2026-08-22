@@ -33,4 +33,4 @@ La diferencia entre el proyecto genial y el rentable no es el talento ni el mode
 
 Si estás evaluando un proyecto de IA, la pregunta que más información te dará no es sobre el modelo ni sobre la demostración. ¿Qué pasa el día 180? ¿Quién mira las alarmas, quién ejecuta las pruebas, quién se entera si el sistema empeora en silencio?
 
-Nosotros respondemos con lo que llamamos observabilidad por defecto y está en el centro de cómo hacemos [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia). Si prefieres empezar por el mapa general, está en la [guía de agentes](/agentes-de-ia).
+Nosotros respondemos con lo que llamamos observabilidad por defecto y está en el centro de cómo hacemos [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia). Si prefieres empezar por el mapa general, está en la [guía de agentes](/agentes-de-ia). Mantener también tiene precio y lo que mueve esa cuota mensual está desglosado en la [guía de coste](/cuanto-cuesta-un-agente-de-ia).

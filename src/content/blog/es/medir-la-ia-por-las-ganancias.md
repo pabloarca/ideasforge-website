@@ -29,4 +29,4 @@ Hay una razón de fondo para ser exigentes con la métrica. La transformación d
 
 La productividad llega igualmente, no la despreciamos. Pero llega como consecuencia, no como justificación.
 
-Si tienes un proceso concreto donde la ganancia se puede señalar con el dedo, empieza por [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia). Si todavía estás decidiendo dónde aplicarla, en la [guía de agentes de IA](/agentes-de-ia) contamos cómo separar los casos que compensan de los que no.
+Si tienes un proceso concreto donde la ganancia se puede señalar con el dedo, empieza por [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia). Si todavía estás decidiendo dónde aplicarla, en la [guía de agentes de IA](/agentes-de-ia) contamos cómo separar los casos que compensan de los que no. La otra mitad de esa cuenta es lo que cuesta el sistema y la desglosamos en la [guía de coste](/cuanto-cuesta-un-agente-de-ia).

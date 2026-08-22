@@ -29,4 +29,4 @@ There is a deeper reason to be demanding about the metric. Digital transformatio
 
 Productivity comes anyway; we do not dismiss it. But it comes as a consequence, not as the justification.
 
-If you have a concrete process where the gain can be pointed at, start with [AI workflow automation](/en/ai-workflow-automation). If you are still deciding where to apply it, the [AI automation guide](/en/ai-automation) covers how to separate the cases that pay off from the ones that do not.
+If you have a concrete process where the gain can be pointed at, start with [AI workflow automation](/en/ai-workflow-automation). If you are still deciding where to apply it, the [AI automation guide](/en/ai-automation) covers how to separate the cases that pay off from the ones that do not. The other half of that sum is what the system costs, and we break it down in the [cost guide](/en/ai-agent-development-cost).
