@@ -12,6 +12,8 @@
 */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from './Icon.astro';
+import BrandBadge from './BrandBadge.astro';
+import PageNav from './PageNav.astro';
 import { type Lang, type LongFormPageContent } from '../i18n/ui';
 import ClusterPosts from './ClusterPosts.astro';
 import FaqList from './FaqList.astro';
@@ -29,8 +31,6 @@ interface Props {
 const { lang, page, alternates } = Astro.props;
 const heroCta = page.hero.ctaHref ?? localizedPath('/#contacto', lang);
 const hasFaq = Boolean(page.faq && page.faq.length > 0);
-// Keep the light/dark section rhythm consistent once the FAQ is optional.
-const faqBg = page.sections.length % 2 === 0 ? 'bg-bg-soft' : 'bg-bg';
 
 /* Ancla estable para cada sección: la suya si la declara, y si no una salida
    del encabezado. Solo se usa dentro de la página, así que un encabezado que
@@ -45,9 +45,9 @@ const anchorOf = (sec: { id?: string; heading: string }) =>
     .replace(/^-|-$/g, '')
     .slice(0, 40);
 
-/* Índice de partes. Se construye recorriendo las secciones y quedándose con
-   la primera de cada parte, que es a donde apunta el enlace. Una página sin
-   `part` en ninguna sección no tiene índice y se comporta como siempre. */
+/* Partes. Se recorren las secciones y se guarda la primera de cada parte,
+   que es donde se abre su portada. Una página sin `part` en ninguna sección
+   no tiene partes y se comporta como siempre. */
 const parts: Array<{ name: string; anchor: string; from: number }> = [];
 page.sections.forEach((sec, i) => {
   if (sec.part && sec.part !== parts[parts.length - 1]?.name) {
@@ -56,6 +56,22 @@ page.sections.forEach((sec, i) => {
 });
 const hasParts = parts.length > 1;
 const hasChecklist = page.sections.some((sec) => sec.kind === 'checklist');
+
+/* Entradas del índice lateral: TODAS las secciones, con el rótulo de parte
+   en la que estrena cada una. Antes el índice solo listaba las partes, que
+   en una página de seis secciones deja fuera lo que el lector busca. */
+const navItems = page.sections.map((sec, i) => {
+  const abre = parts.findIndex((pt) => pt.from === i);
+  return {
+    heading: sec.heading,
+    anchor: anchorOf(sec),
+    part: abre >= 0 ? parts[abre].name : undefined,
+    partIndex: abre >= 0 ? abre : undefined,
+  };
+});
+/* El índice acompaña a partir de cuatro secciones. Con menos, el lector ve
+   la página entera de un vistazo y una columna fija solo le roba ancho. */
+const hasNav = page.sections.length >= 4;
 ---
 
 <BaseLayout
@@ -67,7 +83,7 @@ const hasChecklist = page.sections.some((sec) => sec.kind === 'checklist');
   <!-- Hero -->
   <section class="bg-bg py-16 sm:py-24">
     <div class="mx-auto max-w-4xl px-5 text-center sm:px-8">
-      {page.hero.eyebrow && <span class="eyebrow-pill">{page.hero.eyebrow}</span>}
+      {page.hero.eyebrow && <BrandBadge text={page.hero.eyebrow} />}
       <h1 class="mt-7 text-balance text-4xl font-bold leading-[1.05] tracking-tight text-fg sm:text-5xl lg:text-6xl">
         {page.hero.title}
       </h1>
@@ -117,12 +133,13 @@ const hasChecklist = page.sections.some((sec) => sec.kind === 'checklist');
 
   {
     /*
-      Índice de partes. Solo aparece cuando la página está dividida, que en la
-      práctica es cuando es larga de verdad. Usa la retícula continua de la
-      home, así que se lee como parte del sitio y no como un sumario pegado.
+      Índice de partes para pantallas estrechas. En ancho grande manda la
+      columna lateral, que acompaña toda la lectura; aquí, donde esa columna
+      no cabe, se conserva la retícula continua de la home como sumario de
+      entrada. Los dos llevan a las mismas anclas.
     */
     hasParts && (
-      <section class="bg-bg pb-4">
+      <section class="bg-bg pb-4 lg:hidden">
         <div class="mx-auto max-w-5xl px-5 sm:px-8">
           {page.tocHeading && (
             <p class="mb-5 text-xs font-semibold uppercase tracking-[0.16em] text-faint">
@@ -150,116 +167,142 @@ const hasChecklist = page.sections.some((sec) => sec.kind === 'checklist');
     )
   }
 
-  <!-- Body sections, alternating background -->
-  {
-    page.sections.map((section, i) => (
-      <section
-        id={anchorOf(section)}
-        class={`${i % 2 === 0 ? 'bg-bg-soft' : 'bg-bg'} scroll-mt-24 py-14 sm:py-16`}
-      >
-        <div class="mx-auto max-w-3xl px-5 sm:px-8">
-          {/* Portada de parte. Se abre cuando esta seccion estrena parte, y
-              usa el mismo filete que separa secciones en la home. */}
-          {parts.some((pt) => pt.from === i) && (
-            <div class="mb-10 border-t border-border pt-5">
-              <p class="font-mono text-xs uppercase tracking-[0.16em] text-accent">
-                {`${String(parts.findIndex((pt) => pt.from === i) + 1).padStart(2, '0')} · ${section.part}`}
-              </p>
-            </div>
-          )}
+  {/*
+    Cuerpo a dos columnas. A la izquierda el índice, pegado mientras se lee;
+    a la derecha el texto, separado por el mismo filete vertical que divide
+    las tarjetas de la home.
 
-          <h2 class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">{section.heading}</h2>
-          <div class="mt-5 space-y-4">
-            {section.paragraphs.map((p) => (
-              <p class="text-[15px] leading-relaxed text-muted sm:text-base">{p}</p>
-            ))}
+    Los fondos ya no alternan. La banda gris intercalada partía la página en
+    bloques y hacía leer cada sección como un módulo suelto; con un solo
+    fondo el texto se lee de corrido y quien separa es la línea, que es más
+    callada y es el lenguaje del resto del sitio.
+  */}
+  <section class="bg-bg">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8">
+      <div class={hasNav ? 'lg:grid lg:grid-cols-[14rem_minmax(0,1fr)]' : ''}>
+        {hasNav && (
+          <div class="hidden lg:block">
+            {/* Tope de altura: los pilares largos tienen veinte secciones y
+                una columna fija de ese alto se sale de la ventana, dejando
+                las ultimas inalcanzables. Con el tope, el indice se
+                desplaza por dentro y el resto de la pagina no se entera. */}
+            <div class="sticky top-28 max-h-[calc(100vh-9rem)] overflow-y-auto overscroll-contain pb-10 pr-8">
+              <PageNav items={navItems} heading={page.tocHeading} />
+            </div>
           </div>
-          {section.diagram && <FlowDiagram lang={lang} />}
+        )}
 
-          {/* Reticula continua: elementos paralelos, el idioma de «Lo que
-              construimos». Dos columnas y no cuatro porque aqui cada elemento
-              es una frase larga, no un titulo. */}
-          {section.bullets && section.kind === 'lattice' && (
-            <ul class="mt-7 grid gap-px border border-border bg-border sm:grid-cols-2">
-              {section.bullets.map((b, k) => (
-                <li class="relative bg-bg">
-                  <div class="flex h-full gap-3 p-6">
-                    <span class="mt-0.5 shrink-0 text-accent" aria-hidden="true">
-                      <Icon name="correcto" size={14} />
-                    </span>
-                    <span class="text-[15px] leading-relaxed text-fg">{b}</span>
-                  </div>
-                  <LatticeDots seed={907 + i * 13 + k} />
-                </li>
-              ))}
-            </ul>
-          )}
+        <div class={hasNav ? 'lg:border-l lg:border-border lg:pl-10' : 'mx-auto max-w-3xl'}>
+          {page.sections.map((section, i) => (
+            <section
+              id={anchorOf(section)}
+              class={`scroll-mt-28 py-12 sm:py-14 ${i > 0 ? 'border-t border-border-soft' : ''}`}
+            >
+              <div class={hasNav ? 'max-w-2xl' : ''}>
+                {/* Portada de parte. Se abre cuando esta seccion estrena parte. */}
+                {parts.some((pt) => pt.from === i) && (
+                  <p class="mb-4 font-mono text-xs uppercase tracking-[0.16em] text-accent">
+                    {`${String(parts.findIndex((pt) => pt.from === i) + 1).padStart(2, '0')} · ${section.part}`}
+                  </p>
+                )}
 
-          {/* Ruta numerada: secuencias y listas que se recorren una a una, el
-              idioma de «Como trabajamos». El filete se dibuja al bajar. */}
-          {section.bullets && section.kind === 'checklist' && (
-            <ol class="mt-8">
-              {section.bullets.map((b, k) => (
-                <li
-                  data-route-step
-                  class="grid grid-cols-[2.25rem_1fr] gap-x-4 sm:grid-cols-[2.75rem_1fr] sm:gap-x-6"
-                >
-                  <div class="flex flex-col items-center">
-                    <span class="route-marker grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 border-border bg-bg font-mono text-xs font-bold text-accent sm:h-11 sm:w-11 sm:text-sm">
-                      {String(k + 1).padStart(2, '0')}
-                    </span>
-                    {k < section.bullets!.length - 1 && (
-                      <span class="route-line mt-3 w-0.5 flex-1 rounded-full bg-border" aria-hidden="true" />
-                    )}
-                  </div>
-                  <div class={k < section.bullets!.length - 1 ? 'pb-8' : ''}>
-                    <p class="text-[15px] leading-relaxed text-fg sm:text-base">{b}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          )}
+                <h2 class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">
+                  {section.heading}
+                </h2>
+                <div class="mt-5 space-y-4">
+                  {section.paragraphs.map((p) => (
+                    <p class="text-[15px] leading-relaxed text-muted sm:text-base">{p}</p>
+                  ))}
+                </div>
+              </div>
+              {section.diagram && <FlowDiagram lang={lang} />}
 
-          {section.bullets && (section.kind ?? 'prose') === 'prose' && (
-            <ul class="mt-6 space-y-3">
-              {section.bullets.map((b) => (
-                <li class="flex items-start gap-3 text-[15px] leading-relaxed text-fg sm:text-base">
-                  <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent text-bg" aria-hidden="true">
-                    <Icon name="correcto" size={12} />
-                  </span>
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-          {section.link && (
-            <div class="mt-6">
-              {/* Misma flecha que el resto del sitio. Antes era el caracter «→»,
-                  que se dibuja con la tipografia y no casa con las demas. */}
-              <a
-                href={section.link.href}
-                class="group inline-flex items-center gap-1.5 text-accent"
-              >
-                <span class="underline-offset-2 group-hover:underline">{section.link.label}</span>
-                <Icon name="flecha-derecha" size={16} class="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" />
-              </a>
-            </div>
-          )}
+              {/* Reticula continua: elementos paralelos, el idioma de «Lo que
+                  construimos». Dos columnas y no cuatro porque aqui cada elemento
+                  es una frase larga, no un titulo. */}
+              {section.bullets && section.kind === 'lattice' && (
+                <ul class="mt-7 grid gap-px border border-border bg-border sm:grid-cols-2">
+                  {section.bullets.map((b, k) => (
+                    <li class="relative bg-bg">
+                      <div class="flex h-full gap-3 p-6">
+                        <span class="mt-0.5 shrink-0 text-accent" aria-hidden="true">
+                          <Icon name="correcto" size={14} />
+                        </span>
+                        <span class="text-[15px] leading-relaxed text-fg">{b}</span>
+                      </div>
+                      <LatticeDots seed={907 + i * 13 + k} />
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {/* Ruta numerada: secuencias y listas que se recorren una a una, el
+                  idioma de «Como trabajamos». El filete se dibuja al bajar. */}
+              {section.bullets && section.kind === 'checklist' && (
+                <ol class="mt-8">
+                  {section.bullets.map((b, k) => (
+                    <li
+                      data-route-step
+                      class="grid grid-cols-[2.25rem_1fr] gap-x-4 sm:grid-cols-[2.75rem_1fr] sm:gap-x-6"
+                    >
+                      <div class="flex flex-col items-center">
+                        <span class="route-marker grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 border-border bg-bg font-mono text-xs font-bold text-accent sm:h-11 sm:w-11 sm:text-sm">
+                          {String(k + 1).padStart(2, '0')}
+                        </span>
+                        {k < section.bullets!.length - 1 && (
+                          <span class="route-line mt-3 w-0.5 flex-1 rounded-full bg-border" aria-hidden="true" />
+                        )}
+                      </div>
+                      <div class={k < section.bullets!.length - 1 ? 'pb-8' : ''}>
+                        <p class="text-[15px] leading-relaxed text-fg sm:text-base">{b}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              )}
+
+              {section.bullets && (section.kind ?? 'prose') === 'prose' && (
+                <ul class="mt-6 space-y-3">
+                  {section.bullets.map((b) => (
+                    <li class="flex items-start gap-3 text-[15px] leading-relaxed text-fg sm:text-base">
+                      <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent text-bg" aria-hidden="true">
+                        <Icon name="correcto" size={12} />
+                      </span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {section.link && (
+                <div class="mt-6">
+                  {/* Misma flecha que el resto del sitio. Antes era el caracter «→»,
+                      que se dibuja con la tipografia y no casa con las demas. */}
+                  <a
+                    href={section.link.href}
+                    class="group inline-flex items-center gap-1.5 text-accent"
+                  >
+                    <span class="underline-offset-2 group-hover:underline">{section.link.label}</span>
+                    <Icon name="flecha-derecha" size={16} class="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </a>
+                </div>
+              )}
+            </section>
+          ))}
         </div>
-      </section>
-    ))
-  }
+      </div>
+    </div>
+  </section>
 
   {/* Las entradas que desarrollan lo que cuenta la página. La ruta sale de la
       URL, así que la página no tiene que declararse a sí misma, y el conjunto
       se deriva de los enlaces que los propios posts ya traen. Va detrás del
       cuerpo y delante de la FAQ, que junto al CTA forma el cierre. */}
-  <ClusterPosts lang={lang} pillar={pillarFromUrl(Astro.url.pathname)} bg={faqBg === 'bg-bg-soft' ? 'bg-bg' : 'bg-bg-soft'} />
+  <ClusterPosts lang={lang} pillar={pillarFromUrl(Astro.url.pathname)} bg="bg-bg" />
 
   <!-- FAQ (skipped on pages without one, e.g. About) -->
   {
     hasFaq && (
-      <section class={`${faqBg} py-14 sm:py-16`}>
+      <section class="border-t border-border-soft bg-bg py-14 sm:py-16">
         <div class="mx-auto max-w-3xl px-5 sm:px-8">
           <h2 class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">{page.faqHeading}</h2>
           {/* Misma pieza que la FAQ de la home. Antes eran tarjetas estaticas
@@ -271,7 +314,7 @@ const hasChecklist = page.sections.some((sec) => sec.kind === 'checklist');
   }
 
   <!-- Final CTA -->
-  <section class="bg-bg-soft py-16 sm:py-20">
+  <section class="border-t border-border-soft bg-bg py-16 sm:py-20">
     <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">
       <h2 class="text-3xl font-bold tracking-tight text-fg sm:text-4xl">{page.cta.heading}</h2>
       <p class="mt-4 text-lg text-muted">{page.cta.body}</p>

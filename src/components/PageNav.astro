@@ -1,0 +1,158 @@
+---
+/*
+  Índice lateral de una página larga: a la izquierda, pegado al hacer scroll,
+  con todas las secciones y un salto directo a cada una.
+
+  Sustituye a la retícula de partes que se pintaba antes bajo el héroe. Aquel
+  índice se veía una vez, al principio, y desaparecía en cuanto el lector
+  bajaba; en páginas de 2.000 palabras eso obliga a volver arriba para saber
+  qué queda. Este acompaña toda la lectura y además dice dónde estás.
+
+  Identidad, no plantilla: sin redondeos, numeración en monoespaciada, y el
+  marcador de cada entrada es el cuadrado de 3px de LatticeDots, que se pinta
+  en acento cuando su sección está en pantalla. Las partes hacen de rótulos.
+
+  El seguimiento del scroll es un IntersectionObserver sobre las secciones
+  reales. Si el script no llega a ejecutarse, los enlaces siguen funcionando:
+  lo único que se pierde es el resaltado.
+*/
+interface Item {
+  heading: string;
+  anchor: string;
+  /** Rótulo de parte cuando esta entrada estrena una. */
+  part?: string;
+  partIndex?: number;
+}
+interface Props {
+  items: Item[];
+  heading?: string;
+  class?: string;
+}
+const { items, heading, class: extraClass = '' } = Astro.props;
+---
+
+<nav class:list={['page-nav', extraClass]} aria-label={heading}>
+  {
+    heading && (
+      <p class="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-faint">{heading}</p>
+    )
+  }
+  <ul>
+    {
+      items.map((item) => (
+        <li>
+          {item.part && (
+            <p class="mt-6 border-t border-border pb-1 pt-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-accent first:mt-0 first:border-t-0 first:pt-0">
+              {`${String((item.partIndex ?? 0) + 1).padStart(2, '0')} · ${item.part}`}
+            </p>
+          )}
+          <a href={`#${item.anchor}`} data-nav-link={item.anchor} class="pn-link">
+            <span class="pn-dot" aria-hidden="true" />
+            <span class="pn-text">{item.heading}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .page-nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pn-link {
+    display: grid;
+    grid-template-columns: 3px 1fr;
+    align-items: start;
+    gap: 0.75rem;
+    padding: 0.4rem 0;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-muted);
+    transition: color 200ms ease;
+  }
+  .pn-dot {
+    /* El mismo cuadrado de 3px que siembra LatticeDots por el sitio. Aquí
+       hace de viñeta y de indicador: apagado en el borde, encendido en
+       acento cuando su sección esta en pantalla. */
+    margin-top: 0.5rem;
+    width: 3px;
+    height: 3px;
+    background: var(--color-border);
+    transition:
+      background-color 200ms ease,
+      transform 200ms ease;
+  }
+  .pn-link:hover {
+    color: var(--color-fg);
+  }
+  .pn-link:hover .pn-dot {
+    background: var(--color-accent);
+  }
+  .pn-link.is-active {
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+  .pn-link.is-active .pn-dot {
+    background: var(--color-accent);
+    transform: scale(1.9);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pn-link,
+    .pn-dot {
+      transition: none;
+    }
+    .pn-link.is-active .pn-dot {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  /*
+    Resaltado de la sección en curso.
+
+    Se observa cada sección con un margen superior negativo, de forma que una
+    sección cuenta como «actual» cuando su parte alta cruza el primer tercio
+    de la ventana, no cuando asoma por abajo. Con varias visibles a la vez
+    gana la más alta, que es la que el lector tiene delante.
+  */
+  function activarIndice() {
+    const enlaces = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')
+    );
+    if (!enlaces.length) return;
+
+    const porAncla = new Map(enlaces.map((a) => [a.dataset.navLink!, a]));
+    const secciones = enlaces
+      .map((a) => document.getElementById(a.dataset.navLink!))
+      .filter((el): el is HTMLElement => Boolean(el));
+    if (!secciones.length) return;
+
+    const visibles = new Set<string>();
+
+    const marcar = () => {
+      const primera = secciones.find((s) => visibles.has(s.id));
+      enlaces.forEach((a) => a.classList.remove('is-active'));
+      if (primera) porAncla.get(primera.id)?.classList.add('is-active');
+    };
+
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        for (const e of entradas) {
+          if (e.isIntersecting) visibles.add(e.target.id);
+          else visibles.delete(e.target.id);
+        }
+        marcar();
+      },
+      { rootMargin: '-33% 0px -55% 0px' }
+    );
+
+    secciones.forEach((s) => observador.observe(s));
+  }
+
+  activarIndice();
+  document.addEventListener('astro:page-load', activarIndice);
+</script>

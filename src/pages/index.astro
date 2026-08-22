@@ -32,31 +32,21 @@ const meta = content[lang].meta;
   <TrustedBy lang={lang} />
   <CaseStudies lang={lang} />
   {/*
-    Costuras entre secciones. Cada una necesita una linea que cruzar, y hay
-    dos maneras de tenerla:
+    Costuras entre secciones. Desde el 22 ago 2026 todas las secciones son
+    blancas: la banda gris intercalada partia la pagina en modulos y se
+    retiro en favor de la linea, que separa igual y habla mas bajo.
 
-      Sin `line`, la linea es el cambio de fondo. Vale solo donde los fondos
-      son distintos de verdad:
-        CaseStudies (blanco) -> Services (gris)
-        Services (gris)      -> WhyUs (blanco)
-        WhyUs (blanco)       -> Methodology (gris)
-        Methodology (gris)   -> Integrations (blanco)
-
-      Con `line`, la dibuja el propio componente. Es lo que hace falta entre
-      las tres ultimas, todas blancas:
-        Integrations -> BlogPreview -> Faq -> Contact
-
-    Si se cambia el fondo de alguna seccion hay que revisar este reparto: una
-    costura que pase a tener cambio de color ya no necesita `line`, y una que
-    lo pierda deja de tener linea si no se le pone.
+    Con el fondo unico ya no hay cambios de color que hagan de costura, asi
+    que TODAS llevan `line` y la dibujan ellas. Si alguna vez vuelve una
+    seccion de otro color, esa costura concreta puede prescindir de `line`.
   */}
-  <RailDots seed={419} />
+  <RailDots seed={419} line />
   <Services lang={lang} />
-  <RailDots seed={431} />
+  <RailDots seed={431} line />
   <WhyUs lang={lang} />
-  <RailDots seed={443} />
+  <RailDots seed={443} line />
   <Methodology lang={lang} />
-  <RailDots seed={457} />
+  <RailDots seed={457} line />
   <Integrations lang={lang} />
   <RailDots seed={541} line />
   <BlogPreview lang={lang} />

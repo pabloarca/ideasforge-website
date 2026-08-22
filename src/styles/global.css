@@ -88,18 +88,10 @@ body {
 /* ---- reusable utilities ---- */
 
 /* Hero eyebrow pill, white background, lavender border, blue text */
-@utility eyebrow-pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.4rem 0.95rem;
-  border-radius: var(--radius-pill);
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-border);
-  color: var(--color-accent);
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0.005em;
-}
+/* RETIRADA (22 ago 2026). `eyebrow-pill` era la píldora redondeada que
+   llevaban los rótulos de las páginas interiores mientras el héroe de la home
+   llevaba el marco de retícula con sus puntos. La misma marca se presentaba
+   de dos maneras según la página. Ahora todas usan `BrandBadge.astro`. */
 
 /* RETIRADA (21 ago 2026). La tarjeta antigua: sombra lavanda + radio. Ya no
    la usa nadie: el sitio entero habla en retícula plana con filetes, y las

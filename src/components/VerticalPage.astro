@@ -1,4 +1,5 @@
 ---
+import BrandBadge from './BrandBadge.astro';
 /*
   Página vertical (inmobiliarias, gestorías y sus espejos ingleses). El mismo
   marcado estaba copiado en cuatro archivos y cada retoque había que hacerlo
@@ -32,7 +33,7 @@ const { lang, page: p, title, description, routeKey } = Astro.props;
 <BaseLayout lang={lang} title={title} description={description} alternates={altsFor(routeKey)}>
   <section class="bg-bg py-16 sm:py-24">
     <div class="mx-auto max-w-4xl px-5 text-center sm:px-8">
-      {p.hero.eyebrow && <span class="eyebrow-pill">{p.hero.eyebrow}</span>}
+      {p.hero.eyebrow && <BrandBadge text={p.hero.eyebrow} />}
       <h1 class="mt-7 text-balance text-4xl font-bold leading-[1.05] tracking-tight text-fg sm:text-5xl lg:text-6xl">
         {p.hero.title}
       </h1>
@@ -47,7 +48,7 @@ const { lang, page: p, title, description, routeKey } = Astro.props;
     </div>
   </section>
 
-  <section class="bg-bg-soft py-16 sm:py-20">
+  <section class="border-t border-border-soft bg-bg py-16 sm:py-20">
     <div class="mx-auto max-w-6xl px-5 sm:px-8">
       <div class="grid gap-px border border-border bg-border md:grid-cols-2">
         <div class="bg-bg p-8">
@@ -73,7 +74,7 @@ const { lang, page: p, title, description, routeKey } = Astro.props;
 
   {
     p.extra && (
-      <section class="bg-bg-soft py-16 sm:py-20">
+      <section class="border-t border-border-soft bg-bg py-16 sm:py-20">
         <div class="mx-auto max-w-3xl px-5 sm:px-8">
           <h2 class="text-2xl font-bold text-fg sm:text-3xl">{p.extra.heading}</h2>
           <p class="mt-4 text-[15px] leading-relaxed text-muted sm:text-base">{p.extra.body}</p>
@@ -87,7 +88,7 @@ const { lang, page: p, title, description, routeKey } = Astro.props;
       incorpora sola. Si el grupo no tiene ninguna, no pinta nada. */}
   <ClusterPosts lang={lang} pillar={pillarFromUrl(Astro.url.pathname)} />
 
-  <section class={`${p.extra ? 'bg-bg' : 'bg-bg-soft'} py-16 sm:py-20`}>
+  <section class="border-t border-border-soft bg-bg py-16 sm:py-20">
     <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">
       <h2 class="text-3xl font-bold tracking-tight text-fg sm:text-4xl">{p.cta.heading}</h2>
       <p class="mt-4 text-lg text-muted">{p.cta.body}</p>

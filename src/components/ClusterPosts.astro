@@ -18,10 +18,12 @@ interface Props {
   lang: Lang;
   /** Ruta de la página pilar, tal como la enlazan los posts. */
   pillar: string;
-  /** Fondo de la banda, para encajar en la alternancia de la página. */
+  /** Fondo de la banda. Desde el fondo único (22 ago 2026) es blanco en
+   *  todo el sitio y quien separa es el filete de arriba. Se mantiene el
+   *  parámetro por si alguna página necesita otra cosa. */
   bg?: string;
 }
-const { lang, pillar, bg = 'bg-bg-soft' } = Astro.props;
+const { lang, pillar, bg = 'bg-bg' } = Astro.props;
 
 const t = content[lang].blog;
 const posts = await postsForPillar(lang, pillar);
@@ -31,7 +33,7 @@ const slugOf = (id: string) => id.replace(/^(es|en)\//, '');
 
 {
   posts.length > 0 && (
-    <section class={`${bg} py-14 sm:py-16`}>
+    <section class={`border-t border-border-soft ${bg} py-14 sm:py-16`}>
       <div class="mx-auto max-w-3xl px-5 sm:px-8">
         <h2 class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">
           {t.clusterHeading}

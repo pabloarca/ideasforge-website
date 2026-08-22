@@ -1229,6 +1229,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       about: {
+        tocHeading: 'Qué recorre esta página',
         metaTitle: 'Quiénes somos, Ideasforge',
         metaDescription:
           'Un equipo pequeño que construye y mantiene sistemas de IA en producción y que opera su propio producto. Así trabajamos y por qué lo contamos con datos.',
@@ -1680,6 +1681,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       processAuto: {
+        tocHeading: 'Qué recorre esta página',
         metaTitle: 'Automatización de procesos con IA, Ideasforge',
         metaDescription:
           'Automatización de procesos empresariales con IA: documentos, solicitudes y consultas de datos resueltos de principio a fin, sobre tus sistemas y con validación por código.',
@@ -1760,6 +1762,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       conversational: {
+        tocHeading: 'Qué recorre esta página',
         metaTitle: 'Chatbot con IA y agentes conversacionales, Ideasforge',
         metaDescription:
           'Desarrollo de chatbots para empresas y agentes conversacionales que atienden, cualifican y actúan: citas reservadas, solicitudes filtradas y dudas resueltas sobre tus sistemas. Un servicio de chatbot con ingeniería de producción.',
@@ -1837,6 +1840,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       cost: {
+        tocHeading: 'Qué recorre esta guía',
         metaTitle: 'Cuánto cuesta un agente de IA, Ideasforge',
         metaDescription:
           'Un agente de IA a medida cuesta entre 2.500 y 10.000 € de construcción, más 150 a 500 € al mes de operación. Desglosamos qué mueve el precio, a dónde va la cuota mensual y qué es tuyo al final.',
@@ -2732,6 +2736,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       about: {
+        tocHeading: 'What this page covers',
         metaTitle: 'About us, Ideasforge',
         metaDescription:
           'A small team that builds and maintains AI systems in production, and runs its own product. How we work and why we back it with numbers.',
@@ -3179,6 +3184,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       processAuto: {
+        tocHeading: 'What this page covers',
         metaTitle: 'AI Workflow Automation Services, Ideasforge',
         metaDescription:
           'AI workflow automation for business processes: documents, requests and data queries handled end to end, on your systems, with code-level validation at every step.',
@@ -3260,6 +3266,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       conversational: {
+        tocHeading: 'What this page covers',
         metaTitle: 'Conversational AI and Chatbot Development Services, Ideasforge',
         metaDescription:
           'Chatbot development services with production discipline: conversational AI for customer service, bookings and internal knowledge, on your channels and your systems.',
@@ -3338,6 +3345,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       cost: {
+        tocHeading: 'What this guide covers',
         metaTitle: 'How much does an AI agent cost, Ideasforge',
         metaDescription:
           'A custom AI agent typically costs €2,500 to €10,000 to build, plus €150 to €500 a month to operate. We break down what moves the number, where the monthly fee goes and what you own at the end.',

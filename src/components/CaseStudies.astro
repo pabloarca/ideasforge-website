@@ -36,40 +36,59 @@ const t = content[lang].caseStudies;
           t.items.map((item) => (
             <article
               data-carousel-slide
-              class="grid w-full shrink-0 snap-center overflow-hidden bg-surface lg:grid-cols-2 lg:min-h-[480px]"
+              class="relative grid min-h-[420px] w-full shrink-0 snap-center overflow-hidden bg-surface sm:min-h-0 lg:grid-cols-2 lg:min-h-[480px]"
             >
-              <div class="flex flex-col p-8 sm:p-12">
+              {/* Velo solo en movil, donde el texto se apoya en la foto. Va de
+                  negro casi opaco abajo a casi nada arriba: la mitad superior
+                  de la imagen se ve limpia y el pie sostiene el rotulo pase lo
+                  que pase con la luminosidad de cada fotografia. */}
+              <div
+                class="absolute inset-0 z-[1] bg-gradient-to-t from-black/85 via-black/50 to-black/5 sm:hidden"
+                aria-hidden="true"
+              />
+
+              <div class="relative z-[2] flex flex-col justify-end p-6 sm:justify-start sm:p-12">
+                {/* En movil el cliente va en texto claro: los logos son oscuros
+                    y sobre el velo desapareceria justo el que da credibilidad. */}
+                <span class="text-xs font-semibold uppercase tracking-[0.18em] text-white/70 sm:hidden">
+                  {item.client}
+                </span>
+
                 {item.clientLogo ? (
                   <img
                     src={item.clientLogo}
                     alt={item.client}
-                    class="h-14 w-auto self-start object-contain"
+                    class="hidden h-14 w-auto self-start object-contain sm:block"
                     loading="lazy"
                     decoding="async"
                   />
                 ) : (
-                  <span class="self-start text-xs font-semibold uppercase tracking-[0.18em] text-faint">
+                  <span class="hidden self-start text-xs font-semibold uppercase tracking-[0.18em] text-faint sm:block">
                     {item.client}
                   </span>
                 )}
-                <h3 class="mt-8 text-balance text-3xl font-bold leading-tight text-fg sm:text-[2rem]">
+                <h3 class="mt-3 text-balance text-2xl font-bold leading-tight text-white sm:mt-8 sm:text-[2rem] sm:text-fg">
                   {item.title}
                 </h3>
-                <p class="mt-5 text-[15px] leading-relaxed text-muted">{item.body}</p>
-                <div class="mt-auto pt-10">
-                  <hr class="border-t border-border-soft" />
-                  <div class="mt-5 flex flex-wrap items-baseline gap-x-5 gap-y-1">
-                    <span class="text-2xl font-bold text-fg sm:text-[1.75rem]">{item.metricBig}</span>
-                    <span class="text-[15px] leading-snug text-muted">{item.metricSmall}</span>
+                {/* El cuerpo no cabe en un movil sin que la ficha desborde la
+                    pantalla, pero sigue en el HTML: se oculta con CSS, no se
+                    deja de renderizar. */}
+                <p class="mt-5 hidden text-[15px] leading-relaxed text-muted sm:block">{item.body}</p>
+                <div class="mt-4 sm:mt-auto sm:pt-10">
+                  <hr class="hidden border-t border-border-soft sm:block" />
+                  <div class="flex flex-wrap items-baseline gap-x-5 gap-y-1 sm:mt-5">
+                    <span class="text-xl font-bold text-white sm:text-[1.75rem] sm:text-fg">{item.metricBig}</span>
+                    <span class="hidden text-[15px] leading-snug text-muted sm:block">{item.metricSmall}</span>
                   </div>
                 </div>
               </div>
 
-              {/* El filete que divide las dos mitades. En pantallas grandes
-                  las columnas van una al lado de otra y el filete es vertical;
-                  al apilarse en movil pasa a ser horizontal, que es donde cae
-                  entonces la division. */}
-              <div class="relative min-h-[280px] overflow-hidden border-t border-border-soft lg:min-h-full lg:border-l lg:border-t-0">
+              {/* En movil la imagen no es una mitad: llena la ficha entera y
+                  el texto se apoya encima, asi que ahi no hay filete que
+                  dividir. A partir de 640 px vuelven las dos mitades apiladas
+                  con su filete horizontal, y desde 1024 px van una al lado de
+                  otra y el filete se pone vertical. */}
+              <div class="absolute inset-0 overflow-hidden sm:relative sm:min-h-[280px] sm:border-t sm:border-border-soft lg:min-h-full lg:border-l lg:border-t-0">
                 {item.image ? (
                   <img
                     src={item.image}
