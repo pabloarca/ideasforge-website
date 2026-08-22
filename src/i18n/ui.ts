@@ -1540,6 +1540,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       agentDev: {
+        tocHeading: 'Qué recorre esta página',
         metaTitle: 'Desarrollo de agentes de IA a medida para empresas, Ideasforge',
         metaDescription:
           'Diseñamos, construimos y mantenemos agentes de IA para empresas: a medida, sobre tu infraestructura, con tus permisos y medidos antes de cada cambio.',
@@ -1553,38 +1554,88 @@ export const content: Record<Lang, SiteContent> = {
         sections: [
           {
             heading: 'Qué construimos',
+            part: 'El servicio',
             paragraphs: [
-              'Agentes de IA a medida que hacen trabajo real: responden preguntas sobre tu documentación y tus bases de datos, guían diagnósticos, cualifican solicitudes y ejecutan acciones sobre los sistemas que apruebes. Cada agente se construye para una tarea y se conecta a las herramientas que esa tarea necesita.',
-              'Cuando un agente no basta, construimos la arquitectura que coordina varios. Un orquestador entiende cada consulta y la dirige al especialista. Uno de nuestros sistemas en producción funciona así, con media docena de agentes especializados detrás.',
+              'Agentes de IA a medida que hacen trabajo real: responden preguntas sobre tu documentación y tus bases de datos, guían diagnósticos, cualifican solicitudes y ejecutan acciones sobre los sistemas que apruebes. Cada agente se construye para una tarea concreta y se conecta solo a las herramientas que esa tarea necesita. Cuando un agente no basta, construimos la arquitectura que coordina varios. Un orquestador entiende cada consulta y la dirige al especialista. Uno de nuestros sistemas en producción funciona así, con media docena de agentes especializados detrás.',
+              'Estos son los encargos que más se repiten, con la ganancia que persigue cada uno.',
+            ],
+            kind: 'lattice',
+            bullets: [
+              'Consultas a tus datos. La pregunta se escribe en lenguaje natural y la respuesta sale de tu base de datos por un camino validado, nunca de la memoria del modelo.',
+              'Asistente sobre tu documentación. Manuales, wikis y sistemas internos respondiendo en una sola conversación y citando de dónde salió cada respuesta.',
+              'Diagnóstico guiado. El agente pregunta, descarta y acompaña paso a paso hasta la causa, como nuestro asistente de planta cuando una máquina se para.',
+              'Cualificación de solicitudes. Cada entrada se lee, se puntúa y se dirige. Tu equipo recibe solo las que valen su tiempo.',
+              'Acciones sobre tus sistemas. La gestión completa, ejecutada dentro de un conjunto cerrado de acciones que tú apruebas.',
             ],
             link: { label: 'Si estás situando el concepto, empieza por la guía de agentes de IA', href: '/agentes-de-ia' },
           },
           {
-            heading: 'Cómo se gana un agente su puesto en producción',
+            heading: 'Sistemas que producen el resultado, no herramientas que ayudan',
+            part: 'El servicio',
             paragraphs: [
-              'Una demostración se hace en días. Producción exige disciplina. Cada agente sale con una batería de pruebas que se ejecuta antes de cada cambio. Si la calidad baja, el cambio no se publica. En uno de nuestros agentes calibramos el enrutado del 72 % al 91 % de acierto sobre 118 casos reales antes de confiarle más alcance.',
-              'Cada respuesta queda registrada con su contexto: qué consultó el agente, qué decidió y cuánto costó. Cuando llega una queja, reconstruimos exactamente qué pasó.',
+              'Hay dos maneras de meter IA en una empresa y no se compran igual. La primera es dar herramientas a las personas, un chat donde pegar un documento y pedir el resumen. Ahí el resultado lo sigue produciendo la persona, que revisa cada salida antes de usarla. La segunda es un sistema que produce el resultado él solo, una factura registrada, una solicitud cualificada, una cifra entregada. Nadie revisa cada salida una a una, así que alguien tiene que poder responder por el sistema entero.',
+              'Nosotros construimos lo segundo. Esa diferencia explica todo lo que sigue en esta página, porque a un sistema que firma resultados se le exige lo que a una herramienta de ayuda nadie le pide: pruebas antes de cada cambio, registro de cada decisión y mantenimiento medido. Quien compra un agente no compra una licencia, compra un sistema operado con disciplina.',
             ],
           },
           {
             heading: 'La seguridad es el punto de partida',
-          diagram: true,
+            part: 'Las garantías',
+            diagram: true,
             paragraphs: [
               'El modelo decide, pero nunca es la autoridad. Elige dentro de un conjunto cerrado de acciones que el código revisa antes de ejecutar nada. Los agentes actúan con los permisos de la persona que los usa, a través de las cuentas de tu organización. Si le retiras el acceso a alguien, el agente también lo pierde.',
+              'El reparto de papeles es la regla de la casa: el juicio vive en el código, la interpretación vive en el modelo y el conocimiento vive en tus datos. Todo lo que pueda resolverse con código determinista se resuelve con código, porque cada llamada al modelo en producción añade coste, latencia y una variabilidad que hay que vigilar. El modelo se reserva para lo que solo él sabe hacer, entender lenguaje. De ahí salen sistemas más baratos de operar y más fáciles de auditar, no menos capaces.',
+              'Y cuando conviven datos de varias empresas o de varias áreas, el aislamiento no se pide por instrucciones. Se construye en capas que acaban en un filtro que el modelo no puede tocar y al agente solo se le entrega el contexto de quien pregunta, para que ni siquiera pueda formular una consulta sobre datos ajenos.',
+            ],
+          },
+          {
+            heading: 'Cómo se gana un agente su puesto en producción',
+            part: 'Las garantías',
+            paragraphs: [
+              'Una demostración se hace en días. Producción exige disciplina. Cada agente sale con una batería de pruebas, un conjunto de casos reales con su respuesta correcta anotada que se ejecuta entero antes de cada cambio. Si la calidad baja, el cambio no sale. En uno de nuestros agentes esa batería son 118 casos reales y con ella calibramos el enrutado del 72 % al 91 % de acierto.',
+              'Cada respuesta queda registrada con su contexto: qué consultó el agente, qué decidió y cuánto costó. Cuando llega una queja, reconstruimos exactamente qué pasó. Y lo que está en producción se revisa cada semana, porque un sistema con un modelo dentro puede empeorar sin que aparezca un solo error en ningún registro.',
             ],
           },
           {
             heading: 'Prueba en producción',
+            part: 'Las garantías',
             paragraphs: [
-              'En Savian construimos un agente que entiende una pregunta de negocio, la traduce a una consulta segura contra la base de datos y devuelve la cifra, con gráfica cuando ayuda. Quien antes abría una petición a analítica y esperaba, ahora pregunta y sigue trabajando.',
+              'En Savian construimos un agente que entiende una pregunta de negocio escrita en WhatsApp, la traduce a una consulta segura contra la base de datos y devuelve la cifra, con gráfica cuando ayuda. Quien antes abría una petición a analítica y esperaba horas, ahora pregunta y sigue trabajando.',
+              'Los detalles enseñan el criterio. Cada cifra llega diciendo de qué periodo sale. Si una fuente está caída, el agente lo dice y señala qué falta en el total. Y un auditor interno impide responder números de memoria, cada uno viene de una consulta hecha en el momento contra la base de datos. Las alertas automáticas del tipo «avísame cuando pase esto» están en proceso.',
             ],
             link: { label: 'Asistente sobre tu documentación interna', href: '/servicios/conocimiento-corporativo' },
           },
           {
-            heading: 'Una empresa de desarrollo que entrega las llaves',
+            heading: 'Empezamos por el problema, no por el modelo',
+            part: 'Decidir con criterio',
             paragraphs: [
-              'El repositorio está a tu nombre desde el primer día: código, documentación, manuales de operación, instrucciones del modelo y juegos de pruebas. Cambiar de proveedor de modelo es un cambio de configuración y una pasada de pruebas. El día que decidas prescindir de nosotros, ya lo tienes todo.',
+              'No buscamos maneras de usar la IA en tu empresa. Buscamos los problemas que ya te cuestan dinero y evaluamos si un agente los resuelve con ganancia demostrable. Parece lo mismo y es lo contrario. La primera búsqueda produce juguetes que se enseñan bien y se abandonan pronto. La segunda produce sistemas que un responsable defiende delante de dirección con números.',
+              'La primera fase se hace con quien sufre el proceso, no solo con quien compra la tecnología. Mapeamos el proceso paso a paso con sus actores, sus sistemas y sus tiempos. Después separamos los problemas que duelen hoy, los que ya cuestan horas o clientes, de los cuellos de botella que aguantarán solo hasta que el volumen crezca. Cada candidato se traduce a su ganancia esperada partiendo de una línea base medida, cuánto cuesta hoy en horas, en errores o en espera.',
+              'De esa lista, la mayoría se descarta. Con lo que sobrevive no arrancamos un despliegue grande sino un piloto acotado: una parte del problema, un grupo reducido de usuarios y una métrica pactada de antemano. Estrecho y profundo antes que ancho y superficial, porque un piloto barato que falla es información y un despliegue caro que falla es un agujero.',
             ],
+          },
+          {
+            heading: 'Cuándo un agente no compensa',
+            part: 'Decidir con criterio',
+            paragraphs: [
+              'Decírtelo es parte del servicio. Si las reglas de tu proceso son claras y estables, un desarrollo tradicional lo resuelve más barato, más rápido y sin la vigilancia que exige un modelo. Un agente compensa cuando en medio del proceso hay que leer, interpretar o decidir sobre entradas que cambian, un correo redactado de cualquier manera, un documento escaneado torcido, una pregunta con tres formas de entenderse.',
+              'Tampoco compensa cuando nadie puede señalar la ganancia con el dedo, ni cuando los datos que el agente necesita no existen o el equipo que debería usarlo no quiere. En esos casos lo honesto es empezar por ordenar los datos o por el proceso, no por el agente. El mercado está pagando cara esa lección. Gartner calcula que antes de que acabe 2027 se habrá cancelado más del 40 % de los proyectos de IA agéntica. Nuestra manera de no engrosar esa cifra es descartar pronto y con números.',
+            ],
+          },
+          {
+            heading: 'Qué te llevas el último día',
+            part: 'Decidir con criterio',
+            paragraphs: [
+              'El repositorio está a tu nombre desde el primer día: código, documentación, manuales de operación, instrucciones del modelo y juegos de pruebas. La infraestructura también, montada en una nube a nombre de tu empresa. Cambiar de proveedor de modelo es un cambio de configuración más una pasada de pruebas, no un rescate.',
+              'Con el sistema entregamos el catálogo de incidencias, escrito para reconocer cada fallo desde fuera antes de saber su causa. Si decides operarlo por tu cuenta, formamos a tu equipo. El día que decidas prescindir de nosotros, ya lo tienes todo.',
+            ],
+          },
+          {
+            heading: 'Qué cuesta',
+            part: 'Decidir con criterio',
+            paragraphs: [
+              'Un agente a medida se mueve entre 2.500 y 10.000 € de construcción, según integraciones y exigencia de validación, más entre 150 y 500 € al mes de operación, que cubre las llamadas al modelo, la infraestructura y la vigilancia. Los sistemas con orquestador y varios agentes se presupuestan por proyecto. El desglose entero, qué encarece la construcción y a qué se va la cuota, está en la guía de coste.',
+            ],
+            link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
         ],
         faqHeading: 'Preguntas frecuentes',
@@ -1594,8 +1645,20 @@ export const content: Record<Lang, SiteContent> = {
             a: 'Tu infraestructura o tu nube, las cuentas de tu organización, tus datos donde tú decidas y la calidad medida de forma continua. Las garantías por las que va a preguntar tu comité de seguridad, respondidas antes de la reunión.',
           },
           {
+            q: '¿No nos basta con ChatGPT?',
+            a: 'Para ayudar a las personas en su trabajo, quizá sí. Esa respuesta no la cobramos. Un chat es una herramienta de ayuda donde cada salida la revisa quien la pidió. Un agente es un sistema que produce el resultado él solo, sobre tus datos y con tus permisos. Eso exige la ingeniería que describe esta página. Son compras distintas para problemas distintos.',
+          },
+          {
             q: '¿El agente puede conectarse a nuestros sistemas internos?',
             a: 'Esa es la gracia. ERP, bases de datos, sistemas industriales, documentación. El agente solo habla con los sistemas que apruebes, con los permisos de cada usuario.',
+          },
+          {
+            q: '¿El agente decide por su cuenta?',
+            a: 'Decide dentro de un perímetro. Las acciones posibles son una lista cerrada que tú apruebas, el código valida cada una antes de ejecutarla y las sensibles piden confirmación de una persona. La autonomía se administra por coste y fiabilidad, no por fe en el modelo.',
+          },
+          {
+            q: '¿Y si nuestros datos están hechos un desastre?',
+            a: 'Es de lo primero que miramos. Si los datos que el caso necesita no están o no son fiables, te lo decimos y la primera fase pasa a ser ordenarlos, porque un agente sobre datos rotos solo automatiza el error más rápido.',
           },
           {
             q: '¿Quién mantiene el agente después?',
@@ -1604,6 +1667,10 @@ export const content: Record<Lang, SiteContent> = {
           {
             q: '¿Qué pasa si el proveedor del modelo sube el precio o lo retira?',
             a: 'El modelo va detrás de una capa de abstracción, así que cambiarlo es configuración y una pasada del banco de pruebas. Lo hemos hecho. Descartamos un modelo más barato porque las pruebas mostraron que perdía diez puntos de acierto.',
+          },
+          {
+            q: '¿Qué pasa si concluís que nuestro caso no compensa?',
+            a: 'Te lo decimos antes de cobrarlo y te quedas con el mapa del proceso y sus números, que valen aunque el agente no salga. Descartar pronto es parte del método, no un fracaso del método.',
           },
         ],
         cta: {
@@ -2972,9 +3039,10 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       agentDev: {
-        metaTitle: 'Custom AI Agent Development for Enterprises, Ideasforge',
+        tocHeading: 'On this page',
+        metaTitle: 'Custom AI agent development for enterprises, Ideasforge',
         metaDescription:
-          'Custom AI agent development services for mid-size and large companies: enterprise AI agents on your infrastructure, under your identity, measured before every release.',
+          'Custom AI agent development services for mid-size and large companies: enterprise AI agents on your infrastructure, with your organization’s accounts, measured before every change.',
         hero: {
           eyebrow: 'AI agent development',
           title: 'Enterprise AI agents that reach production',
@@ -2984,64 +3052,129 @@ export const content: Record<Lang, SiteContent> = {
         },
         sections: [
           {
-            heading: 'What custom AI agent development covers',
+            heading: 'What we build',
+            part: 'The service',
             paragraphs: [
-              'Custom AI agents that do real work: they answer questions against your documentation and databases, run guided diagnostics, qualify requests and execute actions on the systems you approve. Each agent is built for one job and connected to the tools that job needs.',
-              'When one agent is not enough, we build the architecture that coordinates several. An orchestrator understands each query and routes it to the specialist. One of our production systems runs this way, with half a dozen specialized agents behind the orchestrator.',
+              'Custom AI agents that do real work: they answer questions against your documentation and databases, run guided diagnostics, qualify requests and execute actions on the systems you approve. Each agent is built for one concrete task and connects only to the tools that task needs. When one agent is not enough, we build the architecture that coordinates several. An orchestrator understands each query and routes it to the specialist. One of our production systems runs this way, with half a dozen specialized agents behind the orchestrator.',
+              'These are the briefs we get most often, each with the gain it chases.',
             ],
-            link: { label: 'New to the concept? Start with the AI automation guide', href: '/en/ai-automation' },
+            kind: 'lattice',
+            bullets: [
+              'Queries on your data. The question is written in natural language and the answer comes out of your database through a validated path, never from the model’s memory.',
+              'Assistant on your documentation. Manuals, wikis and internal systems answering in a single conversation, with the reference of where each answer came from.',
+              'Guided diagnostics. The agent asks, rules out and walks step by step to the cause, the way our plant-floor assistant does when a machine stops.',
+              'Request qualification. Every incoming item gets read, scored and routed, and your team receives only the ones worth its time.',
+              'Actions on your systems. The full transaction, executed inside a closed set of actions you approve.',
+            ],
+            link: { label: 'If you are still mapping the concept, start with the AI automation guide', href: '/en/ai-automation' },
           },
           {
-            heading: 'How an agent earns its place in production',
+            heading: 'Systems that produce the outcome, not tools that help',
+            part: 'The service',
             paragraphs: [
-              'A demo takes days. Production takes discipline. Every agent ships with a battery of tests that runs before each change; if quality drops, the change does not go live. On one enterprise agent we calibrated the routing from 72% to 91% accuracy over 118 real cases before trusting it with more scope.',
-              'Every answer is recorded with its context: what the agent consulted, what it decided and what it cost. When a complaint arrives, we reconstruct exactly what happened.',
+              'There are two ways to bring AI into a company, and they are not bought the same way. The first is giving tools to people, a chat where someone pastes a document and asks for the summary. There the person still produces the outcome and reviews every output before using it. The second is a system that produces the outcome on its own, an invoice registered, a request qualified, a figure delivered. Nobody reviews each output one by one, so someone has to be able to answer for the system as a whole.',
+              'We build the second kind. That difference explains everything else on this page, because a system that signs outcomes is held to standards nobody asks of a helper tool: tests before every change, a record of every decision and measured maintenance. Buying an agent is not buying a license, it is buying a system operated with discipline.',
             ],
           },
           {
             heading: 'Security is the starting point',
-          diagram: true,
+            part: 'The guarantees',
+            diagram: true,
             paragraphs: [
               'The model decides, but it is never the authority. It picks from a closed set of actions that the code reviews before anything runs. Agents act with the permissions of the person using them, through your organization’s accounts. If you revoke someone’s access, the agent loses it too.',
+              'The division of labor is the house rule: judgment lives in the code, interpretation lives in the model and knowledge lives in your data. Everything that deterministic code can solve, deterministic code solves, because every model call in production adds cost, latency and a variability someone has to watch. The model is reserved for the one thing only it can do, understanding language. That is what makes these systems cheaper to run and easier to audit, not less capable.',
+              'And when data from several companies or departments lives in the same system, isolation is not requested in the instructions. It is built in layers that end in a filter the model cannot touch, and the agent only ever receives the context of the person asking, so it cannot even phrase a query about anyone else’s data.',
             ],
-            link: { label: 'Built to run under EU rules', href: '/en/gdpr-compliant-ai' },
+          },
+          {
+            heading: 'How an agent earns its place in production',
+            part: 'The guarantees',
+            paragraphs: [
+              'A demo takes days. Production takes discipline. Every agent ships with a test suite, a set of real cases with their correct answers annotated, which runs in full before every change. If quality drops, the change never ships. In one of our agents that suite is 118 real cases, and with it we calibrated routing from 72% to 91% accuracy.',
+              'Every answer is recorded with its context: what the agent consulted, what it decided and what it cost. When a complaint arrives, we reconstruct exactly what happened. And what runs in production gets reviewed weekly, because a system with a model inside can get worse without a single error showing up in any log.',
+            ],
           },
           {
             heading: 'Proof in production',
+            part: 'The guarantees',
             paragraphs: [
-              'At Savian we built an agent that understands a business question, turns it into a safe database query and returns the figure, with a chart when it helps. People who used to file a ticket with analytics and wait now simply ask and carry on.',
+              'For Savian we built an agent that understands a business question written in WhatsApp, translates it into a safe query against the database and returns the figure, with a chart when it helps. People who used to open a ticket for analytics and wait hours now ask and keep working.',
+              'The details show the mindset. Every figure arrives saying which period it comes from. If a source is down, the agent says so and flags what is missing from the total. And an internal auditor makes answering numbers from memory impossible, each one comes from a fresh query against the database. Automatic alerts of the “tell me when this happens” kind are in progress.',
             ],
-            link: { label: 'Assistant over your internal documentation', href: '/en/services/corporate-knowledge' },
+            link: { label: 'Assistant on your internal documentation', href: '/en/services/corporate-knowledge' },
           },
           {
-            heading: 'An AI agent development company that hands over the keys',
+            heading: 'We start from the problem, not the model',
+            part: 'Deciding with judgment',
             paragraphs: [
-              'The repository is under your name from day one: code, documentation, operations manuals, the model’s instructions and the test suites. Switching model providers is a configuration change plus a test run. The day you decide to move on, you already have everything.',
+              'We do not look for ways to use AI in your company. We look for the problems already costing you money and evaluate whether an agent solves them with a gain you can demonstrate. It sounds the same and it is the opposite. The first search produces toys that demo well and get abandoned soon. The second produces systems a manager defends in front of the board with numbers.',
+              'The first phase happens with the people who suffer the process, not only with the people who buy the technology. We map the process step by step with its actors, its systems and its timings. Then we separate the problems that hurt today, the ones already costing hours or customers, from the bottlenecks that will hold only until volume grows. Each candidate gets translated into its expected gain against a measured baseline, what it costs today in hours, errors or waiting.',
+              'Most of that list gets discarded. With what survives we do not start a big rollout but a bounded pilot: one slice of the problem, a small group of users and a metric agreed in advance. Narrow and deep before wide and shallow, because a cheap pilot that fails is information and an expensive rollout that fails is a hole.',
             ],
+          },
+          {
+            heading: 'When an agent is not worth it',
+            part: 'Deciding with judgment',
+            paragraphs: [
+              'Telling you is part of the service. If the rules of your process are clear and stable, traditional software solves it cheaper, faster and without the supervision a model demands. An agent pays off when somewhere in the middle of the process something has to be read, interpreted or judged on inputs that keep changing, an email written any which way, a crooked scanned document, a question with three possible readings.',
+              'It is also not worth it when nobody can point at the gain, or when the data the agent needs does not exist, or when the team that should use it does not want to. In those cases the honest move is to start by fixing the data or the process, not by building the agent. The market is paying dearly for that lesson. Gartner reckons that by the end of 2027 more than 40% of agentic AI projects will have been canceled. Our way of staying out of that figure is discarding early, with numbers.',
+            ],
+          },
+          {
+            heading: 'What you take home on the last day',
+            part: 'Deciding with judgment',
+            paragraphs: [
+              'The repository is under your name from day one: code, documentation, operations manuals, the model’s instructions and the test suites. So is the infrastructure, set up in a cloud under your company’s name. Switching model providers is a configuration change plus a test run, not a rescue operation.',
+              'With the system we hand over the incident catalog, written so each failure can be recognized from the outside before anyone knows its cause, and we train your team if you decide to operate it yourself. The day you choose to walk away from us, you already have everything.',
+            ],
+          },
+          {
+            heading: 'What it costs',
+            part: 'Deciding with judgment',
+            paragraphs: [
+              'A custom agent runs between €2,500 and €10,000 to build, depending on integrations and validation requirements, plus €150 to €500 a month to operate, which covers the model calls, the infrastructure and the monitoring. Systems with an orchestrator and several agents are quoted per project. The full breakdown, what makes the build more expensive and where the monthly fee goes, is in the cost guide.',
+            ],
+            link: { label: 'AI agent development cost, broken down', href: '/en/ai-agent-development-cost' },
           },
         ],
         faqHeading: 'Frequently asked questions',
         faq: [
           {
-            q: 'What does “enterprise” mean in practice?',
+            q: 'What does “for enterprise” mean in practice?',
             a: 'Your infrastructure or your cloud, your organization’s accounts, your data where you decide, and quality measured continuously. The guarantees your security committee will ask about, answered before the meeting.',
           },
           {
+            q: 'Is ChatGPT not enough for us?',
+            a: 'For helping people with their work, maybe it is, and we do not charge for telling you so. A chat is a helper tool where whoever asked reviews every output. An agent is a system that produces the outcome on its own, on your data and under your permissions, and that demands the engineering this page describes. They are different purchases for different problems.',
+          },
+          {
             q: 'Can the agent connect to our internal systems?',
-            a: 'That is the point. ERP, databases, industrial systems, documentation. The agent only talks to the systems you approve, with each user’s permissions.',
+            a: 'That is the point. ERP, databases, industrial systems, documentation. The agent only talks to the systems you approve, under each person’s own permissions.',
+          },
+          {
+            q: 'Does the agent act on its own?',
+            a: 'It decides inside a perimeter. The possible actions are a closed list you approve, the code validates each one before running it, and the sensitive ones require a person’s confirmation. Autonomy is rationed by cost and reliability, not by faith in the model.',
+          },
+          {
+            q: 'What if our data is a mess?',
+            a: 'That is among the first things we look at. If the data the case needs is missing or unreliable, we tell you, and the first phase becomes fixing it, because an agent on top of broken data only automates the error faster.',
           },
           {
             q: 'Who maintains the agent afterwards?',
-            a: 'Whatever you decide. We can handle measured maintenance, or train your team and hand over the operations manual so they run it. The documentation is written for that second case even if you pick the first.',
+            a: 'Your call. We can run the measured maintenance, or train your team and hand over the operations manual so they run it. The documentation is written for that second case even if you choose the first.',
           },
           {
             q: 'What if the model provider raises prices or retires the model?',
             a: 'The model sits behind an abstraction layer, so swapping it is configuration plus a test run. We have done it. We rejected a cheaper model because the suite showed it lost ten points of accuracy.',
           },
+          {
+            q: 'What if you conclude our case is not worth it?',
+            a: 'We tell you before charging for it, and you keep the process map with its numbers, which is worth having even if the agent never gets built. Discarding early is part of the method, not a failure of it.',
+          },
         ],
         cta: {
           heading: 'Interested for your company?',
-          body: 'Tell us your challenge. If we don’t see a return, we’ll tell you.',
+          body: 'Tell us your challenge. If we see no return in it, we will say so.',
           button: 'Tell us your challenge',
         },
       },

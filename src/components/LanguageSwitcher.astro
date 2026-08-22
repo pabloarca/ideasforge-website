@@ -5,9 +5,12 @@ import { otherLang } from '../i18n/utils';
 interface Props {
   lang: Lang;
   alternates: Partial<Record<Lang, string>>;
+  /** Clases extra del sitio que lo monta. En movil se usa para darle el
+      mismo cuerpo de boton que el hamburguesa y un area tactil decente. */
+  class?: string;
 }
 
-const { lang: current, alternates } = Astro.props;
+const { lang: current, alternates, class: className = '' } = Astro.props;
 const target = otherLang(current);
 const href = alternates[target] ?? (target === 'es' ? '/' : '/en');
 const t = content[current];
@@ -17,7 +20,10 @@ const t = content[current];
   href={href}
   hreflang={target === 'es' ? 'es-ES' : 'en-US'}
   aria-label={t.nav.switchTo}
-  class="inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-fg transition-colors hover:text-accent"
+  class:list={[
+    'inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-fg transition-colors hover:text-accent',
+    className,
+  ]}
 >
   {languages[target].slice(0, 2).toUpperCase()}
 </a>

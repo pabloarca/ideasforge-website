@@ -9,16 +9,24 @@
   cambia el numero de columnas. Sin esquinas redondeadas: la reticula se lee
   como una sola pieza y el canto recto la hace mas rotunda.
 
-  Las cajas son cuadradas: el alto lo marca el ancho de la columna. Eso obliga
-  a que el texto se adapte al hueco y no al reves, asi que titulo y descripcion
-  se recortan con puntos suspensivos. El recorte de la descripcion cambia por
-  tamano de pantalla, porque el lado del cuadrado depende de cuantas columnas
-  haya: con cuatro en una pantalla de portatil el cuadrado es pequeno y solo
-  caben dos lineas, mientras que a partir de 1280 px vuelven a caber cuatro.
+  Las cajas son cuadradas A PARTIR DE 640 px: el alto lo marca el ancho de la
+  columna. Eso obliga a que el texto se adapte al hueco y no al reves, asi que
+  titulo y descripcion se recortan con puntos suspensivos. El recorte de la
+  descripcion cambia por tamano de pantalla, porque el lado del cuadrado
+  depende de cuantas columnas haya: con cuatro en una pantalla de portatil el
+  cuadrado es pequeno y solo caben dos lineas, mientras que a partir de 1280 px
+  vuelven a caber cuatro.
+
+  En movil no. Con una sola columna el ancho lo marca la pantalla, asi que el
+  cuadrado se dispara: siete cajas de 335x335 son ~2.300 px de scroll para una
+  seccion. Por debajo de 640 px el alto lo marca el contenido y no hay recorte,
+  que para eso ya no hay un hueco fijo al que caber.
 
   En reposo cada caja muestra titulo y descripcion. La prueba de que existe un
   caso real («Como en Savian») aparece al pasar por encima, y su hueco esta
-  reservado siempre para que ninguna caja cambie de alto.
+  reservado siempre para que ninguna caja cambie de alto. En tactil no hay
+  «pasar por encima», asi que en movil la prueba y el icono se ven de serie:
+  si no, el hueco reservado seria aire muerto y la prueba no se veria nunca.
 */
 import { type Lang, content, type ServiceGroup } from '../i18n/ui';
 import { localizedPath } from '../i18n/utils';
@@ -63,12 +71,12 @@ const groups: Array<{ key: 'enterprise' | 'smb'; group: ServiceGroup }> = [
                 // necesita apretar el recorte en ese tramo.
                 const clamp =
                   key === 'enterprise'
-                    ? 'line-clamp-4 lg:line-clamp-2 xl:line-clamp-4'
-                    : 'line-clamp-4';
+                    ? 'line-clamp-none sm:line-clamp-4 lg:line-clamp-2 xl:line-clamp-4'
+                    : 'line-clamp-none sm:line-clamp-4';
 
                 const inner = (
                   <>
-                    <h3 class="line-clamp-3 text-base font-bold leading-snug text-fg xl:text-lg">
+                    <h3 class="line-clamp-none text-base font-bold leading-snug text-fg sm:line-clamp-3 xl:text-lg">
                       {item.title}
                     </h3>
                     <p class={`mt-3 text-sm leading-relaxed text-muted xl:text-[15px] ${clamp}`}>
@@ -80,29 +88,31 @@ const groups: Array<{ key: 'enterprise' | 'smb'; group: ServiceGroup }> = [
                         la vez y ninguno obliga a la caja a cambiar de alto.
                         Va abajo y no arriba porque el titulo llega a ocupar
                         tres lineas y ahi se pisarian. */}
-                    <div class="mt-auto flex items-end justify-between gap-3 pt-7">
-                      {/* Dos rotulos en el mismo hueco, uno releva al otro.
+                    <div class="mt-auto flex items-end justify-between gap-3 pt-5 sm:pt-7">
+                      {/* Dos rotulos, uno releva al otro a partir de 640 px.
                           En reposo, el nombre de la pagina de destino: es el
                           puente con el desplegable de la cabecera, que llama a
                           las paginas por su nombre y no por lo que consigues.
                           Al pasar el raton, la prueba de que el caso existe.
                           Comparten sitio porque los dos son secundarios y
-                          apilarlos obligaria a la caja a crecer. */}
-                      <div class="relative h-6 min-w-0 flex-1">
+                          apilarlos obligaria a la caja cuadrada a crecer.
+                          En movil la caja ya no es cuadrada y no hay hover, asi
+                          que ahi se apilan y se ven los dos. */}
+                      <div class="flex min-w-0 flex-1 flex-col items-start gap-2 sm:relative sm:block sm:h-6">
                         {item.pageLabel && (
-                          <span class="absolute inset-y-0 left-0 flex items-center truncate text-xs text-faint transition-opacity duration-300 group-hover:opacity-0">
+                          <span class="block max-w-full truncate text-xs text-faint transition-opacity duration-300 sm:absolute sm:inset-y-0 sm:left-0 sm:flex sm:items-center sm:group-hover:opacity-0">
                             {item.pageLabel}
                           </span>
                         )}
                         {item.proof && (
-                          <span class="absolute inset-y-0 left-0 inline-flex h-6 items-center whitespace-nowrap rounded-full border border-border bg-bg px-3 text-xs font-medium text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                          <span class="inline-flex h-6 max-w-full items-center truncate whitespace-nowrap rounded-full border border-border bg-bg px-3 text-xs font-medium text-accent transition-opacity duration-300 sm:absolute sm:inset-y-0 sm:left-0 sm:max-w-none sm:opacity-0 sm:group-hover:opacity-100">
                             {item.proof}
                           </span>
                         )}
                       </div>
                       {item.icon && (
                         <span
-                          class="shrink-0 text-accent opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 translate-y-1"
+                          class="shrink-0 text-accent transition-all duration-300 sm:translate-y-1 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100"
                           aria-hidden="true"
                         >
                           <Icon name={item.icon} size={24} />
@@ -113,7 +123,7 @@ const groups: Array<{ key: 'enterprise' | 'smb'; group: ServiceGroup }> = [
                 );
 
                 return (
-                  <li class="relative aspect-square bg-bg">
+                  <li class="relative bg-bg sm:aspect-square">
                     {item.href ? (
                       <a
                         href={item.href}

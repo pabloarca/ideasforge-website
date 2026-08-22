@@ -88,44 +88,53 @@ const serviceLinks = t.footer.servicesLinks;
       <LanguageSwitcher lang={lang} alternates={alternates} />
     </div>
 
-    <!-- Mobile menu -->
-    <details class="group relative md:hidden">
-      <summary
-        class="grid h-10 w-10 cursor-pointer list-none place-items-center rounded-md border border-border-soft text-fg [&::-webkit-details-marker]:hidden"
-        aria-label="Menú"
-      >
-        {/* El set trae `cerrar` para el estado abierto, pero <details> no da
-            forma de cambiar el contenido del <summary> sin JavaScript. */}
-        <Icon name="menu" size={20} />
-      </summary>
-      <div class="panel-float absolute right-0 mt-2 max-h-[calc(100vh-6rem)] w-72 overflow-y-auto p-2">
-        {
-          links.map((l) => (
-            <a
-              href={l.href}
-              class="block rounded-md px-3 py-2.5 text-sm font-medium text-fg transition-colors hover:bg-bg-soft hover:text-accent"
-            >
-              {l.label}
-            </a>
-          ))
-        }
-        <p class="mt-2 border-t border-border-soft px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-[0.12em] text-faint">
-          {t.footer.servicesHeading}
-        </p>
-        {
-          serviceLinks.map((s) => (
-            <a
-              href={s.href}
-              class="block rounded-md px-3 py-2 text-sm text-fg transition-colors hover:bg-bg-soft hover:text-accent"
-            >
-              {s.label}
-            </a>
-          ))
-        }
-        <div class="mt-2 flex items-center justify-end border-t border-border-soft px-1 pt-3">
-          <LanguageSwitcher lang={lang} alternates={alternates} />
+    <!-- Mobile: el idioma vive en la barra, no dentro del desplegable.
+         Estaba al final del panel, y el panel es `absolute` dentro de un
+         `header` `sticky`: baja con la cabecera, asi que el scroll de pagina
+         nunca revelaba su parte inferior y el selector quedaba inalcanzable.
+         Cambiar de idioma es una accion global, no el ultimo renglon de una
+         lista de dieciseis. -->
+    <div class="flex items-center gap-2 md:hidden">
+      <LanguageSwitcher
+        lang={lang}
+        alternates={alternates}
+        class="h-10 w-10 justify-center rounded-md border border-border-soft"
+      />
+      <details class="group relative">
+        <summary
+          class="grid h-10 w-10 cursor-pointer list-none place-items-center rounded-md border border-border-soft text-fg [&::-webkit-details-marker]:hidden"
+          aria-label="Menú"
+        >
+          {/* El set trae `cerrar` para el estado abierto, pero <details> no da
+              forma de cambiar el contenido del <summary> sin JavaScript. */}
+          <Icon name="menu" size={20} />
+        </summary>
+        <div class="panel-float absolute right-0 mt-2 max-h-[calc(100dvh-6rem)] w-72 overflow-y-auto p-2">
+          {
+            links.map((l) => (
+              <a
+                href={l.href}
+                class="block rounded-md px-3 py-2.5 text-sm font-medium text-fg transition-colors hover:bg-bg-soft hover:text-accent"
+              >
+                {l.label}
+              </a>
+            ))
+          }
+          <p class="mt-2 border-t border-border-soft px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-[0.12em] text-faint">
+            {t.footer.servicesHeading}
+          </p>
+          {
+            serviceLinks.map((s) => (
+              <a
+                href={s.href}
+                class="block rounded-md px-3 py-2 text-sm text-fg transition-colors hover:bg-bg-soft hover:text-accent"
+              >
+                {s.label}
+              </a>
+            ))
+          }
         </div>
-      </div>
-    </details>
+      </details>
+    </div>
   </div>
 </header>
