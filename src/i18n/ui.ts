@@ -1732,7 +1732,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Wazzy, nuestro producto conversacional',
             paragraphs: [
-              'Operamos nuestro propio producto en producción, Wazzy, un asistente en WhatsApp que gestiona reservas, cambios y cancelaciones de citas para clínicas y negocios de servicios. Consulta la disponibilidad en tiempo real, actualiza agenda y ficha y escala las urgencias al equipo. Mantener un producto propio nos obliga a ser buenos, porque cada lección vuelve a los proyectos de cliente.',
+              'Operamos nuestro propio producto en producción, Wazzy, un asistente en WhatsApp que gestiona reservas, cambios y cancelaciones de citas para clínicas y negocios de servicios. Consulta la disponibilidad en tiempo real, actualiza agenda y ficha y escala las urgencias al equipo. Mantener un producto propio nos obliga a ser buenos y cada lección vuelve a los proyectos de cliente.',
             ],
             link: { label: 'Conocer Wazzy', href: 'https://wazzy.io' },
           },
@@ -3171,7 +3171,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Wazzy, our own conversational product',
             paragraphs: [
-              'We run our own product in production, Wazzy, a WhatsApp assistant that manages appointment bookings, changes and cancellations for clinics and service businesses. It checks real-time availability, updates calendar and records, and escalates urgencies to the team. Operating our own product keeps us sharp, because every lesson lands back in client projects.',
+              'We run our own product in production, Wazzy, a WhatsApp assistant that manages appointment bookings, changes and cancellations for clinics and service businesses. It checks real-time availability, updates calendar and records, and escalates urgencies to the team. Operating our own product keeps us sharp, and every lesson lands back in client projects.',
             ],
             link: { label: 'Meet Wazzy', href: 'https://wazzy.io' },
           },
