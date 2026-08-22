@@ -1550,11 +1550,6 @@ export const content: Record<Lang, SiteContent> = {
             'Diseñamos, construimos y mantenemos agentes de IA a medida para medianas y grandes empresas. Sobre tu infraestructura, con las cuentas de tu organización y medidos antes de cada cambio.',
           cta: 'Cuéntanos tu reto',
         },
-        stats: [
-          { value: '118', label: 'casos reales en el banco de pruebas' },
-          { value: '72 % → 91 %', label: 'de acierto tras calibrar el enrutado' },
-          { value: '10 puntos', label: 'que perdía el modelo más barato, descartado' },
-        ],
         sections: [
           {
             heading: 'Qué construimos',
@@ -2987,11 +2982,6 @@ export const content: Record<Lang, SiteContent> = {
             'We design, build and maintain custom AI agents for mid-size and large companies. On your infrastructure, with your organization’s accounts, and measured before every change.',
           cta: 'Tell us your challenge',
         },
-        stats: [
-          { value: '118', label: 'real cases in the test battery' },
-          { value: '72% → 91%', label: 'accuracy after calibrating the routing' },
-          { value: '10 points', label: 'lost by the cheaper model, rejected' },
-        ],
         sections: [
           {
             heading: 'What custom AI agent development covers',
