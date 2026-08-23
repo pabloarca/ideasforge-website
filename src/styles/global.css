@@ -294,7 +294,15 @@ dialog[data-whyus-modal] {
   inset: 0;
   margin: auto;
   width: 80vw;
-  height: 92vh;
+  /* `vh` mide el viewport SIN la barra de direcciones del navegador movil, asi
+     que `92vh` daba un dialogo MAS ALTO que el area visible. Al centrarse con
+     `margin: auto`, ese exceso se repartia arriba y abajo y el borde superior
+     se iba fuera de pantalla: justo donde vive la X, que quedaba impulsable.
+     `dvh` mide el viewport real, el que queda tras descontar la barra.
+     Sin respaldo en `vh` a proposito: Lightning CSS lo elimina del build al
+     considerar que los navegadores objetivo ya soportan `dvh`, asi que
+     dejarlo escrito solo enganaria al que lea esto. */
+  height: 92dvh;
   max-width: none;
   max-height: none;
   padding: 0;
@@ -304,6 +312,16 @@ dialog[data-whyus-modal] {
   color: var(--color-fg);
   overflow: hidden;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18);
+}
+
+/* En movil el 80vw de escritorio deja una columna de texto de 252 px en una
+   pantalla de 375: demasiado estrecha para parrafos largos con diagramas. El
+   dialogo pasa a ocupar el ancho completo menos un margen de 12 px por lado. */
+@media (max-width: 639px) {
+  dialog[data-whyus-modal] {
+    width: calc(100vw - 1.5rem);
+    border-radius: 0.5rem;
+  }
 }
 
 /* Frosted-white backdrop. The page behind blurs and desaturates without

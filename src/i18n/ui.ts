@@ -1692,48 +1692,136 @@ export const content: Record<Lang, SiteContent> = {
             'Automatización de procesos empresariales con IA: los flujos de trabajo con documentos, conversaciones o criterio por el medio, resueltos de principio a fin sobre tus sistemas.',
           cta: 'Cuéntanos tu reto',
         },
-        stats: [
-          { value: '+3 horas', label: 'al día que dejó de dedicar un equipo a filtrar solicitudes' },
-          { value: '2 agentes', label: 'en producción registrando facturas sin intervención' },
-        ],
         sections: [
           {
             heading: 'Qué procesos se abren con la IA',
+            part: 'Lo que se abre ahora',
             paragraphs: [
-              'Los procesos que las herramientas clásicas no pudieron automatizar comparten un rasgo: en algún punto, una persona tiene que leer y decidir. Llega una factura y alguien la teclea. Llega una solicitud y alguien la cualifica. Llega una pregunta y alguien busca la respuesta. Los modelos de lenguaje absorben exactamente ese paso.',
+              'Los procesos que las herramientas clásicas no pudieron automatizar comparten un rasgo: en algún punto, una persona tiene que leer y decidir. Llega una factura y alguien la teclea. Llega una solicitud y alguien la cualifica. Llega una pregunta y alguien busca la respuesta. Ese paso, leer algo que no viene en un formato fijo y decidir qué hacer con ello, era la frontera de la automatización. Los modelos de lenguaje absorben exactamente ese paso y con él se abre la familia entera de procesos que lo contenían.',
+              'Estos procesos rara vez tienen nombre en el organigrama. Viven en una bandeja de correo que alguien vacía cada mañana, en el Excel puente entre dos sistemas que no se hablan, en el copiar y pegar de cada alta nueva. Si tu equipo tiene uno de esos rituales, tienes un candidato.',
+              'Cuatro encargos concentran casi todo lo que nos piden.',
             ],
+            kind: 'lattice',
             bullets: [
-              'Entrada de documentos: facturas, tickets y formularios escaneados que se leen, se validan y se registran en tu ERP.',
-              'Gestión de solicitudes: consultas entrantes atendidas, cualificadas y dirigidas las 24 horas.',
-              'Acceso a datos: preguntas de negocio convertidas en consultas seguras a la base de datos, respondidas en segundos.',
-              'Escalado. Los casos que necesitan criterio llegan a tu equipo con todo el contexto.',
+              'Entrada de documentos. Facturas, tickets y formularios escaneados que se leen, se validan y se registran en tus sistemas sin que nadie los teclee.',
+              'Gestión de solicitudes. Consultas entrantes atendidas, cualificadas y dirigidas a quien corresponde, a cualquier hora.',
+              'Consultas a datos. Preguntas de negocio que se convierten en consultas seguras a la base de datos y vuelven respondidas en segundos.',
+              'Redacción a partir de datos. Correos, resúmenes y avisos que el flujo escribe con lo que ya averiguó, listos para revisar o para salir solos.',
+              'Escalado con contexto. Los casos que piden criterio llegan a tu equipo con todo lo que el sistema ya averiguó, para decidir sin rebuscar.',
             ],
           },
           {
-            heading: 'De principio a fin, con validación en el medio',
+            heading: 'La frontera con la automatización clásica',
+            part: 'Lo que se abre ahora',
             paragraphs: [
-              'La automatización con IA falla cuando se deja al modelo sin vigilancia. En nuestros sistemas el modelo interpreta y una capa de validación comprueba el resultado antes de que toque tu ERP: totales que cuadran, campos que encajan, permisos que se cumplen. El equipo revisa los casos dudosos y el resto fluye.',
+              'La automatización clásica, la de reglas y la robotización de pantallas, funciona muy bien mientras la entrada no cambia. Su debilidad la conoce cualquiera que la haya mantenido. La regla que leía la factura del proveedor A no entiende la del proveedor B y el robot que rellenaba un formulario se pierde cuando el programa cambia de versión. Cada variación nueva es una regla nueva que escribir y la lista no termina nunca.',
+              'La IA cambia el reparto. El modelo interpreta la entrada aunque venga con otro formato, otra redacción u otro orden, así que la variación deja de romper el flujo. Hay una prueba rápida que hacemos en la primera llamada, pedir tres ejemplos reales de la entrada. Si los tres se parecen, reglas. Si cada uno viene de su padre y de su madre, modelo. A cambio exige lo que toda esta página describe, validación y medida, porque interpretar no es infalible.',
+              'La honestidad también dibuja la frontera al revés. Si tu proceso tiene reglas claras sobre datos que siempre llegan igual, la automatización clásica lo resuelve más barato y más rápido, sin modelo que vigilar. Te lo diremos en la primera conversación, porque meter IA donde no hace falta es pagar vigilancia a cambio de nada. Y cuando ya tienes automatización clásica funcionando, no la tiramos. Conviven bien, con las reglas moviendo lo estable y el modelo leyendo lo variable, cada pieza en el papel que se le da.',
             ],
           },
           {
-            heading: 'Prueba en producción',
+            heading: 'Automatizar pasos no es mover una ganancia',
+            part: 'Lo que se abre ahora',
             paragraphs: [
-              'En una gestora inmobiliaria, las facturas de suministros que se tecleaban a mano hoy entran solas, con dos agentes de IA en producción y un plan para extender la automatización a más áreas. En una agencia inmobiliaria, el flujo de cualificación de solicitudes ahorra al equipo más de tres horas al día.',
+              'Un sistema puede producir resúmenes, borradores y registros a docenas sin que el negocio note nada. Producir cosas no es mover una ganancia. Por eso la unidad de trabajo aquí no es la tarea suelta sino el proceso entero, de la entrada al resultado, con su métrica delante: las horas que se dejan de pagar a un teclado, los errores que dejan de corregirse, la espera que deja de existir.',
+              'Se ve mejor con un ejemplo. Un sistema que redacta resúmenes de cada reunión produce salidas a diario. Si nadie decide nada distinto con ellos, la ganancia es cero y el coste no. Un flujo que deja cada factura registrada sin manos convierte su salida en horas contables. La diferencia no está en la tecnología. Está en si el resultado cambia algo que el negocio mide.',
+              'Esa vara cambia decisiones de diseño. A veces el paso que más renta no se acelera, se elimina, porque reorganizar el proceso hace innecesario lo que íbamos a automatizar. Y un flujo que resuelve el ochenta por ciento del volumen con el veinte por ciento del esfuerzo gana a la ambición de cubrirlo todo, que es la que convierte proyectos en pantanos. En el blog contamos cómo medimos esa ganancia y por qué no la llamamos productividad.',
+            ],
+            link: { label: 'Medir la IA por las ganancias, no por la productividad', href: '/blog/medir-la-ia-por-las-ganancias' },
+          },
+          {
+            heading: 'El flujo lo lleva el código, la interpretación el modelo',
+            part: 'Cómo lo construimos',
+            diagram: true,
+            paragraphs: [
+              'Nuestros flujos son tuberías deterministas con paradas de IA. El código mueve los datos, llama a cada sistema y decide el orden. El modelo entra solo en las paradas donde hay que interpretar: leer un documento, entender una petición, clasificar un caso. Y devuelve un resultado con estructura fija que el código puede comprobar. No es un capricho de ingeniería. Cada llamada a un modelo en producción cuesta dinero, tarda y puede variar, así que cuantas menos llamadas y más acotadas, más barato de operar y más estable es el flujo.',
+              'No lo decimos solo nosotros. Anthropic, uno de los grandes fabricantes de modelos, aconseja empezar con flujos que orquesta el código y guardar la autonomía del agente para los pocos casos que la justifican. Nosotros llegamos a la misma regla por el camino caro, manteniendo sistemas en producción. En la práctica significa que la factura de modelo de un flujo nuestro se parece a una herramienta bien usada, no a un contador que gira solo.',
+            ],
+          },
+          {
+            heading: 'Un flujo de facturas, parada a parada',
+            part: 'Cómo lo construimos',
+            paragraphs: [
+              'Para que nada de esto quede abstracto, así recorre el sistema una factura desde que llega hasta que descansa.',
+            ],
+            kind: 'checklist',
+            bullets: [
+              'Llega. La factura entra por el canal que el equipo ya usa, un correo reenviado o un chat. Queda archivada tal cual llegó.',
+              'Se clasifica. El código decide de qué tipo es y a qué flujo pertenece, sin gastar una llamada al modelo si una regla basta.',
+              'Se lee. El modelo extrae los campos con estructura fija: proveedor, fechas, importes, impuestos.',
+              'Se valida. El código comprueba que todo cuadra: el total suma, el impuesto encaja, el proveedor existe, el importe está en rango.',
+              'Se registra. Lo validado aterriza en tu sistema, sea un ERP o un Excel, con su referencia al documento original.',
+              'Queda escrito. Cada parada deja registro de qué se leyó y qué se decidió, para poder reconstruir la ejecución después.',
+              'O escala. Lo que no pasa la validación llega a una persona con el caso preparado y el motivo señalado.',
+            ],
+          },
+          {
+            heading: 'Validación en el medio, no confianza al final',
+            part: 'Cómo lo construimos',
+            paragraphs: [
+              'La automatización con IA falla cuando se deja al modelo sin vigilancia. Por eso la parada de validación no es opcional ni se deja para el final: cada resultado del modelo se comprueba antes de tocar tus sistemas, con las reglas de la parada cuatro y las que cada proceso añada. Lo que pasa la validación fluye solo. Lo que no la pasa no se descarta ni se inventa, va a una persona con el caso preparado.',
+              'Validar al final, cuando el dato ya se registró, convierte cada error en una corrección contable. Validar en el medio lo convierte en un caso escalado, que es más barato y deja menos cicatriz. Ese reparto concentra la revisión humana donde hace falta criterio y la retira de donde solo hacía falta paciencia. El objetivo no es un sistema que jamás pregunte, es un sistema que pregunte poco y siempre con motivo y que deje medido cuánto resuelve solo para que la palabra «automatizado» tenga un número detrás.',
+            ],
+          },
+          {
+            heading: 'Dos procesos reales en producción',
+            part: 'Cómo lo construimos',
+            paragraphs: [
+              'En Stanton, una gestora de fincas, las facturas de luz, agua y gas de cada inquilino se metían a mano. Hoy el equipo las reenvía por Telegram, una lectura con IA extrae los datos y el resultado aterriza como filas normalizadas en el Excel con el que ya trabajaban. Dos agentes en producción, ninguna herramienta nueva que aprender y un cliente que ya nos ha encargado los siguientes procesos, la señal de éxito que más nos importa.',
+              'En Barceloneta, una agencia inmobiliaria, el equipo recibe cada día decenas de consultas por WhatsApp de gente que busca alquiler. Cada consulta se llevaba entre cinco y diez minutos de comprobación a mano. Ahora el flujo extrae de cada conversación el motivo, el presupuesto y la documentación. Al equipo le llega un correo que ya dice si el candidato encaja o no y por qué. Más de tres horas al día que vuelven al trabajo que sí necesita personas.',
+              'Los dos casos comparten la firma del éxito: entrada por un canal que el equipo ya usaba, ninguna herramienta nueva que aprender y una ganancia que se podía medir antes y después. Ese patrón es el que buscamos en cada proceso nuevo.',
             ],
             link: { label: 'Ver los proyectos', href: '/#proyectos' },
           },
           {
             heading: 'Medida como el software que es',
+            part: 'Cómo lo construimos',
             paragraphs: [
-              'Cada cambio pasa por una batería de pruebas antes de publicarse y cada ejecución deja registro. Si falta algún dato, el sistema responde con lo que tiene y dice qué se ha quedado fuera, en lugar de devolver una cifra incompleta que parece completa.',
+              'Un flujo que lleva un modelo dentro puede degradarse sin lanzar un solo error, porque el modelo cambia o los documentos cambian. Por eso cada modificación pasa por una batería de pruebas con casos reales antes de publicarse y cada ejecución deja registro de qué se leyó, qué se decidió y qué se registró. Cuando algo no cuadra semanas después, se reconstruye la ejecución exacta en lugar de discutir de memoria. Y cuando un error real se cuela, el circuito es siempre el mismo: se reproduce la ejecución, se corrige y el caso entra al banco de pruebas para no volver a colarse callado. Un flujo nuestro envejece aprendiendo de sus propios sustos.',
+              'Y si un día falta un dato o una fuente está caída, el sistema responde con lo que tiene y dice qué se ha quedado fuera, en lugar de devolver una cifra incompleta que parece completa. Esa honestidad de máquina es la diferencia entre un número que puedes llevar a una reunión y uno que te deja en evidencia.',
+              'La operación mensual se lee en tres números: cuánto resolvió el flujo por su cuenta, cuánto escaló con sus motivos y qué costó cada ejecución. Con esos tres se decide dónde afinar, qué regla nueva añadir y si la ampliación siguiente compensa. Sin ellos, «funciona bien» es una opinión. Cada flujo hereda además las alarmas de la casa, así que si un servicio externo se cae o una cuota se agota, lo sabemos nosotros antes de que lo sufra tu equipo.',
             ],
           },
           {
             heading: 'Tus sistemas se quedan donde están',
+            part: 'Cómo lo construimos',
             paragraphs: [
-              'La automatización se conecta a lo que ya usas: ERP, CRM, bases de datos, correo, mensajería. Y el repositorio queda a tu nombre desde el primer día, con su documentación y sus manuales de operación.',
+              'La automatización se conecta a lo que ya usas: ERP, CRM, bases de datos, correo, mensajería y, sí, también ese Excel que gobierna medio departamento. La entrada puede ser el canal que tu equipo ya tiene en el bolsillo, un chat de Telegram o de WhatsApp o un buzón de correo, porque la mejor herramienta nueva es la que nadie tiene que aprender.',
+              'Y el repositorio es tuyo desde el primer día, con su documentación y sus manuales de operación. Si un día quieres operarlo con tu equipo o con otro proveedor, te llevas el sistema entero, no una suscripción.',
             ],
             link: { label: 'Automatización documental para gestorías', href: '/gestorias' },
+          },
+          {
+            heading: 'Del primer proceso a los siguientes',
+            part: 'Cómo lo construimos',
+            paragraphs: [
+              'El primer proceso paga el andamiaje: la conexión con tus sistemas, el registro, la batería de pruebas, la operación. Los siguientes lo reutilizan, así que cada ampliación cuesta menos que la anterior y se decide con los números del flujo ya vivo delante. Así creció Stanton, un flujo primero y los siguientes sobre el mismo andamiaje, cada uno aprobado por lo que el anterior demostró.',
+            ],
+          },
+          {
+            heading: 'El proceso por el que empezar',
+            part: 'Decidir con criterio',
+            paragraphs: [
+              'No hace falta un plan de transformación para empezar, hace falta elegir bien un proceso. El bueno suele cumplir tres condiciones: duele de forma medible, se repite con volumen y tiene a alguien que lo sufre y quiere quitárselo de encima. Con ese proceso delante, lo mapeamos paso a paso con quien lo ejecuta cada día, qué llega, quién lo toca, por qué sistemas pasa y dónde se atasca. Después medimos lo que cuesta hoy. Ese antes medido es el que luego permite afirmar cuánto mejoró, con números y no con sensaciones.',
+              'El arranque es un piloto sobre una parte del volumen, con su métrica pactada. A veces incluso lo validamos en modo mixto, una persona apoyada por la herramienta a medio construir, porque confirma la ganancia antes de construir el resto. El mapeo, además, cambia decisiones antes de escribir una línea de código. En la agencia de alquiler enseñó que el tiempo no se iba en contestar mensajes sino en comprobar a cada interesado, así que el flujo se diseñó alrededor de esa comprobación y no del buzón. Sin ese mapa habríamos automatizado la parte equivocada del proceso.',
+              'Si el piloto cumple, se amplía por fases. Si no cumple, se ha perdido poco y se ha aprendido dónde estaba el error.',
+            ],
+          },
+          {
+            heading: 'Lo que no automatizamos',
+            part: 'Decidir con criterio',
+            paragraphs: [
+              'Hay pasos que dejamos con confirmación humana a propósito: los que mueven dinero de verdad, los irreversibles y los que deciden sobre personas. El flujo prepara el caso, la persona aprieta el botón. No es una limitación técnica sino una elección de diseño, porque un error barato de corregir puede automatizarse y uno caro no debe.',
+              'Tampoco automatizamos procesos sin volumen, porque un flujo que corre tres veces al mes no paga su mantenimiento, ni procesos que conviene rediseñar antes que acelerar. Si tu caso está en alguno de esos grupos, te lo decimos antes de arrancar y te ahorras el proyecto entero.',
+            ],
+          },
+          {
+            heading: 'Qué cuesta',
+            part: 'Decidir con criterio',
+            paragraphs: [
+              'Los rangos son los mismos que publicamos para cualquier agente nuestro y lo que los mueve aquí es concreto: cuántos sistemas hay que conectar, cuánta validación exige el proceso y cuánto volumen corre por él. La regla sana es que la ganancia medida del proceso ponga el techo del presupuesto, no al revés. El desglose entero está en la guía de coste.',
+            ],
+            link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
         ],
         faqHeading: 'Preguntas frecuentes',
@@ -1741,6 +1829,10 @@ export const content: Record<Lang, SiteContent> = {
           {
             q: '¿Qué es la automatización de procesos con IA?',
             a: 'Automatización donde un modelo de lenguaje resuelve los pasos que exigen leer o interpretar, dentro de un flujo validado por código. El modelo interpreta. El código comprueba y ejecuta.',
+          },
+          {
+            q: '¿Esto es RPA?',
+            a: 'No. La RPA repite clics y reglas sobre pantallas y se rompe cuando algo cambia de sitio o de formato. Aquí el modelo interpreta el contenido, así que la variación no rompe el flujo. Pueden convivir, la RPA moviendo lo estable y la IA leyendo lo variable.',
           },
           {
             q: '¿En qué se diferencia de la automatización clásica?',
@@ -1753,6 +1845,30 @@ export const content: Record<Lang, SiteContent> = {
           {
             q: '¿Cuánto del proceso queda automatizado de verdad?',
             a: 'Depende de cuántos casos raros tenga. Lo honesto es medirlo. El sistema registra qué resuelve solo y qué escala a una persona y ese porcentaje se ve desde el primer mes.',
+          },
+          {
+            q: '¿Tenemos que cambiar de ERP o de herramientas?',
+            a: 'No. El flujo se conecta a lo que ya usas y el resultado aterriza donde tu equipo ya trabaja, sea un ERP o un Excel. Uno de nuestros clientes gestiona sus facturas reenviándolas por Telegram, sin aprender ninguna herramienta nueva.',
+          },
+          {
+            q: '¿Podemos empezar por un solo proceso?',
+            a: 'Es justo lo que recomendamos. Un proceso con dolor medible, un piloto con su métrica y ampliar por fases si cumple. Es como empezaron nuestros clientes de automatización. El que más tiempo lleva sigue añadiendo procesos.',
+          },
+          {
+            q: '¿Funciona con escaneos malos o fotos de móvil?',
+            a: 'Los legibles pasan y los dudosos escalan a una persona con la imagen al lado, en vez de registrarse a medias. Qué porcentaje cae de cada lado no te lo prometemos de antemano, se mide en tu piloto con tus documentos reales.',
+          },
+          {
+            q: '¿El flujo solo lee o también escribe en nuestros sistemas?',
+            a: 'Lee y escribe, con red. Las escrituras pasan la validación y las sensibles piden confirmación de una persona antes de ejecutarse. Qué puede tocar cada flujo se define contigo, por sistema y por acción.',
+          },
+          {
+            q: '¿Cuánto se tarda en tener el primer flujo andando?',
+            a: 'Menos de lo que sugiere la palabra proyecto. El piloto se acota a una parte del volumen precisamente para andar pronto y la ampliación va por fases con el sistema ya funcionando.',
+          },
+          {
+            q: '¿Qué pasa con los casos que el flujo no resuelve?',
+            a: 'Escalan a tu equipo con todo el contexto que el sistema ya reunió. El objetivo no es el cien por cien, es que la revisión humana quede donde aporta criterio y que el porcentaje resuelto esté medido, no supuesto.',
           },
         ],
         cta: {
@@ -3187,81 +3303,196 @@ export const content: Record<Lang, SiteContent> = {
         tocHeading: 'What this page covers',
         metaTitle: 'AI Workflow Automation Services, Ideasforge',
         metaDescription:
-          'AI workflow automation for business processes: documents, requests and data queries handled end to end, on your systems, with code-level validation at every step.',
+          'AI workflow automation for business processes: documents, requests and data queries handled end to end, on your systems, with code-level validation.',
         hero: {
           eyebrow: 'AI workflow automation',
-          title: 'The workflows you could never automate',
+          title: 'The processes you could never automate',
           subtitle:
-            'AI workflow automation for business processes: the flows with documents, conversations or judgment in the middle, handled end to end on your systems.',
+            'AI business process automation: the workflows with documents, conversations or judgment in the middle, handled end to end on your systems.',
           cta: 'Tell us your challenge',
         },
-        stats: [
-          { value: '+3 hours', label: 'a day a team stopped spending on filtering requests' },
-          { value: '2 agents', label: 'in production registering invoices unattended' },
-        ],
         sections: [
           {
-            heading: 'Which workflows open up with AI',
+            heading: 'Which processes AI opens up',
+            part: 'What opens up now',
             paragraphs: [
-              'The processes that classic tools could not automate share one trait: somewhere in the middle, a person has to read and decide. An invoice arrives and someone types it in. A request arrives and someone qualifies it. A question arrives and someone looks up the answer. Language models absorb exactly that step.',
+              'The processes that classic tools could not automate share one trait: somewhere in the middle, a person has to read and decide. An invoice arrives and someone types it in. A request arrives and someone qualifies it. A question arrives and someone digs up the answer. That step, reading something that comes in no fixed format and deciding what to do with it, was the border of automation. Language models absorb exactly that step, and with it the whole family of processes that contained it opens up.',
+              'These processes rarely have a name on the org chart. They live in a mailbox someone empties every morning, in the bridge spreadsheet between two systems that do not talk, in the copy-paste of every new record. If your team has one of those rituals, you have a candidate.',
+              'Four briefs account for almost everything we get asked.',
             ],
+            kind: 'lattice',
             bullets: [
-              'Document intake: scanned invoices, receipts and forms read, validated and registered in your ERP.',
-              'Request handling: incoming enquiries answered, qualified and routed around the clock.',
-              'Data access: business questions turned into safe database queries, answered in seconds.',
-              'Escalation. The cases that need judgment reach your team with full context.',
+              'Document intake. Invoices, receipts and scanned forms read, validated and registered in your systems with nobody typing them in.',
+              'Request handling. Incoming enquiries answered, qualified and routed to the right person, at any hour.',
+              'Data access. Business questions turned into safe database queries and answered in seconds.',
+              'Drafting from data. Emails, summaries and notices the flow writes with what it already found out, ready to review or to go out on their own.',
+              'Escalation with context. The cases that need judgment reach your team with everything the system already found out, so deciding takes minutes, not digging.',
             ],
           },
           {
-            heading: 'End to end, with validation in the middle',
+            heading: 'The border with classic automation',
+            part: 'What opens up now',
             paragraphs: [
-              'AI business process automation fails when the model is left unsupervised. In our systems the model interprets and a validation layer checks the result before it touches your ERP: totals that add up, fields that match, permissions that hold. The team reviews the edge cases; everything else flows.',
+              'Classic automation, rules engines and screen robots, works well as long as the input never changes. Its weakness is familiar to anyone who has maintained it. The rule that read supplier A’s invoice does not understand supplier B’s, and the robot that filled a form gets lost when the program changes version. Every new variation is a new rule to write, and the list never ends.',
+              'AI changes the division of labor. The model interprets the input even when it arrives in another format, another wording or another order, so variation stops breaking the flow. There is a quick test we run on the first call, asking for three real examples of the input. If the three look alike, rules. If each one arrived from a different planet, model. In exchange it demands what this whole page describes, validation and measurement, because interpreting is not infallible.',
+              'Honesty draws the border in the other direction too. If your process has clear rules over data that always arrives the same way, classic automation solves it cheaper and faster, with no model to supervise. We will say so in the first conversation, because putting AI where none is needed means paying for supervision in exchange for nothing. And when you already run classic automation that works, we do not throw it away. The two coexist well, rules moving the stable parts and the model reading the variable ones, each piece in the role it earns.',
             ],
           },
           {
-            heading: 'Proof in production',
+            heading: 'Automating steps is not moving a gain',
+            part: 'What opens up now',
             paragraphs: [
-              'For a property manager, the utility invoices that used to be typed in by hand now flow in on their own, with two AI agents in production and a plan to extend the automation further. For a real-estate agency, the request-qualification workflow saves the team more than three hours a day.',
+              'A system can produce summaries, drafts and records by the dozen without the business noticing a thing. Producing things is not moving a gain. That is why the unit of work here is not the isolated task but the whole process, from input to result, with its metric up front: the hours that stop being paid to a keyboard, the errors that stop needing correction, the waiting that stops existing.',
+              'An example makes it visible. A system that drafts a summary of every meeting produces output daily, and if nobody decides anything differently because of it, the gain is zero and the cost is not. A flow that leaves every invoice registered with no hands on it turns its output into accountable hours. The difference is not in the technology. It is in whether the result changes something the business measures.',
+              'That yardstick changes design decisions. Sometimes the most profitable step is not accelerated but removed, because reorganizing the process makes the thing we were about to automate unnecessary. And a flow that resolves eighty percent of the volume with twenty percent of the effort beats the ambition of covering everything, which is what turns projects into swamps. How we measure that gain, and why we refuse to call it productivity, is on the blog.',
             ],
-            link: { label: 'See the projects', href: '/en/#proyectos' },
+            link: { label: 'Measure AI by profit, not productivity', href: '/en/blog/measure-ai-by-profit' },
+          },
+          {
+            heading: 'Code runs the flow, the model does the reading',
+            part: 'How we build it',
+            diagram: true,
+            paragraphs: [
+              'Our flows are deterministic pipelines with AI stops. Code moves the data, calls each system and decides the order. The model comes in only at the stops that require interpretation: reading a document, understanding a request, classifying a case. And it returns a result with a fixed structure that code can check. This is not an engineering whim. Every model call in production costs money, takes time and can vary, so the fewer and more bounded the calls, the cheaper the flow is to run and the more stable it gets.',
+              'You do not have to take our word for it. Anthropic, one of the major model makers, advises starting with workflows that code orchestrates and keeping agent autonomy for the problems that genuinely call for it. We arrived at the same rule the expensive way, by maintaining systems in production. In practice it means the model bill of one of our flows looks like a tool used with intent, not like a meter spinning on its own.',
+            ],
+          },
+          {
+            heading: 'An invoice flow, stop by stop',
+            part: 'How we build it',
+            paragraphs: [
+              'To keep all of this concrete, here is how the system walks an invoice from arrival to rest.',
+            ],
+            kind: 'checklist',
+            bullets: [
+              'It arrives. The invoice comes in through a channel the team already uses, a forwarded email or a chat, and is archived exactly as it came.',
+              'It gets classified. Code decides what type it is and which flow it belongs to, without spending a model call where a rule is enough.',
+              'It gets read. The model extracts the fields with a fixed structure: supplier, dates, amounts, taxes.',
+              'It gets validated. Code checks that everything holds: the total adds up, the tax fits, the supplier exists, the amount is in range.',
+              'It gets registered. What passed lands in your system, be it an ERP or a spreadsheet, with a reference to the original document.',
+              'It is written down. Every stop leaves a record of what was read and what was decided, so the execution can be replayed later.',
+              'Or it escalates. Whatever fails validation reaches a person with the case prepared and the reason flagged.',
+            ],
+          },
+          {
+            heading: 'Validation in the middle, not trust at the end',
+            part: 'How we build it',
+            paragraphs: [
+              'AI business process automation fails when the model is left unsupervised. That is why the validation stop is neither optional nor saved for the end: every model result is checked before touching your systems, with the rules from stop four plus whatever each process adds. What passes validation flows on its own. What does not is neither discarded nor guessed, it goes to a person with the case already prepared.',
+              'Validating at the end, once the data is already registered, turns every error into an accounting correction. Validating in the middle turns it into an escalated case, which is cheaper and leaves less scar tissue. That split concentrates human review where judgment is needed and removes it from where only patience was. The goal is not a system that never asks. It is a system that asks rarely and always with cause, and that keeps a measured record of how much it resolves alone, so the word “automated” has a number behind it.',
+            ],
+          },
+          {
+            heading: 'Two real processes in production',
+            part: 'How we build it',
+            paragraphs: [
+              'At Stanton, a property management firm, every tenant’s power, water and gas invoice was keyed in by hand. Today the team forwards them over Telegram, an AI read extracts the data and the result lands as normalized rows in the same spreadsheet they already worked with. Two agents in production, no new tools for the team to learn, and a client that has already commissioned the next processes, the success signal we care about most.',
+              'At Barceloneta, a real-estate agency, every day dozens of rental enquiries come in over WhatsApp. Each enquiry used to eat five to ten minutes of checking by hand. Now the flow pulls the reason, the budget and the paperwork out of each conversation, and the team gets an email that already says whether the applicant fits, and why. More than three hours a day returned to the work that actually needs people.',
+              'Both cases share the signature of success: entry through a channel the team already used, no new tools to learn and a gain that could be measured before and after. That pattern is what we look for in every new process.',
+            ],
+            link: { label: 'See the projects', href: '/en#projects' },
           },
           {
             heading: 'Measured like the software it is',
+            part: 'How we build it',
             paragraphs: [
-              'Every change runs against a battery of tests before going live, and every run leaves a record. If data is missing, the system answers with what it has and says what was left out, instead of returning a figure that looks complete.',
+              'A flow that carries a model can degrade without throwing a single error, because the model changes or the documents do. So every modification runs against a suite of real cases before it ships, and every execution leaves a record of what was read, what was decided and what was registered. When something does not add up weeks later, we replay the exact execution instead of arguing from memory. And when a real error does slip through, the circuit is always the same: replay the execution, fix it and add the case to the test suite so it cannot slip through quietly again. A flow of ours ages by learning from its own scares.',
+              'And if one day a field is missing or a source is down, the system answers with what it has and says what was left out, rather than returning an incomplete figure that looks complete. That machine honesty is the difference between a number you can take into a meeting and one that embarrasses you there.',
+              'The monthly operation reads in three numbers: how much the flow resolved on its own, how much it escalated and with which reasons, and what each execution cost. Those three decide where to tune, which new rule to add and whether the next extension pays. Without them, “works fine” is an opinion. Every flow also inherits the house alarms, so if an external service goes down or a quota runs out, we know before your team feels it.',
             ],
-            link: { label: 'Where your data goes, and what we log', href: '/en/gdpr-compliant-ai' },
           },
           {
-            heading: 'Your systems stay put',
+            heading: 'Your systems stay where they are',
+            part: 'How we build it',
             paragraphs: [
-              'The automation connects to what you already run: ERP, CRM, databases, mail, messaging. And the repository is under your name from day one, with its documentation and operations manuals.',
+              'The automation connects to what you already run: ERP, CRM, databases, mail, messaging and, yes, the spreadsheet that quietly governs half a department. The entry point can be the channel your team already carries in their pocket, a Telegram or WhatsApp chat or a mailbox, because the best new tool is the one nobody has to learn.',
+              'And the repository is yours from day one, with its documentation and its operations manuals. If some day you want to run it with your own team or another provider, you take the whole system with you, not a subscription.',
             ],
             link: { label: 'Document automation for accounting firms', href: '/en/accounting-firms' },
+          },
+          {
+            heading: 'From the first process to the next ones',
+            part: 'How we build it',
+            paragraphs: [
+              'The first process pays for the scaffolding: the connection to your systems, the record keeping, the test suite, the operation. The next ones reuse it, so every extension costs less than the one before and gets decided with the live flow’s numbers on the table. That is how Stanton grew, one flow first and the next ones on the same scaffolding, each approved by what the previous one proved.',
+            ],
+          },
+          {
+            heading: 'The process to start with',
+            part: 'Deciding with judgment',
+            paragraphs: [
+              'You do not need a transformation program to start, you need to pick one process well. The right one usually meets three conditions: it hurts measurably, it repeats with volume and someone suffers it who wants it gone. With that process in front of us, we map it step by step with the people who run it daily, what arrives, who touches it, which systems it crosses and where it jams. Then we measure what it costs today. That measured before is what later lets you state how much improved, with numbers instead of impressions.',
+              'The start is a pilot on a slice of the volume, with its metric agreed. Sometimes we even validate in mixed mode, a person supported by the half-built tool, because it confirms the gain before building the rest. Mapping also changes decisions before a line of code is written. At the rental agency it showed that the time was not going into answering messages but into checking each applicant, so the flow was designed around that check and not around the inbox. Without that map we would have automated the wrong part of the process.',
+              'If the pilot delivers, it grows in phases. If it does not, little was lost and the error taught us where it lived.',
+            ],
+          },
+          {
+            heading: 'What we do not automate',
+            part: 'Deciding with judgment',
+            paragraphs: [
+              'Some steps keep human confirmation on purpose: the ones that move real money, the irreversible ones and the ones that decide about people. The flow prepares the case, a person presses the button. That is not a technical limitation but a design choice, because an error that is cheap to correct can be automated and one that is expensive to correct must not be.',
+              'We also skip processes without volume, because a flow that runs three times a month never pays for its own upkeep, and processes that deserve a redesign more than an acceleration. If your case sits in one of those groups, we say so before anything starts and you save yourself the whole project.',
+            ],
+          },
+          {
+            heading: 'What it costs',
+            part: 'Deciding with judgment',
+            paragraphs: [
+              'The ranges are the same we publish for any agent of ours, and what moves them here is concrete: how many systems need connecting, how much validation the process demands and how much volume runs through it. The healthy rule is that the measured gain of the process sets the ceiling of the budget, not the other way round. The full breakdown is in the cost guide.',
+            ],
+            link: { label: 'AI agent development cost, broken down', href: '/en/ai-agent-development-cost' },
           },
         ],
         faqHeading: 'Frequently asked questions',
         faq: [
           {
             q: 'What is AI workflow automation?',
-            a: 'Automation where a language model handles the steps that require reading or interpretation, inside a workflow validated by code. The model interprets; deterministic code checks and executes.',
+            a: 'Automation where a language model handles the steps that require reading or interpretation, inside a flow validated by code. The model interprets. The code checks and executes.',
           },
           {
-            q: 'How is it different from RPA?',
-            a: 'RPA repeats fixed steps and breaks when the input changes. AI workflow automation absorbs variation. A new invoice layout or a differently phrased request keeps flowing.',
+            q: 'Is this RPA?',
+            a: 'No. RPA repeats clicks and rules over screens and breaks when something changes place or format. Here the model interprets the content, so variation does not break the flow. They can coexist, RPA moving the stable parts and AI reading the variable ones.',
+          },
+          {
+            q: 'How is it different from classic automation?',
+            a: 'Classic automation repeats fixed rules and breaks when the input changes. AI absorbs the variation. A new invoice layout or a differently phrased request keeps flowing.',
           },
           {
             q: 'What if the AI misreads a document?',
-            a: 'A validation layer checks the result before it is registered: totals, formats, required fields. Doubtful cases go to a person, so review happens only where judgment is needed.',
+            a: 'A validation layer checks the result before it is registered: totals, formats, required fields. Doubtful cases go to a person, so review happens exactly where judgment is needed.',
           },
           {
-            q: 'How much of the process actually gets automated?',
+            q: 'How much of the process really gets automated?',
             a: 'It depends how many odd cases it has. The honest answer is to measure it. The system records what it resolves on its own and what it escalates to a person, and you see that share from the first month.',
+          },
+          {
+            q: 'Do we have to replace our ERP or our tools?',
+            a: 'No. The flow connects to what you already use and the result lands where your team already works, be it an ERP or a spreadsheet. One of our clients manages invoices by forwarding them over Telegram, without having to learn a single new tool.',
+          },
+          {
+            q: 'Can we start with just one process?',
+            a: 'That is exactly what we recommend. One process with measurable pain, a pilot with its metric, and growth in phases if it delivers. That is how our automation clients started. The longest-running one keeps adding processes.',
+          },
+          {
+            q: 'Does it work with bad scans or phone photos?',
+            a: 'The legible ones pass and the doubtful ones escalate to a person with the image right there, instead of getting half-registered. What share falls on each side is not something we promise up front, it gets measured in your pilot with your real documents.',
+          },
+          {
+            q: 'Does the flow only read, or does it write into our systems too?',
+            a: 'It reads and writes, with a net. Writes go through validation, and the sensitive ones require a person’s confirmation before executing. What each flow may touch is defined with you, per system and per action.',
+          },
+          {
+            q: 'How long until the first flow is running?',
+            a: 'Less than the word project suggests. The pilot is scoped to a slice of the volume precisely so it walks early, and the extension goes in phases with the system already live.',
+          },
+          {
+            q: 'What happens to the cases the flow cannot resolve?',
+            a: 'They escalate to your team with all the context the system already gathered. The goal is not one hundred percent. It is human review sitting where it adds judgment, with the resolved share measured rather than assumed.',
           },
         ],
         cta: {
           heading: 'Which process is costing you hours?',
-          body: 'Tell us your challenge. If we don’t see a return, we’ll tell you.',
+          body: 'Tell us your challenge. If we see no return in it, we will say so.',
           button: 'Tell us your challenge',
         },
       },

@@ -111,6 +111,35 @@ const slots = layoutFor(posts.length, 0);
       }
     </div>
 
+    {/* Puntos, solo por debajo de 768 px, que es donde la fila deja de ser
+        acordeon y pasa a ser un carrusel de arrastre. Hasta ahora esa version
+        no tenia NINGUN indicador: el unico aviso de que habia trece entradas
+        mas era el pico de la siguiente asomando por el borde. El acordeon de
+        escritorio no los necesita, porque los cantos de las hojas ya dicen
+        cuantas hay y por donde va uno. Mismo tratamiento que los puntos del
+        carrusel de proyectos: fondo suave que los agrupa y les da area de
+        pulsacion. `flex-wrap` porque con catorce entradas y pantalla estrecha
+        la fila tiene que poder partirse en dos lineas en vez de desbordar. */}
+    <div class="mt-6 flex justify-center md:hidden">
+      <div
+        data-book-dots
+        class="inline-flex max-w-full flex-wrap items-center justify-center gap-2.5 rounded-md bg-bg-soft px-3.5 py-2.5"
+      >
+        {
+          posts.map((_, i) => (
+            <button
+              type="button"
+              data-book-dot
+              data-index={i}
+              aria-label={`${lang === 'es' ? 'Entrada' : 'Post'} ${i + 1}`}
+              aria-current={i === 0 ? 'true' : 'false'}
+              class={`h-2.5 w-2.5 shrink-0 rounded-full transition-colors ${i === 0 ? 'bg-fg' : 'bg-border'}`}
+            />
+          ))
+        }
+      </div>
+    </div>
+
     <div class="mt-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
       {/* Alto fijo y recorte con puntos suspensivos: manda el hueco, no el
           texto. Antes un titulo largo empujaba la seccion hacia abajo y movia
@@ -296,6 +325,7 @@ const slots = layoutFor(posts.length, 0);
     const texts = Array.from(section.querySelectorAll<HTMLElement>('[data-book-text]'));
     const cta = section.querySelector<HTMLAnchorElement>('[data-book-cta]');
     const next = section.querySelector<HTMLButtonElement>('[data-book-next]');
+    const dots = Array.from(section.querySelectorAll<HTMLButtonElement>('[data-book-dot]'));
 
     const narrow = window.matchMedia('(max-width: 767px)');
     const n = panels.length;
@@ -325,6 +355,12 @@ const slots = layoutFor(posts.length, 0);
         const on = i === active;
         el.dataset.on = on ? 'true' : 'false';
         el.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+      dots.forEach((d, i) => {
+        const on = i === active;
+        d.classList.toggle('bg-fg', on);
+        d.classList.toggle('bg-border', !on);
+        d.setAttribute('aria-current', on ? 'true' : 'false');
       });
       const href = panels[active]?.getAttribute('href');
       if (cta && href) cta.setAttribute('href', href);
@@ -474,6 +510,8 @@ const slots = layoutFor(posts.length, 0);
         }, 320);
       });
     });
+
+    dots.forEach((dot, i) => dot.addEventListener('click', () => setActive(i, true)));
 
     // Pulsar una hoja siempre pasa pagina hacia delante, aunque sea la ultima:
     // el desplazamiento tiene que leerse hacia la izquierda siempre.
