@@ -976,7 +976,7 @@ export const content: Record<Lang, SiteContent> = {
     },
     pages: {
       enterprise: {
-        tocHeading: 'Qué recorre esta página',
+        tocHeading: 'Qué verás en esta página',
         metaTitle: 'Asistente de IA sobre tu documentación interna, Ideasforge',
         metaDescription:
           'Para medianas y grandes empresas, un asistente que responde en lenguaje natural consultando tu documentación, tus wikis y tus sistemas. Con la prueba de un caso industrial en producción y sus números.',
@@ -1229,7 +1229,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       about: {
-        tocHeading: 'Qué recorre esta página',
+        tocHeading: 'Qué verás en esta página',
         metaTitle: 'Quiénes somos, Ideasforge',
         metaDescription:
           'Un equipo pequeño que construye y mantiene sistemas de IA en producción y que opera su propio producto. Así trabajamos y por qué lo contamos con datos.',
@@ -1277,7 +1277,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       aiGuide: {
-        tocHeading: 'Qué recorre esta guía',
+        tocHeading: 'Qué verás en esta guía',
         metaTitle: 'Qué es un agente de IA y cómo funciona en una empresa, Ideasforge',
         metaDescription:
           'Guía completa de agentes de IA para empresas: qué son, qué es la IA agéntica, cinco casos en producción, lo que puede salir mal y cómo se controla y qué preguntar antes de contratar.',
@@ -1541,7 +1541,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       agentDev: {
-        tocHeading: 'Qué recorre esta página',
+        tocHeading: 'Qué verás en esta página',
         metaTitle: 'Desarrollo de agentes de IA a medida para empresas, Ideasforge',
         metaDescription:
           'Diseñamos, construimos y mantenemos agentes de IA para empresas: a medida, sobre tu infraestructura, con tus permisos y medidos antes de cada cambio.',
@@ -1681,7 +1681,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       processAuto: {
-        tocHeading: 'Qué recorre esta página',
+        tocHeading: 'Qué verás en esta página',
         metaTitle: 'Automatización de procesos con IA, Ideasforge',
         metaDescription:
           'Automatización de procesos empresariales con IA: documentos, solicitudes y consultas de datos resueltos de principio a fin, sobre tus sistemas y con validación por código.',
@@ -1762,7 +1762,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       conversational: {
-        tocHeading: 'Qué recorre esta página',
+        tocHeading: 'Qué verás en esta página',
         metaTitle: 'Chatbot con IA y agentes conversacionales, Ideasforge',
         metaDescription:
           'Desarrollo de chatbots para empresas y agentes conversacionales que atienden, cualifican y actúan: citas reservadas, solicitudes filtradas y dudas resueltas sobre tus sistemas. Un servicio de chatbot con ingeniería de producción.',
@@ -1840,7 +1840,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       cost: {
-        tocHeading: 'Qué recorre esta guía',
+        tocHeading: 'Qué verás en esta guía',
         metaTitle: 'Cuánto cuesta un agente de IA, Ideasforge',
         metaDescription:
           'Un agente de IA a medida cuesta entre 2.500 y 10.000 € de construcción, más 150 a 500 € al mes de operación. Desglosamos qué mueve el precio, a dónde va la cuota mensual y qué es tuyo al final.',
