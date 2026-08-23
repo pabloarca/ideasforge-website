@@ -44,6 +44,21 @@ const articleJsonLd = JSON.stringify({
   author: { '@type': 'Organization', name: 'Ideasforge', url: site.href },
   publisher: { '@type': 'Organization', name: 'Ideasforge', url: site.href },
 });
+/*
+  `image` alimenta og:image y twitter:image. Sin esta linea, `heroImage` solo
+  llegaba al JSON-LD y NINGUNA pagina pasaba imagen al layout: las 61 caian en
+  el respaldo `/og-default.png`, que ademas no existia en `public/`. Las cuatro
+  entradas con fotografia propia se compartian con la generica.
+
+  Va aqui y no entre los atributos del componente: un comentario JSX entre
+  llaves, dentro de la lista de atributos, lo lee el parser como una expresion
+  y `astro check` canta «unterminated string literal», aunque el build lo
+  tolere. (Y ojo al escribirlo: citar el cierre de bloque literal aqui dentro
+  termina el comentario a media frase.)
+
+  `undefined` es lo correcto cuando no hay foto: deja actuar al valor por
+  defecto del layout.
+*/
 ---
 
 <BaseLayout
@@ -52,10 +67,6 @@ const articleJsonLd = JSON.stringify({
   description={post.data.description}
   alternates={alternates}
   ogType="article"
-  {/* Sin esto, `heroImage` solo alimentaba el JSON-LD y NINGUNA pagina
-      pasaba imagen al layout: las 61 caian en el respaldo `/og-default.png`,
-      que ademas no existia. Las cuatro entradas con fotografia propia se
-      compartian con la generica. `undefined` deja actuar al respaldo. */}
   image={post.data.heroImage}
 >
   <script is:inline slot="head" type="application/ld+json" set:html={articleJsonLd} />

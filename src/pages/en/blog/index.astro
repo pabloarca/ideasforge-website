@@ -34,13 +34,13 @@ const fmt = (d: Date) =>
         `border-y` cierra el bloque. El hover pasa de sombra a fondo suave. */}
     <div class="mt-14 divide-y divide-border-soft border-y border-border-soft">
       {
-        posts.map((post) => (
+        posts.map((post, i) => (
           <article class="group relative flex flex-col overflow-hidden bg-bg transition-colors duration-300 hover:bg-border/30 sm:flex-row">
             <div class="aspect-[4/3] w-full shrink-0 overflow-hidden bg-bg-soft sm:aspect-auto sm:w-72 lg:w-80">
               {/* Same cover as the home accordion: when a post has no image,
                   one is generated from the diamond palette. `compact` leaves
                   the title out because the card already shows it alongside. */}
-              <PostCover title={post.data.title} image={post.data.heroImage} compact />
+              <PostCover title={post.data.title} image={post.data.heroImage} index={i} compact />
             </div>
             <div class="flex flex-1 flex-col p-7 sm:p-8">
               <div class="flex flex-wrap items-center gap-3">

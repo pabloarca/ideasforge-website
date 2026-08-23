@@ -29,6 +29,9 @@ Antes de redactar, deja constancia (una línea cada uno):
 - **Página o pieza** y qué trabajo hace según el brief por página (sección 6).
 - **Término que posee** esa página según el mapa (sección 5), y qué términos
   tiene prohibidos por pertenecer a otra página.
+- **Concepto que estrena o refuerza** (sección 12, registro de conceptos) y
+  **qué decisión del lector mejora** la pieza. Si no hay concepto ni
+  decisión, replantear antes de escribir.
 - **Hechos del banco** que se van a usar, con su estado. Solo `VERIFICADO`.
   Los `INTERNO` exigen anonimato («uno de nuestros asistentes»); los
   `PENDIENTE` no se usan. Si hace falta una cifra que no está en el banco,
@@ -49,7 +52,8 @@ allí (flujo frente a agente; velocidad de probar frente a rigor con cliente).
 ## Paso 3 · Autoevaluar ANTES de enseñar
 
 Pasa el borrador por los criterios de aceptación de la sección 2 del árbitro,
-uno a uno. Si falla alguno, se reescribe; no se presenta «a ver si cuela».
+uno a uno, y después por la checklist de método de la sección 12.D. Si falla
+alguno, se reescribe; no se presenta «a ver si cuela».
 
 Al presentar el borrador, incluye al final una tabla breve:
 
@@ -62,6 +66,7 @@ Al presentar el borrador, incluye al final una tabla breve:
 | 5 · Reglas de estilo | ✓ / ✗ |
 | 6 · Cinco segundos, perfil I+D | ✓ / ✗ |
 | 7 · Se entiende sin conocer los sistemas | ✓ / ✗ + las tres preguntas |
+| 12 · Método: concepto, decisión, herramienta, cierre | ✓ / ✗ + cuáles |
 
 Y las alternativas descartadas con su porqué, si las hubo (máximo tres
 líneas: esto no es un concurso de opciones salvo que el usuario lo pida).
@@ -115,4 +120,13 @@ Detalle completo en el criterio 7 del árbitro.
 - **La palabra «prosa» está prohibida**, y en especial «es prosa y no
   evidencia»: es un tópico de texto generado.
 - Antes de dar por terminado un texto en castellano, ejecuta `npm run check:copy`.
-- Cifras: dos reales antes que tres con relleno. Nunca inventar.
+- Cifras: dos reales antes que tres con relleno. Nunca inventar. El número
+  asimétrico del banco antes que el redondo de adorno.
+- **Enlaces internos anclados en el nombre del concepto** (sección 12.A del
+  árbitro), nunca «como contamos en este otro artículo».
+- **Negrita quirúrgica solo en posts (.md)**: frases-tesis completas, y las
+  negritas solas deben contar el argumento. En `ui.ts` no hay markdown.
+- **Cierre con pregunta-herramienta** y callback al gancho; el CTA solo al
+  final. Estructura completa en la sección 12.B del árbitro.
+- **Experiencia antes que teoría**: el problema se vive antes de definirse.
+  Prohibido abrir con contexto o definición.

@@ -4,11 +4,20 @@
   no, se genera una con el lenguaje del kit de gráficos: degradado oscuro,
   cuadrícula tenue y el título encima.
 
-  El sorteo va con semilla derivada del título, así que cada entrada tiene
-  siempre la misma portada y dos compilaciones seguidas no producen
-  diferencias. La familia rota entre las tres del diamante (cian, magenta y
-  cálido sobre base azul) para que una fila de portadas no se vea monótona sin
-  salirse de la figura de la que salen los colores.
+  La familia rota entre las doce del diamante. QUIÉN recibe cuál se decide por
+  POSICIÓN en la lista, no por sorteo: `coverFamilies` está ordenada de forma
+  que las vecinas son las que más se parecen, así que repartir por posición
+  garantiza que dos entradas consecutivas nunca compartan tono. Un hash no
+  puede prometer eso; medido sobre las diez entradas sin fotografía dejaba seis
+  familias de doce sin usar y colocaba dos iguales seguidas.
+
+  Contrapartida asumida (22 ago 2026): al publicar una entrada nueva, las de
+  debajo corren un puesto y cambian de portada. Lo que el sorteo protegía de
+  verdad era que dos COMPILACIONES seguidas no difirieran, y eso se mantiene:
+  misma lista, mismo resultado.
+
+  El dibujo de la cuadrícula sí sigue saliendo del título, así que cada entrada
+  conserva su textura propia aunque le cambie el color.
 */
 import GridBackdrop from './graficos/GridBackdrop.astro';
 import { coverFamilies, seedFrom } from './graficos/gradients';
@@ -16,14 +25,17 @@ import { coverFamilies, seedFrom } from './graficos/gradients';
 interface Props {
   title: string;
   image?: string;
+  /** Posición en la lista que se está pintando. Sin ella se cae al sorteo por
+   *  título, que sirve para portadas sueltas fuera de una lista. */
+  index?: number;
   /** Oculta el título sobre la portada generada, para miniaturas pequeñas. */
   compact?: boolean;
   class?: string;
 }
-const { title, image, compact = false, class: className = '' } = Astro.props;
+const { title, image, index, compact = false, class: className = '' } = Astro.props;
 
 const seed = seedFrom(title);
-const family = coverFamilies[seed % coverFamilies.length];
+const family = coverFamilies[(index ?? seed) % coverFamilies.length];
 ---
 
 {

@@ -109,8 +109,89 @@ export const fondos = {
     css:
       'radial-gradient(50% 65% at 92% 6%, rgba(249,245,138,.28) 0%, rgba(249,245,138,0) 55%),' +
       'radial-gradient(70% 90% at 6% 10%, rgba(65,169,246,.45) 0%, rgba(65,169,246,0) 60%),' +
-      'radial-gradient(120% 130% at 50% 120%, rgba(7,16,73,.72) 0%, rgba(7,16,73,0) 58%),' +
-      'linear-gradient(120deg, #1734e8 0%, #1410c4 44%, #0b0a85 74%, #071049 100%)',
+      'radial-gradient(120% 130% at 50% 120%, rgba(6,32,63,.72) 0%, rgba(6,32,63,0) 58%),' +
+      'linear-gradient(120deg, #2f7df2 0%, #1b56c8 44%, #0e2f7e 74%, #06203f 100%)',
+  },
+  /** Azul que ya tira a violeta, el puente entre prisma e iris. */
+  indigo: {
+    tinta: 'clara',
+    css:
+      'radial-gradient(70% 95% at 12% 4%, rgba(65,169,246,.38) 0%, rgba(65,169,246,0) 58%),' +
+      'radial-gradient(58% 75% at 86% 10%, rgba(86,0,211,.4) 0%, rgba(86,0,211,0) 62%),' +
+      'radial-gradient(120% 130% at 50% 120%, rgba(13,11,58,.72) 0%, rgba(13,11,58,0) 58%),' +
+      'linear-gradient(132deg, #4436e0 0%, #2c1fb2 42%, #170e6b 74%, #0d0b3a 100%)',
+  },
+  /** Verdeazul profundo. El cian del diamante mandando en la base y no de reflejo. */
+  abisal: {
+    tinta: 'clara',
+    css:
+      'radial-gradient(68% 90% at 12% 4%, rgba(0,226,250,.42) 0%, rgba(0,226,250,0) 58%),' +
+      'radial-gradient(55% 72% at 86% 10%, rgba(65,169,246,.3) 0%, rgba(65,169,246,0) 62%),' +
+      'radial-gradient(120% 130% at 50% 120%, rgba(4,32,46,.72) 0%, rgba(4,32,46,0) 58%),' +
+      'linear-gradient(124deg, #0aa3bd 0%, #077f9c 42%, #054a63 74%, #04202e 100%)',
+  },
+  /** El extremo verde del cian. La unica que se aleja del azul sin irse al calido. */
+  turquesa: {
+    tinta: 'clara',
+    css:
+      'radial-gradient(62% 82% at 88% 6%, rgba(0,226,250,.44) 0%, rgba(0,226,250,0) 58%),' +
+      'radial-gradient(50% 68% at 10% 10%, rgba(249,245,138,.2) 0%, rgba(249,245,138,0) 60%),' +
+      'radial-gradient(120% 130% at 50% 120%, rgba(4,48,42,.72) 0%, rgba(4,48,42,0) 58%),' +
+      'linear-gradient(128deg, #0cbfa6 0%, #089585 42%, #055a52 74%, #04302a 100%)',
+  },
+  /** El violeta del diamante como base, no como reflejo. */
+  violeta: {
+    tinta: 'clara',
+    css:
+      'radial-gradient(60% 80% at 88% 6%, rgba(65,169,246,.34) 0%, rgba(65,169,246,0) 58%),' +
+      'radial-gradient(62% 78% at 10% 8%, rgba(202,11,189,.34) 0%, rgba(202,11,189,0) 60%),' +
+      'radial-gradient(120% 130% at 50% 120%, rgba(25,4,70,.72) 0%, rgba(25,4,70,0) 58%),' +
+      'linear-gradient(136deg, #6a24e8 0%, #4d13bd 42%, #2e0878 74%, #190446 100%)',
+  },
+  /** Magenta apagado. Rompe la fila de azules sin gritar. */
+  ciruela: {
+    tinta: 'clara',
+    css:
+      'radial-gradient(65% 85% at 16% 4%, rgba(232,87,178,.4) 0%, rgba(232,87,178,0) 58%),' +
+      'radial-gradient(58% 76% at 88% 12%, rgba(86,0,211,.38) 0%, rgba(86,0,211,0) 62%),' +
+      'radial-gradient(120% 130% at 50% 120%, rgba(42,5,56,.72) 0%, rgba(42,5,56,0) 58%),' +
+      'linear-gradient(130deg, #a11a9e 0%, #7a1080 42%, #4a0a55 74%, #2a0538 100%)',
+  },
+  /** Rosa llevado al carmesi. La mas calida de las frias. */
+  granate: {
+    tinta: 'clara',
+    css:
+      'radial-gradient(62% 82% at 14% 4%, rgba(232,87,178,.38) 0%, rgba(232,87,178,0) 58%),' +
+      'radial-gradient(52% 70% at 88% 10%, rgba(249,245,138,.22) 0%, rgba(249,245,138,0) 60%),' +
+      'radial-gradient(120% 130% at 50% 120%, rgba(51,6,21,.72) 0%, rgba(51,6,21,0) 58%),' +
+      'linear-gradient(134deg, #c2185b 0%, #93103f 42%, #5c0926 74%, #330615 100%)',
+  },
+  /** El calido del diamante como base. Es la que mas se aleja del tono de marca. */
+  brasa: {
+    tinta: 'clara',
+    css:
+      'radial-gradient(68% 88% at 14% 4%, rgba(249,245,138,.34) 0%, rgba(249,245,138,0) 58%),' +
+      'radial-gradient(55% 72% at 86% 12%, rgba(232,87,178,.28) 0%, rgba(232,87,178,0) 62%),' +
+      'radial-gradient(120% 130% at 50% 120%, rgba(49,19,10,.72) 0%, rgba(49,19,10,0) 58%),' +
+      'linear-gradient(122deg, #c46a12 0%, #96450c 42%, #5c2607 74%, #31130a 100%)',
+  },
+  /** Calido tirando a rojo, mas apagado que brasa. */
+  cobre: {
+    tinta: 'clara',
+    css:
+      'radial-gradient(60% 80% at 88% 6%, rgba(249,245,138,.3) 0%, rgba(249,245,138,0) 58%),' +
+      'radial-gradient(52% 70% at 10% 12%, rgba(202,11,189,.24) 0%, rgba(202,11,189,0) 60%),' +
+      'radial-gradient(120% 130% at 50% 120%, rgba(46,15,8,.72) 0%, rgba(46,15,8,0) 58%),' +
+      'linear-gradient(126deg, #b8431f 0%, #8c2f14 42%, #54190a 74%, #2e0f08 100%)',
+  },
+  /** Azul desaturado. La neutra del juego, para que el conjunto respire. */
+  pizarra: {
+    tinta: 'clara',
+    css:
+      'radial-gradient(66% 86% at 14% 4%, rgba(65,169,246,.34) 0%, rgba(65,169,246,0) 58%),' +
+      'radial-gradient(52% 70% at 88% 10%, rgba(0,226,250,.2) 0%, rgba(0,226,250,0) 60%),' +
+      'radial-gradient(120% 130% at 50% 120%, rgba(19,26,43,.72) 0%, rgba(19,26,43,0) 58%),' +
+      'linear-gradient(138deg, #4a5a7a 0%, #36445e 42%, #1f293c 74%, #131a2b 100%)',
   },
 
   // ---------- Claros ----------
@@ -135,10 +216,30 @@ export const fondos = {
 export type FondoName = keyof typeof fondos;
 
 /**
- * Las tres del diamante, en el orden en que rotan las portadas del blog.
+ * Las familias del diamante, en el orden en que rotan las portadas del blog.
  * Se derivan del catálogo para que no haya dos listas que mantener.
+ *
+ * Pasaron de tres a doce el 22 ago 2026. Con tres, las tres eran azul con un
+ * reflejo distinto en una esquina al 30-50 % de opacidad: a tamaño de tarjeta
+ * no se distinguían, y con diez entradas sin fotografía la home abría con seis
+ * portadas prácticamente iguales. Ahora lo que cambia es el TONO DE LA BASE.
+ * El orden importa: las vecinas en esta lista son las que más se parecen, así
+ * que el reparto por posición (ver `PostCover`) las separa al máximo.
  */
-export const coverFamilies = [fondos.prisma.css, fondos.iris.css, fondos.espectro.css];
+export const coverFamilies = [
+  fondos.prisma.css,
+  fondos.iris.css,
+  fondos.espectro.css,
+  fondos.indigo.css,
+  fondos.abisal.css,
+  fondos.turquesa.css,
+  fondos.violeta.css,
+  fondos.ciruela.css,
+  fondos.granate.css,
+  fondos.brasa.css,
+  fondos.cobre.css,
+  fondos.pizarra.css,
+];
 
 /**
  * Número estable a partir de un texto. Sirve para que cada entrada del blog

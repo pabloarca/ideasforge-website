@@ -100,7 +100,7 @@ const slots = layoutFor(posts.length, 0);
             aria-label={post.data.title}
             class="group absolute inset-y-0 block overflow-hidden rounded-[var(--radius-card)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
-            <PostCover title={post.data.title} image={post.data.heroImage} />
+            <PostCover title={post.data.title} image={post.data.heroImage} index={i} />
             {/* Velo que oscurece los cantos, para que la abierta destaque. */}
             <span
               class="pointer-events-none absolute inset-0 bg-black/25 transition-opacity duration-700 group-aria-[current=true]:opacity-0"
