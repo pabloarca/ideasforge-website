@@ -52,6 +52,11 @@ const articleJsonLd = JSON.stringify({
   description={post.data.description}
   alternates={alternates}
   ogType="article"
+  {/* Sin esto, `heroImage` solo alimentaba el JSON-LD y NINGUNA pagina
+      pasaba imagen al layout: las 61 caian en el respaldo `/og-default.png`,
+      que ademas no existia. Las cuatro entradas con fotografia propia se
+      compartian con la generica. `undefined` deja actuar al respaldo. */}
+  image={post.data.heroImage}
 >
   <script is:inline slot="head" type="application/ld+json" set:html={articleJsonLd} />
   <article class="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-24">

@@ -79,29 +79,38 @@ export const fondos = {
   // Los tres comparten base azul y banda inferior apagada, y se distinguen por
   // el reflejo que domina arriba: cian, magenta o cálido. Los usa también el
   // blog para las portadas generadas, rotando entre ellos.
+  //
+  // El suelo subió de #02041c a #071049 (22 ago 2026). El anterior era RGB
+  // (2, 4, 28): azul solo de nombre, negro a efectos prácticos. Con diez de
+  // las catorce entradas sin fotografía propia, la home abría con diez
+  // tarjetas negras seguidas y se leía como un fallo de carga. El nuevo suelo
+  // conserva 17.9:1 de contraste con el título blanco, muy por encima del
+  // 4.5:1 exigido, así que la banda inferior sigue haciendo su trabajo.
+  // El radial del pie pasa a ser del MISMO color que el final del degradado:
+  // así apaga hacia el azul profundo en vez de arrastrarlo hacia el negro.
   prisma: {
     tinta: 'clara',
     css:
       'radial-gradient(65% 85% at 14% 2%, rgba(0,226,250,.50) 0%, rgba(0,226,250,0) 58%),' +
       'radial-gradient(55% 70% at 88% 8%, rgba(202,11,189,.32) 0%, rgba(202,11,189,0) 62%),' +
-      'radial-gradient(120% 130% at 50% 120%, rgba(2,4,28,.92) 0%, rgba(2,4,28,0) 58%),' +
-      'linear-gradient(128deg, #1024d9 0%, #0a0bb4 38%, #05036e 70%, #02041c 100%)',
+      'radial-gradient(120% 130% at 50% 120%, rgba(7,16,73,.72) 0%, rgba(7,16,73,0) 58%),' +
+      'linear-gradient(128deg, #1a3bf0 0%, #1226cc 38%, #0c1490 70%, #071049 100%)',
   },
   iris: {
     tinta: 'clara',
     css:
       'radial-gradient(60% 80% at 84% 4%, rgba(232,87,178,.45) 0%, rgba(232,87,178,0) 58%),' +
       'radial-gradient(55% 75% at 10% 14%, rgba(86,0,211,.45) 0%, rgba(86,0,211,0) 60%),' +
-      'radial-gradient(120% 130% at 50% 120%, rgba(2,4,28,.92) 0%, rgba(2,4,28,0) 58%),' +
-      'linear-gradient(140deg, #2a06c8 0%, #16039e 42%, #0a0257 74%, #02041c 100%)',
+      'radial-gradient(120% 130% at 50% 120%, rgba(7,16,73,.72) 0%, rgba(7,16,73,0) 58%),' +
+      'linear-gradient(140deg, #3a14e0 0%, #2109bc 42%, #120573 74%, #071049 100%)',
   },
   espectro: {
     tinta: 'clara',
     css:
       'radial-gradient(50% 65% at 92% 6%, rgba(249,245,138,.28) 0%, rgba(249,245,138,0) 55%),' +
       'radial-gradient(70% 90% at 6% 10%, rgba(65,169,246,.45) 0%, rgba(65,169,246,0) 60%),' +
-      'radial-gradient(120% 130% at 50% 120%, rgba(2,4,28,.92) 0%, rgba(2,4,28,0) 58%),' +
-      'linear-gradient(120deg, #0b1fd0 0%, #0a06a8 44%, #050366 74%, #02041c 100%)',
+      'radial-gradient(120% 130% at 50% 120%, rgba(7,16,73,.72) 0%, rgba(7,16,73,0) 58%),' +
+      'linear-gradient(120deg, #1734e8 0%, #1410c4 44%, #0b0a85 74%, #071049 100%)',
   },
 
   // ---------- Claros ----------

@@ -1889,45 +1889,138 @@ export const content: Record<Lang, SiteContent> = {
             'Agentes conversacionales que atienden, cualifican y actúan: citas reservadas, solicitudes filtradas y dudas resueltas sobre los sistemas que ya usas.',
           cta: 'Cuéntanos tu reto',
         },
-        stats: [
-          { value: '+3 horas', label: 'al día ahorradas en atender solicitudes entrantes' },
-          { value: 'Art. 9 RGPD', label: 'datos de salud, la categoría más protegida, en producción' },
-        ],
         sections: [
           {
             heading: 'Qué construimos',
+            part: 'El encargo',
             paragraphs: [
-              'Chatbots con inteligencia artificial para los canales donde ya están tus clientes: WhatsApp, web y herramientas internas. El agente entiende lenguaje natural, consulta tus sistemas reales (agenda, CRM, base de datos) y termina la tarea dentro de la conversación.',
-              'La misma ingeniería sirve hacia dentro, con empleados que preguntan a sus datos o a la documentación de la empresa y obtienen la respuesta en segundos.',
+              'Chatbots con inteligencia artificial para los canales donde ya están tus clientes: WhatsApp con la API oficial de Meta, web y herramientas internas. El agente entiende lenguaje natural, consulta tus sistemas reales (agenda, CRM, base de datos) y termina la tarea dentro de la conversación. Terminar es la palabra que nos separa del mercado. Reservar la cita, no explicar cómo se reserva.',
+              'Los encargos que más se repiten caben en cinco casillas.',
+            ],
+            kind: 'lattice',
+            bullets: [
+              'Atención que resuelve. Respuestas apoyadas en tus datos y tu documentación, con su referencia, a cualquier hora.',
+              'Gestiones completas. Reservar, cambiar, cancelar o consultar, con la agenda y la ficha actualizadas en el momento.',
+              'Filtro de conversaciones. Las que valen pasan a tu equipo cualificadas y el resto queda atendido sin robarle tiempo a nadie.',
+              'Consultas internas. La misma ingeniería hacia dentro, con empleados que preguntan a sus datos o a su documentación.',
+              'Salida a persona. Cuando la conversación necesita a alguien de verdad, llega a alguien de verdad, con el historial entero.',
             ],
             link: { label: 'Asistente sobre tu documentación interna', href: '/servicios/conocimiento-corporativo' },
           },
           {
-            heading: 'Atención al cliente con IA',
+            heading: 'Por qué los chatbots tienen mala fama',
+            part: 'El encargo',
             paragraphs: [
-              'La atención al cliente es donde un agente conversacional se paga antes. Responde lo habitual, cualifica el resto y escala con todo el contexto, así que las colas de espera se convierten en respuesta inmediata. Nuestra clienta inmobiliaria ahorra más de tres horas al día en solicitudes entrantes. El equipo ya solo concierta visitas.',
-              'El escalado forma parte del diseño: cuando la conversación necesita una persona, llega a una persona, con el historial completo.',
+              'Casi todo el mundo ha sufrido uno: el bot que da vueltas en su guion, no entiende la segunda pregunta y esconde el camino hacia una persona. Y cuando por fin llega la persona, hay que contárselo todo otra vez. Esa experiencia no la causó la inteligencia artificial, la causó una decisión de diseño, medir el bot por cuántas conversaciones «contiene» sin tocar al equipo humano en lugar de por cuántas resuelve de verdad.',
+              'Nosotros lo medimos al revés. Una conversación cuenta cuando la tarea quedó hecha o cuando llegó a la persona adecuada con todo el contexto. Por eso la salida a persona nunca se esconde y el traspaso lleva el historial completo, para que nadie repita lo que ya escribió. Un cliente que quería persona y la consiguió rápido vuelve. Uno que peleó diez minutos contra un guion no vuelve ni él ni su recomendación.',
+            ],
+          },
+          {
+            heading: 'De guion a acciones',
+            part: 'El encargo',
+            paragraphs: [
+              'Los chatbots de hace unos años eran árboles de botones. Funcionaban hasta que el cliente escribía como escriben las personas, con contexto, con dos preguntas en una, con la tercera opción que el árbol no tenía. La generación actual no sigue un guion. El modelo entiende la intención y elige entre un conjunto cerrado de acciones que definimos contigo: reservar, consultar, cambiar, escalar. El código ejecuta la acción elegida y valida el resultado antes de responder.',
+              'Ese reparto tiene una consecuencia que se nota pronto. Añadir una gestión nueva no es reescribir un árbol entero, es añadir una acción con sus pruebas. Y quitarla es quitarla, sin dejar ramas muertas por el camino.',
+            ],
+          },
+          {
+            heading: 'Pocas gestiones, cerradas de verdad',
+            part: 'El encargo',
+            paragraphs: [
+              'El error clásico del sector es el bot que sabe de todo y no cierra nada. Nosotros preferimos el contrario, un agente que hace pocas gestiones y las termina, con cada categoría medida por separado. Si el ochenta por ciento de tus conversaciones son tres trámites, el agente que borda esos tres vale más que el que responde regular a cien preguntas.',
+              'En la práctica cada gestión es una categoría con nombre, sus casos de prueba y su número. «Cambiar una cita» se mide sola: si su acierto baja, se ve en su fila y no diluido en un promedio que lo tape. Las categorías se amplían cuando los números lo piden, no cuando la demo lo sugiere.',
+            ],
+          },
+          {
+            heading: 'Atención al cliente con IA',
+            part: 'La confianza se construye',
+            paragraphs: [
+              'La atención al cliente es donde un agente conversacional se paga antes. Responde lo habitual, cualifica el resto y escala lo que necesita criterio, así que las colas de espera se convierten en respuesta inmediata. Nuestra clienta inmobiliaria ahorra más de tres horas al día en solicitudes entrantes. El equipo ya solo concierta visitas.',
+              'La mitad del valor está en el reloj. Las consultas no llegan en horario de oficina, llegan cuando el cliente tiene el móvil en la mano y cada hora sin respuesta enfría la intención. Un agente que contesta en el minuto convierte ese goteo nocturno en citas de la mañana siguiente.',
             ],
             link: { label: 'El caso de la inmobiliaria', href: '/inmobiliarias' },
           },
           {
+            heading: 'Una reserva, mensaje a mensaje',
+            part: 'La confianza se construye',
+            paragraphs: [
+              'Así se ve por dentro la gestión que más nos piden, una reserva.',
+            ],
+            kind: 'checklist',
+            bullets: [
+              'Escribe el cliente. «¿Tenéis hueco el jueves por la tarde?», con sus palabras y sus prisas.',
+              'El agente entiende. Detecta qué gestión pide, para quién y con qué condiciones, aunque venga todo en una frase.',
+              'Consulta la agenda real. La disponibilidad sale del calendario en ese momento, no de una copia de ayer.',
+              'Propone y encaja. Ofrece huecos concretos y absorbe los cambios, el jueves no, mejor el viernes a primera hora.',
+              'Confirma y escribe. La cita queda en la agenda y en la ficha, con su confirmación dentro del chat.',
+              'Queda registrado. La conversación y lo que el agente hizo se pueden reconstruir después, paso a paso.',
+              'O escala. Una urgencia o un caso raro llegan a tu equipo en el momento, con la conversación delante.',
+            ],
+          },
+          {
+            heading: 'Un chatbot serio no vive solo',
+            part: 'La confianza se construye',
+            paragraphs: [
+              'Un agente que solo charla es un folleto con cursor. El valor está en las conexiones: la agenda que consulta antes de ofrecer hora, el CRM donde apunta, la base de datos de la que saca la respuesta. Y las conexiones traen su obligación, porque cualquier sistema externo puede caerse un martes a las once.',
+              'Cuando eso pasa, el agente no finge ni se rompe. Avisa de que esa gestión concreta no está disponible ahora mismo, sigue con las demás y tu equipo se entera por una alarma, no por las quejas. Cómo se construye esa resistencia, con un mecanismo que aparta las piezas caídas, lo contamos en detalle en el blog.',
+            ],
+            link: { label: 'Qué hace tu asistente cuando una herramienta se cae', href: '/blog/cuando-una-herramienta-se-cae' },
+          },
+          {
+            heading: 'Lo que responde y lo que no se inventa',
+            part: 'La confianza se construye',
+            paragraphs: [
+              'El miedo razonable de cualquier responsable es un bot improvisando delante de un cliente. Se desactiva con arquitectura, no con promesas. Las respuestas de conocimiento salen de tus datos y tu documentación, con la fuente al lado. Las frases delicadas, una política de devoluciones, una condición legal, un precio, no las redacta el modelo. Son textos aprobados por ti que el sistema entrega tal cual. Puedes editarlos sin tocar código.',
+              'Y cuando no hay dato para responder, el agente lo dice y ofrece el camino a una persona. Un «no lo sé» honesto conserva clientes. Una respuesta inventada los pierde con elegancia, que es la peor manera de perderlos.',
+            ],
+          },
+          {
             heading: 'Wazzy, nuestro producto conversacional',
+            part: 'La confianza se construye',
             paragraphs: [
               'Operamos nuestro propio producto en producción, Wazzy, un asistente en WhatsApp que gestiona reservas, cambios y cancelaciones de citas para clínicas y negocios de servicios. Consulta la disponibilidad en tiempo real, actualiza agenda y ficha y escala las urgencias al equipo. Mantener un producto propio nos obliga a ser buenos y cada lección vuelve a los proyectos de cliente.',
+              'La disciplina se puede contar. Wazzy vigila 91 invariantes con nombre, condiciones que siempre deben cumplirse, a través de 103 puntos de control activos repartidos por el sistema. Cuando vendemos ingeniería de producción, es esto. Y el circuito completo se ensaya cada poco con una reserva real que después se limpia, porque una prueba que no toca el mundo real no prueba el mundo real.',
             ],
             link: { label: 'Conocer Wazzy', href: 'https://wazzy.io' },
           },
           {
             heading: 'Un chatbot al que confiarle datos de salud',
+            part: 'La confianza se construye',
             paragraphs: [
-              'Wazzy trata datos de salud, la categoría más protegida del RGPD: cifrado campo a campo, borrado que respeta los plazos legales de la historia clínica y registros internos que no pueden recibir datos personales. Si tu sector tiene requisitos de cumplimiento, la disciplina ya está montada.',
+              'Wazzy trata datos de salud, la categoría más protegida del RGPD: cifrado campo a campo, borrado que respeta los plazos legales de la historia clínica y registros internos que no pueden recibir datos personales. Cifrado campo a campo significa que cada dato sensible va cifrado por separado dentro de la base de datos, así que ni quien la administra los ve en claro. Si tu sector tiene requisitos de cumplimiento, la disciplina ya está montada y probada donde más duele.',
             ],
           },
           {
             heading: 'Medido, no supuesto',
+            part: 'La confianza se construye',
             paragraphs: [
               'Los sistemas conversacionales se degradan en silencio. Una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
+              'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría afinar y cuál añadir. Y las alarmas llevan sus propios límites, porque una alarma ruidosa que tapa a las demás es peor que ninguna.',
             ],
+          },
+          {
+            heading: 'Cómo se arranca',
+            part: 'Decidir con criterio',
+            paragraphs: [
+              'Un agente conversacional no se lanza al mundo entero el primer día. Se estrena acotado, en un canal, en un horario o en un grupo de clientes, con sus categorías medidas desde la primera conversación. Los textos delicados salen aprobados por ti antes de que nadie los lea y tu equipo sabe cómo llega un escalado y qué hacer con él.',
+              'A las pocas semanas los números cuentan la verdad: qué se termina dentro de la conversación, qué escala con qué motivos y qué pregunta la gente que no habíamos previsto. Con eso se decide la ampliación, categoría a categoría. Es la manera de crecer sin estrenar nunca nada sin probar.',
+            ],
+          },
+          {
+            heading: 'Cuándo un chatbot no compensa',
+            part: 'Decidir con criterio',
+            paragraphs: [
+              'Decírtelo también es el servicio. Si te llegan un puñado de conversaciones al día, una página de preguntas bien escrita y una persona que contesta rápido te salen más baratas y más humanas. Si las respuestas que necesitas no están en ningún sistema, el trabajo previo es ordenar ese conocimiento, no montar el bot. Y si en tu trámite el cliente necesita hablar con alguien por la naturaleza misma del asunto, lo que toca es llegar antes a la persona, no interponer una máquina.',
+              'Un agente conversacional compensa cuando hay volumen, cuando la información existe y cuando una parte real de las gestiones puede terminarse dentro de la conversación. Si tu caso no cumple alguna de las tres, te lo decimos en la primera llamada.',
+            ],
+          },
+          {
+            heading: 'Qué cuesta',
+            part: 'Decidir con criterio',
+            paragraphs: [
+              'Los rangos publicados para cualquier agente nuestro valen aquí. El factor propio de lo conversacional es el volumen, porque cada conversación gasta sus llamadas al modelo. En Wazzy tenemos medido lo que cuesta cada conversación y esa contabilidad viaja a los proyectos de cliente. Sabrás qué te cuesta atender antes de encargarlo, no después. El desglose entero está en la guía de coste.',
+            ],
+            link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
         ],
         faqHeading: 'Preguntas frecuentes',
@@ -1945,8 +2038,32 @@ export const content: Record<Lang, SiteContent> = {
             a: 'Sí. Nuestro producto Wazzy hace exactamente eso en producción: disponibilidad en tiempo real, confirmación inmediata y agenda actualizada.',
           },
           {
+            q: '¿Y si mi cliente quiere hablar con una persona?',
+            a: 'Siempre. El camino a una persona está a la vista y quien atiende recibe la conversación entera, sin hacer repetir nada. Un bot que atrapa a la gente sale caro en clientes, no lo construimos.',
+          },
+          {
+            q: '¿Se inventará respuestas delante de mis clientes?',
+            a: 'Las respuestas de conocimiento salen de tus datos con su fuente y las frases delicadas son textos aprobados por ti que el sistema entrega tal cual. Cuando no hay dato, lo dice y ofrece una persona. Improvisar no está entre sus acciones.',
+          },
+          {
+            q: '¿Podemos cambiar lo que dice sin llamaros?',
+            a: 'Los textos aprobados se editan sin tocar código y las respuestas de conocimiento cambian solas cuando cambia tu documentación. Para cambiar lo que el agente puede hacer, ahí sí entramos nosotros, con su batería de pruebas delante.',
+          },
+          {
             q: '¿Cumple el RGPD?',
             a: 'Sí y en el caso de Wazzy con datos de salud, la categoría más exigente: cifrado, plazos de conservación y borrado a petición.',
+          },
+          {
+            q: '¿Y si WhatsApp cambia sus reglas o sus precios?',
+            a: 'Trabajamos sobre la API oficial de Meta, no sobre atajos que se rompen. Y la lógica del agente no vive en el canal, la misma conversación puede atenderse en web o en una herramienta interna con el mismo cerebro detrás.',
+          },
+          {
+            q: '¿Sirve para vender o solo para atender?',
+            a: 'Las dos cosas se tocan. Un agente que filtra y cualifica entrega a tu equipo interesados listos para cerrar, como la inmobiliaria que ya solo concierta visitas. Lo que no hacemos es envío masivo por WhatsApp, ni con IA ni sin ella.',
+          },
+          {
+            q: '¿Cuántas conversaciones hacen falta para que compense?',
+            a: 'No damos un número mágico porque depende de lo que cuesta hoy tu canal. El piloto lo mide con tus conversaciones reales y si la cuenta no sale, te lo decimos nosotros antes de que lo pagues.',
           },
         ],
         cta: {
@@ -3500,7 +3617,7 @@ export const content: Record<Lang, SiteContent> = {
         tocHeading: 'What this page covers',
         metaTitle: 'Conversational AI and Chatbot Development Services, Ideasforge',
         metaDescription:
-          'Chatbot development services with production discipline: conversational AI for customer service, bookings and internal knowledge, on your channels and your systems.',
+          'Chatbot development services with production discipline: conversational AI for customer service, bookings and internal knowledge, on your channels and your systems, measured before every change.',
         hero: {
           eyebrow: 'Conversational AI',
           title: 'AI chatbots that finish the task',
@@ -3508,70 +3625,187 @@ export const content: Record<Lang, SiteContent> = {
             'Chatbot development services for assistants that answer, qualify and act: bookings made, requests filtered and questions resolved on the systems you already run.',
           cta: 'Tell us your challenge',
         },
-        stats: [
-          { value: '+3 hours', label: 'a day saved handling incoming requests' },
-          { value: 'Art. 9 GDPR', label: 'health data, the strictest category, in production' },
-        ],
         sections: [
           {
             heading: 'What we build',
+            part: 'The brief',
             paragraphs: [
-              'AI chatbot development for the channels your customers already use: WhatsApp, web and internal tools. The assistant understands natural language, checks your real systems (calendar, CRM, database) and completes the task inside the conversation.',
-              'The same engineering works inward, with employees asking their own data or their company’s documentation and getting the answer in seconds.',
+              'AI chatbot development for the channels your customers already use: WhatsApp through Meta’s official API, web and internal tools. The agent understands natural language, consults your real systems (calendar, CRM, database) and finishes the task inside the conversation. Finishing is the word that separates us from the market. Booking the appointment, not explaining how to book it.',
+              'The briefs we get most fit in five boxes.',
             ],
-            link: { label: 'Assistant over your internal documentation', href: '/en/services/corporate-knowledge' },
+            kind: 'lattice',
+            bullets: [
+              'Answers that resolve. Replies grounded in your data and your documentation, with their reference, at any hour.',
+              'Complete transactions. Book, change, cancel or check, with calendar and record updated on the spot.',
+              'Conversation filtering. The ones worth your team’s time arrive qualified and the rest get served without stealing a minute.',
+              'Internal queries. The same engineering pointed inward, with employees asking their own data or documentation.',
+              'A way out to a person. When the conversation truly needs someone, it reaches someone, with the whole history attached.',
+            ],
+            link: { label: 'Assistant on your internal documentation', href: '/en/services/corporate-knowledge' },
           },
           {
-            heading: 'AI chatbots for customer service',
+            heading: 'Why chatbots have a bad name',
+            part: 'The brief',
             paragraphs: [
-              'Customer service is where conversational AI pays back first. An assistant that answers the usual questions, qualifies the rest and escalates with full context turns waiting queues into instant response. Our real-estate client saves more than three hours a day on incoming requests; the team now only schedules visits.',
-              'Escalation is part of the design: when the conversation needs a person, it reaches one, with the whole history attached.',
+              'Almost everyone has suffered one: the bot that circles its script, misses the second question and hides the path to a human. And when the human finally arrives, you tell the whole story again. That experience was not caused by artificial intelligence. It was caused by a design decision, measuring the bot by how many conversations it “contains” away from the human team instead of how many it actually resolves.',
+              'We measure it the other way round. A conversation counts when the task got done or when it reached the right person with full context. So the way out to a person is never hidden, and the handover carries the whole history, so nobody repeats what they already wrote. A customer who wanted a person and got one fast comes back. One who fought a script for ten minutes does not, and neither does their recommendation.',
+            ],
+          },
+          {
+            heading: 'From script to actions',
+            part: 'The brief',
+            paragraphs: [
+              'The chatbots of a few years ago were trees of buttons. They worked until the customer wrote the way people write, with context, with two questions in one, with the third option the tree never had. The current generation does not follow a script. The model understands the intent and picks from a closed set of actions we define with you: book, check, change, escalate. The code executes the chosen action and validates the result before replying.',
+              'That division has a consequence you notice early. Adding a new transaction is not rewriting a whole tree, it is adding one action with its tests. And removing one is just removing it, with no dead branches left behind.',
+            ],
+          },
+          {
+            heading: 'A few transactions, truly closed',
+            part: 'The brief',
+            paragraphs: [
+              'The classic mistake of this market is the bot that knows about everything and closes nothing. We prefer the opposite, an agent that handles a few transactions and finishes them, with every category measured on its own. If eighty percent of your conversations are three procedures, the agent that nails those three is worth more than the one that answers a hundred questions poorly.',
+              'In practice every transaction is a named category with its test cases and its number. “Change an appointment” is measured on its own: if its accuracy drops, it shows in its row and not diluted into an average that hides it. Categories grow when the numbers ask for it, not when the demo suggests it.',
+            ],
+          },
+          {
+            heading: 'Customer service with AI',
+            part: 'Trust is built',
+            paragraphs: [
+              'Customer service is where a conversational agent pays for itself first. It answers the routine, qualifies the rest and escalates what needs judgment, so waiting queues turn into immediate replies. Our real-estate client saves more than three hours a day on incoming requests. The team now just books viewings.',
+              'Half the value sits in the clock. Enquiries do not arrive during office hours, they arrive when the customer has the phone in hand, and every unanswered hour cools the intent. An agent that replies within the minute turns that overnight trickle into next-morning appointments.',
             ],
             link: { label: 'The real-estate case', href: '/en/real-estate' },
           },
           {
+            heading: 'One booking, message by message',
+            part: 'Trust is built',
+            paragraphs: [
+              'This is what the transaction we get asked for most looks like from inside, a booking.',
+            ],
+            kind: 'checklist',
+            bullets: [
+              'The customer writes. “Got anything Thursday afternoon?”, in their own words and their own hurry.',
+              'The agent understands. It works out which transaction is being asked for, for whom and under which conditions, even packed into one sentence.',
+              'It checks the real calendar. Availability comes from the diary at that moment, not from a copy of yesterday.',
+              'It offers and adjusts. Concrete slots, and it absorbs the changes, not Thursday, better Friday first thing.',
+              'It confirms and writes. The appointment lands in the calendar and the record, with its confirmation inside the chat.',
+              'It is all recorded. The conversation and what the agent did can be reconstructed later, step by step.',
+              'Or it escalates. An urgency or an odd case reaches your team right then, with the conversation in front of them.',
+            ],
+          },
+          {
+            heading: 'A serious chatbot does not live alone',
+            part: 'Trust is built',
+            paragraphs: [
+              'An agent that only chats is a brochure with a cursor. The value sits in the connections: the calendar it checks before offering a slot, the CRM where it writes, the database it pulls answers from. And connections bring their duty, because any external system can go down on a Tuesday at eleven.',
+              'When that happens, the agent neither pretends nor breaks. It says that this particular transaction is unavailable right now, carries on with the rest, and your team learns from an alarm, not from the complaints. How that resilience is built, with a mechanism that sets aside the broken pieces, is on the blog in detail.',
+            ],
+            link: { label: 'What your assistant does when a tool goes down', href: '/en/blog/when-a-tool-goes-down' },
+          },
+          {
+            heading: 'What it answers and what it never makes up',
+            part: 'Trust is built',
+            paragraphs: [
+              'The reasonable fear of any manager is a bot improvising in front of a customer. It is disabled with architecture, not with promises. Knowledge answers come from your data and your documentation, with the source next to them. The delicate lines, a refund policy, a legal condition, a price, are not written by the model. They are texts you approved, delivered verbatim. You can edit them without touching code.',
+              'And when there is no data to answer with, the agent says so and offers the way to a person. An honest “I don’t know” keeps customers. An invented answer loses them politely, which is the worst way to lose them.',
+            ],
+          },
+          {
             heading: 'Wazzy, our own conversational product',
+            part: 'Trust is built',
             paragraphs: [
               'We run our own product in production, Wazzy, a WhatsApp assistant that manages appointment bookings, changes and cancellations for clinics and service businesses. It checks real-time availability, updates calendar and records, and escalates urgencies to the team. Operating our own product keeps us sharp, and every lesson lands back in client projects.',
+              'The discipline can be counted. Wazzy watches 91 named invariants, conditions that must always hold, through 103 active control points spread across the system. When we sell production engineering, this is what we mean. And the full circuit gets rehearsed regularly with a real booking that is cleaned up afterwards, because a test that never touches the real world does not test the real world.',
             ],
             link: { label: 'Meet Wazzy', href: 'https://wazzy.io' },
           },
           {
             heading: 'A chatbot you can trust with health data',
+            part: 'Trust is built',
             paragraphs: [
-              'Wazzy handles health data, the most protected category under GDPR: field-by-field encryption, deletion aligned with clinical-record retention law, and internal records that cannot receive personal data. If your sector has compliance requirements, the discipline is already in place.',
+              'Wazzy handles health data, the most protected category under GDPR: field-by-field encryption, deletion aligned with clinical-record retention law and internal logs that cannot receive personal data. Field-by-field encryption means each sensitive value is encrypted on its own inside the database, so not even whoever administers it sees them in the clear. If your sector carries compliance requirements, the discipline is already built and proven where it hurts most.',
             ],
-            link: { label: 'How we handle data and compliance', href: '/en/gdpr-compliant-ai' },
+            link: { label: 'The GDPR-compliant AI pillar', href: '/en/gdpr-compliant-ai' },
           },
           {
             heading: 'Measured, not assumed',
+            part: 'Trust is built',
             paragraphs: [
-              'Conversational systems degrade quietly. A model update or a new document can change answers with no visible error. Every change runs against a test battery before shipping, and every conversation leaves a record that can be reconstructed.',
+              'Conversational systems degrade quietly. A model update or a new document can change answers with no visible error. Every change runs against a test suite before it ships and every conversation leaves a record that can be reconstructed.',
+              'Operations have their numbers too: what share ends in a task done, what share escalates and for which reasons, what each conversation costs. Those decide which category to tune and which to add. And the alarms carry their own caps, because one noisy alarm drowning the others is worse than none.',
             ],
+          },
+          {
+            heading: 'How it starts',
+            part: 'Deciding with judgment',
+            paragraphs: [
+              'A conversational agent does not launch to the whole world on day one. It debuts bounded, on one channel, one time window or one group of customers, with its categories measured from the first conversation. The delicate texts go out approved by you before anyone reads them, and your team knows how an escalation arrives and what to do with it.',
+              'A few weeks in, the numbers tell the truth: what gets finished inside the conversation, what escalates with which reasons and what people ask that we had not foreseen. That decides the growth, category by category. It is how the agent expands without ever shipping anything untested.',
+            ],
+          },
+          {
+            heading: 'When a chatbot is not worth it',
+            part: 'Deciding with judgment',
+            paragraphs: [
+              'Saying so is also the service. If a handful of conversations reach you per day, a well-written FAQ page and a person who answers fast are cheaper and more human. If the answers you need live in no system, the real first job is organizing that knowledge, not mounting the bot. And if your customers need to talk to someone by the very nature of the matter, the right move is getting them to that person sooner, not putting a machine in the way.',
+              'A conversational agent pays off when there is volume, when the information exists and when a real share of the transactions can be finished inside the conversation. If your case misses any of the three, we tell you on the first call.',
+            ],
+          },
+          {
+            heading: 'What it costs',
+            part: 'Deciding with judgment',
+            paragraphs: [
+              'The ranges we publish for any agent of ours apply here, and the factor specific to conversation is volume, because every conversation spends its model calls. In Wazzy we have the cost of each conversation measured, and that accounting travels into client projects. You will know what answering costs before commissioning it, not after. The full breakdown is in the cost guide.',
+            ],
+            link: { label: 'AI agent development cost, broken down', href: '/en/ai-agent-development-cost' },
           },
         ],
         faqHeading: 'Frequently asked questions',
         faq: [
           {
-            q: 'What is the difference between a chatbot and conversational AI?',
-            a: 'A classic chatbot follows a script with buttons and breaks outside it. Conversational AI understands free text and decides among the available actions, so the same question phrased twenty ways lands in the same place.',
+            q: 'What is the difference between a chatbot and a conversational agent?',
+            a: 'A classic chatbot follows a script with buttons and breaks the moment you step outside it. A conversational agent understands free text and decides among the available actions, so the same question phrased twenty ways lands in the same place.',
           },
           {
-            q: 'Which channels does it run on?',
-            a: 'WhatsApp through the official API, web, and internal tools. Wherever your customers or your team already are.',
+            q: 'Which channels does it work on?',
+            a: 'WhatsApp through the official API, web and internal tools. Wherever your customers or your team already are.',
           },
           {
             q: 'Can it book, change or cancel appointments on its own?',
             a: 'Yes. Our product Wazzy does exactly that in production: real-time availability, instant confirmation, calendar and records updated.',
           },
           {
-            q: 'What about GDPR?',
-            a: 'Covered, and in Wazzy’s case with health data, the strictest category: encryption, retention periods and deletion on request.',
+            q: 'What if my customer wants a person?',
+            a: 'Always. The path to a person is in plain sight and whoever picks up receives the whole conversation, with nothing to repeat. A bot that traps people costs customers, and we do not build those.',
+          },
+          {
+            q: 'Will it make up answers in front of my customers?',
+            a: 'Knowledge answers come from your data with their source, and the delicate lines are texts you approved, delivered verbatim. When there is no data, it says so and offers a person. Improvising is not among its actions.',
+          },
+          {
+            q: 'Can we change what it says without calling you?',
+            a: 'Approved texts are editable without touching code, and knowledge answers change on their own when your documentation changes. Changing what the agent can do is where we come in, with its test suite in front.',
+          },
+          {
+            q: 'Is it GDPR compliant?',
+            a: 'Yes, and in Wazzy’s case with health data, the strictest category: encryption, retention periods and deletion on request.',
+          },
+          {
+            q: 'What if WhatsApp changes its rules or its prices?',
+            a: 'We build on Meta’s official API, not on shortcuts that break. And the agent’s logic does not live in the channel, the same conversation can be served on web or on an internal tool with the same brain behind it.',
+          },
+          {
+            q: 'Is it for selling or just for support?',
+            a: 'The two touch. An agent that filters and qualifies hands your team prospects ready to close, like the real-estate client whose team now just books viewings. What we do not do is mass outreach over WhatsApp, with or without AI.',
+          },
+          {
+            q: 'How many conversations does it take to pay off?',
+            a: 'We do not hand out a magic number, because it depends on what your current channel costs. The pilot measures it with your real conversations, and if the maths does not work, we tell you before you pay for it.',
           },
         ],
         cta: {
           heading: 'A conversational agent for your business?',
-          body: 'Tell us your challenge. If we don’t see a return, we’ll tell you.',
+          body: 'Tell us your challenge. If we see no return in it, we will say so.',
           button: 'Tell us your challenge',
         },
       },
