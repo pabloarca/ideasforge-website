@@ -3,13 +3,14 @@ title: 'Qué hace tu asistente cuando una herramienta se cae'
 description: 'Un asistente conversacional depende de sistemas que fallan. El disyuntor que protege al usuario y las tres lecciones que nos dio mantenerlo en producción.'
 lang: 'es'
 pubDate: 2026-06-23
+updatedDate: 2026-08-23
 translationId: 'tool-goes-down'
 tags: ['Agentes', 'Fiabilidad', 'Mantenimiento']
 ---
 
-Un asistente conversacional serio no vive solo: consulta bases de datos, sistemas internos y servicios de terceros. Cada una de esas piezas puede caerse y se caerá. La pregunta que define la calidad del asistente no es si sus herramientas fallan. Es qué ve el usuario cuando fallan.
+Un asistente conversacional serio no vive solo: consulta bases de datos, sistemas internos y servicios de terceros. Cada una de esas piezas puede caerse y se caerá. **La pregunta que define la calidad del asistente no es si sus herramientas fallan. Es qué ve el usuario cuando fallan.**
 
-La respuesta barata es una traza técnica: «connection refused», un objeto a medio serializar, un error 500 con pinta de accidente. Para quien está delante, eso significa «esto no funciona» y la confianza en el sistema entero se resiente por el fallo de una sola pieza.
+La respuesta barata es una traza técnica: «connection refused», un objeto a medio serializar, un error 500 con pinta de accidente. Para quien está delante, eso significa *«esto no funciona»* y la confianza en el sistema entero se resiente por el fallo de una sola pieza.
 
 ## El disyuntor
 
@@ -27,6 +28,8 @@ Lo que ve el usuario entonces no es un error técnico. Es un mensaje de degradac
 
 ## La fiabilidad se diseña antes del fallo
 
-Nada de esto se improvisa el día que un servicio de terceros se cae a las once de la mañana. El disyuntor, los mensajes de degradación y las pruebas de alcanzabilidad se construyen antes, cuando todo funciona, que es exactamente cuando parecen innecesarios. Cada caída que sí ocurre deja además su huella en el catálogo de incidencias, la pieza que contamos en [la firma del síntoma](/blog/la-firma-del-sintoma).
+Nada de esto se improvisa el día que un servicio de terceros se cae a las once de la mañana. **El disyuntor, los mensajes de degradación y las pruebas de alcanzabilidad se construyen antes, cuando todo funciona, que es exactamente cuando parecen innecesarios.** Cada caída que sí ocurre deja además su huella en el catálogo de incidencias, la pieza que contamos en [la firma del síntoma](/blog/la-firma-del-sintoma).
+
+Hay una prueba que puedes hacer esta semana. Apaga a propósito una herramienta de tu asistente en un entorno de pruebas y mira la pantalla del usuario. *¿Un rastro técnico o una degradación amable?* Lo que veas es tu respuesta a la pregunta con la que abría este artículo.
 
 Si estás pensando en un asistente que dependa de tus sistemas reales, esto es parte de lo que llamamos [agentes conversacionales](/servicios/agentes-conversacionales). Y si quieres el mapa completo antes de decidir, empieza por la [guía de agentes de IA](/agentes-de-ia).

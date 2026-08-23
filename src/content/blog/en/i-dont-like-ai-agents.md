@@ -3,12 +3,12 @@ title: 'Here is a secret: I don''t like agentic architectures'
 description: 'We sell AI agents, and we don''t like how almost everyone builds them. Business rules cannot live in the prompt, they have to live in the code.'
 lang: 'en'
 pubDate: 2026-08-18
-updatedDate: 2026-08-20
+updatedDate: 2026-08-23
 translationId: 'dont-like-agents'
 tags: ['Agents', 'Architecture', 'Security']
 ---
 
-Yes, it is what we sell. It is on our home page. And still, I don't like agentic architectures. Let me sharpen the confession before it sounds like a scandal. The category is not what bothers me, what bothers me is the way of building it that dominates the market. An AI agent can be a serious piece of engineering. What I almost never like is where the industry has decided the rules should live.
+Yes, it is what we sell. It is on our home page. And still, I don't like agentic architectures. Let me sharpen the confession before it sounds like a scandal. **The category is not what bothers me, what bothers me is the way of building it that dominates the market.** An AI agent can be a serious piece of engineering. What I almost never like is where the industry has decided the rules should live.
 
 This article exists because the conversation keeps repeating. A client arrives asking for an agent, we build it, and at some point in the project someone asks why our version looks so little like the one in the demo videos. The short answer is that we would not let the one in the videos sign anything in your name. The long answer is this article.
 
@@ -18,13 +18,13 @@ An AI agent, as the market understands it, is a language model inside a loop. It
 
 And where do the rules governing that decision live? In the prompt, the text of instructions handed to the model before it starts. That is usually where it says what it may do, what it must not do and how to behave when in doubt. The problem is that a language model does not execute instructions the way a program does. It reads them, weighs them and follows them almost always. That "almost" is the crack through which everything below gets in.
 
-Models are not deterministic. The same question does not always return the same answer. An instruction respected today can be ignored tomorrow without anything having changed in your system, with no error message and nobody noticing. Building business rules on that foundation is building on sand.
+Models are not deterministic. The same question does not always return the same answer. An instruction respected today can be ignored tomorrow without anything having changed in your system, with no error message and nobody noticing. **Building business rules on that foundation is building on sand.**
 
 It is worth asking why the industry builds this way, because the answer is not laziness. The fashionable frameworks make wiring up the loop an afternoon's work. Demos come out dazzling, investor money flows toward whatever carries the agentic label, and adding a sentence to the prompt is infinitely cheaper than programming a validation. Every incentive pushes in the same direction, and none of them points at what happens in production two years later.
 
 ## A guarantee and a polite request
 
-We once inherited a piece that entrusted a security filter to the prompt. The instruction read, literally, "under no circumstances omit the filter". It sounded firm. Put to the test, it was not a guarantee, it was a polite request to a system that signs no contracts. We marked it for removal, moved the filter into code that always runs, and out of it came the phrase we have used ever since to explain our approach, that you have to learn to tell a guarantee from a polite request.
+We once inherited a piece that entrusted a security filter to the prompt. The instruction read, literally, *"under no circumstances omit the filter"*. It sounded firm. **Put to the test, it was not a guarantee, it was a polite request to a system that signs no contracts.** We marked it for removal, moved the filter into code that always runs, and out of it came the phrase we have used ever since to explain our approach, that you have to learn to tell a guarantee from a polite request.
 
 The striking part is that nobody had done anything wrong in the classic sense. The filter existed, the instruction was clear and the system behaved well most days. What failed ran deeper. A text generator had been asked to act as a barrier. Barriers are not requested, they are built.
 
@@ -36,7 +36,7 @@ Grant the perfect prompt that the model never ignores. There is still a problem 
 
 ### Errors do not add up, they multiply
 
-An agent chains steps and every step can go wrong. Intuition says a system that gets it right 95% of the time is a reliable system. Arithmetic says otherwise. For a twenty-step task to end well, all twenty steps have to go well, so the probabilities multiply. A 95% success rate per step leaves the full task at 36%. With ten steps, at 59%. The reliability that impresses in a single step evaporates as soon as steps are chained.
+An agent chains steps and every step can go wrong. Intuition says a system that gets it right 95% of the time is a reliable system. Arithmetic says otherwise. For a twenty-step task to end well, all twenty steps have to go well, so the probabilities multiply. A 95% success rate per step leaves the full task at 36%. With ten steps, at 59%. **The reliability that impresses in a single step evaporates as soon as steps are chained.**
 
 The math was published by [Utkarsh Kanwat](https://utkarshkanwat.com/writing/betting-against-agents), an engineer who has built more than a dozen agent systems in production and who still explains why he bets against autonomous many-step agents. His way out is not to give up, it is to shorten. His systems that work split the job into three to five discrete steps, each verifiable on its own, with rollback points and human confirmation at the delicate moments. And he adds a detail almost nobody mentions, that cost also grows with length, because every step drags along the full context of the previous ones and long conversations get expensive at a rate the demos never show.
 
@@ -110,14 +110,14 @@ Our rule is that autonomy is earned. Everything starts as a code-orchestrated fl
 
 If you are evaluating an agent purchase, from whichever vendor, three questions separate the architectures into two piles.
 
-First, where do the rules the system cannot break live? If the answer mentions the prompt, you know which pile you are in. Second, what exactly happens if the model ignores an instruction? The good answer describes a mechanism that stops it. The bad one assures you that never happens. Third, what gets recorded of each decision? If the answer is the whole conversation and nothing else, there will be no way to explain a failure when it comes, nor to prove it was fixed.
+First, *where do the rules the system cannot break live?* If the answer mentions the prompt, you know which pile you are in. Second, *what exactly happens if the model ignores an instruction?* The good answer describes a mechanism that stops it. The bad one assures you that never happens. Third, *what gets recorded of each decision?* If the answer is the whole conversation and nothing else, there will be no way to explain a failure when it comes, nor to prove it was fixed.
 
 None of the three requires knowing how to program. All three take a minute to answer when the architecture is sound.
 
 ## So why do we sell them?
 
-Because "AI agent" is how the market names this category, and arguing with your client's vocabulary wastes everyone's time. What matters is not the label, it is where the rules live. When we build an agent, the model does what it is irreplaceable at, understanding human language with all its ambiguity. The code does what the model is a danger at, deciding what is allowed. Nobody notices that division in the demo, because demos reward exactly the opposite.
+Because "AI agent" is how the market names this category, and arguing with your client's vocabulary wastes everyone's time. **What matters is not the label, it is where the rules live.** When we build an agent, the model does what it is irreplaceable at, understanding human language with all its ambiguity. The code does what the model is a danger at, deciding what is allowed. Nobody notices that division in the demo, because demos reward exactly the opposite.
 
-An agent like that is less spectacular on day one. It holds up better for the next three years.
+**An agent like that is less spectacular on day one. It holds up better for the next three years.**
 
 If you are still placing the concept, start with our [AI automation guide](/en/ai-automation). And if you want to see what this looks like from the inside, we cover it in [AI agent development](/en/ai-agent-development).

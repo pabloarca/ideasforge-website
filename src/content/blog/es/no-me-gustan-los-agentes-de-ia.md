@@ -3,12 +3,12 @@ title: 'Te cuento un secreto: no me gustan las arquitecturas agénticas'
 description: 'Vendemos agentes de IA y no nos gusta cómo los construye casi todo el mundo. Las reglas de negocio no pueden vivir en el prompt, tienen que vivir en el código.'
 lang: 'es'
 pubDate: 2026-08-18
-updatedDate: 2026-08-20
+updatedDate: 2026-08-23
 translationId: 'dont-like-agents'
 tags: ['Agentes', 'Arquitectura', 'Seguridad']
 ---
 
-Sí, es lo que vendemos. Está en nuestra portada. Y aun así, no me gustan las arquitecturas agénticas. Conviene afinar la confesión antes de que suene a escándalo. No me estorba la categoría, me estorba la forma de construirla que domina el mercado. Un agente de IA puede ser una pieza seria de ingeniería. Lo que casi nunca me gusta es dónde ha decidido el sector que vivan las reglas.
+Sí, es lo que vendemos. Está en nuestra portada. Y aun así, no me gustan las arquitecturas agénticas. Conviene afinar la confesión antes de que suene a escándalo. **No me estorba la categoría, me estorba la forma de construirla que domina el mercado.** Un agente de IA puede ser una pieza seria de ingeniería. Lo que casi nunca me gusta es dónde ha decidido el sector que vivan las reglas.
 
 Este artículo existe porque la conversación se repite. Un cliente llega pidiendo un agente, nosotros lo construimos y en algún punto del proyecto alguien pregunta por qué nuestra versión se parece tan poco a la de los vídeos de demostración. La respuesta corta es que a la de los vídeos no le encargaríamos nada que firme en tu nombre. La larga es este artículo.
 
@@ -18,13 +18,13 @@ Un agente de IA, tal como lo entiende el mercado, es un modelo de lenguaje metid
 
 ¿Y dónde viven las reglas que gobiernan esa decisión? En el prompt, el texto de instrucciones que se le entrega al modelo antes de empezar. Ahí suele estar escrito qué puede hacer, qué tiene prohibido y cómo debe comportarse cuando dude. El problema es que un modelo de lenguaje no ejecuta instrucciones como las ejecuta un programa. Las lee, las pondera y las sigue casi siempre. Ese «casi» es la grieta por la que entra todo lo que viene a continuación.
 
-Los modelos no son deterministas. La misma pregunta no devuelve siempre la misma respuesta. Una instrucción que hoy se respeta puede ignorarse mañana sin que nada haya cambiado en tu sistema, sin mensaje de error y sin que nadie se entere. Construir reglas de negocio sobre esa base es construir sobre arena.
+Los modelos no son deterministas. La misma pregunta no devuelve siempre la misma respuesta. Una instrucción que hoy se respeta puede ignorarse mañana sin que nada haya cambiado en tu sistema, sin mensaje de error y sin que nadie se entere. **Construir reglas de negocio sobre esa base es construir sobre arena.**
 
 Merece la pena preguntarse por qué el sector construye así, porque la respuesta no es pereza. Los marcos de trabajo de moda hacen que montar el bucle cueste una tarde. Las demostraciones salen deslumbrantes, el dinero de los inversores va hacia lo que lleva la etiqueta de agéntico y añadir una frase al prompt es infinitamente más barato que programar una validación. Todos los incentivos empujan en la misma dirección y ninguno de ellos apunta hacia lo que pasa en producción dos años después.
 
 ## Una garantía y una petición educada
 
-Heredamos una vez una pieza que confiaba un filtro de seguridad al prompt. La instrucción decía, literalmente, «bajo ninguna circunstancia omitas el filtro». Sonaba contundente. Puesta a prueba, no era una garantía, era una petición educada a un sistema que no firma contratos. La marcamos para retirada, movimos el filtro a código que se ejecuta siempre y de ahí salió la frase que usamos desde entonces para explicar nuestro criterio, que hay que saber distinguir una garantía de una petición educada.
+Heredamos una vez una pieza que confiaba un filtro de seguridad al prompt. La instrucción decía, literalmente, *«bajo ninguna circunstancia omitas el filtro»*. Sonaba contundente. **Puesta a prueba, no era una garantía, era una petición educada a un sistema que no firma contratos.** La marcamos para retirada, movimos el filtro a código que se ejecuta siempre y de ahí salió la frase que usamos desde entonces para explicar nuestro criterio, que hay que saber distinguir una garantía de una petición educada.
 
 Lo llamativo del caso es que nadie había hecho nada mal en el sentido clásico. El filtro existía, la instrucción era clara y el sistema se portaba bien la mayoría de los días. Lo que fallaba era más profundo. Le habían pedido a un generador de texto que se comportara como una barrera. Las barreras no se piden, se construyen.
 
@@ -36,7 +36,7 @@ Demos por bueno un prompt perfecto que el modelo nunca ignora. Aun así queda un
 
 ### Los errores no se suman, se multiplican
 
-Un agente encadena pasos y cada paso puede salir mal. La intuición dice que un sistema que acierta el 95 % de las veces es un sistema fiable. La aritmética dice otra cosa. Para que una tarea de veinte pasos termine bien tienen que salir bien los veinte, así que las probabilidades se multiplican entre sí. Un 95 % de acierto por paso deja la tarea completa en un 36 %. Con diez pasos se queda en un 59 %. La fiabilidad que impresiona en un paso suelto se evapora en cuanto los pasos se encadenan.
+Un agente encadena pasos y cada paso puede salir mal. La intuición dice que un sistema que acierta el 95 % de las veces es un sistema fiable. La aritmética dice otra cosa. Para que una tarea de veinte pasos termine bien tienen que salir bien los veinte, así que las probabilidades se multiplican entre sí. Un 95 % de acierto por paso deja la tarea completa en un 36 %. Con diez pasos se queda en un 59 %. **La fiabilidad que impresiona en un paso suelto se evapora en cuanto los pasos se encadenan.**
 
 El cálculo lo publicó [Utkarsh Kanwat](https://utkarshkanwat.com/writing/betting-against-agents), un ingeniero que ha construido más de una docena de sistemas de agentes en producción y que aun así explica por qué apuesta contra los agentes autónomos de muchos pasos. Su salida no es abandonar, es acortar. Los sistemas suyos que funcionan dividen el trabajo en tres a cinco pasos discretos, cada uno verificable por separado, con puntos de vuelta atrás y con confirmación humana en los momentos delicados. Y añade un detalle que casi nadie cuenta, que el coste también crece con la longitud, porque cada paso arrastra todo el contexto de los anteriores y las conversaciones largas se encarecen a un ritmo que las demostraciones nunca enseñan.
 
@@ -58,7 +58,7 @@ Piensa en lo que eso significa para las arquitecturas. Si la puerta de entrada n
 
 Ahora vuelve a la arquitectura agéntica típica y cuenta ingredientes. El agente tiene acceso a datos privados. Lee texto que viene de fuera. Y dispone de herramientas para actuar sobre tus sistemas. En seguridad se conocen como [los tres ingredientes](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/) que por separado son inofensivos y juntos abren la puerta a que un texto malicioso acabe moviendo datos que no debía. Los dos primeros suelen ser la razón de que el sistema exista. El tercero es el que hay que recortar.
 
-El caso extremo es el montaje donde el modelo se enchufa directamente a la base de datos con un conector que le deja escribir él mismo las consultas (los famosos MCP). Desde ese momento puede escribir cualquier consulta que el lenguaje permita y lo único que se lo impide es una frase en su prompt, del tipo «no consultes la tabla de nóminas». Ya hemos visto de qué familia es esa frase. Es una petición educada.
+El caso extremo es el montaje donde el modelo se enchufa directamente a la base de datos con un conector que le deja escribir él mismo las consultas (los famosos MCP). Desde ese momento puede escribir cualquier consulta que el lenguaje permita y lo único que se lo impide es una frase en su prompt, del tipo *«no consultes la tabla de nóminas»*. Ya hemos visto de qué familia es esa frase. Es una petición educada.
 
 ## Cómo lo construimos nosotros
 
@@ -110,14 +110,14 @@ Nuestra regla es que la autonomía se gana. Todo empieza como un flujo orquestad
 
 Si estás evaluando comprar un agente, del proveedor que sea, hay tres preguntas que separan las arquitecturas en dos montones.
 
-Primera, ¿dónde viven las reglas que el sistema no puede saltarse? Si la respuesta menciona el prompt, ya sabes en qué montón estás. Segunda, ¿qué pasa exactamente si el modelo ignora una instrucción? La respuesta buena describe un mecanismo que lo para. La mala te asegura que eso no ocurre. Tercera, ¿qué queda registrado de cada decisión? Si la respuesta es la conversación entera y nada más, no habrá forma de explicar un fallo cuando llegue, ni de demostrar que se ha corregido.
+Primera, *¿dónde viven las reglas que el sistema no puede saltarse?* Si la respuesta menciona el prompt, ya sabes en qué montón estás. Segunda, *¿qué pasa exactamente si el modelo ignora una instrucción?* La respuesta buena describe un mecanismo que lo para. La mala te asegura que eso no ocurre. Tercera, *¿qué queda registrado de cada decisión?* Si la respuesta es la conversación entera y nada más, no habrá forma de explicar un fallo cuando llegue, ni de demostrar que se ha corregido.
 
 Ninguna de las tres exige saber programar. Las tres se contestan en un minuto cuando la arquitectura está bien hecha.
 
 ## Entonces, ¿por qué lo vendemos?
 
-Porque «agente de IA» es como el mercado nombra esta categoría y pelearse con el vocabulario de tu cliente es perder el tiempo de los dos. Lo que importa no es la etiqueta, es dónde viven las reglas. Cuando construimos un agente, el modelo hace aquello en lo que es insustituible, entender el lenguaje humano con toda su ambigüedad. El código hace aquello en lo que el modelo es un peligro, decidir qué está permitido. Esa división no la nota nadie en la demostración, porque las demostraciones premian justo lo contrario.
+Porque «agente de IA» es como el mercado nombra esta categoría y pelearse con el vocabulario de tu cliente es perder el tiempo de los dos. **Lo que importa no es la etiqueta, es dónde viven las reglas.** Cuando construimos un agente, el modelo hace aquello en lo que es insustituible, entender el lenguaje humano con toda su ambigüedad. El código hace aquello en lo que el modelo es un peligro, decidir qué está permitido. Esa división no la nota nadie en la demostración, porque las demostraciones premian justo lo contrario.
 
-Un agente así es menos espectacular el primer día. Aguanta mejor los tres años siguientes.
+**Un agente así es menos espectacular el primer día. Aguanta mejor los tres años siguientes.**
 
 Si estás situando el concepto, empieza por nuestra [guía de agentes de IA](/agentes-de-ia). Y si quieres ver cómo es esto por dentro, te lo contamos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia).

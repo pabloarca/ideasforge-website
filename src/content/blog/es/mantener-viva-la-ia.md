@@ -3,19 +3,20 @@ title: 'Empezar un proyecto de IA es fácil. Mantenerlo vivo, casi imposible'
 description: 'Los proyectos de IA geniales se estrenan bien y mueren pronto. Los rentables son fáciles de empezar y fáciles de mantener. La diferencia se decide antes de escribir código.'
 lang: 'es'
 pubDate: 2026-07-28
+updatedDate: 2026-08-23
 translationId: 'keeping-ai-alive'
 tags: ['Mantenimiento', 'Observabilidad', 'Negocio']
 ---
 
 Es fácil iniciar proyectos de IA geniales. La demostración sale bien, el vídeo circula, todo el mundo aplaude. Lo que es casi imposible es mantener ese proyecto con vida seis meses. ¿Proyectos de IA rentables? Fáciles de empezar y fáciles de mantener. Esa asimetría es el filtro con el que decidimos qué construir.
 
-No es una opinión rara. [Gartner estima](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) que más del 40 % de los proyectos de IA agéntica se cancelarán antes de que acabe 2027. La mortalidad no está en arrancar, está en sobrevivir.
+No es una opinión rara. [Gartner estima](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) que más del 40 % de los proyectos de IA agéntica se cancelarán antes de que acabe 2027. **La mortalidad no está en arrancar, está en sobrevivir.**
 
 ## Lo que mata a los proyectos no es el modelo
 
-Operamos nuestro propio producto, un asistente de citas por WhatsApp que trata datos de salud y eso nos ha enseñado dónde muere de verdad un sistema. Nunca es el gran fallo cinematográfico, es la degradación que nadie mira. Nuestro peor incidente lo cuenta bien. Una alerta mal calibrada empezó a disparar sobre un estado que no era un fallo real. En pocos días emitió miles de eventos y agotó la cuota mensual del sistema de avisos. La monitorización entera quedó ciega. Seis días después fallaron trece recordatorios reales de una clínica y la alarma correspondiente disparó trece veces sin que ninguna saliera de la máquina. Nos lo contó la clienta, no el sistema.
+Operamos nuestro propio producto, un asistente de citas por WhatsApp que trata datos de salud y eso nos ha enseñado dónde muere de verdad un sistema. **Nunca es el gran fallo cinematográfico, es la degradación que nadie mira.** Nuestro peor incidente lo cuenta bien. Una alerta mal calibrada empezó a disparar sobre un estado que no era un fallo real. En pocos días emitió miles de eventos y agotó la cuota mensual del sistema de avisos. La monitorización entera quedó ciega. Seis días después fallaron trece recordatorios reales de una clínica y la alarma correspondiente disparó trece veces sin que ninguna saliera de la máquina. Nos lo contó la clienta, no el sistema.
 
-De ahí salieron reglas que hoy aplicamos a todo: cada alerta lleva su propio límite, ninguna puede agotar el presupuesto de las demás y el silencio también se vigila, porque cero avisos en 24 horas no significa que todo vaya bien.
+De ahí salieron reglas que hoy aplicamos a todo: cada alerta lleva su propio límite, ninguna puede agotar el presupuesto de las demás y el silencio también se vigila, porque **cero avisos en 24 horas no significa que todo vaya bien**.
 
 ## Mantener vivo es un sistema, no una intención
 
@@ -31,6 +32,6 @@ La diferencia entre el proyecto genial y el rentable no es el talento ni el mode
 
 ## La pregunta incómoda para tu proveedor
 
-Si estás evaluando un proyecto de IA, la pregunta que más información te dará no es sobre el modelo ni sobre la demostración. ¿Qué pasa el día 180? ¿Quién mira las alarmas, quién ejecuta las pruebas, quién se entera si el sistema empeora en silencio?
+Si estás evaluando un proyecto de IA, la pregunta que más información te dará no es sobre el modelo ni sobre la demostración. *¿Qué pasa el día 180?* ¿Quién mira las alarmas, quién ejecuta las pruebas, quién se entera si el sistema empeora en silencio? Un proyecto genial no sabe responder. Uno rentable responde con nombres.
 
 Nosotros respondemos con lo que llamamos observabilidad por defecto y está en el centro de cómo hacemos [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia). Si prefieres empezar por el mapa general, está en la [guía de agentes](/agentes-de-ia). Mantener también tiene precio y lo que mueve esa cuota mensual está desglosado en la [guía de coste](/cuanto-cuesta-un-agente-de-ia).

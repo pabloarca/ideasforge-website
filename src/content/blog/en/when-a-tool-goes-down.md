@@ -3,13 +3,14 @@ title: 'What your assistant does when a tool goes down'
 description: 'A conversational assistant depends on systems that fail. The circuit breaker that protects the user, and the three lessons production taught us about it.'
 lang: 'en'
 pubDate: 2026-06-23
+updatedDate: 2026-08-23
 translationId: 'tool-goes-down'
 tags: ['Agents', 'Reliability', 'Maintenance']
 ---
 
-A serious conversational assistant does not live alone: it queries databases, internal systems and third-party services. Every one of those pieces can go down, and will. The question that defines the assistant's quality is not whether its tools fail. It is what the user sees when they do.
+A serious conversational assistant does not live alone: it queries databases, internal systems and third-party services. Every one of those pieces can go down, and will. **The question that defines the assistant's quality is not whether its tools fail. It is what the user sees when they do.**
 
-The cheap answer is a technical trace: "connection refused", a half-serialized object, a 500 error that looks like an accident. To the person in front of it, that reads as "this thing doesn't work", and trust in the whole system suffers for the failure of a single piece.
+The cheap answer is a technical trace: "connection refused", a half-serialized object, a 500 error that looks like an accident. To the person in front of it, that reads as *"this thing doesn't work"*, and trust in the whole system suffers for the failure of a single piece.
 
 ## The circuit breaker
 
@@ -27,6 +28,8 @@ What the user sees then is not a technical error. It is a polite, specific degra
 
 ## Reliability is designed before the failure
 
-None of this gets improvised the day a third-party service goes down at eleven in the morning. The breaker, the degradation messages and the reachability tests are built earlier, when everything works, which is exactly when they look unnecessary. Every outage that does happen also leaves its trace in the incident catalogue, the piece we describe in [the symptom signature](/en/blog/the-symptom-signature).
+None of this gets improvised the day a third-party service goes down at eleven in the morning. **The breaker, the degradation messages and the reachability tests are built earlier, when everything works, which is exactly when they look unnecessary.** Every outage that does happen also leaves its trace in the incident catalogue, the piece we describe in [the symptom signature](/en/blog/the-symptom-signature).
+
+There is a test you can run this week. Deliberately kill one of your assistant's tools in a test environment and look at the user's screen. *A technical trace, or a graceful degradation?* Whatever you see is your answer to the question this article opened with.
 
 If you are considering an assistant that depends on your real systems, this is part of what we call [conversational AI](/en/conversational-ai). And if you want the full map before deciding, start with the [AI automation guide](/en/ai-automation).
