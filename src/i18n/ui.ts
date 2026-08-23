@@ -254,6 +254,9 @@ export interface SiteContent {
   };
   blog: {
     eyebrow: string;
+    /** Rótulo del índice lateral de una entrada. Mismo texto que las páginas
+     *  largas: el índice es el mismo componente y hace el mismo trabajo. */
+    tocHeading: string;
     /** Encabezado del bloque de entradas relacionadas en las páginas pilar. */
     clusterHeading: string;
     heading: string;
@@ -401,6 +404,14 @@ export interface LongFormSection {
 export interface LongFormPageContent {
   /** Rótulo del índice de partes, si la página está dividida en partes. */
   tocHeading?: string;
+  /**
+   * Fuerza la presencia del índice lateral. Por defecto lo decide el número de
+   * secciones, que sirve para las páginas largas de posicionamiento pero no
+   * para las cortas: `false` aquí las deja a una columna centrada, con el
+   * ancho de lectura del cuerpo de un post y sin menú a la izquierda.
+   * Decisión del propietario para «Quiénes somos» (23 ago 2026).
+   */
+  nav?: boolean;
   metaTitle: string;
   metaDescription: string;
   /**
@@ -799,6 +810,7 @@ export const content: Record<Lang, SiteContent> = {
     },
     blog: {
       eyebrow: 'Blog',
+      tocHeading: 'Qué verás en esta página',
       clusterHeading: 'Lo contamos en detalle',
       heading: 'Blog',
       subtitle: 'Lo que vamos descubriendo construyendo IA en producción con nuestros clientes.',
@@ -1229,50 +1241,28 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       about: {
-        tocHeading: 'Qué verás en esta página',
+        nav: false,
         metaTitle: 'Quiénes somos, Ideasforge',
         metaDescription:
-          'Un equipo pequeño que construye y mantiene sistemas de IA en producción y que opera su propio producto. Así trabajamos y por qué lo contamos con datos.',
+          'Diseñamos, construimos y mantenemos agentes de IA y automatización de procesos que llegan a producción. Cinco sistemas funcionando hoy con usuarios reales.',
         hero: {
-          title: 'Un equipo pequeño que mantiene lo que construye',
+          title: 'Un equipo que mantiene lo que construye',
           subtitle:
-            'No entregamos un sistema y desaparecemos. Operamos software propio en producción, con usuarios reales y esa experiencia es la que aplicamos en cada proyecto de cliente.',
+            'Si tu idea no es viable, te lo decimos antes de cobrarla. Si tiene recorrido, trabajamos contigo codo con codo hasta que funcione en producción.',
           cta: 'Cuéntanos tu reto',
         },
         sections: [
           {
-            heading: 'Construimos nuestro propio producto',
+            heading: 'Qué hacemos',
             paragraphs: [
-              'Wazzy es nuestro. Diseñamos la idea de negocio, construimos el producto y la arquitectura del asistente y lo operamos hoy en clínicas y negocios de servicios. Gestiona reservas, cambios y cancelaciones sobre la API oficial de WhatsApp y trata datos de salud, la categoría más protegida del RGPD.',
-              'Mantener un producto propio cambia cómo trabajas. Cuando eres tú quien recibe el aviso a las tres de la mañana, dejas de escribir código que solo funciona en la demostración. Cada cosa que aprendemos ahí vuelve a los proyectos de cliente.',
+              'En Ideasforge diseñamos, construimos y mantenemos agentes de IA y automatización de procesos. Trabajamos sobre lo que ya tienes y nos conectamos a tus sistemas y a las herramientas con las que tu gente trabaja cada día, en lugar de pedirte que cambies tu manera de trabajar para encajar con la nuestra. El repositorio y la infraestructura quedan a tu nombre desde el primer día, porque un sistema del que dependes tiene que ser tuyo. Hoy hay cinco sistemas nuestros funcionando con usuarios reales en industria, agricultura, inmobiliaria, salud y servicios. El criterio con el que los juzgamos no ha cambiado, lo que gana el negocio antes que lo que luce en una demostración.',
             ],
-            link: { label: 'Conocer Wazzy', href: 'https://wazzy.io' },
-          },
-          {
-            heading: 'Lo que nos ha enseñado producción',
-            paragraphs: [
-              'Que el fallo más caro de un sistema con IA no hace saltar ninguna alarma, porque es una respuesta impecable y falsa. Que un banco de pruebas que replica al sistema en lugar de ejercitarlo acaba midiendo otra cosa. Que una alerta ruidosa puede agotar la cuota de avisos y dejarte ciego justo cuando falla algo de verdad.',
-              'Ninguna de esas lecciones sale de un manual. Salen de haberlas sufrido y por eso las contamos con nombre y número en lugar de con adjetivos.',
-            ],
-            link: { label: 'Cómo trabajamos', href: '/#servicios' },
-          },
-          {
-            heading: 'Cómo nos gusta trabajar',
-            paragraphs: [
-              'Empezamos por el problema, no por la tecnología. Si un caso no compensa, lo decimos antes de cobrarlo. Entregamos el repositorio a tu nombre desde el primer día, con la documentación escrita para quien mantendrá el sistema dentro de dos años.',
-              'Y medimos. Cada cambio pasa por un banco de pruebas antes de publicarse y lo que el sistema no sabe hacer queda anotado con su causa para convertirse en la siguiente mejora.',
-            ],
-          },
-          {
-            heading: 'El equipo',
-            paragraphs: [
-              'PENDIENTE: nombre, cargo y una o dos frases de trayectoria de cada persona, con foto real. Es el bloque que más credibilidad aporta en una consultora pequeña y el único que no podemos escribir por ti.',
-            ],
+            link: { label: 'Ver los servicios', href: '/#servicios' },
           },
         ],
         cta: {
           heading: '¿Hablamos de tu caso?',
-          body: 'Cuéntanos tu reto. Si no le vemos retorno, te lo diremos.',
+          body: 'Escríbenos con el problema que tienes ahora mismo, no con la tecnología que crees que lo arregla. Respondemos en menos de 24 horas laborables.',
           button: 'Cuéntanos tu reto',
         },
       },
@@ -2533,6 +2523,7 @@ export const content: Record<Lang, SiteContent> = {
     },
     blog: {
       eyebrow: 'Blog',
+      tocHeading: 'What this page covers',
       clusterHeading: 'We cover this in detail',
       heading: 'Blog',
       subtitle: 'What we discover while building AI in production with our clients.',
@@ -2969,50 +2960,28 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       about: {
-        tocHeading: 'What this page covers',
+        nav: false,
         metaTitle: 'About us, Ideasforge',
         metaDescription:
-          'A small team that builds and maintains AI systems in production, and runs its own product. How we work and why we back it with numbers.',
+          'We design, build and maintain AI agents and process automation that reach production. Five systems running today with real users.',
         hero: {
-          title: 'A small team that maintains what it builds',
+          title: 'A team that maintains what it builds',
           subtitle:
-            'We don’t hand over a system and disappear. We run our own software in production, with real users, and that experience is what we bring to every client project.',
+            'If your idea is not viable, we will say so before we invoice it. If it has legs, we work alongside you until it runs in production.',
           cta: 'Tell us your challenge',
         },
         sections: [
           {
-            heading: 'We build our own product',
+            heading: 'What we do',
             paragraphs: [
-              'Wazzy is ours. We shaped the business idea, built the product and the assistant’s architecture, and we run it today in clinics and service businesses. It manages bookings, changes and cancellations on the official WhatsApp API, and it handles health data, the most protected category under GDPR.',
-              'Running your own product changes how you work. When you are the one getting the alert at three in the morning, you stop writing code that only holds up in the demo. Everything we learn there goes back into client projects.',
+              'At Ideasforge we design, build and maintain AI agents and process automation. We work with what you already have and connect to your systems and to the tools your people use every day, rather than asking you to change how you work so it fits how we work. The repository and the infrastructure are in your name from day one, because a system you depend on has to be yours. Five of our systems run today with real users across industry, agriculture, real estate, healthcare and services. The test we judge them by has not changed, what the business gains rather than what looks good in a demo.',
             ],
-            link: { label: 'Meet Wazzy', href: 'https://wazzy.io' },
-          },
-          {
-            heading: 'What production has taught us',
-            paragraphs: [
-              'That the most expensive failure in an AI system sets off no alarm, because it is a flawless answer that happens to be false. That a test suite which replicates the system instead of exercising it ends up measuring something else. That one noisy alert can burn through your alerting quota and leave you blind exactly when something real breaks.',
-              'None of those lessons come from a manual. They come from having lived them, which is why we tell them with names and numbers instead of adjectives.',
-            ],
-            link: { label: 'How we work', href: '/en/#servicios' },
-          },
-          {
-            heading: 'How we like to work',
-            paragraphs: [
-              'We start from the problem, not the technology. If a use case does not pay off, we say so before invoicing it. The repository is under your name from day one, with documentation written for whoever maintains the system in two years.',
-              'And we measure. Every change goes through a test suite before it ships, and whatever the system cannot do is logged with its cause so it becomes the next improvement.',
-            ],
-          },
-          {
-            heading: 'The team',
-            paragraphs: [
-              'TO DO: name, role and a line or two of background for each person, with a real photo. This is the block that carries the most credibility for a small consultancy, and the only one we cannot write for you.',
-            ],
+            link: { label: 'See the services', href: '/en/#servicios' },
           },
         ],
         cta: {
           heading: 'Shall we talk about your case?',
-          body: 'Tell us your challenge. If we don’t see a return, we’ll tell you.',
+          body: 'Write to us about the problem you have right now, not the technology you think fixes it. We reply within one working day.',
           button: 'Tell us your challenge',
         },
       },

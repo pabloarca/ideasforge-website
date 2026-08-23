@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
+import PageNav from '../../components/PageNav.astro';
 import { getCollection, render } from 'astro:content';
 import { content } from '../../i18n/ui';
 import { localizedPath } from '../../i18n/utils';
@@ -16,7 +17,21 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+
+/*
+  Indice lateral de la entrada, el mismo componente que usan las paginas de
+  servicio. No se inventa nada: son los titulares de nivel 2 que el autor ya
+  escribio en el markdown, con el `id` que Astro les genera solo, que es el
+  mismo al que apunta el ancla.
+
+  Por debajo de tres titulares no se pinta. Un indice de dos entradas ocupa
+  una columna entera para decir algo que se ve de un vistazo bajando.
+*/
+const navItems = headings
+  .filter((h) => h.depth === 2)
+  .map((h) => ({ heading: h.text, anchor: h.slug }));
+const hasNav = navItems.length >= 3;
 const t = content[lang];
 
 // Link to the English translation (same translationId), if it exists.
@@ -70,7 +85,18 @@ const articleJsonLd = JSON.stringify({
   image={post.data.heroImage}
 >
   <script is:inline slot="head" type="application/ld+json" set:html={articleJsonLd} />
-  <article class="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-24">
+  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+  <div class={hasNav ? 'lg:grid lg:grid-cols-[14rem_minmax(0,1fr)]' : ''}>
+    {hasNav && (
+      <div class="hidden lg:block">
+        {/* Mismo tope de altura que en las paginas largas: una columna fija
+            mas alta que la ventana deja las ultimas entradas inalcanzables. */}
+        <div class="sticky top-28 max-h-[calc(100vh-9rem)] overflow-y-auto overscroll-contain pb-10 pr-8">
+          <PageNav items={navItems} heading={t.blog.tocHeading} />
+        </div>
+      </div>
+    )}
+  <article class={hasNav ? 'lg:border-l lg:border-border lg:pl-10' : 'mx-auto max-w-3xl'}>
     {/* Misma flecha que el resto del sitio, reflejada. Antes era el caracter
         «←», que se dibuja con la tipografia y no casa con las demas. */}
     <a
@@ -107,4 +133,6 @@ const articleJsonLd = JSON.stringify({
       <Content />
     </div>
   </article>
+  </div>
+  </div>
 </BaseLayout>

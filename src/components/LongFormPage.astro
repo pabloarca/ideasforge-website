@@ -71,7 +71,10 @@ const navItems = page.sections.map((sec, i) => {
 });
 /* El índice acompaña a partir de cuatro secciones. Con menos, el lector ve
    la página entera de un vistazo y una columna fija solo le roba ancho. */
-const hasNav = page.sections.length >= 4;
+// El número de secciones decide por defecto, pero una página puede negarse:
+// las cortas se leen mejor a una columna y el índice lateral las disfraza de
+// pilar de posicionamiento cuando no lo son.
+const hasNav = page.nav ?? page.sections.length >= 4;
 ---
 
 <BaseLayout
