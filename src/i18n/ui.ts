@@ -418,7 +418,7 @@ export interface LongFormPageContent {
    * `ctaHref` overrides the default contact anchor. Informational pages point
    * it at an in-page section so they don't ask for the sale on first contact.
    */
-  hero: { eyebrow?: string; title: string; subtitle: string; cta: string; ctaHref?: string };
+  hero: { eyebrow?: string; title: string; subtitle: string; cta?: string; ctaHref?: string };
   sections: LongFormSection[];
   /** Hard numbers, rendered right after the hero. Only real ones: two beat three padded. */
   stats?: WhyUsStat[];
@@ -1275,25 +1275,18 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Guía',
           title: 'Agentes de IA, qué son y para qué sirven en tu empresa',
           subtitle:
-            'Un agente de IA es un programa que usa un modelo de lenguaje para entender qué se le pide y actuar sobre tus sistemas. Esta guía lo explica en lenguaje llano, con las cinco formas que puede adoptar, lo que puede salir mal y las preguntas que conviene hacer antes de contratar a nadie. Está escrita a partir de los sistemas que mantenemos en producción. Actualizada en agosto de 2026.',
-          cta: 'Ver las cinco formas que adopta',
-          ctaHref: '#formas',
+            'Un agente de IA es un programa que usa un modelo de lenguaje para entender qué se le pide y actuar sobre tus sistemas. Esta guía lo explica en lenguaje llano, con las cinco formas que puede adoptar, lo que puede salir mal y las preguntas que conviene hacer antes de contratar a nadie. Actualizada en agosto de 2026.',
         },
-        stats: [
-          { value: '5', label: 'sistemas nuestros funcionando hoy con usuarios reales' },
-          { value: '118', label: 'casos reales en el banco de pruebas de uno de ellos' },
-          { value: '~0,05 €', label: 'cuesta la prueba semanal que recorre un sistema real de principio a fin' },
-        ],
         sections: [
           {
             heading: 'Qué es un agente de IA',
             id: 'que-es',
             part: 'La respuesta corta',
             paragraphs: [
-              'Un agente de IA es un programa que usa un modelo de lenguaje para decidir qué hay que hacer con lo que una persona pide y que puede consultar datos y ejecutar acciones en los sistemas de la empresa para conseguirlo. La diferencia con un chat corriente está en lo que pasa después de entender. Un chat te contesta y ahí acaba. Un agente además hace algo, reserva la cita, consulta la base de datos, registra la factura o avisa a quien corresponda.',
-              'Dentro de un agente hay tres piezas y conviene distinguirlas, porque cada una hace un trabajo distinto. El modelo de lenguaje entiende lo que la persona pide, aunque lo escriba de cualquier manera. Un programa normal, del tipo que lleva décadas existiendo, comprueba si esa petición se puede atender y con qué permisos. Y los datos de tu empresa son la información con la que se responde.',
+              'Un agente de IA es un modelo de lenguaje conectado a herramientas, con autonomía para decidir cuáles usa y en qué orden hasta conseguir lo que se le ha pedido. Las herramientas son acciones concretas que alguien le ha dado, consultar una base de datos, crear una cita, enviar un correo. Lo que lo separa de un programa de siempre es que elige el camino en lugar de recorrer uno marcado de antemano.',
+              'Conviene deshacer aquí una confusión frecuente. La frontera no es que el chat hable y el agente actúe, porque los asistentes de uso general llevan tiempo llamando a herramientas y también hacen cosas. En una empresa la frontera que importa es otra, sobre qué sistemas actúa y con los permisos de quién. Un asistente público actúa sobre las herramientas que trae de fábrica. Un agente de empresa actúa sobre los tuyos, con los permisos de la persona que lo usa y dentro de los límites que tú apruebes.',
+              'Dentro de un agente hay tres piezas y conviene distinguirlas, porque cada una hace un trabajo distinto. La primera es el modelo de lenguaje, que entiende lo que la persona pide aunque lo escriba de cualquier manera y decide qué herramienta toca. La segunda es el código, un programa normal del tipo que lleva décadas existiendo, que comprueba si esa petición se puede atender, con qué permisos y con qué límites. Y la tercera son los datos de tu empresa, la información con la que se responde.',
               'Si te quedas con una sola idea de toda la guía, que sea ese reparto. Lo que hace útil a un agente es el modelo. Lo que lo hace fiable es todo lo demás.',
-              'Que esto sea posible hoy y no hace cinco años tiene una explicación concreta. Los modelos de hoy saben devolver lo que han entendido en un formato fijo, con campos concretos, en vez de en un párrafo que alguien tendría que volver a leer. Parece un detalle y lo cambia todo, porque un formato fijo se puede comprobar con un programa antes de hacer nada y un texto libre no.',
             ],
           },
           {

@@ -93,11 +93,15 @@ const hasNav = page.nav ?? page.sections.length >= 4;
       <p class="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
         {page.hero.subtitle}
       </p>
-      <div class="mt-9">
-        <a href={heroCta} class="btn-primary hover:btn-primary-hover">
-          {page.hero.cta}
-        </a>
-      </div>
+      {/* El botón es opcional: una guía puede no querer llamada a la acción
+          en el héroe, para no pedir nada antes de haber explicado nada. */}
+      {page.hero.cta && (
+        <div class="mt-9">
+          <a href={heroCta} class="btn-primary hover:btn-primary-hover">
+            {page.hero.cta}
+          </a>
+        </div>
+      )}
     </div>
 
     {
