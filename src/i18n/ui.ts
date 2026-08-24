@@ -1312,11 +1312,10 @@ export const content: Record<Lang, SiteContent> = {
             part: 'La respuesta corta',
             chatDiagram: true,
             paragraphs: [
-              'Un agente de IA es un modelo de lenguaje al que se le han dado herramientas y autonomía para elegir cuál usa en cada momento. Las herramientas son acciones concretas que alguien le ha permitido, consultar una agenda, buscar en la documentación, registrar un dato. Cuando llega una petición, el agente decide con cuál de ellas la resuelve. Lo decide en ese momento, no lo trae escrito de antemano.',
+              'Un agente de IA es un modelo de lenguaje al que se le han dado herramientas y autonomía para elegir cuál usa en cada momento. Las herramientas son acciones concretas que alguien le ha permitido, por ejemplo consultar una agenda, buscar en la documentación o registrar un dato. Cuando llega una petición, el agente decide con cuál de ellas la resuelve. Lo decide en ese momento, no lo trae escrito de antemano.',
               'Conviene deshacer aquí una confusión frecuente. La frontera no es que el bot hable y el agente actúe, porque los asistentes de uso general llevan tiempo llamando a herramientas y también hacen cosas. La frontera es quién decide la respuesta. La de un bot ya estaba escrita antes de que nadie preguntara. La de un agente se arma en el momento en que se pregunta.',
               'En una empresa hay una segunda frontera y es la que decide si te sirve. Sobre qué sistemas actúa y con los permisos de quién. Un asistente de uso general actúa sobre las herramientas que trae de fábrica. Un agente de empresa actúa sobre los tuyos, con los permisos de la persona que lo usa y dentro de los límites que tú apruebes.',
               'Dentro de un agente hay tres piezas y conviene distinguirlas, porque cada una hace un trabajo distinto. La primera es el modelo de lenguaje, que entiende lo que se le pide y elige la herramienta. La segunda es el código que lo rodea, software corriente sin nada de inteligencia artificial dentro, que comprueba si esa petición se puede atender, con qué permisos y con qué límites. Y la tercera son tus datos, que es de donde sale la respuesta.',
-              'Si te quedas con una sola idea de toda la guía, que sea ese reparto. Lo que hace útil a un agente es el modelo. Lo que lo hace fiable es todo lo demás.',
             ],
           },
           {
@@ -3060,7 +3059,6 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'AI automation is the use of language models inside business processes so that work which used to need a person reading, interpreting or deciding can run on its own. The word covers everything from an invoice that files itself to an assistant that answers questions against your databases, and that breadth is why most of what you find when you search it is a list of twenty tools. This guide is not a tool list. It explains the thing itself, from systems we run in production, so you can judge any tool or any proposal, including ours.',
               'There are three pieces inside one of these systems and it is worth telling them apart, because each does a different job. The first is the language model, which understands what a person wrote or what a document says, however badly it was written, and decides which tool the case calls for. The second is the code around it, ordinary software with no artificial intelligence in it, which checks whether the request can be served, under whose permissions and within which limits. And the third is your data, the information the answer gets built from.',
-              'If you take one idea from this guide, take that split. What makes these systems useful is the model. What makes them reliable is everything else.',
             ],
           },
           {
