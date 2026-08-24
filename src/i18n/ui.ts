@@ -1319,12 +1319,35 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
-            heading: 'Las cinco formas, de la más simple a la más autónoma',
+            heading: 'Tipos de agentes',
+            part: 'El mapa del concepto',
+            kind: 'lattice',
+            paragraphs: [
+              'La clasificación que vas a encontrar en cualquier propuesta viene del manual clásico de inteligencia artificial de Russell y Norvig, de bastante antes de que existieran los modelos de lenguaje. Ordena a los agentes por cómo deciden. Sigue sirviendo para situar lo que te ofrecen, aunque hoy casi todo caiga en la misma casilla.',
+            ],
+            bullets: [
+              'Reactivo. Responde a lo que percibe siguiendo reglas fijas, sin recordar nada de antes. Un termostato que enciende la calefacción cuando baja la temperatura. Es un agente en el sentido académico y no es lo que nadie llama hoy un agente de IA.',
+              'Con memoria del estado. Guarda una idea de lo que está pasando, así que funciona aunque no lo vea todo en cada momento. Un sistema que sabe qué pedidos siguen abiertos aunque solo le llegue el último mensaje.',
+              'Con objetivo. Recibe una meta y decide él la secuencia de pasos para llegar. Aquí cae prácticamente todo lo que hoy se vende como agente de IA, los nuestros incluidos.',
+              'Con utilidad. Además de perseguir el objetivo compara opciones y elige según un criterio medible, para cuando hay que equilibrar cosas que compiten entre sí, como el coste y la rapidez.',
+              'Que aprende. Mejora solo a partir de su propia experiencia. Es el que más se promete y el que menos se ve dentro de una empresa.',
+            ],
+          },
+          {
+            heading: 'Cuando te dicen que aprende solo',
+            part: 'El mapa del concepto',
+            paragraphs: [
+              'Esa última casilla merece un aviso, porque «aprende de tus datos» es de las frases más repetidas del sector y casi nunca significa lo que parece. Un agente en producción no suele cambiar solo. Mejora cuando alguien cambia sus instrucciones, ordena mejor los datos o añade casos a la batería de pruebas. Y ese alguien es una persona que firma el cambio.',
+              'Si te dicen que aprende solo, la pregunta útil es qué cambia exactamente, quién lo aprueba y cómo se comprueba que no ha empeorado otra cosa.',
+            ],
+          },
+          {
+            heading: 'Dónde encaja un agente entre las formas de automatizar',
             id: 'formas',
             part: 'El mapa del concepto',
             kind: 'checklist',
             paragraphs: [
-              'Casi cualquier propuesta que leas es una de cinco formas. Las palabras con las que se venden son intercambiables mientras que las formas no lo son. Saber cuál necesita tu problema ahorra meses, porque cada una cuesta distinto de probar, de vigilar y de arreglar cuando falla. Van ordenadas de la más contenida a la más autónoma, que es también el orden en que las consideramos. A los tres peldaños de arriba es a lo que el mercado llama IA agéntica.',
+              'Un agente no siempre es la respuesta, así que conviene ver dónde encaja entre las demás maneras de automatizar. Casi cualquier propuesta que leas es una de estas cinco. Y conviene decirlo de entrada, las dos primeras no llevan agente ninguno. Las palabras con las que se venden son intercambiables mientras que las formas no lo son. Saber cuál necesita tu problema ahorra meses, porque cada una cuesta distinto de probar, de vigilar y de arreglar cuando falla. Van de la más contenida a la más autónoma. A las tres últimas es a lo que el mercado llama IA agéntica.',
             ],
             bullets: [
               'Un flujo fijo sin modelo. Salta un disparador, los pasos corren en un orden establecido y unas reglas deciden las bifurcaciones. Tu ERP y tu plataforma de integración ya hacen esto y es lo más barato que funciona. La señal de que se te ha quedado pequeño es una maraña de excepciones que ya nadie se atreve a tocar, una por cada caso raro que fue apareciendo.',
