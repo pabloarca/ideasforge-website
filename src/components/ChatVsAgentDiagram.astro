@@ -1,0 +1,72 @@
+---
+/*
+  Chatbot de guion frente a agente, en dos carriles.
+
+  Existe porque la definición de agente es la parte de la guía donde más se
+  confunde el lector, y la diferencia se ve antes dibujada que explicada. Lo
+  que el dibujo tiene que dejar claro es una sola cosa, quién elige el camino.
+  Arriba el guion lo trae escrito y lo que se sale de él muere; abajo el
+  modelo elige la herramienta y el código valida antes de tocar nada.
+
+  Usa el mismo kit que `FlowDiagram` (`./graficos`), así que los dos diagramas
+  del sitio se ven como si salieran de la misma mano. Layout aquí, texto en
+  `content[lang].chatVsAgent`, que es la regla de la casa.
+
+  El lienzo mide 1100 × 330 y se escala para caber, así que las coordenadas
+  de abajo son píxeles absolutos y sirven igual en los dos idiomas. Las
+  etiquetas tienen que ser cortas: en este estilo no caben frases.
+*/
+import { type Lang, content } from '../i18n/ui';
+import GrainFrame from './graficos/GrainFrame.astro';
+import DiagramCanvas from './graficos/DiagramCanvas.astro';
+import DiagramNode from './graficos/DiagramNode.astro';
+import EdgeLabel from './graficos/EdgeLabel.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].chatVsAgent;
+const n = d.nodes;
+---
+
+<figure class="my-10">
+  <GrainFrame height="600px" title={d.title}>
+    <DiagramCanvas width={1100} height={330}>
+      {/* Carril de arriba, el guion: una sola vía y una salida muerta. */}
+      <path slot="edges" d="M212,52 L252,52" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M420,52 L470,52" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M336,78 L336,112" marker-end="url(#dg-arrow)" stroke-dasharray="5 5" />
+
+      {/* Carril de abajo, el agente: el modelo abre tres herramientas y todas
+          vuelven a un mismo validador antes de tocar los sistemas. */}
+      <path slot="edges" d="M212,268 L252,268" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M420,268 L466,268" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M420,268 Q443,268 443,238 L443,214 Q443,204 453,204 L466,204" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M420,268 Q443,268 443,298 L443,322 Q443,332 453,332 L466,332" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M634,204 Q660,204 660,236 L660,258 Q660,268 670,268 L706,268" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M634,268 L706,268" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M634,332 Q660,332 660,300 L660,278 Q660,268 670,268 L706,268" marker-end="url(#dg-arrow)" />
+      <path slot="edges" d="M814,268 L862,268" marker-end="url(#dg-arrow)" />
+
+      <DiagramNode x={20} y={30} w={190}>{n.pregunta}</DiagramNode>
+      <DiagramNode x={258} y={30} w={158}>{n.guion}</DiagramNode>
+      <DiagramNode x={476} y={30} w={186}>{n.respuestaFija}</DiagramNode>
+      <DiagramNode x={238} y={116} w={198}>{n.fueraDelGuion}</DiagramNode>
+
+      <DiagramNode x={20} y={246} w={190}>{n.pregunta}</DiagramNode>
+      <DiagramNode x={258} y={246} w={158}>{n.modeloElige}</DiagramNode>
+      <DiagramNode x={472} y={186} w={160} h={38}>{n.herramientaA}</DiagramNode>
+      <DiagramNode x={472} y={250} w={160} h={38}>{n.herramientaB}</DiagramNode>
+      <DiagramNode x={472} y={314} w={160} h={38}>{n.herramientaC}</DiagramNode>
+      <DiagramNode x={712} y={246} w={100} shape="rombo">{n.valida}</DiagramNode>
+      <DiagramNode x={868} y={246} w={212}>{n.tareaHecha}</DiagramNode>
+
+      <EdgeLabel x={228} y={128}>{d.edges.muere}</EdgeLabel>
+    </DiagramCanvas>
+  </GrainFrame>
+
+  <figcaption class="mt-6 border-l-2 border-accent pl-4 text-[15px] leading-relaxed text-fg">
+    {d.legend}
+  </figcaption>
+</figure>

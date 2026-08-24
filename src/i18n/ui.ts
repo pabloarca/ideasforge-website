@@ -302,6 +302,24 @@ export interface SiteContent {
   start: StartPageContent;
   /** Shared architecture diagram, reused wherever the argument is made. */
   flowDiagram: FlowDiagramContent;
+  /** Diagrama de la guía: el chatbot de guion frente al agente. */
+  chatVsAgent: {
+    title: string;
+    nodes: {
+      pregunta: string;
+      guion: string;
+      respuestaFija: string;
+      fueraDelGuion: string;
+      modeloElige: string;
+      herramientaA: string;
+      herramientaB: string;
+      herramientaC: string;
+      valida: string;
+      tareaHecha: string;
+    };
+    edges: { muere: string };
+    legend: string;
+  };
   /** Diagrama del examen previo a publicar, en el modal de observabilidad. */
   gateDiagram: GateDiagramContent;
   footer: {
@@ -393,6 +411,8 @@ export interface LongFormSection {
   link?: { label: string; href: string };
   /** Renders the shared FlowDiagram after this section's paragraphs. */
   diagram?: boolean;
+  /** Renders the scripted-chatbot vs agent diagram after the paragraphs. */
+  chatDiagram?: boolean;
   /** Cómo se dibuja. Por defecto `prose`. */
   kind?: LongFormKind;
   /** Nombre de la parte a la que pertenece. Cuando cambia respecto a la
@@ -877,6 +897,24 @@ export const content: Record<Lang, SiteContent> = {
       legend:
         'El modelo nunca llega a tocar tus sistemas. Interpreta la pregunta y entrega un contrato. A partir de ahí decide el código, que sí se comporta igual siempre. Lo peor que puede conseguir un mensaje malicioso es que se elija mal dentro de una lista que ya hemos revisado.',
     },
+    chatVsAgent: {
+      title: 'Un chatbot de guion y un agente, lado a lado',
+      nodes: {
+        pregunta: 'La persona escribe',
+        guion: 'Guion fijo',
+        respuestaFija: 'Respuesta prevista',
+        fueraDelGuion: 'Fuera del guion',
+        modeloElige: 'El modelo elige',
+        herramientaA: 'Consultar agenda',
+        herramientaB: 'Buscar en documentación',
+        herramientaC: 'Registrar el dato',
+        valida: 'Código valida',
+        tareaHecha: 'Tarea hecha en tus sistemas',
+      },
+      edges: { muere: 'no le he entendido' },
+      legend:
+        'Lo que cambia entre los dos carriles es quién elige el camino. Arriba el camino viene escrito de antemano y lo que se sale de él muere en un «no le he entendido». Abajo el modelo elige qué herramienta usa según lo que le piden. Un código comprueba esa elección antes de que toque nada tuyo.',
+    },
     gateDiagram: {
       title: 'Qué le pasa a un cambio antes de salir',
       nodes: {
@@ -1282,6 +1320,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué es un agente de IA',
             id: 'que-es',
             part: 'La respuesta corta',
+            chatDiagram: true,
             paragraphs: [
               'Un agente de IA es un modelo de lenguaje conectado a herramientas, con autonomía para decidir cuáles usa y en qué orden hasta conseguir lo que se le ha pedido. Las herramientas son acciones concretas que alguien le ha dado, consultar una base de datos, crear una cita, enviar un correo. Lo que lo separa de un programa de siempre es que elige el camino en lugar de recorrer uno marcado de antemano.',
               'Conviene deshacer aquí una confusión frecuente. La frontera no es que el chat hable y el agente actúe, porque los asistentes de uso general llevan tiempo llamando a herramientas y también hacen cosas. En una empresa la frontera que importa es otra, sobre qué sistemas actúa y con los permisos de quién. Un asistente público actúa sobre las herramientas que trae de fábrica. Un agente de empresa actúa sobre los tuyos, con los permisos de la persona que lo usa y dentro de los límites que tú apruebes.',
@@ -2606,6 +2645,24 @@ export const content: Record<Lang, SiteContent> = {
       edges: { contract: 'JSON contract', rejects: 'rejects', accepts: 'accepts' },
       legend:
         'The model never reaches your systems. It interprets the question and hands over a contract, and from there the code decides, and the code does behave the same every time. The worst a malicious message can achieve is a wrong pick from a list we have already reviewed.',
+    },
+    chatVsAgent: {
+      title: 'A scripted chatbot and an agent, side by side',
+      nodes: {
+        pregunta: 'The person writes',
+        guion: 'Fixed script',
+        respuestaFija: 'Scripted reply',
+        fueraDelGuion: 'Off the script',
+        modeloElige: 'The model chooses',
+        herramientaA: 'Check the calendar',
+        herramientaB: 'Search the documentation',
+        herramientaC: 'Register the record',
+        valida: 'Code validates',
+        tareaHecha: 'Task done in your systems',
+      },
+      edges: { muere: 'I did not understand' },
+      legend:
+        'What changes between the two lanes is who picks the path. On the top lane the path is written in advance and anything outside it dies in an "I did not understand". On the bottom lane the model picks which tool to use for what it was asked, and code checks that choice before it touches anything of yours.',
     },
     gateDiagram: {
       title: 'What happens to a change before it ships',

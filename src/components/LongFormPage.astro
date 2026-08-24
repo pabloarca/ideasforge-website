@@ -19,6 +19,7 @@ import ClusterPosts from './ClusterPosts.astro';
 import FaqList from './FaqList.astro';
 import { pillarFromUrl } from '../lib/cluster';
 import FlowDiagram from './FlowDiagram.astro';
+import ChatVsAgentDiagram from './ChatVsAgentDiagram.astro';
 import LatticeDots from './LatticeDots.astro';
 import RouteReveal from './RouteReveal.astro';
 import { localizedPath } from '../i18n/utils';
@@ -223,6 +224,7 @@ const hasNav = page.nav ?? page.sections.length >= 4;
                 </div>
               </div>
               {section.diagram && <FlowDiagram lang={lang} />}
+              {section.chatDiagram && <ChatVsAgentDiagram lang={lang} />}
 
               {/* Reticula continua: elementos paralelos, el idioma de «Lo que
                   construimos». Dos columnas y no cuatro porque aqui cada elemento
