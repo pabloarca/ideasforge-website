@@ -138,4 +138,36 @@ Detalle completo en el criterio 7 del árbitro.
 - **Metáfora que obliga a descifrar, fuera.** Si el lector tiene que traducir
   la imagen (el folleto, la silla, la cocina, la vara, la tubería, el suelo
   que se mueve), se dice en llano. La prueba es leer la frase en voz alta
-  ante alguien de fuera del sector.
+  ante alguien de fuera del sector. La frase llana gana siempre; la metáfora
+  solo entra cuando además de sonar bien es lo más corto y lo más exacto.
+
+## Los cuatro fallos que más se repiten, y cómo se evitan
+
+Salen de la revisión del 24 ago 2026, cuando el propietario encontró leyendo
+tres errores de fondo que el verificador no puede ver. Se comprueban SIEMPRE
+antes de dar una pieza por terminada.
+
+1. **Releer la sección entera renderizada, no el diff.** Casi todo lo que se
+   rompe es del tipo «cambié una frase y no releí a sus vecinas»: un intro que
+   anuncia cuatro elementos sobre una lista de cinco, un «segundo miedo» cuyo
+   primero se cortó, un subtítulo con la definición vieja tres líneas encima de
+   la nueva. El diff no enseña eso. Vuelca la sección como texto corrido y
+   léela entera.
+2. **Ninguna afirmación se presenta como hecho sin poder rastrearla.** Tres
+   caminos y ninguno más. Si habla de nosotros, sale del banco como
+   VERIFICADO. Si habla del mundo (definiciones, mercado, datos de terceros),
+   lleva fuente nombrada y comprobable, y esa fuente se anota en el banco al
+   usarla, como ya se hizo con Gartner, Stanford, Anthropic o el EDPB; el
+   material externo que traiga el propietario entra por aquí. Y si es
+   deducción nuestra, se dice que lo es («por nuestra experiencia», «nuestra
+   lectura») o se corta. Lo prohibido es vestir una deducción de hecho, que
+   fue exactamente el fallo del párrafo del formato fijo.
+3. **Ojo al tópico del sector.** Cuando no se verifica, no se inventa: se
+   recita lo que más se repite en la red, y llega con la seguridad de una
+   frase muy leída. Así entró «los chatbots hablan, los agentes actúan», que
+   es falso y además contradecía a otra sección de la misma página. Es el
+   mismo comportamiento que el árbitro describe en §11 («elige lo que ha
+   visto más veces»), aplicado a quien escribe.
+4. **`check:copy` en verde no significa terminado.** Solo caza comas, puntos
+   y coma y dos puntos. No ve una afirmación falsa, una referencia colgada ni
+   una contradicción entre dos párrafos. Es el suelo, nunca el techo.
