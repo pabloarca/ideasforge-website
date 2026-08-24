@@ -3007,15 +3007,8 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Guide',
           title: 'AI automation, what it is and what it can do for your business',
           subtitle:
-            'AI automation means software that understands language and documents well enough to run work that used to need a person, and this guide explains it without selling you a platform. The five shapes it takes, what breaks, what it costs and the questions worth asking before you hire anyone. Written from the systems we keep in production. Updated August 2026.',
-          cta: 'See the five shapes it takes',
-          ctaHref: '#shapes',
+            'AI automation means software that understands language and documents well enough to run work that used to need a person, and this guide explains it without selling you a platform. The five shapes it takes, what breaks, what it costs and the questions worth asking before you hire anyone. Updated August 2026.',
         },
-        stats: [
-          { value: '5', label: 'of our systems running today with real users' },
-          { value: '118', label: 'real cases in the test battery of one of them' },
-          { value: '~€0.05', label: 'cost of the weekly test that runs a real system from end to end' },
-        ],
         sections: [
           {
             heading: 'What AI automation is',
@@ -3023,9 +3016,8 @@ export const content: Record<Lang, SiteContent> = {
             part: 'The short answer',
             paragraphs: [
               'AI automation is the use of language models inside business processes so that work which used to need a person reading, interpreting or deciding can run on its own. The word covers everything from an invoice that files itself to an assistant that answers questions against your databases, and that breadth is why most of what you find when you search it is a list of twenty tools. This guide is not a tool list. It explains the thing itself, from systems we run in production, so you can judge any tool or any proposal, including ours.',
-              'There are three pieces inside one of these systems and it is worth telling them apart, because each does a different job. The language model understands what a person wrote or what a document says, however badly it was written. Ordinary software, the kind that has existed for decades, decides what happens with that understanding, under whose permissions and within which limits. And your data is the information the answer gets built from.',
+              'There are three pieces inside one of these systems and it is worth telling them apart, because each does a different job. The first is the language model, which understands what a person wrote or what a document says, however badly it was written, and decides which tool the case calls for. The second is the code, ordinary software of the kind that has existed for decades, which checks whether the request can be served, under whose permissions and within which limits. And the third is your data, the information the answer gets built from.',
               'If you take one idea from this guide, take that split. What makes these systems useful is the model. What makes them reliable is everything else.',
-              'The reason this field took off now, and not five years ago, is narrow and concrete. Today’s models can hand back what they understood in a fixed structure, with named fields, instead of in a paragraph somebody would have to read again. It sounds like a detail and it changes everything, because a fixed structure can be checked by a program before anything happens and free text cannot.',
             ],
           },
           {
