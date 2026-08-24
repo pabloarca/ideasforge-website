@@ -590,7 +590,7 @@ export const content: Record<Lang, SiteContent> = {
             title: 'Soporte y mantenimiento',
             icon: 'soporte',
             description:
-              'No te dejamos un sistema y nos vamos. Lo operamos contigo, lo afinamos y absorbemos los modelos nuevos cuando salen.',
+              'No te dejamos un sistema y nos vamos. Lo operamos contigo, lo afinamos y nos encargamos de los modelos nuevos cuando salen.',
             proof: '103 controles en producción',
             pageLabel: 'IA para pymes',
             href: '/pymes',
@@ -606,12 +606,12 @@ export const content: Record<Lang, SiteContent> = {
       items: [
         {
           title: 'Observabilidad por defecto',
-          body: 'Cada cambio pasa por un banco de pruebas de regresión antes de publicarse y después seguimos midiendo cada semana. Si algo deja de entender bien una consulta, nos enteramos antes que tú.',
+          body: 'Cada cambio pasa por una batería de pruebas antes de publicarse y después seguimos midiendo cada semana. Si algo deja de entender bien una consulta, nos enteramos antes que tú.',
           modal: {
             eyebrow: 'Observabilidad por defecto',
             title: 'Medimos cada cambio antes de que llegue a producción',
             subtitle:
-              'Tu proveedor actualiza el modelo que tienes debajo sin cambiarle el nombre, tu documentación no para de crecer y el sistema que ayer respondía bien hoy empieza a responder mal.',
+              'Tu proveedor actualiza el modelo sobre el que corre tu sistema sin cambiarle el nombre, tu documentación no para de crecer y el sistema que ayer respondía bien hoy empieza a responder mal.',
             bullets: [
               { title: 'Pruebas antes de publicar', body: 'Si un cambio empeora la calidad, no llega a tus usuarios.' },
               { title: 'Sabemos por qué respondió eso', body: 'Queda registrado qué consultó y qué descartó.' },
@@ -670,7 +670,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               {
                 heading: 'Dónde nace de verdad',
-                body: 'Empieza cuando las instrucciones que gobiernan el sistema viven en la cabeza de quien las escribió y nadie más puede comprobar si un cambio las empeora. Crece cuando la documentación cuenta lo que se pensaba hacer en lugar de lo que acabó haciéndose. Para cuando quieres cambiar de proveedor, ya nadie te lo impide por contrato, simplemente no queda nadie capaz de explicar cómo funciona aquello.',
+                body: 'Empieza cuando las instrucciones que gobiernan el sistema solo las conoce quien las escribió y nadie más puede comprobar si un cambio las empeora. Crece cuando la documentación cuenta lo que se pensaba hacer en lugar de lo que acabó haciéndose. Para cuando quieres cambiar de proveedor, ya nadie te lo impide por contrato, simplemente no queda nadie capaz de explicar cómo funciona aquello.',
               },
               {
                 heading: 'Y mientras tanto, el suelo se mueve',
@@ -1003,7 +1003,7 @@ export const content: Record<Lang, SiteContent> = {
         stats: [
           { value: '72 % → 91 %', label: 'de acierto del enrutado tras calibrarlo sobre 118 casos reales' },
           { value: '6', label: 'agentes especializados coordinados por un orquestador en el caso industrial' },
-          { value: '~92 %', label: 'el techo que asumimos a conciencia, porque perseguir el cien moldea el examen' },
+          { value: '~92 %', label: 'el techo que asumimos a conciencia, en vez de ajustar el examen para aprobarlo' },
         ],
         sections: [
           {
@@ -1011,7 +1011,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'A quién le pasa',
             paragraphs: [
               'Para medianas y grandes empresas cuyo conocimiento vive repartido entre documentación, wikis y sistemas, SharePoint, Azure, Confluence, el ERP, los sistemas industriales. Y en particular para la persona de I+D o de innovación que tiene que defender este proyecto delante de un comité, porque cada sección de esta página está pensada para darle argumentos que sobrevivan a las preguntas de seguridad, de sistemas y de legal.',
-              'Si tu empresa cabe en una frase, es esta. Hay respuestas que existen dentro de la organización y encontrarlas cuesta más que merecería, porque viven en un documento denso, en un sistema aparte o en la cabeza de las tres personas más veteranas.',
+              'La situación se resume en una frase. Hay respuestas que existen dentro de la organización y encontrarlas cuesta mucho más de lo que debería, porque viven en un documento denso, en un sistema aparte o en la cabeza de las tres personas más veteranas.',
             ],
           },
           {
@@ -1019,7 +1019,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'A quién le pasa',
             paragraphs: [
               'El síntoma es conocido. Alguien necesita un dato técnico, un procedimiento o el histórico de un problema y la respuesta existe, pero está enterrada. Se pregunta al compañero, el compañero pregunta al veterano y el veterano lo sabe de memoria porque el documento que lo cuenta tiene doscientas páginas. Cada consulta de estas roba minutos a dos o tres personas a la vez, siempre a las mismas.',
-              'La factura real no son solo los minutos. Es la dependencia de unos pocos, que convierte cada vacación y cada jubilación en un riesgo operativo. Es la decisión tomada sin el dato, porque buscarlo costaba más que arriesgarse. Y es el conocimiento nuevo que deja de escribirse, porque nadie escribe para un archivo donde nada se encuentra.',
+              'El coste real no son solo los minutos. Es la dependencia de unas pocas personas, que convierte cada baja y cada jubilación en un riesgo para la operación. Es la decisión tomada sin el dato, porque buscarlo costaba más que arriesgarse. Y es el conocimiento nuevo que deja de escribirse, porque nadie escribe para un archivo donde nada se encuentra.',
             ],
           },
           {
@@ -1042,7 +1042,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Media docena de agentes, un solo interlocutor',
             part: 'Lo que construimos',
             paragraphs: [
-              'A cierta escala, un solo agente que lo hace todo se convierte en un monolito imposible de mantener. Nuestra arquitectura para estos casos es otra. Un orquestador entiende la intención de cada pregunta y la enruta al agente especializado que corresponde, uno por dominio de conocimiento. En el caso industrial que sostiene esta página, ese orquestador coordina media docena de agentes especializados y el conjunto suma unos 86 nodos.',
+              'A partir de cierto tamaño, un solo agente que lo hace todo se convierte en una pieza enorme e imposible de mantener. Nuestra arquitectura para estos casos es otra. Un orquestador entiende la intención de cada pregunta y la enruta al agente especializado que corresponde, uno por dominio de conocimiento. En el caso industrial que sostiene esta página, ese orquestador coordina media docena de agentes especializados y el conjunto suma unas 86 piezas conectadas entre sí.',
               'Para quien pregunta, nada de esto se ve. Escribe su pregunta y recibe su respuesta. La arquitectura importa por lo que permite, añadir un dominio nuevo sin tocar los demás, medir cada agente por separado y que un fallo en uno no arrastre al conjunto.',
             ],
           },
@@ -1056,15 +1056,15 @@ export const content: Record<Lang, SiteContent> = {
             link: { label: 'Dos «no» que no son el mismo', href: '/blog/dos-noes-que-no-son-el-mismo' },
           },
           {
-            heading: 'La aclaración que no gasta un turno',
+            heading: 'Cuando la aclaración no necesita al modelo',
             part: 'Cómo se gana la confianza',
             paragraphs: [
-              'Un detalle de diseño que enseña cómo pensamos. Cuando el asistente ofrece varias opciones, la respuesta corta de la persona, un ordinal, un término suelto, un «la segunda», se resuelve sin llamar al modelo, con una lógica de términos y ordinales que caduca a los quince minutos. Parece un ahorro menor y es tres cosas a la vez, una respuesta instantánea, una llamada menos que pagar y un turno menos expuesto a instrucciones maliciosas escondidas en el texto.',
+              'Un detalle de diseño que enseña cómo pensamos. Cuando el asistente ofrece varias opciones, la respuesta corta de la persona, un ordinal, un término suelto, un «la segunda», se resuelve sin llamar al modelo, con una regla sencilla que reconoce esos términos y esos números y que caduca a los quince minutos. Parece un ahorro menor y es tres cosas a la vez, una respuesta instantánea, una llamada menos que pagar y un mensaje menos expuesto a instrucciones maliciosas escondidas en el texto.',
               'La regla general detrás del detalle es que el modelo se usa donde aporta, entender lenguaje abierto. Se evita donde un programa normal hace el mismo trabajo más rápido, más barato y sin sorpresas.',
             ],
           },
           {
-            heading: 'Cada uno ve lo que su rol permite, también aquí',
+            heading: 'Cada persona ve lo que su puesto permite',
             part: 'Cómo se gana la confianza',
             paragraphs: [
               'Un asistente que lee toda la documentación de la empresa plantea una pregunta obvia, la de quién puede preguntarle qué. Nuestra respuesta es que el asistente hereda los permisos que ya existen. La recuperación de documentos respeta el rol de quien pregunta, así que nadie recibe en una respuesta un fragmento que no podría abrir a mano. Y cuando el asistente consulta un sistema interno, viaja con la identidad de la persona, no con una cuenta de robot que lo ve todo.',
@@ -1077,7 +1077,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'La prueba',
             paragraphs: [
               'Todo lo anterior funciona hoy en una gran empresa industrial. Operarios y supervisores consultan datos de producción y de averías, siguen diagnósticos guiados de máquinas y resuelven dudas técnicas, en lenguaje natural y sobre la infraestructura de la propia empresa.',
-              'Los números son públicos porque los medimos nosotros. La calibración del enrutado, la pieza que decide qué agente atiende cada pregunta, se midió sobre 118 casos reales y pasó del 72 % al 91 % de acierto. Probamos también un modelo más barato para esa pieza y el banco de pruebas lo vetó, perdía diez puntos globales. Y asumimos un techo a conciencia, alrededor del 92 %, porque perseguir el cien por cien acaba moldeando el examen a favor del sistema en lugar de mejorar el sistema.',
+              'Podemos enseñar los números porque los medimos nosotros. La calibración del enrutado, la pieza que decide qué agente atiende cada pregunta, se midió sobre 118 casos reales y pasó del 72 % al 91 % de acierto. Probamos también un modelo más barato para esa pieza y el banco de pruebas lo rechazó, perdía diez puntos de acierto. Y asumimos un techo a conciencia, alrededor del 92 %, porque perseguir el cien por cien acaba llevándote a ajustar las pruebas para que el sistema apruebe, en lugar de a mejorar el sistema.',
               'Esa última decisión es la que más confianza suele generar en un comité técnico, porque es la que un vendedor de humo jamás contaría.',
             ],
           },
@@ -1099,7 +1099,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             bullets: [
               'Arquitectura multiagente. Un orquestador entiende la intención y enruta a agentes especializados. Escala por dominios sin volverse un monolito.',
-              'Recuperación fiable. La búsqueda que alimenta al modelo está diseñada para respuestas completas y correctas, sin filtrar detalles internos a quien no debe verlos.',
+              'Recuperación fiable. La búsqueda que alimenta al modelo está diseñada para respuestas completas y correctas, sin dejar escapar detalles internos a quien no debe verlos.',
               'Calidad medible. Baterías de prueba que verifican antes de cada cambio que el asistente sigue entendiendo y respondiendo bien.',
               'Integración con tus sistemas. ERP, bases de datos, cuentas de tu organización y sistemas industriales, con los permisos de cada persona.',
               'Registro de decisiones. Cada interacción deja escrito qué se entendió y por qué se respondió lo que se respondió, para poder auditarlo después.',
@@ -1123,7 +1123,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Cómo se mantiene al día cuando la documentación cambia?',
-            a: 'La ingesta de documentos se relanza con los cambios y la calidad se vigila con dos ritmos, una batería de casos reales antes de cada cambio nuestro y una prueba semanal sobre el sistema vivo. Cuando algo deja de encontrarse o de entenderse bien, lo vemos en las métricas antes de que se convierta en queja.',
+            a: 'Los documentos se vuelven a procesar cuando cambian y la calidad se vigila de dos maneras, una batería de casos reales antes de cada cambio nuestro y una prueba semanal sobre el sistema en marcha. Cuando algo deja de encontrarse o de entenderse bien, lo vemos en las métricas antes de que se convierta en queja.',
           },
           {
             q: '¿Funciona con nuestro vocabulario y en varios idiomas?',
@@ -1148,7 +1148,7 @@ export const content: Record<Lang, SiteContent> = {
         hero: {
           title: 'La misma ingeniería, empaquetada para tu pyme',
           subtitle:
-            'Cada paquete se acota a un resultado concreto y se presupuesta cerrado, con la misma profundidad técnica que usamos en proyectos grandes.',
+            'Cada paquete se acota a un resultado concreto y se presupuesta con precio cerrado, con la misma profundidad técnica que usamos en proyectos grandes.',
           cta: 'Cuéntanos tu reto',
         },
         packages: {
@@ -1175,7 +1175,7 @@ export const content: Record<Lang, SiteContent> = {
             {
               title: 'Soporte y observabilidad',
               description:
-                'No te dejamos un sistema y nos vamos. Los bancos de pruebas bloquean cada cambio que empeore la calidad y el seguimiento sigue cada semana.',
+                'No te dejamos un sistema y nos vamos. Las baterías de pruebas bloquean cualquier cambio que empeore la calidad y la vigilancia continúa cada semana.',
             },
           ],
         },
@@ -1189,16 +1189,16 @@ export const content: Record<Lang, SiteContent> = {
         hero: {
           title: 'Tu inmobiliaria atendiendo 24/7, sin desbordar al equipo',
           subtitle:
-            'Un agente de IA que recibe la solicitud, hace las preguntas de calificación y solo escala al equipo humano las solicitudes que cumplen los criterios. Especialmente útil en los picos de demanda de alquiler.',
+            'Un agente de IA que recibe la solicitud, hace las preguntas de cualificación y solo escala al equipo humano las solicitudes que cumplen los criterios. Especialmente útil en los picos de demanda de alquiler.',
           cta: 'Cuéntanos tu reto',
         },
         problem: {
           heading: 'El problema',
-          body: 'Cada solicitud entrante pasa por un mismo cuello de botella: alguien tiene que leerla, calificarla y decidir si vale la pena programar una visita. Son entre cinco y diez minutos por solicitud, decenas de veces al día. En picos de alquiler se acumulan horas de retraso y los interesados se enfrían.',
+          body: 'Cada solicitud entrante pasa por un mismo cuello de botella: alguien tiene que leerla, cualificarla y decidir si vale la pena programar una visita. Son entre cinco y diez minutos por solicitud, decenas de veces al día. En picos de alquiler se acumulan horas de retraso y los interesados se enfrían.',
         },
         solution: {
           heading: 'La solución',
-          body: 'Un agente conversacional que recibe la solicitud, pregunta zona, presupuesto, fechas y requisitos y solo escala al equipo las solicitudes que pasan el filtro. El equipo recibe un resumen por correo con el veredicto de apto o no apto y un párrafo que lo justifica. El interesado recibe respuesta inmediata y el rastro completo queda en el CRM.',
+          body: 'Un agente conversacional que recibe la solicitud y pregunta zona, presupuesto, fechas y requisitos. Al equipo solo le escala las que pasan el filtro. El equipo recibe un resumen por correo con el veredicto de apto o no apto y un párrafo que lo justifica. El interesado recibe respuesta inmediata y el rastro completo queda en el CRM.',
         },
         proof: {
           heading: 'Prueba en producción',
@@ -1228,7 +1228,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         solution: {
           heading: 'La solución',
-          body: 'OCR + modelo de lenguaje para leer e interpretar el documento, capa de validación para comprobar que los totales cuadran y entrada directa al ERP. El equipo solo revisa los casos dudosos.',
+          body: 'Un OCR convierte la imagen del documento en texto y un modelo de lenguaje lo interpreta. Después, una capa de validación comprueba que los totales cuadran antes de que el dato entre en tus sistemas. El equipo solo revisa los casos dudosos.',
         },
         proof: {
           heading: 'Prueba en producción',
@@ -2091,7 +2091,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Guía de precios',
           title: '¿Cuánto cuesta un agente de IA?',
           subtitle:
-            'Un agente de IA a medida construido por Ideasforge cuesta entre 2.500 y 10.000 € de construcción, más 150 a 500 € al mes para mantenerlo funcionando y medido. Esta página explica qué mueve esa cifra, con datos de coste reales de nuestros sistemas en producción.',
+            'Un agente de IA a medida construido por Ideasforge cuesta entre 2.500 y 10.000 € de construcción, más 150 a 500 € al mes para mantenerlo funcionando y vigilado. Esta página explica qué mueve esa cifra, con datos de coste reales de nuestros sistemas en producción.',
           cta: 'Ver qué mueve el precio',
           ctaHref: '#factores',
         },
@@ -2105,9 +2105,9 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'La respuesta corta',
             id: 'respuesta',
             paragraphs: [
-              'Un agente de un solo trabajo se queda en la parte baja del rango. Un canal, un sistema al que conectarse y una tarea acotada, como leer las facturas que llegan a un chat y convertir cada una en una fila normalizada. Construirlo arranca en torno a 2.500 €. Operarlo, en torno a 150 € al mes.',
+              'Un agente de un solo trabajo se queda en la parte baja del rango. Un canal, un sistema al que conectarse y una tarea acotada, como leer las facturas que llegan a un chat y convertir cada una en una fila de datos lista para usar. Construirlo arranca en torno a 2.500 €. Operarlo, en torno a 150 € al mes.',
               'La parte alta es para agentes que tocan varios sistemas y necesitan más validación antes de salir, como un asistente que responde desde tu documentación y además consulta datos vivos. Esas construcciones se acercan a los 10.000 € y su operación se sitúa en la parte alta del rango mensual.',
-              'Los sistemas multiagente más grandes, como un asistente de planta que enruta cada pregunta a subagentes especializados, quedan fuera de estos rangos y se presupuestan por proyecto.',
+              'Los sistemas multiagente más grandes, como un asistente de planta que dirige cada pregunta al subagente especializado que le toca, quedan fuera de estos rangos y se presupuestan por proyecto.',
             ],
           },
           {
@@ -2126,15 +2126,15 @@ export const content: Record<Lang, SiteContent> = {
             id: 'operacion',
             paragraphs: [
               'Cada mensaje que envía una persona dispara llamadas al proveedor del modelo y esas llamadas son el coste bruto de tener un agente en marcha. En Wazzy lo medimos por capas: leer y estructurar el mensaje que entra se lleva entre el 52 y el 57 % del gasto de modelo, decidir qué hacer a continuación entre el 24 y el 31 % y escribir la respuesta entre el 16 y el 19 %.',
-              'Conocer ese reparto es lo que convierte recortar coste en una medición y no en una apuesta. En uno de nuestros sistemas probamos un modelo más barato y la batería de pruebas lo vetó, porque la calidad general bajaba diez puntos.',
-              'El resto de la cuota paga la vigilancia. Una vez por semana lanzamos una conversación real contra el sistema vivo de principio a fin, por unos cinco céntimos. Y antes de publicar cualquier cambio tiene que pasar una batería de regresión. Son dos ritmos separados a propósito. La batería frena los cambios, la prueba semanal vigila lo que ya está funcionando.',
+              'Conocer ese reparto es lo que permite recortar coste midiendo, en lugar de a ciegas. En uno de nuestros sistemas probamos un modelo más barato y la batería de pruebas lo descartó, porque la calidad general bajaba diez puntos.',
+              'El resto de la cuota paga la vigilancia. Una vez por semana lanzamos una conversación real contra el sistema vivo de principio a fin, por unos cinco céntimos. Y antes de publicar cualquier cambio tiene que pasar la batería de pruebas. Son dos cosas distintas y separadas a propósito. La batería frena los cambios, la prueba semanal vigila lo que ya está funcionando.',
             ],
             link: { label: 'Por qué mantener viva la IA es lo difícil', href: '/blog/mantener-viva-la-ia' },
           },
           {
             heading: 'Qué es tuyo al final',
             paragraphs: [
-              'El repositorio está a tu nombre desde el primer día y la infraestructura corre en una cuenta de nube que es tuya, no nuestra. Si nos separamos, el sistema se queda contigo, con su documentación y su historia.',
+              'El repositorio está a tu nombre desde el primer día y la infraestructura corre en una cuenta de nube que es tuya, no nuestra. Si nos separamos, el sistema se queda contigo, con su documentación y su historial.',
               'Eso explica también qué no incluye la cuota. No estás alquilando el agente, así que el coste mensual es operación y no una licencia que deja de funcionar cuando dejas de pagar.',
             ],
             link: { label: 'Cómo construimos agentes de IA', href: '/servicios/desarrollo-de-agentes-de-ia' },
@@ -2144,7 +2144,7 @@ export const content: Record<Lang, SiteContent> = {
         faq: [
           {
             q: '¿Cuánto cuesta un chatbot con IA?',
-            a: 'Un chatbot de atención se queda en la parte baja del rango, desde 2.500 € de construcción, porque suele vivir en un solo canal y beber de una sola fuente de conocimiento. El precio sube cuando deja de solo responder y empieza a actuar, reservando citas o actualizando fichas, porque cada acción necesita sus permisos y sus pruebas.',
+            a: 'Un chatbot de atención se queda en la parte baja del rango, desde 2.500 € de construcción, porque suele vivir en un solo canal y consultar una sola fuente de conocimiento. El precio sube cuando deja de solo responder y empieza a actuar, reservando citas o actualizando fichas, porque cada acción necesita sus permisos y sus pruebas.',
           },
           {
             q: '¿Por qué hay una cuota mensual?',
@@ -2341,12 +2341,12 @@ export const content: Record<Lang, SiteContent> = {
       items: [
         {
           title: 'Observability by default',
-          body: 'Every change goes through a regression suite before it ships, and we keep measuring every week afterwards. If one of them stops understanding queries well, we know before you do.',
+          body: 'Every change goes through the test suite before it ships, and we keep measuring every week afterwards. If one of them stops understanding queries well, we know before you do.',
           modal: {
             eyebrow: 'Observability by default',
             title: 'We measure every change before it ships to production',
             subtitle:
-              'Your provider updates the model underneath without changing its name, your documentation keeps growing, and the system that answered well yesterday starts answering badly today.',
+              'Your provider updates the model your system runs on without changing its name, your documentation keeps growing, and the system that answered well yesterday starts answering badly today.',
             bullets: [
               { title: 'Tests before going live', body: 'If a change lowers quality, it never reaches your users.' },
               { title: 'We know why it answered that', body: 'What it consulted and what it discarded is on record.' },
@@ -2404,7 +2404,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               {
                 heading: 'Where it really starts',
-                body: 'It begins when the instructions that govern the system live in the head of whoever wrote them and nobody else can check whether a change makes them worse. It grows when documentation describes what someone meant to do instead of what ended up being done. By the time you want to switch providers, no contract is stopping you, there is simply nobody left who can explain how the thing works.',
+                body: 'It begins when the instructions that govern the system are known only to whoever wrote them and nobody else can check whether a change makes them worse. It grows when documentation describes what someone meant to do instead of what ended up being done. By the time you want to switch providers, no contract is stopping you, there is simply nobody left who can explain how the thing works.',
               },
               {
                 heading: 'And meanwhile the ground moves',
@@ -2741,7 +2741,7 @@ export const content: Record<Lang, SiteContent> = {
         stats: [
           { value: '72% → 91%', label: 'routing accuracy after calibration on 118 real cases' },
           { value: '6', label: 'specialised agents coordinated by one orchestrator in the industrial case' },
-          { value: '~92%', label: 'the ceiling we accept on purpose, because chasing 100 shapes the exam' },
+          { value: '~92%', label: 'the ceiling we accept on purpose, rather than tune the exam to pass it' },
         ],
         sections: [
           {
@@ -2749,7 +2749,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Who it happens to',
             paragraphs: [
               'For mid-size and large companies whose knowledge lives scattered across documentation, wikis and systems, SharePoint, Azure, Confluence, the ERP, the industrial systems. And in particular for the R&D or innovation lead who has to defend this project in front of a committee, because every section here is meant to hand that person arguments that survive the questions from security, IT and legal.',
-              'If your company fits in one sentence, it is this one. Answers exist inside the organisation, and finding them costs more than it should, because they live in a dense document, in a separate system or in the heads of the three most senior people.',
+              'The situation fits in one sentence. Answers exist inside the organisation, and finding them costs far more than it should, because they live in a dense document, in a separate system or in the heads of the three most senior people.',
             ],
           },
           {
@@ -2757,7 +2757,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Who it happens to',
             paragraphs: [
               'The symptom is familiar. Someone needs a technical fact, a procedure or the history of a problem, and the answer exists but is buried. They ask a colleague, the colleague asks the veteran and the veteran knows it by heart because the document that holds it is two hundred pages long. Each of these queries steals minutes from two or three people at once, always the same ones.',
-              'The real bill is not only the minutes. It is the dependence on a few people, which turns every holiday and every retirement into an operational risk. It is the decision taken without the fact, because finding it cost more than the gamble. And it is the new knowledge that stops being written down, because nobody writes for an archive where nothing can be found.',
+              'The real cost is not only the minutes. It is the dependence on a few people, which turns every absence and every retirement into an operational risk. It is the decision taken without the fact, because finding it cost more than the gamble. And it is the new knowledge that stops being written down, because nobody writes for an archive where nothing can be found.',
             ],
           },
           {
@@ -2780,7 +2780,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Half a dozen agents, one conversation',
             part: 'What we build',
             paragraphs: [
-              'At a certain scale, a single agent that does everything becomes a monolith nobody can maintain. Our architecture for these cases is different. An orchestrator understands the intent of each question and routes it to the specialised agent for that domain, one per area of knowledge. In the industrial case behind this page, that orchestrator coordinates half a dozen specialised agents and the whole adds up to some 86 nodes.',
+              'Past a certain size, a single agent that does everything becomes one huge piece nobody can maintain. Our architecture for these cases is different. An orchestrator understands the intent of each question and routes it to the specialised agent for that domain, one per area of knowledge. In the industrial case behind this page, that orchestrator coordinates half a dozen specialised agents and the whole adds up to some 86 connected pieces.',
               'The person asking sees none of this. They write their question and get their answer. The architecture matters for what it allows, adding a new domain without touching the others, measuring each agent separately and keeping a failure in one from dragging down the rest.',
             ],
           },
@@ -2794,15 +2794,15 @@ export const content: Record<Lang, SiteContent> = {
             link: { label: 'Two kinds of "no" that are not the same', href: '/en/blog/two-kinds-of-no' },
           },
           {
-            heading: 'The clarification that spends no turn',
+            heading: 'When the clarification does not need the model',
             part: 'How trust is earned',
             paragraphs: [
-              'One design detail that shows how we think. When the assistant offers several options, the person’s short reply, an ordinal, a bare term, a "the second one", is resolved without calling the model, through plain term-and-ordinal logic that expires after fifteen minutes. It looks like a minor saving and is three things at once, an instant response, one less call to pay for and one less turn exposed to malicious instructions hidden in text.',
+              'One design detail that shows how we think. When the assistant offers several options, the person’s short reply, an ordinal, a bare term, a "the second one", is resolved without calling the model, through a simple rule that recognises those terms and those numbers and that expires after fifteen minutes. It looks like a minor saving and is three things at once, an instant response, one less call to pay for and one less message exposed to malicious instructions hidden in text.',
               'The general rule behind the detail is that the model gets used where it earns its place, understanding open language, and avoided where an ordinary program does the same job faster, cheaper and without surprises.',
             ],
           },
           {
-            heading: 'Everyone sees what their role allows, here too',
+            heading: 'Everyone sees what their job allows',
             part: 'How trust is earned',
             paragraphs: [
               'An assistant that reads all of the company’s documentation raises an obvious question, who may ask it what. Our answer is that the assistant inherits the permissions that already exist. Retrieval respects the role of whoever asks, so nobody receives in an answer a fragment they could not open by hand. And when the assistant queries an internal system, it travels with the person’s identity, not with an all-seeing robot account.',
@@ -2815,7 +2815,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'The proof',
             paragraphs: [
               'Everything above runs today at a large industrial company. Operators and supervisors query production and fault data, follow guided machine diagnoses and resolve technical questions, in natural language, on the company’s own infrastructure.',
-              'The numbers are public because we measured them. Routing calibration, the piece that decides which agent takes each question, was measured on 118 real cases and went from 72 to 91 percent accuracy. We also tried a cheaper model for that piece and the test battery vetoed it, ten points lost overall. And we accepted a ceiling on purpose, around 92 percent, because chasing one hundred percent ends up shaping the exam in the system’s favour instead of improving the system.',
+              'We can show the numbers because we measured them ourselves. Routing calibration, the piece that decides which agent takes each question, was measured on 118 real cases and went from 72 to 91 percent accuracy. We also tried a cheaper model for that piece and the test battery rejected it, ten points of accuracy lost. And we accepted a ceiling on purpose, around 92 percent, because chasing one hundred percent ends up tuning the tests to pass rather than improving the system.',
               'That last decision tends to earn the most trust in a technical committee, because it is the one a smoke seller would never tell.',
             ],
           },
@@ -2836,8 +2836,8 @@ export const content: Record<Lang, SiteContent> = {
               'For the technical review, this is what sits underneath, one line per piece.',
             ],
             bullets: [
-              'Multi-agent architecture. An orchestrator understands intent and routes to specialised agents. Scales by domain without becoming a monolith.',
-              'Reliable retrieval. The search that feeds the model is designed for complete, correct answers, without leaking internal detail to the wrong reader.',
+              'Multi-agent architecture. An orchestrator understands intent and routes to specialised agents. It grows domain by domain instead of turning into one unmanageable piece.',
+              'Reliable retrieval. The search that feeds the model is designed for complete, correct answers, without letting internal detail reach the wrong reader.',
               'Measurable quality. Test batteries verify before every change that the assistant still understands and answers correctly.',
               'Integration with your systems. ERP, databases, your organization’s accounts and industrial systems, under each person’s own permissions.',
               'Decision log. Every interaction leaves a written record of what was understood and why the answer was given, auditable afterwards.',
@@ -2861,7 +2861,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'How does it stay current when documentation changes?',
-            a: 'Document ingestion is re-run as things change, and quality is watched with two rhythms, a battery of real cases before each change of ours and a weekly probe on the live system. When something stops being found or understood, it shows in the metrics before it becomes a complaint.',
+            a: 'Documents are processed again whenever they change, and quality is watched in two ways, a battery of real cases before each change of ours and a weekly probe on the live system. When something stops being found or understood, it shows in the metrics before it becomes a complaint.',
           },
           {
             q: 'Does it handle our house vocabulary, and several languages?',
@@ -2886,7 +2886,7 @@ export const content: Record<Lang, SiteContent> = {
         hero: {
           title: 'Same engineering, packaged for your small business',
           subtitle:
-            'Each package is scoped to one concrete outcome and quoted as a fixed price, with the same depth we use on larger projects.',
+            'Each package is scoped to one concrete outcome and quoted at a fixed price, with the same depth we use on larger projects.',
           cta: 'Tell us your challenge',
         },
         packages: {
@@ -2913,7 +2913,7 @@ export const content: Record<Lang, SiteContent> = {
             {
               title: 'Support and observability',
               description:
-                'We don’t drop a system and leave. The test suites block any change that degrades quality, and the weekly measuring continues.',
+                'We don’t drop a system and leave. The test suites block any change that degrades quality, and the weekly watch carries on.',
             },
           ],
         },
@@ -2967,7 +2967,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         solution: {
           heading: 'The solution',
-          body: 'OCR + language model to read and interpret the document, validation layer to check totals add up and a direct hand-off to the ERP. The team only reviews edge cases.',
+          body: 'An OCR turns the document image into text and a language model interprets it. A validation layer then checks the totals add up before the data reaches your systems. The team only reviews the doubtful cases.',
         },
         proof: {
           heading: 'Proof in production',
@@ -3831,9 +3831,9 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'The short answer',
             id: 'answer',
             paragraphs: [
-              'A single-job agent sits at the lower end of the range. One channel, one system to connect to and a clearly scoped task, like reading the invoices that arrive in a chat and turning each one into a normalized row. Building it starts around €2,500, and running it around €150 a month.',
+              'A single-job agent sits at the lower end of the range. One channel, one system to connect to and a clearly scoped task, like reading the invoices that arrive in a chat and turning each one into a row of data ready to use. Building it starts around €2,500, and running it around €150 a month.',
               'The upper end belongs to agents that touch several systems and need deeper validation before going live, like an assistant that answers from your documentation and also queries live data. Those builds approach €10,000 and their operation sits in the upper part of the monthly range.',
-              'Larger multi-agent systems, like a plant-floor assistant that routes each question to specialized sub-agents, fall outside these ranges and are quoted per project.',
+              'Larger multi-agent systems, like a plant-floor assistant that sends each question to the specialized sub-agent it belongs to, fall outside these ranges and are quoted per project.',
             ],
           },
           {
@@ -3852,15 +3852,15 @@ export const content: Record<Lang, SiteContent> = {
             id: 'operation',
             paragraphs: [
               'Every message a user sends triggers calls to the model provider, and those calls are the raw running cost of an agent. In Wazzy we meter that cost per layer: reading and structuring the incoming message takes 52 to 57 percent of the model spend, deciding what to do next takes 24 to 31 percent and writing the reply takes 16 to 19 percent.',
-              'Knowing the split is what turns cost-cutting into a measurement instead of a gamble. In one of our systems we tried a cheaper model and the test battery vetoed it, because overall quality fell ten points.',
-              'The rest of the fee pays for vigilance. Once a week we run a real conversation against the live system from end to end, at about five cents per run, and before any change ships a regression battery has to pass. Two rhythms, kept separate on purpose. The battery gates changes, and the weekly test watches what is already running.',
+              'Knowing the split is what lets you cut cost by measuring instead of guessing. In one of our systems we tried a cheaper model and the test battery rejected it, because overall quality fell ten points.',
+              'The rest of the fee pays for vigilance. Once a week we run a real conversation against the live system from end to end, at about five cents per run, and before any change ships the test battery has to pass. Two different things, kept separate on purpose. The battery gates changes, and the weekly test watches what is already running.',
             ],
             link: { label: 'Why keeping AI alive is the hard part', href: '/en/blog/keeping-ai-alive' },
           },
           {
             heading: 'What you own at the end',
             paragraphs: [
-              'The repository is in your name from day one and the infrastructure runs in a cloud account that belongs to you, not to us. If we part ways, the system stays yours, with its documentation and its history.',
+              'The repository is in your name from day one and the infrastructure runs in a cloud account that belongs to you, not to us. If we part ways, the system stays yours, with its documentation and its record of changes.',
               'That also explains what the fee does not include. You are not renting the agent, so the monthly cost is operation, not a license that stops working when you stop paying.',
             ],
             link: { label: 'How we build AI agents', href: '/en/ai-agent-development' },
