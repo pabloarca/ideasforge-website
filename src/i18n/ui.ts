@@ -1561,7 +1561,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'El modelo decide, pero nunca es la autoridad. Elige dentro de un conjunto cerrado de acciones que el código revisa antes de ejecutar nada. El agente de un taller puede consultar el historial de un vehículo, proponer cita y enviar un presupuesto. Borrar no puede, porque esa acción no existe en su lista y pedírsela por escrito no la crea. Por eso el límite no vive en una instrucción que el modelo pueda desoír, ahí está la diferencia entera entre una garantía y una petición educada.',
               'Los agentes actúan con los permisos de la persona que los usa, a través de las cuentas de tu organización. Si le retiras el acceso a alguien, el agente también lo pierde.',
-              'El reparto de papeles es la regla de la casa: el juicio vive en el código, la interpretación vive en el modelo y el conocimiento vive en tus datos. Todo lo que pueda resolverse con código determinista se resuelve con código, porque cada llamada al modelo en producción añade coste, latencia y una variabilidad que hay que vigilar. Calcular un vencimiento o aplicar un tipo de IVA es código y sale igual las mil veces. Entender que «lo del otro día para el almacén nuevo» es el pedido 4512 con otra dirección de entrega, eso es el modelo. De ahí salen sistemas más baratos de operar y más fáciles de auditar, no menos capaces.',
+              'El reparto de papeles es la regla de la casa: el juicio vive en el código, la interpretación vive en el modelo y el conocimiento vive en tus datos. Todo lo que pueda resolverse con código normal se resuelve con código, porque cada llamada al modelo en producción añade coste, tiempo de espera y una variabilidad que hay que vigilar. Calcular un vencimiento o aplicar un tipo de IVA es código y sale igual las mil veces. Entender que «lo del otro día para el almacén nuevo» es el pedido 4512 con otra dirección de entrega, eso es el modelo. De ahí salen sistemas más baratos de operar y más fáciles de auditar, no menos capaces.',
               'Y cuando conviven datos de varias empresas o de varias áreas, el aislamiento no se pide por instrucciones. Se construye en capas que acaban en un filtro que el modelo no puede tocar y al agente solo se le entrega el contexto de quien pregunta, para que ni siquiera pueda formular una consulta sobre datos ajenos. Es lo que una asesoría ya exige a su propio equipo, que cada gestor vea sus empresas y ninguna más, aplicado a una pieza de software que además improvisa.',
             ],
           },
@@ -1593,7 +1593,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Cuánta supervisión necesita',
             part: 'Las garantías',
             paragraphs: [
-              'Un sistema que firma resultados necesita un dueño que pueda responder por él. Eso pone un techo. Nadie responde de verdad por cuarenta agentes a la vez, por muchos paneles que mire. Por unos pocos sí, con la revisión semanal y una bandeja de excepciones que no desborde. Se vende mucho la plantilla de agentes a escala y nosotros preferimos decirte el coste de vigilarla antes de que la compres.',
+              'Un sistema que firma resultados necesita un dueño que pueda responder por él. Eso pone un techo. Nadie responde de verdad por cuarenta agentes a la vez, por muchos paneles que mire. Por unos pocos sí, con la revisión semanal y una bandeja de excepciones que no desborde. Se vende mucho la idea de tener decenas de agentes trabajando a la vez y nosotros preferimos decirte lo que cuesta vigilarlos antes de que los compres.',
               'La cuenta sale porque la supervisión cambia de naturaleza. La persona que hoy lee cada solicitud entera pasa a revisar la bandeja de dudas, donde cada caso llega con los datos extraídos y el motivo de la duda señalado. Decide de un vistazo lo que antes le llevaba un rato. Lo que el agente no resuelve solo no desaparece, se entrega. Antes de arrancar queda pactado qué casos escala, a qué bandeja llegan y quién los atiende.',
             ],
           },
@@ -1612,7 +1612,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'No buscamos maneras de usar la IA en tu empresa. Buscamos los problemas que ya te cuestan dinero y evaluamos si un agente los resuelve con ganancia demostrable. Parece lo mismo y es lo contrario. La primera búsqueda produce juguetes que se enseñan bien y se abandonan pronto. La segunda produce sistemas que un responsable defiende delante de dirección con números.',
               'La primera fase se hace con quien sufre el proceso, no solo con quien compra la tecnología. Mapeamos el proceso paso a paso con sus actores, sus sistemas y sus tiempos. Después separamos los problemas que duelen hoy, los que ya cuestan horas o clientes, de los cuellos de botella que aguantarán solo hasta que el volumen crezca. Cada candidato se traduce a su ganancia esperada partiendo de una línea base medida, cuánto cuesta hoy en horas, en errores o en espera. Una línea base es algo tan poco solemne como esto, cuatro personas dedican la primera hora del día a clasificar el buzón y dos pedidos a la semana se traspapelan.',
-              'De esa lista, la mayoría se descarta. Con lo que sobrevive no arrancamos un despliegue grande sino un piloto acotado: una parte del problema, un grupo reducido de usuarios y una métrica pactada de antemano. Estrecho y profundo antes que ancho y superficial, porque un piloto barato que falla es información y un despliegue caro que falla es un agujero. La apuesta se estructura asimétrica a propósito. La pérdida máxima está escrita antes de empezar y es el coste del piloto. Lo que puede ganarse queda abierto.',
+              'De esa lista, la mayoría se descarta. Con lo que sobrevive no arrancamos un despliegue grande sino un piloto acotado: una parte del problema, un grupo reducido de usuarios y una métrica pactada de antemano. Estrecho y profundo antes que ancho y superficial, porque un piloto barato que falla es información y un despliegue caro que falla es un agujero. La apuesta es desigual a propósito. La pérdida máxima está escrita antes de empezar y es el coste del piloto. Lo que puede ganarse queda abierto.',
             ],
           },
           {
@@ -1699,7 +1699,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Automatización de procesos con IA',
           title: 'Los procesos que nunca pudiste automatizar',
           subtitle:
-            'Automatización de procesos empresariales con IA: los flujos de trabajo con documentos, conversaciones o criterio por el medio, resueltos de principio a fin sobre tus sistemas.',
+            'Automatización de procesos empresariales con IA. Los flujos de trabajo que llevan documentos, conversaciones o decisiones por el medio, resueltos de principio a fin sobre tus sistemas.',
           cta: 'Cuéntanos tu reto',
         },
         sections: [
@@ -1707,9 +1707,9 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué procesos se abren con la IA',
             part: 'Lo que se abre ahora',
             paragraphs: [
-              'Los procesos que las herramientas clásicas no pudieron automatizar comparten un rasgo: en algún punto, una persona tiene que leer y decidir. Llega una factura y alguien la teclea. Llega una solicitud y alguien la cualifica. Llega una pregunta y alguien busca la respuesta. Ese paso, leer algo que no viene en un formato fijo y decidir qué hacer con ello, era la frontera de la automatización. Los modelos de lenguaje absorben exactamente ese paso y con él se abre la familia entera de procesos que lo contenían.',
+              'Los procesos que las herramientas clásicas no pudieron automatizar comparten un rasgo. En algún punto, una persona tiene que leer y decidir. Llega una factura y alguien la teclea. Llega una solicitud y alguien la cualifica. Llega una pregunta y alguien busca la respuesta. Ese paso, leer algo que no viene en un formato fijo y decidir qué hacer con ello, era la frontera de la automatización. Los modelos de lenguaje absorben exactamente ese paso y con él se abre la familia entera de procesos que lo contenían.',
               'Estos procesos rara vez tienen nombre en el organigrama. Viven en una bandeja de correo que alguien vacía cada mañana, en el Excel puente entre dos sistemas que no se hablan, en el copiar y pegar de cada alta nueva. Si tu equipo tiene uno de esos rituales, tienes un candidato.',
-              'Cuatro encargos concentran casi todo lo que nos piden.',
+              'Cinco encargos concentran casi todo lo que nos piden.',
             ],
             kind: 'lattice',
             bullets: [
@@ -1725,17 +1725,17 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Lo que se abre ahora',
             paragraphs: [
               'La automatización clásica, la de reglas y la robotización de pantallas, funciona muy bien mientras la entrada no cambia. Su debilidad la conoce cualquiera que la haya mantenido. La regla que leía la factura del proveedor A no entiende la del proveedor B y el robot que rellenaba un formulario se pierde cuando el programa cambia de versión. Cada variación nueva es una regla nueva que escribir y la lista no termina nunca.',
-              'La IA cambia el reparto. El modelo interpreta la entrada aunque venga con otro formato, otra redacción u otro orden, así que la variación deja de romper el flujo. Hay una prueba rápida que hacemos en la primera llamada, pedir tres ejemplos reales de la entrada. Si los tres se parecen, reglas. Si cada uno viene de su padre y de su madre, modelo. A cambio exige lo que toda esta página describe, validación y medida, porque interpretar no es infalible.',
-              'La honestidad también dibuja la frontera al revés. Si tu proceso tiene reglas claras sobre datos que siempre llegan igual, la automatización clásica lo resuelve más barato y más rápido, sin modelo que vigilar. Te lo diremos en la primera conversación, porque meter IA donde no hace falta es pagar vigilancia a cambio de nada. Y cuando ya tienes automatización clásica funcionando, no la tiramos. Conviven bien, con las reglas moviendo lo estable y el modelo leyendo lo variable, cada pieza en el papel que se le da.',
+              'La IA cambia el reparto. El modelo interpreta la entrada aunque venga con otro formato, otra redacción u otro orden, así que la variación deja de romper el flujo. Hay una prueba rápida que hacemos en la primera llamada, pedir tres ejemplos reales de la entrada. Si los tres se parecen entre sí, tu problema es de reglas. Si cada uno viene de una manera distinta, ahí hace falta el modelo. A cambio exige lo que toda esta página describe, validación y medición, porque interpretar no es infalible.',
+              'La honestidad también dibuja la frontera al revés. Si tu proceso tiene reglas claras sobre datos que siempre llegan igual, la automatización clásica lo resuelve más barato y más rápido, sin modelo que vigilar. Te lo diremos en la primera conversación, porque meter IA donde no hace falta es pagar vigilancia a cambio de nada. Y cuando ya tienes automatización clásica funcionando, no la tiramos. Conviven bien, con las reglas moviendo lo estable y el modelo leyendo lo variable, cada pieza en el papel que le toca.',
             ],
           },
           {
             heading: 'Automatizar pasos no es mover una ganancia',
             part: 'Lo que se abre ahora',
             paragraphs: [
-              'Un sistema puede producir resúmenes, borradores y registros a docenas sin que el negocio note nada. Producir cosas no es mover una ganancia. Por eso la unidad de trabajo aquí no es la tarea suelta sino el proceso entero, de la entrada al resultado, con su métrica delante: las horas que se dejan de pagar a un teclado, los errores que dejan de corregirse, la espera que deja de existir.',
-              'Se ve mejor con un ejemplo. Un sistema que redacta resúmenes de cada reunión produce salidas a diario. Si nadie decide nada distinto con ellos, la ganancia es cero y el coste no. Un flujo que deja cada factura registrada sin manos convierte su salida en horas contables. La diferencia no está en la tecnología. Está en si el resultado cambia algo que el negocio mide.',
-              'Esa vara cambia decisiones de diseño. A veces el paso que más renta no se acelera, se elimina, porque reorganizar el proceso hace innecesario lo que íbamos a automatizar. Y un flujo que resuelve el ochenta por ciento del volumen con el veinte por ciento del esfuerzo gana a la ambición de cubrirlo todo, que es la que convierte proyectos en pantanos. En el blog contamos cómo medimos esa ganancia y por qué no la llamamos productividad.',
+              'Un sistema puede producir resúmenes, borradores y registros a docenas sin que el negocio note nada. Producir cosas no es mover una ganancia. Por eso la unidad de trabajo aquí no es la tarea suelta sino el proceso entero, de la entrada al resultado, con su métrica delante: las horas que se dejan de pagar por teclear, los errores que dejan de corregirse, la espera que deja de existir.',
+              'Se ve mejor con un ejemplo. Un sistema que redacta resúmenes de cada reunión produce salidas a diario. Si nadie decide nada distinto con ellos, la ganancia es cero y el coste no. Un flujo que deja cada factura registrada sin que nadie la toque convierte su resultado en horas que puedes contar. La diferencia no está en la tecnología. Está en si el resultado cambia algo que el negocio mide.',
+              'Ese criterio cambia decisiones de diseño. A veces el paso que más ahorra no se acelera, se elimina, porque reorganizar el proceso hace innecesario lo que íbamos a automatizar. Y un flujo que resuelve el ochenta por ciento del volumen con el veinte por ciento del esfuerzo gana a la ambición de cubrirlo todo, que es la que convierte los proyectos en obras interminables. En el blog contamos cómo medimos esa ganancia y por qué no la llamamos productividad.',
             ],
             link: { label: 'Medir la IA por las ganancias, no por la productividad', href: '/blog/medir-la-ia-por-las-ganancias' },
           },
@@ -1744,15 +1744,15 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo lo construimos',
             diagram: true,
             paragraphs: [
-              'Nuestros flujos son tuberías deterministas con paradas de IA. El código mueve los datos, llama a cada sistema y decide el orden. El modelo entra solo en las paradas donde hay que interpretar: leer un documento, entender una petición, clasificar un caso. Y devuelve un resultado con estructura fija que el código puede comprobar. No es un capricho de ingeniería. Cada llamada a un modelo en producción cuesta dinero, tarda y puede variar, así que cuantas menos llamadas y más acotadas, más barato de operar y más estable es el flujo.',
-              'No lo decimos solo nosotros. Anthropic, uno de los grandes fabricantes de modelos, aconseja empezar con flujos que orquesta el código y guardar la autonomía del agente para los pocos casos que la justifican. Nosotros llegamos a la misma regla por el camino caro, manteniendo sistemas en producción. En la práctica significa que la factura de modelo de un flujo nuestro se parece a una herramienta bien usada, no a un contador que gira solo.',
+              'Nuestros flujos son una cadena de pasos que siempre corre igual, con paradas de modelo donde hace falta interpretar. El código mueve los datos, llama a cada sistema y decide el orden. El modelo entra solo en las paradas donde hay que interpretar: leer un documento, entender una petición, clasificar un caso. Y devuelve un resultado con estructura fija que el código puede comprobar. No es un capricho de ingeniería. Cada llamada a un modelo en producción cuesta dinero, tarda y puede variar, así que cuantas menos llamadas y más acotadas, más barato de operar y más estable es el flujo.',
+              'No lo decimos solo nosotros. Anthropic, uno de los grandes fabricantes de modelos, aconseja empezar con flujos que orquesta el código y guardar la autonomía del agente para los pocos casos que la justifican. Nosotros llegamos a la misma regla por el camino caro, manteniendo sistemas en producción. En la práctica significa que lo que un flujo nuestro gasta en llamadas al modelo se parece a una herramienta bien usada, no a un contador que gira solo.',
             ],
           },
           {
             heading: 'Un flujo de facturas, parada a parada',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'Para que nada de esto quede abstracto, así recorre el sistema una factura desde que llega hasta que descansa.',
+              'Para que nada de esto quede abstracto, así recorre el sistema una factura desde que llega hasta que queda archivada.',
             ],
             kind: 'checklist',
             bullets: [
@@ -1769,8 +1769,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Validación en el medio, no confianza al final',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'La automatización con IA falla cuando se deja al modelo sin vigilancia. Por eso la parada de validación no es opcional ni se deja para el final: cada resultado del modelo se comprueba antes de tocar tus sistemas, con las reglas de la parada cuatro y las que cada proceso añada. Lo que pasa la validación fluye solo. Lo que no la pasa no se descarta ni se inventa, va a una persona con el caso preparado.',
-              'Validar al final, cuando el dato ya se registró, convierte cada error en una corrección contable. Validar en el medio lo convierte en un caso escalado, que es más barato y deja menos cicatriz. Ese reparto concentra la revisión humana donde hace falta criterio y la retira de donde solo hacía falta paciencia. El objetivo no es un sistema que jamás pregunte, es un sistema que pregunte poco y siempre con motivo y que deje medido cuánto resuelve solo para que la palabra «automatizado» tenga un número detrás.',
+              'La automatización con IA falla cuando se deja al modelo sin vigilancia. Por eso la parada de validación no es opcional ni se deja para el final: cada resultado del modelo se comprueba antes de tocar tus sistemas, con las reglas del paso de validación que acabas de ver y con las que cada proceso añada. Lo que pasa la validación fluye solo. Lo que no la pasa no se descarta ni se inventa, va a una persona con el caso preparado.',
+              'Validar al final, cuando el dato ya se registró, convierte cada error en una corrección contable. Validar en el medio lo convierte en un caso escalado, que es más barato y deja menos cicatriz. Ese reparto concentra la revisión humana donde hace falta criterio y la retira de donde solo hacía falta paciencia. El objetivo no es un sistema que jamás pregunte, es uno que pregunte poco y siempre con motivo. Y que tenga medido cuánto resuelve por su cuenta, para que la palabra «automatizado» venga con un número detrás.',
             ],
           },
           {
@@ -1779,7 +1779,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'En Stanton, una gestora de fincas, las facturas de luz, agua y gas de cada inquilino se metían a mano. Hoy el equipo las reenvía por Telegram, una lectura con IA extrae los datos y el resultado aterriza como filas normalizadas en el Excel con el que ya trabajaban. Dos agentes en producción, ninguna herramienta nueva que aprender y un cliente que ya nos ha encargado los siguientes procesos, la señal de éxito que más nos importa.',
               'En Barceloneta, una agencia inmobiliaria, el equipo recibe cada día decenas de consultas por WhatsApp de gente que busca alquiler. Cada consulta se llevaba entre cinco y diez minutos de comprobación a mano. Ahora el flujo extrae de cada conversación el motivo, el presupuesto y la documentación. Al equipo le llega un correo que ya dice si el candidato encaja o no y por qué. Más de tres horas al día que vuelven al trabajo que sí necesita personas.',
-              'Los dos casos comparten la firma del éxito: entrada por un canal que el equipo ya usaba, ninguna herramienta nueva que aprender y una ganancia que se podía medir antes y después. Ese patrón es el que buscamos en cada proceso nuevo.',
+              'Los dos casos se parecen en tres cosas: entraron por un canal que el equipo ya usaba, no obligaron a aprender ninguna herramienta nueva y su ganancia se podía medir antes y después. Eso es lo que buscamos en cada proceso nuevo.',
             ],
             link: { label: 'Ver los proyectos', href: '/#proyectos' },
           },
@@ -1805,14 +1805,14 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Del primer proceso a los siguientes',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'El primer proceso paga el andamiaje: la conexión con tus sistemas, el registro, la batería de pruebas, la operación. Los siguientes lo reutilizan, así que cada ampliación cuesta menos que la anterior y se decide con los números del flujo ya vivo delante. Así creció Stanton, un flujo primero y los siguientes sobre el mismo andamiaje, cada uno aprobado por lo que el anterior demostró.',
+              'El primer proceso paga el montaje: la conexión con tus sistemas, el registro, la batería de pruebas, la operación. Los siguientes lo reutilizan, así que cada ampliación cuesta menos que la anterior y se decide con los números del flujo que ya está funcionando. Así creció Stanton, un flujo primero y los siguientes sobre el mismo montaje, cada uno aprobado por lo que el anterior demostró.',
             ],
           },
           {
             heading: 'El proceso por el que empezar',
             part: 'Decidir con criterio',
             paragraphs: [
-              'No hace falta un plan de transformación para empezar, hace falta elegir bien un proceso. El bueno suele cumplir tres condiciones: duele de forma medible, se repite con volumen y tiene a alguien que lo sufre y quiere quitárselo de encima. Con ese proceso delante, lo mapeamos paso a paso con quien lo ejecuta cada día, qué llega, quién lo toca, por qué sistemas pasa y dónde se atasca. Después medimos lo que cuesta hoy. Ese antes medido es el que luego permite afirmar cuánto mejoró, con números y no con sensaciones.',
+              'No hace falta un plan de transformación para empezar, hace falta elegir bien un proceso. El bueno suele cumplir tres condiciones: duele de forma medible, se repite con volumen y tiene a alguien que lo sufre y quiere quitárselo de encima. Con ese proceso delante, lo mapeamos paso a paso con quien lo ejecuta cada día, qué llega, quién lo toca, por qué sistemas pasa y dónde se atasca. Después medimos lo que cuesta hoy. Ese punto de partida medido es lo que luego permite decir cuánto mejoró, con números y no con sensaciones.',
               'El arranque es un piloto sobre una parte del volumen, con su métrica pactada. A veces incluso lo validamos en modo mixto, una persona apoyada por la herramienta a medio construir, porque confirma la ganancia antes de construir el resto. El mapeo, además, cambia decisiones antes de escribir una línea de código. En la agencia de alquiler enseñó que el tiempo no se iba en contestar mensajes sino en comprobar a cada interesado, así que el flujo se diseñó alrededor de esa comprobación y no del buzón. Sin ese mapa habríamos automatizado la parte equivocada del proceso.',
               'Si el piloto cumple, se amplía por fases. Si no cumple, se ha perdido poco y se ha aprendido dónde estaba el error.',
             ],
@@ -1896,7 +1896,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Agentes conversacionales',
           title: 'Chatbots con IA que terminan la tarea',
           subtitle:
-            'Agentes conversacionales que atienden, cualifican y actúan: citas reservadas, solicitudes filtradas y dudas resueltas sobre los sistemas que ya usas.',
+            'Agentes conversacionales que atienden, cualifican y actúan. Citas reservadas, solicitudes filtradas y dudas resueltas sobre los sistemas que ya usas.',
           cta: 'Cuéntanos tu reto',
         },
         sections: [
@@ -1904,8 +1904,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué construimos',
             part: 'El encargo',
             paragraphs: [
-              'Chatbots con inteligencia artificial para los canales donde ya están tus clientes: WhatsApp con la API oficial de Meta, web y herramientas internas. El agente entiende lenguaje natural, consulta tus sistemas reales (agenda, CRM, base de datos) y termina la tarea dentro de la conversación. Terminar es la palabra que nos separa del mercado. Reservar la cita, no explicar cómo se reserva.',
-              'Los encargos que más se repiten caben en cinco casillas.',
+              'Chatbots con inteligencia artificial para los canales donde ya están tus clientes: WhatsApp con la API oficial de Meta, web y herramientas internas. El agente entiende lenguaje natural, consulta tus sistemas reales (agenda, CRM, base de datos) y termina la tarea dentro de la conversación. Terminar es la palabra importante. La mayoría de los chatbots explican cómo se reserva una cita. Este la reserva.',
+              'Estos son los cinco encargos que más nos piden.',
             ],
             kind: 'lattice',
             bullets: [
@@ -1913,7 +1913,7 @@ export const content: Record<Lang, SiteContent> = {
               'Gestiones completas. Reservar, cambiar, cancelar o consultar, con la agenda y la ficha actualizadas en el momento.',
               'Filtro de conversaciones. Las que valen pasan a tu equipo cualificadas y el resto queda atendido sin robarle tiempo a nadie.',
               'Consultas internas. La misma ingeniería hacia dentro, con empleados que preguntan a sus datos o a su documentación.',
-              'Salida a persona. Cuando la conversación necesita a alguien de verdad, llega a alguien de verdad, con el historial entero.',
+              'Salida a persona. Cuando la conversación necesita a alguien del equipo, llega a alguien del equipo, con el historial entero.',
             ],
             link: { label: 'Asistente sobre tu documentación interna', href: '/servicios/conocimiento-corporativo' },
           },
@@ -1921,24 +1921,24 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Por qué los chatbots tienen mala fama',
             part: 'El encargo',
             paragraphs: [
-              'Casi todo el mundo ha sufrido uno: el bot que da vueltas en su guion, no entiende la segunda pregunta y esconde el camino hacia una persona. Y cuando por fin llega la persona, hay que contárselo todo otra vez. Esa experiencia no la causó la inteligencia artificial, la causó una decisión de diseño, medir el bot por cuántas conversaciones «contiene» sin tocar al equipo humano en lugar de por cuántas resuelve de verdad.',
-              'Nosotros lo medimos al revés. Una conversación cuenta cuando la tarea quedó hecha o cuando llegó a la persona adecuada con todo el contexto. Por eso la salida a persona nunca se esconde y el traspaso lleva el historial completo, para que nadie repita lo que ya escribió. Un cliente que quería persona y la consiguió rápido vuelve. Uno que peleó diez minutos contra un guion no vuelve ni él ni su recomendación.',
+              'Casi todo el mundo ha sufrido uno: el bot que da vueltas en su guion, no entiende la segunda pregunta y esconde el camino hacia una persona. Y cuando por fin llega la persona, hay que contárselo todo otra vez. Esa experiencia no la causó la inteligencia artificial, la causó una manera de medir. A muchos bots se les pide que retengan el mayor número de conversaciones sin pasarlas al equipo humano, en lugar de que resuelvan el mayor número posible.',
+              'Nosotros lo medimos al revés. Una conversación cuenta cuando la tarea quedó hecha o cuando llegó a la persona adecuada con todo el contexto. Por eso la salida a persona nunca se esconde y el traspaso lleva el historial completo, para que nadie repita lo que ya escribió. Un cliente que pidió hablar con alguien y lo consiguió rápido vuelve. Uno que peleó diez minutos contra un guion no vuelve. Y tampoco te recomienda.',
             ],
           },
           {
             heading: 'De guion a acciones',
             part: 'El encargo',
             paragraphs: [
-              'Los chatbots de hace unos años eran árboles de botones. Funcionaban hasta que el cliente escribía como escriben las personas, con contexto, con dos preguntas en una, con la tercera opción que el árbol no tenía. La generación actual no sigue un guion. El modelo entiende la intención y elige entre un conjunto cerrado de acciones que definimos contigo: reservar, consultar, cambiar, escalar. El código ejecuta la acción elegida y valida el resultado antes de responder.',
-              'Ese reparto tiene una consecuencia que se nota pronto. Añadir una gestión nueva no es reescribir un árbol entero, es añadir una acción con sus pruebas. Y quitarla es quitarla, sin dejar ramas muertas por el camino.',
+              'Los chatbots de hace unos años eran menús de botones. Funcionaban hasta que el cliente escribía como escriben las personas, dando contexto, metiendo dos preguntas en una o pidiendo la opción que el menú no tenía. La generación actual no sigue un guion. El modelo entiende la intención y elige entre un conjunto cerrado de acciones que definimos contigo: reservar, consultar, cambiar, escalar. El código ejecuta la acción elegida y valida el resultado antes de responder.',
+              'Ese reparto tiene una consecuencia que se nota pronto. Añadir una gestión nueva no es reescribir un árbol entero, es añadir una acción con sus pruebas. Y quitarla es quitarla, sin dejar restos de un menú viejo por el camino.',
             ],
           },
           {
             heading: 'Pocas gestiones, cerradas de verdad',
             part: 'El encargo',
             paragraphs: [
-              'El error clásico del sector es el bot que sabe de todo y no cierra nada. Nosotros preferimos el contrario, un agente que hace pocas gestiones y las termina, con cada categoría medida por separado. Si el ochenta por ciento de tus conversaciones son tres trámites, el agente que borda esos tres vale más que el que responde regular a cien preguntas.',
-              'En la práctica cada gestión es una categoría con nombre, sus casos de prueba y su número. «Cambiar una cita» se mide sola: si su acierto baja, se ve en su fila y no diluido en un promedio que lo tape. Las categorías se amplían cuando los números lo piden, no cuando la demo lo sugiere.',
+              'El error clásico del sector es el bot que sabe de todo y no cierra nada. Nosotros preferimos el contrario, un agente que hace pocas gestiones y las termina, con cada categoría medida por separado. Si el ochenta por ciento de tus conversaciones son tres trámites, el agente que hace esos tres a la perfección vale más que el que responde regular a cien preguntas.',
+              'En la práctica cada gestión es una categoría con nombre, sus casos de prueba y su número. «Cambiar una cita» se mide por separado, así que si su acierto baja se ve en su propia fila y no escondido en un promedio general. Las categorías se amplían cuando los números lo piden, no cuando la demo lo sugiere.',
             ],
           },
           {
@@ -1946,7 +1946,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'La confianza se construye',
             paragraphs: [
               'La atención al cliente es donde un agente conversacional se paga antes. Responde lo habitual, cualifica el resto y escala lo que necesita criterio, así que las colas de espera se convierten en respuesta inmediata. Nuestra clienta inmobiliaria ahorra más de tres horas al día en solicitudes entrantes. El equipo ya solo concierta visitas.',
-              'La mitad del valor está en el reloj. Las consultas no llegan en horario de oficina, llegan cuando el cliente tiene el móvil en la mano y cada hora sin respuesta enfría la intención. Un agente que contesta en el minuto convierte ese goteo nocturno en citas de la mañana siguiente.',
+              'La mitad del valor está en la hora a la que se contesta. Las consultas no llegan en horario de oficina, llegan cuando el cliente tiene el móvil en la mano. Cuanto más tarda la respuesta, menos ganas le quedan. Un agente que contesta en el minuto convierte ese goteo nocturno en citas de la mañana siguiente.',
             ],
             link: { label: 'El caso de la inmobiliaria', href: '/inmobiliarias' },
           },
@@ -1971,8 +1971,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Un chatbot serio no vive solo',
             part: 'La confianza se construye',
             paragraphs: [
-              'Un agente que solo charla es un folleto con cursor. El valor está en las conexiones: la agenda que consulta antes de ofrecer hora, el CRM donde apunta, la base de datos de la que saca la respuesta. Y las conexiones traen su obligación, porque cualquier sistema externo puede caerse un martes a las once.',
-              'Cuando eso pasa, el agente no finge ni se rompe. Avisa de que esa gestión concreta no está disponible ahora mismo, sigue con las demás y tu equipo se entera por una alarma, no por las quejas. Cómo se construye esa resistencia, con un mecanismo que aparta las piezas caídas, lo contamos en detalle en el blog.',
+              'Un agente que solo conversa sirve de poco. El valor está en las conexiones: la agenda que consulta antes de ofrecer hora, el CRM donde apunta, la base de datos de la que saca la respuesta. Y las conexiones traen su obligación, porque cualquier sistema externo puede caerse un martes a las once.',
+              'Cuando eso pasa, el agente no finge ni se rompe. Avisa de que esa gestión concreta no está disponible ahora mismo, sigue con las demás y tu equipo se entera por una alarma, no por las quejas. Cómo se construye eso, con un mecanismo que aparta automáticamente la pieza que falla, lo contamos en detalle en el blog.',
             ],
             link: { label: 'Qué hace tu asistente cuando una herramienta se cae', href: '/blog/cuando-una-herramienta-se-cae' },
           },
@@ -1980,8 +1980,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Lo que responde y lo que no se inventa',
             part: 'La confianza se construye',
             paragraphs: [
-              'El miedo razonable de cualquier responsable es un bot improvisando delante de un cliente. Se desactiva con arquitectura, no con promesas. Las respuestas de conocimiento salen de tus datos y tu documentación, con la fuente al lado. Las frases delicadas, una política de devoluciones, una condición legal, un precio, no las redacta el modelo. Son textos aprobados por ti que el sistema entrega tal cual. Puedes editarlos sin tocar código.',
-              'Y cuando no hay dato para responder, el agente lo dice y ofrece el camino a una persona. Un «no lo sé» honesto conserva clientes. Una respuesta inventada los pierde con elegancia, que es la peor manera de perderlos.',
+              'El miedo razonable de cualquier responsable es un bot improvisando delante de un cliente. Eso no se evita con promesas, se evita con la manera de construirlo. Las respuestas de conocimiento salen de tus datos y tu documentación, con la fuente al lado. Las frases delicadas, una política de devoluciones, una condición legal, un precio, no las redacta el modelo. Son textos aprobados por ti que el sistema entrega tal cual. Puedes editarlos sin tocar código.',
+              'Y cuando no hay dato para responder, el agente lo dice y ofrece el camino a una persona. Un «no lo sé» honesto conserva clientes. Una respuesta inventada los pierde sin que te enteres, que es la peor manera de perderlos.',
             ],
           },
           {
@@ -1989,7 +1989,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'La confianza se construye',
             paragraphs: [
               'Operamos nuestro propio producto en producción, Wazzy, un asistente en WhatsApp que gestiona reservas, cambios y cancelaciones de citas para clínicas y negocios de servicios. Consulta la disponibilidad en tiempo real, actualiza agenda y ficha y escala las urgencias al equipo. Mantener un producto propio nos obliga a ser buenos y cada lección vuelve a los proyectos de cliente.',
-              'La disciplina se puede contar. Wazzy vigila 91 invariantes con nombre, condiciones que siempre deben cumplirse, a través de 103 puntos de control activos repartidos por el sistema. Cuando vendemos ingeniería de producción, es esto. Y el circuito completo se ensaya cada poco con una reserva real que después se limpia, porque una prueba que no toca el mundo real no prueba el mundo real.',
+              'Esa disciplina se puede contar con números. Wazzy vigila 91 condiciones que siempre deben cumplirse, cada una con su nombre, a través de 103 puntos de control repartidos por el sistema. Cuando hablamos de ingeniería de producción, hablamos de esto. Y el circuito completo se ensaya cada poco con una reserva real que después se limpia, porque una prueba que no toca el mundo real no prueba el mundo real.',
             ],
             link: { label: 'Conocer Wazzy', href: 'https://wazzy.io' },
           },
@@ -2005,7 +2005,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'La confianza se construye',
             paragraphs: [
               'Los sistemas conversacionales se degradan en silencio. Una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
-              'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría afinar y cuál añadir. Y las alarmas llevan sus propios límites, porque una alarma ruidosa que tapa a las demás es peor que ninguna.',
+              'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría afinar y cuál añadir. Y cada alarma lleva su propio límite de avisos, porque una alarma que se dispara sin parar tapa a las demás y acaba siendo peor que no tener ninguna.',
             ],
           },
           {
@@ -2013,14 +2013,14 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Decidir con criterio',
             paragraphs: [
               'Un agente conversacional no se lanza al mundo entero el primer día. Se estrena acotado, en un canal, en un horario o en un grupo de clientes, con sus categorías medidas desde la primera conversación. Los textos delicados salen aprobados por ti antes de que nadie los lea y tu equipo sabe cómo llega un escalado y qué hacer con él.',
-              'A las pocas semanas los números cuentan la verdad: qué se termina dentro de la conversación, qué escala con qué motivos y qué pregunta la gente que no habíamos previsto. Con eso se decide la ampliación, categoría a categoría. Es la manera de crecer sin estrenar nunca nada sin probar.',
+              'A las pocas semanas los números cuentan la verdad: qué se termina dentro de la conversación, qué escala con qué motivos y qué pregunta la gente que no habíamos previsto. Con eso se decide la ampliación, categoría a categoría. Es la manera de crecer sin poner nunca nada delante de un cliente sin haberlo probado antes.',
             ],
           },
           {
             heading: 'Cuándo un chatbot no compensa',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Decírtelo también es el servicio. Si te llegan un puñado de conversaciones al día, una página de preguntas bien escrita y una persona que contesta rápido te salen más baratas y más humanas. Si las respuestas que necesitas no están en ningún sistema, el trabajo previo es ordenar ese conocimiento, no montar el bot. Y si en tu trámite el cliente necesita hablar con alguien por la naturaleza misma del asunto, lo que toca es llegar antes a la persona, no interponer una máquina.',
+              'Decírtelo también es el servicio. Si te llegan un puñado de conversaciones al día, una página de preguntas bien escrita y una persona que contesta rápido te salen más baratas y más humanas. Si las respuestas que necesitas no están en ningún sistema, el trabajo previo es ordenar ese conocimiento, no montar el bot. Y si por el asunto que sea tu cliente necesita hablar con una persona, lo que toca es que llegue a ella antes, no poner una máquina en medio.',
               'Un agente conversacional compensa cuando hay volumen, cuando la información existe y cuando una parte real de las gestiones puede terminarse dentro de la conversación. Si tu caso no cumple alguna de las tres, te lo decimos en la primera llamada.',
             ],
           },
@@ -2028,7 +2028,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué cuesta',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Los rangos publicados para cualquier agente nuestro valen aquí. El factor propio de lo conversacional es el volumen, porque cada conversación gasta sus llamadas al modelo. En Wazzy tenemos medido lo que cuesta cada conversación y esa contabilidad viaja a los proyectos de cliente. Sabrás qué te cuesta atender antes de encargarlo, no después. El desglose entero está en la guía de coste.',
+              'Los rangos publicados para cualquier agente nuestro valen aquí. El factor propio de lo conversacional es el volumen, porque cada conversación gasta sus llamadas al modelo. En Wazzy tenemos medido lo que cuesta cada conversación y esa misma medición la aplicamos en los proyectos de cliente. Sabrás qué te cuesta atender antes de encargarlo, no después. El desglose entero está en la guía de coste.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
@@ -3286,7 +3286,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'The model decides, but it is never the authority. It picks from a closed set of actions that the code reviews before anything runs. A workshop’s agent can look up a vehicle’s history, propose an appointment and send a quote. Deleting it cannot do, because that action does not exist in its list and asking for it in writing does not create it. That is why the limit does not live in an instruction the model can ignore, and there sits the whole difference between a guarantee and a polite request.',
               'Agents act with the permissions of the person using them, through your organization’s accounts. If you revoke someone’s access, the agent loses it too.',
-              'The division of labor is the house rule: judgment lives in the code, interpretation lives in the model and knowledge lives in your data. Everything deterministic code can solve, deterministic code solves, because every model call in production adds cost, latency and a variability someone has to watch. Working out a due date or applying a tax rate is code, and it comes out the same a thousand times. Understanding that “the one from the other day for the new warehouse” means order 4512 with a different delivery address, that is the model. What comes out of the split is systems that are cheaper to run and easier to audit, not less capable.',
+              'The division of labor is the house rule: judgment lives in the code, interpretation lives in the model and knowledge lives in your data. Everything ordinary code can solve, ordinary code solves, because every model call in production adds cost, waiting time and a variability someone has to watch. Working out a due date or applying a tax rate is code, and it comes out the same a thousand times. Understanding that “the one from the other day for the new warehouse” means order 4512 with a different delivery address, that is the model. What comes out of the split is systems that are cheaper to run and easier to audit, not less capable.',
               'And when data from several companies or several departments lives side by side, isolation is not requested in the instructions. It is built in layers that end in a filter the model cannot touch, and the agent only ever receives the context of the person asking, so it cannot even phrase a query about anyone else’s data. It is what an accounting firm already demands of its own team, that each manager sees their clients and no others, applied to a piece of software that also improvises.',
             ],
           },
@@ -3318,7 +3318,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'How much supervision it needs',
             part: 'The guarantees',
             paragraphs: [
-              'A system that signs outcomes needs an owner who can answer for it. That sets a ceiling. Nobody genuinely answers for forty agents at once, however many dashboards they watch. For a few, yes, with the weekly review and an exception queue that does not overflow. Fleets of agents at scale sell well, and we would rather tell you the cost of watching one before you buy it.',
+              'A system that signs outcomes needs an owner who can answer for it. That sets a ceiling. Nobody genuinely answers for forty agents at once, however many dashboards they watch. For a few, yes, with the weekly review and an exception queue that does not overflow. The idea of running dozens of agents at once sells well, and we would rather tell you what watching them costs before you buy them.',
               'The maths works because supervision changes in nature. The person who today reads every request in full moves to reviewing the queue of doubts, where each case arrives with the data already extracted and the reason for the doubt flagged. They decide at a glance what used to take a while. What the agent cannot resolve alone does not vanish, it gets handed over. Before anything starts, we agree which cases escalate, which queue they land in and who attends them.',
             ],
           },
@@ -3336,8 +3336,8 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Deciding with judgment',
             paragraphs: [
               'We do not look for ways to use AI in your company. We look for the problems already costing you money and evaluate whether an agent solves them with a gain you can demonstrate. It sounds the same and it is the opposite. The first search produces toys that demo well and get abandoned soon. The second produces systems a manager defends in front of the board with numbers.',
-              'The first phase happens with the people who suffer the process, not only with the people who buy the technology. We map the process step by step with its actors, its systems and its timings. Then we separate the problems that hurt today, the ones already costing hours or customers, from the bottlenecks that will hold only until volume grows. Each candidate gets translated into its expected gain against a measured baseline, what it costs today in hours, errors or waiting. A baseline is something as unceremonious as this, four people spend the first hour of the day sorting the inbox and two orders a week go missing.',
-              'Most of that list gets discarded. With what survives we do not start a big rollout but a bounded pilot: one slice of the problem, a small group of users and a metric agreed in advance. Narrow and deep before wide and shallow, because a cheap pilot that fails is information and an expensive rollout that fails is a hole. The bet is structured asymmetrically on purpose. The maximum loss is written down before anything starts and it is the cost of the pilot. What can be won stays open.',
+              'The first phase happens with the people who suffer the process, not only with the people who buy the technology. We map the process step by step with its actors, its systems and its timings. Then we separate the problems that hurt today, the ones already costing hours or customers, from the bottlenecks that will hold only until volume grows. Each candidate gets translated into its expected gain against a measured baseline, what it costs today in hours, errors or waiting. A baseline is something as ordinary as this, four people spend the first hour of the day sorting the inbox and two orders a week go missing.',
+              'Most of that list gets discarded. With what survives we do not start a big rollout but a bounded pilot: one slice of the problem, a small group of users and a metric agreed in advance. Narrow and deep before wide and shallow, because a cheap pilot that fails is information and an expensive rollout that fails is a hole. The bet is deliberately lopsided. The maximum loss is written down before anything starts and it is the cost of the pilot. What can be won stays open.',
             ],
           },
           {
@@ -3345,7 +3345,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Deciding with judgment',
             paragraphs: [
               'Technology is no longer the bottleneck, and we say that having built the technology. Projects fall over on the organizational side, when nobody has time to review the pilot or access to the data drags on forever. So we ask for three things before starting: a named owner who decides and answers, real hours from their team to review the pilot cases, and access to the data the agent needs. In practice it is the head of administration spending a while each day of the first week marking which answers hold and which do not. Without that person there is no suite to calibrate and nobody to sign off the result.',
-              'And there is a part that cannot be bought, only earned. Whoever does the task by hand today will be the one watching the agent tomorrow. If they join the project last, they will experience it as a threat and will find reasons why it does not work. It is the silliest way for a good system to die and it is avoided for free, the process mapping happens with those people in the room from day one and with a new role on the table, owners of the exception queue rather than data keyers.',
+              'And there is a part that cannot be bought, only earned. Whoever does the task by hand today will be the one watching the agent tomorrow. If they join the project last, they will experience it as a threat and will find reasons why it does not work. It is the silliest way for a good system to die and it costs nothing to avoid. The process mapping happens with those people in the room from day one, and with a new role on the table for them, owners of the exception queue rather than data typists.',
             ],
           },
           {
@@ -3424,7 +3424,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'AI workflow automation',
           title: 'The processes you could never automate',
           subtitle:
-            'AI business process automation: the workflows with documents, conversations or judgment in the middle, handled end to end on your systems.',
+            'AI business process automation. The workflows that carry documents, conversations or decisions in the middle, handled end to end on your systems.',
           cta: 'Tell us your challenge',
         },
         sections: [
@@ -3432,9 +3432,9 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Which processes AI opens up',
             part: 'What opens up now',
             paragraphs: [
-              'The processes that classic tools could not automate share one trait: somewhere in the middle, a person has to read and decide. An invoice arrives and someone types it in. A request arrives and someone qualifies it. A question arrives and someone digs up the answer. That step, reading something that comes in no fixed format and deciding what to do with it, was the border of automation. Language models absorb exactly that step, and with it the whole family of processes that contained it opens up.',
+              'The processes that classic tools could not automate share one trait. Somewhere in the middle, a person has to read and decide. An invoice arrives and someone types it in. A request arrives and someone qualifies it. A question arrives and someone digs up the answer. That step, reading something that comes in no fixed format and deciding what to do with it, was the border of automation. Language models absorb exactly that step, and with it the whole family of processes that contained it opens up.',
               'These processes rarely have a name on the org chart. They live in a mailbox someone empties every morning, in the bridge spreadsheet between two systems that do not talk, in the copy-paste of every new record. If your team has one of those rituals, you have a candidate.',
-              'Four briefs account for almost everything we get asked.',
+              'Five briefs account for almost everything we get asked.',
             ],
             kind: 'lattice',
             bullets: [
@@ -3450,17 +3450,17 @@ export const content: Record<Lang, SiteContent> = {
             part: 'What opens up now',
             paragraphs: [
               'Classic automation, rules engines and screen robots, works well as long as the input never changes. Its weakness is familiar to anyone who has maintained it. The rule that read supplier A’s invoice does not understand supplier B’s, and the robot that filled a form gets lost when the program changes version. Every new variation is a new rule to write, and the list never ends.',
-              'AI changes the division of labor. The model interprets the input even when it arrives in another format, another wording or another order, so variation stops breaking the flow. There is a quick test we run on the first call, asking for three real examples of the input. If the three look alike, rules. If each one arrived from a different planet, model. In exchange it demands what this whole page describes, validation and measurement, because interpreting is not infallible.',
-              'Honesty draws the border in the other direction too. If your process has clear rules over data that always arrives the same way, classic automation solves it cheaper and faster, with no model to supervise. We will say so in the first conversation, because putting AI where none is needed means paying for supervision in exchange for nothing. And when you already run classic automation that works, we do not throw it away. The two coexist well, rules moving the stable parts and the model reading the variable ones, each piece in the role it earns.',
+              'AI changes the division of labor. The model interprets the input even when it arrives in another format, another wording or another order, so variation stops breaking the flow. There is a quick test we run on the first call, asking for three real examples of the input. If the three look alike, your problem is rules. If each one arrives in its own way, that is where the model is needed. In exchange it demands what this whole page describes, validation and measurement, because interpreting is not infallible.',
+              'Honesty draws the border in the other direction too. If your process has clear rules over data that always arrives the same way, classic automation solves it cheaper and faster, with no model to supervise. We will say so in the first conversation, because putting AI where none is needed means paying for supervision in exchange for nothing. And when you already run classic automation that works, we do not throw it away. The two coexist well, rules moving the stable parts and the model reading the variable ones, each piece in the role that suits it.',
             ],
           },
           {
             heading: 'Automating steps is not moving a gain',
             part: 'What opens up now',
             paragraphs: [
-              'A system can produce summaries, drafts and records by the dozen without the business noticing a thing. Producing things is not moving a gain. That is why the unit of work here is not the isolated task but the whole process, from input to result, with its metric up front: the hours that stop being paid to a keyboard, the errors that stop needing correction, the waiting that stops existing.',
-              'An example makes it visible. A system that drafts a summary of every meeting produces output daily, and if nobody decides anything differently because of it, the gain is zero and the cost is not. A flow that leaves every invoice registered with no hands on it turns its output into accountable hours. The difference is not in the technology. It is in whether the result changes something the business measures.',
-              'That yardstick changes design decisions. Sometimes the most profitable step is not accelerated but removed, because reorganizing the process makes the thing we were about to automate unnecessary. And a flow that resolves eighty percent of the volume with twenty percent of the effort beats the ambition of covering everything, which is what turns projects into swamps. How we measure that gain, and why we refuse to call it productivity, is on the blog.',
+              'A system can produce summaries, drafts and records by the dozen without the business noticing a thing. Producing things is not moving a gain. That is why the unit of work here is not the isolated task but the whole process, from input to result, with its metric up front: the hours that stop being paid for typing, the errors that stop needing correction, the waiting that stops existing.',
+              'An example makes it visible. A system that drafts a summary of every meeting produces output daily, and if nobody decides anything differently because of it, the gain is zero and the cost is not. A flow that leaves every invoice registered without anyone touching it turns its result into hours you can count. The difference is not in the technology. It is in whether the result changes something the business measures.',
+              'That yardstick changes design decisions. Sometimes the most profitable step is not accelerated but removed, because reorganizing the process makes the thing we were about to automate unnecessary. And a flow that resolves eighty percent of the volume with twenty percent of the effort beats the ambition of covering everything, which is what turns projects into never-ending builds. How we measure that gain, and why we refuse to call it productivity, is on the blog.',
             ],
             link: { label: 'Measure AI by profit, not productivity', href: '/en/blog/measure-ai-by-profit' },
           },
@@ -3469,15 +3469,15 @@ export const content: Record<Lang, SiteContent> = {
             part: 'How we build it',
             diagram: true,
             paragraphs: [
-              'Our flows are deterministic pipelines with AI stops. Code moves the data, calls each system and decides the order. The model comes in only at the stops that require interpretation: reading a document, understanding a request, classifying a case. And it returns a result with a fixed structure that code can check. This is not an engineering whim. Every model call in production costs money, takes time and can vary, so the fewer and more bounded the calls, the cheaper the flow is to run and the more stable it gets.',
-              'You do not have to take our word for it. Anthropic, one of the major model makers, advises starting with workflows that code orchestrates and keeping agent autonomy for the problems that genuinely call for it. We arrived at the same rule the expensive way, by maintaining systems in production. In practice it means the model bill of one of our flows looks like a tool used with intent, not like a meter spinning on its own.',
+              'Our flows are a chain of steps that always runs the same way, with model stops where something has to be interpreted. Code moves the data, calls each system and decides the order. The model comes in only at the stops that require interpretation: reading a document, understanding a request, classifying a case. And it returns a result with a fixed structure that code can check. This is not an engineering whim. Every model call in production costs money, takes time and can vary, so the fewer and more bounded the calls, the cheaper the flow is to run and the more stable it gets.',
+              'You do not have to take our word for it. Anthropic, one of the major model makers, advises starting with workflows that code orchestrates and keeping agent autonomy for the problems that genuinely call for it. We arrived at the same rule the expensive way, by maintaining systems in production. In practice it means what one of our flows spends on model calls looks like a tool used with intent, not like a meter spinning on its own.',
             ],
           },
           {
             heading: 'An invoice flow, stop by stop',
             part: 'How we build it',
             paragraphs: [
-              'To keep all of this concrete, here is how the system walks an invoice from arrival to rest.',
+              'To keep all of this concrete, here is how the system walks an invoice from the moment it arrives to the moment it is filed.',
             ],
             kind: 'checklist',
             bullets: [
@@ -3494,8 +3494,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Validation in the middle, not trust at the end',
             part: 'How we build it',
             paragraphs: [
-              'AI business process automation fails when the model is left unsupervised. That is why the validation stop is neither optional nor saved for the end: every model result is checked before touching your systems, with the rules from stop four plus whatever each process adds. What passes validation flows on its own. What does not is neither discarded nor guessed, it goes to a person with the case already prepared.',
-              'Validating at the end, once the data is already registered, turns every error into an accounting correction. Validating in the middle turns it into an escalated case, which is cheaper and leaves less scar tissue. That split concentrates human review where judgment is needed and removes it from where only patience was. The goal is not a system that never asks. It is a system that asks rarely and always with cause, and that keeps a measured record of how much it resolves alone, so the word “automated” has a number behind it.',
+              'AI business process automation fails when the model is left unsupervised. That is why the validation stop is neither optional nor saved for the end: every model result is checked before touching your systems, with the rules from the validation step you just saw, plus whatever each process adds. What passes validation flows on its own. What does not is neither discarded nor guessed, it goes to a person with the case already prepared.',
+              'Validating at the end, once the data is already registered, turns every error into an accounting correction. Validating in the middle turns it into an escalated case, which is cheaper and leaves less scar tissue. That split concentrates human review where judgment is needed and removes it from where only patience was. The goal is not a system that never asks. It is one that asks rarely and always with cause. And one that has a measured record of how much it resolves on its own, so the word “automated” comes with a number behind it.',
             ],
           },
           {
@@ -3504,7 +3504,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'At Stanton, a property management firm, every tenant’s power, water and gas invoice was keyed in by hand. Today the team forwards them over Telegram, an AI read extracts the data and the result lands as normalized rows in the same spreadsheet they already worked with. Two agents in production, no new tools for the team to learn, and a client that has already commissioned the next processes, the success signal we care about most.',
               'At Barceloneta, a real-estate agency, every day dozens of rental enquiries come in over WhatsApp. Each enquiry used to eat five to ten minutes of checking by hand. Now the flow pulls the reason, the budget and the paperwork out of each conversation, and the team gets an email that already says whether the applicant fits, and why. More than three hours a day returned to the work that actually needs people.',
-              'Both cases share the signature of success: entry through a channel the team already used, no new tools to learn and a gain that could be measured before and after. That pattern is what we look for in every new process.',
+              'The two cases are alike in three ways: they came in through a channel the team already used, they forced nobody to learn a new tool and their gain could be measured before and after. That is what we look for in every new process.',
             ],
             link: { label: 'See the projects', href: '/en#projects' },
           },
@@ -3530,14 +3530,14 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'From the first process to the next ones',
             part: 'How we build it',
             paragraphs: [
-              'The first process pays for the scaffolding: the connection to your systems, the record keeping, the test suite, the operation. The next ones reuse it, so every extension costs less than the one before and gets decided with the live flow’s numbers on the table. That is how Stanton grew, one flow first and the next ones on the same scaffolding, each approved by what the previous one proved.',
+              'The first process pays for the setup: the connection to your systems, the record keeping, the test suite, the operation. The next ones reuse it, so every extension costs less than the one before and gets decided with the numbers of the flow that is already running. That is how Stanton grew, one flow first and the next ones on the same setup, each approved by what the previous one proved.',
             ],
           },
           {
             heading: 'The process to start with',
             part: 'Deciding with judgment',
             paragraphs: [
-              'You do not need a transformation program to start, you need to pick one process well. The right one usually meets three conditions: it hurts measurably, it repeats with volume and someone suffers it who wants it gone. With that process in front of us, we map it step by step with the people who run it daily, what arrives, who touches it, which systems it crosses and where it jams. Then we measure what it costs today. That measured before is what later lets you state how much improved, with numbers instead of impressions.',
+              'You do not need a transformation program to start, you need to pick one process well. The right one usually meets three conditions: it hurts measurably, it repeats with volume and someone suffers it who wants it gone. With that process in front of us, we map it step by step with the people who run it daily, what arrives, who touches it, which systems it crosses and where it jams. Then we measure what it costs today. That measured starting point is what later lets you say how much improved, with numbers instead of impressions.',
               'The start is a pilot on a slice of the volume, with its metric agreed. Sometimes we even validate in mixed mode, a person supported by the half-built tool, because it confirms the gain before building the rest. Mapping also changes decisions before a line of code is written. At the rental agency it showed that the time was not going into answering messages but into checking each applicant, so the flow was designed around that check and not around the inbox. Without that map we would have automated the wrong part of the process.',
               'If the pilot delivers, it grows in phases. If it does not, little was lost and the error taught us where it lived.',
             ],
@@ -3621,7 +3621,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Conversational AI',
           title: 'AI chatbots that finish the task',
           subtitle:
-            'Chatbot development services for assistants that answer, qualify and act: bookings made, requests filtered and questions resolved on the systems you already run.',
+            'Chatbot development services for assistants that answer, qualify and act. Bookings made, requests filtered and questions resolved on the systems you already run.',
           cta: 'Tell us your challenge',
         },
         sections: [
@@ -3629,8 +3629,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What we build',
             part: 'The brief',
             paragraphs: [
-              'AI chatbot development for the channels your customers already use: WhatsApp through Meta’s official API, web and internal tools. The agent understands natural language, consults your real systems (calendar, CRM, database) and finishes the task inside the conversation. Finishing is the word that separates us from the market. Booking the appointment, not explaining how to book it.',
-              'The briefs we get most fit in five boxes.',
+              'AI chatbot development for the channels your customers already use: WhatsApp through Meta’s official API, web and internal tools. The agent understands natural language, consults your real systems (calendar, CRM, database) and finishes the task inside the conversation. Finishing is the important word. Most chatbots explain how to book an appointment. This one books it.',
+              'These are the five briefs we get asked for most.',
             ],
             kind: 'lattice',
             bullets: [
@@ -3638,7 +3638,7 @@ export const content: Record<Lang, SiteContent> = {
               'Complete transactions. Book, change, cancel or check, with calendar and record updated on the spot.',
               'Conversation filtering. The ones worth your team’s time arrive qualified and the rest get served without stealing a minute.',
               'Internal queries. The same engineering pointed inward, with employees asking their own data or documentation.',
-              'A way out to a person. When the conversation truly needs someone, it reaches someone, with the whole history attached.',
+              'A way out to a person. When the conversation needs someone from your team, it reaches someone from your team, with the whole history attached.',
             ],
             link: { label: 'Assistant on your internal documentation', href: '/en/services/corporate-knowledge' },
           },
@@ -3646,24 +3646,24 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Why chatbots have a bad name',
             part: 'The brief',
             paragraphs: [
-              'Almost everyone has suffered one: the bot that circles its script, misses the second question and hides the path to a human. And when the human finally arrives, you tell the whole story again. That experience was not caused by artificial intelligence. It was caused by a design decision, measuring the bot by how many conversations it “contains” away from the human team instead of how many it actually resolves.',
-              'We measure it the other way round. A conversation counts when the task got done or when it reached the right person with full context. So the way out to a person is never hidden, and the handover carries the whole history, so nobody repeats what they already wrote. A customer who wanted a person and got one fast comes back. One who fought a script for ten minutes does not, and neither does their recommendation.',
+              'Almost everyone has suffered one: the bot that circles its script, misses the second question and hides the path to a human. And when the human finally arrives, you tell the whole story again. That experience was not caused by artificial intelligence. It was caused by a way of measuring. Many bots are asked to hold on to as many conversations as possible without passing them to the human team, instead of resolving as many as possible.',
+              'We measure it the other way round. A conversation counts when the task got done or when it reached the right person with full context. So the way out to a person is never hidden, and the handover carries the whole history, so nobody repeats what they already wrote. A customer who asked for a person and got one fast comes back. One who fought a script for ten minutes does not, and does not recommend you either.',
             ],
           },
           {
             heading: 'From script to actions',
             part: 'The brief',
             paragraphs: [
-              'The chatbots of a few years ago were trees of buttons. They worked until the customer wrote the way people write, with context, with two questions in one, with the third option the tree never had. The current generation does not follow a script. The model understands the intent and picks from a closed set of actions we define with you: book, check, change, escalate. The code executes the chosen action and validates the result before replying.',
-              'That division has a consequence you notice early. Adding a new transaction is not rewriting a whole tree, it is adding one action with its tests. And removing one is just removing it, with no dead branches left behind.',
+              'The chatbots of a few years ago were menus of buttons. They worked until the customer wrote the way people write, giving context, packing two questions into one or asking for the option the menu never had. The current generation does not follow a script. The model understands the intent and picks from a closed set of actions we define with you: book, check, change, escalate. The code executes the chosen action and validates the result before replying.',
+              'That division has a consequence you notice early. Adding a new transaction is not rewriting a whole tree, it is adding one action with its tests. And removing one is just removing it, with no leftovers of an old menu in the way.',
             ],
           },
           {
             heading: 'A few transactions, truly closed',
             part: 'The brief',
             paragraphs: [
-              'The classic mistake of this market is the bot that knows about everything and closes nothing. We prefer the opposite, an agent that handles a few transactions and finishes them, with every category measured on its own. If eighty percent of your conversations are three procedures, the agent that nails those three is worth more than the one that answers a hundred questions poorly.',
-              'In practice every transaction is a named category with its test cases and its number. “Change an appointment” is measured on its own: if its accuracy drops, it shows in its row and not diluted into an average that hides it. Categories grow when the numbers ask for it, not when the demo suggests it.',
+              'The classic mistake of this market is the bot that knows about everything and closes nothing. We prefer the opposite, an agent that handles a few transactions and finishes them, with every category measured on its own. If eighty percent of your conversations are three procedures, the agent that does those three perfectly is worth more than the one that answers a hundred questions poorly.',
+              'In practice every transaction is a named category with its test cases and its number. “Change an appointment” is measured separately, so if its accuracy drops it shows up in its own row instead of being hidden inside a general average. Categories grow when the numbers ask for it, not when the demo suggests it.',
             ],
           },
           {
@@ -3671,7 +3671,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Trust is built',
             paragraphs: [
               'Customer service is where a conversational agent pays for itself first. It answers the routine, qualifies the rest and escalates what needs judgment, so waiting queues turn into immediate replies. Our real-estate client saves more than three hours a day on incoming requests. The team now just books viewings.',
-              'Half the value sits in the clock. Enquiries do not arrive during office hours, they arrive when the customer has the phone in hand, and every unanswered hour cools the intent. An agent that replies within the minute turns that overnight trickle into next-morning appointments.',
+              'Half the value sits in what time you reply. Enquiries do not arrive during office hours, they arrive when the customer has the phone in hand, and the longer the reply takes the less interested they are. An agent that replies within the minute turns that overnight trickle into next-morning appointments.',
             ],
             link: { label: 'The real-estate case', href: '/en/real-estate' },
           },
@@ -3696,8 +3696,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'A serious chatbot does not live alone',
             part: 'Trust is built',
             paragraphs: [
-              'An agent that only chats is a brochure with a cursor. The value sits in the connections: the calendar it checks before offering a slot, the CRM where it writes, the database it pulls answers from. And connections bring their duty, because any external system can go down on a Tuesday at eleven.',
-              'When that happens, the agent neither pretends nor breaks. It says that this particular transaction is unavailable right now, carries on with the rest, and your team learns from an alarm, not from the complaints. How that resilience is built, with a mechanism that sets aside the broken pieces, is on the blog in detail.',
+              'An agent that only chats is not worth much. The value sits in the connections: the calendar it checks before offering a slot, the CRM where it writes, the database it pulls answers from. And connections bring their duty, because any external system can go down on a Tuesday at eleven.',
+              'When that happens, the agent neither pretends nor breaks. It says that this particular transaction is unavailable right now, carries on with the rest, and your team learns from an alarm, not from the complaints. How that is built, with a mechanism that automatically sets aside whichever piece is failing, is on the blog in detail.',
             ],
             link: { label: 'What your assistant does when a tool goes down', href: '/en/blog/when-a-tool-goes-down' },
           },
@@ -3705,8 +3705,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What it answers and what it never makes up',
             part: 'Trust is built',
             paragraphs: [
-              'The reasonable fear of any manager is a bot improvising in front of a customer. It is disabled with architecture, not with promises. Knowledge answers come from your data and your documentation, with the source next to them. The delicate lines, a refund policy, a legal condition, a price, are not written by the model. They are texts you approved, delivered verbatim. You can edit them without touching code.',
-              'And when there is no data to answer with, the agent says so and offers the way to a person. An honest “I don’t know” keeps customers. An invented answer loses them politely, which is the worst way to lose them.',
+              'The reasonable fear of any manager is a bot improvising in front of a customer. That is not avoided with promises, it is avoided by the way the thing is built. Knowledge answers come from your data and your documentation, with the source next to them. The delicate lines, a refund policy, a legal condition, a price, are not written by the model. They are texts you approved, delivered verbatim. You can edit them without touching code.',
+              'And when there is no data to answer with, the agent says so and offers the way to a person. An honest “I don’t know” keeps customers. An invented answer loses them without you ever finding out, which is the worst way to lose them.',
             ],
           },
           {
@@ -3714,7 +3714,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Trust is built',
             paragraphs: [
               'We run our own product in production, Wazzy, a WhatsApp assistant that manages appointment bookings, changes and cancellations for clinics and service businesses. It checks real-time availability, updates calendar and records, and escalates urgencies to the team. Operating our own product keeps us sharp, and every lesson lands back in client projects.',
-              'The discipline can be counted. Wazzy watches 91 named invariants, conditions that must always hold, through 103 active control points spread across the system. When we sell production engineering, this is what we mean. And the full circuit gets rehearsed regularly with a real booking that is cleaned up afterwards, because a test that never touches the real world does not test the real world.',
+              'That discipline can be counted in numbers. Wazzy watches 91 conditions that must always hold, each one with its own name, through 103 control points spread across the system. When we talk about production engineering, this is what we mean. And the full circuit gets rehearsed regularly with a real booking that is cleaned up afterwards, because a test that never touches the real world does not test the real world.',
             ],
             link: { label: 'Meet Wazzy', href: 'https://wazzy.io' },
           },
@@ -3731,7 +3731,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Trust is built',
             paragraphs: [
               'Conversational systems degrade quietly. A model update or a new document can change answers with no visible error. Every change runs against a test suite before it ships and every conversation leaves a record that can be reconstructed.',
-              'Operations have their numbers too: what share ends in a task done, what share escalates and for which reasons, what each conversation costs. Those decide which category to tune and which to add. And the alarms carry their own caps, because one noisy alarm drowning the others is worse than none.',
+              'Operations have their numbers too: what share ends in a task done, what share escalates and for which reasons, what each conversation costs. Those decide which category to tune and which to add. And each alarm carries its own cap on how often it can fire, because an alarm that goes off constantly drowns the rest and ends up being worse than having none.',
             ],
           },
           {
@@ -3739,14 +3739,14 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Deciding with judgment',
             paragraphs: [
               'A conversational agent does not launch to the whole world on day one. It debuts bounded, on one channel, one time window or one group of customers, with its categories measured from the first conversation. The delicate texts go out approved by you before anyone reads them, and your team knows how an escalation arrives and what to do with it.',
-              'A few weeks in, the numbers tell the truth: what gets finished inside the conversation, what escalates with which reasons and what people ask that we had not foreseen. That decides the growth, category by category. It is how the agent expands without ever shipping anything untested.',
+              'A few weeks in, the numbers tell the truth: what gets finished inside the conversation, what escalates with which reasons and what people ask that we had not foreseen. That decides the growth, category by category. It is how the agent grows without ever putting anything in front of a customer that has not been tested first.',
             ],
           },
           {
             heading: 'When a chatbot is not worth it',
             part: 'Deciding with judgment',
             paragraphs: [
-              'Saying so is also the service. If a handful of conversations reach you per day, a well-written FAQ page and a person who answers fast are cheaper and more human. If the answers you need live in no system, the real first job is organizing that knowledge, not mounting the bot. And if your customers need to talk to someone by the very nature of the matter, the right move is getting them to that person sooner, not putting a machine in the way.',
+              'Saying so is also the service. If a handful of conversations reach you per day, a well-written FAQ page and a person who answers fast are cheaper and more human. If the answers you need live in no system, the real first job is organizing that knowledge, not mounting the bot. And if your customers need to talk to a person because of what the matter is, the right move is getting them there sooner, not putting a machine in between.',
               'A conversational agent pays off when there is volume, when the information exists and when a real share of the transactions can be finished inside the conversation. If your case misses any of the three, we tell you on the first call.',
             ],
           },
@@ -3754,7 +3754,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What it costs',
             part: 'Deciding with judgment',
             paragraphs: [
-              'The ranges we publish for any agent of ours apply here, and the factor specific to conversation is volume, because every conversation spends its model calls. In Wazzy we have the cost of each conversation measured, and that accounting travels into client projects. You will know what answering costs before commissioning it, not after. The full breakdown is in the cost guide.',
+              'The ranges we publish for any agent of ours apply here, and the factor specific to conversation is volume, because every conversation spends its model calls. In Wazzy we have the cost of each conversation measured, and we apply that same measurement in client projects. You will know what answering costs before commissioning it, not after. The full breakdown is in the cost guide.',
             ],
             link: { label: 'AI agent development cost, broken down', href: '/en/ai-agent-development-cost' },
           },
