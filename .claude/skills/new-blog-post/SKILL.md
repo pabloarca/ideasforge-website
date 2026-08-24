@@ -14,12 +14,14 @@ so the language switcher and hreflang link them automatically.
 The body copy of any post MUST follow the `redactar` skill workflow: read
 `.private/base-editorial.md` first (facts bank, style rules, keyword map),
 use only VERIFICADO facts, and self-check against its acceptance criteria
-before showing a draft. Section 12 of that document is the piece method:
-every post names ONE concept (and registers it), opens with experience
-before theory, improves one concrete reader decision, closes with a
-callback plus a take-away question, and links 2-3 sibling pieces anchored
-on their concept names. Bold is for complete thesis sentences only, and
-scanning just the bold lines must tell the whole argument. `.private/PENDIENTES.md` (section 9) holds the
+before showing a draft. Since 24 Aug 2026 the
+redactar contract also rules here: this skill only sets up the skeleton
+(frontmatter, files, hero image); the body is drafted in ONE language,
+substance before form, and the mirror is written only after the owner
+approves the original. Section 12 of the arbiter (named concept, experience
+before theory, one reader decision, callback close, sibling links) is a
+toolbox for the form pass, not a checklist.
+`.private/PENDIENTES.md` (section 9) holds the
 writing queue, with the verified facts backing each piece and the service page
 it supports; prefer those when the user has no specific topic.
 

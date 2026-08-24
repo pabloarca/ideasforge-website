@@ -17,7 +17,7 @@ El OCR, el reconocimiento óptico de caracteres, convierte una imagen en texto. 
 
 ## Así se ve en producción
 
-Para Stanton, un gestor inmobiliario, las facturas de luz, gas y agua de los inquilinos se procesaban a mano. Cada documento llegaba en el formato de su comercializadora y alguien lo convertía en datos aprovechables, factura a factura. Hoy esas facturas entran por un chat de Telegram que hace de buzón, el OCR las lee, el modelo las estructura y cada una aterriza como una fila normalizada en la hoja de cálculo que el equipo ya usaba. Dos agentes de IA en producción. Y el cliente sigue ampliando la automatización a más procesos administrativos, que es la señal de que la primera pieza funcionó.
+Para Stanton, un gestor inmobiliario, las facturas de luz, gas y agua de los inquilinos se procesaban a mano. Cada documento llegaba en el formato de su comercializadora y alguien lo convertía en datos con los que trabajar, factura a factura. Hoy esas facturas entran por un chat de Telegram que hace de buzón, el OCR las lee, el modelo las estructura y cada una aterriza como una fila normalizada en la hoja de cálculo que el equipo ya usaba. Dos agentes de IA en producción. Y el cliente sigue ampliando la automatización a más procesos administrativos, que es la señal de que la primera pieza funcionó.
 
 Ese detalle final importa más de lo que parece. **La automatización administrativa que sobrevive no llega como un gran proyecto que lo cambia todo, llega proceso a proceso, empezando por el que más duele.**
 

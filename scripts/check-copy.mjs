@@ -52,6 +52,14 @@ const PALABRAS_VETADAS = [
   'transformador', 'imprescindible', 'potenciar', 'impulsar', 'empoderar',
   'sinergia', 'panorama', 'en un mundo donde', 'imagina que',
   'es importante destacar', 'cabe señalar', 'en definitiva', 'prosa',
+  // Resto del informe de texto generado, completado el 24 ago 2026. Los
+  // prefijos cazan la familia entera (aprovech- llega a «aprovechables»).
+  // Fuera de la lista, con motivo: «clave» (uso literal en la guía,
+  // «devuelve una clave, un identificador») y «optimizar» (nombre del
+  // cuarto paso del método). Una regla que llora en falso acaba ignorada.
+  'fascinante', 'aprovech', 'sumergir', 'profundiz', 'desbloque', 'elevar',
+  'en constante evolución', 'punto de inflexión', 'retrofit', 'deprec',
+  'no es solo', 'no se trata de',
 ];
 
 function revisa(nombre, textoBruto) {
