@@ -305,19 +305,14 @@ export interface SiteContent {
   /** Diagrama de la guía: el chatbot de guion frente al agente. */
   chatVsAgent: {
     title: string;
+    lanes: { bot: string; agente: string };
     nodes: {
-      pregunta: string;
-      guion: string;
-      respuestaFija: string;
-      fueraDelGuion: string;
-      modeloElige: string;
-      herramientaA: string;
-      herramientaB: string;
-      herramientaC: string;
-      valida: string;
-      tareaHecha: string;
+      botUsuario: string;
+      botRespuesta: string;
+      agenteUsuario: string;
+      agenteElige: string;
+      agenteResponde: string;
     };
-    edges: { muere: string };
     legend: string;
   };
   /** Diagrama del examen previo a publicar, en el modal de observabilidad. */
@@ -898,22 +893,17 @@ export const content: Record<Lang, SiteContent> = {
         'El modelo nunca llega a tocar tus sistemas. Interpreta la pregunta y entrega un contrato. A partir de ahí decide el código, que sí se comporta igual siempre. Lo peor que puede conseguir un mensaje malicioso es que se elija mal dentro de una lista que ya hemos revisado.',
     },
     chatVsAgent: {
-      title: 'Un chatbot de guion y un agente, lado a lado',
+      title: 'Bot vs Agente de IA',
+      lanes: { bot: 'BOT', agente: 'AGENTE DE IA' },
       nodes: {
-        pregunta: 'La persona escribe',
-        guion: 'Guion fijo',
-        respuestaFija: 'Respuesta prevista',
-        fueraDelGuion: 'Fuera del guion',
-        modeloElige: 'El modelo elige',
-        herramientaA: 'Consultar agenda',
-        herramientaB: 'Buscar en documentación',
-        herramientaC: 'Registrar el dato',
-        valida: 'Código valida',
-        tareaHecha: 'Tarea hecha en tus sistemas',
+        botUsuario: 'El usuario elige o escribe una opción',
+        botRespuesta: 'El bot contesta una respuesta predefinida',
+        agenteUsuario: 'El usuario escribe',
+        agenteElige: 'El modelo elige entre sus herramientas',
+        agenteResponde: 'Responde al usuario',
       },
-      edges: { muere: 'no le he entendido' },
       legend:
-        'Lo que cambia entre los dos carriles es quién elige el camino. Arriba el camino viene escrito de antemano y lo que se sale de él muere en un «no le he entendido». Abajo el modelo elige qué herramienta usa según lo que le piden. Un código comprueba esa elección antes de que toque nada tuyo.',
+        'La diferencia está en quién decide la respuesta. La del bot ya estaba escrita antes de que nadie preguntara, así que solo sirve para lo que alguien previó. La del agente se construye en ese momento, eligiendo qué herramienta usa según lo que le han pedido.',
     },
     gateDiagram: {
       title: 'Qué le pasa a un cambio antes de salir',
@@ -1313,7 +1303,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Guía',
           title: 'Agentes de IA, qué son y para qué sirven en tu empresa',
           subtitle:
-            'Un agente de IA es un programa que usa un modelo de lenguaje para entender qué se le pide y actuar sobre tus sistemas. Esta guía lo explica en lenguaje llano, con las cinco formas que puede adoptar, lo que puede salir mal y las preguntas que conviene hacer antes de contratar a nadie. Actualizada en agosto de 2026.',
+            'Un agente de IA es un programa que usa un modelo de lenguaje para entender qué se le pide y actuar sobre tus sistemas. Esta guía lo explica en lenguaje llano, con las cinco formas que puede adoptar, lo que puede salir mal y las preguntas que conviene hacer antes de contratar a nadie.',
         },
         sections: [
           {
@@ -2647,22 +2637,17 @@ export const content: Record<Lang, SiteContent> = {
         'The model never reaches your systems. It interprets the question and hands over a contract, and from there the code decides, and the code does behave the same every time. The worst a malicious message can achieve is a wrong pick from a list we have already reviewed.',
     },
     chatVsAgent: {
-      title: 'A scripted chatbot and an agent, side by side',
+      title: 'Bot vs AI agent',
+      lanes: { bot: 'BOT', agente: 'AI AGENT' },
       nodes: {
-        pregunta: 'The person writes',
-        guion: 'Fixed script',
-        respuestaFija: 'Scripted reply',
-        fueraDelGuion: 'Off the script',
-        modeloElige: 'The model chooses',
-        herramientaA: 'Check the calendar',
-        herramientaB: 'Search the documentation',
-        herramientaC: 'Register the record',
-        valida: 'Code validates',
-        tareaHecha: 'Task done in your systems',
+        botUsuario: 'The user picks or types an option',
+        botRespuesta: 'The bot returns a predefined answer',
+        agenteUsuario: 'The user writes',
+        agenteElige: 'The model picks from its tools',
+        agenteResponde: 'It answers the user',
       },
-      edges: { muere: 'I did not understand' },
       legend:
-        'What changes between the two lanes is who picks the path. On the top lane the path is written in advance and anything outside it dies in an "I did not understand". On the bottom lane the model picks which tool to use for what it was asked, and code checks that choice before it touches anything of yours.',
+        'The difference is who decides the answer. The bot’s answer was written before anyone asked, so it only covers what somebody anticipated. The agent’s answer gets built at that moment, by choosing which tool to use for what it was asked.',
     },
     gateDiagram: {
       title: 'What happens to a change before it ships',
@@ -3064,7 +3049,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Guide',
           title: 'AI automation, what it is and what it can do for your business',
           subtitle:
-            'AI automation means software that understands language and documents well enough to run work that used to need a person, and this guide explains it without selling you a platform. The five shapes it takes, what breaks, what it costs and the questions worth asking before you hire anyone. Updated August 2026.',
+            'AI automation means software that understands language and documents well enough to run work that used to need a person, and this guide explains it without selling you a platform. The five shapes it takes, what breaks, what it costs and the questions worth asking before you hire anyone.',
         },
         sections: [
           {
