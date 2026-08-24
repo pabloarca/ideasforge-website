@@ -837,7 +837,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           q: '¿Cómo sabéis que la IA sigue funcionando bien después de entregarla?',
-          a: 'Con dos ritmos. Un banco de pruebas de regresión se ejecuta antes de cada cambio y lo bloquea si baja la calidad. Y una vez en marcha, seguimos midiendo cada semana. Si el sistema deja de entender bien una pregunta, lo detectamos antes de que llegue al usuario final.',
+          a: 'De dos maneras. Una batería de pruebas se ejecuta antes de cada cambio y lo bloquea si baja la calidad. Y una vez en marcha, seguimos midiendo cada semana. Si el sistema deja de entender bien una pregunta, lo detectamos antes de que llegue al usuario final.',
         },
         {
           q: '¿Trabajáis solo con grandes empresas?',
@@ -2570,7 +2570,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           q: 'How do you know AI keeps working after delivery?',
-          a: 'Two rhythms. A regression suite runs before every change and blocks it if quality drops. Once live, we keep measuring every week. If the system stops understanding a question, we catch it before it reaches the end user.',
+          a: 'In two ways. A test suite runs before every change and blocks it if quality drops. Once live, we keep measuring every week. If the system stops understanding a question, we catch it before it reaches the end user.',
         },
         {
           q: 'Do you only work with large enterprises?',
@@ -3932,16 +3932,16 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Compliance is an architecture decision, not a paperwork one',
             paragraphs: [
-              'The regulation itself never mentions artificial intelligence by name. It regulates personal data, and an assistant that reads invoices, books appointments or answers questions about your operations is soaked in personal data from the first day. So the same familiar principles apply, and each of them lands on a concrete engineering choice.',
+              'The regulation itself never mentions artificial intelligence by name. It regulates personal data, and an assistant that reads invoices, books appointments or answers questions about your operations is full of personal data from the first day. So the same familiar principles apply, and each of them lands on a concrete engineering choice.',
               'Data minimisation stops being a policy line and becomes a question about context. A language model can only leak what it was given, so the real control is what enters the prompt in the first place. Purpose limitation becomes a question about tools. An agent that can only call three approved functions cannot quietly repurpose your data, because it has no path to do so. And accountability becomes a question about records. If the system cannot show why it did what it did, no policy document will show it either.',
-              'This is why we say the paperwork is downstream of the architecture. A well-built system makes the DPA, the impact assessment and the register of processing activities faster to write and easier to defend, because every claim in those documents points at something that actually exists in the code. The reverse does not work. No amount of documentation makes an unaccountable system accountable.',
+              'This is why we say the paperwork follows the architecture and not the other way round. A well-built system makes the DPA, the impact assessment and the register of processing activities faster to write and easier to defend, because every claim in those documents points at something that actually exists in the code. The reverse does not work. No amount of documentation makes an unaccountable system accountable.',
             ],
           },
           {
             heading: 'Two European rules, one architecture',
             paragraphs: [
-              'A company deploying AI in Europe now answers to two regulations at once. The GDPR governs what may happen to personal data, whoever processes it. The AI Act sorts systems by the risk of their use, from banned practices to minimal risk, and hangs concrete duties on companies that deploy the risky ones, oversight, monitoring and logs among them. Its broad middle applies since 2 August 2026, with fines tiered up to 35 million euros or 7 percent of turnover at the top of the scale.',
-              'We keep the full map of that second regulation on its own page, role by role and duty by duty, because it deserves the space. One piece belongs here, though, since it is about data rather than systems. In December 2024 the European Data Protection Board published Opinion 28/2024, its first word on AI models themselves, and two findings matter for a buyer. Whether a trained model is anonymous gets assessed case by case, and legitimate interest can only carry AI processing after a documented three-step assessment. Neither is a rubber stamp. Both reward providers who can show their homework, which is the posture this whole page describes.',
+              'A company deploying AI in Europe now answers to two regulations at once. The GDPR governs what may happen to personal data, whoever processes it. The AI Act sorts systems by the risk of their use, from banned practices to minimal risk, and places concrete duties on companies that deploy the risky ones, oversight, monitoring and logs among them. The bulk of it applies since 2 August 2026, with fines tiered up to 35 million euros or 7 percent of turnover at the top of the scale.',
+              'We keep the full map of that second regulation on its own page, role by role and duty by duty, because it deserves the space. One piece belongs here, though, since it is about data rather than systems. In December 2024 the European Data Protection Board published Opinion 28/2024, its first word on AI models themselves, and two findings matter for a buyer. Whether a trained model is anonymous gets assessed case by case, and legitimate interest can only carry AI processing after a documented three-step assessment. Neither is a rubber stamp. Both reward providers who can show their homework, which is the approach this whole page describes.',
             ],
             link: { label: 'The full guide: EU AI Act compliance for deployers', href: '/en/eu-ai-act-compliance' },
           },
@@ -3950,7 +3950,7 @@ export const content: Record<Lang, SiteContent> = {
           part: 'Where your data goes',
             id: 'infrastructure',
             paragraphs: [
-              'The infrastructure runs in a cloud account that belongs to you, not to us, and the repository is in your name from the first day. We do not host your assistant on our side and hand you a login. This is unusual in the sector and it is deliberate, because it collapses a whole family of questions your DPO would otherwise have to chase. There is no second controller to map, no vendor database holding a copy of your records and no exit negotiation if we part ways. The system stays where it always was, with its documentation and its history.',
+              'The infrastructure runs in a cloud account that belongs to you, not to us, and the repository is in your name from the first day. We do not host your assistant on our side and hand you a login. This is unusual in the sector and it is deliberate, because it removes a whole family of questions your DPO would otherwise have to chase. There is no second controller to map, no vendor database holding a copy of your records and no exit negotiation if we part ways. The system stays where it always was, with its documentation and its history.',
               'The only outbound path is the call to the model provider, the company that runs the language model itself. You approve which provider, under which agreement and with which settings, and you approve what is allowed to travel inside those calls. Nothing else leaves the account. Model providers sign data processing agreements, the contracts that bind a supplier to process data only on your instructions, and the serious ones offer European processing regions. Whether a given setup satisfies the rules on international transfers is your lawyers’ assessment to make. Our job is to hand them a complete map of what flows where, so the assessment takes days instead of months.',
               'Everything else in this page builds on that starting point. Isolation, records and health-data handling all assume the data already sits inside an account you control, because that is the only place from which the rest can be guaranteed.',
             ],
@@ -3960,15 +3960,15 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What actually travels in a model call',
             paragraphs: [
               'Minimisation stops being abstract the moment you look inside one call. A request to a language model carries three things: the instructions that tell the model its job, the context it may use for this answer and the question the person just asked. That is the entire surface. The model never connects to your database, never browses your systems and never receives what the code did not put in the envelope.',
-              'So the real engineering question is what the code puts in the envelope, and the answer should embarrass nobody. A well-built agent sends the few rows or paragraphs the person is entitled to, already filtered, rather than shovelling tables in and hoping the model quotes the right part. Sending less is safer. It also happens to be cheaper and more accurate, because a model reasons more reliably over one page of relevant material than over fifty pages of noise.',
-              'When your DPO asks what the provider can see, the envelope is the answer, documented per use case. In our deployments that document is short, and more than one reviewer has been surprised by how little actually leaves. The assistant that answers production questions does not export your production database. It sends one person’s question and that person’s permitted slice of context, then throws the reply into the same records everything else goes through.',
+              'So the real engineering question is what the code puts in the envelope, and the answer should be one you can show to anyone. A well-built agent sends the few rows or paragraphs the person is entitled to, already filtered, rather than shovelling tables in and hoping the model quotes the right part. Sending less is safer. It also happens to be cheaper and more accurate, because a model reasons more reliably over one page of relevant material than over fifty pages of noise.',
+              'When your DPO asks what the provider can see, the envelope is the answer, documented per use case. In our deployments that document is short, and more than one reviewer has been surprised by how little actually leaves. The assistant that answers production questions does not export your production database. It sends one person’s question and that person’s permitted slice of context, then writes the reply into the same records as everything else.',
             ],
           },
           {
             heading: 'So is using ChatGPT itself GDPR-compliant?',
             paragraphs: [
-              'It is the question every committee asks first, and it is usually the wrong question, because "ChatGPT" names several different products with different data terms. A free browser tab, a paid workspace subscription and an API contract, the machine-to-machine interface a system like ours calls, are three different legal surfaces. Terms about training, retention and European processing differ across them, and they change over time, so a blanket yes or no printed on this page would be worthless the month after we wrote it.',
-              'The useful question is which surface your data enters and under which agreement. An employee pasting a customer email into a free consumer tool is one situation. A system calling an API under a signed data processing agreement, in a European region, with training excluded and with only a filtered context in the envelope, is a different situation entirely, even when the model underneath carries the same name. Your lawyers assess the agreement. We build the second situation, and we hand them the evidence that it is what actually runs.',
+              'It is the question every committee asks first, and it is usually the wrong question, because "ChatGPT" names several different products with different data terms. A free browser tab, a paid workspace subscription and an API contract, the machine-to-machine interface a system like ours calls, are three different situations in the eyes of the law. Terms about training, retention and European processing differ across them, and they change over time, so a blanket yes or no printed on this page would be worthless the month after we wrote it.',
+              'The useful question is which of the three your data enters and under which agreement. An employee pasting a customer email into a free consumer tool is one situation. A system calling an API under a signed data processing agreement, in a European region, with training excluded and with only a filtered context in the envelope, is a different situation entirely, even when the model underneath carries the same name. Your lawyers assess the agreement. We build the second situation, and we hand them the evidence that it is what actually runs.',
               'This is also why a company that bans AI tools outright often ends up with less control, not more. The demand does not disappear, it moves to personal accounts and phones where no agreement, no logging and no filter applies. A sanctioned assistant with the right architecture gives people the capability inside a perimeter someone actually governs.',
             ],
           },
@@ -3979,7 +3979,7 @@ export const content: Record<Lang, SiteContent> = {
               'Data sovereignty gets used as a marketing word, so it is worth pinning down. It means that the location of your data, the keys that open it and the identity system that says who is who all answer to you, under a jurisdiction you chose. Location alone does not get you there. A system whose data sits in Frankfurt but whose access keys, admin accounts and logs belong to a vendor is sovereign in the brochure and nowhere else.',
               'There is a spectrum, and honesty about it beats slogans. At one end sits shared software where your data lives in someone else’s multi-tenant product under their terms. Then comes running in a European region of a large cloud, then a cloud account of your own, then your own servers in your own building. Each step buys control and costs convenience. We build in the third position by default, your own cloud account, because it delivers the control that matters, ownership of data, keys and identity, without asking your team to run physical machines.',
               'The honest paragraph, and the one most providers skip. The application we build runs entirely inside infrastructure you own. The language model itself usually does not, because we call it as a service from the provider you approve. Running an open model on your own hardware would close that last gap, and it is a different project with different costs and different quality trade-offs. We have not deployed open models in production, so we will not sell you that experience as if we had it. If full on-premise inference is a hard requirement for you, say so in the first conversation, because it changes the architecture from the foundations up.',
-              'Questions about third-country access statutes, the American ones included, belong in that same first conversation. They are legal terrain and your counsel will have a view. What we control is the engineering that determines how much there is to worry about, which is the subject of the next two sections.',
+              'Questions about foreign governments reaching your data, the American laws included, belong in that same first conversation. They are legal terrain and your counsel will have a view. What we control is the engineering that determines how much there is to worry about, which is the subject of the next two sections.',
             ],
           },
           {
@@ -4001,7 +4001,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'When we fixed the architecture, a whole class of bugs died',
             paragraphs: [
-              'Layers are good. Changing the ground so the failure cannot exist is better, and one of our systems shows the difference. Its isolation originally worked by filtering, every query carrying a condition that said which company’s rows were allowed. We later rebuilt the data store so that each company lives in its own schema, its own sealed compartment inside the database, and the combined view joins them with the company stamped onto every single row. After that change, adding two companies into one figure stopped being a bug that a filter must catch and became a query that cannot be written.',
+              'Layers are good. Changing the design so the failure cannot exist is better, and one of our systems shows the difference. Its isolation originally worked by filtering, every query carrying a condition that said which company’s rows were allowed. We later rebuilt the data store so that each company lives in its own schema, its own sealed compartment inside the database, and the combined view joins them with the company stamped onto every single row. After that change, adding two companies into one figure stopped being a bug that a filter must catch and became a query that cannot be written.',
               'The practical effect showed up immediately. A fuzzy name comparison that had been a genuine security worry under the filtering design simply stopped mattering, because even a wrong match could no longer cross a schema boundary. Fixing the architecture killed the entire class of failures, not one instance of it. That is the standard we aim for wherever the data allows it, and it is a useful question to ask any provider. Which failures are impossible in your design, rather than merely caught.',
             ],
           },
@@ -4020,7 +4020,7 @@ export const content: Record<Lang, SiteContent> = {
           part: 'What it looks like in practice',
             paragraphs: [
               'Wazzy, our own appointments product, runs in dental, physiotherapy and aesthetics clinics. An appointment note that says who visits which clinic and why is health data, which the GDPR places in its most protected category and permits us to process under Article 9.2.h, the ground that covers healthcare provision. We did not choose the hardest category to make a point. The product needed it, and the result is that our practices were shaped by the strictest case first.',
-              'Every sensitive field is encrypted on its own, with AES-256-GCM, rather than relying on the disk being encrypted underneath. The difference matters in practice. Disk encryption protects you if someone steals the hardware, while field-level encryption protects the data from every process and person that touches the database in normal operation. Deletion is designed against the law rather than against instinct, because Spanish clinical-record law requires keeping medical history for five years. A deletion request must honour the patient without quietly breaking a legal retention duty, so the system separates what is erased now from what is retained under obligation, and can show which is which.',
+              'Every sensitive field is encrypted on its own, with AES-256-GCM, rather than relying on the disk being encrypted underneath. The difference matters in practice. Disk encryption protects you if someone steals the hardware, while field-level encryption protects the data from every process and person that touches the database in normal operation. Deletion is designed around what the law requires rather than around instinct, because Spanish clinical-record law requires keeping medical history for five years. A deletion request must honour the patient without quietly breaking a legal retention duty, so the system separates what is erased now from what is retained under obligation, and can show which is which.',
               'We built all of that because we had to. It is the reason this page can speak from experience rather than from a checklist, and it is the standard the rest of our client work inherits.',
             ],
           },
@@ -4038,7 +4038,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Record the decision, not only the result. Every meaningful step is written down, what the assistant understood, what it asked for, what the validator rejected and why. The log is append-only, meaning entries can be added but never edited or removed, and the system never reads it back during execution, so it cannot influence an answer even in principle. It exists for one purpose, to be inspected afterwards by someone with a question. That someone might be your DPO, an auditor or a supervisory authority, and the answer they get is the record of what happened, not a reconstruction from memory.',
               'The telemetry, the technical measurements the system sends home about its own health, works the other way round. It runs on an allow-list, so a field that is not explicitly on the list cannot be transmitted at all. The internal records are structurally unable to receive personal data. Not "we try not to log it", but "the field is not on the list, so it cannot arrive". When a regulator asks what your monitoring collects, the answer is a short, closed list rather than an investigation.',
-              'Even expiry is designed to be visible. Access tokens, the temporary credentials that prove who is asking, die after about an hour, and re-running an old request with a dead token produces a clear 401 error instead of silently borrowing fresher credentials. We would rather a system fail loudly and honestly than succeed in a way nobody can account for. A new and visible error is a better posture than a comfortable silence.',
+              'Even expiry is designed to be visible. Access tokens, the temporary credentials that prove who is asking, die after about an hour, and re-running an old request with a dead token produces a clear 401 error instead of silently borrowing fresher credentials. We would rather a system fail loudly and honestly than succeed in a way nobody can account for. A new and visible error beats a comfortable silence.',
             ],
           },
           {
@@ -4060,7 +4060,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'How we keep it true after launch',
             paragraphs: [
-              'A compliance story that was true at launch and unmeasured afterwards is a story, and the ground under these systems moves. Model providers update models without changing their names, your documentation grows and your data drifts. So we run two rhythms, kept deliberately separate. Before any change ships, a regression battery, a bank of real annotated cases the system must answer correctly, blocks the release if quality drops. And once a week, on the live system, we run a real conversation from end to end and check what actually happened.',
+              'A compliance story that was true at launch and unmeasured afterwards is a story, and these systems change underneath you. Model providers update models without changing their names, your documentation grows and your data shifts over time. So we do two separate things. Before any change ships, a test battery, a bank of real annotated cases the system must answer correctly, blocks the release if quality drops. And once a week, on the live system, we run a real conversation from end to end and check what actually happened.',
               'This is the same discipline that catches a model quietly getting worse, applied to the promises on this page. The isolation, the records and the refusal behaviours are tested like features, because that is what they are. When your DPO asks in March whether the guarantees from the September review still hold, the honest answer is a test result, not a shrug.',
             ],
             link: { label: 'Why keeping AI alive is the hard part', href: '/en/blog/keeping-ai-alive' },
@@ -4069,7 +4069,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Eight questions to put to any provider, including us',
           kind: 'checklist',
             paragraphs: [
-              'The introduction promised you would leave knowing what to ask. These are the questions we would ask in your chair, in the order that exposes the most.',
+              'The introduction promised you would leave knowing what to ask. These are the questions we would ask if we were sitting on your side of the table, in the order that exposes the most.',
             ],
             bullets: [
               'In whose cloud account does the system run, and what happens to it the day we stop working together.',
@@ -4155,7 +4155,7 @@ export const content: Record<Lang, SiteContent> = {
           ctaHref: '#short',
         },
         stats: [
-          { value: '2 Aug 2026', label: 'the date the broad middle of the Act, deployer duties included, became applicable' },
+          { value: '2 Aug 2026', label: 'the date the bulk of the Act, deployer duties included, became applicable' },
           { value: '6 months', label: 'minimum retention for the logs a high-risk deployer must keep under its control' },
           { value: '3%', label: 'of worldwide turnover, the fine bracket most company breaches fall into, with 7% reserved for prohibited practices' },
         ],
@@ -4183,7 +4183,7 @@ export const content: Record<Lang, SiteContent> = {
               'It sorts systems by risk into four levels: prohibited, high, limited and minimal. Your duties depend on the level, not on how advanced the technology is.',
               'Roles decide everything else. Providers build and place systems on the market, deployers use them, and most companies reading this are deployers.',
               'Deploying a high-risk system triggers Article 26, a concrete list of duties around oversight, input data, monitoring and logs.',
-              'The calendar has already happened. Bans and AI literacy since February 2025, general-purpose model rules since August 2025, the broad middle since August 2026.',
+              'The calendar has already happened. Bans and AI literacy since February 2025, general-purpose model rules since August 2025, the bulk of it since August 2026.',
               'Fines are tiered, up to 35 million euros or 7 percent of turnover for prohibited practices and up to 15 million or 3 percent for most other breaches.',
             ],
           },
@@ -4215,7 +4215,7 @@ export const content: Record<Lang, SiteContent> = {
             bullets: [
               'Since 2 February 2025. The prohibited practices became illegal, and Article 4 began requiring AI literacy, meaning staff who work with AI systems must be trained to a level appropriate to their role. This applies to every AI system, high-risk or not.',
               'Since 2 August 2025. The obligations for providers of general-purpose models apply, including the regime for models with systemic risk. If you deploy systems built on large models, your providers have been under duties for a year.',
-              'Since 2 August 2026. The broad middle of the regulation applies, including Article 26 for deployers of high-risk systems and the Article 50 transparency duties, like telling people they are interacting with a machine.',
+              'Since 2 August 2026. The bulk of the regulation applies, including Article 26 for deployers of high-risk systems and the Article 50 transparency duties, like telling people they are interacting with a machine.',
               'Through 2027. The remaining tranche arrives for high-risk AI embedded in products already covered by EU safety law, medical devices and machinery among them, with its own dates.',
             ],
           },
@@ -4224,7 +4224,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'The map of the law',
             paragraphs: [
               'The penalty structure is tiered like the GDPR’s. Prohibited practices reach 35 million euros or 7 percent of worldwide turnover, whichever is higher. Most other breaches, deployer duties included, reach 15 million or 3 percent. Supplying misleading information to authorities has its own lower tier. Which bracket a concrete failure lands in is a legal question, and the honest answer to "how likely is an inspection" is that nobody selling you certainty deserves your trust.',
-              'What can be said with evidence is who is watching. Each member state names its market surveillance authority, and ours is a useful preview of the breed because it moved first. AESIA, the Spanish agency created by Royal Decree 729/2023, was the first dedicated national AI supervisor in Europe, has held full sanctioning powers since August 2025 and published sixteen compliance guides within months of the regulation biting. Its public posture through 2026 has been warnings before sanctions, and it has already opened preliminary investigations into systems deployed by Spanish organisations. The window in which nobody was looking is closing on schedule, not with a bang.',
+              'What can be said with evidence is who is watching. Each member state names its market surveillance authority, and ours is a useful preview of what these authorities look like, because it moved first. AESIA, the Spanish agency created by Royal Decree 729/2023, was the first dedicated national AI supervisor in Europe, has held full sanctioning powers since August 2025 and published sixteen compliance guides within months of the regulation biting. Its declared line through 2026 has been warnings before sanctions, and it has already opened preliminary investigations into systems deployed by Spanish organisations. The window in which nobody was looking is closing, on schedule and without drama.',
               'The practical consequence for a buyer is timing. Building demonstrability into a system while it is being built costs little, and we know because it is how we work anyway. Retrofitting it under an authority’s deadline is the expensive version of the same project.',
             ],
           },
@@ -4232,7 +4232,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Is it even an AI system under the Act?',
             part: 'Which box you are in',
             paragraphs: [
-              'Committees lose real time here, so settle it early. The Act defines an AI system through seven elements, and the load-bearing one is inference: a machine-based system, operating with some autonomy, that infers from its input how to generate outputs like predictions, recommendations or decisions. The European Commission published guidelines on this exact definition in February 2025, precisely because every company asked the same question.',
+              'Committees lose real time here, so settle it early. The Act defines an AI system through seven elements, and the one that carries the weight is inference: a machine-based system, operating with some autonomy, that infers from its input how to generate outputs like predictions, recommendations or decisions. The European Commission published guidelines on this exact definition in February 2025, precisely because every company asked the same question.',
               'The practical reading is narrower than the panic. A calculator, a fixed spreadsheet formula or a rules engine that applies the same written logic every time does not infer, and generally falls outside. A system that learns patterns, ranks candidates, scores risk or generates text does infer, and is in. The borderline cases exist, they belong to counsel, and the reasoning is worth writing down either way.',
               'For anything built on a language model the question answers itself, models infer, that is their entire job. So we never spend a client’s money arguing that an agent is not AI. We spend it building the agent so that the duties that follow are already met.',
             ],
@@ -4242,17 +4242,17 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Which box you are in',
             paragraphs: [
               'Two roles carry almost all of the weight. A provider develops an AI system, or has one developed, and places it on the market under its own name. A deployer uses an AI system professionally, under its own authority, for its own purposes. The provider owes the design-side duties, conformity, documentation and registration where it applies. The deployer owes the use-side duties, and they are the subject of this guide.',
-              'A bank that buys a credit-scoring system from a vendor is a deployer, with duties about oversight, monitoring and logs. The vendor is the provider, with duties about how the system was built and documented. The same split repeats down the market: the clinic using an appointment assistant, the manufacturer using a diagnostic aid and the gestoría running document extraction are deployers of those systems, whoever built them.',
-              'When we build a custom agent for a client, the question of who counts as provider of that specific system is exactly the kind of boundary a contract should fix in writing rather than leave to vibes. We flag it in the first conversation, our lawyers and yours settle the wording, and the engineering side of the answer, who documents what, who keeps which records, is designed in rather than argued about later.',
+              'A bank that buys a credit-scoring system from a vendor is a deployer, with duties about oversight, monitoring and logs. The vendor is the provider, with duties about how the system was built and documented. The same split repeats down the market: the clinic using an appointment assistant, the manufacturer using a diagnostic aid and the accounting firm running document extraction are deployers of those systems, whoever built them.',
+              'When we build a custom agent for a client, the question of who counts as provider of that specific system is exactly the kind of boundary a contract should fix in writing rather than leave to assumption. We flag it in the first conversation, our lawyers and yours settle the wording, and the engineering side of the answer, who documents what, who keeps which records, is designed in rather than argued about later.',
             ],
           },
           {
             heading: 'How a deployer becomes a provider without noticing',
             part: 'Which box you are in',
             paragraphs: [
-              'The roles are not permanent labels. The Act moves a deployer into the provider seat when it puts its own name or trademark on a high-risk system, when it substantially modifies one, or when it changes a system’s intended purpose into high-risk territory. The third one is the quiet trap, because intended purpose sounds like marketing language and is actually the load-bearing concept of the whole regulation.',
+              'The roles are not permanent labels. The Act moves a deployer into the provider seat when it puts its own name or trademark on a high-risk system, when it substantially modifies one, or when it changes a system’s intended purpose into high-risk territory. The third one is the quiet trap, because intended purpose sounds like marketing language and is actually the concept the whole regulation rests on.',
               'Concretely. A company that licenses a general document assistant and turns it into a tool that screens job applications has changed the purpose into an Annex III domain, and with it, possibly, its own role. A company that rebadges a vendor’s system as its own product has walked into provider duties by branding. None of this outlaws customisation, it prices it, and the price is documentation and duties that someone must consciously accept.',
-              'Whether any specific modification is "substantial" is a legal judgment. Our contribution is narrower and earlier. Systems built with a written intended purpose, a record of what changed and logs of what the system actually does give your lawyers the raw material to make that judgment cheaply. Systems assembled informally give them nothing to work with, and the default answer of a careful lawyer holding nothing is the expensive one.',
+              'Whether any specific modification is "substantial" is a legal judgment. Our contribution is narrower and earlier. Systems built with a written intended purpose, a record of what changed and logs of what the system actually does give your lawyers the raw material to make that judgment cheaply. Systems assembled informally give them nothing to work with, and a careful lawyer with nothing to work from will always give you the expensive answer.',
             ],
           },
           {
@@ -4296,7 +4296,7 @@ export const content: Record<Lang, SiteContent> = {
               'Keep your input data relevant and sufficiently representative, to the extent you control it. Feeding a scoring system data it was never designed for is a deployer failure, not a provider one.',
               'Monitor the system’s operation against those instructions, and tell the provider, and where required the authorities, when you see risk or serious incidents.',
               'Keep the automatically generated logs that are under your control for at least six months, longer where other law says so. No logs, no defence.',
-              'Tell workers and their representatives before putting a high-risk system over them at the workplace. Quietly switching on monitoring is its own breach.',
+              'Tell workers and their representatives before deploying a high-risk system that affects them at work. Quietly switching on monitoring is its own breach.',
               'Use the provider’s information to run your data protection impact assessment where one is due. The two regulations meet exactly here.',
               'Cooperate with the market surveillance authority when it comes asking, which folds every duty above into one practical question, can you show your homework.',
             ],
@@ -4324,7 +4324,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'What deployers must do',
             paragraphs: [
               'The transparency duties in Article 50 apply since August 2026 and they are refreshingly concrete. People interacting with an AI system must be informed they are doing so, unless it is obvious from context. Synthetic audio, image and video content must be marked as artificially generated. Deployers of emotion recognition or biometric categorisation must inform the people exposed to them.',
-              'For the systems most companies actually run, this reduces to honest interface design. The assistant introduces itself as an assistant, the generated report says it was generated and the escalation path to a human is real. We covered how our own conversational systems present themselves and hand urgent cases to staff on the sovereignty page, and the same design serves this article without modification. Duties that are cheap to meet when designed in, and embarrassing to meet retroactively, are a pattern by now.',
+              'For the systems most companies actually run, this reduces to honest interface design. The assistant introduces itself as an assistant, the generated report says it was generated and the escalation path to a human is real. We covered how our own conversational systems present themselves and hand urgent cases to staff on the sovereignty page, and the same design serves this article without modification. By now the pattern is clear. These duties are cheap to meet when they are designed in and embarrassing to meet after the fact.',
             ],
             link: { label: 'How our systems present themselves and escalate', href: '/en/gdpr-compliant-ai' },
           },
@@ -4332,9 +4332,9 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Most of Article 26 is an engineering property',
             part: 'How it lands in a real system',
             paragraphs: [
-              'Read the duty list again with an engineer’s eye and it decomposes into three system properties. Things the system must produce about itself, logs and records. Things a human must be able to do to it, inspect, intervene and override. And things it must never silently change, its purpose and its inputs. None of the three can be added convincingly after the fact, all three are cheap when they are design decisions.',
+              'Read the duty list again with an engineer’s eye and it breaks down into three properties of the system. Things the system must produce about itself, logs and records. Things a human must be able to do to it, inspect, intervene and override. And things it must never silently change, its purpose and its inputs. None of the three can be added convincingly after the fact, all three are cheap when they are design decisions.',
               'This is where our practice happens to line up with the regulation, not because we built for the Act but because production forced the same conclusions earlier. Our systems write down each decision as it happens, in a record that can be added to but never edited, and the system itself never reads that record back, so it documents behaviour without influencing it. Oversight is not a name in a file. The people behind our assistants get real queues with real trails, and every action a system takes on someone’s behalf runs under that person’s own permissions, so the question "who could have done this" always has an answer your identity system already knew.',
-              'Monitoring, the duty that sounds vaguest, is the one we can show most concretely. Before any change ships, a battery of real annotated cases must pass, and one of our systems carries 118 of them. After shipping, a weekly probe runs a real conversation against the live system end to end. Two rhythms, deliberately separate, and together they are precisely the "monitor the operation of the system" evidence Article 26 asks a deployer to have.',
+              'Monitoring, the duty that sounds vaguest, is the one we can show most concretely. Before any change ships, a battery of real annotated cases must pass, and one of our systems carries 118 of them. After shipping, a weekly probe runs a real conversation against the live system end to end. Two separate checks, kept apart on purpose, and together they are precisely the "monitor the operation of the system" evidence Article 26 asks a deployer to have.',
             ],
             link: { label: 'The records, isolation and identity design in full', href: '/en/gdpr-compliant-ai' },
           },
