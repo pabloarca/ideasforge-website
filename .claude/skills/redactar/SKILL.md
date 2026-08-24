@@ -130,3 +130,12 @@ Detalle completo en el criterio 7 del árbitro.
   final. Estructura completa en la sección 12.B del árbitro.
 - **Experiencia antes que teoría**: el problema se vive antes de definirse.
   Prohibido abrir con contexto o definición.
+- **En una pieza explicativa, informar pesa más que posicionarse** (decisión
+  del propietario, 24 ago 2026). En guías y textos que definen algo, no se
+  cuela cómo lo construimos nosotros como si fuera la definición, ni se
+  defiende nuestra arquitectura donde toca explicar el concepto. Nuestra
+  postura va al final, enlazada y ofrecida, nunca disfrazada de definición.
+- **Metáfora que obliga a descifrar, fuera.** Si el lector tiene que traducir
+  la imagen (el folleto, la silla, la cocina, la vara, la tubería, el suelo
+  que se mueve), se dice en llano. La prueba es leer la frase en voz alta
+  ante alguien de fuera del sector.

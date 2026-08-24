@@ -3014,14 +3014,14 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Guide',
           title: 'AI automation, what it is and what it can do for your business',
           subtitle:
-            'AI automation means software that understands language and documents well enough to run work that used to need a person, and this guide explains it without selling you a platform. The five shapes it takes, what breaks, what it costs and the questions we would ask in your chair, written from five of our systems in production. Updated August 2026.',
+            'AI automation means software that understands language and documents well enough to run work that used to need a person, and this guide explains it without selling you a platform. The five shapes it takes, what breaks, what it costs and the questions worth asking before you hire anyone. Written from the systems we keep in production. Updated August 2026.',
           cta: 'See the five shapes it takes',
           ctaHref: '#shapes',
         },
         stats: [
           { value: '5', label: 'of our systems running today with real users' },
           { value: '118', label: 'real cases in the test battery of one of them' },
-          { value: '~€0.05', label: 'cost of the weekly end-to-end test on a live system' },
+          { value: '~€0.05', label: 'cost of the weekly test that runs a real system from end to end' },
         ],
         sections: [
           {
@@ -3030,33 +3030,34 @@ export const content: Record<Lang, SiteContent> = {
             part: 'The short answer',
             paragraphs: [
               'AI automation is the use of language models inside business processes so that work which used to need a person reading, interpreting or deciding can run on its own. The word covers everything from an invoice that files itself to an assistant that answers questions against your databases, and that breadth is why most of what you find when you search it is a list of twenty tools. This guide is not a tool list. It explains the thing itself, from systems we run in production, so you can judge any tool or any proposal, including ours.',
-              'One design idea underneath everything that follows. In our systems, judgment lives in the code, interpretation of the world lives in the model and knowledge lives in the data. The model understands what a person wrote or what a document says. Ordinary, testable software decides what happens with that understanding, under whose permissions and with which limits. Getting that split right is the difference between automation you can trust and a demo with good manners.',
-              'The reason this field exploded now, and not five years ago, is narrow and concrete. Current models can reliably fill a fixed structure with what they understood, which means code can validate the result before anything happens. Free text cannot be validated. A fixed structure can, and that single capability is what made language safe enough to put inside business processes.',
+              'There are three pieces inside one of these systems and it is worth telling them apart, because each does a different job. The language model understands what a person wrote or what a document says, however badly it was written. Ordinary software, the kind that has existed for decades, decides what happens with that understanding, under whose permissions and within which limits. And your data is the information the answer gets built from.',
+              'If you take one idea from this guide, take that split. What makes these systems useful is the model. What makes them reliable is everything else.',
+              'The reason this field took off now, and not five years ago, is narrow and concrete. Today’s models can hand back what they understood in a fixed structure, with named fields, instead of in a paragraph somebody would have to read again. It sounds like a detail and it changes everything, because a fixed structure can be checked by a program before anything happens and free text cannot.',
             ],
           },
           {
-            heading: 'The five shapes, from a fixed flow to a swarm',
+            heading: 'The five shapes, from the simplest to the most autonomous',
             id: 'shapes',
             part: 'The map of the concept',
             kind: 'checklist',
             paragraphs: [
-              'Almost every proposal you will read is one of five shapes, and the words used to sell them are interchangeable while the shapes are not. Knowing which one your problem needs saves months, because each shape carries a different bill for testing, watching and fixing. They are listed here from the most contained to the most autonomous, which is also the order in which we consider them.',
+              'Almost every proposal you will read is one of five shapes, and the words used to sell them are interchangeable while the shapes are not. Knowing which one your problem needs saves months, because each shape costs a different amount to test, to watch and to fix when it breaks. They are listed here from the most contained to the most autonomous, which is also the order in which we consider them.',
             ],
             bullets: [
-              'A fixed flow with no model at all. A trigger fires, steps run in a set order, rules decide the branches. Your ERP and your integration platform already do this and it is the cheapest thing that works. The warning sign that you have outgrown it is a tree of exceptions that nobody dares to touch, one branch added for every unusual case that showed up.',
-              'A fixed flow with model stops. The same reliable pipeline, with the model called at the two or three points that need reading or interpreting, and code doing everything else. This is the most common shape in real business systems today and it is the one we reach for first. Stanton, a property manager, runs on it, invoices arrive, a model reads them, code validates and files.',
+              'A fixed flow with no model at all. A trigger fires, steps run in a set order, rules decide the branches. Your ERP and your integration platform already do this and it is the cheapest thing that works. The warning sign that you have outgrown it is a tangle of exceptions nobody dares to touch any more, one for every unusual case that showed up.',
+              'A fixed flow with model stops. The same reliable flow as always, with the model called only at the two or three points that need reading or interpreting, and code doing everything else. This is the most common shape in real business systems today and it is the one we reach for first. Stanton, a property manager, runs on it, invoices arrive, a model reads them, code validates and files.',
               'An agent. Instead of a set path, it receives a goal, a closed set of actions and the boundaries, then decides which action to take next based on what it finds. Right when the route genuinely varies with each case, expensive when the route was predictable all along. The warning sign that you did not need one is a system prompt that spells out the exact sequence of steps.',
-              'An agent inside a flow. A pipeline keeps the outer shape, and one of its steps hands control to an agent that improvises within that step and hands it back. It buys the flexibility where the case is messy and keeps the predictability everywhere else, which is why most of what we build for qualification and document handling ends up here.',
-              'Several agents with an orchestrator. One entry point understands the request and routes it to a specialist, each with its own tools and limits. Our plant-floor assistant runs this way, with half a dozen specialists behind the orchestrator. It is the right answer for genuinely different domains under one door, and the wrong one for everything else, because if a single agent is hard to keep honest, six are six times harder.',
+              'An agent inside a flow. The flow keeps its outer shape, and one of its steps hands control to an agent that solves that piece its own way and hands it back. It gives room where cases arrive messy and keeps everything else predictable, which is why most of what we build for qualification and document handling ends up here.',
+              'Several agents with an orchestrator. One entry point understands the request and routes it to a specialist, each with its own tools and limits. Our plant-floor assistant runs this way, with half a dozen specialists behind the orchestrator. It is the right answer for genuinely different domains under one door, and the wrong one for everything else, because if one agent is already hard to keep under control, six are six times harder.',
             ],
           },
           {
             heading: 'Where agentic AI sits on that ladder',
             part: 'The map of the concept',
             paragraphs: [
-              'Agentic AI is the phrase attached to the last three rungs, the ones where the model chooses steps rather than following them. It is a real idea and a wide range, from a pipeline where code sets the path and the model interprets at fixed points, to a free agent deciding everything on its own. The trouble is that the word is used as a grade, as if higher on the ladder meant better built.',
-              'It does not. Every step the model decides is a step someone has to test, watch and pay for, so autonomy is a budget to allocate rather than a feature to maximise. Anthropic, the lab behind the Claude models, recommends exactly this in its reference guide, start with workflows orchestrated by code and reserve autonomy for what genuinely needs it. Our production experience agrees for the unglamorous reason above.',
-              'For a buyer the practical question is never whether something is agentic. It is how far up the ladder the proposal sits, whether it needed to be there, and what contains the model at that height. We wrote down our full position, numbers and uncomfortable parts included.',
+              'Agentic AI is the phrase attached to the last three rungs, the ones where the model chooses steps rather than following them. It is a real idea and a wide range, from a pipeline where code sets the path and the model interprets at fixed points, to a free agent deciding everything on its own. The trouble is that the word gets used as if it were a high grade, as if being further up the ladder meant being better built.',
+              'It does not. Every step the model decides is a step someone has to test, watch and pay for, so autonomy is a budget to allocate rather than a feature to maximise. Anthropic, the lab behind the Claude models, recommends exactly this in its reference guide, start with workflows orchestrated by code and reserve autonomy for what genuinely needs it. Our production experience agrees, for the unglamorous reason just given.',
+              'For a buyer the practical question is never whether something is agentic. It is how far up the ladder the proposal sits, whether it needed to be there, and what contains the model at that height. If you want our full opinion on this, numbers and uncomfortable parts included, we wrote it down separately.',
             ],
             link: { label: 'Why we distrust agentic architectures', href: '/en/blog/i-dont-like-ai-agents' },
           },
@@ -3073,8 +3074,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What it can do, and what it cannot',
             part: 'The map of the concept',
             paragraphs: [
-              'None of these shapes is plug and play, and the gap between a good result and a disappointing one is almost always the scope rather than the model. Scope it too wide and the system is mediocre at forty things and trusted for none. Scope it too narrow and the scaffolding costs more than the work it saves. The projects that land well pick one job with a real edge around it, prove it, then widen.',
-              'What today’s systems do well is read what arrives in no fixed shape, understand a request phrased in any of twenty ways, follow a procedure step by step, and act inside a closed set of actions that somebody approved. That list is genuinely new and it is why processes that survived every earlier automation wave are now in play.',
+              'None of these shapes is plug and play, and the gap between a good result and a disappointing one is almost always the scope rather than the model. Scope it too wide and the system is mediocre at forty things and trusted for none. Scope it too narrow and the setup costs more than the work it saves. The projects that go well pick one job with a clear edge around it, prove it, then widen.',
+              'What today’s systems do well is read what arrives in no fixed shape, understand a request phrased in any of twenty ways, follow a procedure step by step, and act inside a closed set of actions that somebody approved. That list is short, and every item on it used to require a person.',
               'What they do not do is invent knowledge nobody wrote down, guarantee an outcome without code checking it first, or improve on their own while nobody measures. And they are one tool among several. Part of our job is telling you when the honest answer is a rule, a form or a redesigned process, because a model added to a broken process only makes the mess arrive faster.',
             ],
           },
@@ -3082,7 +3083,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Everyone’s data, in its own lane',
             part: 'What goes wrong',
             paragraphs: [
-              'The second fear is the assistant mixing what it must not, two clients, two companies, two employees with different permissions. Our house rule is that this separation never depends on the model behaving. The context only contains what the asker may see, code validates every request against a closed permission list and the query itself carries a filter that returns nothing rather than everything when in doubt.',
+              'One of the first fears in any committee is the assistant mixing what it must not, two clients, two companies, two employees with different permissions. The rule that matters is that this separation never depends on the model behaving. The context only contains what the asker may see, code validates every request against a closed permission list and the query itself carries a filter that returns nothing rather than everything when in doubt.',
               'The full story, four layers and the redesign that erased a whole class of failures, is told separately. And if your review involves lawyers, the deeper page on data, records and European rules is the one to forward.',
             ],
             link: { label: 'GDPR-compliant AI on infrastructure you own', href: '/en/gdpr-compliant-ai' },
@@ -3091,9 +3092,9 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Measured before every change, watched after',
             part: 'What goes wrong',
             paragraphs: [
-              'The third risk is the one almost nobody budgets, and it is the reason this section exists. The ground moves on its own. The provider updates the model without renaming it, your documentation grows, your data drifts. Stanford and Berkeley researchers measured it on the same commercial model in March and June of 2023, and on one task accuracy fell from 97.6 percent to 2.4 percent with nobody on the client side touching anything. Gartner expects over 40 percent of agentic AI projects to be cancelled before the end of 2027, and in our experience that mortality sits here rather than at the launch.',
-              'Models are not deterministic, they do not return exactly the same answer twice, so checking a response once proves nothing. The discipline that works against a moving ground is statistical and boring. Before any change ships, a battery of annotated real cases must pass, 118 cases in one of our systems, 145 conversations in our appointments product. If quality drops, the change does not go out.',
-              'After launch the watching continues. Once a week we run a real conversation against the live system end to end, at about five cents per run. In the plant assistant, routing calibration was measured on real cases and went from 72 to 91 percent accuracy, and we also knew when to stop, chasing one hundred percent shapes the test against the system instead of improving it.',
+              'There is a risk almost nobody budgets for. An AI system can get worse on its own, with nobody touching it. The provider updates the model without renaming it, your documentation grows and your data changes over time. Stanford and Berkeley researchers measured it on the same commercial model in March and June of 2023, and on one task accuracy fell from 97.6 percent to 2.4 percent with nobody on the client side touching anything. Gartner expects over 40 percent of agentic AI projects to be cancelled before the end of 2027, and in our experience that mortality sits here rather than at the launch.',
+              'Models are not deterministic, they do not return exactly the same answer twice, so checking a response once proves nothing. The only discipline that works there is statistical and boring. Before any change ships, a battery of annotated real cases must pass, 118 cases in one of our systems, 145 conversations in our appointments product. If quality drops, the change does not go out.',
+              'After launch the watching continues. Once a week we run a real conversation against the live system end to end, at about five cents per run. In the plant assistant, routing calibration was measured on real cases and went from 72 to 91 percent accuracy, and we also knew when to stop, because chasing one hundred percent ends up tuning the tests to pass rather than improving the system.',
               'These figures exist because the systems are built to produce them. When you evaluate any provider, ourselves included, ask for theirs. What it takes to keep a system alive past its first six months has its own article.',
             ],
             link: { label: 'Starting is easy, keeping AI alive is the hard part', href: '/en/blog/keeping-ai-alive' },
@@ -3103,7 +3104,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'For your company',
             paragraphs: [
               'Our method has four named steps and each one hands over something tangible. Explore, understand the process and the data and say plainly whether we see a return, because when we do not, we say so and it ends there. Prioritise, choose the first case by pain and by figure, not by spectacle. Implement, build that bounded case and take it to production with its test battery in place. And optimise, measure what it does with real users and decide the next step with data.',
-              'The shape matters as much as the steps. The project does not start with a platform that will do everything. It starts with one process that hurts and one figure that should move, and everything this guide described, the measurement, the isolation, the two rhythms, enters that first case from day one, because adding it later is the expensive version.',
+              'The shape matters as much as the steps. The project does not start with a platform that will do everything. It starts with one process that hurts and one figure that should move, and everything this guide described, the tests before every change, the watching afterwards and the separation of data, enters that first case from day one, because adding it later is the expensive version.',
             ],
           },
           {
@@ -3114,9 +3115,9 @@ export const content: Record<Lang, SiteContent> = {
               'Not every task deserves this. Here is the sieve we apply before accepting a project, in order.',
             ],
             bullets: [
-              'A repetitive task with judgment inside exists. Pure mechanical steps are cheaper with classic automation. If each case requires understanding something, a document, a request, a question, that is where the model earns its place.',
-              'The information it needs exists and is reachable. An agent without clean data answers from probability, which has another name. Sometimes the first real work is ordering the sources.',
-              'A business figure should move, hours, requests handled, response times. If nobody can name the number, the project has no judge, and projects without a judge cannot be defended.',
+              'There is a task that repeats often and needs judgment. Purely mechanical steps are cheaper with classic automation. If each case requires understanding something, a document, a request, a question, that is where the model earns its place.',
+              'The information it needs exists and is reachable. An agent without reliable data answers with whatever seems most likely, which is exactly what hallucinating means. Sometimes the first real work is ordering the sources.',
+              'A business figure should move, hours, requests handled, response times. If nobody can name the number, there will be no way to know whether it worked, nor to defend it when renewal comes around.',
               'Someone inside will own it. A production system needs a person who reads the metrics and takes small decisions every month. Without an internal owner, the best system becomes an orphan.',
             ],
           },
@@ -3125,7 +3126,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'For your company',
             paragraphs: [
               'The build-or-buy question has an unhelpful reputation as a technology choice. It is a variety choice. Where your process is standard, a proven product will beat a custom build on speed and price, and pretending otherwise would be selling you hours. Where your process carries your particular judgment, your data model and your exceptions, off-the-shelf tools flatten exactly what makes the process yours, and the subscription that looked cheap starts costing workarounds.',
-              'The pattern we see work is unromantic. Buy the commodity edges, the ticketing, the calendars, the accounting software, and build the thin intelligent layer that reads, decides and connects them the way your operation actually runs. That layer is where agents live, it is small enough to afford and it is the part no vendor can ship in a box, because the box has never seen your business.',
+              'The pattern that works is unglamorous. Buy the standard pieces, the ticketing, the calendars, the accounting software, and build the thin layer of intelligence that reads, decides and connects them the way your operation actually runs. That layer is where agents live, it is small enough to afford and it is the part no vendor can ship in a box, because the box has never seen your business.',
               'One caution from the buying side. If a proposal only makes sense with every process migrated onto someone’s platform, you are not buying automation, you are buying a dependency. Ask what remains yours the day the contract ends. Our answer is everything, repository, infrastructure and data, and it is in writing.',
             ],
           },
@@ -3139,10 +3140,10 @@ export const content: Record<Lang, SiteContent> = {
             bullets: [
               'Starting with the impressive case instead of the painful one. Spectacle wins applause, the boring hour-eating process wins renewed budget.',
               'Buying the platform before the case. First one process in production with its figure, then the platform conversation, if it is still needed.',
-              'Leaving measurement for the end. The test battery is built with the system, not after the scare. Retrofitting costs double and arrives late.',
+              'Leaving measurement for the end. The test battery is built with the system, not after the scare. Adding it afterwards costs double and arrives late.',
               'Naming no internal owner. An ownerless agent is an orphan within three months, metrics unread and small decisions untaken.',
               'Waiting for perfect data. Reachable is enough, and ordering it is usually the first phase of the project, worth more than any prompt tuning.',
-              'Promising the committee full autonomy. It sells well for one afternoon and gets paid for over years. Autonomy is dosed by cost and reliability, not by headline.',
+              'Promising the committee full autonomy. It sounds excellent in the meeting and gets paid for over years. You decide autonomy by cost and reliability, not by headline.',
             ],
           },
           {
@@ -3150,7 +3151,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'For your company',
             kind: 'lattice',
             paragraphs: [
-              'With this guide read, these six questions show you the kitchen of any proposal, ours included.',
+              'With this guide read, these six questions let you see inside any proposal, ours included.',
             ],
             bullets: [
               'Which infrastructure does it run on, and in whose name are the account and the repository.',
@@ -3183,7 +3184,7 @@ export const content: Record<Lang, SiteContent> = {
         faq: [
           {
             q: 'Does AI automation replace the team?',
-            a: 'In our projects it replaces tasks, not jobs. The system absorbs the repetitive volume, the triage, the first reply, the typing, and people keep the part that needs judgment. In the real-estate case, the team stopped filtering requests and went back to scheduling visits, which is the work that produces revenue.',
+            a: 'In our projects it replaces tasks, not jobs. The system absorbs the repetitive volume, the triage, the first reply, the typing, and people keep the part that needs judgment. At the real-estate agency we work with, the team stopped filtering requests and went back to scheduling visits, which is the work that produces revenue.',
           },
           {
             q: 'What is the difference between AI automation and RPA?',
@@ -3823,7 +3824,7 @@ export const content: Record<Lang, SiteContent> = {
         stats: [
           { value: '5', label: 'systems in production behind these numbers' },
           { value: '145', label: 'annotated conversations gate every change to our appointments assistant' },
-          { value: '~€0.05', label: 'cost of the weekly end-to-end test on a live system' },
+          { value: '~€0.05', label: 'cost of the weekly test that runs a real system from end to end' },
         ],
         sections: [
           {
