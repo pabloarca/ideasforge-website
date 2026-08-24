@@ -1536,8 +1536,8 @@ export const content: Record<Lang, SiteContent> = {
         metaDescription:
           'Diseñamos, construimos y mantenemos agentes de IA para empresas: a medida, sobre tu infraestructura, con tus permisos y medidos antes de cada cambio.',
         hero: {
-          eyebrow: 'Desarrollo de agentes de IA',
-          title: 'Agentes de IA para empresas que llegan a producción',
+          eyebrow: 'Desarrollo de agentes de IA a medida',
+          title: 'Agentes de IA para empresas, construidos para llegar a producción y quedarse.',
           subtitle:
             'Diseñamos, construimos y mantenemos agentes de IA a medida para medianas y grandes empresas. Sobre tu infraestructura, con las cuentas de tu organización y medidos antes de cada cambio.',
           cta: 'Cuéntanos tu reto',
@@ -1552,11 +1552,11 @@ export const content: Record<Lang, SiteContent> = {
             ],
             kind: 'lattice',
             bullets: [
-              'Consultas a tus datos. La pregunta se escribe en lenguaje natural y la respuesta sale de tu base de datos por un camino validado, nunca de la memoria del modelo.',
-              'Asistente sobre tu documentación. Manuales, wikis y sistemas internos respondiendo en una sola conversación y citando de dónde salió cada respuesta.',
+              'Consultas a tus datos. La pregunta se escribe en lenguaje natural y la respuesta sale de tu base de datos por un camino validado, nunca de la memoria del modelo. «¿Cuánto facturamos en marzo en la zona norte?», escrito así, tal cual se le preguntaría a un compañero.',
+              'Asistente sobre tu documentación. Manuales, wikis y sistemas internos respondiendo en una sola conversación y citando de dónde salió cada respuesta. La política de devoluciones que hoy vive repartida entre tres manuales se contesta en una frase, con su fuente al lado.',
               'Diagnóstico guiado. El agente pregunta, descarta y acompaña paso a paso hasta la causa, como nuestro asistente de planta cuando una máquina se para.',
-              'Cualificación de solicitudes. Cada entrada se lee, se puntúa y se dirige. Tu equipo recibe solo las que valen su tiempo.',
-              'Acciones sobre tus sistemas. La gestión completa, ejecutada dentro de un conjunto cerrado de acciones que tú apruebas.',
+              'Cualificación de solicitudes. Cada entrada se lee, se puntúa y se dirige. Tu equipo recibe solo las que valen su tiempo. De veinte solicitudes de presupuesto que entran por la web, tres merecen una llamada hoy y el resto puede esperar a mañana.',
+              'Acciones sobre tus sistemas. La gestión completa, ejecutada dentro de un conjunto cerrado de acciones que tú apruebas. Dar de alta al cliente, generar su contrato y dejarlo listo para la firma, sin que nadie copie datos de una pantalla a otra.',
             ],
             link: { label: 'Si estás situando el concepto, empieza por la guía de agentes de IA', href: '/agentes-de-ia' },
           },
@@ -1565,25 +1565,66 @@ export const content: Record<Lang, SiteContent> = {
             part: 'El servicio',
             paragraphs: [
               'Hay dos maneras de meter IA en una empresa y no se compran igual. La primera es dar herramientas a las personas, un chat donde pegar un documento y pedir el resumen. Ahí el resultado lo sigue produciendo la persona, que revisa cada salida antes de usarla. La segunda es un sistema que produce el resultado él solo, una factura registrada, una solicitud cualificada, una cifra entregada. Nadie revisa cada salida una a una, así que alguien tiene que poder responder por el sistema entero.',
+              'La diferencia se ve con un caso cualquiera. Pegar un contrato en un chat y leer el resumen antes de reenviarlo es lo primero. Trescientas facturas al mes entrando en tu contabilidad sin que nadie pulse aprobar es lo segundo.',
               'Nosotros construimos lo segundo. Esa diferencia explica todo lo que sigue en esta página, porque a un sistema que firma resultados se le exige lo que a una herramienta de ayuda nadie le pide: pruebas antes de cada cambio, registro de cada decisión y mantenimiento medido. Quien compra un agente no compra una licencia, compra un sistema operado con disciplina.',
+            ],
+          },
+          {
+            heading: 'Lo que antes no salía a cuenta automatizar',
+            part: 'El servicio',
+            paragraphs: [
+              'Los procesos con reglas claras se automatizan desde hace décadas. Lo que se quedaba fuera era todo lo que llega mal formado. Un cliente manda el pedido en PDF, otro lo escribe en el cuerpo del correo y un tercero pide «lo del mes pasado, pero para el almacén nuevo». Automatizar eso exigía o una persona picando datos o un proyecto de reglas que se rompía con el primer proveedor que escribía distinto.',
+              'Un modelo de lenguaje cambia esa cuenta, porque la parte cara ya no es leer la entrada sucia. Nuestros agentes viven justo ahí. El modelo entiende el pedido escrito de cualquier manera y el resto del sistema lo trata con la misma disciplina que un desarrollo de siempre. Por eso los encargos de arriba comparten forma, en medio de cada uno hay algo que leer o interpretar y alrededor hay código que se comporta igual todas las veces.',
+            ],
+          },
+          {
+            heading: 'La autonomía se gana por etapas',
+            part: 'El servicio',
+            paragraphs: [
+              'Nadie enchufa el primer día un sistema que actúa solo sobre sus cuentas. Un agente empieza proponiendo, con una persona que revisa cada salida y la envía. Cuando la batería de pruebas y las semanas de uso enseñan por dónde acierta, se le sueltan las acciones de menos riesgo. Un agente que responde a proveedores contesta las primeras semanas en modo borrador y el equipo decide qué sale. Más adelante envía él solo las confirmaciones de recepción, mientras una reclamación o una negociación de precios siguen pasando por una persona.',
+              'Hay una regla que no rompemos nunca. No ampliamos a la vez lo que el agente toca y lo que decide solo. Si le abrimos un sistema nuevo, vuelve a empezar con visto bueno aunque llevara meses operando sin él en el anterior.',
             ],
           },
           {
             heading: 'La seguridad es el punto de partida',
             part: 'Las garantías',
+            paragraphs: [
+              'El modelo decide, pero nunca es la autoridad. Elige dentro de un conjunto cerrado de acciones que el código revisa antes de ejecutar nada. El agente de un taller puede consultar el historial de un vehículo, proponer cita y enviar un presupuesto. Borrar no puede, porque esa acción no existe en su lista y pedírsela por escrito no la crea. Por eso el límite no vive en una instrucción que el modelo pueda desoír, ahí está la diferencia entera entre una garantía y una petición educada.',
+              'Los agentes actúan con los permisos de la persona que los usa, a través de las cuentas de tu organización. Si le retiras el acceso a alguien, el agente también lo pierde.',
+              'El reparto de papeles es la regla de la casa: el juicio vive en el código, la interpretación vive en el modelo y el conocimiento vive en tus datos. Todo lo que pueda resolverse con código determinista se resuelve con código, porque cada llamada al modelo en producción añade coste, latencia y una variabilidad que hay que vigilar. Calcular un vencimiento o aplicar un tipo de IVA es código y sale igual las mil veces. Entender que «lo del otro día para el almacén nuevo» es el pedido 4512 con otra dirección de entrega, eso es el modelo. De ahí salen sistemas más baratos de operar y más fáciles de auditar, no menos capaces.',
+              'Y cuando conviven datos de varias empresas o de varias áreas, el aislamiento no se pide por instrucciones. Se construye en capas que acaban en un filtro que el modelo no puede tocar y al agente solo se le entrega el contexto de quien pregunta, para que ni siquiera pueda formular una consulta sobre datos ajenos. Es lo que una asesoría ya exige a su propio equipo, que cada gestor vea sus empresas y ninguna más, aplicado a una pieza de software que además improvisa.',
+            ],
+          },
+          {
+            heading: 'El modelo interpreta, el código decide',
+            part: 'Las garantías',
             diagram: true,
             paragraphs: [
-              'El modelo decide, pero nunca es la autoridad. Elige dentro de un conjunto cerrado de acciones que el código revisa antes de ejecutar nada. Los agentes actúan con los permisos de la persona que los usa, a través de las cuentas de tu organización. Si le retiras el acceso a alguien, el agente también lo pierde.',
-              'El reparto de papeles es la regla de la casa: el juicio vive en el código, la interpretación vive en el modelo y el conocimiento vive en tus datos. Todo lo que pueda resolverse con código determinista se resuelve con código, porque cada llamada al modelo en producción añade coste, latencia y una variabilidad que hay que vigilar. El modelo se reserva para lo que solo él sabe hacer, entender lenguaje. De ahí salen sistemas más baratos de operar y más fáciles de auditar, no menos capaces.',
-              'Y cuando conviven datos de varias empresas o de varias áreas, el aislamiento no se pide por instrucciones. Se construye en capas que acaban en un filtro que el modelo no puede tocar y al agente solo se le entrega el contexto de quien pregunta, para que ni siquiera pueda formular una consulta sobre datos ajenos.',
+              'El modelo nunca llega a tocar tus sistemas. Interpreta la pregunta y entrega un contrato. A partir de ahí decide el código, que sí se comporta igual siempre. Lo peor que puede conseguir un mensaje malicioso es que se elija mal dentro de una lista que ya hemos revisado.',
             ],
           },
           {
             heading: 'Cómo se gana un agente su puesto en producción',
             part: 'Las garantías',
             paragraphs: [
-              'Una demostración se hace en días. Producción exige disciplina. Cada agente sale con una batería de pruebas, un conjunto de casos reales con su respuesta correcta anotada que se ejecuta entero antes de cada cambio. Si la calidad baja, el cambio no sale. En uno de nuestros agentes esa batería son 118 casos reales y con ella calibramos el enrutado del 72 % al 91 % de acierto.',
+              'Una demostración se hace en días. Producción exige disciplina. Cada agente sale con una batería de pruebas, un conjunto de casos reales con su respuesta correcta anotada que se ejecuta entero antes de cada cambio. Dentro hay casos incómodos a propósito, la factura que llega sin número de pedido, la pregunta con dos lecturas posibles, el mensaje con faltas escrito desde el móvil, cada uno con la salida correcta escrita al lado. Si la calidad baja, el cambio no sale. En uno de nuestros agentes esa batería son 118 casos reales y con ella calibramos el enrutado del 72 % al 91 % de acierto.',
               'Cada respuesta queda registrada con su contexto: qué consultó el agente, qué decidió y cuánto costó. Cuando llega una queja, reconstruimos exactamente qué pasó. Y lo que está en producción se revisa cada semana, porque un sistema con un modelo dentro puede empeorar sin que aparezca un solo error en ningún registro.',
+            ],
+          },
+          {
+            heading: 'El perímetro de confianza',
+            part: 'Las garantías',
+            paragraphs: [
+              'La batería hace algo más que vigilar la calidad. Dibuja el mapa de lo que el agente tiene demostrado y a ese mapa lo llamamos el perímetro de confianza. Dentro del perímetro, el agente actúa solo. Fuera, aparta el caso y lo entrega a una persona, porque la confianza no se declara en una reunión, se delimita con casos probados. Un agente que lleva meses tramitando pedidos nacionales recibe un día el primero con aduanas por medio. Lo honesto no es improvisar la respuesta, es reconocer que ese terreno no está probado y pasarlo a quien sepa, hasta que entre en la batería con sus propios casos.',
+              'Esto pide construir algo que a las personas les sale gratis. A un empleado nuevo se le enseña a preguntar cuando duda. A un modelo hay que construirle la duda, porque por sí solo no levanta la mano, rellena el hueco con algo que suena bien. Si a una solicitud le falta el CIF, el agente no registra nada y pide el dato. Esa parada no la decide el modelo, la impone el código.',
+            ],
+          },
+          {
+            heading: 'Cuánta supervisión necesita',
+            part: 'Las garantías',
+            paragraphs: [
+              'Un sistema que firma resultados necesita un dueño que pueda responder por él. Eso pone un techo. Nadie responde de verdad por cuarenta agentes a la vez, por muchos paneles que mire. Por unos pocos sí, con la revisión semanal y una bandeja de excepciones que no desborde. Se vende mucho la plantilla de agentes a escala y nosotros preferimos decirte el coste de vigilarla antes de que la compres.',
+              'La cuenta sale porque la supervisión cambia de naturaleza. La persona que hoy lee cada solicitud entera pasa a revisar la bandeja de dudas, donde cada caso llega con los datos extraídos y el motivo de la duda señalado. Decide de un vistazo lo que antes le llevaba un rato. Lo que el agente no resuelve solo no desaparece, se entrega. Antes de arrancar queda pactado qué casos escala, a qué bandeja llegan y quién los atiende.',
             ],
           },
           {
@@ -1600,8 +1641,16 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Decidir con criterio',
             paragraphs: [
               'No buscamos maneras de usar la IA en tu empresa. Buscamos los problemas que ya te cuestan dinero y evaluamos si un agente los resuelve con ganancia demostrable. Parece lo mismo y es lo contrario. La primera búsqueda produce juguetes que se enseñan bien y se abandonan pronto. La segunda produce sistemas que un responsable defiende delante de dirección con números.',
-              'La primera fase se hace con quien sufre el proceso, no solo con quien compra la tecnología. Mapeamos el proceso paso a paso con sus actores, sus sistemas y sus tiempos. Después separamos los problemas que duelen hoy, los que ya cuestan horas o clientes, de los cuellos de botella que aguantarán solo hasta que el volumen crezca. Cada candidato se traduce a su ganancia esperada partiendo de una línea base medida, cuánto cuesta hoy en horas, en errores o en espera.',
-              'De esa lista, la mayoría se descarta. Con lo que sobrevive no arrancamos un despliegue grande sino un piloto acotado: una parte del problema, un grupo reducido de usuarios y una métrica pactada de antemano. Estrecho y profundo antes que ancho y superficial, porque un piloto barato que falla es información y un despliegue caro que falla es un agujero.',
+              'La primera fase se hace con quien sufre el proceso, no solo con quien compra la tecnología. Mapeamos el proceso paso a paso con sus actores, sus sistemas y sus tiempos. Después separamos los problemas que duelen hoy, los que ya cuestan horas o clientes, de los cuellos de botella que aguantarán solo hasta que el volumen crezca. Cada candidato se traduce a su ganancia esperada partiendo de una línea base medida, cuánto cuesta hoy en horas, en errores o en espera. Una línea base es algo tan poco solemne como esto, cuatro personas dedican la primera hora del día a clasificar el buzón y dos pedidos a la semana se traspapelan.',
+              'De esa lista, la mayoría se descarta. Con lo que sobrevive no arrancamos un despliegue grande sino un piloto acotado: una parte del problema, un grupo reducido de usuarios y una métrica pactada de antemano. Estrecho y profundo antes que ancho y superficial, porque un piloto barato que falla es información y un despliegue caro que falla es un agujero. La apuesta se estructura asimétrica a propósito. La pérdida máxima está escrita antes de empezar y es el coste del piloto. Lo que puede ganarse queda abierto.',
+            ],
+          },
+          {
+            heading: 'Qué ponemos nosotros y qué pones tú',
+            part: 'Decidir con criterio',
+            paragraphs: [
+              'La tecnología ya no es el cuello de botella y lo decimos habiendo construido la tecnología. Los proyectos se caen por el lado de la organización, cuando nadie tiene tiempo de revisar el piloto o el acceso a los datos se eterniza. Por eso pedimos tres cosas antes de empezar: un responsable con nombre que decide y responde, horas reales de su equipo para revisar los casos del piloto y acceso a los datos que el agente necesita. En la práctica es la responsable de administración dedicando un rato cada día de la primera semana a marcar qué respuestas valen y cuáles no. Sin esa persona no hay batería que calibrar ni nadie que firme el resultado.',
+              'Y hay una parte que no se compra, se gana. Quien hoy hace la tarea a mano será quien vigile al agente mañana. Si entra al proyecto el último, lo vivirá como una amenaza y encontrará motivos por los que no funciona. Es la muerte más tonta de un buen sistema y se evita gratis, el mapeo del proceso se hace con esas personas dentro desde el primer día y con un papel nuevo encima de la mesa, dueñas de la bandeja de excepciones en lugar de picadoras de datos.',
             ],
           },
           {
@@ -1609,6 +1658,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Decidir con criterio',
             paragraphs: [
               'Decírtelo es parte del servicio. Si las reglas de tu proceso son claras y estables, un desarrollo tradicional lo resuelve más barato, más rápido y sin la vigilancia que exige un modelo. Un agente compensa cuando en medio del proceso hay que leer, interpretar o decidir sobre entradas que cambian, un correo redactado de cualquier manera, un documento escaneado torcido, una pregunta con tres formas de entenderse.',
+              'Dos pruebas rápidas lo destapan. Si el proceso se deja escribir como una lista de comprobación, llega el archivo, se vuelca, se confirma, siempre con el mismo formato, lo tuyo son reglas y te sobra el modelo. Y si llevas meses apilando condiciones para cada manera nueva en que la gente escribe una dirección, el problema ya no es de reglas, es de lectura. Ahí empieza el terreno del agente.',
               'Tampoco compensa cuando nadie puede señalar la ganancia con el dedo, ni cuando los datos que el agente necesita no existen o el equipo que debería usarlo no quiere. En esos casos lo honesto es empezar por ordenar los datos o por el proceso, no por el agente. El mercado está pagando cara esa lección. Gartner calcula que antes de que acabe 2027 se habrá cancelado más del 40 % de los proyectos de IA agéntica. Nuestra manera de no engrosar esa cifra es descartar pronto y con números.',
             ],
           },
@@ -1616,7 +1666,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué te llevas el último día',
             part: 'Decidir con criterio',
             paragraphs: [
-              'El repositorio está a tu nombre desde el primer día: código, documentación, manuales de operación, instrucciones del modelo y juegos de pruebas. La infraestructura también, montada en una nube a nombre de tu empresa. Cambiar de proveedor de modelo es un cambio de configuración más una pasada de pruebas, no un rescate.',
+              'El repositorio está a tu nombre desde el primer día: código, documentación, manuales de operación, instrucciones del modelo y juegos de pruebas. La infraestructura también, montada en una nube a nombre de tu empresa. Hay sistemas nuestros funcionando sobre más de un proveedor de modelo. Cambiar el tuyo es posible y se hace con la batería de pruebas delante, porque modelos distintos se comportan distinto y lo honesto es medir el cambio, no prometer que no se nota.',
               'Con el sistema entregamos el catálogo de incidencias, escrito para reconocer cada fallo desde fuera antes de saber su causa. Si decides operarlo por tu cuenta, formamos a tu equipo. El día que decidas prescindir de nosotros, ya lo tienes todo.',
             ],
           },
@@ -1624,7 +1674,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué cuesta',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Un agente a medida se mueve entre 2.500 y 10.000 € de construcción, según integraciones y exigencia de validación, más entre 150 y 500 € al mes de operación, que cubre las llamadas al modelo, la infraestructura y la vigilancia. Los sistemas con orquestador y varios agentes se presupuestan por proyecto. El desglose entero, qué encarece la construcción y a qué se va la cuota, está en la guía de coste.',
+              'Un agente a medida se mueve entre 2.500 y 10.000 € de construcción, según integraciones y exigencia de validación, más entre 150 y 500 € al mes de operación, que cubre las llamadas al modelo, la infraestructura y la vigilancia. La cuota se pacta antes de arrancar y los consumos se vigilan con límites, no es un contador abierto que descubres a fin de mes. Los sistemas con orquestador y varios agentes se presupuestan por proyecto. El desglose entero, qué encarece la construcción y a qué se va la cuota, está en la guía de coste.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
@@ -2989,14 +3039,14 @@ export const content: Record<Lang, SiteContent> = {
         tocHeading: 'What this guide covers',
         metaTitle: 'AI Automation, a Practical Guide for Businesses, Ideasforge',
         metaDescription:
-          'What AI automation actually is, its two shapes, five cases in production, what goes wrong and how it is kept under control, and what to ask before hiring anyone. No tool list, written from real systems.',
+          'What AI automation actually is, the five shapes it takes from a fixed flow to a swarm of agents, what goes wrong, how it is kept under control and what to ask before hiring anyone. Written from real systems.',
         hero: {
           eyebrow: 'Guide',
           title: 'AI automation, what it is and what it can do for your business',
           subtitle:
-            'AI automation means software that understands language and documents well enough to run work that used to need a person, and this guide explains it without selling you a platform. Five of our systems in production, what breaks, what it costs and the questions we would ask in your chair. Updated August 2026.',
-          cta: 'See the five cases in production',
-          ctaHref: '#casos',
+            'AI automation means software that understands language and documents well enough to run work that used to need a person, and this guide explains it without selling you a platform. The five shapes it takes, what breaks, what it costs and the questions we would ask in your chair, written from five of our systems in production. Updated August 2026.',
+          cta: 'See the five shapes it takes',
+          ctaHref: '#shapes',
         },
         stats: [
           { value: '5', label: 'of our systems running today with real users' },
@@ -3015,29 +3065,30 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
-            heading: 'The guide in six sentences',
-            part: 'The short answer',
-            kind: 'lattice',
+            heading: 'The five shapes, from a fixed flow to a swarm',
+            id: 'shapes',
+            part: 'The map of the concept',
+            kind: 'checklist',
             paragraphs: [
-              'Everything below unpacks these six ideas. In a hurry, they are the guide.',
+              'Almost every proposal you will read is one of five shapes, and the words used to sell them are interchangeable while the shapes are not. Knowing which one your problem needs saves months, because each shape carries a different bill for testing, watching and fixing. They are listed here from the most contained to the most autonomous, which is also the order in which we consider them.',
             ],
             bullets: [
-              'AI automation puts a model where a person used to read, interpret or decide, and code everywhere else.',
-              'It comes in two shapes, agents that converse and act, and workflows that process volume end to end.',
-              'It differs from your existing automation because it survives variety, a hundred invoice layouts, a question asked twenty ways.',
-              'The failure modes have names and countermeasures, hallucinations, data leaking across boundaries and silent degradation over time.',
-              'What separates a demo from production is measurement, a test battery before every change and a watch on the live system after.',
-              'A single-job build starts around €2,500 plus monthly operation. There is a full cost guide at the end.',
+              'A fixed flow with no model at all. A trigger fires, steps run in a set order, rules decide the branches. Your ERP and your integration platform already do this and it is the cheapest thing that works. The warning sign that you have outgrown it is a tree of exceptions that nobody dares to touch, one branch added for every unusual case that showed up.',
+              'A fixed flow with model stops. The same reliable pipeline, with the model called at the two or three points that need reading or interpreting, and code doing everything else. This is the most common shape in real business systems today and it is the one we reach for first. Stanton, a property manager, runs on it, invoices arrive, a model reads them, code validates and files.',
+              'An agent. Instead of a set path, it receives a goal, a closed set of actions and the boundaries, then decides which action to take next based on what it finds. Right when the route genuinely varies with each case, expensive when the route was predictable all along. The warning sign that you did not need one is a system prompt that spells out the exact sequence of steps.',
+              'An agent inside a flow. A pipeline keeps the outer shape, and one of its steps hands control to an agent that improvises within that step and hands it back. It buys the flexibility where the case is messy and keeps the predictability everywhere else, which is why most of what we build for qualification and document handling ends up here.',
+              'Several agents with an orchestrator. One entry point understands the request and routes it to a specialist, each with its own tools and limits. Our plant-floor assistant runs this way, with half a dozen specialists behind the orchestrator. It is the right answer for genuinely different domains under one door, and the wrong one for everything else, because if a single agent is hard to keep honest, six are six times harder.',
             ],
           },
           {
-            heading: 'The two shapes, agents and workflows',
+            heading: 'Where agentic AI sits on that ladder',
             part: 'The map of the concept',
             paragraphs: [
-              'Almost everything in this field arrives in one of two shapes, and knowing which one you need saves months. The first is the AI agent, software that holds a conversation or receives a request, works out what is being asked and acts on your systems to complete it. Booking the appointment, qualifying the enquiry, answering from your documentation. Agents shine where a person used to be the interface.',
-              'The second is workflow automation, a pipeline that processes volume without anyone talking to it. Invoices arrive, get read, validated and filed. Requests get classified and routed. Documents get extracted into rows. Workflows shine where the interface already exists and the bottleneck is the reading and typing in the middle.',
-              'Most real deployments mix both, an agent at the front where people ask, workflows behind where volume flows. The reason to keep the names straight is budgetary. Agents carry conversation design, identity and escalation paths. Workflows carry validation layers and exception queues. Proposals that blur the two tend to have priced neither properly.',
+              'Agentic AI is the phrase attached to the last three rungs, the ones where the model chooses steps rather than following them. It is a real idea and a wide range, from a pipeline where code sets the path and the model interprets at fixed points, to a free agent deciding everything on its own. The trouble is that the word is used as a grade, as if higher on the ladder meant better built.',
+              'It does not. Every step the model decides is a step someone has to test, watch and pay for, so autonomy is a budget to allocate rather than a feature to maximise. Anthropic, the lab behind the Claude models, recommends exactly this in its reference guide, start with workflows orchestrated by code and reserve autonomy for what genuinely needs it. Our production experience agrees for the unglamorous reason above.',
+              'For a buyer the practical question is never whether something is agentic. It is how far up the ladder the proposal sits, whether it needed to be there, and what contains the model at that height. We wrote down our full position, numbers and uncomfortable parts included.',
             ],
+            link: { label: 'Why we distrust agentic architectures', href: '/en/blog/i-dont-like-ai-agents' },
           },
           {
             heading: 'How it differs from the automation you already have',
@@ -3049,39 +3100,13 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
-            heading: 'Agentic AI, the word doing the heavy lifting',
+            heading: 'What it can do, and what it cannot',
             part: 'The map of the concept',
             paragraphs: [
-              'You will meet the phrase agentic AI in every proposal this year. It names the idea of giving the model autonomy, planning steps, choosing tools, looking at results and deciding what to do next by itself. The idea is real and the range is wide, from a pipeline where code sets the path and the model interprets at fixed points, to a free agent deciding everything step by step.',
-              'Anthropic, the lab behind the Claude models, recommends in its reference guide starting with workflows orchestrated by code and reserving autonomy for what genuinely needs it. Our production experience agrees, for an unglamorous reason. Every step the model decides is a step someone must test, watch and pay for. Autonomy is not a feature to maximise, it is a budget to allocate.',
-              'For a buyer the practical question is never whether something is agentic. It is how much the model decides, where, and what contains it. We wrote down our full position, numbers and uncomfortable parts included.',
+              'None of these shapes is plug and play, and the gap between a good result and a disappointing one is almost always the scope rather than the model. Scope it too wide and the system is mediocre at forty things and trusted for none. Scope it too narrow and the scaffolding costs more than the work it saves. The projects that land well pick one job with a real edge around it, prove it, then widen.',
+              'What today’s systems do well is read what arrives in no fixed shape, understand a request phrased in any of twenty ways, follow a procedure step by step, and act inside a closed set of actions that somebody approved. That list is genuinely new and it is why processes that survived every earlier automation wave are now in play.',
+              'What they do not do is invent knowledge nobody wrote down, guarantee an outcome without code checking it first, or improve on their own while nobody measures. And they are one tool among several. Part of our job is telling you when the honest answer is a rule, a form or a redesigned process, because a model added to a broken process only makes the mess arrive faster.',
             ],
-            link: { label: 'Why we distrust agentic architectures', href: '/en/blog/i-dont-like-ai-agents' },
-          },
-          {
-            heading: 'Five cases in production',
-            id: 'casos',
-            part: 'What it does today',
-            kind: 'checklist',
-            paragraphs: [
-              'Theory earns nothing. These are our five systems running today, each with what it does and for whom. They are also the proof that nothing in this guide is speculation.',
-            ],
-            bullets: [
-              'A plant-floor assistant for a large industrial company. Operators and supervisors query production and faults in natural language, with guided troubleshooting. Underneath, an orchestrator routes each question across half a dozen specialised agents.',
-              'An agent that answers business questions by querying the database, built for Savian. Waiting for a figure went from hours to seconds, and every number comes from a fresh query rather than the conversation’s memory.',
-              'Document automation for Stanton, a property manager. Tenants’ utility invoices arrive through a chat, OCR plus a model structures them and each lands as a normalized row. Two agents in production and growing.',
-              'Request qualification for Barceloneta Premium, a real-estate agency. The agent converses with each prospect and the team receives a summary with a verdict and its justification. More than three hours a day saved.',
-              'Wazzy, our own product. A WhatsApp appointments assistant for clinics that books, changes and cancels 24/7, handling health data under Article 9 of the GDPR. We eat our own cooking.',
-            ],
-          },
-          {
-            heading: 'Hallucinations have architecture against them',
-            part: 'What goes wrong',
-            paragraphs: [
-              'A hallucination is a false answer with excellent manners, and it is the first reasonable fear of any buyer. It is not fought by asking the model to behave. It is fought by removing the opportunity, figures that can only come from a database query, critical texts the model selects from an approved catalogue rather than writes, and metrics that catch the system answering from memory.',
-              'We keep a full article on it, mechanism by mechanism, scars included.',
-            ],
-            link: { label: 'Detecting and preventing AI hallucinations is architecture', href: '/en/blog/detect-prevent-hallucinations' },
           },
           {
             heading: 'Everyone’s data, in its own lane',
@@ -3093,31 +3118,15 @@ export const content: Record<Lang, SiteContent> = {
             link: { label: 'GDPR-compliant AI on infrastructure you own', href: '/en/gdpr-compliant-ai' },
           },
           {
-            heading: 'The hard part is not launching, it is staying alive',
+            heading: 'Measured before every change, watched after',
             part: 'What goes wrong',
             paragraphs: [
-              'The third risk is the one almost nobody budgets. Gartner estimates that over 40 percent of agentic AI projects will be cancelled before the end of 2027, and in our experience the mortality is not at the start. The ground moves on its own, the provider updates the model without renaming it, your documentation grows, your data drifts.',
-              'Stanford and Berkeley researchers measured it on the same commercial model in March and June of 2023. On one task, accuracy fell from 97.6 percent to 2.4 percent with nobody on the client side touching anything. The only working answer is measurement, a battery of real cases that blocks any change that degrades the system, and a weekly watch on what is already live. Two rhythms, kept separate, and together they are the difference between knowing it works and believing it works.',
+              'The third risk is the one almost nobody budgets, and it is the reason this section exists. The ground moves on its own. The provider updates the model without renaming it, your documentation grows, your data drifts. Stanford and Berkeley researchers measured it on the same commercial model in March and June of 2023, and on one task accuracy fell from 97.6 percent to 2.4 percent with nobody on the client side touching anything. Gartner expects over 40 percent of agentic AI projects to be cancelled before the end of 2027, and in our experience that mortality sits here rather than at the launch.',
+              'Models are not deterministic, they do not return exactly the same answer twice, so checking a response once proves nothing. The discipline that works against a moving ground is statistical and boring. Before any change ships, a battery of annotated real cases must pass, 118 cases in one of our systems, 145 conversations in our appointments product. If quality drops, the change does not go out.',
+              'After launch the watching continues. Once a week we run a real conversation against the live system end to end, at about five cents per run. In the plant assistant, routing calibration was measured on real cases and went from 72 to 91 percent accuracy, and we also knew when to stop, chasing one hundred percent shapes the test against the system instead of improving it.',
+              'These figures exist because the systems are built to produce them. When you evaluate any provider, ourselves included, ask for theirs. What it takes to keep a system alive past its first six months has its own article.',
             ],
             link: { label: 'Starting is easy, keeping AI alive is the hard part', href: '/en/blog/keeping-ai-alive' },
-          },
-          {
-            heading: 'The model interprets, the code decides',
-            part: 'How it is really built',
-            paragraphs: [
-              'A quick visit to the engine room, because this is where most of the above gets decided. In our systems the model executes nothing directly. It understands the request and hands over a contract in a fixed format with fields we defined in advance, what is being asked, over which period, with which filters. A program validates that contract, checks the permissions of whoever is asking and builds the query with parameterised values, never with free text the model wrote.',
-              'Where an answer must be exact we go further and the model does not even write the final text. It returns a key and the code retrieves the approved canonical text that key points to. Identity travels with every action too. The agent operates with the person’s own permissions, not with an all-access robot account, so if someone cannot open a record by hand, their assistant cannot open it for them.',
-              'None of this shows up in a demo. All of it is what lets a system pass a security review instead of merely a meeting.',
-            ],
-          },
-          {
-            heading: 'Measured before every change, watched after',
-            part: 'How it is really built',
-            paragraphs: [
-              'Models are not deterministic, they do not return exactly the same answer twice, so checking a response once proves nothing. The discipline that works is statistical and boring. Before any change ships, a battery of annotated real cases must pass, 118 cases in one of our systems, 145 conversations in our appointments product. If quality drops, the change does not go out.',
-              'After launch the watching continues. Once a week we run a real conversation against the live system end to end, at about five cents per run. In the plant assistant, routing calibration was measured on real cases and went from 72 to 91 percent accuracy, and we also knew when to stop, chasing one hundred percent shapes the test against the system instead of improving it.',
-              'These figures exist because the systems are built to produce them. When you evaluate any provider, ourselves included, ask for theirs.',
-            ],
           },
           {
             heading: 'What the project looks like, first meeting to production',
