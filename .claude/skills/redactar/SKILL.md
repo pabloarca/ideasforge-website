@@ -162,6 +162,14 @@ antes de dar una pieza por terminada.
    deducción nuestra, se dice que lo es («por nuestra experiencia», «nuestra
    lectura») o se corta. Lo prohibido es vestir una deducción de hecho, que
    fue exactamente el fallo del párrafo del formato fijo.
+   **Qué se cita y qué no** (decisión del propietario, 24 ago 2026). Se citan
+   fuentes formales: estudios y artículos científicos, organismos y
+   reguladores, listas de referencia del sector y documentación oficial de un
+   fabricante. NO se citan blogs, ni personales ni de empresa, ni manifiestos
+   comunitarios, aunque la idea venga de ahí: se digiere, se escribe con
+   nuestras palabras y se sostiene por otra vía, o con una fuente formal que
+   diga lo mismo o con nuestra propia experiencia en producción. Copiar una
+   frase ajena sigue prohibido, con cita o sin ella.
 3. **Ojo al tópico del sector.** Cuando no se verifica, no se inventa: se
    recita lo que más se repite en la red, y llega con la seguridad de una
    frase muy leída. Así entró «los chatbots hablan, los agentes actúan», que
