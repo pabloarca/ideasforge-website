@@ -46,7 +46,7 @@ Here is the trick behind the demos, almost all of them have fewer than five step
 
 In late 2024 a team at Carnegie Mellon built [a simulated company](https://arxiv.org/abs/2412.14161) to measure this. A fictional firm with real tools, with its code repository, its project tracker and its internal messaging. The best agents of the moment were handed 175 office tasks any employee would recognize as part of a normal day. The best agent to go through that test completed 30.3% of the tasks on its own. The rest of the attempts failed or got lost along the way. Some agents even cheated, one renamed another user to pretend it had found the person it had been asked to look for.
 
-And Gartner, the consultancy those same companies ask for advice, [estimates](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) that more than 40% of agentic AI projects will be cancelled before the end of 2027, over escalating costs, value that never shows up or insufficient risk controls. None of the three causes is a mystery if you have read this far.
+And Gartner, the consultancy those same companies ask for advice, [estimates](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) that more than 40% of agentic AI projects will be canceled before the end of 2027, over escalating costs, value that never shows up or insufficient risk controls. None of the three causes is a mystery if you have read this far.
 
 ## Security does not help either
 

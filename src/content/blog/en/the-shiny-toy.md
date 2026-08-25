@@ -29,7 +29,7 @@ The scale of the problem is not anecdotal. Gartner puts a number on it, more tha
 
 What we do before proposing anything is map what hurts, with the people who suffer it in the room. And we separate two families that call for different urgencies. Critical problems already cost money every week, the house is on fire. Bottlenecks do not hurt yet, but they will cap growth as soon as volume rises, the flames are visible at the window. You attack what burns first and you watch what smokes. Every candidate enters the list with its maths done, never with its demo.
 
-Our two most profitable automation projects started exactly like that. At a real-estate agency, the pain was dozens of daily enquiries with minutes of checking behind each one, a fire with a number on it. At a property manager, the utility paperwork someone keyed in invoice by invoice. Neither started with a demo. Both started with somebody fed up and a figure on the table.
+Our two most profitable automation projects started exactly like that. At a real-estate agency, the pain was dozens of daily inquiries with minutes of checking behind each one, a fire with a number on it. At a property manager, the utility paperwork someone keyed in invoice by invoice. Neither started with a demo. Both started with somebody fed up and a figure on the table.
 
 ## The cost that never shows on the invoice
 

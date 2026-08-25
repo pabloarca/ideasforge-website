@@ -18,7 +18,7 @@ A model's context is everything it can read while answering. In this assistant, 
 
 ## A typo cannot jump the fence
 
-The second layer protects the most human case there is, the name typed halfway or with two letters swapped. The assistant corrects site names so people do not have to type exact denominations, but that correction searches only inside the sites the writer is authorised for. A close match with another company's site never even becomes a candidate. **Convenience moves entirely inside each person's perimeter instead of opening doors through it.**
+The second layer protects the most human case there is, the name typed halfway or with two letters swapped. The assistant corrects site names so people do not have to type exact denominations, but that correction searches only inside the sites the writer is authorized for. A close match with another company's site never even becomes a candidate. **Convenience moves entirely inside each person's perimeter instead of opening doors through it.**
 
 ## An allow-list has the last word
 

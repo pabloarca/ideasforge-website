@@ -16,6 +16,7 @@ import { join } from 'node:path';
 
 const UI = 'src/i18n/ui.ts';
 const BLOG_ES = 'src/content/blog/es';
+const BLOG_EN = 'src/content/blog/en';
 
 /** Solo el bloque español de ui.ts: el inglés no sigue estas reglas. */
 function bloqueEspanol(src) {
@@ -128,6 +129,57 @@ function revisa(nombre, textoBruto) {
   return { nombre, fallos, avisos };
 }
 
+/*
+ * Ortografía inglesa: americana en todo el sitio (decisión del propietario,
+ * 25 ago 2026). La lista es explícita a propósito. Una regla general
+ * -ise → -ize habría roto advise, enterprise, promise, supervise, comprise,
+ * exercise, compromise y franchise, que no llevan zeta en ningún inglés.
+ */
+const BRITANICO = {
+  organisation: 'organization', organise: 'organize', organised: 'organized',
+  recognise: 'recognize', recognised: 'recognized', recognises: 'recognizes',
+  prioritise: 'prioritize', optimise: 'optimize', optimisation: 'optimization',
+  authorise: 'authorize', authorised: 'authorized', authorisation: 'authorization',
+  realise: 'realize', realised: 'realized', specialise: 'specialize',
+  specialised: 'specialized', standardise: 'standardize', normalise: 'normalize',
+  minimise: 'minimize', maximise: 'maximize', summarise: 'summarize',
+  categorise: 'categorize', emphasise: 'emphasize', utilise: 'utilize',
+  customise: 'customize', personalise: 'personalize', analyse: 'analyze',
+  behaviour: 'behavior', behaviours: 'behaviors', behavioural: 'behavioral',
+  colour: 'color', favour: 'favor', favourite: 'favorite', labour: 'labor',
+  neighbour: 'neighbor', honour: 'honor', rumour: 'rumor',
+  centre: 'center', centres: 'centers', metre: 'meter', theatre: 'theater',
+  cancelled: 'canceled', cancelling: 'canceling', travelled: 'traveled',
+  modelled: 'modeled', labelled: 'labeled',
+  defence: 'defense', offence: 'offense', licence: 'license',
+  whilst: 'while', amongst: 'among', learnt: 'learned', spelt: 'spelled',
+  enquiry: 'inquiry', enquiries: 'inquiries', grey: 'gray',
+  storey: 'story', cheque: 'check', practise: 'practice',
+};
+
+/* Nombres propios que nacieron con grafía británica. No son faltas: el
+   National Cyber Security Centre se llama así. */
+const NOMBRES_PROPIOS = ['national cyber security centre'];
+
+/** Solo el bloque inglés de ui.ts. */
+function bloqueIngles(src) {
+  const ini = src.indexOf('\n  en: {');
+  if (ini < 0) throw new Error('No encuentro el bloque en de ui.ts');
+  return src.slice(ini);
+}
+
+function revisaIngles(nombre, textoBruto) {
+  let t = textoBruto;
+  for (const n of NOMBRES_PROPIOS) t = t.split(n).join(' ');
+  const fallos = [];
+  for (const [brit, ameri] of Object.entries(BRITANICO)) {
+    for (const m of [...t.matchAll(new RegExp(`\\b${brit}\\b`, 'gi'))]) {
+      fallos.push([`ortografía británica «${brit}», debe ser «${ameri}»`, contexto(t, m.index)]);
+    }
+  }
+  return { nombre, fallos };
+}
+
 function contexto(t, i) {
   return t.slice(Math.max(0, i - 55), i + 45).replace(/\s+/g, ' ').trim();
 }
@@ -154,6 +206,23 @@ for (const o of objetivos) {
   }
   totalFallos += r.fallos.length;
   totalAvisos += r.avisos.length;
+}
+
+const objetivosEn = [
+  { nombre: `${UI} (bloque inglés)`, texto: bloqueIngles(readFileSync(UI, 'utf8')) },
+  ...readdirSync(BLOG_EN)
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => ({ nombre: join(BLOG_EN, f), texto: readFileSync(join(BLOG_EN, f), 'utf8') })),
+];
+
+for (const o of objetivosEn) {
+  const r = revisaIngles(o.nombre, o.texto);
+  if (!r.fallos.length) continue;
+  console.log(`\n${r.nombre}`);
+  for (const [regla, ctx] of r.fallos) {
+    console.log(`  ERROR  ${regla}\n         …${ctx}…`);
+  }
+  totalFallos += r.fallos.length;
 }
 
 console.log(

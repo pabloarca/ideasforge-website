@@ -2327,7 +2327,7 @@ export const content: Record<Lang, SiteContent> = {
           clientLogo: '/logos/bcnpremium.png',
           image: '/case-studies/barceloneta.jpg',
           title: 'The filter that works while the office is closed',
-          body: 'Every rental enquiry arriving on WhatsApp took five to ten minutes of manual checking, and dozens came in every day. The agent talks to the applicant, collects reason, budget and paperwork, and emails the team a summary with a paragraph explaining why each one fits or does not. The team stopped screening and went back to booking viewings.',
+          body: 'Every rental inquiry arriving on WhatsApp took five to ten minutes of manual checking, and dozens came in every day. The agent talks to the applicant, collects reason, budget and paperwork, and emails the team a summary with a paragraph explaining why each one fits or does not. The team stopped screening and went back to booking viewings.',
           metricBig: '+3 hours',
           metricSmall: 'saved per day answering requests.',
         },
@@ -2498,7 +2498,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 heading: 'What is inside the repository',
-                body: 'Everything that defines the system behaviour lives versioned in your repository: the model instructions with their change history, the tests with their correct answer recorded, the operations manuals and an incident catalog. That catalog is the piece technical teams appreciate most and the one almost nobody asks for, because it does not say how each problem was fixed, it says how it is recognized from the outside, which is what helps the next time the system acts strange.',
+                body: 'Everything that defines the system behavior lives versioned in your repository: the model instructions with their change history, the tests with their correct answer recorded, the operations manuals and an incident catalog. That catalog is the piece technical teams appreciate most and the one almost nobody asks for, because it does not say how each problem was fixed, it says how it is recognized from the outside, which is what helps the next time the system acts strange.',
               },
               {
                 heading: 'Swapping models is proven, not promised',
@@ -2734,7 +2734,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       legend:
-        'Each band is one request, from the moment it arrives to the moment it is resolved. Blue is what the model decides right then. Grey is ordinary code, which always does the same thing and can be checked in full before it ships. The more blue there is, the more the system decides on its own and the more work it takes to test and watch. This is not a ranking. The first two shapes carry no agent at all, and the fourth, despite having one, decides less than the third.',
+        'Each band is one request, from the moment it arrives to the moment it is resolved. Blue is what the model decides right then. Gray is ordinary code, which always does the same thing and can be checked in full before it ships. The more blue there is, the more the system decides on its own and the more work it takes to test and watch. This is not a ranking. The first two shapes carry no agent at all, and the fourth, despite having one, decides less than the third.',
     },
     gateDiagram: {
       title: 'What happens to a change before it ships',
@@ -2862,7 +2862,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         stats: [
           { value: '72% → 91%', label: 'routing accuracy after calibration on 118 real cases' },
-          { value: '6', label: 'specialised agents coordinated by one orchestrator in the industrial case' },
+          { value: '6', label: 'specialized agents coordinated by one orchestrator in the industrial case' },
           { value: '~92%', label: 'the ceiling we accept on purpose, rather than tune the exam to pass it' },
         ],
         sections: [
@@ -2871,7 +2871,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Who it happens to',
             paragraphs: [
               'For mid-size and large companies whose knowledge lives scattered across documentation, wikis and systems, SharePoint, Azure, Confluence, the ERP, the industrial systems. And in particular for the R&amp;D or innovation lead who has to defend this project in front of a committee, because every section here is meant to hand that person arguments that survive the questions from security, IT and legal.',
-              'The situation fits in one sentence. Answers exist inside the organisation, and finding them costs far more than it should, because they live in a dense document, in a separate system or in the heads of the three most senior people.',
+              'The situation fits in one sentence. Answers exist inside the organization, and finding them costs far more than it should, because they live in a dense document, in a separate system or in the heads of the three most senior people.',
             ],
           },
           {
@@ -2902,7 +2902,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Half a dozen agents, one conversation',
             part: 'What we build',
             paragraphs: [
-              'Past a certain size, a single agent that does everything becomes one huge piece nobody can maintain. Our architecture for these cases is different. An orchestrator understands the intent of each question and routes it to the specialised agent for that domain, one per area of knowledge. In the industrial case behind this page, that orchestrator coordinates half a dozen specialised agents and the whole adds up to some 86 connected pieces.',
+              'Past a certain size, a single agent that does everything becomes one huge piece nobody can maintain. Our architecture for these cases is different. An orchestrator understands the intent of each question and routes it to the specialized agent for that domain, one per area of knowledge. In the industrial case behind this page, that orchestrator coordinates half a dozen specialized agents and the whole adds up to some 86 connected pieces.',
               'The person asking sees none of this. They write their question and get their answer. The architecture matters for what it allows, adding a new domain without touching the others, measuring each agent separately and keeping a failure in one from dragging down the rest.',
             ],
           },
@@ -2919,7 +2919,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'When the clarification does not need the model',
             part: 'How trust is earned',
             paragraphs: [
-              'One design detail that shows how we think. When the assistant offers several options, the person’s short reply, an ordinal, a bare term, a "the second one", is resolved without calling the model, through a simple rule that recognises those terms and those numbers and that expires after fifteen minutes. It looks like a minor saving and is three things at once, an instant response, one less call to pay for and one less message exposed to malicious instructions hidden in text.',
+              'One design detail that shows how we think. When the assistant offers several options, the person’s short reply, an ordinal, a bare term, a "the second one", is resolved without calling the model, through a simple rule that recognizes those terms and those numbers and that expires after fifteen minutes. It looks like a minor saving and is three things at once, an instant response, one less call to pay for and one less message exposed to malicious instructions hidden in text.',
               'The general rule behind the detail is that the model gets used where it earns its place, understanding open language, and avoided where an ordinary program does the same job faster, cheaper and without surprises.',
             ],
           },
@@ -2958,7 +2958,7 @@ export const content: Record<Lang, SiteContent> = {
               'For the technical review, this is what sits underneath, one line per piece.',
             ],
             bullets: [
-              'Multi-agent architecture. An orchestrator understands intent and routes to specialised agents. It grows domain by domain instead of turning into one unmanageable piece.',
+              'Multi-agent architecture. An orchestrator understands intent and routes to specialized agents. It grows domain by domain instead of turning into one unmanageable piece.',
               'Reliable retrieval. The search that feeds the model is designed for complete, correct answers, without letting internal detail reach the wrong reader.',
               'Measurable quality. Test batteries verify before every change that the assistant still understands and answers correctly.',
               'Integration with your systems. ERP, databases, your organization’s accounts and industrial systems, under each person’s own permissions.',
@@ -3055,7 +3055,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         problem: {
           heading: 'The problem',
-          body: 'Every incoming request goes through the same bottleneck: someone has to read it, qualify it and decide whether it is worth scheduling a visit. That is five to ten minutes per enquiry, dozens of times a day. During rental peaks the backlog piles up and leads cool off.',
+          body: 'Every incoming request goes through the same bottleneck: someone has to read it, qualify it and decide whether it is worth scheduling a visit. That is five to ten minutes per inquiry, dozens of times a day. During rental peaks the backlog piles up and leads cool off.',
         },
         solution: {
           heading: 'The solution',
@@ -3223,7 +3223,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Measured before every change, watched after',
             part: 'What can go wrong',
             paragraphs: [
-              'There is a risk almost nobody budgets for. <strong>A system with AI in it can get worse on its own, without anyone touching it.</strong> The provider updates the model without changing its name, your documentation grows and your data drifts. <a class="link-inline" href="https://arxiv.org/abs/2307.09009" rel="noopener noreferrer" target="_blank">Chen, Zaharia and Zou</a>, at Stanford and Berkeley, measured this on the same commercial model in March and in June of 2023. Its behavior changed so much that on one task accuracy went from 97.6% to 2.4%, with nothing touched on the customer side. Gartner calculated in June 2025 that more than 40% of agentic AI projects will be cancelled before the end of 2027. In our experience that mortality lives in the upkeep, not in the launch.',
+              'There is a risk almost nobody budgets for. <strong>A system with AI in it can get worse on its own, without anyone touching it.</strong> The provider updates the model without changing its name, your documentation grows and your data drifts. <a class="link-inline" href="https://arxiv.org/abs/2307.09009" rel="noopener noreferrer" target="_blank">Chen, Zaharia and Zou</a>, at Stanford and Berkeley, measured this on the same commercial model in March and in June of 2023. Its behavior changed so much that on one task accuracy went from 97.6% to 2.4%, with nothing touched on the customer side. Gartner calculated in June 2025 that more than 40% of agentic AI projects will be canceled before the end of 2027. In our experience that mortality lives in the upkeep, not in the launch.',
               'Models are not deterministic, they do not always return the same thing, so checking one answer on one day guarantees nothing. The only discipline that works there is statistical and dull. Before any change ships, a suite of real annotated cases has to pass. If quality drops, the change does not go out.',
               'After launch the watching does not stop. Once a week we replay a real conversation end to end against the live system. In the plant assistant, routing accuracy was measured on real cases and went from 72% to 91%. We also knew when to stop. Chasing a hundred percent ends with you tuning the tests until they pass rather than improving the system. In Wazzy, for instance, we started with an architecture of agents with tools at their disposal and have rebuilt it three times before landing on the one that genuinely raised the share of conversations that end well.',
               'None of these figures appears by itself. They exist because the system was built from the start to measure itself, with its test suite and its weekly watch inside the budget. <strong>When you evaluate any provider, ours included, ask for theirs.</strong> What it takes for a system to get past its sixth month has an article of its own.',
@@ -3626,7 +3626,7 @@ export const content: Record<Lang, SiteContent> = {
             kind: 'lattice',
             bullets: [
               'Document intake. Invoices, receipts and scanned forms read, validated and registered in your systems with nobody typing them in.',
-              'Request handling. Incoming enquiries answered, qualified and routed to the right person, at any hour.',
+              'Request handling. Incoming inquiries answered, qualified and routed to the right person, at any hour.',
               'Data access. Business questions turned into safe database queries and answered in seconds.',
               'Drafting from data. Emails, summaries and notices the flow writes with what it already found out, ready to review or to go out on their own.',
               'Escalation with context. The cases that need judgment reach your team with everything the system already found out, so deciding takes minutes, not digging.',
@@ -3690,7 +3690,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'How we build it',
             paragraphs: [
               'At Stanton, a property management firm, every tenant’s power, water and gas invoice was keyed in by hand. Today the team forwards them over Telegram, an AI read extracts the data and the result lands as normalized rows in the same spreadsheet they already worked with. Two agents in production, no new tools for the team to learn, and a client that has already commissioned the next processes, the success signal we care about most.',
-              'At Barceloneta, a real-estate agency, every day dozens of rental enquiries come in over WhatsApp. Each enquiry used to eat five to ten minutes of checking by hand. Now the flow pulls the reason, the budget and the paperwork out of each conversation, and the team gets an email that already says whether the applicant fits, and why. More than three hours a day returned to the work that actually needs people.',
+              'At Barceloneta, a real-estate agency, every day dozens of rental inquiries come in over WhatsApp. Each inquiry used to eat five to ten minutes of checking by hand. Now the flow pulls the reason, the budget and the paperwork out of each conversation, and the team gets an email that already says whether the applicant fits, and why. More than three hours a day returned to the work that actually needs people.',
               'The two cases are alike in three ways: they came in through a channel the team already used, they forced nobody to learn a new tool and their gain could be measured before and after. That is what we look for in every new process.',
             ],
             link: { label: 'See the projects', href: '/en#projects' },
@@ -3858,7 +3858,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Trust is built',
             paragraphs: [
               'Customer service is where a conversational agent pays for itself first. It answers the routine, qualifies the rest and escalates what needs judgment, so waiting queues turn into immediate replies. Our real-estate client saves more than three hours a day on incoming requests. The team now just books viewings.',
-              'Half the value sits in what time you reply. Enquiries do not arrive during office hours, they arrive when the customer has the phone in hand, and the longer the reply takes the less interested they are. An agent that replies within the minute turns that overnight trickle into next-morning appointments.',
+              'Half the value sits in what time you reply. Inquiries do not arrive during office hours, they arrive when the customer has the phone in hand, and the longer the reply takes the less interested they are. An agent that replies within the minute turns that overnight trickle into next-morning appointments.',
             ],
             link: { label: 'The real-estate case', href: '/en/real-estate' },
           },
@@ -4175,12 +4175,12 @@ export const content: Record<Lang, SiteContent> = {
           kind: 'checklist',
             id: 'isolation',
             paragraphs: [
-              'An early version of one of our assistants kept companies apart by telling the model, in its instructions, never to omit a filter. It worked in every test we ran. It was still wrong, because an instruction to a language model is a request, and a model can fail to honour a request for reasons nobody can predict from outside. We have described that lesson to clients as the difference between a guarantee and a polite request, and it reshaped how we build. Security has to hold even when the model fails.',
+              'An early version of one of our assistants kept companies apart by telling the model, in its instructions, never to omit a filter. It worked in every test we ran. It was still wrong, because an instruction to a language model is a request, and a model can fail to honor a request for reasons nobody can predict from outside. We have described that lesson to clients as the difference between a guarantee and a polite request, and it reshaped how we build. Security has to hold even when the model fails.',
               'Today, in the agent that answers questions about live business data for several companies at once, the separation is enforced in four places, and the model is not one of them.',
             ],
             bullets: [
               'The context, the information the model is allowed to read while answering, only ever contains what the person asking is entitled to see. The assistant cannot leak what it never held, and it cannot even formulate a question about a company that does not exist in its world.',
-              'Name matching is confined to the sites that person is authorised for. When someone types a misspelt site name, the correction can only land inside their own perimeter, so a near-miss cannot drift into a neighbouring company.',
+              'Name matching is confined to the sites that person is authorized for. When someone types a misspelt site name, the correction can only land inside their own perimeter, so a near-miss cannot drift into a neighbouring company.',
               'Code validates every request against an allow-list, a closed list of permitted values, before any query is built. The model proposes, the code decides.',
               'The final query carries an unconditional filter. If the permission list ever arrives empty, the query resolves to a condition that matches nothing. Failure closes the door instead of opening it.',
             ],
@@ -4207,7 +4207,7 @@ export const content: Record<Lang, SiteContent> = {
           part: 'What it looks like in practice',
             paragraphs: [
               'Wazzy, our own appointments product, runs in dental, physiotherapy and aesthetics clinics. An appointment note that says who visits which clinic and why is health data, which the GDPR places in its most protected category and permits us to process under Article 9.2.h, the ground that covers healthcare provision. We did not choose the hardest category to make a point. The product needed it, and the result is that our practices were shaped by the strictest case first.',
-              'Every sensitive field is encrypted on its own, with AES-256-GCM, rather than relying on the disk being encrypted underneath. The difference matters in practice. Disk encryption protects you if someone steals the hardware, while field-level encryption protects the data from every process and person that touches the database in normal operation. Deletion is designed around what the law requires rather than around instinct, because Spanish clinical-record law requires keeping medical history for five years. A deletion request must honour the patient without quietly breaking a legal retention duty, so the system separates what is erased now from what is retained under obligation, and can show which is which.',
+              'Every sensitive field is encrypted on its own, with AES-256-GCM, rather than relying on the disk being encrypted underneath. The difference matters in practice. Disk encryption protects you if someone steals the hardware, while field-level encryption protects the data from every process and person that touches the database in normal operation. Deletion is designed around what the law requires rather than around instinct, because Spanish clinical-record law requires keeping medical history for five years. A deletion request must honor the patient without quietly breaking a legal retention duty, so the system separates what is erased now from what is retained under obligation, and can show which is which.',
               'We built all of that because we had to. It is the reason this page can speak from experience rather than from a checklist, and it is the standard the rest of our client work inherits.',
             ],
           },
@@ -4215,7 +4215,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'The person on the other side is told, and can reach a human',
             paragraphs: [
               'Compliance talk tends to fixate on databases and forget the person typing. Two duties meet there. The GDPR expects honesty about how personal data is used, and the AI Act, in the obligations that apply since August 2026, requires that people be told when they are interacting with a machine. Neither duty is exotic to implement, but both are easy to fail by omission, one vague welcome message at a time.',
-              'Our conversational systems present themselves as what they are, and the escalation path is part of the design rather than an apology. In Wazzy, our appointments product, an urgent case does not get a soothing paragraph from a model. It gets escalated to the clinic’s staff, because a machine that recognises its limit and hands over is safer than one that improvises confidence. The same shape repeats in our client work. The assistant does the repetitive volume, and the moments that need a human reach a human, with the conversation’s trail attached.',
+              'Our conversational systems present themselves as what they are, and the escalation path is part of the design rather than an apology. In Wazzy, our appointments product, an urgent case does not get a soothing paragraph from a model. It gets escalated to the clinic’s staff, because a machine that recognizes its limit and hands over is safer than one that improvises confidence. The same shape repeats in our client work. The assistant does the repetitive volume, and the moments that need a human reach a human, with the conversation’s trail attached.',
               'There is a quieter benefit. When the handover is designed, the humans behind the assistant stop being a fiction in the privacy policy and become an actual queue with actual owners, which is exactly the kind of claim an authority can verify and find true.',
             ],
           },
@@ -4248,7 +4248,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'How we keep it true after launch',
             paragraphs: [
               'A compliance story that was true at launch and unmeasured afterwards is a story, and these systems change underneath you. Model providers update models without changing their names, your documentation grows and your data shifts over time. So we do two separate things. Before any change ships, a test battery, a bank of real annotated cases the system must answer correctly, blocks the release if quality drops. And once a week, on the live system, we run a real conversation from end to end and check what actually happened.',
-              'This is the same discipline that catches a model quietly getting worse, applied to the promises on this page. The isolation, the records and the refusal behaviours are tested like features, because that is what they are. When your DPO asks in March whether the guarantees from the September review still hold, the honest answer is a test result, not a shrug.',
+              'This is the same discipline that catches a model quietly getting worse, applied to the promises on this page. The isolation, the records and the refusal behaviors are tested like features, because that is what they are. When your DPO asks in March whether the guarantees from the September review still hold, the honest answer is a test result, not a shrug.',
             ],
             link: { label: 'Why keeping AI alive is the hard part', href: '/en/blog/keeping-ai-alive' },
           },
@@ -4482,7 +4482,7 @@ export const content: Record<Lang, SiteContent> = {
               'Assign human oversight to named people with the competence, training and authority to act, including the authority to not use the system’s output. A name in a document with no power to intervene does not satisfy this.',
               'Keep your input data relevant and sufficiently representative, to the extent you control it. Feeding a scoring system data it was never designed for is a deployer failure, not a provider one.',
               'Monitor the system’s operation against those instructions, and tell the provider, and where required the authorities, when you see risk or serious incidents.',
-              'Keep the automatically generated logs that are under your control for at least six months, longer where other law says so. No logs, no defence.',
+              'Keep the automatically generated logs that are under your control for at least six months, longer where other law says so. No logs, no defense.',
               'Tell workers and their representatives before deploying a high-risk system that affects them at work. Quietly switching on monitoring is its own breach.',
               'Use the provider’s information to run your data protection impact assessment where one is due. The two regulations meet exactly here.',
               'Cooperate with the market surveillance authority when it comes asking, which folds every duty above into one practical question, can you show your homework.',
@@ -4520,7 +4520,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'How it lands in a real system',
             paragraphs: [
               'Read the duty list again with an engineer’s eye and it breaks down into three properties of the system. Things the system must produce about itself, logs and records. Things a human must be able to do to it, inspect, intervene and override. And things it must never silently change, its purpose and its inputs. None of the three can be added convincingly after the fact, all three are cheap when they are design decisions.',
-              'This is where our practice happens to line up with the regulation, not because we built for the Act but because production forced the same conclusions earlier. Our systems write down each decision as it happens, in a record that can be added to but never edited, and the system itself never reads that record back, so it documents behaviour without influencing it. Oversight is not a name in a file. The people behind our assistants get real queues with real trails, and every action a system takes on someone’s behalf runs under that person’s own permissions, so the question "who could have done this" always has an answer your identity system already knew.',
+              'This is where our practice happens to line up with the regulation, not because we built for the Act but because production forced the same conclusions earlier. Our systems write down each decision as it happens, in a record that can be added to but never edited, and the system itself never reads that record back, so it documents behavior without influencing it. Oversight is not a name in a file. The people behind our assistants get real queues with real trails, and every action a system takes on someone’s behalf runs under that person’s own permissions, so the question "who could have done this" always has an answer your identity system already knew.',
               'Monitoring, the duty that sounds vaguest, is the one we can show most concretely. Before any change ships, a battery of real annotated cases must pass, and one of our systems carries 118 of them. After shipping, a weekly probe runs a real conversation against the live system end to end. Two separate checks, kept apart on purpose, and together they are precisely the "monitor the operation of the system" evidence Article 26 asks a deployer to have.',
             ],
             link: { label: 'The records, isolation and identity design in full', href: '/en/gdpr-compliant-ai' },
@@ -4595,7 +4595,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'Do we need a fundamental rights impact assessment?',
-            a: 'Only a defined group does. Public bodies, private companies providing public services, and deployers using high-risk AI for credit scoring or for life and health insurance pricing must run one before first use. If you are in that group, the good news is reuse, the Act lets you lean on assessments already done, including the provider’s, and the exercise overlaps with the DPIA your organisation likely knows. Whether you are in the group is, one more time, a question for counsel.',
+            a: 'Only a defined group does. Public bodies, private companies providing public services, and deployers using high-risk AI for credit scoring or for life and health insurance pricing must run one before first use. If you are in that group, the good news is reuse, the Act lets you lean on assessments already done, including the provider’s, and the exercise overlaps with the DPIA your organization likely knows. Whether you are in the group is, one more time, a question for counsel.',
           },
           {
             q: 'Is there any relief for smaller companies?',

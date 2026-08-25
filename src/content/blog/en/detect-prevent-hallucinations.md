@@ -23,7 +23,7 @@ In the agent we built for Savian, a second model acts as an auditor and distrust
 
 ## The metric that catches memory
 
-Detecting matters as much as preventing, and our favourite metric for this compares two things that should always match, the tool the conversation asked for and the tool the model actually used. When they diverge, the model answered from memory instead of querying. That divergence is measurable turn by turn, leaves a trace in the records and turns *"I think it sometimes makes things up"* into a figure someone watches every week. **What is not measured gets debated. What is measured gets fixed.**
+Detecting matters as much as preventing, and our favorite metric for this compares two things that should always match, the tool the conversation asked for and the tool the model actually used. When they diverge, the model answered from memory instead of querying. That divergence is measurable turn by turn, leaves a trace in the records and turns *"I think it sometimes makes things up"* into a figure someone watches every week. **What is not measured gets debated. What is measured gets fixed.**
 
 ## The text the user reads is not written by the model
 
