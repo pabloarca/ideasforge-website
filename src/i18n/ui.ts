@@ -318,6 +318,9 @@ export interface SiteContent {
   /** Diagrama comparativo de las cinco formas de automatizar. */
   formasDiagram: {
     title: string;
+    /** Rótulo del eje, sin él la banda se lee como barra de progreso. */
+    axis: string;
+    key: { codigo: string; modelo: string };
     lanes: Record<
       'fijo' | 'paradas' | 'agente' | 'dentro' | 'varios',
       { name: string; segs: string[] }
@@ -918,24 +921,26 @@ export const content: Record<Lang, SiteContent> = {
     },
     formasDiagram: {
       title: 'Quién decide el camino en cada forma',
+      axis: 'El recorrido de una petición, de principio a fin',
+      key: { codigo: 'Decide el código', modelo: 'Decide el modelo' },
       lanes: {
-        fijo: { name: 'Un flujo fijo sin modelo', segs: ['El código decide todos los pasos'] },
+        fijo: { name: 'Un flujo fijo sin modelo', segs: ['Todo el recorrido lo decide el código'] },
         paradas: {
           name: 'Un flujo fijo con paradas de modelo',
           segs: ['Código', 'El modelo lee', 'Código'],
         },
-        agente: { name: 'Un agente', segs: ['El modelo decide qué acción toca, una y otra vez'] },
+        agente: { name: 'Un agente', segs: ['El modelo decide todo el recorrido, paso a paso'] },
         dentro: {
           name: 'Un agente dentro de un flujo',
-          segs: ['Código', 'El agente resuelve este tramo', 'Código'],
+          segs: ['Código', 'El agente decide este tramo', 'Código'],
         },
         varios: {
           name: 'Varios agentes con un orquestador',
-          segs: ['El orquestador elige', 'El especialista resuelve'],
+          segs: ['El orquestador elige', 'El especialista decide su tramo'],
         },
       },
       legend:
-        'Las bandas azules son el modelo decidiendo. Las grises son código corriente, que hace siempre lo mismo y se puede comprobar entero antes de publicarlo. Cuanta más banda azul hay, más decide el sistema por su cuenta y más trabajo cuesta probarlo y vigilarlo. Fíjate en que las dos primeras formas no llevan agente y en que la cuarta, pese a llevarlo, decide menos que la tercera.',
+        'Cada banda es el recorrido de una petición, desde que entra hasta que se resuelve. Lo azul es lo que decide el modelo en ese momento. Lo gris es código corriente, que hace siempre lo mismo y se puede comprobar entero antes de publicarlo. Cuanto más azul hay, más decide el sistema por su cuenta y más trabajo cuesta probarlo y vigilarlo. No es un ranking. Las dos primeras formas no llevan agente y la cuarta, pese a llevarlo, decide menos que la tercera.',
     },
     gateDiagram: {
       title: 'Qué le pasa a un cambio antes de salir',
@@ -1335,7 +1340,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Guía',
           title: 'Agentes de IA, qué son y para qué sirven en tu empresa',
           subtitle:
-            'Qué es un agente de IA, qué tipos hay, para qué se usan de verdad en una empresa, lo que puede salir mal y qué preguntar antes de contratar a nadie. Todo en lenguaje llano.',
+            'Qué es un agente de IA, qué tipos hay, para qué se usan de verdad en una empresa, lo que puede salir mal y qué preguntar antes de contratar a nadie.',
         },
         sections: [
           {
@@ -1345,9 +1350,9 @@ export const content: Record<Lang, SiteContent> = {
             chatDiagram: true,
             paragraphs: [
               'Un agente de IA es un modelo de lenguaje con herramientas y con libertad para elegir cuál usa. Las herramientas son acciones concretas que alguien le ha autorizado: consultar una agenda, buscar en la documentación, registrar un dato. Ante cada petición, el agente decide en ese momento cómo resolverla.',
-              'Ahí está la diferencia con un bot. Y no es que uno hable y el otro actúe, porque los asistentes de uso general también ejecutan acciones desde hace tiempo. La diferencia es quién decide la respuesta. La de un bot estaba escrita antes de que nadie preguntara. La de un agente se construye al preguntar.',
+              'Ahí está la diferencia con un bot. Y no es que uno hable y el otro actúe, porque los asistentes de uso general también ejecutan acciones desde hace tiempo. <strong>La diferencia es quién decide la respuesta.</strong> La de un bot estaba escrita antes de que nadie preguntara. La de un agente se construye al preguntar.',
               'En una empresa hay una segunda diferencia y es la que determina si te sirve, sobre qué sistemas actúa y con los permisos de quién. Un asistente de uso general se queda en las herramientas que trae de fábrica. Un agente de empresa trabaja sobre tus sistemas, con los permisos de quien lo usa y dentro de los límites que tú apruebes.',
-              'Para funcionar hacen falta tres piezas. El modelo, que interpreta y elige. El código que lo rodea, software corriente sin inteligencia artificial, que comprueba si la petición se puede atender y con qué límites. Y tus datos, que son la materia de la respuesta.',
+              'Para funcionar hacen falta tres piezas: el modelo, que interpreta y elige, el código que lo rodea y tus datos, que son la materia de la respuesta.',
             ],
           },
           {
@@ -1359,7 +1364,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             bullets: [
               'Que reacciona. Sigue reglas fijas y no recuerda nada. Un termostato que enciende la calefacción cuando baja la temperatura. También el bot del apartado anterior. Barato y predecible, pero solo cubre lo que alguien previó. Cada situación nueva vuelve a pasar por el programador.',
-              'Que planifica. Recibe un objetivo y monta él mismo la secuencia de pasos. La rehace si algo se tuerce. Le pides un presupuesto y consulta el catálogo, comprueba existencias y pide una excepción cuando falta una pieza. Aquí entra casi todo lo que hoy se vende como agente de IA, los nuestros incluidos. Cuesta más de levantar y menos de ampliar.',
+              'Que planifica. Recibe un objetivo y monta él mismo la secuencia de pasos. La rehace si algo se tuerce. Le pides un presupuesto y consulta el catálogo, comprueba existencias y pide una excepción cuando falta una pieza. <strong>Aquí entra casi todo lo que hoy se vende como agente de IA, los nuestros incluidos.</strong> Cuesta más de levantar y menos de ampliar.',
               'Que aprende. Mejora solo, con su propia experiencia, sin que nadie vuelva a tocarlo. Es el que más aparece en las promesas y el que menos en producción.',
             ],
           },
@@ -1367,8 +1372,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Cuando te dicen que aprende solo',
             part: 'Tipos y usos',
             paragraphs: [
-              'El tipo que aprende merece un aviso aparte, porque «aprende de tus datos» es de las frases más repetidas del sector y casi nunca significa lo que parece. Un agente en producción no mejora solo. Mejora cuando una persona cambia sus instrucciones, ordena mejor los datos o añade casos a la batería de pruebas. Ese cambio lo ejecuta siempre alguien.',
-              'Si te dicen que aprende solo, la respuesta útil está en tres preguntas: qué cambia exactamente, quién lo ejecuta y cómo se comprueba que no ha empeorado otra cosa. Sirven igual para hacérselas al proveedor que para hacértelas tú.',
+              'El tipo de agente de inteligencia artificial que «aprende» merece un aviso aparte, porque «aprende de tus datos» es de las frases más repetidas del sector y casi nunca significa lo que parece. <strong>Un agente en producción no mejora solo.</strong> Mejora cuando una persona cambia sus instrucciones, ordena mejor los datos o añade casos a la batería de pruebas. Ese cambio lo ejecuta siempre alguien.',
+              'Si te dicen que aprende solo, te conviene hacerte estas tres preguntas: qué cambia exactamente, quién lo ejecuta y cómo se comprueba que no ha empeorado otra cosa. Sirven tanto para hacérselas al proveedor que te vaya a construir la solución como para hacértelas tú mismo y entender mejor lo que se está construyendo.',
             ],
           },
           {
@@ -1378,8 +1383,7 @@ export const content: Record<Lang, SiteContent> = {
             kind: 'checklist',
             formasDiagram: true,
             paragraphs: [
-              'La clasificación de los tipos ordena los agentes por cómo deciden. Quien los construye usa otra, que los ordena por cómo está montado el software alrededor del modelo. Es esa segunda clasificación la que sirve para leer una propuesta.',
-              'Casi cualquier propuesta que recibas encaja en una de estas cinco formas. Conviene saber cuál te están vendiendo, porque el coste fino, el de probarlo, vigilarlo y arreglarlo cuando falla, lo fija esta segunda clasificación. Las dos primeras no llevan ningún agente. Las tres últimas son las que el mercado llama IA agéntica.',
+              'Casi cualquier propuesta que recibas encaja en una de estas cinco formas. Conviene saber cuál te están vendiendo, porque lo que de verdad marca el coste de probarlo, de vigilarlo y de arreglarlo cuando falla es la forma, más que el tipo de agente que lleve dentro. <strong>Las dos primeras no llevan ningún agente.</strong> Las tres últimas son las que el mercado llama IA agéntica.',
             ],
             bullets: [
               'Un flujo fijo sin modelo. Los pasos corren en un orden establecido y unas reglas deciden las bifurcaciones. Tu ERP y tu plataforma de integración ya hacen esto y es lo más barato que funciona.',
@@ -1399,8 +1403,8 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Tipos y usos',
             kind: 'lattice',
             paragraphs: [
-              '«Sirve para todo» es la respuesta que no ayuda a nadie. En la práctica, casi todo lo que hoy funciona dentro de una empresa cae en unos pocos usos. Los cinco de aquí abajo están en producción y son nuestros, así que podemos contar cómo funcionan por dentro y qué costó ponerlos en pie.',
-              'Verás que en todos se repite lo mismo. Hay un texto que alguien tenía que leer y un dato o un sistema de la empresa al otro lado. Cuando falta una de esas dos mitades, casi siempre existe una manera más barata de resolverlo que un agente.',
+              '«Sirve para todo» es la respuesta que no ayuda a nadie. En la práctica, casi todo lo que hoy funciona dentro de una empresa cae en unos pocos usos. Los cinco de aquí abajo están en producción y son nuestros, así que podemos contar cómo funcionan por dentro y qué costó ponerlos en funcionamiento.',
+              'Verás que en todos se repite lo mismo. Hay un texto que alguien tenía que leer y un dato o un sistema de la empresa al otro lado. <strong>Cuando falta una de esas dos mitades, casi siempre existe una manera más barata de resolverlo que un agente.</strong>',
             ],
             bullets: [
               'Leer documentos que llegan sin formato fijo. Facturas, albaranes, contratos, partes de trabajo. Cada proveedor manda el suyo con otra plantilla, así que alguien acababa tecleándolos uno a uno. Stanton, una gestora de fincas, recibe por un chat las facturas de luz, gas y agua de sus inquilinos, un modelo las lee y el código las deja normalizadas.',
@@ -1414,28 +1418,35 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Lo que puede hacer y lo que no',
             part: 'Lo que puede salir mal',
             paragraphs: [
-              'Nada de esto se enchufa y funciona. La distancia entre un buen resultado y una decepción está casi siempre en el alcance antes que en el modelo. Con un alcance demasiado ancho el sistema queda mediocre en todo y no se gana la confianza para ninguna. Con uno demasiado estrecho, el montaje cuesta más que el trabajo que ahorra. Los proyectos que salen bien eligen una tarea con un límite claro alrededor, la demuestran y después la amplían.',
+              'Nada de esto se enchufa y funciona. <strong>La distancia entre un buen resultado y llevarte una decepción está casi siempre en el alcance</strong>, antes que en el modelo. Con un alcance demasiado amplio el sistema corre el peligro de ser mediocre en todo y de no ganarse la confianza para nada. Con uno demasiado estrecho, el montaje cuesta más que el trabajo que ahorra. Los proyectos que salen bien eligen una tarea con un límite claro alrededor, la demuestran y después la amplían.',
               'Lo que los sistemas de hoy hacen bien es leer lo que llega sin forma fija, entender una petición escrita de veinte maneras, seguir un procedimiento paso a paso y actuar dentro de un conjunto cerrado de acciones que alguien aprobó. Esa lista es nueva de verdad y es la razón de que procesos que sobrevivieron a todas las olas de automatización anteriores estén ahora en juego.',
-              'Lo que no hacen es inventar conocimiento que nadie escribió, garantizar un resultado sin que un código lo compruebe antes, ni mejorar solos mientras nadie mide. Y son una herramienta entre varias. Parte de nuestro trabajo es decirte cuándo la respuesta honesta es una regla, un formulario o un proceso rediseñado, porque un modelo encima de un proceso roto solo hace que el desastre llegue antes.',
+              'Lo que no hacen es inventar conocimiento que nadie escribió, garantizar un resultado sin que un código lo compruebe antes, ni mejorar solos mientras nadie mide. <strong>Parte de nuestro trabajo es decirte cuándo no hace falta un agente.</strong> A veces basta con una regla, con un formulario bien hecho o con rediseñar el proceso, porque un modelo encima de un proceso roto o mal formulado solo hace que el desastre llegue antes.',
             ],
           },
           {
             heading: 'Medido antes de cada cambio, vigilado después',
             part: 'Lo que puede salir mal',
             paragraphs: [
-              'Hay un riesgo que casi nadie presupuesta. Un sistema con IA puede empeorar solo, sin que nadie lo toque. El proveedor actualiza el modelo sin cambiarle el nombre, tu documentación crece y tus datos van cambiando con el tiempo. Chen, Zaharia y Zou, de Stanford y Berkeley, lo midieron sobre el mismo modelo comercial en marzo y en junio de 2023. Su comportamiento cambió tanto que en una tarea el acierto pasó del 97,6 % al 2,4 %, sin que nadie del lado del cliente tocara nada. Gartner calculó en junio de 2025 que más del 40 % de los proyectos de IA agéntica se cancelará antes de acabar 2027. Por nuestra experiencia esa mortalidad vive en el mantenimiento y no en el estreno.',
-              'Los modelos no son deterministas, no siempre devuelven lo mismo, así que comprobar una respuesta un día no garantiza nada. La única disciplina que funciona ahí es estadística y aburrida. Antes de publicar cualquier cambio, una batería de casos reales anotados tiene que pasar, 118 casos en uno de nuestros sistemas y 145 conversaciones en Wazzy. Si la calidad baja, el cambio no sale.',
-              'Después del estreno, la vigilancia no se apaga. Una vez por semana reproducimos de principio a fin una conversación real contra el sistema vivo, por unos cinco céntimos por ejecución. En el asistente de planta, la calibración del enrutado se midió sobre casos reales y pasó del 72 % al 91 % de acierto. También supimos parar a tiempo. Buscar el cien por cien acaba llevándote a ajustar las pruebas para que aprueben, en vez de a mejorar el sistema.',
-              'Estas cifras existen porque los sistemas se construyen para producirlas. Cuando evalúes a cualquier proveedor, nosotros incluidos, pide las suyas. Lo que hace falta para que un sistema pase de su sexto mes tiene artículo propio.',
+              'Hay un riesgo que casi nadie presupuesta. <strong>Un sistema con IA puede empeorar solo, sin que nadie lo toque.</strong> El proveedor actualiza el modelo sin cambiarle el nombre, tu documentación crece y tus datos van cambiando con el tiempo. <a class="link-inline" href="https://arxiv.org/abs/2307.09009" rel="noopener noreferrer" target="_blank">Chen, Zaharia y Zou</a>, de Stanford y Berkeley, lo midieron sobre el mismo modelo comercial en marzo y en junio de 2023. Su comportamiento cambió tanto que en una tarea el acierto pasó del 97,6 % al 2,4 %, sin que nadie del lado del cliente tocara nada. Gartner calculó en junio de 2025 que más del 40 % de los proyectos de IA agéntica se cancelará antes de acabar 2027. Por nuestra experiencia esa mortalidad vive en el mantenimiento y no en el estreno.',
+              'Los modelos no son deterministas, no siempre devuelven lo mismo, así que comprobar una respuesta un día no garantiza nada. La única disciplina que funciona ahí es estadística y aburrida. Antes de publicar cualquier cambio, una batería de casos reales anotados tiene que pasar. Si la calidad baja, el cambio no sale.',
+              'Después del estreno, la vigilancia no se apaga. Una vez por semana reproducimos de principio a fin una conversación real contra el sistema vivo. En el asistente de planta, la calibración del enrutado se midió sobre casos reales y pasó del 72 % al 91 % de acierto. También supimos parar a tiempo. Buscar el cien por cien acaba llevándote a ajustar las pruebas para que aprueben, en vez de a mejorar el sistema. En Wazzy, por ejemplo, empezamos con una arquitectura de agentes con herramientas a su disposición y la hemos cambiado tres veces hasta dar con la correcta, la que de verdad subió el porcentaje de conversaciones que acaban bien.',
+              'Ninguna de estas cifras aparece sola. Existen porque el sistema se construyó desde el principio para medirse, con su batería y su vigilancia dentro del presupuesto. <strong>Cuando evalúes a cualquier proveedor, nosotros incluidos, pide las suyas.</strong> Lo que hace falta para que un sistema pase de su sexto mes tiene artículo propio.',
             ],
             link: { label: 'Empezar es fácil, mantenerlo vivo es lo difícil', href: '/blog/mantener-viva-la-ia' },
           },
           {
             heading: 'Cómo es el proyecto, de la primera reunión a producción',
             part: 'Para tu empresa',
+            kind: 'checklist',
             paragraphs: [
-              'Nuestro método tiene cuatro pasos con nombre y cada uno entrega algo que puedes tener en la mano. Explorar. Entendemos el proceso y los datos y te decimos con franqueza si vemos retorno, así que lo que sale de aquí es un sí o un no. Priorizar. Elegimos el primer caso por dolor y por cifra en vez de por vistosidad, así que sale ese caso con su cifra al lado. Implementar. Construimos ese caso acotado y lo llevamos a producción, así que sale un sistema funcionando con su batería de pruebas puesta. Y optimizar. Medimos lo que hace con usuarios reales, para que la decisión sobre el paso siguiente salga de datos y no de opiniones.',
-              'La forma importa tanto como los pasos. El proyecto no arranca con una plataforma que lo hará todo, arranca con un proceso que duele y una cifra que debería moverse. Todo lo que cuenta esta guía, las pruebas antes de cada cambio, la vigilancia después y el control de quién ve qué, entra en ese primer caso desde el día uno, porque añadirlo más tarde es la versión cara.',
+              '<strong>El proyecto no arranca con una plataforma que lo hará todo, arranca con un proceso que duele y una cifra que debería moverse.</strong> Y todo lo que cuenta esta guía, las pruebas antes de cada cambio, la vigilancia después y el control de quién ve qué, entra en ese primer caso desde el día uno, porque añadirlo más tarde es la versión cara.',
+              'Nuestro método tiene cuatro pasos con nombre y cada uno entrega algo que puedes tener en la mano.',
+            ],
+            bullets: [
+              '<strong>Explorar.</strong> Entendemos el proceso y los datos y te decimos con franqueza si vemos retorno. Lo que sale de aquí es un sí o un no.',
+              '<strong>Priorizar.</strong> Elegimos el primer caso por dolor y por cifra en vez de por vistosidad. Sale ese caso, con su cifra al lado.',
+              '<strong>Implementar.</strong> Construimos ese caso acotado y lo llevamos a producción. Sale un sistema funcionando con su batería de pruebas puesta.',
+              '<strong>Optimizar.</strong> Medimos lo que hace con usuarios reales, para que la decisión sobre el paso siguiente salga de datos y no de opiniones.',
             ],
           },
           {
@@ -1443,7 +1454,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Para tu empresa',
             kind: 'checklist',
             paragraphs: [
-              'No toda tarea merece un agente. Esta es la criba que aplicamos nosotros antes de aceptar un proyecto, en el mismo orden. Puedes pasarla tú solo con la lista de procesos de tu empresa delante.',
+              'No toda tarea merece un agente. <strong>Esta es la criba que aplicamos nosotros antes de aceptar un proyecto, en el mismo orden.</strong> Puedes pasarla tú solo con la lista de procesos de tu empresa delante.',
             ],
             bullets: [
               'Existe una tarea que exige criterio. Si es puro trámite sin decisiones, la automatización de siempre es más barata. Si cada caso exige entender algo, leer un documento, interpretar una petición, ahí vive el agente.',
@@ -1459,7 +1470,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Con un proceso candidato en la cabeza, tres preguntas separan el proyecto que compensa del que da titular. Las dos primeras ya las contestaste en la criba de arriba y aquí se dicen en voz alta. La primera es de números. Cuántas veces al día ocurre y cuánto se tarda cada vez. Multiplica las dos cifras y tendrás los minutos al día que ese proyecto puede llegar a ahorrarte como mucho, que conviene saber antes de encargar nada.',
               'La segunda es sobre el tipo de trabajo. Qué hace exactamente la persona que hoy lo resuelve, mirar o decidir. Si solo comprueba que un campo está donde tiene que estar, tu problema es de reglas y el modelo te sobra. Si tiene que leer, entender y elegir entre opciones que no siempre son las mismas, ahí empieza el terreno del agente.',
-              'La tercera es la que casi nadie hace y la que más dinero ahorra. Qué pasa si el sistema se equivoca una vez de cada veinte. Si la respuesta es que se corrige en un minuto, puedes automatizar con validación ligera y avanzar rápido. Si la respuesta es una factura mal emitida, un cliente perdido o una multa, el proyecto sigue siendo viable pero cambia de forma, con más validación por código, más casos escalados a una persona y un presupuesto mayor. La tolerancia al error no decide si se hace, decide cuánto cuesta hacerlo bien.',
+              'La tercera es la que casi nadie hace y la que más dinero ahorra. Qué pasa si el sistema se equivoca una vez de cada veinte. Si la respuesta es que se corrige en un minuto, puedes automatizar con validación ligera y avanzar rápido. Si la respuesta es una factura mal emitida, un cliente perdido o una multa, el proyecto sigue siendo viable pero cambia de forma, con más validación por código, más casos escalados a una persona y un presupuesto mayor. <strong>La tolerancia al error no decide si se hace, decide cuánto cuesta hacerlo bien.</strong>',
               'Y antes de las tres, una comprobación de higiene. Si el proceso te vino a la cabeza por lo bien que quedaría en una demostración y no por lo que te está costando, hay una trampa esperándote y tiene nombre, el juguete brillante.',
             ],
             link: { label: 'El juguete brillante, el proyecto que nace del brillo', href: '/blog/el-juguete-brillante' },
@@ -1469,7 +1480,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Para tu empresa',
             kind: 'lattice',
             paragraphs: [
-              'Casi ningún proyecto muere por la tecnología. Muere por decisiones de las primeras semanas que nadie revisó. Estas son las que más nos encontramos.',
+              '<strong>Casi ningún proyecto muere por la tecnología. Muere por decisiones de las primeras semanas que nadie revisó.</strong> Estas son las que más nos encontramos.',
             ],
             bullets: [
               'Empezar por el caso vistoso en lugar del doloroso, que es el juguete brillante del apartado anterior. La demostración espectacular consigue aplausos y el proceso aburrido que quema horas consigue presupuesto renovado.',
@@ -1485,7 +1496,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Para tu empresa',
             kind: 'lattice',
             paragraphs: [
-              'Con lo leído hasta aquí, estas seis preguntas te dejan ver por dentro cualquier propuesta, la nuestra incluida.',
+              'Con lo leído hasta aquí, <strong>estas seis preguntas te dejan ver por dentro cualquier propuesta, la nuestra incluida.</strong>',
             ],
             bullets: [
               'En qué infraestructura corre el sistema y a nombre de quién quedan la cuenta y el repositorio.',
@@ -2704,24 +2715,26 @@ export const content: Record<Lang, SiteContent> = {
     },
     formasDiagram: {
       title: 'Who decides the path in each shape',
+      axis: 'One request, from arrival to resolution',
+      key: { codigo: 'Code decides', modelo: 'The model decides' },
       lanes: {
-        fijo: { name: 'A fixed flow with no model', segs: ['Code decides every step'] },
+        fijo: { name: 'A fixed flow with no model', segs: ['Code decides the whole path'] },
         paradas: {
           name: 'A fixed flow with model stops',
           segs: ['Code', 'The model reads', 'Code'],
         },
-        agente: { name: 'An agent', segs: ['The model decides which action comes next, over and over'] },
+        agente: { name: 'An agent', segs: ['The model decides the whole path, step by step'] },
         dentro: {
           name: 'An agent inside a flow',
-          segs: ['Code', 'The agent handles this stretch', 'Code'],
+          segs: ['Code', 'The agent decides this stretch', 'Code'],
         },
         varios: {
           name: 'Several agents with an orchestrator',
-          segs: ['The orchestrator picks', 'The specialist resolves'],
+          segs: ['The orchestrator picks', 'The specialist decides its stretch'],
         },
       },
       legend:
-        'The blue bands are the model deciding. The grey ones are ordinary code, which always does the same thing and can be checked in full before it ships. The more blue there is, the more the system decides on its own and the more work it takes to test and watch. Note that the first two shapes carry no agent at all, and that the fourth, despite having one, decides less than the third.',
+        'Each band is one request, from the moment it arrives to the moment it is resolved. Blue is what the model decides right then. Grey is ordinary code, which always does the same thing and can be checked in full before it ships. The more blue there is, the more the system decides on its own and the more work it takes to test and watch. This is not a ranking. The first two shapes carry no agent at all, and the fourth, despite having one, decides less than the third.',
     },
     gateDiagram: {
       title: 'What happens to a change before it ships',
@@ -2857,7 +2870,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Who this page is for',
             part: 'Who it happens to',
             paragraphs: [
-              'For mid-size and large companies whose knowledge lives scattered across documentation, wikis and systems, SharePoint, Azure, Confluence, the ERP, the industrial systems. And in particular for the R&D or innovation lead who has to defend this project in front of a committee, because every section here is meant to hand that person arguments that survive the questions from security, IT and legal.',
+              'For mid-size and large companies whose knowledge lives scattered across documentation, wikis and systems, SharePoint, Azure, Confluence, the ERP, the industrial systems. And in particular for the R&amp;D or innovation lead who has to defend this project in front of a committee, because every section here is meant to hand that person arguments that survive the questions from security, IT and legal.',
               'The situation fits in one sentence. Answers exist inside the organisation, and finding them costs far more than it should, because they live in a dense document, in a separate system or in the heads of the three most senior people.',
             ],
           },

@@ -12,8 +12,19 @@
   dentro de un flujo, decide menos que la tercera, así que ordenarlas por
   autonomía mentiría. Lo que enseña es de qué está hecha cada una.
 
+  Sobre el fondo: va en `hielo` y no en el azul que trae `GrainFrame` por
+  defecto. La primera versión (25 ago) heredó el azul oscuro y pintó los
+  tramos del modelo con el acento de la casa, que es azul: azul sobre azul,
+  invisible. El fondo claro es además el que la casa reserva para gráficos
+  que conviven con una sección blanca.
+
+  Cada carril necesita dos señales para leerse: la etiqueta del eje, que dice
+  que la banda es el recorrido de una petición de principio a fin, y la
+  leyenda de colores dentro del propio lienzo. Sin ellas la banda parece una
+  barra de progreso y el lector busca un ranking donde no lo hay.
+
   Layout aquí, texto en `content[lang].formasDiagram`, que es la regla de la
-  casa. El lienzo mide 1100 × 340 y se escala para caber, así que las
+  casa. El lienzo mide 1100 × 400 y se escala para caber, así que las
   coordenadas de abajo son píxeles absolutos y valen igual en los dos idiomas.
 */
 import { type Lang, content } from '../i18n/ui';
@@ -26,12 +37,15 @@ interface Props {
 const { lang } = Astro.props;
 const d = content[lang].formasDiagram;
 
-// La banda de cada carril arranca en BANDA y mide 640 px en total, repartidos
-// entre sus tramos más 6 px de aire entre tramo y tramo. `m` marca los tramos
-// donde decide el modelo. El orden de `segs` es el mismo que en el texto.
+// La banda de cada carril arranca en BANDA y mide ANCHO en total, repartidos
+// entre sus tramos más AIRE de separación. `m` marca los tramos donde decide
+// el modelo. El orden de `tramos` es el mismo que el de `segs` en el texto.
 const BANDA = 430;
+const ANCHO = 640;
 const ALTO = 44;
 const AIRE = 6;
+const FILA0 = 74;
+const SALTO = 62;
 
 const CARRILES = [
   { clave: 'fijo', tramos: [{ w: 640, m: false }] },
@@ -40,14 +54,21 @@ const CARRILES = [
   { clave: 'dentro', tramos: [{ w: 180, m: false }, { w: 280, m: true }, { w: 168, m: false }] },
   { clave: 'varios', tramos: [{ w: 220, m: true }, { w: 414, m: true }] },
 ] as const;
+
+const FIN = FILA0 + SALTO * (CARRILES.length - 1) + ALTO;
 ---
 
 <figure class="my-10">
-  <GrainFrame height="540px" title={d.title}>
-    <DiagramCanvas width={1100} height={340}>
+  <GrainFrame height="560px" title={d.title} fondo="hielo">
+    <DiagramCanvas width={1100} height={FIN + 46}>
+      {/* Flecha del eje: sin ella la banda se lee como barra de progreso. */}
+      <path slot="edges" d={`M${BANDA},52 L${BANDA + ANCHO},52`} marker-end="url(#dg-arrow)" />
+
+      <div class="fd-eje" style={`left:${BANDA}px;top:22px;width:${ANCHO}px`}>{d.axis}</div>
+
       {
         CARRILES.map((carril, i) => {
-          const y = 22 + i * 62;
+          const y = FILA0 + i * SALTO;
           const lane = d.lanes[carril.clave];
           let x = BANDA;
           return (
@@ -72,6 +93,12 @@ const CARRILES = [
           );
         })
       }
+
+      {/* Leyenda dentro del lienzo. La del pie explica; esta identifica. */}
+      <div class="fd-clave" style={`left:0px;top:${FIN + 16}px`}>
+        <span class="fd-swatch"></span>{d.key.codigo}
+        <span class="fd-swatch fd-modelo"></span>{d.key.modelo}
+      </div>
     </DiagramCanvas>
   </GrainFrame>
 
@@ -83,10 +110,21 @@ const CARRILES = [
 <style>
   .fd-num,
   .fd-name,
-  .fd-seg {
+  .fd-seg,
+  .fd-eje,
+  .fd-clave {
     position: absolute;
     box-sizing: border-box;
     font-family: var(--font-sans, 'Space Grotesk', sans-serif);
+  }
+
+  .fd-eje {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    text-align: center;
   }
 
   .fd-num {
@@ -110,17 +148,40 @@ const CARRILES = [
     padding: 0 10px;
     border: 1.3px solid color-mix(in oklab, currentColor 40%, transparent);
     border-radius: 7px;
-    background: color-mix(in oklab, currentColor 5%, transparent);
+    background: color-mix(in oklab, currentColor 6%, transparent);
     font-size: 14px;
     font-weight: 500;
     line-height: 1.2;
     text-align: center;
   }
 
-  /* Tramo donde decide el modelo: el acento de la casa. */
+  /* Tramo donde decide el modelo: el acento de la casa, que sobre el fondo
+     claro contrasta de verdad. */
   .fd-modelo {
     color: var(--color-accent);
-    border-color: color-mix(in oklab, var(--color-accent) 65%, transparent);
-    background: color-mix(in oklab, var(--color-accent) 9%, transparent);
+    border-color: color-mix(in oklab, var(--color-accent) 70%, transparent);
+    background: color-mix(in oklab, var(--color-accent) 12%, transparent);
+  }
+
+  .fd-clave {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0.75;
+    white-space: nowrap;
+  }
+  .fd-clave .fd-swatch {
+    display: inline-block;
+    width: 26px;
+    height: 14px;
+    border-radius: 4px;
+    border: 1.3px solid color-mix(in oklab, currentColor 40%, transparent);
+    background: color-mix(in oklab, currentColor 6%, transparent);
+  }
+  .fd-clave .fd-swatch + .fd-swatch,
+  .fd-clave .fd-swatch.fd-modelo {
+    margin-left: 18px;
   }
 </style>

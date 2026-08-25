@@ -220,7 +220,7 @@ const hasNav = page.nav ?? page.sections.length >= 4;
                 </h2>
                 <div class="mt-5 space-y-4">
                   {section.paragraphs.map((p) => (
-                    <p class="text-[15px] leading-relaxed text-muted sm:text-base">{p}</p>
+                    <p class="text-[15px] leading-relaxed text-muted sm:text-base" set:html={p} />
                   ))}
                 </div>
               </div>
@@ -239,7 +239,7 @@ const hasNav = page.nav ?? page.sections.length >= 4;
                         <span class="mt-0.5 shrink-0 text-accent" aria-hidden="true">
                           <Icon name="correcto" size={14} />
                         </span>
-                        <span class="text-[15px] leading-relaxed text-fg">{b}</span>
+                        <span class="text-[15px] leading-relaxed text-fg" set:html={b} />
                       </div>
                       <LatticeDots seed={907 + i * 13 + k} />
                     </li>
@@ -265,7 +265,7 @@ const hasNav = page.nav ?? page.sections.length >= 4;
                         )}
                       </div>
                       <div class={k < section.bullets!.length - 1 ? 'pb-8' : ''}>
-                        <p class="text-[15px] leading-relaxed text-fg sm:text-base">{b}</p>
+                        <p class="text-[15px] leading-relaxed text-fg sm:text-base" set:html={b} />
                       </div>
                     </li>
                   ))}
@@ -279,7 +279,7 @@ const hasNav = page.nav ?? page.sections.length >= 4;
                       <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent text-bg" aria-hidden="true">
                         <Icon name="correcto" size={12} />
                       </span>
-                      <span>{b}</span>
+                      <span set:html={b} />
                     </li>
                   ))}
                 </ul>
