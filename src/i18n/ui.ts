@@ -1352,7 +1352,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'Tipos de agentes',
-            part: 'Tipos y diferencias',
+            part: 'Tipos y usos',
             kind: 'lattice',
             paragraphs: [
               'No todos los agentes deciden igual. Esa diferencia es la que más cambia lo que cuesta construir uno y lo que cuesta mantenerlo, así que conviene tenerla clara antes de escuchar ninguna propuesta. Con tres categorías se sitúa casi todo lo que te van a ofrecer.',
@@ -1365,7 +1365,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'Cuando te dicen que aprende solo',
-            part: 'Tipos y diferencias',
+            part: 'Tipos y usos',
             paragraphs: [
               'El tipo que aprende merece un aviso aparte, porque «aprende de tus datos» es de las frases más repetidas del sector y casi nunca significa lo que parece. Un agente en producción no suele cambiar solo. Mejora cuando una persona cambia sus instrucciones, ordena mejor los datos o añade casos a la batería de pruebas. Ese cambio lo ejecuta siempre alguien.',
               'Si te dicen que aprende solo, la respuesta útil está en tres preguntas. Qué cambia exactamente, quién lo ejecuta y cómo se comprueba que no ha empeorado otra cosa. Sirven igual para hacérselas al proveedor que para hacértelas tú.',
@@ -1374,57 +1374,50 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Dónde encaja un agente entre las formas de automatizar',
             id: 'formas',
-            part: 'Tipos y diferencias',
+            part: 'Tipos y usos',
             kind: 'checklist',
             formasDiagram: true,
             paragraphs: [
-              'La clasificación de arriba ordena a los agentes por cómo deciden. Quien los construye usa otra, que ordena por cómo está montado el software alrededor del modelo. Ni la documentación de Anthropic ni la de OpenAI hablan de tipos de agente, las dos hablan de arquitecturas. Es esa segunda manera de mirarlo la que sirve para leer una propuesta.',
-              'Un agente no siempre es la respuesta, así que conviene ver dónde encaja entre las demás maneras de automatizar. Casi cualquier propuesta que leas es una de estas cinco. Y conviene decirlo de entrada, las dos primeras no llevan agente ninguno. Casi todos los proveedores llaman agente a cualquiera de las cinco, aunque por dentro sean cosas distintas. Saber cuál necesita tu problema ahorra meses, porque cada una tiene un coste distinto al probar, al vigilar y al arreglar cuando falla. A las tres últimas es a lo que el mercado llama IA agéntica.',
+              'La clasificación de arriba ordena a los agentes por cómo deciden. Quien los construye usa otra, que ordena por cómo está montado el software alrededor del modelo. Esa segunda manera de mirarlo es la que sirve para leer una propuesta.',
+              'Casi cualquier propuesta que recibas es una de estas cinco formas. Conviene saber cuál te están vendiendo, porque cada una tiene un coste distinto al probar, al vigilar y al arreglar cuando falla. Las dos primeras no llevan agente ninguno. A las tres últimas es a lo que el mercado llama IA agéntica.',
             ],
             bullets: [
-              'Un flujo fijo sin modelo. Salta un disparador, los pasos corren en un orden establecido y unas reglas deciden las bifurcaciones. Tu ERP y tu plataforma de integración ya hacen esto y es lo más barato que funciona. La señal de que se te ha quedado pequeño es una maraña de excepciones que ya nadie se atreve a tocar, una por cada caso raro que fue apareciendo.',
-              'Un flujo fijo con paradas de modelo. El mismo flujo fiable de siempre, con el modelo llamado solo en los dos o tres puntos donde hay que leer o interpretar algo y con código haciendo todo lo demás. Es la forma más común hoy en sistemas de empresa reales y la primera que consideramos. Stanton, una gestora de fincas, funciona así, llegan las facturas, un modelo las lee, el código valida y archiva.',
-              'Un agente. En lugar de un camino marcado recibe un objetivo, un conjunto cerrado de acciones y sus límites. Con eso decide qué acción toca según lo que va encontrando. Acierta cuando la ruta cambia de verdad en cada caso y sale caro cuando la ruta era previsible desde el principio. La señal de que no lo necesitabas es que sus instrucciones lleven escrita la secuencia exacta de pasos.',
-              'Un agente dentro de un flujo. El flujo mantiene su forma por fuera y uno de sus pasos le cede el mando a un agente, que resuelve ese trozo a su manera y lo devuelve. Da margen donde los casos llegan desordenados y mantiene todo lo demás previsible, que es donde acaba buena parte de lo que construimos para cualificar y para tratar documentos.',
-              'Varios agentes con un orquestador. Una única puerta de entrada entiende la petición y la dirige al especialista, cada uno con sus herramientas y sus límites. Nuestro asistente de planta funciona así, con media docena de especialistas detrás del orquestador. Es la respuesta correcta para dominios de verdad distintos bajo una sola puerta y la equivocada para todo lo demás, porque si ya cuesta tener uno bajo control, seis cuestan seis veces más.',
+              'Un flujo fijo sin modelo. Los pasos corren en un orden establecido y unas reglas deciden las bifurcaciones. Tu ERP y tu plataforma de integración ya hacen esto y es lo más barato que funciona.',
+              'Un flujo fijo con paradas de modelo. El mismo flujo de siempre, con el modelo llamado solo en los dos o tres puntos donde hay que leer o interpretar algo. Es la forma más común hoy en sistemas de empresa reales y la primera que consideramos.',
+              'Un agente. Recibe un objetivo, un conjunto cerrado de acciones y sus límites. Con eso decide qué acción toca según lo que va encontrando. Compensa cuando la ruta cambia de verdad en cada caso.',
+              'Un agente dentro de un flujo. El flujo mantiene su forma por fuera y uno de sus pasos le cede el mando a un agente, que resuelve ese trozo y lo devuelve. Da margen donde los casos llegan desordenados y deja previsible todo lo demás.',
+              'Varios agentes con un orquestador. Una única puerta de entrada entiende la petición y la dirige al especialista que toca. Es la respuesta correcta para dominios de verdad distintos y la equivocada para todo lo demás, porque si ya cuesta tener uno bajo control, seis cuestan seis veces más.',
             ],
+            link: {
+              label: 'Por qué no nos gustan las arquitecturas agénticas',
+              href: '/blog/no-me-gustan-los-agentes-de-ia',
+            },
           },
           {
-            heading: 'En qué se diferencia de un chatbot',
-            part: 'Tipos y diferencias',
+            heading: 'Aplicaciones de agentes de IA en el mundo real',
+            id: 'aplicaciones',
+            part: 'Tipos y usos',
+            kind: 'lattice',
             paragraphs: [
-              'La palabra chatbot llega desde una época en la que el robot seguía un guion, apretabas 1 para citas y 2 para horarios. Cualquier pregunta fuera del guion acababa en un «no le he entendido». Un agente conversacional moderno entiende la petición aunque venga mal escrita, en otro idioma o por la mitad. Esa es la parte que pone el modelo.',
-              'La diferencia que importa al negocio no es esa, es la de después. Un chatbot informativo responde y ahí acaba. Un agente termina la tarea, comprueba la agenda real, reserva la cita, actualiza la ficha, registra la factura o escala a una persona cuando toca. La forma más rápida de separarlos es una pregunta. Cuando la conversación acaba, ¿ha cambiado algo en tus sistemas o solo se ha hablado?',
-              'Hay un tercer nombre que aparece a menudo, la RPA, la automatización robótica de procesos que imita clics y teclas sobre las pantallas de siempre. Funciona muy bien mientras nada cambie y es frágil ante cualquier pantalla nueva. El agente ataca el mismo problema desde otro sitio, entendiendo el contenido en lugar de imitar los clics. Por eso los dos conviven en muchas empresas, cada uno en lo suyo.',
+              '«Sirve para todo» es la respuesta que no ayuda a nadie. En la práctica, casi todo lo que hoy funciona dentro de una empresa cae en unos pocos usos. Los cinco de aquí abajo están en producción y son nuestros, así que podemos contar cómo funcionan por dentro y qué costó ponerlos en pie.',
+              'Verás que en todos se repite lo mismo. Hay un texto que alguien tenía que leer y un sistema de la empresa que había que tocar. Cuando falta una de esas dos mitades, casi siempre existe una manera más barata de resolverlo que un agente.',
             ],
-          },
-          {
-            heading: 'Agente no siempre significa autónomo',
-            part: 'Tipos y diferencias',
-            paragraphs: [
-              'La palabra agéntica se usa muchas veces como si fuera una nota alta, como si un sistema que decide más pasos por su cuenta estuviera mejor construido que uno que decide menos. No es así. La autonomía funciona como un mando que se sube o se baja en cada tramo del proceso y lo sensato es subirla solo donde hace falta. Cuando el camino se conoce de antemano, dejarlo escrito en el código sale más barato y además se puede probar. Cuando el camino cambia de verdad con cada caso, ahí es donde tiene sentido que decida el modelo.',
-              'A quien compra esto le importa por una razón muy concreta, lo que cuesta vigilarlo. Cada decisión que toma el modelo necesita su prueba, su registro y su medición. Un sistema que decide poco se vigila barato. Uno que decide todo exige un aparato de medición que casi nadie mete en el presupuesto. De ahí sale buena parte de los proyectos que mueren a los seis meses.',
-              'Si quieres nuestra opinión completa sobre esto, con sus números y su parte incómoda, la contamos aparte.',
+            bullets: [
+              'Leer documentos que llegan sin formato fijo. Facturas, albaranes, contratos, partes de trabajo. Cada proveedor manda el suyo con otra plantilla, así que alguien acababa tecleándolos uno a uno. Stanton, una gestora de fincas, recibe por un chat las facturas de luz, gas y agua de sus inquilinos, un modelo las lee y el código las deja normalizadas.',
+              'Preguntar a los datos de la empresa sin saber consultarlos. Una persona pregunta con sus palabras y recibe la cifra, sin pasar por el departamento que sabe escribir la consulta. En Savian, del sector agrícola, esa espera era de horas y hoy la respuesta sale en segundos. El modelo no escribe la consulta, entrega un formulario cerrado que el código convierte en una consulta con los permisos de quien pregunta.',
+              'Consultar la documentación interna y guiar un diagnóstico. Manuales, procedimientos e histórico de averías, que existen pero que nadie encuentra a tiempo. Nuestro asistente de planta responde a operarios y supervisores sobre producción y averías, con media docena de especialistas detrás de una sola puerta de entrada.',
+              'Cualificar peticiones que llegan por mensaje. Barceloneta Premium recibía decenas de mensajes de WhatsApp al día de interesados en alquilar. Cada uno llevaba de cinco a diez minutos de comprobación manual. El agente extrae motivo, presupuesto y documentación. Después manda un resumen con apto o no apto y su justificación. Más de tres horas al día liberadas.',
+              'Atender y reservar fuera de horario. Wazzy, que es producto nuestro y no un cliente, gestiona por WhatsApp reservas, cambios y cancelaciones a cualquier hora, deja el calendario y la ficha al día y escala a una persona cuando la consulta es urgente.',
             ],
-            link: { label: 'Por qué no nos gustan las arquitecturas agénticas', href: '/blog/no-me-gustan-los-agentes-de-ia' },
           },
           {
             heading: 'Lo que puede hacer y lo que no',
-            part: 'Tipos y diferencias',
+            part: 'Lo que puede salir mal',
             paragraphs: [
               'Ninguna de estas formas se enchufa y funciona. La distancia entre un buen resultado y una decepción está casi siempre en el alcance antes que en el modelo. Con un alcance demasiado ancho el sistema queda mediocre en cuarenta cosas y no se gana la confianza para ninguna. Con uno demasiado estrecho, el montaje cuesta más que el trabajo que ahorra. Los proyectos que salen bien eligen una tarea con un límite claro alrededor, la demuestran y después la amplían.',
               'Lo que los sistemas de hoy hacen bien es leer lo que llega sin forma fija, entender una petición escrita de veinte maneras, seguir un procedimiento paso a paso y actuar dentro de un conjunto cerrado de acciones que alguien aprobó. Esa lista es nueva de verdad y es la razón de que procesos que sobrevivieron a todas las olas de automatización anteriores estén ahora en juego.',
               'Lo que no hacen es inventar conocimiento que nadie escribió, garantizar un resultado sin que un código lo compruebe antes, ni mejorar solos mientras nadie mide. Y son una herramienta entre varias. Parte de nuestro trabajo es decirte cuándo la respuesta honesta es una regla, un formulario o un proceso rediseñado, porque un modelo encima de un proceso roto solo hace que el desastre llegue antes.',
             ],
-          },
-          {
-            heading: 'Los datos de cada uno, en su sitio',
-            part: 'Lo que puede salir mal',
-            paragraphs: [
-              'Uno de los primeros miedos que aparecen en cualquier comité es que el asistente mezcle lo que no debe, datos de dos clientes, de dos empresas o de dos empleados con permisos distintos. La regla de la casa es que esa separación nunca dependa del buen comportamiento del modelo. El contexto solo contiene lo que puede ver quien pregunta, un código valida cada petición contra una lista cerrada de permisos y la propia consulta lleva un filtro que, ante la duda, devuelve nada en lugar de todo.',
-              'La historia completa, con las cuatro capas y el rediseño que eliminó una clase entera de fallos, está contada aparte.',
-            ],
-            link: { label: 'Cuatro capas entre tu empresa y la de al lado', href: '/blog/cuatro-capas-de-aislamiento' },
           },
           {
             heading: 'Medido antes de cada cambio, vigilado después',
@@ -1502,9 +1495,13 @@ export const content: Record<Lang, SiteContent> = {
               'Qué batería de pruebas frena un cambio malo y qué se vigila cada semana en producción.',
               'Qué cifra de negocio movió su último proyecto, con número y no con adjetivos.',
             ],
+            link: {
+              label: 'Cuatro capas entre tu empresa y la de al lado',
+              href: '/blog/cuatro-capas-de-aislamiento',
+            },
           },
           {
-            heading: 'El vocabulario, en diez líneas',
+            heading: 'El vocabulario, en once líneas',
             part: 'Para tu empresa',
             kind: 'lattice',
             paragraphs: [
@@ -1519,6 +1516,7 @@ export const content: Record<Lang, SiteContent> = {
               'Contrato estructurado. El formato fijo con el que el modelo entrega lo que entendió, para que un código lo valide antes de actuar.',
               'Batería de pruebas. Casos reales, con su respuesta correcta escrita al lado, que todo cambio debe superar antes de publicarse. La más antigua de las nuestras tiene 118 casos.',
               'Telemetría. Las mediciones que el propio sistema publica sobre cómo está funcionando. Bien diseñada, solo recoge campos aprobados de antemano, así que no puede llevar datos personales.',
+              'RPA. Automatización que imita clics y teclas sobre las pantallas de siempre. Funciona muy bien mientras nada cambie y es frágil ante cualquier pantalla nueva. Un agente ataca el mismo problema entendiendo el contenido, así que en muchas empresas conviven, cada uno en lo suyo.',
               'Alucinación. Respuesta falsa con apariencia impecable. Se combate con arquitectura, no con ruegos al modelo.',
               'Identidad del usuario. La credencial que viaja con cada acción, para que el agente actúe con los permisos de esa persona y no con los de una cuenta que lo puede todo.',
             ],
