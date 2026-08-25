@@ -32,4 +32,4 @@ None of this gets improvised the day a third-party service goes down at eleven i
 
 There is a test you can run this week. Deliberately kill one of your assistant's tools in a test environment and look at the user's screen. *A technical trace, or a graceful degradation?* Whatever you see is your answer to the question this article opened with.
 
-If you are considering an assistant that depends on your real systems, this is part of what we call [conversational AI](/en/conversational-ai). And if you want the full map before deciding, start with the [AI automation guide](/en/ai-automation).
+If you are considering an assistant that depends on your real systems, this is part of what we call [conversational AI](/en/services/conversational-ai). And if you want the full map before deciding, start with the [AI automation guide](/en/ai-automation).

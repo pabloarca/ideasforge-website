@@ -37,4 +37,4 @@ A toy does not just burn its own budget. It burns the credibility of the next pr
 
 The test fits in the next demo you get shown. Let it finish, applaud if you must and ask one question. *What pain of ours does this fix?* If the room takes too long to answer, you have your diagnosis. The shine belongs to the tool. The pain has to be yours.
 
-If you already have the map of pains and a candidate with its maths, this is how we work in [AI workflow automation](/en/ai-workflow-automation). And if you are still building the judgment, the [AI automation guide](/en/ai-automation) walks the cases that pay off and the ones that do not.
+If you already have the map of pains and a candidate with its maths, this is how we work in [AI workflow automation](/en/services/ai-workflow-automation). And if you are still building the judgment, the [AI automation guide](/en/ai-automation) walks the cases that pay off and the ones that do not.

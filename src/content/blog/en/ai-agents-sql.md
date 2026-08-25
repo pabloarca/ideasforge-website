@@ -33,4 +33,4 @@ Figures also never come from the conversation's memory. An internal auditor forc
 
 At your next demo of this pattern, ask one thing only. *Who writes the query that touches my data?* If the answer is the model, you already know the margin of error. If it is code validating a closed contract, keep looking.
 
-If your team waits hours for every figure, this pattern built properly is among the most profitable things there are. This is how we approach it in [AI agent development](/en/ai-agent-development), with the contract, the layers and the auditor in place from day one.
+If your team waits hours for every figure, this pattern built properly is among the most profitable things there are. This is how we approach it in [AI agent development](/en/services/ai-agent-development), with the contract, the layers and the auditor in place from day one.

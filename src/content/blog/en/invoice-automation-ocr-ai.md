@@ -37,4 +37,4 @@ Three questions separate a pretty demo from a system that holds. What happens wh
 
 The yardstick is still the one from the opening. *Can you trust what was read without looking at the paper?* The day the answer is yes, that process has left your list.
 
-If your paperwork looks like this, see how we approach it in [AI workflow automation](/en/ai-workflow-automation) or go straight to the [accounting firms](/en/accounting-firms) vertical. And if you want to know why we always start by ordering the data, that story is in [data before prompts](/en/blog/data-before-prompts).
+If your paperwork looks like this, see how we approach it in [AI workflow automation](/en/services/ai-workflow-automation) or go straight to the [accounting firms](/en/accounting-firms) vertical. And if you want to know why we always start by ordering the data, that story is in [data before prompts](/en/blog/data-before-prompts).

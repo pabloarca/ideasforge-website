@@ -32,4 +32,4 @@ Our internal motto sums it up: **judgment lives in the code, interpretation of t
 
 Next time a failure begs for a prompt tweak, look first at what the model received. *Was the data clean, organized and complete?* If the answer is no, you already know where the fix is not.
 
-That is why our [workflow automation](/en/ai-workflow-automation) projects start by looking at the data before the model. And if you are building judgment before deciding, the [AI automation guide](/en/ai-automation) is the best starting point.
+That is why our [workflow automation](/en/services/ai-workflow-automation) projects start by looking at the data before the model. And if you are building judgment before deciding, the [AI automation guide](/en/ai-automation) is the best starting point.

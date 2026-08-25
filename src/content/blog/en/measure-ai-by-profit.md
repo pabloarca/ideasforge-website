@@ -32,4 +32,4 @@ Productivity comes anyway, and we do not dismiss it. But it comes as a consequen
 
 The question fits in any meeting. *What concrete gain did this system move last month?* If the answer starts with "productivity", you are hearing once more the sentence that can neither be invoiced nor refuted.
 
-If you have a concrete process where the gain can be pointed at, start with [AI workflow automation](/en/ai-workflow-automation). If you are still deciding where to apply it, the [AI automation guide](/en/ai-automation) covers how to separate the cases that pay off from the ones that do not. The other half of that sum is what the system costs, and we break it down in the [cost guide](/en/ai-agent-development-cost).
+If you have a concrete process where the gain can be pointed at, start with [AI workflow automation](/en/services/ai-workflow-automation). If you are still deciding where to apply it, the [AI automation guide](/en/ai-automation) covers how to separate the cases that pay off from the ones that do not. The other half of that sum is what the system costs, and we break it down in the [cost guide](/en/ai-agent-development-cost).

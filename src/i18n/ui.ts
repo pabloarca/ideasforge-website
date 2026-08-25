@@ -2324,7 +2324,7 @@ export const content: Record<Lang, SiteContent> = {
               'Your team queries operational data in natural language, no need to wait on analytics.',
             proof: 'Like at Savian',
             pageLabel: 'AI agent development',
-            href: '/en/ai-agent-development',
+            href: '/en/services/ai-agent-development',
           },
           {
             title: 'An agent for repetitive work',
@@ -2333,7 +2333,7 @@ export const content: Record<Lang, SiteContent> = {
               'Registers invoices, fires alerts and lands the data in your systems with nobody typing. Your team only reviews the doubtful cases.',
             proof: 'Like at Stanton',
             pageLabel: 'AI workflow automation',
-            href: '/en/ai-workflow-automation',
+            href: '/en/services/ai-workflow-automation',
           },
           {
             title: 'Consulting and architecture',
@@ -2355,7 +2355,7 @@ export const content: Record<Lang, SiteContent> = {
               'An agent that handles requests on WhatsApp or web, answers the usual ones and qualifies the rest without overloading the team.',
             proof: 'Like at Wazzy',
             pageLabel: 'Conversational AI',
-            href: '/en/conversational-ai',
+            href: '/en/services/conversational-ai',
           },
           {
             title: 'Lead qualifier',
@@ -2771,9 +2771,9 @@ export const content: Record<Lang, SiteContent> = {
       servicesHeading: 'Services',
       servicesLinks: [
         { label: 'Guide: AI automation', href: '/en/ai-automation' },
-        { label: 'AI agent development', href: '/en/ai-agent-development' },
-        { label: 'AI workflow automation', href: '/en/ai-workflow-automation' },
-        { label: 'Conversational AI', href: '/en/conversational-ai' },
+        { label: 'AI agent development', href: '/en/services/ai-agent-development' },
+        { label: 'AI workflow automation', href: '/en/services/ai-workflow-automation' },
+        { label: 'Conversational AI', href: '/en/services/conversational-ai' },
         { label: 'Internal documentation', href: '/en/services/corporate-knowledge' },
         { label: 'GDPR-compliant AI', href: '/en/gdpr-compliant-ai' },
         { label: 'AI for small business', href: '/en/smb' },
@@ -3912,7 +3912,7 @@ export const content: Record<Lang, SiteContent> = {
               'The repository is in your name from day one and the infrastructure runs in a cloud account that belongs to you, not to us. If we part ways, the system stays yours, with its documentation and its record of changes.',
               'That also explains what the fee does not include. You are not renting the agent, so the monthly cost is operation, not a license that stops working when you stop paying.',
             ],
-            link: { label: 'How we build AI agents', href: '/en/ai-agent-development' },
+            link: { label: 'How we build AI agents', href: '/en/services/ai-agent-development' },
           },
         ],
         faqHeading: 'Cost questions we hear most',

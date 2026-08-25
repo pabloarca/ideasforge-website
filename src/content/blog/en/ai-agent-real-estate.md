@@ -27,7 +27,7 @@ That is also the yardstick we use to decide whether an AI project deserves to ex
 
 ## What it takes for it not to be a demo
 
-An agent like this touches personal data, calendars and reputation, so **the invisible part weighs more than the visible one**. The conversation leaves a complete trail, every request is recorded with its verdict and its justification, and the filter that decides what gets escalated does not live in the model's instructions. It lives in code that always runs. These are the same construction rules we apply to all our [conversational AI](/en/conversational-ai) work, whether it serves an agency or a clinic.
+An agent like this touches personal data, calendars and reputation, so **the invisible part weighs more than the visible one**. The conversation leaves a complete trail, every request is recorded with its verdict and its justification, and the filter that decides what gets escalated does not live in the model's instructions. It lives in code that always runs. These are the same construction rules we apply to all our [conversational AI](/en/services/conversational-ai) work, whether it serves an agency or a clinic.
 
 ## And after rentals, the rest
 
