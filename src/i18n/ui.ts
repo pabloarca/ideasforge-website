@@ -1330,12 +1330,12 @@ export const content: Record<Lang, SiteContent> = {
         tocHeading: 'Qué verás en esta guía',
         metaTitle: 'Qué es un agente de IA y cómo funciona en una empresa, Ideasforge',
         metaDescription:
-          'Qué es un agente de IA, las cinco formas que adopta del flujo fijo al enjambre, dónde encaja la IA agéntica, lo que puede salir mal y qué preguntar antes de contratar a nadie.',
+          'Qué es un agente de IA, qué tipos hay, para qué se usa de verdad en una empresa y dónde encaja la IA agéntica. En lenguaje llano, con casos en producción.',
         hero: {
           eyebrow: 'Guía',
           title: 'Agentes de IA, qué son y para qué sirven en tu empresa',
           subtitle:
-            'Un agente de IA es un modelo de lenguaje con herramientas, capaz de elegir cuál usa para resolver lo que se le pide sobre tus sistemas. Esta guía lo explica en lenguaje llano, con las cinco formas que puede adoptar, lo que puede salir mal y las preguntas que conviene hacer antes de contratar a nadie.',
+            'Qué es un agente de IA, qué tipos hay, para qué se usa de verdad en una empresa, lo que puede salir mal y qué preguntar antes de contratar a nadie. Todo en lenguaje llano.',
         },
         sections: [
           {
@@ -1344,10 +1344,10 @@ export const content: Record<Lang, SiteContent> = {
             part: 'La respuesta corta',
             chatDiagram: true,
             paragraphs: [
-              'Un agente de IA es un modelo de lenguaje al que se le han dado herramientas y autonomía para elegir cuál usa en cada momento. Las herramientas son acciones concretas que alguien le ha permitido, por ejemplo consultar una agenda, buscar en la documentación o registrar un dato. Cuando llega una petición, el agente decide con cuál de ellas la resuelve. Lo decide en ese momento, no lo trae escrito de antemano.',
-              'Conviene deshacer aquí una confusión frecuente. La frontera no es que el bot hable y el agente actúe, porque los asistentes de uso general llevan tiempo llamando a herramientas y también hacen cosas. La frontera es quién decide la respuesta. La de un bot ya estaba escrita antes de que nadie preguntara. La de un agente se arma en el momento en que se pregunta.',
-              'En una empresa hay una segunda frontera y es la que decide si te sirve. Sobre qué sistemas actúa y con los permisos de quién. Un asistente de uso general actúa sobre las herramientas que trae de fábrica. Un agente de empresa actúa sobre los tuyos, con los permisos de la persona que lo usa y dentro de los límites que tú apruebes.',
-              'Dentro de un agente hay tres piezas y conviene distinguirlas, porque cada una hace un trabajo distinto. La primera es el modelo de lenguaje, que entiende lo que se le pide y elige la herramienta. La segunda es el código que lo rodea, software corriente sin nada de inteligencia artificial dentro, que comprueba si esa petición se puede atender, con qué permisos y con qué límites. Y la tercera son tus datos, que es de donde sale la respuesta.',
+              'Un agente de IA es un modelo de lenguaje con herramientas y con libertad para elegir cuál usa. Las herramientas son acciones concretas que alguien le ha autorizado: consultar una agenda, buscar en la documentación, registrar un dato. Ante cada petición, el agente decide en ese momento cómo resolverla.',
+              'Ahí está la diferencia con un bot. Y no es que uno hable y el otro actúe, porque los asistentes de uso general también ejecutan acciones desde hace tiempo. La diferencia es quién decide la respuesta. La de un bot estaba escrita antes de que nadie preguntara. La de un agente se construye al preguntar.',
+              'En una empresa hay una segunda diferencia y es la que determina si te sirve. Sobre qué sistemas actúa y con los permisos de quién. Un asistente de uso general se queda en las herramientas que trae de fábrica. Un agente de empresa trabaja sobre los sistemas de tu empresa, con los permisos de quien lo usa y dentro de los límites que tú apruebes.',
+              'Por dentro son tres piezas. El modelo, que interpreta y elige. El código que lo rodea, software corriente sin inteligencia artificial, que comprueba si la petición se puede atender y con qué límites. Y tus datos, que son la materia de la respuesta.',
             ],
           },
           {
