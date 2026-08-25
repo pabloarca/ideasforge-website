@@ -1355,12 +1355,12 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Tipos y usos',
             kind: 'lattice',
             paragraphs: [
-              'No todos los agentes deciden igual. Esa diferencia es la que más cambia lo que cuesta construir uno y lo que cuesta mantenerlo, así que conviene tenerla clara antes de escuchar ninguna propuesta. Con tres categorías se sitúa casi todo lo que te van a ofrecer.',
+              'No todos los agentes deciden igual y ahí está casi toda la diferencia de precio, lo que cuesta construir uno y, sobre todo, lo que cuesta mantenerlo. Con tres categorías sitúas casi todo lo que te van a ofrecer.',
             ],
             bullets: [
-              'Reactivo. Responde a lo que percibe siguiendo reglas fijas y no recuerda nada de antes. Un termostato que enciende la calefacción cuando baja la temperatura. Cumple su función y es barato, pero solo cubre los casos que alguien previó.',
-              'De planificación. Recibe un objetivo y decide él la secuencia de pasos para llegar, rehaciéndola si algo no sale como esperaba. Si le pides preparar un presupuesto, mira el catálogo, comprueba existencias y pide una excepción cuando falta una pieza. Aquí cae prácticamente todo lo que hoy se vende como agente de IA, los nuestros incluidos.',
-              'Que aprende. Mejora con el tiempo a partir de su propia experiencia, sin que nadie lo toque. Es el que más se promete y el que menos se ve funcionando dentro de una empresa.',
+              'Que reacciona. Sigue reglas fijas y no recuerda nada. Un termostato que enciende la calefacción cuando baja la temperatura. También el bot del apartado anterior. Barato y predecible, pero solo cubre lo que alguien previó. Cada situación nueva vuelve a pasar por el programador.',
+              'Que planifica. Recibe un objetivo y monta él mismo la secuencia de pasos. La rehace si algo se tuerce. Le pides un presupuesto y consulta el catálogo, comprueba existencias y pide una excepción cuando falta una pieza. Aquí entra casi todo lo que hoy se vende como agente de IA, los nuestros incluidos. Cuesta más de levantar y menos de ampliar.',
+              'Que aprende. Mejora solo, con su propia experiencia, sin que nadie vuelva a tocarlo. Es el que más aparece en las promesas y el que menos en producción.',
             ],
           },
           {
