@@ -27,3 +27,6 @@ pnpm-debug.log*
 
 # contenido interno / material para LLMs — NUNCA subir ni desplegar
 .private/
+
+# Volcados de revisión en frío: generados, de usar y tirar
+revisiones/

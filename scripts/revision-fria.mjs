@@ -1,9 +1,14 @@
 /**
- * Prepara la revisión en frío de una página, lista para pegar.
+ * Prepara la revisión en frío de una página y la deja en un fichero suelto,
+ * listo para arrastrar a una conversación nueva de claude.ai.
  *
- *   npm run frio -- agentes-de-ia
- *   npm run frio -- en/ai-agents
- *   npm run frio -- agentes-de-ia | clip     (Windows: al portapapeles)
+ *   npm run frio -- servicios/agentes-conversacionales
+ *   npm run frio -- en/services/conversational-ai
+ *   npm run frio -- .                       (la home)
+ *
+ * Escribe en `revisiones/`, que no se versiona: son ficheros de usar y tirar,
+ * regenerables con un comando. El fichero lleva el prompt dentro, así que se
+ * adjunta y ya está, sin tener que escribir nada más.
  *
  * QUÉ ES ESTO Y POR QUÉ NO LO HACE UNA MÁQUINA SOLA
  *
@@ -18,17 +23,19 @@
  * otros proyectos abiertos. Es aislamiento de mensajes, no de contexto.
  *
  * Así que el lector frío sigue siendo humano en el bucle: este script deja el
- * bloque listo para pegar en una conversación nueva y limpia, y ahí es donde
- * vive el valor. Lo que se automatiza es la preparación, no el juicio.
+ * fichero preparado y ahí acaba su trabajo. Se automatiza la preparación, no
+ * el juicio.
  *
  * Requiere haber compilado antes (`npx astro build`), porque lee de `dist/`:
  * lo que se revisa es lo que se publica.
  */
 import { execFileSync } from 'node:child_process';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 const ruta = process.argv[2];
 if (!ruta) {
-  console.error('Uso: npm run frio -- <ruta>   (p. ej. agentes-de-ia, en/ai-agents)');
+  console.error('Uso: npm run frio -- <ruta>   (p. ej. servicios/agentes-conversacionales)');
   process.exit(1);
 }
 
@@ -46,6 +53,14 @@ try {
   process.exit(1);
 }
 
-console.log(PROMPT);
-console.log();
-console.log(texto.trim());
+const limpia = ruta.replace(/^\/+|\/+$/g, '') || 'home';
+const nombre = `${limpia.replace(/\//g, '-')}.md`;
+const destino = resolve('revisiones', nombre);
+
+mkdirSync(resolve('revisiones'), { recursive: true });
+writeFileSync(destino, `${PROMPT}\n\n${texto.trim()}\n`, 'utf8');
+
+const palabras = texto.trim().split(/\s+/).length;
+console.log(`\nListo. Arrastra este fichero a una conversacion NUEVA de claude.ai:\n`);
+console.log(`   ${destino}\n`);
+console.log(`   ${palabras} palabras. El prompt ya va dentro, no hace falta escribir nada mas.\n`);

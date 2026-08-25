@@ -39,10 +39,12 @@ fila, no añadir reglas.
    con varios cambios se convierten en lista numerada y se responde número
    a número con lo que cambió, para que vea de un vistazo si falta alguna.
 6. **Revisión en frío antes de dar una página por terminada.** Al cerrar
-   cambios de fondo en una página, se le entrega el bloque listo para pegar
-   en una conversación NUEVA y limpia, con `npm run frio -- <ruta>`. Se le
-   dice la ruta exacta y que puede añadir `| clip`. No se da por terminada
-   una página sin ese paso.
+   cambios de fondo en una página se ejecuta `npm run frio -- <ruta>`, que
+   deja un fichero en `revisiones/` con el prompt dentro. Se le da la ruta
+   completa del fichero para que lo arrastre a una conversación NUEVA de
+   claude.ai. Nada de portapapeles ni de pegar dos mil palabras a mano: se
+   probó el 25 ago y no le sirvió. No se da por terminada una página sin
+   ese paso.
 
 **Por qué el lector frío no puede ser un subagente.** Se comprobó el 25 ago
 2026: un subagente hereda el CLAUDE.md entero, la memoria persistente del
