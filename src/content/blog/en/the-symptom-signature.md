@@ -30,4 +30,4 @@ That is why, when we hand over a system, the incident catalog that ships with th
 
 Start your catalog today, with a single entry. Next time the system acts strange, write down first how you recognized it, before knowing the cause and before fixing it. That page gets reused. The fix does not.
 
-To understand what else it takes for an assistant to survive production, continue with the [AI automation guide](/en/ai-automation) or see how we approach [custom AI agent development](/en/services/ai-agent-development).
+To understand what else it takes for an assistant to survive production, continue with the [AI agents guide](/en/ai-agents) or see how we approach [custom AI agent development](/en/services/ai-agent-development).

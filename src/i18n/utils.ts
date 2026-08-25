@@ -45,7 +45,7 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   // English-led keyword architecture. Each ES page is the local mirror of the
   // EN page that defines the cluster; the guide pair is intentionally NOT a
   // translation (each targets its language's biggest informational term).
-  aiGuide:     { es: '/agentes-de-ia',                 en: '/en/ai-automation' },
+  aiGuide:     { es: '/agentes-de-ia',                 en: '/en/ai-agents' },
   agentDev:    { es: '/servicios/desarrollo-de-agentes-de-ia', en: '/en/services/ai-agent-development' },
   processAuto: { es: '/servicios/automatizacion-de-procesos-con-ia', en: '/en/services/ai-workflow-automation' },
   conversational: { es: '/servicios/agentes-conversacionales', en: '/en/services/conversational-ai' },

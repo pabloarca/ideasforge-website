@@ -36,4 +36,4 @@ Second, we classify. Every conversation that ends without data gets labeled with
 
 The third-zero test takes five minutes to set up. Ask for a total that crosses several sources and, first, switch one of them off. *Did the system warn about what was missing, or hand over the total as if nothing happened?* That as-if-nothing is the zero nobody classifies.
 
-This kind of discipline is what separates an assistant that works in the demo from one that survives months of production. We describe how we apply it in [AI agent development](/en/services/ai-agent-development), and if you are starting from scratch, the [AI automation guide](/en/ai-automation) is the best entry point.
+This kind of discipline is what separates an assistant that works in the demo from one that survives months of production. We describe how we apply it in [AI agent development](/en/services/ai-agent-development), and if you are starting from scratch, the [AI agents guide](/en/ai-agents) is the best entry point.

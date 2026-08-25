@@ -120,4 +120,4 @@ Because "AI agent" is how the market names this category, and arguing with your 
 
 **An agent like that is less spectacular on day one. It holds up better for the next three years.**
 
-If you are still placing the concept, start with our [AI automation guide](/en/ai-automation). And if you want to see what this looks like from the inside, we cover it in [AI agent development](/en/services/ai-agent-development).
+If you are still placing the concept, start with our [AI agents guide](/en/ai-agents). And if you want to see what this looks like from the inside, we cover it in [AI agent development](/en/services/ai-agent-development).

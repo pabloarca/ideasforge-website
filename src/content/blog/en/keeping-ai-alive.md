@@ -36,4 +36,4 @@ The difference between the brilliant project and the profitable one is not talen
 
 If you are evaluating an AI project, the question that will tell you the most is not about the model or the demo. *What happens on day 180?* Who watches the alarms, who runs the tests, who finds out if the system degrades in silence? A brilliant project cannot answer that. A profitable one answers with names.
 
-Our answer is what we call observability by default, and it sits at the center of how we do [AI agent development](/en/services/ai-agent-development). If you would rather start with the general map, it is in the [AI automation guide](/en/ai-automation). Maintenance has a price too, and what moves that monthly fee is broken down in the [cost guide](/en/ai-agent-development-cost).
+Our answer is what we call observability by default, and it sits at the center of how we do [AI agent development](/en/services/ai-agent-development). If you would rather start with the general map, it is in the [AI agents guide](/en/ai-agents). Maintenance has a price too, and what moves that monthly fee is broken down in the [cost guide](/en/ai-agent-development-cost).
