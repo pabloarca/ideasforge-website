@@ -315,6 +315,15 @@ export interface SiteContent {
     };
     legend: string;
   };
+  /** Diagrama comparativo de las cinco formas de automatizar. */
+  formasDiagram: {
+    title: string;
+    lanes: Record<
+      'fijo' | 'paradas' | 'agente' | 'dentro' | 'varios',
+      { name: string; segs: string[] }
+    >;
+    legend: string;
+  };
   /** Diagrama del examen previo a publicar, en el modal de observabilidad. */
   gateDiagram: GateDiagramContent;
   footer: {
@@ -408,6 +417,8 @@ export interface LongFormSection {
   diagram?: boolean;
   /** Renders the scripted-chatbot vs agent diagram after the paragraphs. */
   chatDiagram?: boolean;
+  /** Renders the five-shapes comparison diagram after the paragraphs. */
+  formasDiagram?: boolean;
   /** Cómo se dibuja. Por defecto `prose`. */
   kind?: LongFormKind;
   /** Nombre de la parte a la que pertenece. Cuando cambia respecto a la
@@ -905,6 +916,27 @@ export const content: Record<Lang, SiteContent> = {
       legend:
         'La diferencia está en quién decide la respuesta. La del bot ya estaba escrita antes de que nadie preguntara, así que solo sirve para lo que alguien previó. La del agente se construye en ese momento, eligiendo qué herramienta usa según lo que le han pedido.',
     },
+    formasDiagram: {
+      title: 'Quién decide el camino en cada forma',
+      lanes: {
+        fijo: { name: 'Un flujo fijo sin modelo', segs: ['El código decide todos los pasos'] },
+        paradas: {
+          name: 'Un flujo fijo con paradas de modelo',
+          segs: ['Código', 'El modelo lee', 'Código'],
+        },
+        agente: { name: 'Un agente', segs: ['El modelo decide qué acción toca, una y otra vez'] },
+        dentro: {
+          name: 'Un agente dentro de un flujo',
+          segs: ['Código', 'El agente resuelve este tramo', 'Código'],
+        },
+        varios: {
+          name: 'Varios agentes con un orquestador',
+          segs: ['El orquestador elige', 'El especialista resuelve'],
+        },
+      },
+      legend:
+        'Las bandas azules son el modelo decidiendo. Las grises son código corriente, que hace siempre lo mismo y se puede comprobar entero antes de publicarlo. Cuanta más banda azul hay, más decide el sistema por su cuenta y más trabajo cuesta probarlo y vigilarlo. Fíjate en que las dos primeras formas no llevan agente y en que la cuarta, pese a llevarlo, decide menos que la tercera.',
+    },
     gateDiagram: {
       title: 'Qué le pasa a un cambio antes de salir',
       nodes: {
@@ -1320,34 +1352,34 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'Tipos de agentes',
-            part: 'El mapa del concepto',
+            part: 'Tipos y diferencias',
             kind: 'lattice',
             paragraphs: [
-              'La clasificación que vas a encontrar en cualquier propuesta viene del manual clásico de inteligencia artificial de Russell y Norvig, de bastante antes de que existieran los modelos de lenguaje. Ordena a los agentes por cómo deciden. Sigue sirviendo para situar lo que te ofrecen, aunque hoy casi todo caiga en la misma casilla.',
+              'No todos los agentes deciden igual. Esa diferencia es la que más cambia lo que cuesta construir uno y lo que cuesta mantenerlo, así que conviene tenerla clara antes de escuchar ninguna propuesta. Con tres categorías se sitúa casi todo lo que te van a ofrecer.',
             ],
             bullets: [
-              'Reactivo. Responde a lo que percibe siguiendo reglas fijas, sin recordar nada de antes. Un termostato que enciende la calefacción cuando baja la temperatura. Es un agente en el sentido académico y no es lo que nadie llama hoy un agente de IA.',
-              'Con memoria del estado. Guarda una idea de lo que está pasando, así que funciona aunque no lo vea todo en cada momento. Un sistema que sabe qué pedidos siguen abiertos aunque solo le llegue el último mensaje.',
-              'Con objetivo. Recibe una meta y decide él la secuencia de pasos para llegar. Aquí cae prácticamente todo lo que hoy se vende como agente de IA, los nuestros incluidos.',
-              'Con utilidad. Además de perseguir el objetivo compara opciones y elige según un criterio medible, para cuando hay que equilibrar cosas que compiten entre sí, como el coste y la rapidez.',
-              'Que aprende. Mejora solo a partir de su propia experiencia. Es el que más se promete y el que menos se ve dentro de una empresa.',
+              'Reactivo. Responde a lo que percibe siguiendo reglas fijas y no recuerda nada de antes. Un termostato que enciende la calefacción cuando baja la temperatura. Cumple su función y es barato, pero solo cubre los casos que alguien previó.',
+              'De planificación. Recibe un objetivo y decide él la secuencia de pasos para llegar, rehaciéndola si algo no sale como esperaba. Si le pides preparar un presupuesto, mira el catálogo, comprueba existencias y pide una excepción cuando falta una pieza. Aquí cae prácticamente todo lo que hoy se vende como agente de IA, los nuestros incluidos.',
+              'Que aprende. Mejora con el tiempo a partir de su propia experiencia, sin que nadie lo toque. Es el que más se promete y el que menos se ve funcionando dentro de una empresa.',
             ],
           },
           {
             heading: 'Cuando te dicen que aprende solo',
-            part: 'El mapa del concepto',
+            part: 'Tipos y diferencias',
             paragraphs: [
-              'Esa última casilla merece un aviso, porque «aprende de tus datos» es de las frases más repetidas del sector y casi nunca significa lo que parece. Un agente en producción no suele cambiar solo. Mejora cuando alguien cambia sus instrucciones, ordena mejor los datos o añade casos a la batería de pruebas. Y ese alguien es una persona que firma el cambio.',
-              'Si te dicen que aprende solo, la pregunta útil es qué cambia exactamente, quién lo aprueba y cómo se comprueba que no ha empeorado otra cosa.',
+              'El tipo que aprende merece un aviso aparte, porque «aprende de tus datos» es de las frases más repetidas del sector y casi nunca significa lo que parece. Un agente en producción no suele cambiar solo. Mejora cuando una persona cambia sus instrucciones, ordena mejor los datos o añade casos a la batería de pruebas. Ese cambio lo ejecuta siempre alguien.',
+              'Si te dicen que aprende solo, la respuesta útil está en tres preguntas. Qué cambia exactamente, quién lo ejecuta y cómo se comprueba que no ha empeorado otra cosa. Sirven igual para hacérselas al proveedor que para hacértelas tú.',
             ],
           },
           {
             heading: 'Dónde encaja un agente entre las formas de automatizar',
             id: 'formas',
-            part: 'El mapa del concepto',
+            part: 'Tipos y diferencias',
             kind: 'checklist',
+            formasDiagram: true,
             paragraphs: [
-              'Un agente no siempre es la respuesta, así que conviene ver dónde encaja entre las demás maneras de automatizar. Casi cualquier propuesta que leas es una de estas cinco. Y conviene decirlo de entrada, las dos primeras no llevan agente ninguno. Las palabras con las que se venden son intercambiables mientras que las formas no lo son. Saber cuál necesita tu problema ahorra meses, porque cada una cuesta distinto de probar, de vigilar y de arreglar cuando falla. Van de la más contenida a la más autónoma. A las tres últimas es a lo que el mercado llama IA agéntica.',
+              'La clasificación de arriba ordena a los agentes por cómo deciden. Quien los construye usa otra, que ordena por cómo está montado el software alrededor del modelo. Ni la documentación de Anthropic ni la de OpenAI hablan de tipos de agente, las dos hablan de arquitecturas. Es esa segunda manera de mirarlo la que sirve para leer una propuesta.',
+              'Un agente no siempre es la respuesta, así que conviene ver dónde encaja entre las demás maneras de automatizar. Casi cualquier propuesta que leas es una de estas cinco. Y conviene decirlo de entrada, las dos primeras no llevan agente ninguno. Casi todos los proveedores llaman agente a cualquiera de las cinco, aunque por dentro sean cosas distintas. Saber cuál necesita tu problema ahorra meses, porque cada una tiene un coste distinto al probar, al vigilar y al arreglar cuando falla. A las tres últimas es a lo que el mercado llama IA agéntica.',
             ],
             bullets: [
               'Un flujo fijo sin modelo. Salta un disparador, los pasos corren en un orden establecido y unas reglas deciden las bifurcaciones. Tu ERP y tu plataforma de integración ya hacen esto y es lo más barato que funciona. La señal de que se te ha quedado pequeño es una maraña de excepciones que ya nadie se atreve a tocar, una por cada caso raro que fue apareciendo.',
@@ -1359,7 +1391,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'En qué se diferencia de un chatbot',
-            part: 'El mapa del concepto',
+            part: 'Tipos y diferencias',
             paragraphs: [
               'La palabra chatbot llega desde una época en la que el robot seguía un guion, apretabas 1 para citas y 2 para horarios. Cualquier pregunta fuera del guion acababa en un «no le he entendido». Un agente conversacional moderno entiende la petición aunque venga mal escrita, en otro idioma o por la mitad. Esa es la parte que pone el modelo.',
               'La diferencia que importa al negocio no es esa, es la de después. Un chatbot informativo responde y ahí acaba. Un agente termina la tarea, comprueba la agenda real, reserva la cita, actualiza la ficha, registra la factura o escala a una persona cuando toca. La forma más rápida de separarlos es una pregunta. Cuando la conversación acaba, ¿ha cambiado algo en tus sistemas o solo se ha hablado?',
@@ -1368,7 +1400,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'Agente no siempre significa autónomo',
-            part: 'El mapa del concepto',
+            part: 'Tipos y diferencias',
             paragraphs: [
               'La palabra agéntica se usa muchas veces como si fuera una nota alta, como si un sistema que decide más pasos por su cuenta estuviera mejor construido que uno que decide menos. No es así. La autonomía funciona como un mando que se sube o se baja en cada tramo del proceso y lo sensato es subirla solo donde hace falta. Cuando el camino se conoce de antemano, dejarlo escrito en el código sale más barato y además se puede probar. Cuando el camino cambia de verdad con cada caso, ahí es donde tiene sentido que decida el modelo.',
               'A quien compra esto le importa por una razón muy concreta, lo que cuesta vigilarlo. Cada decisión que toma el modelo necesita su prueba, su registro y su medición. Un sistema que decide poco se vigila barato. Uno que decide todo exige un aparato de medición que casi nadie mete en el presupuesto. De ahí sale buena parte de los proyectos que mueren a los seis meses.',
@@ -1378,7 +1410,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'Lo que puede hacer y lo que no',
-            part: 'El mapa del concepto',
+            part: 'Tipos y diferencias',
             paragraphs: [
               'Ninguna de estas formas se enchufa y funciona. La distancia entre un buen resultado y una decepción está casi siempre en el alcance antes que en el modelo. Con un alcance demasiado ancho el sistema queda mediocre en cuarenta cosas y no se gana la confianza para ninguna. Con uno demasiado estrecho, el montaje cuesta más que el trabajo que ahorra. Los proyectos que salen bien eligen una tarea con un límite claro alrededor, la demuestran y después la amplían.',
               'Lo que los sistemas de hoy hacen bien es leer lo que llega sin forma fija, entender una petición escrita de veinte maneras, seguir un procedimiento paso a paso y actuar dentro de un conjunto cerrado de acciones que alguien aprobó. Esa lista es nueva de verdad y es la razón de que procesos que sobrevivieron a todas las olas de automatización anteriores estén ahora en juego.',
@@ -2671,6 +2703,27 @@ export const content: Record<Lang, SiteContent> = {
       },
       legend:
         'The difference is who decides the answer. The bot’s answer was written before anyone asked, so it only covers what somebody anticipated. The agent’s answer gets built at that moment, by choosing which tool to use for what it was asked.',
+    },
+    formasDiagram: {
+      title: 'Who decides the path in each shape',
+      lanes: {
+        fijo: { name: 'A fixed flow with no model', segs: ['Code decides every step'] },
+        paradas: {
+          name: 'A fixed flow with model stops',
+          segs: ['Code', 'The model reads', 'Code'],
+        },
+        agente: { name: 'An agent', segs: ['The model decides which action comes next, over and over'] },
+        dentro: {
+          name: 'An agent inside a flow',
+          segs: ['Code', 'The agent handles this stretch', 'Code'],
+        },
+        varios: {
+          name: 'Several agents with an orchestrator',
+          segs: ['The orchestrator picks', 'The specialist resolves'],
+        },
+      },
+      legend:
+        'The blue bands are the model deciding. The grey ones are ordinary code, which always does the same thing and can be checked in full before it ships. The more blue there is, the more the system decides on its own and the more work it takes to test and watch. Note that the first two shapes carry no agent at all, and that the fourth, despite having one, decides less than the third.',
     },
     gateDiagram: {
       title: 'What happens to a change before it ships',

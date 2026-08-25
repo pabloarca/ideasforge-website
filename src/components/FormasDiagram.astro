@@ -1,0 +1,126 @@
+---
+/*
+  Las cinco formas de automatizar, comparadas por quién decide el camino.
+
+  Existe porque la lista de cinco describe bien cada forma pero no deja ver
+  lo único que de verdad las separa: qué parte del recorrido la decide código
+  corriente y qué parte la decide el modelo. Puestas una debajo de otra, esa
+  proporción se ve de un vistazo y explica por qué cada forma cuesta distinto
+  de probar y de vigilar.
+
+  Deliberadamente NO dibuja una escalera. La cuarta forma, un agente metido
+  dentro de un flujo, decide menos que la tercera, así que ordenarlas por
+  autonomía mentiría. Lo que enseña es de qué está hecha cada una.
+
+  Layout aquí, texto en `content[lang].formasDiagram`, que es la regla de la
+  casa. El lienzo mide 1100 × 340 y se escala para caber, así que las
+  coordenadas de abajo son píxeles absolutos y valen igual en los dos idiomas.
+*/
+import { type Lang, content } from '../i18n/ui';
+import GrainFrame from './graficos/GrainFrame.astro';
+import DiagramCanvas from './graficos/DiagramCanvas.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].formasDiagram;
+
+// La banda de cada carril arranca en BANDA y mide 640 px en total, repartidos
+// entre sus tramos más 6 px de aire entre tramo y tramo. `m` marca los tramos
+// donde decide el modelo. El orden de `segs` es el mismo que en el texto.
+const BANDA = 430;
+const ALTO = 44;
+const AIRE = 6;
+
+const CARRILES = [
+  { clave: 'fijo', tramos: [{ w: 640, m: false }] },
+  { clave: 'paradas', tramos: [{ w: 200, m: false }, { w: 180, m: true }, { w: 248, m: false }] },
+  { clave: 'agente', tramos: [{ w: 640, m: true }] },
+  { clave: 'dentro', tramos: [{ w: 180, m: false }, { w: 280, m: true }, { w: 168, m: false }] },
+  { clave: 'varios', tramos: [{ w: 220, m: true }, { w: 414, m: true }] },
+] as const;
+---
+
+<figure class="my-10">
+  <GrainFrame height="540px" title={d.title}>
+    <DiagramCanvas width={1100} height={340}>
+      {
+        CARRILES.map((carril, i) => {
+          const y = 22 + i * 62;
+          const lane = d.lanes[carril.clave];
+          let x = BANDA;
+          return (
+            <>
+              <div class="fd-num" style={`left:0px;top:${y + 13}px`}>
+                {String(i + 1).padStart(2, '0')}
+              </div>
+              <div class="fd-name" style={`left:48px;top:${y + 12}px;width:360px`}>{lane.name}</div>
+              {carril.tramos.map((t, k) => {
+                const left = x;
+                x += t.w + AIRE;
+                return (
+                  <div
+                    class:list={['fd-seg', t.m && 'fd-modelo']}
+                    style={`left:${left}px;top:${y}px;width:${t.w}px;height:${ALTO}px`}
+                  >
+                    {lane.segs[k]}
+                  </div>
+                );
+              })}
+            </>
+          );
+        })
+      }
+    </DiagramCanvas>
+  </GrainFrame>
+
+  <figcaption class="mt-6 border-l-2 border-accent pl-4 text-[15px] leading-relaxed text-fg">
+    {d.legend}
+  </figcaption>
+</figure>
+
+<style>
+  .fd-num,
+  .fd-name,
+  .fd-seg {
+    position: absolute;
+    box-sizing: border-box;
+    font-family: var(--font-sans, 'Space Grotesk', sans-serif);
+  }
+
+  .fd-num {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    opacity: 0.45;
+  }
+
+  .fd-name {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  /* Tramo de código: neutro, del color heredado del marco. */
+  .fd-seg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    border: 1.3px solid color-mix(in oklab, currentColor 40%, transparent);
+    border-radius: 7px;
+    background: color-mix(in oklab, currentColor 5%, transparent);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  /* Tramo donde decide el modelo: el acento de la casa. */
+  .fd-modelo {
+    color: var(--color-accent);
+    border-color: color-mix(in oklab, var(--color-accent) 65%, transparent);
+    background: color-mix(in oklab, var(--color-accent) 9%, transparent);
+  }
+</style>
