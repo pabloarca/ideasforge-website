@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "astro": "astro",
-    "check:copy": "node scripts/check-copy.mjs"
+    "check:copy": "node scripts/check-copy.mjs",
+    "frio": "node scripts/revision-fria.mjs"
   },
   "engines": {
     "node": ">=18.17.1"

@@ -38,6 +38,23 @@ fila, no añadir reglas.
 5. **Correcciones del propietario, numeradas y devueltas.** Sus mensajes
    con varios cambios se convierten en lista numerada y se responde número
    a número con lo que cambió, para que vea de un vistazo si falta alguna.
+6. **Revisión en frío antes de dar una página por terminada.** Al cerrar
+   cambios de fondo en una página, se le entrega el bloque listo para pegar
+   en una conversación NUEVA y limpia, con `npm run frio -- <ruta>`. Se le
+   dice la ruta exacta y que puede añadir `| clip`. No se da por terminada
+   una página sin ese paso.
+
+**Por qué el lector frío no puede ser un subagente.** Se comprobó el 25 ago
+2026: un subagente hereda el CLAUDE.md entero, la memoria persistente del
+propietario, el catálogo de skills y hasta las rutas de otros proyectos
+abiertos. Es aislamiento de mensajes, no de contexto, y su valor está justo
+en no tener contexto. La preparación se automatiza; el juicio, no.
+
+**Cómo se triangula lo que devuelve.** El lector frío no ve el banco de
+hechos, así que marcará como dudoso algo que sí está verificado. Cada apunte
+suyo cae en uno de tres sitios y se dice en cuál: se aplica, se rechaza con
+la evidencia del banco que él no podía ver, o es decisión del propietario
+porque toca una norma suya (le pasó a Codex con los dos puntos).
 
 ## De dónde sale cada afirmación (tres caminos, ninguno más)
 
