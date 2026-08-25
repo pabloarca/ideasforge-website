@@ -2065,7 +2065,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Lo que responde y lo que no se inventa',
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
-              'El miedo razonable de cualquier responsable es un bot improvisando delante de un cliente. Eso no se evita con promesas y tampoco se elimina del todo. Se reduce con la manera de construirlo. Lo que no se elimina se mide. Las respuestas de conocimiento salen de tus datos y tu documentación, con la fuente al lado. Las frases delicadas, una política de devoluciones, una condición legal, un precio, no las redacta el modelo. Son textos aprobados por ti que el sistema entrega tal cual. Puedes editarlos sin tocar código.',
+              'El miedo razonable de cualquier responsable es un bot improvisando delante de un cliente. Eso no se evita con promesas y tampoco se elimina del todo. Se reduce con la manera de construirlo. Lo que no se elimina se mide. Las respuestas de conocimiento salen de tus datos y tu documentación, con la fuente al lado. Las frases delicadas, una política de devoluciones, una condición legal, un precio, no las redacta el modelo. Son textos aprobados por ti que el sistema entrega tal cual. Los editas sin tocar código y ninguna edición llega a producción sin pasar su comprobación.',
               'Y cuando no hay dato para responder, el agente lo dice y ofrece el camino a una persona. Un «no lo sé» honesto conserva clientes. Una respuesta inventada los pierde sin que te enteres, que es la peor manera de perderlos. Por eso las respuestas se miden por categoría, para que un fallo aparezca en su propia fila en vez de perderse en un promedio.',
             ],
           },
@@ -2074,7 +2074,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
               'Operamos nuestro propio producto en producción, Wazzy, un asistente en WhatsApp que gestiona reservas, cambios y cancelaciones de citas para clínicas y negocios de servicios. Consulta la disponibilidad en tiempo real, actualiza agenda y ficha y escala las urgencias al equipo. Mantener un producto propio nos obliga a ser buenos y cada lección vuelve a los proyectos de cliente.',
-              'Esa disciplina se puede contar con números. Wazzy vigila 91 condiciones que siempre deben cumplirse, cada una con su nombre, a través de 103 puntos de control repartidos por el sistema. Cuando hablamos de ingeniería de producción, hablamos de esto. Y el circuito completo se ensaya cada poco con una reserva real que después se limpia, porque una prueba que no toca el mundo real no prueba el mundo real.',
+              'Esa disciplina se puede contar con números. Wazzy vigila 91 condiciones que siempre deben cumplirse, cada una con su nombre, a través de 103 puntos de control repartidos por el sistema. Cuando hablamos de ingeniería de producción, hablamos de esto. Y el circuito completo se ensaya cada semana de principio a fin contra el sistema vivo, porque una prueba que no toca el mundo real no prueba el mundo real.',
             ],
             link: { label: 'Conocer Wazzy', href: 'https://wazzy.io' },
           },
@@ -2082,14 +2082,14 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Un chatbot al que confiarle datos de salud',
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
-              'Wazzy trata datos de salud, una de las categorías especiales del RGPD, las de protección reforzada, junto a los datos genéticos, los biométricos o la ideología. Eso implica cifrado campo a campo, borrado que respeta los plazos legales de la historia clínica y registros internos que no pueden recibir datos personales. Cifrado campo a campo significa que cada dato sensible va cifrado por separado dentro de la base de datos, así que ni quien la administra los ve en claro. Si tu sector tiene requisitos de cumplimiento, la disciplina ya está montada y probada donde más duele.',
+              'Wazzy trata datos de salud, una de las categorías especiales del RGPD, las de protección reforzada, junto a los datos genéticos, los biométricos o la ideología. Eso implica cifrado campo a campo, plazos de conservación acordados por escrito y borrado a petición de todo lo que no esté sujeto a un plazo legal. Cifrado campo a campo significa que cada dato sensible va cifrado por separado dentro de la base de datos, así que ni quien la administra los ve en claro. Si tu sector tiene requisitos de cumplimiento, la disciplina ya está montada y probada donde más duele.',
             ],
           },
           {
             heading: 'Medido, no supuesto',
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
-              'Los sistemas conversacionales se degradan en silencio. Una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
+              'Los sistemas conversacionales se degradan en silencio. Una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Por eso fijamos la versión del modelo, de modo que actualizarla es una decisión nuestra y no una sorpresa del proveedor. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
               'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría afinar y cuál añadir. Y cada alarma lleva su propio límite de avisos, porque una alarma que se dispara sin parar tapa a las demás y acaba siendo casi tan inútil como no tener ninguna.',
             ],
           },
@@ -2097,7 +2097,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Cómo se arranca',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Un agente conversacional no se lanza al mundo entero el primer día. Se estrena acotado, lo que llamamos el piloto, en un canal, en un horario o en un grupo de clientes, con sus categorías medidas desde la primera conversación. Los textos delicados salen aprobados por ti antes de que nadie los lea y tu equipo sabe cómo llega un escalado y qué hacer con él.',
+              'Un agente conversacional no se lanza al mundo entero el primer día. Se estrena acotado, lo que llamamos el piloto, en un canal, en un horario o en un grupo de clientes. Ese piloto se paga y su precio entra dentro del proyecto final. con sus categorías medidas desde la primera conversación. Los textos delicados salen aprobados por ti antes de que nadie los lea y tu equipo sabe cómo llega un escalado y qué hacer con él.',
               'A las pocas semanas los números cuentan la verdad: qué se termina dentro de la conversación, qué escala con qué motivos y qué pregunta la gente que no habíamos previsto. Con eso se decide la ampliación, categoría a categoría. Es la manera de crecer sin ampliar nada que no se haya probado antes.',
             ],
           },
@@ -2113,7 +2113,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué cuesta',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Los rangos publicados para cualquier agente nuestro valen aquí, entre 2.500 y 10.000 € de construcción y entre 150 y 500 € al mes de operación. El factor propio de lo conversacional es el volumen. En WhatsApp tiene dos contadores en vez de uno. Cada conversación gasta sus llamadas al modelo. Meta cobra aparte por cada plantilla entregada, que es lo que son los recordatorios de cita. Los dos van desglosados. En Wazzy tenemos medido lo que cuesta cada conversación y esa misma medición la aplicamos en los proyectos de cliente. Sabrás qué te cuesta atender antes de encargarlo, no después. El desglose entero está en la guía de coste.',
+              'Los rangos publicados para cualquier agente nuestro valen aquí, entre 2.500 y 10.000 € de construcción y entre 150 y 500 € al mes de operación. El factor propio de lo conversacional es el volumen. En WhatsApp tiene dos contadores en vez de uno. Cada conversación gasta sus llamadas al modelo. Meta cobra aparte por cada plantilla entregada, que es lo que son los recordatorios de cita. Los dos van desglosados. En Wazzy tenemos medido lo que cuesta cada conversación y esa misma medición la aplicamos en los proyectos de cliente. Antes de encargar nada tendrás una estimación, la de Wazzy aplicada a tu volumen. El piloto la convierte en medida con tus propias conversaciones. El desglose entero está en la guía de coste.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
@@ -2142,11 +2142,11 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Podemos cambiar lo que dice sin llamaros?',
-            a: 'Los textos aprobados se editan sin tocar código y las respuestas de conocimiento cambian solas cuando cambia tu documentación. Para cambiar lo que el agente puede hacer, ahí sí entramos nosotros, con su batería de pruebas delante.',
+            a: 'Los textos aprobados los editas tú sin tocar código. Ninguna edición entra en producción sin pasar su comprobación. Un documento nuevo tampoco cambia respuestas hasta que la batería lo aprueba. Para cambiar lo que el agente puede hacer entramos nosotros, también con las pruebas delante.',
           },
           {
             q: '¿Quién responde del RGPD?',
-            a: 'Sí y en el caso de Wazzy con datos de salud, una de las categorías especiales del artículo 9, cifrado, plazos de conservación y borrado a petición.',
+            a: 'El responsable del tratamiento es tu empresa y nosotros somos el encargado. Lo que entregamos es contrato de encargo, medidas técnicas y plazos de conservación por escrito. En Wazzy, con datos de salud, eso incluye cifrado campo a campo y borrado a petición de lo que no tenga un plazo legal por encima.',
           },
           {
             q: '¿Y si WhatsApp cambia sus reglas o sus precios?',
@@ -2158,7 +2158,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Cuántas conversaciones hacen falta para que compense?',
-            a: 'No damos un número mágico porque depende de lo que cuesta hoy tu canal. El piloto lo mide con tus conversaciones reales y si la cuenta no sale, te lo decimos nosotros antes de que lo pagues.',
+            a: 'No damos un número mágico porque depende de lo que cuesta hoy tu canal. El piloto lo mide con tus conversaciones reales, se paga y su precio entra dentro del proyecto final. Si la cuenta no sale, te lo decimos nosotros antes de ampliar.',
           },
         ],
         cta: {
