@@ -32,4 +32,4 @@ None of this depends on the model behaving. The auditor forces the re-query, the
 
 In a demo nobody re-asks with malice. Do it yourself. Ask for a figure, change one nuance and ask again. *Did the second answer come from the database, or from the first answer?* That single question exposes any data assistant.
 
-If your team waits on analytics for every number, see what we build in [AI agent development](/en/services/ai-agent-development). And if the problem is a whole process rather than a query, start with [AI workflow automation](/en/services/ai-workflow-automation).
+If your team waits on analytics for every number, see what we build in [AI agent development](/en/services/ai-agent-development).

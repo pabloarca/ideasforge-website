@@ -1886,7 +1886,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Dos procesos reales en producción',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'En Stanton, una gestora de fincas, las facturas de luz, agua y gas de cada inquilino se metían a mano. Hoy el equipo las reenvía por Telegram, una lectura con IA extrae los datos y el resultado aterriza como filas normalizadas en el Excel con el que ya trabajaban. Son dos flujos en producción, sin ninguna herramienta nueva que aprender. El cliente ya nos ha encargado más procesos administrativos, que es la señal de éxito que más nos importa.',
+              'En Stanton, una gestora de fincas, las facturas de luz, agua y gas de cada inquilino se metían a mano. Hoy el equipo las reenvía por Telegram, una lectura con IA extrae los datos y el resultado aterriza como filas normalizadas en el Excel con el que ya trabajaban. Cada factura costaba un minuto de teclado. Hoy el 98 % pasa sin que nadie la toque y el resto escala con el documento al lado. Son dos flujos en producción, sin ninguna herramienta nueva que aprender. El cliente ya nos ha encargado más procesos administrativos, que es la señal de éxito que más nos importa.',
               'En Barceloneta Premium, una agencia inmobiliaria de Barcelona, el equipo recibe cada día decenas de consultas por WhatsApp de gente que busca alquiler. Cada consulta se llevaba entre cinco y diez minutos de comprobación a mano. Ahora el flujo extrae de cada conversación el motivo, el presupuesto y la documentación. Al equipo le llega un correo que dice si cumple o no los requisitos que la agencia fijó, el presupuesto y la documentación, con el porqué al lado. Quien decide sigue siendo una persona, con ese correo delante. La agencia cifra en más de tres horas al día lo que recupera para el trabajo que sí necesita personas.',
               'Los dos casos se parecen en tres cosas: entraron por un canal que el equipo ya usaba, no obligaron a aprender ninguna herramienta nueva y su ganancia se podía medir antes y después. Eso es lo que buscamos en cada proceso nuevo.',
             ],
@@ -1909,6 +1909,15 @@ export const content: Record<Lang, SiteContent> = {
               'Y el repositorio es tuyo desde el primer día, con su documentación y sus manuales de operación. Si un día quieres operarlo con tu equipo o con otro proveedor, te llevas el flujo entero con su documentación y sus pruebas, no una suscripción. Lo que sí es servicio mientras trabajemos juntos es la operación, la vigilancia semanal y las alarmas de la casa. Eso queda dicho en el presupuesto.',
             ],
             link: { label: 'Automatización documental para gestorías', href: '/gestorias' },
+          },
+          {
+            heading: 'Dónde viven tus datos',
+            part: 'Cómo lo construimos',
+            paragraphs: [
+              'Un flujo de estos lee facturas de tus inquilinos, solicitudes con la documentación de un candidato o consultas con nombres y apellidos dentro. Eso es tratamiento de datos personales. A veces incluso de los que el reglamento europeo protege de forma reforzada, como los de salud.',
+              'El reparto legal conviene decirlo claro y de entrada. Tu empresa es la responsable del tratamiento y nosotros el encargado. Lo que entregamos es lo que exige el artículo 28 del reglamento, un contrato de encargo con sus finalidades, sus plazos y sus obligaciones. Y lo que pide el artículo 32, medidas técnicas escritas y comprobables en vez de una declaración de intenciones.',
+              'En la práctica eso significa infraestructura montada en una cuenta de nube a tu nombre, cada acción viajando con los permisos de quien la pide, los datos sensibles cifrados, los plazos de conservación pactados por escrito y las llamadas al modelo bajo acuerdos que excluyen entrenar con tu contenido. Es la misma disciplina que aplicamos donde más aprieta, en un sistema que trata datos de salud a diario.',
+            ],
           },
           {
             heading: 'Del primer proceso a los siguientes',
@@ -1979,7 +1988,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Cuánto se tarda en tener el primer flujo andando?',
-            a: 'Menos de lo que sugiere la palabra proyecto. El piloto se acota a una parte del volumen precisamente para andar pronto y la ampliación va por fases con el sistema ya funcionando.',
+            a: 'Depende de tres cosas: que los datos existan, que los accesos estén dados y que la tarea a automatizar esté bien definida. Con las tres, un piloto en dos semanas es realista. Si falta alguna, lo primero del proyecto es conseguirla. Ese plazo no lo marcamos nosotros.',
           },
           {
             q: '¿Qué pasa con los casos que el flujo no resuelve?',

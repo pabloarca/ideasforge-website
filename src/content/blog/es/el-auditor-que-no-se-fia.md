@@ -32,4 +32,4 @@ Nada de esto depende de que el modelo «se porte bien». El auditor fuerza la re
 
 En la demostración nadie repregunta con malicia. Hazlo tú. Pide una cifra, cambia un matiz y vuelve a preguntar. *¿La segunda respuesta salió de la base de datos o de la primera respuesta?* Esa sola pregunta desnuda a cualquier asistente de datos.
 
-Si tu equipo espera a analítica para cada número, mira lo que construimos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia). Y si el problema es un proceso entero, no una consulta, empieza por [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia).
+Si tu equipo espera a analítica para cada número, mira lo que construimos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia).
