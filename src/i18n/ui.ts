@@ -2316,7 +2316,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Dos reglamentos europeos, una sola arquitectura',
             part: 'Qué significa cumplir',
             paragraphs: [
-              'Una empresa que despliega IA en Europa responde hoy ante dos reglamentos a la vez. El RGPD gobierna qué puede pasarle a un dato personal, lo trate quien lo trate. En España lo acompaña la ley orgánica de protección de datos, la 3/2018, con la AEPD como autoridad de control. El reglamento europeo de IA ordena los sistemas por el riesgo de su uso, desde las prácticas prohibidas hasta el riesgo mínimo. Pone deberes concretos a las empresas que despliegan los arriesgados, entre ellos supervisión, vigilancia y registros. El grueso se aplica desde el 2 de agosto de 2026, con multas que en el tramo más alto llegan a 35 millones de euros o al 7 % de la facturación.',
+              'Una empresa que despliega IA en Europa responde hoy ante dos reglamentos a la vez. El RGPD gobierna qué puede pasarle a un dato personal, lo trate quien lo trate. En España lo acompaña la ley orgánica de protección de datos, la 3/2018, con la AEPD como autoridad de control. El reglamento europeo de IA ordena los sistemas por el riesgo de su uso, desde las prácticas prohibidas hasta el riesgo mínimo. Pone deberes concretos a las empresas que despliegan los arriesgados, entre ellos supervisión, vigilancia y registros. Su calendario cambió en julio de 2026. El Ómnibus Digital, el Reglamento (UE) 2026/1744, aplazó las obligaciones de alto riesgo de los sistemas del anexo III al 2 de diciembre de 2027 y las de la IA integrada en productos del anexo I al 2 de agosto de 2028. Lo que sí se aplica ya es lo demás, las prácticas prohibidas y la alfabetización en IA desde febrero de 2025, las reglas de los modelos de propósito general desde agosto de 2025 y la transparencia del artículo 50 desde el 2 de agosto de 2026. Las multas del tramo más alto llegan a 35 millones de euros o al 7 % de la facturación.',
               'El mapa completo de ese segundo reglamento lo tenemos en su propia página, papel por papel y deber por deber, porque merece el espacio. Una pieza sí pertenece aquí, porque va de datos y no de sistemas. En diciembre de 2024 el Comité Europeo de Protección de Datos publicó su Dictamen 28/2024, su primera palabra sobre los modelos en sí. Dos conclusiones importan a un comprador. Que un modelo entrenado sea anónimo se valora caso por caso. El interés legítimo solo puede sostener un tratamiento con IA tras una evaluación documentada en tres pasos. Ninguna de las dos es un sello automático. Las dos premian al proveedor que puede enseñar los deberes hechos, que es el enfoque que describe esta página entera.',
             ],
             link: {
@@ -2418,7 +2418,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'A la persona del otro lado se le avisa y puede llegar a un humano',
             part: 'Cómo se ve en la práctica',
             paragraphs: [
-              'Las conversaciones sobre cumplimiento tienden a fijarse en las bases de datos y a olvidar a la persona que está escribiendo. Ahí se cruzan dos deberes. El RGPD espera honestidad sobre cómo se usan los datos personales. El reglamento europeo de IA, en las obligaciones que aplican desde agosto de 2026, exige que a la gente se le diga cuándo está hablando con una máquina. Ninguno de los dos es exótico de implementar, pero los dos son fáciles de incumplir por omisión, un mensaje de bienvenida vago cada vez.',
+              'Las conversaciones sobre cumplimiento tienden a fijarse en las bases de datos y a olvidar a la persona que está escribiendo. Ahí se cruzan dos deberes. El RGPD espera honestidad sobre cómo se usan los datos personales. El reglamento europeo de IA, en su obligación de transparencia, que es de las que sí mantuvieron su fecha, exige que a la gente se le diga cuándo está hablando con una máquina. Ninguno de los dos es exótico de implementar, pero los dos son fáciles de incumplir por omisión, un mensaje de bienvenida vago cada vez.',
               'Nuestros sistemas conversacionales se presentan como lo que son. El camino a una persona forma parte del diseño en vez de ser una disculpa. En Wazzy, un caso urgente no recibe un párrafo tranquilizador de un modelo. Se escala al personal de la clínica, <strong>porque una máquina que reconoce su límite y entrega es más segura que una que improvisa seguridad.</strong> La misma forma se repite en el trabajo con clientes. El asistente hace el volumen repetitivo. Los momentos que necesitan a un humano llegan a un humano, con el rastro de la conversación puesto.',
               'Hay un beneficio más callado. Cuando el traspaso está diseñado, los humanos detrás del asistente dejan de ser una ficción de la política de privacidad y pasan a ser una cola de verdad con dueños de verdad, que es exactamente la clase de afirmación que una autoridad puede verificar y encontrar cierta.',
             ],
@@ -3641,7 +3641,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'The European rules, in one minute',
             part: 'For your company',
             paragraphs: [
-              'If you deploy in Europe, two regulations frame the work. The GDPR governs the personal data inside the system, and the <a class="link-inline" href="/en/eu-ai-act-compliance">EU AI Act</a> sorts systems by the risk of their use, with its heaviest obligations applicable since August 2026. <strong>Neither forbids what this guide describes. Both reward the same architecture, records, oversight and restraint designed in from the start.</strong>',
+              'If you deploy in Europe, two regulations frame the work. The GDPR governs the personal data inside the system, and the <a class="link-inline" href="/en/eu-ai-act-compliance">EU AI Act</a> sorts systems by the risk of their use. Its transparency duties have applied since August 2026, while the Digital Omnibus of July 2026 pushed the heavy high-risk obligations to December 2027 and beyond. <strong>Neither forbids what this guide describes. Both reward the same architecture, records, oversight and restraint designed in from the start.</strong>',
               'We keep a full page on each, written for the person who has to defend the project in front of legal.',
             ],
             link: {
@@ -4409,7 +4409,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Data sovereignty',
           title: 'GDPR-compliant AI on infrastructure you own',
           subtitle:
-            'We build AI agents for European companies whose data cannot leave their control. Everything runs in a cloud account under your name, isolation is enforced by code rather than by instructions to a model, and every decision is recorded so that someone can inspect it later. Written from five systems in production, and updated for the EU AI Act obligations that took effect on 2 August 2026.',
+            'We build AI agents for European companies whose data cannot leave their control. Everything runs in a cloud account under your name, isolation is enforced by code rather than by instructions to a model, and every decision is recorded so that someone can inspect it later. Written from five systems in production, and updated for the AI Act calendar as the Digital Omnibus left it in July 2026.',
           cta: 'See how it is built',
           ctaHref: '#isolation',
         },
@@ -4453,7 +4453,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Two European rules, one architecture',
             paragraphs: [
-              'A company deploying AI in Europe now answers to two regulations at once. The GDPR governs what may happen to personal data, whoever processes it. The AI Act sorts systems by the risk of their use, from banned practices to minimal risk, and places concrete duties on companies that deploy the risky ones, oversight, monitoring and logs among them. The bulk of it applies since 2 August 2026, with fines tiered up to 35 million euros or 7 percent of turnover at the top of the scale.',
+              'A company deploying AI in Europe now answers to two regulations at once. The GDPR governs what may happen to personal data, whoever processes it. The AI Act sorts systems by the risk of their use, from banned practices to minimal risk, and places concrete duties on companies that deploy the risky ones, oversight, monitoring and logs among them. Its calendar changed in July 2026. The Digital Omnibus, Regulation (EU) 2026/1744, pushed the high-risk obligations for Annex III systems to 2 December 2027 and those for AI embedded in regulated products under Annex I to 2 August 2028. What already applies is everything else, the prohibited practices and the AI literacy duty since February 2025, the general-purpose model rules since August 2025 and the Article 50 transparency duties since 2 August 2026. Fines at the top of the scale reach 35 million euros or 7 percent of turnover.',
               'We keep the full map of that second regulation on its own page, role by role and duty by duty, because it deserves the space. One piece belongs here, though, since it is about data rather than systems. In December 2024 the European Data Protection Board published Opinion 28/2024, its first word on AI models themselves, and two findings matter for a buyer. Whether a trained model is anonymous gets assessed case by case, and legitimate interest can only carry AI processing after a documented three-step assessment. Neither is a rubber stamp. Both reward providers who can show their homework, which is the approach this whole page describes.',
             ],
             link: { label: 'The full guide: EU AI Act compliance for deployers', href: '/en/eu-ai-act-compliance' },
@@ -4540,7 +4540,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'The person on the other side is told, and can reach a human',
             paragraphs: [
-              'Compliance talk tends to fixate on databases and forget the person typing. Two duties meet there. The GDPR expects honesty about how personal data is used, and the AI Act, in the obligations that apply since August 2026, requires that people be told when they are interacting with a machine. Neither duty is exotic to implement, but both are easy to fail by omission, one vague welcome message at a time.',
+              'Compliance talk tends to fixate on databases and forget the person typing. Two duties meet there. The GDPR expects honesty about how personal data is used, and the AI Act, in its transparency duty, one of the ones that kept its date, requires that people be told when they are interacting with a machine. Neither duty is exotic to implement, but both are easy to fail by omission, one vague welcome message at a time.',
               'Our conversational systems present themselves as what they are, and the escalation path is part of the design rather than an apology. In Wazzy, our appointments product, an urgent case does not get a soothing paragraph from a model. It gets escalated to the clinic’s staff, because a machine that recognizes its limit and hands over is safer than one that improvises confidence. The same shape repeats in our client work. The assistant does the repetitive volume, and the moments that need a human reach a human, with the conversation’s trail attached.',
               'There is a quieter benefit. When the handover is designed, the humans behind the assistant stop being a fiction in the privacy policy and become an actual queue with actual owners, which is exactly the kind of claim an authority can verify and find true.',
             ],
@@ -4663,12 +4663,12 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'EU AI Act',
           title: 'EU AI Act compliance, for companies that deploy AI',
           subtitle:
-            'Most companies are deployers under the EU AI Act, and for them the regulation is a list of things they must be able to demonstrate: oversight that works, logs that exist and knowing what their systems do. The heaviest obligations apply since 2 August 2026. This guide walks the whole map in plain terms, written by engineers who build systems that have to survive these reviews, not by lawyers selling the review.',
+            'Most companies are deployers under the EU AI Act, and for them the regulation is a list of things they must be able to demonstrate: oversight that works, logs that exist and knowing what their systems do. The Digital Omnibus of July 2026 moved the heaviest of those obligations to December 2027, while transparency and AI literacy apply today. This guide walks the whole map in plain terms, written by engineers who build systems that have to survive these reviews, not by lawyers selling the review.',
           cta: 'Start with the short version',
           ctaHref: '#short',
         },
         stats: [
-          { value: '2 Aug 2026', label: 'the date the bulk of the Act, deployer duties included, became applicable' },
+          { value: '2 Aug 2026', label: 'transparency duties apply from here. High-risk deployer duties moved to Dec 2027' },
           { value: '6 months', label: 'minimum retention for the logs a high-risk deployer must keep under its control' },
           { value: '3%', label: 'of worldwide turnover, the fine bracket most company breaches fall into, with 7% reserved for prohibited practices' },
         ],
@@ -4696,7 +4696,7 @@ export const content: Record<Lang, SiteContent> = {
               'It sorts systems by risk into four levels: prohibited, high, limited and minimal. Your duties depend on the level, not on how advanced the technology is.',
               'Roles decide everything else. Providers build and place systems on the market, deployers use them, and most companies reading this are deployers.',
               'Deploying a high-risk system triggers Article 26, a concrete list of duties around oversight, input data, monitoring and logs.',
-              'The calendar has already happened. Bans and AI literacy since February 2025, general-purpose model rules since August 2025, the bulk of it since August 2026.',
+              'The calendar moved in July 2026. Bans and AI literacy since February 2025, general-purpose model rules since August 2025, transparency since August 2026, and the high-risk obligations pushed to December 2027.',
               'Fines are tiered, up to 35 million euros or 7 percent of turnover for prohibited practices and up to 15 million or 3 percent for most other breaches.',
             ],
           },
@@ -4728,8 +4728,8 @@ export const content: Record<Lang, SiteContent> = {
             bullets: [
               'Since 2 February 2025. The prohibited practices became illegal, and Article 4 began requiring AI literacy, meaning staff who work with AI systems must be trained to a level appropriate to their role. This applies to every AI system, high-risk or not.',
               'Since 2 August 2025. The obligations for providers of general-purpose models apply, including the regime for models with systemic risk. If you deploy systems built on large models, your providers have been under duties for a year.',
-              'Since 2 August 2026. The bulk of the regulation applies, including Article 26 for deployers of high-risk systems and the Article 50 transparency duties, like telling people they are interacting with a machine.',
-              'Through 2027. The remaining tranche arrives for high-risk AI embedded in products already covered by EU safety law, medical devices and machinery among them, with its own dates.',
+              'Since 2 August 2026. The Article 50 transparency duties apply, like telling people they are interacting with a machine. Article 26, the one that governs deployers of high-risk systems, was due here too until the Digital Omnibus moved it.',
+              'From 2 December 2027. The high-risk obligations for the Annex III systems arrive, Article 26 for deployers among them, after the Digital Omnibus, Regulation (EU) 2026/1744, moved them from August 2026. High-risk AI embedded in products already covered by EU safety law, medical devices and machinery among them, follows on 2 August 2028.',
             ],
           },
           {
