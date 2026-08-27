@@ -913,7 +913,7 @@ export const content: Record<Lang, SiteContent> = {
       },
       edges: { contract: 'contrato JSON', rejects: 'rechaza', accepts: 'acepta' },
       legend:
-        'El modelo nunca llega a tocar tus sistemas. Interpreta la pregunta y entrega un contrato. A partir de ahí decide el código, que sí se comporta igual siempre. Lo peor que puede conseguir un mensaje malicioso es que se elija mal dentro de una lista que ya hemos revisado.',
+        'El diagrama enseña una parada de consulta a datos, que es donde mejor se ve. El modelo nunca llega a tocar tus sistemas, interpreta la pregunta y entrega un contrato. A partir de ahí decide el código, que sí se comporta igual siempre. Es también el código quien decide qué puede ver cada persona. En este caso lo peor que puede conseguir un mensaje malicioso es que se elija mal dentro de una lista ya revisada. Cuando la parada es de lectura de documentos el modelo no elige de una lista, devuelve valores, así que ahí la defensa es la validación del paso siguiente y la confirmación de una persona en lo que mueve dinero.',
     },
     chatVsAgent: {
       title: 'Bot vs Agente de IA',
@@ -1807,9 +1807,9 @@ export const content: Record<Lang, SiteContent> = {
           'Automatización de procesos empresariales con IA: documentos, solicitudes y consultas de datos resueltos de principio a fin, sobre tus sistemas y con validación por código.',
         hero: {
           eyebrow: 'Automatización de procesos con IA',
-          title: 'Los procesos que nunca pudiste automatizar',
+          title: 'Los procesos que la automatización clásica no cerraba',
           subtitle:
-            'Automatización de procesos empresariales con IA. Los flujos de trabajo que llevan documentos, conversaciones o decisiones por el medio, resueltos de principio a fin sobre tus sistemas.',
+            'Automatización de procesos empresariales con IA. Los flujos de trabajo que llevan documentos, conversaciones o decisiones por el medio, llevados de principio a fin sobre tus sistemas.',
           cta: 'Cuéntanos tu reto',
         },
         sections: [
@@ -1819,14 +1819,14 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Los procesos que las herramientas clásicas no pudieron automatizar comparten un rasgo. En algún punto, una persona tiene que leer y decidir. Llega una factura y alguien la teclea. Llega una solicitud y alguien la cualifica. Llega una pregunta y alguien busca la respuesta. Ese paso, leer algo que no viene en un formato fijo y decidir qué hacer con ello, era la frontera de la automatización. Los modelos de lenguaje absorben exactamente ese paso y con él se abre la familia entera de procesos que lo contenían.',
               'Estos procesos rara vez tienen nombre en el organigrama. Viven en una bandeja de correo que alguien vacía cada mañana, en el Excel puente entre dos sistemas que no se hablan, en el copiar y pegar de cada alta nueva. Si tu equipo tiene uno de esos rituales, tienes un candidato.',
-              'Cinco encargos concentran casi todo lo que nos piden.',
+              'Cuatro encargos concentran casi todo lo que nos piden. El quinto punto no es un encargo, es la salida que llevan todos.',
             ],
             kind: 'lattice',
             bullets: [
               'Entrada de documentos. Facturas, tickets y formularios escaneados que se leen, se validan y se registran en tus sistemas sin que nadie los teclee.',
-              'Gestión de solicitudes. Consultas entrantes atendidas, cualificadas y dirigidas a quien corresponde, a cualquier hora.',
+              'Gestión de solicitudes. Consultas entrantes cualificadas y dirigidas a quien corresponde, a cualquier hora, con lo que hace falta para decidir ya extraído.',
               'Consultas a datos. Preguntas de negocio que se convierten en consultas seguras a la base de datos y vuelven respondidas en segundos.',
-              'Redacción a partir de datos. Correos, resúmenes y avisos que el flujo escribe con lo que ya averiguó, listos para revisar o para salir solos.',
+              'Redacción a partir de datos. Correos, resúmenes y avisos que el flujo escribe con lo que ya averiguó. Los que van a una persona de tu equipo pueden salir solos. Los que van a un cliente salen de una plantilla que tú apruebas, rellena con datos ya validados.',
               'Escalado con contexto. Los casos que piden criterio llegan a tu equipo con todo lo que el sistema ya averiguó, para decidir sin rebuscar.',
             ],
           },
@@ -1835,7 +1835,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Lo que se abre ahora',
             paragraphs: [
               'La automatización clásica, la de reglas y la robotización de pantallas, funciona muy bien mientras la entrada no cambia. Su debilidad la conoce cualquiera que la haya mantenido. La regla que leía la factura del proveedor A no entiende la del proveedor B y el robot que rellenaba un formulario se pierde cuando el programa cambia de versión. Cada variación nueva es una regla nueva que escribir y la lista no termina nunca.',
-              'La IA cambia el reparto. El modelo interpreta la entrada aunque venga con otro formato, otra redacción u otro orden, así que la variación deja de romper el flujo. Hay una prueba rápida que hacemos en la primera llamada, pedir tres ejemplos reales de la entrada. Si los tres se parecen entre sí, tu problema es de reglas. Si cada uno viene de una manera distinta, ahí hace falta el modelo. A cambio exige lo que toda esta página describe, validación y medición, porque interpretar no es infalible.',
+              'La IA cambia el reparto. El modelo interpreta la entrada aunque venga con otro formato, otra redacción u otro orden, así que la variación deja de romper el flujo. Hay una prueba rápida que hacemos en la primera llamada, pedir tres ejemplos reales de la entrada y de tres orígenes distintos, porque tres facturas del mismo proveedor se parecen siempre y no prueban nada. Si los tres se parecen entre sí, tu problema es de reglas. Si cada uno viene de una manera distinta, ahí hace falta el modelo. A cambio exige lo que toda esta página describe, validación y medición, porque interpretar no es infalible.',
               'La honestidad también dibuja la frontera al revés. Si tu proceso tiene reglas claras sobre datos que siempre llegan igual, la automatización clásica lo resuelve más barato y más rápido, sin modelo que vigilar. Te lo diremos en la primera conversación, porque meter IA donde no hace falta es pagar vigilancia a cambio de nada. Y cuando ya tienes automatización clásica funcionando, no la tiramos. Conviven bien, con las reglas moviendo lo estable y el modelo leyendo lo variable, cada pieza en el papel que le toca.',
             ],
           },
@@ -1845,7 +1845,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Un sistema puede producir resúmenes, borradores y registros a docenas sin que el negocio note nada. Producir cosas no es mover una ganancia. Por eso la unidad de trabajo aquí no es la tarea suelta sino el proceso entero, de la entrada al resultado, con su métrica delante: las horas que se dejan de pagar por teclear, los errores que dejan de corregirse, la espera que deja de existir.',
               'Se ve mejor con un ejemplo. Un sistema que redacta resúmenes de cada reunión produce salidas a diario. Si nadie decide nada distinto con ellos, la ganancia es cero y el coste no. Un flujo que deja cada factura registrada sin que nadie la toque convierte su resultado en horas que puedes contar. La diferencia no está en la tecnología. Está en si el resultado cambia algo que el negocio mide.',
-              'Ese criterio cambia decisiones de diseño. A veces el paso que más ahorra no se acelera, se elimina, porque reorganizar el proceso hace innecesario lo que íbamos a automatizar. Y un flujo que resuelve el ochenta por ciento del volumen con el veinte por ciento del esfuerzo gana a la ambición de cubrirlo todo, que es la que convierte los proyectos en obras interminables. En el blog contamos cómo medimos esa ganancia y por qué no la llamamos productividad.',
+              'Ese criterio cambia decisiones de diseño. A veces el paso que más ahorra no se acelera, se elimina, porque reorganizar el proceso hace innecesario lo que íbamos a automatizar. Y un flujo que resuelve la mayor parte del volumen con una fracción del esfuerzo gana a la ambición de cubrirlo todo, que es la que convierte los proyectos en obras interminables. En el blog contamos cómo medimos esa ganancia y por qué no la llamamos productividad.',
             ],
             link: { label: 'Medir la IA por las ganancias, no por la productividad', href: '/blog/medir-la-ia-por-las-ganancias' },
           },
@@ -1855,14 +1855,14 @@ export const content: Record<Lang, SiteContent> = {
             diagram: true,
             paragraphs: [
               'Nuestros flujos son una cadena de pasos que siempre corre igual, con paradas de modelo donde hace falta interpretar. El código mueve los datos, llama a cada sistema y decide el orden. El modelo entra solo en las paradas donde hay que interpretar: leer un documento, entender una petición, clasificar un caso. Y devuelve un resultado con estructura fija que el código puede comprobar. No es un capricho de ingeniería. Cada llamada a un modelo en producción cuesta dinero, tarda y puede variar, así que cuantas menos llamadas y más acotadas, más barato de operar y más estable es el flujo.',
-              'No lo decimos solo nosotros. Anthropic, uno de los grandes fabricantes de modelos, aconseja empezar con flujos que orquesta el código y guardar la autonomía del agente para los pocos casos que la justifican. Nosotros llegamos a la misma regla por el camino caro, manteniendo sistemas en producción. En la práctica significa que lo que un flujo nuestro gasta en llamadas al modelo se parece a una herramienta bien usada, no a un contador que gira solo.',
+              'No lo decimos solo nosotros. Anthropic, uno de los grandes fabricantes de modelos, aconseja en <a class="link-inline" href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener noreferrer" target="_blank">Building effective agents</a> empezar con flujos que orquesta el código y guardar la autonomía del agente para los pocos casos que la justifican. Nosotros llegamos a la misma regla por el camino caro, manteniendo sistemas en producción. En la práctica significa que lo que un flujo nuestro gasta en llamadas al modelo se parece a una herramienta bien usada, no a un contador que gira solo.',
             ],
           },
           {
             heading: 'Un flujo de facturas, parada a parada',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'Para que nada de esto quede abstracto, así recorre el sistema una factura desde que llega hasta que queda archivada.',
+              'Para que nada de esto quede abstracto, así recorre el sistema una factura desde que llega hasta que queda archivada. Son seis pasos. Lo que no pasa la validación del cuarto no sigue adelante, sale hacia una persona con el caso preparado y el motivo señalado.',
             ],
             kind: 'checklist',
             bullets: [
@@ -1872,7 +1872,6 @@ export const content: Record<Lang, SiteContent> = {
               'Se valida. El código comprueba que todo cuadra: el total suma, el impuesto encaja, el proveedor existe, el importe está en rango.',
               'Se registra. Lo validado aterriza en tu sistema, sea un ERP o un Excel, con su referencia al documento original.',
               'Queda escrito. Cada parada deja registro de qué se leyó y qué se decidió, para poder reconstruir la ejecución después.',
-              'O escala. Lo que no pasa la validación llega a una persona con el caso preparado y el motivo señalado.',
             ],
           },
           {
@@ -1887,8 +1886,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Dos procesos reales en producción',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'En Stanton, una gestora de fincas, las facturas de luz, agua y gas de cada inquilino se metían a mano. Hoy el equipo las reenvía por Telegram, una lectura con IA extrae los datos y el resultado aterriza como filas normalizadas en el Excel con el que ya trabajaban. Dos agentes en producción, ninguna herramienta nueva que aprender y un cliente que ya nos ha encargado los siguientes procesos, la señal de éxito que más nos importa.',
-              'En Barceloneta, una agencia inmobiliaria, el equipo recibe cada día decenas de consultas por WhatsApp de gente que busca alquiler. Cada consulta se llevaba entre cinco y diez minutos de comprobación a mano. Ahora el flujo extrae de cada conversación el motivo, el presupuesto y la documentación. Al equipo le llega un correo que ya dice si el candidato encaja o no y por qué. Más de tres horas al día que vuelven al trabajo que sí necesita personas.',
+              'En Stanton, una gestora de fincas, las facturas de luz, agua y gas de cada inquilino se metían a mano. Hoy el equipo las reenvía por Telegram, una lectura con IA extrae los datos y el resultado aterriza como filas normalizadas en el Excel con el que ya trabajaban. Son dos flujos en producción, sin ninguna herramienta nueva que aprender. El cliente ya nos ha encargado más procesos administrativos, que es la señal de éxito que más nos importa.',
+              'En Barceloneta Premium, una agencia inmobiliaria de Barcelona, el equipo recibe cada día decenas de consultas por WhatsApp de gente que busca alquiler. Cada consulta se llevaba entre cinco y diez minutos de comprobación a mano. Ahora el flujo extrae de cada conversación el motivo, el presupuesto y la documentación. Al equipo le llega un correo que dice si cumple o no los requisitos que la agencia fijó, el presupuesto y la documentación, con el porqué al lado. Quien decide sigue siendo una persona, con ese correo delante. La agencia cifra en más de tres horas al día lo que recupera para el trabajo que sí necesita personas.',
               'Los dos casos se parecen en tres cosas: entraron por un canal que el equipo ya usaba, no obligaron a aprender ninguna herramienta nueva y su ganancia se podía medir antes y después. Eso es lo que buscamos en cada proceso nuevo.',
             ],
             link: { label: 'Ver los proyectos', href: '/#proyectos' },
@@ -1897,8 +1896,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Medida como el software que es',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'Un flujo que lleva un modelo dentro puede degradarse sin lanzar un solo error, porque el modelo cambia o los documentos cambian. Por eso cada modificación pasa por una batería de pruebas con casos reales antes de publicarse y cada ejecución deja registro de qué se leyó, qué se decidió y qué se registró. Cuando algo no cuadra semanas después, se reconstruye la ejecución exacta en lugar de discutir de memoria. Y cuando un error real se cuela, el circuito es siempre el mismo: se reproduce la ejecución, se corrige y el caso entra al banco de pruebas para no volver a colarse callado. Un flujo nuestro envejece aprendiendo de sus propios sustos.',
-              'Y si un día falta un dato o una fuente está caída, el sistema responde con lo que tiene y dice qué se ha quedado fuera, en lugar de devolver una cifra incompleta que parece completa. Esa honestidad de máquina es la diferencia entre un número que puedes llevar a una reunión y uno que te deja en evidencia.',
+              'Un flujo que lleva un modelo dentro puede degradarse sin lanzar un solo error, porque el modelo cambia o los documentos cambian. Por eso fijamos la versión del modelo, de modo que actualizarla es una decisión nuestra y no una sorpresa del proveedor. Cada modificación pasa por una batería de pruebas con casos reales antes de publicarse y cada ejecución deja registro de qué se leyó, qué se decidió y qué se registró. Cuando algo no cuadra semanas después, se reconstruye la ejecución exacta en lugar de discutir de memoria. Y cuando un error real se cuela, el circuito es siempre el mismo: se reproduce la ejecución, se corrige y el caso entra al banco de pruebas para no volver a colarse callado. Un flujo nuestro envejece aprendiendo de sus propios sustos.',
+              'Y si un día falta un dato o una fuente está caída, en las consultas a datos el sistema responde con lo que tiene y dice qué se ha quedado fuera, en lugar de devolver una cifra incompleta que parece completa. En un flujo de documentos es al revés, lo que no cuadra no se registra a medias, escala. Esa honestidad de máquina es la diferencia entre un número que puedes llevar a una reunión y uno que te deja en evidencia.',
               'La operación mensual se lee en tres números: cuánto resolvió el flujo por su cuenta, cuánto escaló con sus motivos y qué costó cada ejecución. Con esos tres se decide dónde afinar, qué regla nueva añadir y si la ampliación siguiente compensa. Sin ellos, «funciona bien» es una opinión. Cada flujo hereda además las alarmas de la casa, así que si un servicio externo se cae o una cuota se agota, lo sabemos nosotros antes de que lo sufra tu equipo.',
             ],
           },
@@ -1907,7 +1906,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo lo construimos',
             paragraphs: [
               'La automatización se conecta a lo que ya usas: ERP, CRM, bases de datos, correo, mensajería y, sí, también ese Excel que gobierna medio departamento. La entrada puede ser el canal que tu equipo ya tiene en el bolsillo, un chat de Telegram o de WhatsApp o un buzón de correo, porque la mejor herramienta nueva es la que nadie tiene que aprender.',
-              'Y el repositorio es tuyo desde el primer día, con su documentación y sus manuales de operación. Si un día quieres operarlo con tu equipo o con otro proveedor, te llevas el sistema entero, no una suscripción.',
+              'Y el repositorio es tuyo desde el primer día, con su documentación y sus manuales de operación. Si un día quieres operarlo con tu equipo o con otro proveedor, te llevas el flujo entero con su documentación y sus pruebas, no una suscripción. Lo que sí es servicio mientras trabajemos juntos es la operación, la vigilancia semanal y las alarmas de la casa. Eso queda dicho en el presupuesto.',
             ],
             link: { label: 'Automatización documental para gestorías', href: '/gestorias' },
           },
@@ -1939,7 +1938,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué cuesta',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Los rangos son los mismos que publicamos para cualquier agente nuestro y lo que los mueve aquí es concreto: cuántos sistemas hay que conectar, cuánta validación exige el proceso y cuánto volumen corre por él. La regla sana es que la ganancia medida del proceso ponga el techo del presupuesto, no al revés. El desglose entero está en la guía de coste.',
+              'Los rangos son los mismos que publicamos para cualquier agente nuestro y lo que los mueve aquí es concreto: cuántos sistemas hay que conectar, cuánta validación exige el proceso y cuánto volumen corre por él. La regla sana es que el coste medido del proceso hoy ponga el techo del presupuesto y que el piloto lo confirme, no al revés. El desglose entero está en la guía de coste.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
@@ -1952,11 +1951,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Esto es RPA?',
-            a: 'No. La RPA repite clics y reglas sobre pantallas y se rompe cuando algo cambia de sitio o de formato. Aquí el modelo interpreta el contenido, así que la variación no rompe el flujo. Pueden convivir, la RPA moviendo lo estable y la IA leyendo lo variable.',
-          },
-          {
-            q: '¿En qué se diferencia de la automatización clásica?',
-            a: 'La automatización clásica repite reglas fijas y se rompe cuando la entrada varía. La IA absorbe la variación. Una factura con otro formato o una solicitud redactada de otra manera siguen fluyendo.',
+            a: 'No es lo mismo, aunque hoy muchas suites de RPA lleven lectura con IA dentro. La RPA repite clics y reglas sobre pantallas y se rompe cuando algo cambia de sitio o de formato. Lo que aportamos es que el modelo interpreta el contenido, así que la variación no rompe el flujo. Conviven bien, la RPA moviendo lo estable y el modelo leyendo lo variable.',
           },
           {
             q: '¿Y si la IA lee mal un documento?',
@@ -1988,7 +1983,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Qué pasa con los casos que el flujo no resuelve?',
-            a: 'Escalan a tu equipo con todo el contexto que el sistema ya reunió. El objetivo no es el cien por cien, es que la revisión humana quede donde aporta criterio y que el porcentaje resuelto esté medido, no supuesto.',
+            a: 'Escalan a tu equipo con todo el contexto que el sistema ya reunió. Ese reparto es la diferencia con la pregunta anterior, que va de una lectura dudosa. Aquí caben además los casos que el flujo entiende bien pero no le corresponde decidir. El objetivo no es el cien por cien, es que la revisión humana quede donde aporta criterio y que el porcentaje resuelto esté medido, no supuesto.',
           },
         ],
         cta: {
