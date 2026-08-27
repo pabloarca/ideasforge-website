@@ -2099,7 +2099,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
               'Hay conversaciones que llevan dentro cosas que el reglamento europeo trata aparte. Los datos de salud son el ejemplo más claro y están en el mismo grupo que la ideología, los datos biométricos o la orientación sexual, lo que la norma llama categorías especiales y protege de forma reforzada. Si tu negocio las toca, montar un asistente deja de ser solo una cuestión de producto.',
-              'Lo que ponemos ahí no es una promesa, es una lista. Cifrado campo a campo, que significa que cada dato sensible va cifrado por separado dentro de la base de datos, así que ni quien la administra los ve en claro. Plazos de conservación acordados por escrito y borrado a petición de todo lo que no esté sujeto a un plazo legal. Y el reparto de responsabilidades dicho desde el principio, tu empresa responde del tratamiento y nosotros somos el encargado, con su contrato.',
+              'Lo que ponemos ahí no es una promesa, es una lista. Cifrado campo a campo, que significa que cada dato sensible va cifrado por su cuenta dentro de la base de datos y no en bloque con todo lo demás. Plazos de conservación acordados por escrito y borrado a petición de todo lo que no esté sujeto a un plazo legal. Y el reparto de responsabilidades dicho desde el principio, tu empresa responde del tratamiento y nosotros somos el encargado, con su contrato.',
               'No es teoría. Wazzy, el asistente de citas que operamos nosotros, trabaja a diario con datos de salud y lleva esa disciplina puesta desde el primer día, así que cuando aparece un sector con requisitos de cumplimiento no empezamos de cero.',
             ],
           },
@@ -3949,7 +3949,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'A chatbot you can trust with health data',
             part: 'Trust is built',
             paragraphs: [
-              'Wazzy handles health data, the most protected category under GDPR: field-by-field encryption, deletion aligned with clinical-record retention law and internal logs that cannot receive personal data. Field-by-field encryption means each sensitive value is encrypted on its own inside the database, so not even whoever administers it sees them in the clear. If your sector carries compliance requirements, the discipline is already built and proven where it hurts most.',
+              'Wazzy handles health data, one of the special categories under the GDPR, the ones that get reinforced protection alongside political views, biometrics and sexual orientation. That means field-by-field encryption, retention periods agreed in writing and deletion on request of anything not held by a legal retention duty. Field-by-field encryption means each sensitive value is encrypted on its own inside the database rather than in one block with everything else. If your sector carries compliance requirements, the discipline is already built and proven where it hurts most.',
             ],
             link: { label: 'The GDPR-compliant AI pillar', href: '/en/gdpr-compliant-ai' },
           },
