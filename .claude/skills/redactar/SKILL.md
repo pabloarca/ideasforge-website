@@ -52,6 +52,19 @@ propietario, el catálogo de skills y hasta las rutas de otros proyectos
 abiertos. Es aislamiento de mensajes, no de contexto, y su valor está justo
 en no tener contexto. La preparación se automatiza; el juicio, no.
 
+**El silencio no aprueba.** Una decisión solo entra en la sección 3 del
+árbitro cuando el propietario dice que sí con esas palabras. Que pase a otro
+asunto después de leer una recomendación NO es un sí. Pasó el 25 ago 2026
+con la disolución de conocimiento corporativo: se registró como cerrada, él
+nunca la aprobó y dos días después apareció en la lista de pendientes una
+decisión que no había tomado. Mientras no haya sí, la propuesta vive en
+`PENDIENTES.md`, no en el árbitro.
+
+**Y cuando se recomienda, van los dos lados.** Ese mismo día la
+recomendación llegó con los datos a favor y sin el argumento en contra, que
+existía y era fuerte. Una recomendación sin su contraparte no es un consejo,
+es una conclusión disfrazada.
+
 **Cómo se triangula lo que devuelve.** El lector frío no ve el banco de
 hechos, así que marcará como dudoso algo que sí está verificado. Cada apunte
 suyo cae en uno de tres sitios y se dice en cuál: se aplica, se rechaza con
