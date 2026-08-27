@@ -1817,7 +1817,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué procesos se abren con la IA',
             part: 'Lo que se abre ahora',
             paragraphs: [
-              'Los procesos que las herramientas clásicas no pudieron automatizar comparten un rasgo. En algún punto, una persona tiene que leer y decidir. Llega una factura y alguien la teclea. Llega una solicitud y alguien la cualifica. Llega una pregunta y alguien busca la respuesta. Ese paso, leer algo que no viene en un formato fijo y decidir qué hacer con ello, era la frontera de la automatización. Los modelos de lenguaje absorben exactamente ese paso y con él se abre la familia entera de procesos que lo contenían.',
+              'Los procesos que las herramientas clásicas no pudieron automatizar comparten un rasgo. En algún punto, una persona tiene que leer y decidir. Llega una factura y alguien la teclea. Llega una solicitud y alguien la cualifica. Llega una pregunta y alguien busca la respuesta. <strong>Ese paso, leer algo que no viene en un formato fijo y decidir qué hacer con ello, era la frontera de la automatización.</strong> Los modelos de lenguaje absorben exactamente ese paso y con él se abre la familia entera de procesos que lo contenían.',
               'Estos procesos rara vez tienen nombre en el organigrama. Viven en una bandeja de correo que alguien vacía cada mañana, en el Excel puente entre dos sistemas que no se hablan, en el copiar y pegar de cada alta nueva. Si tu equipo tiene uno de esos rituales, tienes un candidato.',
               'Cuatro encargos concentran casi todo lo que nos piden. El quinto punto no es un encargo, es la salida que llevan todos.',
             ],
@@ -1836,14 +1836,14 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'La automatización clásica, la de reglas y la robotización de pantallas, funciona muy bien mientras la entrada no cambia. Su debilidad la conoce cualquiera que la haya mantenido. La regla que leía la factura del proveedor A no entiende la del proveedor B y el robot que rellenaba un formulario se pierde cuando el programa cambia de versión. Cada variación nueva es una regla nueva que escribir y la lista no termina nunca.',
               'La IA cambia el reparto. El modelo interpreta la entrada aunque venga con otro formato, otra redacción u otro orden, así que la variación deja de romper el flujo. Hay una prueba rápida que hacemos en la primera llamada, pedir tres ejemplos reales de la entrada y de tres orígenes distintos, porque tres facturas del mismo proveedor se parecen siempre y no prueban nada. Si los tres se parecen entre sí, tu problema es de reglas. Si cada uno viene de una manera distinta, ahí hace falta el modelo. A cambio exige lo que toda esta página describe, validación y medición, porque interpretar no es infalible.',
-              'La honestidad también dibuja la frontera al revés. Si tu proceso tiene reglas claras sobre datos que siempre llegan igual, la automatización clásica lo resuelve más barato y más rápido, sin modelo que vigilar. Te lo diremos en la primera conversación, porque meter IA donde no hace falta es pagar vigilancia a cambio de nada. Y cuando ya tienes automatización clásica funcionando, no la tiramos. Conviven bien, con las reglas moviendo lo estable y el modelo leyendo lo variable, cada pieza en el papel que le toca.',
+              'La honestidad también dibuja la frontera al revés. <strong>Si tu proceso tiene reglas claras sobre datos que siempre llegan igual, la automatización clásica lo resuelve más barato y más rápido, sin modelo que vigilar.</strong> Te lo diremos en la primera conversación, porque meter IA donde no hace falta es pagar vigilancia a cambio de nada. Y cuando ya tienes automatización clásica funcionando, no la tiramos. Conviven bien, con las reglas moviendo lo estable y el modelo leyendo lo variable, cada pieza en el papel que le toca.',
             ],
           },
           {
             heading: 'Automatizar pasos no es mover una ganancia',
             part: 'Lo que se abre ahora',
             paragraphs: [
-              'Un sistema puede producir resúmenes, borradores y registros a docenas sin que el negocio note nada. Producir cosas no es mover una ganancia. Por eso la unidad de trabajo aquí no es la tarea suelta sino el proceso entero, de la entrada al resultado, con su métrica delante: las horas que se dejan de pagar por teclear, los errores que dejan de corregirse, la espera que deja de existir.',
+              'Un sistema puede producir resúmenes, borradores y registros a docenas sin que el negocio note nada. <strong>Producir cosas no es mover una ganancia.</strong> Por eso la unidad de trabajo aquí no es la tarea suelta sino el proceso entero, de la entrada al resultado, con su métrica delante: las horas que se dejan de pagar por teclear, los errores que dejan de corregirse, la espera que deja de existir.',
               'Se ve mejor con un ejemplo. Un sistema que redacta resúmenes de cada reunión produce salidas a diario. Si nadie decide nada distinto con ellos, la ganancia es cero y el coste no. Un flujo que deja cada factura registrada sin que nadie la toque convierte su resultado en horas que puedes contar. La diferencia no está en la tecnología. Está en si el resultado cambia algo que el negocio mide.',
               'Ese criterio cambia decisiones de diseño. A veces el paso que más ahorra no se acelera, se elimina, porque reorganizar el proceso hace innecesario lo que íbamos a automatizar. Y un flujo que resuelve la mayor parte del volumen con una fracción del esfuerzo gana a la ambición de cubrirlo todo, que es la que convierte los proyectos en obras interminables. En el blog contamos cómo medimos esa ganancia y por qué no la llamamos productividad.',
             ],
@@ -1853,7 +1853,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'El flujo lo lleva el código, la interpretación el modelo',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'Nuestros flujos son una cadena de pasos que siempre corre igual, con paradas de modelo donde hace falta interpretar. El código mueve los datos, llama a cada sistema y decide el orden. El modelo entra solo en las paradas donde hay que interpretar: leer un documento, entender una petición, clasificar un caso. Y devuelve un resultado con estructura fija que el código puede comprobar. No es un capricho de ingeniería. Cada llamada a un modelo en producción cuesta dinero, tarda y puede variar, así que cuantas menos llamadas y más acotadas, más barato de operar y más estable es el flujo.',
+              'Nuestros flujos son una cadena de pasos que siempre corre igual, con paradas de modelo donde hace falta interpretar. <strong>El código mueve los datos, llama a cada sistema y decide el orden.</strong> El modelo entra solo en las paradas donde hay que interpretar: leer un documento, entender una petición, clasificar un caso. Y devuelve un resultado con estructura fija que el código puede comprobar. No es un capricho de ingeniería. Cada llamada a un modelo en producción cuesta dinero, tarda y puede variar, así que cuantas menos llamadas y más acotadas, más barato de operar y más estable es el flujo.',
               'No lo decimos solo nosotros. Anthropic, uno de los grandes fabricantes de modelos, aconseja en <a class="link-inline" href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener noreferrer" target="_blank">Building effective agents</a> empezar con flujos que orquesta el código y guardar la autonomía del agente para los pocos casos que la justifican.',
             ],
           },
@@ -1861,7 +1861,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Un flujo de facturas, paso a paso',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'Para que nada de esto quede abstracto, así recorre el sistema una factura desde que llega hasta que queda archivada. Son seis pasos. Lo que no pasa la validación del cuarto no sigue adelante, sale hacia una persona con el caso preparado y el motivo señalado.',
+              'Para que nada de esto quede abstracto, así recorre el sistema una factura desde que llega hasta que queda archivada. Son seis pasos. <strong>Lo que no pasa la validación del cuarto no sigue adelante, sale hacia una persona con el caso preparado y el motivo señalado.</strong>',
             ],
             kind: 'checklist',
             bullets: [
@@ -1878,14 +1878,14 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo lo construimos',
             paragraphs: [
               'La automatización con IA falla cuando se deja al modelo sin vigilancia. Por eso el paso de validación no es opcional ni se deja para el final: cada resultado del modelo se comprueba antes de tocar tus sistemas, con las reglas del paso de validación que acabas de ver y con las que cada proceso añada. Lo que pasa la validación fluye solo. Lo que no la pasa no se descarta ni se inventa, va a una persona con el caso preparado.',
-              'Validar al final, cuando el dato ya se registró, convierte cada error en una corrección contable. Validar en el medio lo convierte en un caso escalado, que es más barato y deja menos cicatriz. Ese reparto concentra la revisión humana donde hace falta criterio y la retira de donde solo hacía falta paciencia. El objetivo no es un sistema que jamás pregunte, es uno que pregunte poco y siempre con motivo. Y que tenga medido cuánto resuelve por su cuenta, para que la palabra «automatizado» venga con un número detrás.',
+              '<strong>Validar al final, cuando el dato ya se registró, convierte cada error en una corrección contable. Validar en el medio lo convierte en un caso escalado, que es más barato y deja menos cicatriz.</strong> Ese reparto concentra la revisión humana donde hace falta criterio y la retira de donde solo hacía falta paciencia. El objetivo no es un sistema que jamás pregunte, es uno que pregunte poco y siempre con motivo. Y que tenga medido cuánto resuelve por su cuenta, para que la palabra «automatizado» venga con un número detrás.',
             ],
           },
           {
             heading: 'Dos procesos reales en producción',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'En Stanton, una gestora de fincas, las facturas de luz, agua y gas de cada inquilino se metían a mano. Hoy el equipo las reenvía por Telegram, una lectura con IA extrae los datos y el resultado aterriza como filas normalizadas en el Excel con el que ya trabajaban. Cada factura costaba un minuto de teclado. Hoy el 98 % pasa sin que nadie la toque y el resto escala con el documento al lado. Son dos flujos en producción, sin ninguna herramienta nueva que aprender. El cliente ya nos ha encargado más procesos administrativos, que es la señal de éxito que más nos importa.',
+              'En Stanton, una gestora de fincas, las facturas de luz, agua y gas de cada inquilino se metían a mano. Hoy el equipo las reenvía por Telegram, una lectura con IA extrae los datos y el resultado aterriza como filas normalizadas en el Excel con el que ya trabajaban. Cada factura costaba un minuto de teclado. <strong>Hoy el 98 % pasa sin que nadie la toque</strong> y el resto escala con el documento al lado. Son dos flujos en producción, sin ninguna herramienta nueva que aprender. El cliente ya nos ha encargado más procesos administrativos, que es la señal de éxito que más nos importa.',
               'En Barceloneta Premium, una agencia inmobiliaria de Barcelona, el equipo recibe cada día decenas de consultas por WhatsApp de gente que busca alquiler. Cada consulta se llevaba entre cinco y diez minutos de comprobación a mano. Ahora el flujo extrae de cada conversación el motivo, el presupuesto y la documentación. Al equipo le llega un correo que dice si cumple o no los requisitos que la agencia fijó, el presupuesto y la documentación, con el porqué al lado. Quien decide sigue siendo una persona, con ese correo delante. La agencia cifra en más de tres horas al día lo que recupera para el trabajo que sí necesita personas.',
               'Los dos casos se parecen en tres cosas: entraron por un canal que el equipo ya usaba, no obligaron a aprender ninguna herramienta nueva y su ganancia se podía medir antes y después. Eso es lo que buscamos en cada proceso nuevo.',
             ],
@@ -1897,14 +1897,14 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Un flujo que lleva un modelo dentro puede degradarse sin lanzar un solo error, porque el modelo cambia o los documentos cambian. Por eso fijamos la versión del modelo, de modo que actualizarla es una decisión nuestra y no una sorpresa del proveedor. Cada modificación pasa por una batería de pruebas con casos reales antes de publicarse y cada ejecución deja registro de qué se leyó, qué se decidió y qué se registró. Cuando algo no cuadra semanas después, se reconstruye la ejecución exacta en lugar de discutir de memoria. Y cuando un error real se cuela, el circuito es siempre el mismo: se reproduce la ejecución, se corrige y el caso entra al banco de pruebas para no volver a colarse callado. Un flujo nuestro envejece aprendiendo de sus propios sustos.',
               'Y si un día falta un dato o una fuente está caída, en las consultas a datos el sistema responde con lo que tiene y dice qué se ha quedado fuera, en lugar de devolver una cifra incompleta que parece completa. En un flujo de documentos es al revés, lo que no cuadra no se registra a medias, escala. Esa honestidad de máquina es la diferencia entre un número que puedes llevar a una reunión con tus socios para defender el proyecto y uno que te deja en evidencia.',
-              'La operación mensual se lee en tres números: cuánto resolvió el flujo por su cuenta, cuánto escaló con sus motivos y qué costó cada ejecución. Con esos tres se decide dónde afinar, qué regla nueva añadir y si la ampliación siguiente compensa. Sin ellos, «funciona bien» es una opinión. Cada flujo hereda además las alarmas de la casa, así que si un servicio externo se cae o una cuota se agota, lo sabemos nosotros antes de que lo sufra tu equipo.',
+              'La operación mensual se lee en tres números: cuánto resolvió el flujo por su cuenta, cuánto escaló con sus motivos y qué costó cada ejecución. Con esos tres se decide dónde afinar, qué regla nueva añadir y si la ampliación siguiente compensa. <strong>Sin ellos, «funciona bien» es una opinión.</strong> Cada flujo hereda además las alarmas de la casa, así que si un servicio externo se cae o una cuota se agota, lo sabemos nosotros antes de que lo sufra tu equipo.',
             ],
           },
           {
             heading: 'Tus sistemas se quedan donde están',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'La automatización se conecta a lo que ya usas: ERP, CRM, bases de datos, correo, mensajería y, sí, también ese Excel que gobierna medio departamento. La entrada puede ser el canal que tu equipo ya tiene en el bolsillo, un chat de Telegram o de WhatsApp o un buzón de correo, porque la mejor herramienta nueva es la que nadie tiene que aprender.',
+              '<strong>La automatización se conecta a lo que ya usas</strong>: ERP, CRM, bases de datos, correo, mensajería y, sí, también ese Excel que gobierna medio departamento. La entrada puede ser el canal que tu equipo ya tiene en el bolsillo, un chat de Telegram o de WhatsApp o un buzón de correo, porque la mejor herramienta nueva es la que nadie tiene que aprender.',
               'Y el repositorio es tuyo desde el primer día, con su documentación y sus manuales de operación. Si un día quieres operarlo con tu equipo o con otro proveedor, te llevas el flujo entero con su documentación y sus pruebas, no una suscripción. Lo que sí es servicio mientras trabajemos juntos es la operación, la vigilancia semanal y las alarmas de la casa. Eso queda dicho en el presupuesto.',
             ],
             link: { label: 'Automatización documental para gestorías', href: '/gestorias' },
@@ -1914,7 +1914,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo lo construimos',
             paragraphs: [
               'Un flujo de estos lee facturas de tus inquilinos, solicitudes con la documentación de un candidato o consultas con nombres y apellidos dentro. Eso es tratamiento de datos personales. A veces incluso de los que el reglamento europeo protege de forma reforzada, como los de salud.',
-              'El reparto legal conviene decirlo claro y de entrada. Tu empresa es la responsable del tratamiento y nosotros el encargado. Lo que entregamos es lo que exige el artículo 28 del reglamento, un contrato de encargo con sus finalidades, sus plazos y sus obligaciones. Y lo que pide el artículo 32, medidas técnicas escritas y comprobables en vez de una declaración de intenciones.',
+              'El reparto legal conviene decirlo claro y de entrada. <strong>Tu empresa es la responsable del tratamiento y nosotros el encargado.</strong> Lo que entregamos es lo que exige el artículo 28 del reglamento, un contrato de encargo con sus finalidades, sus plazos y sus obligaciones. Y lo que pide el artículo 32, medidas técnicas escritas y comprobables en vez de una declaración de intenciones.',
               'En la práctica eso significa infraestructura montada en una cuenta en la nube, a tu nombre, cada acción viajando con los permisos de quien la pide, los datos sensibles cifrados, los plazos de conservación pactados por escrito y las llamadas al modelo bajo acuerdos que excluyen entrenar con tu contenido. Es la misma disciplina que aplicamos donde más procede, en un sistema que trata datos de salud a diario.',
             ],
           },
@@ -1922,14 +1922,14 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Del primer proceso a los siguientes',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'El primer proceso paga el montaje: la conexión con tus sistemas, el registro, la batería de pruebas, la operación. Los siguientes lo reutilizan, así que cada ampliación cuesta menos que la anterior y se decide con los números del flujo que ya está funcionando. Así creció Stanton, un flujo primero y los siguientes sobre el mismo montaje, cada uno aprobado por lo que el anterior demostró.',
+              '<strong>El primer proceso paga el montaje</strong>: la conexión con tus sistemas, el registro, la batería de pruebas, la operación. Los siguientes lo reutilizan, así que cada ampliación cuesta menos que la anterior y se decide con los números del flujo que ya está funcionando. Así creció Stanton, un flujo primero y los siguientes sobre el mismo montaje, cada uno aprobado por lo que el anterior demostró.',
             ],
           },
           {
             heading: 'El proceso por el que empezar',
             part: 'Decidir con criterio',
             paragraphs: [
-              'No hace falta un plan de transformación para empezar, hace falta elegir bien un proceso. El bueno suele cumplir tres condiciones: duele de forma medible, se repite con volumen y tiene a alguien que lo sufre y quiere quitárselo de encima. Con ese proceso delante, lo mapeamos paso a paso con quien lo ejecuta cada día, qué llega, quién lo toca, por qué sistemas pasa y dónde se atasca. Después medimos lo que cuesta hoy. Ese punto de partida medido es lo que luego permite decir cuánto mejoró, con números y no con sensaciones.',
+              '<strong>No hace falta un plan de transformación para empezar, hace falta elegir bien un proceso.</strong> El bueno suele cumplir tres condiciones: duele de forma medible, se repite con volumen y tiene a alguien que lo sufre y quiere quitárselo de encima. Con ese proceso delante, lo mapeamos paso a paso con quien lo ejecuta cada día, qué llega, quién lo toca, por qué sistemas pasa y dónde se atasca. Después medimos lo que cuesta hoy. Ese punto de partida medido es lo que luego permite decir cuánto mejoró, con números y no con sensaciones.',
               'Se arranca con un piloto que cubre solo una parte del volumen, con la cifra que debería moverse pactada de antemano. A veces incluso lo validamos en modo mixto, una persona apoyada por la herramienta a medio construir, porque confirma la ganancia antes de construir el resto. El mapeo, además, cambia decisiones antes de escribir una línea de código. Con la automatización para la agencia de alquiler aprendimos que el tiempo no se iba en contestar mensajes sino en comprobar a cada interesado, así que el flujo se diseñó alrededor de esa comprobación y no del buzón. Sin ese mapa habríamos automatizado la parte equivocada del proceso.',
               'Si el piloto cumple, se amplía por fases. Si no cumple, se ha perdido poco y se ha aprendido dónde estaba el error.',
             ],
@@ -1938,7 +1938,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Lo que no automatizamos',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Hay pasos que dejamos con confirmación humana a propósito: los que mueven dinero de verdad, los irreversibles y los que deciden sobre personas. El flujo prepara el caso, la persona aprieta el botón. No es una limitación técnica sino una elección de diseño, porque un error barato de corregir puede automatizarse y uno caro no debe.',
+              'Hay pasos que dejamos con confirmación humana a propósito: los que mueven dinero de verdad, los irreversibles y los que deciden sobre personas. <strong>El flujo prepara el caso, la persona aprieta el botón.</strong> No es una limitación técnica sino una elección de diseño, porque un error barato de corregir puede automatizarse y uno caro no debe.',
               'Tampoco automatizamos procesos sin volumen, porque un flujo que corre tres veces al mes no paga su mantenimiento, ni procesos que conviene rediseñar antes que acelerar. Si tu caso está en alguno de esos grupos, te lo decimos antes de arrancar y te ahorras el proyecto entero.',
             ],
           },
@@ -1946,7 +1946,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué cuesta',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Un flujo de un solo proceso arranca en torno a los 2.500 € de construcción, los que tocan varios de tus sistemas se acercan a los 10.000 € y la operación mensual va entre 150 y 500 €, que cubren las llamadas al modelo, la infraestructura y la vigilancia. Lo que mueve esas cifras aquí es concreto: cuántos sistemas hay que conectar, cuánta validación exige el proceso y cuánto volumen corre por él. La regla sana es que el coste medido del proceso hoy ponga el techo del presupuesto y que el piloto lo confirme, no al revés. El desglose entero está en la guía de coste.',
+              'Un flujo de un solo proceso arranca en torno a los 2.500 € de construcción, los que tocan varios de tus sistemas se acercan a los 10.000 € y la operación mensual va entre 150 y 500 €, que cubren las llamadas al modelo, la infraestructura y la vigilancia. Lo que mueve esas cifras aquí es concreto: cuántos sistemas hay que conectar, cuánta validación exige el proceso y cuánto volumen corre por él. <strong>La regla sana es que el coste medido del proceso hoy ponga el techo del presupuesto y que el piloto lo confirme, no al revés.</strong> El desglose entero está en la guía de coste.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
