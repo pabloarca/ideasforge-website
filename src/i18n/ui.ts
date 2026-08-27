@@ -886,7 +886,7 @@ export const content: Record<Lang, SiteContent> = {
     contact: {
       eyebrow: 'Contacto',
       heading: 'Cuéntanos tu reto.',
-      subhead: 'Te respondemos en menos de 24 horas laborables. Sin presentación comercial de cuarenta diapositivas.',
+      subhead: 'Te respondemos en un día laborable. Sin presentación comercial de cuarenta diapositivas.',
       name: 'Nombre',
       email: 'Correo electrónico',
       company: 'Empresa',
@@ -991,7 +991,7 @@ export const content: Record<Lang, SiteContent> = {
     start: {
       metaTitle: 'Empezar la exploración, Ideasforge',
       metaDescription:
-        'Cuéntanos qué proceso quieres resolver y te respondemos en menos de 24 horas laborables con una primera lectura de tu caso.',
+        'Cuéntanos qué proceso quieres resolver y te respondemos en un día laborable con una primera lectura de tu caso.',
       eyebrow: 'Paso 1 · Explorar',
       title: 'Empecemos por entender tu caso',
       subtitle:
@@ -999,7 +999,7 @@ export const content: Record<Lang, SiteContent> = {
       getHeading: 'Qué recibes',
       get: [
         'Un correo de confirmación en cuanto envías, con copia de lo que nos has contado.',
-        'Respuesta en menos de 24 horas laborables, escrita por una persona que ha leído tu caso.',
+        'Respuesta en un día laborable, escrita por una persona que ha leído tu caso.',
         'Una primera lectura de dónde creemos que la IA aporta en lo que nos cuentas y dónde no.',
       ],
       notHeading: 'Qué no recibes',
@@ -1359,7 +1359,7 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: '¿Hablamos de tu caso?',
-          body: 'Escríbenos con el problema que tienes ahora mismo, no con la tecnología que crees que lo arregla. Respondemos en menos de 24 horas laborables.',
+          body: 'Escríbenos con el problema que tienes ahora mismo, no con la tecnología que crees que lo arregla. Respondemos en un día laborable.',
           button: 'Cuéntanos tu reto',
         },
       },
@@ -1614,7 +1614,7 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: '¿Tiene sentido un agente en tu empresa?',
-          body: 'Cuéntanos tu reto y te respondemos en menos de 24 horas laborables. Si no le vemos retorno, te lo diremos.',
+          body: 'Cuéntanos tu reto y te respondemos en un día laborable. Si no le vemos retorno, te lo diremos.',
           button: 'Cuéntanos tu reto',
         },
       },
@@ -2263,7 +2263,7 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: '¿Quieres una cifra para tu caso?',
-          body: 'Cuéntanos tu reto y respondemos en menos de 24 horas laborables. Si no vemos retorno, te lo decimos.',
+          body: 'Cuéntanos tu reto y respondemos en un día laborable. Si no vemos retorno, te lo decimos.',
           button: 'Cuéntanos tu reto',
         },
       },
@@ -2406,11 +2406,11 @@ export const content: Record<Lang, SiteContent> = {
             },
           },
           {
-            heading: 'Datos de salud, bajo el artículo más exigente que hay',
+            heading: 'Datos de salud, en la categoría que más cuidado exige',
             part: 'Cómo se ve en la práctica',
             paragraphs: [
-              'Wazzy, nuestro propio producto de citas, funciona en clínicas dentales, de fisioterapia y de estética. Una nota de cita que dice quién visita qué clínica y por qué es un dato de salud, que el RGPD sitúa en su categoría más protegida y nos permite tratar al amparo del artículo 9.2.h, el que cubre la prestación de asistencia sanitaria. No elegimos la categoría más difícil para presumir. El producto la necesitaba. El resultado es que nuestras prácticas quedaron moldeadas por el caso más estricto desde el principio.',
-              'Cada campo sensible va cifrado por su cuenta, con AES-256-GCM, en vez de confiar en que el disco esté cifrado por debajo. La diferencia importa en la práctica. El cifrado de disco te protege si alguien se lleva el hardware, mientras que el cifrado por campo protege el dato de todos los procesos y personas que tocan la base de datos en su operación normal. <strong>Y el borrado está diseñado alrededor de lo que la ley exige, no alrededor del instinto</strong>, Wazzy retiene lo que la ley obliga a retener, ni más ni menos. Ese plazo no lo fijamos nosotros. Lo fija la clínica, que es la responsable del tratamiento, con la ley de autonomía del paciente delante, la 41/2002, que marca un mínimo de cinco años para la historia clínica y más en algunas comunidades. Una cita en un chat no es la historia clínica, que vive en el sistema de la clínica, pero la lógica es la misma. Una petición de supresión tiene que honrar al paciente sin romper por lo bajo una obligación legal de conservación, así que el sistema separa lo que se borra ahora de lo que se retiene por obligación y puede enseñar cuál es cuál.',
+              'Wazzy, nuestro propio producto de citas, funciona en clínicas dentales, de fisioterapia y de estética. Una nota de cita que dice quién visita qué clínica y por qué es un dato de salud, que el RGPD mete en las categorías especiales de su artículo 9, sin jerarquía entre ellas y con los datos penales del artículo 10 todavía más restringidos. Quien trata esos datos al amparo del artículo 9.2.h, el que cubre la prestación de asistencia sanitaria, es la clínica, que es la responsable. Nosotros tratamos por cuenta suya, como encargados. No elegimos la categoría más difícil para presumir. El producto la necesitaba. El resultado es que nuestras prácticas quedaron moldeadas por el caso más estricto desde el principio.',
+              'Cada campo sensible va cifrado por su cuenta, con AES-256-GCM, en vez de confiar en que el disco esté cifrado por debajo. La diferencia importa en la práctica. El cifrado de disco te protege si alguien se lleva el hardware, mientras que el cifrado por campo protege el dato de quien toca la base de datos sin pasar por la aplicación, que es el caso de una copia robada o de quien la administra. La aplicación tiene la clave, así que quien la opera sí ve el dato. Por eso los permisos y los registros importan tanto como el cifrado. <strong>Y el borrado está diseñado alrededor de lo que la ley exige, no alrededor del instinto</strong>, Wazzy retiene lo que la ley obliga a retener, ni más ni menos. Ese plazo no lo fijamos nosotros. Lo fija la clínica, que es la responsable del tratamiento, con la ley de autonomía del paciente delante, la 41/2002, que marca un mínimo de cinco años para la historia clínica y más en algunas comunidades. Una cita en un chat no es la historia clínica, que vive en el sistema de la clínica, pero la lógica es la misma. Una petición de supresión tiene que honrar al paciente sin romper por lo bajo una obligación legal de conservación, así que el sistema separa lo que se borra ahora de lo que se retiene por obligación y puede enseñar cuál es cuál.',
               'Todo eso lo construimos porque no había alternativa. Es la razón de que esta página pueda hablar desde la experiencia y no desde una lista de comprobación. Es el listón que hereda el resto de nuestro trabajo con clientes.',
             ],
           },
@@ -2428,7 +2428,7 @@ export const content: Record<Lang, SiteContent> = {
             id: 'registros',
             part: 'Cómo se ve en la práctica',
             paragraphs: [
-              '<strong>Se registra la decisión, no solo el resultado.</strong> Cada paso con significado queda escrito, qué entendió el asistente, qué pidió, qué rechazó el validador y por qué. El registro es de solo añadir, es decir que se pueden sumar entradas pero nunca editarlas ni borrarlas. El sistema no lo lee de vuelta durante la ejecución, así que no puede influir en una respuesta ni siquiera en principio. Existe para una cosa, para que alguien con una pregunta lo revise después. Ese alguien puede ser tu DPD, un auditor o la AEPD. Lo que reciben es el registro de lo que pasó, no una reconstrucción de memoria.',
+              '<strong>Se registra la decisión, no solo el resultado.</strong> Cada paso con significado queda escrito, qué entendió el asistente, qué pidió, qué rechazó el validador y por qué. El registro es de solo añadir, es decir que se pueden sumar entradas pero nunca editarlas ni borrarlas. El sistema no lo lee de vuelta durante la ejecución, así que no puede influir en una respuesta ni siquiera en principio. Existe para una cosa, para que alguien con una pregunta lo revise después. Que nadie lo edite no significa que sea eterno. Contiene datos personales, así que tiene su plazo de conservación y una petición de supresión puede alcanzarlo, lo que se resuelve con caducidad y seudonimización en vez de con la tecla de borrar. Ese alguien puede ser tu DPD, un auditor o la AEPD. Lo que reciben es el registro de lo que pasó, no una reconstrucción de memoria.',
               'La telemetría, las mediciones técnicas que el sistema publica sobre su propio estado, funciona al revés. Corre sobre una lista blanca, así que los campos que lleva se deciden de antemano y quedan escritos, en vez de dejarse a lo que el código mande. Cuando una autoridad pregunte qué recoge tu vigilancia, la respuesta es una lista corta y cerrada, no una investigación.',
               'Hasta la caducidad está diseñada para verse. Los testigos de acceso, las credenciales temporales que demuestran quién pregunta, mueren en torno a la hora. Reejecutar una petición vieja con un testigo muerto produce un error 401 claro en vez de tomar prestadas credenciales más frescas en silencio. Preferimos que un sistema falle de forma ruidosa y honesta a que acierte de una manera que nadie puede explicar. Un error nuevo y visible es mejor postura que un silencio cómodo.',
             ],
@@ -2443,7 +2443,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             bullets: [
               'Un mapa del flujo de datos: qué entra al sistema, dónde se guarda, qué llamadas salen de la cuenta y qué viaja dentro de ellas.',
-              'La lista de proveedores por debajo del sistema, empezando por el proveedor de modelo que aprobaste, con los contratos que gobiernan cada uno.',
+              'La lista de proveedores por debajo del sistema, con los contratos que gobiernan cada uno: el proveedor de modelo que aprobaste, el canal de mensajería si el asistente vive en uno y nosotros mismos, que también somos encargados.',
               'Conservación y borrado, tal como están configurados: qué se guarda, cuánto tiempo, qué toca una petición de supresión y qué no puede tocar por ley.',
               'El diseño del aislamiento por escrito, desde las cuatro capas que lo imponen hasta qué puede y qué no puede ver el modelo.',
               'Los registros en sí: el registro de decisiones, la telemetría de lista blanca y cómo se consultan los dos cuando alguien pregunta.',
@@ -2475,7 +2475,7 @@ export const content: Record<Lang, SiteContent> = {
               'Qué hace el sistema cuando una lista de permisos llega vacía, abrir la puerta o cerrarla.',
               'Enséñame el registro de decisiones de una interacción real y dime quién puede editarlo. La respuesta correcta a la segunda mitad es nadie.',
               'Qué puede recibir físicamente vuestra telemetría, una lista cerrada o lo que el código mande.',
-              'Qué frena una publicación y qué vigila el sistema vivo entre publicaciones. Dos respuestas distintas. Es una sola disfrazada de dos.',
+              'Qué frena una publicación y qué vigila el sistema vivo entre publicaciones. Tienen que ser dos mecanismos distintos. Si te dan uno solo con dos nombres, no lo son. Es una sola disfrazada de dos.',
               'Quién es el dueño del repositorio, hoy, no al final de un plan de pagos.',
             ],
           },
@@ -2510,11 +2510,11 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Necesitamos una evaluación de impacto para un asistente de IA?',
-            a: 'Bastantes veces sí. Siempre cuando el tratamiento es a gran escala o toca categorías especiales como los datos de salud. La decisión es de tu DPD, no nuestra. Lo que cambiamos es lo que cuesta tomarla. La mitad técnica de una evaluación de impacto es una descripción de flujos de datos, riesgos y salvaguardas. Nuestros sistemas producen esa descripción a partir de lo que hay construido de verdad, no de entrevistas y suposiciones.',
+            a: 'Bastantes veces sí, aunque el criterio no es el que suele citarse. La AEPD publica una lista de criterios y la evaluación es exigible cuando el tratamiento reúne dos o más. Un asistente de IA con datos de salud reúne al menos dos, categoría especial y tecnología nueva, así que en ese caso la respuesta es que sí. La decisión es de tu DPD, no nuestra. Lo que cambiamos es lo que cuesta tomarla. La mitad técnica de una evaluación de impacto es una descripción de flujos de datos, riesgos y salvaguardas. Nuestros sistemas producen esa descripción a partir de lo que hay construido de verdad, no de entrevistas y suposiciones.',
           },
           {
             q: '¿Qué nos cambia en la práctica el reglamento europeo de IA?',
-            a: 'Para la mayoría de las empresas que despliegan, cambia lo que tienes que ser capaz de demostrar: los registros que el sistema guardó sobre sí mismo, una supervisión humana que funcione de verdad y saber qué datos entraron. Si tu uso concreto es de alto riesgo es una clasificación jurídica y nos mantenemos fuera de ella. La consecuencia de ingeniería es más simple, los sistemas que registran sus decisiones desde el primer día salen baratos de defender y los que no, caros de adaptar. Los nuestros registran desde el primer día.',
+            a: 'Menos de lo que la gente cree a corto plazo y más de lo que cree a medio. Lo que ya te aplica hoy son dos cosas. La alfabetización en IA del artículo 4, obligatoria desde febrero de 2025 para toda empresa que use estos sistemas, que significa que quien los opera tenga formación proporcional a su papel. Y la transparencia del artículo 50 desde agosto de 2026. Lo que se aplazó a diciembre de 2027 es lo pesado, los registros, la supervisión humana formal y la trazabilidad de datos que exige el artículo 26 al desplegador de un sistema de alto riesgo. Si tu uso concreto es de alto riesgo es una clasificación jurídica y nos mantenemos fuera de ella. La consecuencia de ingeniería es más simple, los sistemas que registran sus decisiones desde el primer día salen baratos de defender y los que no, caros de adaptar. Los nuestros registran desde el primer día.',
           },
           {
             q: '¿Qué pasa cuando alguien le pide al asistente datos que no debería ver?',
@@ -2522,7 +2522,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Con qué proveedores de modelo trabajáis?',
-            a: 'Con más de uno. La elección la apruebas tú. Nuestros sistemas en producción corren sobre más de un proveedor, Gemini entre ellos, porque distintos proyectos justificaron distintas decisiones. No somos revendedores de nadie, así que la recomendación sigue al caso de uso, al contrato que se ofrece y a por dónde pueden viajar los datos, en ese orden.',
+            a: 'Con más de uno. La elección la apruebas tú. Nuestros sistemas en producción corren sobre más de un proveedor, Google entre ellos con su modelo Gemini, porque distintos proyectos justificaron distintas decisiones. No somos revendedores de nadie, así que la recomendación sigue al caso de uso, al contrato que se ofrece y a por dónde pueden viajar los datos, en ese orden.',
           },
           {
             q: 'Nuestra gente ya pega cosas en chatbots. ¿Montar un asistente oficial lo empeora?',
@@ -2530,12 +2530,12 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿De quién es el código?',
-            a: 'Tuyo, desde el primer día. Repositorios, documentación y arquitectura son tuyos, en una cuenta en la nube a tu nombre. No hay caja negra ni dependencia forzada. Si dejamos de trabajar juntos el sistema ni se entera.',
+            a: 'Tuyo, desde el primer día. Repositorios, documentación y arquitectura son tuyos, en una cuenta en la nube a tu nombre. No hay caja negra ni dependencia forzada. Si dejamos de trabajar juntos el sistema sigue funcionando, lo que cambia es quién lo opera, quién pasa la batería antes de cada cambio y quién atiende las alarmas.',
           },
         ],
         cta: {
           heading: '¿Tus datos tienen que quedarse donde están?',
-          body: 'Cuéntanos tu reto y te respondemos en menos de 24 horas laborables. Si no le vemos retorno, te lo diremos.',
+          body: 'Cuéntanos tu reto y te respondemos en un día laborable. Si no le vemos retorno, te lo diremos.',
           button: 'Cuéntanos tu reto',
         },
       },
@@ -2963,7 +2963,7 @@ export const content: Record<Lang, SiteContent> = {
     contact: {
       eyebrow: 'Contact',
       heading: 'Tell us your challenge.',
-      subhead: 'We reply within 24 business hours. No forty-slide sales deck.',
+      subhead: 'We reply within one business day. No forty-slide sales deck.',
       name: 'Name',
       email: 'Email',
       company: 'Company',
@@ -3068,7 +3068,7 @@ export const content: Record<Lang, SiteContent> = {
     start: {
       metaTitle: 'Start the exploration, Ideasforge',
       metaDescription:
-        'Tell us which process you want to solve and we reply within 24 business hours with a first read of your case.',
+        'Tell us which process you want to solve and we reply within one business day with a first read of your case.',
       eyebrow: 'Step 1 · Explore',
       title: 'Let’s start with your case',
       subtitle:
@@ -3076,7 +3076,7 @@ export const content: Record<Lang, SiteContent> = {
       getHeading: 'What you get',
       get: [
         'A confirmation email as soon as you send it, with a copy of what you told us.',
-        'A reply within 24 business hours, written by a person who has read your case.',
+        'A reply within one business day, written by a person who has read your case.',
         'A first read of where we think AI helps in what you describe, and where it does not.',
       ],
       notHeading: 'What you do not get',
@@ -3723,7 +3723,7 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Does an AI agent fit your company?',
-          body: 'Tell us your challenge and we reply within 24 business hours. If we don’t see a return, we’ll tell you.',
+          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
           button: 'Tell us your challenge',
         },
       },
@@ -4317,7 +4317,7 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'A conversational agent for your business?',
-          body: 'Tell us your challenge and we reply within 24 business hours. If we don’t see a return, we’ll tell you.',
+          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
           button: 'Tell us your challenge',
         },
       },
@@ -4396,7 +4396,7 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Want a number for your case?',
-          body: 'Tell us your challenge and we reply within 24 business hours. If we don’t see a return, we’ll tell you.',
+          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
           button: 'Tell us your challenge',
         },
       },
@@ -4650,7 +4650,7 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Does your data have to stay where it is?',
-          body: 'Tell us your challenge and we reply within 24 business hours. If we don’t see a return, we’ll tell you.',
+          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
           button: 'Tell us your challenge',
         },
       },
@@ -4934,7 +4934,7 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Deploying AI under these rules?',
-          body: 'Tell us your challenge and we reply within 24 business hours. If we don’t see a return, we’ll tell you.',
+          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
           button: 'Tell us your challenge',
         },
       },
