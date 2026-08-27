@@ -3464,7 +3464,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Custom AI agent development',
           title: 'Enterprise AI agents, built to reach production and stay there.',
           subtitle:
-            'We design, build and maintain custom AI agents for mid-size and large companies. On your infrastructure, with your organization’s accounts, and measured before every change.',
+            'We design, build and maintain custom AI agents for mid-size and large companies. On your infrastructure, with each person’s own permissions, and measured before every change.',
           cta: 'Tell us your challenge',
         },
         sections: [
@@ -3472,8 +3472,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What we build',
             part: 'The service',
             paragraphs: [
-              'Custom AI agents that do real work: they answer questions against your documentation and databases, run guided diagnostics, qualify requests and execute actions on the systems you approve. Each agent is built for one concrete task and connects only to the tools that task needs. When one agent is not enough, we build the architecture that coordinates several. An orchestrator understands each query and routes it to the specialist. One of our production systems runs this way, with half a dozen specialized agents behind the orchestrator.',
-              'These are the briefs we get most often, each with the gain it chases.',
+              'Custom AI agents that do real work: they answer questions against your documentation and databases, run guided diagnostics, qualify requests and execute actions on the systems you approve. <strong>Each agent is built for one concrete task and connects only to the tools that task needs.</strong> When one agent is not enough, we build the architecture that coordinates several. An orchestrator understands each query and routes it to the specialist. One of our production systems runs this way, with half a dozen specialized agents behind the orchestrator.',
+              'These are some of the briefs we get most often, each with the gain it chases.',
             ],
             kind: 'lattice',
             bullets: [
@@ -3486,35 +3486,28 @@ export const content: Record<Lang, SiteContent> = {
             link: { label: 'If you are still placing the concept, start with the AI agents guide', href: '/en/ai-agents' },
           },
           {
-            heading: 'Systems that produce the outcome, not tools that help',
-            part: 'The service',
-            paragraphs: [
-              'There are two ways to bring AI into a company, and they are not bought the same way. The first is giving tools to people, a chat where someone pastes a document and asks for the summary. There the person still produces the outcome and reviews every output before using it. The second is a system that produces the outcome on its own, an invoice registered, a request qualified, a figure delivered. Nobody reviews each output one by one, so someone has to be able to answer for the system as a whole.',
-              'Any ordinary case shows the difference. Pasting a contract into a chat and reading the summary before forwarding it is the first kind. Three hundred invoices a month landing in your accounts with nobody pressing approve is the second.',
-              'We build the second kind. That difference explains everything else on this page, because a system that signs outcomes is held to standards nobody asks of a helper tool: tests before every change, a record of every decision and measured maintenance. Buying an agent is not buying a license, it is buying a system operated with discipline.',
-            ],
-          },
-          {
             heading: 'What never used to be worth automating',
             part: 'The service',
+            entradasDiagram: true,
             paragraphs: [
-              'Processes with clear rules have been automated for decades. What stayed out of reach was everything that arrives badly formed. One client sends the order as a PDF, another writes it in the body of an email and a third asks for “the same as last month, but for the new warehouse”. Automating that took either a person keying data in or a rules project that broke with the first supplier who wrote differently.',
-              'A language model changes that math, because the expensive part is no longer reading the messy input. Our agents live exactly there. The model understands the order however it was written and the rest of the system treats it with the same discipline as any ordinary software. That is why the briefs above share a shape, in the middle of each one there is something to read or interpret, and all around it there is code that behaves the same way every time.',
+              'Processes with clear rules have been automated for decades. What stayed out of reach was everything arriving with no fixed format, say one client sends the order as a PDF, another writes it in the body of an email and a third asks for “the same as last month, but for the new warehouse”. Automating that took either a person keying data in or a rules project that broke with the first supplier who wrote differently.',
+              '<strong>A language model changed the rules of the game, because the expensive part is no longer reading input that arrives messy or unstructured.</strong> The model understands the order however it was written and the rest of the system treats it with the same discipline as any ordinary software. That is why the briefs above share a shape, in the middle of each one there is something to read or interpret, and all around it there is code that behaves the same way every time.',
             ],
           },
           {
             heading: 'Autonomy is earned in stages',
             part: 'The service',
             paragraphs: [
-              'Nobody plugs in a system that acts alone on their accounts on day one. An agent starts by proposing, with a person reviewing every output and sending it. Once the test suite and a few weeks of use show where it gets things right, the lower-risk actions get released to it. An agent that replies to suppliers spends its first weeks writing drafts while the team decides what goes out. Later it sends the acknowledgements on its own, while a complaint or a price negotiation still goes through a person.',
-              'There is one rule we never break. We do not widen what the agent touches and what it decides alone at the same time. If we open a new system to it, it goes back to needing approval, even after months operating without it on the previous one.',
+              'No agent of ours starts out acting on its own. On day one it only proposes, and a person reviews every output before it goes anywhere. Once the test suite and a few weeks of use show where it gets things right, the lower-risk actions get released to it first.',
+              'An example makes it clearer. An agent that replies to suppliers starts by writing drafts the team approves. Weeks later it sends the acknowledgements itself, while a complaint or a price negotiation still goes through a person.',
+              'And there is one rule we never break. <strong>We never widen what the agent touches and what it decides on its own at the same time.</strong> If we give it access to a new system, in that system it goes back to review mode, even after months working alone on the others.',
             ],
           },
           {
             heading: 'Security is the starting point',
             part: 'The guarantees',
             paragraphs: [
-              'The model decides, but it is never the authority. It picks from a closed set of actions that the code reviews before anything runs. A workshop’s agent can look up a vehicle’s history, propose an appointment and send a quote. Deleting it cannot do, because that action does not exist in its list and asking for it in writing does not create it. That is why the limit does not live in an instruction the model can ignore, and there sits the whole difference between a guarantee and a polite request.',
+              '<strong>The model chooses, but it does not decide.</strong> It picks from a closed set of actions, and it is the code that reviews that choice before anything runs. A workshop’s agent can look up a vehicle’s history, propose an appointment and send a quote. Deleting it cannot do, because that action does not exist in its list and asking for it in writing does not create it. That is why the limit does not live in an instruction the model can ignore, and there sits the whole difference between a guarantee and a polite request.',
               'Agents act with the permissions of the person using them, through your organization’s accounts. If you revoke someone’s access, the agent loses it too.',
               'The division of labor is the house rule: judgment lives in the code, interpretation lives in the model and knowledge lives in your data. Everything ordinary code can solve, ordinary code solves, because every model call in production adds cost, waiting time and a variability someone has to watch. Working out a due date or applying a tax rate is code, and it comes out the same a thousand times. Understanding that “the one from the other day for the new warehouse” means order 4512 with a different delivery address, that is the model. What comes out of the split is systems that are cheaper to run and easier to audit, not less capable.',
               'And when data from several companies or several departments lives side by side, isolation is not requested in the instructions. It is built in layers that end in a filter the model cannot touch, and the agent only ever receives the context of the person asking, so it cannot even phrase a query about anyone else’s data. It is what an accounting firm already demands of its own team, that each manager sees their clients and no others, applied to a piece of software that also improvises.',
@@ -3525,14 +3518,14 @@ export const content: Record<Lang, SiteContent> = {
             part: 'The guarantees',
             diagram: true,
             paragraphs: [
-              'The model never gets to touch your systems. It interprets the question and hands over a contract. From there the code decides, and code does behave the same way every time. The worst a malicious message can achieve is a bad pick from a list we already reviewed.',
+              '<strong>The model never gets to touch your systems.</strong> It interprets the question and hands over a contract. From there the code decides, and code does behave the same way every time. The worst a malicious message can achieve is a bad pick from a list we already reviewed.',
             ],
           },
           {
             heading: 'How an agent earns its place in production',
             part: 'The guarantees',
             paragraphs: [
-              'A demo takes days. Production takes discipline. Every agent ships with a test suite, a set of real cases with their correct answers annotated, which runs in full before every change. Inside it there are deliberately awkward cases, the invoice that arrives with no order number, the question with two possible readings, the message full of typos written from a phone, each with the correct output written beside it. If quality drops, the change never ships. In one of our agents that suite is 118 real cases, and with it we calibrated routing from 72% to 91% accuracy.',
+              'A demo takes days. Production takes discipline. Every agent ships with a test suite, a set of real cases with their correct answers annotated, which runs in full before every change. Inside it there are deliberately awkward cases, the invoice that arrives with no order number, the question with two possible readings, the message full of typos written from a phone, each with the correct output written beside it. <strong>If quality drops, the change never ships.</strong> In one of our agents that suite is 118 real cases, and with it we calibrated routing from 72% to 91% accuracy.',
               'Every answer is recorded with its context: what the agent consulted, what it decided and what it cost. When a complaint arrives, we reconstruct exactly what happened. And what runs in production gets reviewed weekly, because a system with a model inside can get worse without a single error showing up in any log.',
             ],
           },
@@ -3540,7 +3533,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'The trust perimeter',
             part: 'The guarantees',
             paragraphs: [
-              'The suite does more than watch quality. It draws the map of what the agent has actually proven, and we call that map the trust perimeter. Inside the perimeter, the agent acts alone. Outside it, it sets the case aside and hands it to a person, because trust is not declared in a meeting, it is bounded with proven cases. An agent that has spent months processing domestic orders receives its first one with customs in the middle. The honest move is not improvising an answer, it is recognising that this ground has not been proven and passing it to someone who knows, until it enters the suite with cases of its own.',
+              'The suite does more than watch quality. It draws the map of what the agent has actually proven, and we call that map the trust perimeter. <strong>Inside the perimeter, the agent acts alone. Outside it, it sets the case aside and hands it to a person.</strong> That map does not come out of a meeting, it comes out of the cases the agent has already passed. An agent that has spent months processing domestic orders receives its first one with customs in the middle. The honest move is not improvising an answer, it is recognising that this ground has not been proven and passing it to someone who knows, until it enters the suite with cases of its own.',
               'This asks us to build something people get for free. A new employee is taught to ask when unsure. A model has to have the doubt built into it, because on its own it does not raise a hand, it fills the gap with something that sounds right. If a request is missing the tax ID, the agent registers nothing and asks for it. That stop is not the model’s decision, the code imposes it.',
             ],
           },
@@ -3548,16 +3541,15 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'How much supervision it needs',
             part: 'The guarantees',
             paragraphs: [
-              'A system that signs outcomes needs an owner who can answer for it. That sets a ceiling. Nobody genuinely answers for forty agents at once, however many dashboards they watch. For a few, yes, with the weekly review and an exception queue that does not overflow. The idea of running dozens of agents at once sells well, and we would rather tell you what watching them costs before you buy them.',
-              'The math works because supervision changes in nature. The person who today reads every request in full moves to reviewing the queue of doubts, where each case arrives with the data already extracted and the reason for the doubt flagged. They decide at a glance what used to take a while. What the agent cannot resolve alone does not vanish, it gets handed over. Before anything starts, we agree which cases escalate, which queue they land in and who attends them.',
+              'An agent in production needs someone inside who answers for it. That job takes up less than it sounds, because supervision changes in nature. The person who today reads every request in full moves to reviewing the queue of doubts, where each case arrives with the data already extracted and the reason for the doubt flagged. They decide at a glance what used to take a while. <strong>What the agent cannot resolve alone does not vanish, it gets handed over.</strong> Before anything starts, we agree which cases escalate, which queue they land in and who attends them.',
             ],
           },
           {
             heading: 'Proof in production',
             part: 'The guarantees',
             paragraphs: [
-              'For Savian we built an agent that understands a business question written in WhatsApp, translates it into a safe query against the database and returns the figure, with a chart when it helps. People who used to open a ticket for analytics and wait hours now ask and keep working.',
-              'The details show the mindset. Every figure arrives saying which period it comes from. If a source is down, the agent says so and flags what is missing from the total. And an internal auditor makes answering numbers from memory impossible, each one comes from a query run at that moment against the database. Automatic alerts of the “tell me when this happens” kind are in progress.',
+              'For Savian we built an agent that understands a business question written in WhatsApp, translates it into a safe query against the database and returns the figure. People who used to open a ticket for analytics and wait hours now ask and keep working. So do the ones who used to go into a dashboard and filter by hand.',
+              'What you notice using it daily is the details. Every figure arrives saying which period it comes from. If a source is down, the agent says so and flags what is missing from the total. And an internal auditor makes answering numbers from memory impossible, each one comes from a query run at that moment against the database. Automatic alerts of the “tell me when this happens” kind are in progress.',
             ],
             link: { label: 'Assistant on your internal documentation', href: '/en/services/corporate-knowledge' },
           },
@@ -3565,7 +3557,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'We start from the problem, not the model',
             part: 'Deciding with judgment',
             paragraphs: [
-              'We do not look for ways to use AI in your company. We look for the problems already costing you money and evaluate whether an agent solves them with a gain you can demonstrate. It sounds the same and it is the opposite. The first search produces toys that demo well and get abandoned soon. The second produces systems a manager defends in front of the board with numbers.',
+              '<strong>We do not look for ways to use AI in your company. We look for the problems already costing you money</strong> and evaluate whether an agent solves them with a gain you can demonstrate. It sounds the same and it is the opposite. The first search produces toys that demo well and get abandoned soon. The second produces systems a manager defends in front of the board with numbers.',
               'The first phase happens with the people who suffer the process, not only with the people who buy the technology. We map the process step by step with its actors, its systems and its timings. Then we separate the problems that hurt today, the ones already costing hours or customers, from the bottlenecks that will hold only until volume grows. Each candidate gets translated into its expected gain against a measured baseline, what it costs today in hours, errors or waiting. A baseline is something as ordinary as this, four people spend the first hour of the day sorting the inbox and two orders a week go missing.',
               'Most of that list gets discarded. With what survives we do not start a big rollout but a bounded pilot: one slice of the problem, a small group of users and a metric agreed in advance. Narrow and deep before wide and shallow, because a cheap pilot that fails is information and an expensive rollout that fails is a hole. The bet is deliberately lopsided. The maximum loss is written down before anything starts and it is the cost of the pilot. What can be won stays open.',
             ],
@@ -3574,15 +3566,15 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What we bring and what you bring',
             part: 'Deciding with judgment',
             paragraphs: [
-              'Technology is no longer the bottleneck, and we say that having built the technology. Projects fall over on the organizational side, when nobody has time to review the pilot or access to the data drags on forever. So we ask for three things before starting: a named owner who decides and answers, real hours from their team to review the pilot cases, and access to the data the agent needs. In practice it is the head of administration spending a while each day of the first week marking which answers hold and which do not. Without that person there is no suite to calibrate and nobody to sign off the result.',
-              'And there is a part that cannot be bought, only earned. Whoever does the task by hand today will be the one watching the agent tomorrow. If they join the project last, they will experience it as a threat and will find reasons why it does not work. It is the silliest way for a good system to die and it costs nothing to avoid. The process mapping happens with those people in the room from day one, and with a new role on the table for them, owners of the exception queue rather than data typists.',
+              '<strong>Technology is no longer the bottleneck, and we say that having built the technology.</strong> Projects fall over on the organizational side, when nobody has time to review the pilot or access to the data drags on forever. So we ask for three things before starting: a named owner who decides and answers, real hours from their team to review the pilot cases, and access to the data the agent needs. Without those hours there is no suite to calibrate and nobody who can call the result good.',
+              'And there is a part that cannot be bought, only earned. Whoever does the task by hand today will be the one watching the agent tomorrow. If they join the project last, they will experience it as a threat and will find reasons why it does not work. It is the silliest way for a good system to die and it costs nothing to avoid. The process mapping happens with those people in the room from day one, and with a new role on the table for them. They stop keying data in and start deciding on the cases the agent sets aside.',
             ],
           },
           {
             heading: 'When an agent is not worth it',
             part: 'Deciding with judgment',
             paragraphs: [
-              'Telling you is part of the service. If the rules of your process are clear and stable, traditional software solves it cheaper, faster and without the supervision a model demands. An agent pays off when somewhere in the middle something has to be read, interpreted or judged on inputs that keep changing, an email written any which way, a crooked scanned document, a question with three possible readings.',
+              '<strong>Telling you is part of the service.</strong> If the rules of your process are clear and stable, traditional software solves it cheaper, faster and without the supervision a model demands. An agent pays off when somewhere in the middle something has to be read, interpreted or judged on inputs that keep changing, an email written any which way, a crooked scanned document, a question with three possible readings.',
               'Two quick tests expose it. If the process can be written as a checklist, the file arrives, it gets loaded, it gets confirmed, always in the same format, then rules are what you need and the model is surplus. And if you have spent months stacking conditions for each new way people write an address, the problem is no longer about rules, it is about reading. That is where an agent’s ground begins.',
               'It is also not worth it when nobody can point at the gain, or when the data the agent needs does not exist, or when the team that should use it does not want to. In those cases the honest move is to start by fixing the data or the process, not by building the agent. The market is paying dearly for that lesson. Gartner reckons that by the end of 2027 more than 40% of agentic AI projects will have been canceled. Our way of staying out of that figure is discarding early, with numbers.',
             ],
@@ -3591,7 +3583,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What you take home on the last day',
             part: 'Deciding with judgment',
             paragraphs: [
-              'The repository is under your name from day one: code, documentation, operations manuals, the model’s instructions and the test suites. So is the infrastructure, set up in a cloud under your company’s name. We have systems running on more than one model provider. Switching yours is possible and it happens with the test suite in front of us, because different models behave differently and the honest thing is to measure the change rather than promise it goes unnoticed.',
+              '<strong>The repository is under your name from day one</strong>: code, documentation, operations manuals, the model’s instructions and the test suites. So is the infrastructure, set up in a cloud under your company’s name. We have systems running on more than one model provider. Switching yours is possible and it happens with the test suite in front of us, because different models behave differently and the honest thing is to measure the change rather than promise it goes unnoticed.',
               'With the system we hand over the incident catalog, written so each failure can be recognized from the outside before anyone knows its cause. If you decide to operate it yourself, we train your team. The day you choose to walk away from us, you already have everything.',
             ],
           },
@@ -3599,7 +3591,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What it costs',
             part: 'Deciding with judgment',
             paragraphs: [
-              'A custom agent runs between €2,500 and €10,000 to build, depending on integrations and validation requirements, plus €150 to €500 a month to operate, which covers the model calls, the infrastructure and the monitoring. The monthly fee is agreed before anything starts and consumption is watched with caps, it is not an open meter you discover at the end of the month. Systems with an orchestrator and several agents are quoted per project. The full breakdown, what makes the build more expensive and where the monthly fee goes, is in the cost guide.',
+              'A custom agent runs between €2,500 and €10,000 to build, depending on integrations and validation requirements, plus €150 to €500 a month to operate, which covers the model calls, the infrastructure and the monitoring. <strong>The monthly fee is agreed before anything starts and consumption is watched with caps, it is not an open meter you discover at the end of the month.</strong> Systems with an orchestrator and several agents are quoted per project. The full breakdown, what makes the build more expensive and where the monthly fee goes, is in the cost guide.',
             ],
             link: { label: 'AI agent development cost, broken down', href: '/en/ai-agent-development-cost' },
           },
