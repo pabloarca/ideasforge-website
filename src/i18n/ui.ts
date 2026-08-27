@@ -327,6 +327,13 @@ export interface SiteContent {
     >;
     legend: string;
   };
+  /** Diagrama de las entradas con formato fijo frente a las que no lo tienen. */
+  entradasDiagram: {
+    title: string;
+    izq: { name: string; items: string[]; foot: string };
+    der: { name: string; items: string[]; foot: string };
+    legend: string;
+  };
   /** Diagrama del examen previo a publicar, en el modal de observabilidad. */
   gateDiagram: GateDiagramContent;
   footer: {
@@ -422,6 +429,8 @@ export interface LongFormSection {
   chatDiagram?: boolean;
   /** Renders the five-shapes comparison diagram after the paragraphs. */
   formasDiagram?: boolean;
+  /** Renders the fixed-format vs no-format comparison after the paragraphs. */
+  entradasDiagram?: boolean;
   /** Cómo se dibuja. Por defecto `prose`. */
   kind?: LongFormKind;
   /** Nombre de la parte a la que pertenece. Cuando cambia respecto a la
@@ -941,6 +950,29 @@ export const content: Record<Lang, SiteContent> = {
       },
       legend:
         'Cada banda es el recorrido de una petición, desde que entra hasta que se resuelve. Lo azul es lo que decide el modelo en ese momento. Lo gris es código corriente, que hace siempre lo mismo y se puede comprobar entero antes de publicarlo. Cuanto más azul hay, más decide el sistema por su cuenta y más trabajo cuesta probarlo y vigilarlo. No es un ranking. Las dos primeras formas no llevan agente y la cuarta, pese a llevarlo, decide menos que la tercera.',
+    },
+    entradasDiagram: {
+      title: 'El mismo pedido, en dos formatos',
+      izq: {
+        name: 'Con formato fijo',
+        items: [
+          'Un formulario con sus campos',
+          'Un fichero con columnas siempre iguales',
+          'Un pedido que llega por integración',
+        ],
+        foot: 'Reglas y código. Automatizado desde hace décadas.',
+      },
+      der: {
+        name: 'Sin formato fijo',
+        items: [
+          'El mismo pedido dentro de un PDF',
+          'El mismo pedido escrito en un correo',
+          '«Lo del mes pasado, al almacén nuevo»',
+        ],
+        foot: 'Antes, una persona tecleando. Ahora, un modelo que lee y código que ejecuta.',
+      },
+      legend:
+        'Las tres filas son el mismo encargo escrito de dos maneras. Lo de la izquierda lleva décadas automatizado porque siempre llega igual. Lo de la derecha es lo que obligaba a poner a alguien a teclear. Ese es justo el hueco donde vive un agente. Fíjate en que lo que cambia no es la dificultad del trabajo, es la forma en que entra.',
     },
     gateDiagram: {
       title: 'Qué le pasa a un cambio antes de salir',
@@ -1595,7 +1627,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Desarrollo de agentes de IA a medida',
           title: 'Agentes de IA para empresas, construidos para llegar a producción y quedarse.',
           subtitle:
-            'Diseñamos, construimos y mantenemos agentes de IA a medida para medianas y grandes empresas. Sobre tu infraestructura, con las cuentas de tu organización y medidos antes de cada cambio.',
+            'Diseñamos, construimos y mantenemos agentes de IA a medida para medianas y grandes empresas. Sobre tu infraestructura, con los permisos de cada persona y medidos antes de cada cambio.',
           cta: 'Cuéntanos tu reto',
         },
         sections: [
@@ -1604,7 +1636,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'El servicio',
             paragraphs: [
               'Agentes de IA a medida que hacen trabajo real: responden preguntas sobre tu documentación y tus bases de datos, guían diagnósticos, cualifican solicitudes y ejecutan acciones sobre los sistemas que apruebes. Cada agente se construye para una tarea concreta y se conecta solo a las herramientas que esa tarea necesita. Cuando un agente no basta, construimos la arquitectura que coordina varios. Un orquestador entiende cada consulta y la dirige al especialista. Uno de nuestros sistemas en producción funciona así, con media docena de agentes especializados detrás.',
-              'Estos son los encargos que más se repiten, con la ganancia que persigue cada uno.',
+              'Estos son algunos de los encargos que más se repiten, con la ganancia que persigue cada uno.',
             ],
             kind: 'lattice',
             bullets: [
@@ -1617,35 +1649,28 @@ export const content: Record<Lang, SiteContent> = {
             link: { label: 'Si estás situando el concepto, empieza por la guía de agentes de IA', href: '/agentes-de-ia' },
           },
           {
-            heading: 'Sistemas que producen el resultado, no herramientas que ayudan',
-            part: 'El servicio',
-            paragraphs: [
-              'Hay dos maneras de meter IA en una empresa y no se compran igual. La primera es dar herramientas a las personas, un chat donde pegar un documento y pedir el resumen. Ahí el resultado lo sigue produciendo la persona, que revisa cada salida antes de usarla. La segunda es un sistema que produce el resultado él solo, una factura registrada, una solicitud cualificada, una cifra entregada. Nadie revisa cada salida una a una, así que alguien tiene que poder responder por el sistema entero.',
-              'La diferencia se ve con un caso cualquiera. Pegar un contrato en un chat y leer el resumen antes de reenviarlo es lo primero. Trescientas facturas al mes entrando en tu contabilidad sin que nadie pulse aprobar es lo segundo.',
-              'Nosotros construimos lo segundo. Esa diferencia explica todo lo que sigue en esta página, porque a un sistema que firma resultados se le exige lo que a una herramienta de ayuda nadie le pide: pruebas antes de cada cambio, registro de cada decisión y mantenimiento medido. Quien compra un agente no compra una licencia, compra un sistema operado con disciplina.',
-            ],
-          },
-          {
             heading: 'Lo que antes no salía a cuenta automatizar',
             part: 'El servicio',
+            entradasDiagram: true,
             paragraphs: [
-              'Los procesos con reglas claras se automatizan desde hace décadas. Lo que se quedaba fuera era todo lo que llega mal formado. Un cliente manda el pedido en PDF, otro lo escribe en el cuerpo del correo y un tercero pide «lo del mes pasado, pero para el almacén nuevo». Automatizar eso exigía o una persona picando datos o un proyecto de reglas que se rompía con el primer proveedor que escribía distinto.',
-              'Un modelo de lenguaje cambia esa cuenta, porque la parte cara ya no es leer la entrada sucia. Nuestros agentes viven justo ahí. El modelo entiende el pedido escrito de cualquier manera y el resto del sistema lo trata con la misma disciplina que un desarrollo de siempre. Por eso los encargos de arriba comparten forma, en medio de cada uno hay algo que leer o interpretar y alrededor hay código que se comporta igual todas las veces.',
+              'Los procesos con reglas claras se automatizan desde hace décadas. Lo que se quedaba fuera era todo lo que llegaba sin un formato fijo, por ejemplo un cliente manda el pedido en PDF, otro lo escribe en el cuerpo del correo y un tercero pide «lo del mes pasado, pero para el almacén nuevo». Automatizar eso exigía o una persona picando datos o un proyecto de reglas que se rompía con el primer proveedor que escribía distinto.',
+              'Un modelo de lenguaje cambió todas las reglas del juego, porque la parte cara ya no es leer la entrada sucia o desestructurada. El modelo entiende el pedido escrito de cualquier manera y el resto del sistema lo trata con la misma disciplina que un desarrollo de siempre. Por eso los encargos de arriba comparten forma, en medio de cada uno hay algo que leer o interpretar y alrededor hay código que se comporta igual todas las veces.',
             ],
           },
           {
             heading: 'La autonomía se gana por etapas',
             part: 'El servicio',
             paragraphs: [
-              'Nadie enchufa el primer día un sistema que actúa solo sobre sus cuentas. Un agente empieza proponiendo, con una persona que revisa cada salida y la envía. Cuando la batería de pruebas y las semanas de uso enseñan por dónde acierta, se le sueltan las acciones de menos riesgo. Un agente que responde a proveedores contesta las primeras semanas en modo borrador y el equipo decide qué sale. Más adelante envía él solo las confirmaciones de recepción, mientras una reclamación o una negociación de precios siguen pasando por una persona.',
-              'Hay una regla que no rompemos nunca. No ampliamos a la vez lo que el agente toca y lo que decide solo. Si le abrimos un sistema nuevo, vuelve a empezar con visto bueno aunque llevara meses operando sin él en el anterior.',
+              'Ningún agente nuestro empieza actuando por su cuenta. El primer día solo propone. Una persona revisa cada salida antes de que salga. Cuando la batería de pruebas y unas semanas de uso enseñan dónde acierta, se le sueltan primero las acciones de menos riesgo.',
+              'Con un ejemplo se ve mejor. Un agente que contesta a proveedores empieza escribiendo borradores que aprueba el equipo. Semanas después manda él solo los acuses de recibo, mientras una reclamación o una negociación de precio siguen pasando por una persona.',
+              'Y hay una regla que no rompemos. Nunca ampliamos a la vez lo que el agente toca y lo que decide por su cuenta. Si le damos acceso a un sistema nuevo, en ese sistema vuelve al modo de revisión, aunque lleve meses trabajando solo en los demás.',
             ],
           },
           {
             heading: 'La seguridad es el punto de partida',
             part: 'Las garantías',
             paragraphs: [
-              'El modelo decide, pero nunca es la autoridad. Elige dentro de un conjunto cerrado de acciones que el código revisa antes de ejecutar nada. El agente de un taller puede consultar el historial de un vehículo, proponer cita y enviar un presupuesto. Borrar no puede, porque esa acción no existe en su lista y pedírsela por escrito no la crea. Por eso el límite no vive en una instrucción que el modelo pueda desoír, ahí está la diferencia entera entre una garantía y una petición educada.',
+              'El modelo elige, pero no decide. Escoge dentro de un conjunto cerrado de acciones y es el código quien revisa esa elección antes de ejecutar nada. El agente de un taller puede consultar el historial de un vehículo, proponer cita y enviar un presupuesto. Borrar no puede, porque esa acción no existe en su lista y pedírsela por escrito no la crea. Por eso el límite no vive en una instrucción que el modelo pueda desoír, ahí está la diferencia entera entre una garantía y una petición educada.',
               'Los agentes actúan con los permisos de la persona que los usa, a través de las cuentas de tu organización. Si le retiras el acceso a alguien, el agente también lo pierde.',
               'El reparto de papeles es la regla de la casa: el juicio vive en el código, la interpretación vive en el modelo y el conocimiento vive en tus datos. Todo lo que pueda resolverse con código normal se resuelve con código, porque cada llamada al modelo en producción añade coste, tiempo de espera y una variabilidad que hay que vigilar. Calcular un vencimiento o aplicar un tipo de IVA es código y sale igual las mil veces. Entender que «lo del otro día para el almacén nuevo» es el pedido 4512 con otra dirección de entrega, eso es el modelo. De ahí salen sistemas más baratos de operar y más fáciles de auditar, no menos capaces.',
               'Y cuando conviven datos de varias empresas o de varias áreas, el aislamiento no se pide por instrucciones. Se construye en capas que acaban en un filtro que el modelo no puede tocar y al agente solo se le entrega el contexto de quien pregunta, para que ni siquiera pueda formular una consulta sobre datos ajenos. Es lo que una asesoría ya exige a su propio equipo, que cada gestor vea sus empresas y ninguna más, aplicado a una pieza de software que además improvisa.',
@@ -1671,7 +1696,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'El perímetro de confianza',
             part: 'Las garantías',
             paragraphs: [
-              'La batería hace algo más que vigilar la calidad. Dibuja el mapa de lo que el agente tiene demostrado y a ese mapa lo llamamos el perímetro de confianza. Dentro del perímetro, el agente actúa solo. Fuera, aparta el caso y lo entrega a una persona, porque la confianza no se declara en una reunión, se delimita con casos probados. Un agente que lleva meses tramitando pedidos nacionales recibe un día el primero con aduanas por medio. Lo honesto no es improvisar la respuesta, es reconocer que ese terreno no está probado y pasarlo a quien sepa, hasta que entre en la batería con sus propios casos.',
+              'La batería hace algo más que vigilar la calidad. Dibuja el mapa de lo que el agente tiene demostrado y a ese mapa lo llamamos el perímetro de confianza. Dentro del perímetro, el agente actúa solo. Fuera, aparta el caso y lo entrega a una persona. Ese mapa no sale de una reunión, sale de los casos que el agente ya ha superado. Un agente que lleva meses tramitando pedidos nacionales recibe un día el primero con aduanas por medio. Lo honesto no es improvisar la respuesta, es reconocer que ese terreno no está probado y pasarlo a quien sepa, hasta que entre en la batería con sus propios casos.',
               'Esto pide construir algo que a las personas les sale gratis. A un empleado nuevo se le enseña a preguntar cuando duda. A un modelo hay que construirle la duda, porque por sí solo no levanta la mano, rellena el hueco con algo que suena bien. Si a una solicitud le falta el CIF, el agente no registra nada y pide el dato. Esa parada no la decide el modelo, la impone el código.',
             ],
           },
@@ -1679,16 +1704,15 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Cuánta supervisión necesita',
             part: 'Las garantías',
             paragraphs: [
-              'Un sistema que firma resultados necesita un dueño que pueda responder por él. Eso pone un techo. Nadie responde de verdad por cuarenta agentes a la vez, por muchos paneles que mire. Por unos pocos sí, con la revisión semanal y una bandeja de excepciones que no desborde. Se vende mucho la idea de tener decenas de agentes trabajando a la vez y nosotros preferimos decirte lo que cuesta vigilarlos antes de que los compres.',
-              'La cuenta sale porque la supervisión cambia de naturaleza. La persona que hoy lee cada solicitud entera pasa a revisar la bandeja de dudas, donde cada caso llega con los datos extraídos y el motivo de la duda señalado. Decide de un vistazo lo que antes le llevaba un rato. Lo que el agente no resuelve solo no desaparece, se entrega. Antes de arrancar queda pactado qué casos escala, a qué bandeja llegan y quién los atiende.',
+              'Un agente en producción necesita a alguien dentro que responda por él. Ese trabajo ocupa menos de lo que parece, porque la supervisión cambia de naturaleza. La persona que hoy lee cada solicitud entera pasa a revisar la bandeja de dudas, donde cada caso llega con los datos extraídos y el motivo de la duda señalado. Decide de un vistazo lo que antes le llevaba un rato. Lo que el agente no resuelve solo no desaparece, se entrega. Antes de arrancar queda pactado qué casos escala, a qué bandeja llegan y quién los atiende.',
             ],
           },
           {
             heading: 'Prueba en producción',
             part: 'Las garantías',
             paragraphs: [
-              'En Savian construimos un agente que entiende una pregunta de negocio escrita en WhatsApp, la traduce a una consulta segura contra la base de datos y devuelve la cifra, con gráfica cuando ayuda. Quien antes abría una petición a analítica y esperaba horas, ahora pregunta y sigue trabajando.',
-              'Los detalles enseñan el criterio. Cada cifra llega diciendo de qué periodo sale. Si una fuente está caída, el agente lo dice y señala qué falta en el total. Y un auditor interno impide responder números de memoria, cada uno viene de una consulta hecha en el momento contra la base de datos. Las alertas automáticas del tipo «avísame cuando pase esto» están en proceso.',
+              'En Savian construimos un agente que entiende una pregunta de negocio escrita en WhatsApp, la traduce a una consulta segura contra la base de datos y devuelve la cifra. Quien antes abría una petición a analítica y esperaba horas ahora pregunta y sigue trabajando. Lo mismo quien entraba a un panel a filtrar los datos a mano.',
+              'Lo que se nota al usarlo a diario son los detalles. Cada cifra llega diciendo de qué periodo sale. Si una fuente está caída, el agente lo dice y señala qué falta en el total. Y un auditor interno impide responder números de memoria, cada uno viene de una consulta hecha en el momento contra la base de datos. Las alertas automáticas del tipo «avísame cuando pase esto» están en proceso.',
             ],
             link: { label: 'Asistente sobre tu documentación interna', href: '/servicios/conocimiento-corporativo' },
           },
@@ -1705,8 +1729,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué ponemos nosotros y qué pones tú',
             part: 'Decidir con criterio',
             paragraphs: [
-              'La tecnología ya no es el cuello de botella y lo decimos habiendo construido la tecnología. Los proyectos se caen por el lado de la organización, cuando nadie tiene tiempo de revisar el piloto o el acceso a los datos se eterniza. Por eso pedimos tres cosas antes de empezar: un responsable con nombre que decide y responde, horas reales de su equipo para revisar los casos del piloto y acceso a los datos que el agente necesita. En la práctica es la responsable de administración dedicando un rato cada día de la primera semana a marcar qué respuestas valen y cuáles no. Sin esa persona no hay batería que calibrar ni nadie que firme el resultado.',
-              'Y hay una parte que no se compra, se gana. Quien hoy hace la tarea a mano será quien vigile al agente mañana. Si entra al proyecto el último, lo vivirá como una amenaza y encontrará motivos por los que no funciona. Es la muerte más tonta de un buen sistema y se evita gratis, el mapeo del proceso se hace con esas personas dentro desde el primer día y con un papel nuevo encima de la mesa, dueñas de la bandeja de excepciones en lugar de picadoras de datos.',
+              'La tecnología ya no es el cuello de botella y lo decimos habiendo construido la tecnología. Los proyectos se caen por el lado de la organización, cuando nadie tiene tiempo de revisar el piloto o el acceso a los datos se eterniza. Por eso pedimos tres cosas antes de empezar: un responsable con nombre que decide y responde, horas reales de su equipo para revisar los casos del piloto y acceso a los datos que el agente necesita. Sin esas horas no hay batería que calibrar ni nadie que pueda dar el resultado por bueno.',
+              'Y hay una parte que no se compra, se gana. Quien hoy hace la tarea a mano será quien vigile al agente mañana. Si entra al proyecto el último, lo vivirá como una amenaza y encontrará motivos por los que no funciona. Es la muerte más tonta de un buen sistema y se evita gratis, el mapeo del proceso se hace con esas personas dentro desde el primer día y con un papel nuevo encima de la mesa. Dejan de teclear datos y pasan a decidir sobre los casos que el agente aparta.',
             ],
           },
           {
@@ -2734,6 +2758,29 @@ export const content: Record<Lang, SiteContent> = {
       },
       legend:
         'Each band is one request, from the moment it arrives to the moment it is resolved. Blue is what the model decides right then. Gray is ordinary code, which always does the same thing and can be checked in full before it ships. The more blue there is, the more the system decides on its own and the more work it takes to test and watch. This is not a ranking. The first two shapes carry no agent at all, and the fourth, despite having one, decides less than the third.',
+    },
+    entradasDiagram: {
+      title: 'The same order, in two formats',
+      izq: {
+        name: 'Fixed format',
+        items: [
+          'A form with its fields',
+          'A file with the same columns every time',
+          'An order that arrives through an integration',
+        ],
+        foot: 'Rules and code. Automated for decades.',
+      },
+      der: {
+        name: 'No fixed format',
+        items: [
+          'The same order inside a PDF',
+          'The same order typed into an email',
+          '“Last month’s, but to the new warehouse”',
+        ],
+        foot: 'Once, a person keying it in. Now, a model that reads and code that executes.',
+      },
+      legend:
+        'The three rows are the same request written two ways. The left has been automated for decades because it always arrives the same. The right is what used to force someone to type, and it is exactly the gap an agent fills. Note that what changes is not how hard the work is, it is the shape it arrives in.',
     },
     gateDiagram: {
       title: 'What happens to a change before it ships',

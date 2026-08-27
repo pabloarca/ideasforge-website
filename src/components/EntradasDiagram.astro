@@ -1,0 +1,134 @@
+---
+/*
+  Lo que siempre se pudo automatizar y lo que no, en dos columnas.
+
+  Existe porque el bloque «Lo que antes no salía a cuenta automatizar» sostiene
+  toda la página sobre una contraposición que en prosa hay que reconstruir
+  mentalmente: entradas con formato fijo frente a entradas que llegan como le
+  da la gana a cada quien. Puestas una al lado de otra con el MISMO pedido en
+  las dos columnas, la diferencia se ve sin explicarla.
+
+  El truco de composición es ese, que las tres filas son el mismo encargo
+  escrito de tres maneras. Si cada columna llevara ejemplos distintos, el
+  lector compararía ejemplos en vez de comparar formatos.
+
+  Va sobre fondo `hielo` y no sobre el azul que trae GrainFrame por defecto,
+  por la misma razón que `FormasDiagram`: el acento de la casa es azul y sobre
+  fondo azul oscuro desaparece.
+
+  Layout aquí, texto en `content[lang].entradasDiagram`, que es la regla de la
+  casa. El lienzo mide 1100 × 330 en píxeles absolutos y se escala para caber.
+*/
+import { type Lang, content } from '../i18n/ui';
+import GrainFrame from './graficos/GrainFrame.astro';
+import DiagramCanvas from './graficos/DiagramCanvas.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].entradasDiagram;
+
+const COL = 470; // ancho de columna
+const IZQ = 40;
+const DER = 590;
+const FILA0 = 96;
+const SALTO = 58;
+const ALTO = 46;
+---
+
+<figure class="my-10">
+  <GrainFrame height="500px" title={d.title} fondo="hielo">
+    <DiagramCanvas width={1100} height={330}>
+      {/* Cabeceras de columna */}
+      <div class="ed-head" style={`left:${IZQ}px;top:34px;width:${COL}px`}>{d.izq.name}</div>
+      <div class="ed-head ed-modelo" style={`left:${DER}px;top:34px;width:${COL}px`}>{d.der.name}</div>
+
+      {/* Las tres filas son el mismo encargo escrito de dos maneras. */}
+      {
+        d.izq.items.map((texto, i) => (
+          <div
+            class="ed-item"
+            style={`left:${IZQ}px;top:${FILA0 + i * SALTO}px;width:${COL}px;height:${ALTO}px`}
+          >
+            {texto}
+          </div>
+        ))
+      }
+      {
+        d.der.items.map((texto, i) => (
+          <div
+            class="ed-item ed-modelo"
+            style={`left:${DER}px;top:${FILA0 + i * SALTO}px;width:${COL}px;height:${ALTO}px`}
+          >
+            {texto}
+          </div>
+        ))
+      }
+
+      {/* Pie de cada columna: quién resuelve eso. */}
+      <div class="ed-foot" style={`left:${IZQ}px;top:${FILA0 + 3 * SALTO + 10}px;width:${COL}px`}>
+        {d.izq.foot}
+      </div>
+      <div
+        class="ed-foot ed-modelo"
+        style={`left:${DER}px;top:${FILA0 + 3 * SALTO + 10}px;width:${COL}px`}
+      >
+        {d.der.foot}
+      </div>
+    </DiagramCanvas>
+  </GrainFrame>
+
+  <figcaption class="mt-6 border-l-2 border-accent pl-4 text-[15px] leading-relaxed text-fg">
+    {d.legend}
+  </figcaption>
+</figure>
+
+<style>
+  .ed-head,
+  .ed-item,
+  .ed-foot {
+    position: absolute;
+    box-sizing: border-box;
+    font-family: var(--font-sans, 'Space Grotesk', sans-serif);
+    text-align: center;
+  }
+
+  .ed-head {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .ed-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 14px;
+    border: 1.3px solid color-mix(in oklab, currentColor 40%, transparent);
+    border-radius: 7px;
+    background: color-mix(in oklab, currentColor 6%, transparent);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .ed-foot {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+    opacity: 0.8;
+  }
+
+  /* La columna que necesita un modelo, con el acento de la casa. */
+  .ed-modelo {
+    color: var(--color-accent);
+    opacity: 1;
+  }
+  .ed-item.ed-modelo {
+    border-color: color-mix(in oklab, var(--color-accent) 70%, transparent);
+    background: color-mix(in oklab, var(--color-accent) 12%, transparent);
+  }
+</style>
