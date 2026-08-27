@@ -3646,147 +3646,166 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       processAuto: {
-        tocHeading: 'What this page covers',
-        metaTitle: 'AI Workflow Automation Services, Ideasforge',
+        tocHeading: 'What you will see on this page',
+        metaTitle: 'AI Workflow Automation for Business Processes, Ideasforge',
         metaDescription:
-          'AI workflow automation for business processes: documents, requests and data queries handled end to end, on your systems, with code-level validation.',
+          'AI workflow automation for the processes classic tools could never close: documents, requests and decisions, carried end to end on the systems you already run.',
         hero: {
           eyebrow: 'AI workflow automation',
-          title: 'The processes you could never automate',
+          title: 'The processes classic automation could never close',
           subtitle:
-            'AI business process automation. The workflows that carry documents, conversations or decisions in the middle, handled end to end on your systems.',
+            'AI business process automation. The workflows with documents, conversations or decisions in the middle, carried end to end on your own systems.',
           cta: 'Tell us your challenge',
         },
         sections: [
           {
-            heading: 'Which processes AI opens up',
+            heading: 'Which processes open up with AI',
             part: 'What opens up now',
-            paragraphs: [
-              'The processes that classic tools could not automate share one trait. Somewhere in the middle, a person has to read and decide. An invoice arrives and someone types it in. A request arrives and someone qualifies it. A question arrives and someone digs up the answer. That step, reading something that comes in no fixed format and deciding what to do with it, was the border of automation. Language models absorb exactly that step, and with it the whole family of processes that contained it opens up.',
-              'These processes rarely have a name on the org chart. They live in a mailbox someone empties every morning, in the bridge spreadsheet between two systems that do not talk, in the copy-paste of every new record. If your team has one of those rituals, you have a candidate.',
-              'Five briefs account for almost everything we get asked.',
-            ],
             kind: 'lattice',
+            paragraphs: [
+              'The processes classic tools could never automate share one trait. At some point, a person has to read and decide. An invoice arrives and somebody keys it in. A request arrives and somebody qualifies it. A question arrives and somebody goes looking for the answer. <strong>That step, reading something that does not come in a fixed format and deciding what to do with it, was the frontier of automation.</strong> Language models absorb exactly that step, and with it the whole family of processes built around it opens up.',
+              'These processes rarely have a name on the org chart. They live in an inbox somebody empties every morning, in the spreadsheet bridging two systems that do not talk to each other, in the copy and paste of every new account. If your team has one of those rituals, you have a candidate.',
+              'Four jobs account for almost everything we get asked for. The fifth item is not a job, it is the exit route all of them carry.',
+            ],
             bullets: [
-              'Document intake. Invoices, receipts and scanned forms read, validated and registered in your systems with nobody typing them in.',
-              'Request handling. Incoming inquiries answered, qualified and routed to the right person, at any hour.',
-              'Data access. Business questions turned into safe database queries and answered in seconds.',
-              'Drafting from data. Emails, summaries and notices the flow writes with what it already found out, ready to review or to go out on their own.',
-              'Escalation with context. The cases that need judgment reach your team with everything the system already found out, so deciding takes minutes, not digging.',
+              'Document intake. Invoices, receipts and scanned forms that get read, validated and filed in your systems without anyone typing them.',
+              'Request handling. Incoming inquiries qualified and routed to the right person at any hour, with whatever it takes to decide already pulled out.',
+              'Questions to your data. Business questions turned into safe database queries and answered in seconds.',
+              'Writing from data. Emails, summaries and notices the flow writes from what it already found out. The ones going to someone on your team can go out on their own. The ones going to a customer come from a template you approved, filled with data already validated.',
+              'Escalation with context. The cases that need judgment reach your team with everything the system already gathered, so nobody has to go digging.',
             ],
           },
           {
-            heading: 'The border with classic automation',
+            heading: 'The line with classic automation',
             part: 'What opens up now',
             paragraphs: [
-              'Classic automation, rules engines and screen robots, works well as long as the input never changes. Its weakness is familiar to anyone who has maintained it. The rule that read supplier A’s invoice does not understand supplier B’s, and the robot that filled a form gets lost when the program changes version. Every new variation is a new rule to write, and the list never ends.',
-              'AI changes the division of labor. The model interprets the input even when it arrives in another format, another wording or another order, so variation stops breaking the flow. There is a quick test we run on the first call, asking for three real examples of the input. If the three look alike, your problem is rules. If each one arrives in its own way, that is where the model is needed. In exchange it demands what this whole page describes, validation and measurement, because interpreting is not infallible.',
-              'Honesty draws the border in the other direction too. If your process has clear rules over data that always arrives the same way, classic automation solves it cheaper and faster, with no model to supervise. We will say so in the first conversation, because putting AI where none is needed means paying for supervision in exchange for nothing. And when you already run classic automation that works, we do not throw it away. The two coexist well, rules moving the stable parts and the model reading the variable ones, each piece in the role that suits it.',
+              'Classic automation, the kind built on rules and screen robots, works very well as long as the input does not change. Anyone who has maintained it knows the weakness. The rule that read supplier A’s invoice does not understand supplier B’s, and the robot that filled in a form gets lost when the program changes version. Every new variation is another rule to write and the list never ends.',
+              'AI changes the split. The model reads the input even when it arrives in another format, another wording or another order, so variation stops breaking the flow. There is a quick test we run on the first call, asking for three real examples of the input and from three different sources, because three invoices from the same supplier always look alike and prove nothing. If the three look the same, yours is a rules problem. If each one arrives its own way, that is where the model earns its place. In exchange it demands what this whole page describes, validation and measurement, because interpreting is not infallible.',
+              'Honesty also draws the line the other way. <strong>If your process has clear rules over data that always arrives the same, classic automation solves it cheaper and faster, with no model to watch.</strong> We will tell you on the first call, because putting AI where it is not needed means paying for supervision and getting nothing back. And when you already have classic automation running, we do not throw it out. They coexist well, rules moving what is stable and the model reading what varies, each piece in its own role.',
             ],
           },
           {
             heading: 'Automating steps is not moving a gain',
             part: 'What opens up now',
             paragraphs: [
-              'A system can produce summaries, drafts and records by the dozen without the business noticing a thing. Producing things is not moving a gain. That is why the unit of work here is not the isolated task but the whole process, from input to result, with its metric up front: the hours that stop being paid for typing, the errors that stop needing correction, the waiting that stops existing.',
-              'An example makes it visible. A system that drafts a summary of every meeting produces output daily, and if nobody decides anything differently because of it, the gain is zero and the cost is not. A flow that leaves every invoice registered without anyone touching it turns its result into hours you can count. The difference is not in the technology. It is in whether the result changes something the business measures.',
-              'That yardstick changes design decisions. Sometimes the most profitable step is not accelerated but removed, because reorganizing the process makes the thing we were about to automate unnecessary. And a flow that resolves eighty percent of the volume with twenty percent of the effort beats the ambition of covering everything, which is what turns projects into never-ending builds. How we measure that gain, and why we refuse to call it productivity, is on the blog.',
+              'A system can turn out summaries, drafts and records by the dozen without the business noticing a thing. <strong>Producing things is not moving a gain.</strong> That is why the unit of work here is not the loose task but the whole process, from input to outcome, with its metric in front: the hours you stop paying for typing, the errors that stop needing correction, the wait that stops existing.',
+              'An example makes it clearer. A system that writes up every meeting produces output daily. If nobody decides anything differently because of it, the gain is zero and the cost is not. A flow that leaves every invoice filed without anyone touching it turns its output into hours you can count. The difference is not in the technology. It is in whether the outcome changes something the business measures.',
+              'That criterion changes design decisions. Sometimes the step that saves the most does not get faster, it disappears, because reorganizing the process makes the thing we were about to automate unnecessary. And a flow that resolves most of the volume with a fraction of the effort beats the ambition of covering everything, which is what turns projects into work that never ends. On the blog we explain how we measure that gain and why we do not call it productivity.',
             ],
-            link: { label: 'Measure AI by profit, not productivity', href: '/en/blog/measure-ai-by-profit' },
+            link: {
+              label: 'Measure AI by the gains, not by productivity',
+              href: '/en/blog/measure-ai-by-profit',
+            },
           },
           {
             heading: 'Code runs the flow, the model does the reading',
             part: 'How we build it',
-            diagram: true,
             paragraphs: [
-              'Our flows are a chain of steps that always runs the same way, with model stops where something has to be interpreted. Code moves the data, calls each system and decides the order. The model comes in only at the stops that require interpretation: reading a document, understanding a request, classifying a case. And it returns a result with a fixed structure that code can check. This is not an engineering whim. Every model call in production costs money, takes time and can vary, so the fewer and more bounded the calls, the cheaper the flow is to run and the more stable it gets.',
-              'You do not have to take our word for it. Anthropic, one of the major model makers, advises starting with workflows that code orchestrates and keeping agent autonomy for the problems that genuinely call for it. We arrived at the same rule the expensive way, by maintaining systems in production. In practice it means what one of our flows spends on model calls looks like a tool used with intent, not like a meter spinning on its own.',
+              'Our flows are a chain of steps that always runs the same way, with model stops where something has to be interpreted. <strong>The code moves the data, calls each system and decides the order.</strong> The model only comes in at the stops where interpretation is needed: reading a document, understanding a request, classifying a case. And it returns a result in a fixed shape the code can check. This is not an engineering whim. Every model call in production costs money, takes time and can vary, so the fewer and the more bounded the calls, the cheaper the flow is to run and the more stable it is.',
+              'We are not the only ones saying it. Anthropic, one of the large model makers, recommends in <a class="link-inline" href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener noreferrer" target="_blank">Building effective agents</a> starting with flows the code orchestrates and saving agent autonomy for the few cases that justify it.',
             ],
           },
           {
-            heading: 'An invoice flow, stop by stop',
+            heading: 'An invoice flow, step by step',
             part: 'How we build it',
-            paragraphs: [
-              'To keep all of this concrete, here is how the system walks an invoice from the moment it arrives to the moment it is filed.',
-            ],
             kind: 'checklist',
+            paragraphs: [
+              'So none of this stays abstract, here is how an invoice travels through the system from arrival to filing. Six steps. <strong>Whatever fails the validation at the fourth does not go on, it heads to a person with the case prepared and the reason flagged.</strong>',
+            ],
             bullets: [
-              'It arrives. The invoice comes in through a channel the team already uses, a forwarded email or a chat, and is archived exactly as it came.',
-              'It gets classified. Code decides what type it is and which flow it belongs to, without spending a model call where a rule is enough.',
-              'It gets read. The model extracts the fields with a fixed structure: supplier, dates, amounts, taxes.',
-              'It gets validated. Code checks that everything holds: the total adds up, the tax fits, the supplier exists, the amount is in range.',
-              'It gets registered. What passed lands in your system, be it an ERP or a spreadsheet, with a reference to the original document.',
-              'It is written down. Every stop leaves a record of what was read and what was decided, so the execution can be replayed later.',
-              'Or it escalates. Whatever fails validation reaches a person with the case prepared and the reason flagged.',
+              'It arrives. The invoice comes in through the channel the team already uses, a forwarded email or a chat. It is filed exactly as it arrived.',
+              'It gets classified. The code works out what type it is and which flow it belongs to, without spending a model call when a rule is enough.',
+              'It gets read. The model extracts the fields in a fixed shape: supplier, dates, amounts, taxes.',
+              'It gets validated. The code checks that everything adds up: the total sums, the tax fits, the supplier exists, the amount is in range.',
+              'It gets filed. What passed lands in your system, an ERP or a spreadsheet, with its reference back to the original document.',
+              'It leaves a trail. Every step records what was read and what was decided, so the run can be reconstructed later.',
             ],
           },
           {
             heading: 'Validation in the middle, not trust at the end',
             part: 'How we build it',
             paragraphs: [
-              'AI business process automation fails when the model is left unsupervised. That is why the validation stop is neither optional nor saved for the end: every model result is checked before touching your systems, with the rules from the validation step you just saw, plus whatever each process adds. What passes validation flows on its own. What does not is neither discarded nor guessed, it goes to a person with the case already prepared.',
-              'Validating at the end, once the data is already registered, turns every error into an accounting correction. Validating in the middle turns it into an escalated case, which is cheaper and leaves less scar tissue. That split concentrates human review where judgment is needed and removes it from where only patience was. The goal is not a system that never asks. It is one that asks rarely and always with cause. And one that has a measured record of how much it resolves on its own, so the word “automated” comes with a number behind it.',
+              'AI automation fails when the model is left unwatched. That is why the validation step is neither optional nor left until the end: every model result is checked before it touches your systems, with the rules of the validation step you just saw and with whatever each process adds. What passes flows on its own. What does not pass is neither discarded nor invented, it goes to a person with the case prepared.',
+              '<strong>Validating at the end, once the data is already filed, turns every error into an accounting correction. Validating in the middle turns it into an escalated case, which is cheaper and leaves less of a scar.</strong> That split concentrates human review where judgment is needed and takes it away from where only patience was. The goal is not a system that never asks, it is one that asks rarely and always with a reason. And that has measured how much it resolves on its own, so the word automated comes with a number behind it.',
             ],
           },
           {
             heading: 'Two real processes in production',
             part: 'How we build it',
             paragraphs: [
-              'At Stanton, a property management firm, every tenant’s power, water and gas invoice was keyed in by hand. Today the team forwards them over Telegram, an AI read extracts the data and the result lands as normalized rows in the same spreadsheet they already worked with. Two agents in production, no new tools for the team to learn, and a client that has already commissioned the next processes, the success signal we care about most.',
-              'At Barceloneta, a real-estate agency, every day dozens of rental inquiries come in over WhatsApp. Each inquiry used to eat five to ten minutes of checking by hand. Now the flow pulls the reason, the budget and the paperwork out of each conversation, and the team gets an email that already says whether the applicant fits, and why. More than three hours a day returned to the work that actually needs people.',
-              'The two cases are alike in three ways: they came in through a channel the team already used, they forced nobody to learn a new tool and their gain could be measured before and after. That is what we look for in every new process.',
+              'At Stanton, a property management firm, the electricity, water and gas bills for every tenant used to be keyed in by hand. Today the team forwards them over Telegram, an AI reading extracts the data and the result lands as normalized rows in the same spreadsheet they already worked with. Each invoice cost a minute of typing. <strong>Today 98% goes through without anyone touching it</strong> and the rest escalates with the document alongside. Two flows in production, with no new tool to learn. The client has already commissioned more administrative processes, which is the success signal that matters most to us.',
+              'At Barceloneta Premium, a real estate agency in Barcelona, the team gets dozens of WhatsApp inquiries a day from people looking to rent. Each inquiry took five to ten minutes to check by hand. Now the flow pulls the reason, the budget and the paperwork out of every conversation. What reaches the team is an email saying whether the requirements the agency set are met, budget and paperwork, with the why beside it. The decision is still a person’s, with that email in front of them. The agency puts at over three hours a day what it wins back for the work that does need people.',
+              'The two cases are alike in three ways: they came in through a channel the team already used, they forced nobody to learn a new tool, and their gain could be measured before and after. That is what we look for in every new process.',
             ],
-            link: { label: 'See the projects', href: '/en#projects' },
+            link: {
+              label: 'See the projects',
+              href: '/en#projects',
+            },
           },
           {
             heading: 'Measured like the software it is',
             part: 'How we build it',
             paragraphs: [
-              'A flow that carries a model can degrade without throwing a single error, because the model changes or the documents do. So every modification runs against a suite of real cases before it ships, and every execution leaves a record of what was read, what was decided and what was registered. When something does not add up weeks later, we replay the exact execution instead of arguing from memory. And when a real error does slip through, the circuit is always the same: replay the execution, fix it and add the case to the test suite so it cannot slip through quietly again. A flow of ours ages by learning from its own scares.',
-              'And if one day a field is missing or a source is down, the system answers with what it has and says what was left out, rather than returning an incomplete figure that looks complete. That machine honesty is the difference between a number you can take into a meeting and one that embarrasses you there.',
-              'The monthly operation reads in three numbers: how much the flow resolved on its own, how much it escalated and with which reasons, and what each execution cost. Those three decide where to tune, which new rule to add and whether the next extension pays. Without them, “works fine” is an opinion. Every flow also inherits the house alarms, so if an external service goes down or a quota runs out, we know before your team feels it.',
+              'A flow with a model inside can degrade without throwing a single error, because the model changes or the documents change. That is why we pin the model version, so updating it is our decision rather than a surprise from the provider. Every change goes through a suite of real test cases before it ships, and every run records what was read, what was decided and what was filed. When something does not add up weeks later, we reconstruct the exact run instead of arguing from memory. And when a real error does slip through, the circuit is always the same: reproduce the run, fix it, and the case joins the test suite so it never slips through quietly again. A flow of ours ages by learning from its own scares.',
+              'And if one day a figure is missing or a source is down, in the questions-to-your-data case the system answers with what it has and says what got left out, rather than returning an incomplete number that looks complete. In a document flow it is the other way round, what does not add up is not half filed, it escalates. That machine honesty is the difference between a number you can take into a meeting with your partners to defend the project and one that leaves you exposed.',
+              'The monthly operation reads in three numbers: how much the flow resolved on its own, how much it escalated and for which reasons, and what each run cost. Those three decide where to sharpen, which new rule to add and whether the next expansion pays. <strong>Without them, working well is an opinion.</strong> Every flow also inherits the house alarms, so if an external service goes down or a quota runs out, we know before your team suffers it.',
             ],
           },
           {
             heading: 'Your systems stay where they are',
             part: 'How we build it',
             paragraphs: [
-              'The automation connects to what you already run: ERP, CRM, databases, mail, messaging and, yes, the spreadsheet that quietly governs half a department. The entry point can be the channel your team already carries in their pocket, a Telegram or WhatsApp chat or a mailbox, because the best new tool is the one nobody has to learn.',
-              'And the repository is yours from day one, with its documentation and its operations manuals. If some day you want to run it with your own team or another provider, you take the whole system with you, not a subscription.',
+              '<strong>The automation connects to what you already use</strong>: ERP, CRM, databases, email, messaging and, yes, that spreadsheet that governs half a department. The entry point can be the channel your team already has in its pocket, a Telegram or WhatsApp chat or an email inbox, because the best new tool is the one nobody has to learn.',
+              'And the repository is yours from day one, with its documentation and its operating manuals. If one day you want to run it with your own team or another provider, you take the whole flow with its documentation and its tests, not a subscription. What is a service while we work together is the operation, the weekly watch and the house alarms. That is stated in the quote.',
             ],
-            link: { label: 'Document automation for accounting firms', href: '/en/accounting-firms' },
+            link: {
+              label: 'Document automation for accounting firms',
+              href: '/en/accounting-firms',
+            },
+          },
+          {
+            heading: 'Where your data lives',
+            part: 'How we build it',
+            paragraphs: [
+              'A flow like these reads your tenants’ invoices, requests carrying a candidate’s paperwork, or questions with names inside them. That is processing of personal data. Sometimes even the kind the European regulation protects more strictly, health data for instance.',
+              'The legal split is worth saying plainly and up front. <strong>Your company is the controller and we are the processor.</strong> What we hand over is what Article 28 of the regulation requires, a processing agreement with its purposes, its terms and its obligations. And what Article 32 asks for, technical measures written down and verifiable rather than a statement of intent.',
+              'In practice that means infrastructure built in a cloud account in your name, every action traveling with the permissions of whoever asked, sensitive data encrypted, retention periods agreed in writing, and model calls running under agreements that exclude training on your content. It is the same discipline we apply where it matters most, in a system that handles health data every day.',
+            ],
           },
           {
             heading: 'From the first process to the next ones',
             part: 'How we build it',
             paragraphs: [
-              'The first process pays for the setup: the connection to your systems, the record keeping, the test suite, the operation. The next ones reuse it, so every extension costs less than the one before and gets decided with the numbers of the flow that is already running. That is how Stanton grew, one flow first and the next ones on the same setup, each approved by what the previous one proved.',
+              '<strong>The first process pays for the setup</strong>: the connection to your systems, the logging, the test suite, the operation. The ones after reuse it, so each expansion costs less than the last and gets decided with the numbers of the flow already running. That is how Stanton grew, one flow first and the rest on the same setup, each one approved by what the previous one proved.',
             ],
           },
           {
             heading: 'The process to start with',
             part: 'Deciding with judgment',
             paragraphs: [
-              'You do not need a transformation program to start, you need to pick one process well. The right one usually meets three conditions: it hurts measurably, it repeats with volume and someone suffers it who wants it gone. With that process in front of us, we map it step by step with the people who run it daily, what arrives, who touches it, which systems it crosses and where it jams. Then we measure what it costs today. That measured starting point is what later lets you say how much improved, with numbers instead of impressions.',
-              'The start is a pilot on a slice of the volume, with its metric agreed. Sometimes we even validate in mixed mode, a person supported by the half-built tool, because it confirms the gain before building the rest. Mapping also changes decisions before a line of code is written. At the rental agency it showed that the time was not going into answering messages but into checking each applicant, so the flow was designed around that check and not around the inbox. Without that map we would have automated the wrong part of the process.',
-              'If the pilot delivers, it grows in phases. If it does not, little was lost and the error taught us where it lived.',
+              '<strong>You do not need a transformation plan to start, you need to pick one process well.</strong> A good one usually meets three conditions: it hurts measurably, it repeats with volume, and it has someone who suffers it and wants it gone. With that process in front of us, we map it step by step with whoever runs it every day, what arrives, who touches it, which systems it passes through and where it jams. Then we measure what it costs today. That measured starting point is what later lets you say how much it improved, with numbers rather than impressions.',
+              'It starts with a pilot covering only part of the volume, with the figure that should move agreed in advance. Sometimes we even validate it in mixed mode, a person supported by the half-built tool, because that confirms the gain before building the rest. The mapping also changes decisions before a line of code gets written. Automating for the rental agency taught us the time was not going on answering messages but on checking each applicant, so the flow was designed around that check rather than around the inbox. Without that map we would have automated the wrong part of the process.',
+              'If the pilot delivers, it grows in phases. If it does not, little has been lost and we have learned where the mistake was.',
             ],
           },
           {
             heading: 'What we do not automate',
             part: 'Deciding with judgment',
             paragraphs: [
-              'Some steps keep human confirmation on purpose: the ones that move real money, the irreversible ones and the ones that decide about people. The flow prepares the case, a person presses the button. That is not a technical limitation but a design choice, because an error that is cheap to correct can be automated and one that is expensive to correct must not be.',
-              'We also skip processes without volume, because a flow that runs three times a month never pays for its own upkeep, and processes that deserve a redesign more than an acceleration. If your case sits in one of those groups, we say so before anything starts and you save yourself the whole project.',
+              'There are steps we deliberately leave with human confirmation: the ones that move real money, the irreversible ones and the ones that decide about people. <strong>The flow prepares the case, the person presses the button.</strong> It is not a technical limitation but a design choice, because an error that is cheap to correct can be automated and an expensive one should not be.',
+              'We also do not automate processes without volume, because a flow that runs three times a month does not pay for its upkeep, nor processes better redesigned than accelerated. If your case falls into one of those groups, we tell you before we start and you save the entire project.',
             ],
           },
           {
             heading: 'What it costs',
             part: 'Deciding with judgment',
             paragraphs: [
-              'The ranges are the same we publish for any agent of ours, and what moves them here is concrete: how many systems need connecting, how much validation the process demands and how much volume runs through it. The healthy rule is that the measured gain of the process sets the ceiling of the budget, not the other way round. The full breakdown is in the cost guide.',
+              'A single-process flow starts around €2,500 to build, the ones touching several of your systems approach €10,000, and monthly operation runs between €150 and €500, covering the model calls, the infrastructure and the watching. What moves those figures here is concrete: how many systems have to be connected, how much validation the process demands and how much volume runs through it. <strong>The healthy rule is that the measured cost of the process today sets the ceiling for the budget and the pilot confirms it, not the other way round.</strong> The full breakdown is in the cost guide.',
             ],
-            link: { label: 'AI agent development cost, broken down', href: '/en/ai-agent-development-cost' },
+            link: {
+              label: 'How much does an AI agent cost, broken down',
+              href: '/en/ai-agent-development-cost',
+            },
           },
         ],
         faqHeading: 'Frequently asked questions',
@@ -3797,11 +3816,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'Is this RPA?',
-            a: 'No. RPA repeats clicks and rules over screens and breaks when something changes place or format. Here the model interprets the content, so variation does not break the flow. They can coexist, RPA moving the stable parts and AI reading the variable ones.',
-          },
-          {
-            q: 'How is it different from classic automation?',
-            a: 'Classic automation repeats fixed rules and breaks when the input changes. AI absorbs the variation. A new invoice layout or a differently phrased request keeps flowing.',
+            a: 'Not the same thing, although plenty of RPA suites now ship AI reading inside them. RPA repeats clicks and rules over screens and breaks when something changes place or format. What we add is a model that interprets the content, so variation does not break the flow. They coexist well, RPA moving the stable parts and the model reading the variable ones.',
           },
           {
             q: 'What if the AI misreads a document?',
@@ -3829,11 +3844,11 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'How long until the first flow is running?',
-            a: 'Less than the word project suggests. The pilot is scoped to a slice of the volume precisely so it walks early, and the extension goes in phases with the system already live.',
+            a: 'It depends on three things: that the data exists, that the access is granted and that the task to automate is well defined. With all three, a pilot in two weeks is realistic. If one is missing, the first job of the project is getting it, and that timeline is not ours to set.',
           },
           {
             q: 'What happens to the cases the flow cannot resolve?',
-            a: 'They escalate to your team with all the context the system already gathered. The goal is not one hundred percent. It is human review sitting where it adds judgment, with the resolved share measured rather than assumed.',
+            a: 'They escalate to your team with all the context the system already gathered, and that split is what separates this from the previous question, which is about a doubtful reading. Here also belong the cases the flow understands perfectly well but has no business deciding. The goal is not one hundred percent. It is human review sitting where it adds judgment, with the resolved share measured rather than assumed.',
           },
         ],
         cta: {
