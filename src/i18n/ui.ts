@@ -2095,6 +2095,15 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
+            heading: 'Cuando la conversación toca datos sensibles',
+            part: 'Cómo funciona y por qué fiarse',
+            paragraphs: [
+              'Hay conversaciones que llevan dentro cosas que el reglamento europeo trata aparte. Los datos de salud son el ejemplo más claro y están en el mismo grupo que la ideología, los datos biométricos o la orientación sexual, lo que la norma llama categorías especiales y protege de forma reforzada. Si tu negocio las toca, montar un asistente deja de ser solo una cuestión de producto.',
+              'Lo que ponemos ahí no es una promesa, es una lista. Cifrado campo a campo, que significa que cada dato sensible va cifrado por separado dentro de la base de datos, así que ni quien la administra los ve en claro. Plazos de conservación acordados por escrito y borrado a petición de todo lo que no esté sujeto a un plazo legal. Y el reparto de responsabilidades dicho desde el principio, tu empresa responde del tratamiento y nosotros somos el encargado, con su contrato.',
+              'No es teoría. Wazzy, el asistente de citas que operamos nosotros, trabaja a diario con datos de salud y lleva esa disciplina puesta desde el primer día, así que cuando aparece un sector con requisitos de cumplimiento no empezamos de cero.',
+            ],
+          },
+          {
             heading: 'Medido, no supuesto',
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
