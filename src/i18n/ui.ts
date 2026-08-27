@@ -1852,14 +1852,13 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'El flujo lo lleva el código, la interpretación el modelo',
             part: 'Cómo lo construimos',
-            diagram: true,
             paragraphs: [
               'Nuestros flujos son una cadena de pasos que siempre corre igual, con paradas de modelo donde hace falta interpretar. El código mueve los datos, llama a cada sistema y decide el orden. El modelo entra solo en las paradas donde hay que interpretar: leer un documento, entender una petición, clasificar un caso. Y devuelve un resultado con estructura fija que el código puede comprobar. No es un capricho de ingeniería. Cada llamada a un modelo en producción cuesta dinero, tarda y puede variar, así que cuantas menos llamadas y más acotadas, más barato de operar y más estable es el flujo.',
-              'No lo decimos solo nosotros. Anthropic, uno de los grandes fabricantes de modelos, aconseja en <a class="link-inline" href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener noreferrer" target="_blank">Building effective agents</a> empezar con flujos que orquesta el código y guardar la autonomía del agente para los pocos casos que la justifican. Nosotros llegamos a la misma regla por el camino caro, manteniendo sistemas en producción. En la práctica significa que lo que un flujo nuestro gasta en llamadas al modelo se parece a una herramienta bien usada, no a un contador que gira solo.',
+              'No lo decimos solo nosotros. Anthropic, uno de los grandes fabricantes de modelos, aconseja en <a class="link-inline" href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener noreferrer" target="_blank">Building effective agents</a> empezar con flujos que orquesta el código y guardar la autonomía del agente para los pocos casos que la justifican.',
             ],
           },
           {
-            heading: 'Un flujo de facturas, parada a parada',
+            heading: 'Un flujo de facturas, paso a paso',
             part: 'Cómo lo construimos',
             paragraphs: [
               'Para que nada de esto quede abstracto, así recorre el sistema una factura desde que llega hasta que queda archivada. Son seis pasos. Lo que no pasa la validación del cuarto no sigue adelante, sale hacia una persona con el caso preparado y el motivo señalado.',
@@ -1871,14 +1870,14 @@ export const content: Record<Lang, SiteContent> = {
               'Se lee. El modelo extrae los campos con estructura fija: proveedor, fechas, importes, impuestos.',
               'Se valida. El código comprueba que todo cuadra: el total suma, el impuesto encaja, el proveedor existe, el importe está en rango.',
               'Se registra. Lo validado aterriza en tu sistema, sea un ERP o un Excel, con su referencia al documento original.',
-              'Queda escrito. Cada parada deja registro de qué se leyó y qué se decidió, para poder reconstruir la ejecución después.',
+              'Queda escrito. Cada paso deja registro de qué se leyó y qué se decidió, para poder reconstruir la ejecución después.',
             ],
           },
           {
             heading: 'Validación en el medio, no confianza al final',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'La automatización con IA falla cuando se deja al modelo sin vigilancia. Por eso la parada de validación no es opcional ni se deja para el final: cada resultado del modelo se comprueba antes de tocar tus sistemas, con las reglas del paso de validación que acabas de ver y con las que cada proceso añada. Lo que pasa la validación fluye solo. Lo que no la pasa no se descarta ni se inventa, va a una persona con el caso preparado.',
+              'La automatización con IA falla cuando se deja al modelo sin vigilancia. Por eso el paso de validación no es opcional ni se deja para el final: cada resultado del modelo se comprueba antes de tocar tus sistemas, con las reglas del paso de validación que acabas de ver y con las que cada proceso añada. Lo que pasa la validación fluye solo. Lo que no la pasa no se descarta ni se inventa, va a una persona con el caso preparado.',
               'Validar al final, cuando el dato ya se registró, convierte cada error en una corrección contable. Validar en el medio lo convierte en un caso escalado, que es más barato y deja menos cicatriz. Ese reparto concentra la revisión humana donde hace falta criterio y la retira de donde solo hacía falta paciencia. El objetivo no es un sistema que jamás pregunte, es uno que pregunte poco y siempre con motivo. Y que tenga medido cuánto resuelve por su cuenta, para que la palabra «automatizado» venga con un número detrás.',
             ],
           },
@@ -1897,7 +1896,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo lo construimos',
             paragraphs: [
               'Un flujo que lleva un modelo dentro puede degradarse sin lanzar un solo error, porque el modelo cambia o los documentos cambian. Por eso fijamos la versión del modelo, de modo que actualizarla es una decisión nuestra y no una sorpresa del proveedor. Cada modificación pasa por una batería de pruebas con casos reales antes de publicarse y cada ejecución deja registro de qué se leyó, qué se decidió y qué se registró. Cuando algo no cuadra semanas después, se reconstruye la ejecución exacta en lugar de discutir de memoria. Y cuando un error real se cuela, el circuito es siempre el mismo: se reproduce la ejecución, se corrige y el caso entra al banco de pruebas para no volver a colarse callado. Un flujo nuestro envejece aprendiendo de sus propios sustos.',
-              'Y si un día falta un dato o una fuente está caída, en las consultas a datos el sistema responde con lo que tiene y dice qué se ha quedado fuera, en lugar de devolver una cifra incompleta que parece completa. En un flujo de documentos es al revés, lo que no cuadra no se registra a medias, escala. Esa honestidad de máquina es la diferencia entre un número que puedes llevar a una reunión y uno que te deja en evidencia.',
+              'Y si un día falta un dato o una fuente está caída, en las consultas a datos el sistema responde con lo que tiene y dice qué se ha quedado fuera, en lugar de devolver una cifra incompleta que parece completa. En un flujo de documentos es al revés, lo que no cuadra no se registra a medias, escala. Esa honestidad de máquina es la diferencia entre un número que puedes llevar a una reunión con tus socios para defender el proyecto y uno que te deja en evidencia.',
               'La operación mensual se lee en tres números: cuánto resolvió el flujo por su cuenta, cuánto escaló con sus motivos y qué costó cada ejecución. Con esos tres se decide dónde afinar, qué regla nueva añadir y si la ampliación siguiente compensa. Sin ellos, «funciona bien» es una opinión. Cada flujo hereda además las alarmas de la casa, así que si un servicio externo se cae o una cuota se agota, lo sabemos nosotros antes de que lo sufra tu equipo.',
             ],
           },
@@ -1916,7 +1915,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Un flujo de estos lee facturas de tus inquilinos, solicitudes con la documentación de un candidato o consultas con nombres y apellidos dentro. Eso es tratamiento de datos personales. A veces incluso de los que el reglamento europeo protege de forma reforzada, como los de salud.',
               'El reparto legal conviene decirlo claro y de entrada. Tu empresa es la responsable del tratamiento y nosotros el encargado. Lo que entregamos es lo que exige el artículo 28 del reglamento, un contrato de encargo con sus finalidades, sus plazos y sus obligaciones. Y lo que pide el artículo 32, medidas técnicas escritas y comprobables en vez de una declaración de intenciones.',
-              'En la práctica eso significa infraestructura montada en una cuenta de nube a tu nombre, cada acción viajando con los permisos de quien la pide, los datos sensibles cifrados, los plazos de conservación pactados por escrito y las llamadas al modelo bajo acuerdos que excluyen entrenar con tu contenido. Es la misma disciplina que aplicamos donde más aprieta, en un sistema que trata datos de salud a diario.',
+              'En la práctica eso significa infraestructura montada en una cuenta en la nube, a tu nombre, cada acción viajando con los permisos de quien la pide, los datos sensibles cifrados, los plazos de conservación pactados por escrito y las llamadas al modelo bajo acuerdos que excluyen entrenar con tu contenido. Es la misma disciplina que aplicamos donde más procede, en un sistema que trata datos de salud a diario.',
             ],
           },
           {
@@ -1931,7 +1930,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Decidir con criterio',
             paragraphs: [
               'No hace falta un plan de transformación para empezar, hace falta elegir bien un proceso. El bueno suele cumplir tres condiciones: duele de forma medible, se repite con volumen y tiene a alguien que lo sufre y quiere quitárselo de encima. Con ese proceso delante, lo mapeamos paso a paso con quien lo ejecuta cada día, qué llega, quién lo toca, por qué sistemas pasa y dónde se atasca. Después medimos lo que cuesta hoy. Ese punto de partida medido es lo que luego permite decir cuánto mejoró, con números y no con sensaciones.',
-              'El arranque es un piloto sobre una parte del volumen, con su métrica pactada. A veces incluso lo validamos en modo mixto, una persona apoyada por la herramienta a medio construir, porque confirma la ganancia antes de construir el resto. El mapeo, además, cambia decisiones antes de escribir una línea de código. En la agencia de alquiler enseñó que el tiempo no se iba en contestar mensajes sino en comprobar a cada interesado, así que el flujo se diseñó alrededor de esa comprobación y no del buzón. Sin ese mapa habríamos automatizado la parte equivocada del proceso.',
+              'Se arranca con un piloto que cubre solo una parte del volumen, con la cifra que debería moverse pactada de antemano. A veces incluso lo validamos en modo mixto, una persona apoyada por la herramienta a medio construir, porque confirma la ganancia antes de construir el resto. El mapeo, además, cambia decisiones antes de escribir una línea de código. Con la automatización para la agencia de alquiler aprendimos que el tiempo no se iba en contestar mensajes sino en comprobar a cada interesado, así que el flujo se diseñó alrededor de esa comprobación y no del buzón. Sin ese mapa habríamos automatizado la parte equivocada del proceso.',
               'Si el piloto cumple, se amplía por fases. Si no cumple, se ha perdido poco y se ha aprendido dónde estaba el error.',
             ],
           },
@@ -1947,7 +1946,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué cuesta',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Los rangos son los mismos que publicamos para cualquier agente nuestro y lo que los mueve aquí es concreto: cuántos sistemas hay que conectar, cuánta validación exige el proceso y cuánto volumen corre por él. La regla sana es que el coste medido del proceso hoy ponga el techo del presupuesto y que el piloto lo confirme, no al revés. El desglose entero está en la guía de coste.',
+              'Un flujo de un solo proceso arranca en torno a los 2.500 € de construcción, los que tocan varios de tus sistemas se acercan a los 10.000 € y la operación mensual va entre 150 y 500 €, que cubren las llamadas al modelo, la infraestructura y la vigilancia. Lo que mueve esas cifras aquí es concreto: cuántos sistemas hay que conectar, cuánta validación exige el proceso y cuánto volumen corre por él. La regla sana es que el coste medido del proceso hoy ponga el techo del presupuesto y que el piloto lo confirme, no al revés. El desglose entero está en la guía de coste.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
