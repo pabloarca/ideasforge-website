@@ -2014,7 +2014,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué construimos',
             part: 'El encargo',
             paragraphs: [
-              'Chatbots con inteligencia artificial para los canales donde ya están tus clientes o tu equipo, WhatsApp con la API oficial de Meta, la web y herramientas internas. El agente entiende lenguaje natural, consulta tus sistemas reales (agenda, CRM, base de datos) y termina la tarea dentro de la conversación. Terminar es la palabra importante. La mayoría de los chatbots explican cómo se reserva una cita. Este la reserva.',
+              'Chatbots con inteligencia artificial para los canales donde ya están tus clientes o tu equipo, WhatsApp con la API oficial de Meta, la web y herramientas internas. El agente entiende lenguaje natural, consulta tus sistemas reales (agenda, CRM, base de datos) y termina la tarea dentro de la conversación. Terminar es la palabra importante. Lo habitual es que un chatbot explique el procedimiento y te deje a ti el trabajo. Estos lo hacen dentro de la conversación, sea reservar una cita, devolver una cifra o dejar una solicitud cualificada.',
               'Esto es lo que hace. Los cuatro primeros son los encargos que más nos piden y el último va incluido en todos.',
             ],
             kind: 'lattice',
@@ -2090,23 +2090,8 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
               'El miedo razonable de cualquier responsable es un bot improvisando delante de un cliente. Eso no se evita con promesas y tampoco se elimina del todo. Se reduce con la manera de construirlo. Lo que no se elimina se mide. Las respuestas de conocimiento salen de tus datos y tu documentación, con la fuente al lado. Las frases delicadas, una política de devoluciones, una condición legal, un precio, no las redacta el modelo. Son textos aprobados por ti que el sistema entrega tal cual. Los editas sin tocar código y ninguna edición llega a producción sin pasar su comprobación.',
+              'En las partes donde un dato inventado se paga caro damos un paso más y le cambiamos el papel al modelo. Un modelo de lenguaje está construido para responderte, así que cuando le falta un dato tiende a rellenar el hueco con algo que suena bien. Por eso ahí no redacta la respuesta. Lee lo que se le pide, decide con cuál de las salidas que le hemos dado encaja y entrega esa decisión en un formato fijo. A partir de ahí trabaja el código, que consulta el dato real y compone la respuesta. Si lo que le piden no encaja con ninguna salida, no hay nada que inventar, hay una parada.',
               'Y cuando no hay dato para responder, el agente lo dice y ofrece el camino a una persona. Un «no lo sé» honesto conserva clientes. Una respuesta inventada los pierde sin que te enteres, que es la peor manera de perderlos. Por eso las respuestas se miden por categoría, para que un fallo aparezca en su propia fila en vez de perderse en un promedio.',
-            ],
-          },
-          {
-            heading: 'Wazzy, nuestro producto conversacional',
-            part: 'Cómo funciona y por qué fiarse',
-            paragraphs: [
-              'Operamos nuestro propio producto en producción, Wazzy, un asistente en WhatsApp que gestiona reservas, cambios y cancelaciones de citas para clínicas y negocios de servicios. Consulta la disponibilidad en tiempo real, actualiza agenda y ficha y escala las urgencias al equipo. Mantener un producto propio nos obliga a ser buenos y cada lección vuelve a los proyectos de cliente.',
-              'Esa disciplina se puede contar con números. Wazzy vigila 91 condiciones que siempre deben cumplirse, cada una con su nombre, a través de 103 puntos de control repartidos por el sistema. Cuando hablamos de ingeniería de producción, hablamos de esto. Y el circuito completo se ensaya cada semana de principio a fin contra el sistema vivo, porque una prueba que no toca el mundo real no prueba el mundo real.',
-            ],
-            link: { label: 'Conocer Wazzy', href: 'https://wazzy.io' },
-          },
-          {
-            heading: 'Un chatbot al que confiarle datos de salud',
-            part: 'Cómo funciona y por qué fiarse',
-            paragraphs: [
-              'Wazzy trata datos de salud, una de las categorías especiales del RGPD, las de protección reforzada, junto a los datos genéticos, los biométricos o la ideología. Eso implica cifrado campo a campo, plazos de conservación acordados por escrito y borrado a petición de todo lo que no esté sujeto a un plazo legal. Cifrado campo a campo significa que cada dato sensible va cifrado por separado dentro de la base de datos, así que ni quien la administra los ve en claro. Si tu sector tiene requisitos de cumplimiento, la disciplina ya está montada y probada donde más duele.',
             ],
           },
           {
@@ -2114,7 +2099,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
               'Los sistemas conversacionales se degradan en silencio. Una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Por eso fijamos la versión del modelo, de modo que actualizarla es una decisión nuestra y no una sorpresa del proveedor. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
-              'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría afinar y cuál añadir. Y cada alarma lleva su propio límite de avisos, porque una alarma que se dispara sin parar tapa a las demás y acaba siendo casi tan inútil como no tener ninguna.',
+              'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría afinar y cuál añadir.',
             ],
           },
           {
@@ -2137,7 +2122,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué cuesta',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Los rangos publicados para cualquier agente nuestro valen aquí, entre 2.500 y 10.000 € de construcción y entre 150 y 500 € al mes de operación. El factor propio de lo conversacional es el volumen. En WhatsApp tiene dos contadores en vez de uno. Cada conversación gasta sus llamadas al modelo. Meta cobra aparte por cada plantilla entregada, que es lo que son los recordatorios de cita. Los dos van desglosados. En Wazzy tenemos medido lo que cuesta cada conversación y esa misma medición la aplicamos en los proyectos de cliente. Antes de encargar nada tendrás una estimación, la de Wazzy aplicada a tu volumen. El piloto la convierte en medida con tus propias conversaciones. El desglose entero está en la guía de coste.',
+              'Los rangos publicados para cualquier agente nuestro valen aquí, entre 2.500 y 10.000 € de construcción y entre 150 y 500 € al mes de operación. El factor propio de lo conversacional es el volumen. En WhatsApp tiene dos contadores en vez de uno. Cada conversación gasta sus llamadas al modelo. Meta cobra aparte por cada plantilla entregada, que es lo que son los recordatorios de cita. Los dos van desglosados. Antes de encargar nada tendrás una estimación, hecha con lo que ya tenemos medido en sistemas parecidos y aplicada a tu volumen. El piloto la convierte en medida con tus propias conversaciones. El desglose entero está en la guía de coste.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
@@ -2154,7 +2139,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Puede reservar, cambiar o cancelar citas él solo?',
-            a: 'Sí. Nuestro producto Wazzy hace exactamente eso en producción: disponibilidad en tiempo real, confirmación inmediata y agenda actualizada.',
+            a: 'Sí. Lo tenemos en producción con Wazzy, un asistente de citas que es producto nuestro, con disponibilidad en tiempo real, confirmación inmediata y agenda actualizada.',
           },
           {
             q: '¿Y si mi cliente quiere hablar con una persona?',
@@ -2170,7 +2155,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Quién responde del RGPD?',
-            a: 'El responsable del tratamiento es tu empresa y nosotros somos el encargado. Lo que entregamos es contrato de encargo, medidas técnicas y plazos de conservación por escrito. En Wazzy, con datos de salud, eso incluye cifrado campo a campo y borrado a petición de lo que no tenga un plazo legal por encima.',
+            a: 'El responsable del tratamiento es tu empresa y nosotros somos el encargado. Lo que entregamos es contrato de encargo, medidas técnicas y plazos de conservación por escrito. Cuando hay datos de categoría especial de por medio, como los de salud, eso incluye además cifrado campo a campo y borrado a petición de todo lo que no tenga un plazo legal por encima.',
           },
           {
             q: '¿Y si WhatsApp cambia sus reglas o sus precios?',
