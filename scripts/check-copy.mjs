@@ -155,6 +155,7 @@ const BRITANICO = {
   whilst: 'while', amongst: 'among', learnt: 'learned', spelt: 'spelled',
   enquiry: 'inquiry', enquiries: 'inquiries', grey: 'gray',
   storey: 'story', cheque: 'check', practise: 'practice',
+  maths: 'math', aeroplane: 'airplane', kerb: 'curb', tyre: 'tire',
 };
 
 /* Nombres propios que nacieron con grafía británica. No son faltas: el

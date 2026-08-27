@@ -33,6 +33,6 @@ An agent like this touches personal data, calendars and reputation, so **the inv
 
 The signal that a system works is what happens next. The agency is extending the agent to property sales and to internal processes, on the same base that already filters rentals. **Starting with one painful process and growing from there is the pattern we see repeat in the projects that survive.**
 
-The maths we did here you can do this afternoon. *How many minutes does each incoming inquiry cost, and how many arrive per day?* Multiply. You are already paying that number, just without an invoice.
+The math we did here you can do this afternoon. *How many minutes does each incoming inquiry cost, and how many arrive per day?* Multiply. You are already paying that number, just without an invoice.
 
 If your agency looks like this, the [AI for real estate](/en/real-estate) vertical explains the full system with its proof in production. And if you are in another sector with the same bottleneck, the conversation starts the same way, telling us where the hours go.
