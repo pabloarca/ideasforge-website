@@ -2267,6 +2267,278 @@ export const content: Record<Lang, SiteContent> = {
           button: 'Cuéntanos tu reto',
         },
       },
+      compliance: {
+        tocHeading: 'Qué verás en esta página',
+        metaTitle: 'IA y RGPD, cómo se construye un sistema que tu DPD pueda defender, Ideasforge',
+        metaDescription:
+          'Agentes de IA para empresas europeas cuyos datos no pueden salir de su control. Infraestructura a tu nombre, aislamiento garantizado por código y cada decisión registrada.',
+        hero: {
+          eyebrow: 'Soberanía del dato',
+          title: 'IA conforme al RGPD, sobre infraestructura que es tuya',
+          subtitle:
+            'Construimos agentes de IA para empresas europeas cuyos datos no pueden salir de su control. Todo corre en una cuenta en la nube a tu nombre, el aislamiento lo garantiza el código y no una instrucción al modelo. Cada decisión queda registrada para que alguien pueda revisarla después. Escrito desde cinco sistemas en producción.',
+          cta: 'Cuéntanos tu reto',
+        },
+        sections: [
+          {
+            heading: 'Lo que hacemos y lo que no',
+            part: 'La respuesta corta',
+            paragraphs: [
+              'Somos ingenieros, no auditores. <strong>No certificamos tu cumplimiento, no emitimos dictámenes jurídicos y no firmamos tu clasificación de riesgo.</strong> Eso es trabajo de tus abogados y de tu delegado de protección de datos. Cualquier proveedor que se ofrezca a resolvértelo en una reunión comercial está ofreciendo algo que no puede entregar.',
+              'Lo que sí hacemos es construir el sistema de debajo para que esas personas tengan algo sólido que evaluar. Cuando tu DPD pregunte por dónde fueron los datos, quién pudo verlos y por qué el asistente respondió lo que respondió, la respuesta existe, está escrita y se puede enseñar. La mayoría de los proyectos de IA no pueden hacer eso. Por eso tantos se paran en cuanto entra el departamento legal.',
+              'Esta página explica, mecanismo a mecanismo, cómo nuestros sistemas hacen posibles esas respuestas. Está escrita para quien tiene que defender el proyecto delante de un comité. Si ese eres tú, al terminar deberías saber exactamente qué preguntarnos, a nosotros o a cualquiera que opte al trabajo.',
+            ],
+          },
+          {
+            heading: 'Qué significa de verdad que una IA cumple el RGPD',
+            id: 'que-significa',
+            part: 'Qué significa cumplir',
+            kind: 'lattice',
+            paragraphs: [
+              'Un sistema de IA conforme al RGPD es aquel cuyo dueño puede responder a tres preguntas con pruebas en vez de con garantías verbales.',
+            ],
+            bullets: [
+              'Por dónde viajan los datos personales cuando alguien usa el sistema, incluido cada tercero de la cadena.',
+              'Quién puede ver qué. Qué pieza de software impone ese límite cuando alguien empuja contra él.',
+              'Por qué el sistema respondió lo que respondió, reconstruido después a partir de registros y no de memoria.',
+            ],
+          },
+          {
+            heading: 'Cumplir es una decisión de arquitectura, no de papeleo',
+            part: 'Qué significa cumplir',
+            paragraphs: [
+              'El reglamento no menciona la inteligencia artificial por su nombre en ningún sitio. Regula datos personales. Un asistente que lee facturas, reserva citas o responde preguntas sobre tu operación está lleno de datos personales desde el primer día. Así que se le aplican los principios de siempre. Cada uno aterriza en una decisión concreta de ingeniería.',
+              'La minimización deja de ser una línea de una política y pasa a ser una pregunta sobre el contexto. Un modelo de lenguaje solo puede filtrar lo que le dieron, así que el control real es qué entra en la petición. La limitación de finalidad pasa a ser una pregunta sobre herramientas. Un agente que solo puede llamar a tres funciones aprobadas no puede reutilizar tus datos para otra cosa, porque no tiene camino para hacerlo. Y la responsabilidad proactiva pasa a ser una pregunta sobre registros. Si el sistema no puede enseñar por qué hizo lo que hizo, ningún documento de política lo va a enseñar tampoco.',
+              '<strong>Por eso decimos que el papeleo sigue a la arquitectura y no al revés.</strong> Un sistema bien construido hace que el contrato de encargo, la evaluación de impacto y el registro de actividades de tratamiento se escriban antes y se defiendan mejor, porque cada afirmación de esos documentos señala algo que existe de verdad en el código. Al revés no funciona. Ninguna cantidad de documentación convierte en rendible de cuentas un sistema que no lo es.',
+            ],
+          },
+          {
+            heading: 'Dos reglamentos europeos, una sola arquitectura',
+            part: 'Qué significa cumplir',
+            paragraphs: [
+              'Una empresa que despliega IA en Europa responde hoy ante dos reglamentos a la vez. El RGPD gobierna qué puede pasarle a un dato personal, lo trate quien lo trate. En España lo acompaña la ley orgánica de protección de datos, la 3/2018, con la AEPD como autoridad de control. El reglamento europeo de IA ordena los sistemas por el riesgo de su uso, desde las prácticas prohibidas hasta el riesgo mínimo. Pone deberes concretos a las empresas que despliegan los arriesgados, entre ellos supervisión, vigilancia y registros. El grueso se aplica desde el 2 de agosto de 2026, con multas que en el tramo más alto llegan a 35 millones de euros o al 7 % de la facturación.',
+              'El mapa completo de ese segundo reglamento lo tenemos en su propia página, papel por papel y deber por deber, porque merece el espacio. Una pieza sí pertenece aquí, porque va de datos y no de sistemas. En diciembre de 2024 el Comité Europeo de Protección de Datos publicó su Dictamen 28/2024, su primera palabra sobre los modelos en sí. Dos conclusiones importan a un comprador. Que un modelo entrenado sea anónimo se valora caso por caso. El interés legítimo solo puede sostener un tratamiento con IA tras una evaluación documentada en tres pasos. Ninguna de las dos es un sello automático. Las dos premian al proveedor que puede enseñar los deberes hechos, que es el enfoque que describe esta página entera.',
+            ],
+            link: {
+              label: 'La guía completa del reglamento europeo de IA',
+              href: '/en/eu-ai-act-compliance',
+            },
+          },
+          {
+            heading: 'Dónde acaban tus datos de verdad',
+            id: 'donde-van',
+            part: 'Dónde van tus datos',
+            paragraphs: [
+              '<strong>La infraestructura corre en una cuenta en la nube que es tuya, no nuestra. El repositorio está a tu nombre desde el primer día.</strong> No alojamos tu asistente de nuestro lado para darte luego un usuario. Es poco habitual en el sector y es deliberado, porque elimina toda una familia de preguntas que tu DPD tendría que perseguir. No hay un segundo responsable que mapear, ni una base de datos de proveedor con una copia de tus registros, ni una negociación de salida si dejamos de trabajar juntos. El sistema se queda donde siempre estuvo, con su documentación y su historia.',
+              'La única salida hacia fuera es la llamada al proveedor del modelo, la empresa que ejecuta el modelo de lenguaje. Tú apruebas qué proveedor, bajo qué contrato y con qué configuración. Apruebas qué puede viajar dentro de esas llamadas. Nada más sale de la cuenta. Los proveedores de modelos firman contratos de encargo del tratamiento, que obligan a un proveedor a tratar datos solo según tus instrucciones. Los serios ofrecen regiones de procesamiento europeas. Si una configuración concreta satisface las reglas de transferencias internacionales es una valoración de tus abogados. Lo nuestro es entregarles un mapa completo de qué fluye a dónde, para que esa valoración lleve días en vez de meses.',
+              'Todo lo demás en esta página se construye sobre ese punto de partida. El aislamiento, los registros y el trato de los datos de salud dan por hecho que el dato ya está dentro de una cuenta que controlas, porque es el único sitio desde el que se puede garantizar el resto.',
+            ],
+            link: {
+              label: 'Cuánto cuesta construir y operar uno',
+              href: '/cuanto-cuesta-un-agente-de-ia',
+            },
+          },
+          {
+            heading: 'Qué viaja de verdad en una llamada al modelo',
+            part: 'Dónde van tus datos',
+            paragraphs: [
+              'La minimización deja de ser abstracta en cuanto miras dentro de una llamada. Una petición a un modelo de lenguaje lleva tres cosas: las instrucciones que le dicen cuál es su trabajo, el contexto que puede usar para esta respuesta y la pregunta que acaba de hacer la persona. Esa es toda la superficie. <strong>El modelo nunca se conecta a tu base de datos, nunca navega por tus sistemas y nunca recibe lo que el código no metió en el sobre.</strong>',
+              'Así que la pregunta de ingeniería que importa es qué mete el código en ese sobre. La respuesta debería ser una que puedas enseñar a cualquiera. Un agente bien construido manda las pocas filas o párrafos a los que esa persona tiene derecho, ya filtrados, en vez de volcar tablas enteras y confiar en que el modelo cite la parte correcta. Mandar menos es más seguro. Además sale más barato y acierta más, porque un modelo razona mejor sobre una página relevante que sobre cincuenta de ruido.',
+              'Cuando tu DPD pregunte qué puede ver el proveedor, el sobre es la respuesta, documentado caso de uso por caso de uso. En nuestros despliegues ese documento es corto. Más de un revisor se ha sorprendido de lo poco que sale de verdad. El asistente que responde preguntas de producción no exporta tu base de datos de producción. Manda la pregunta de una persona y la porción de contexto a la que esa persona tiene derecho. Después escribe la respuesta en los mismos registros que todo lo demás.',
+            ],
+          },
+          {
+            heading: 'Entonces, ¿usar ChatGPT cumple el RGPD?',
+            part: 'Dónde van tus datos',
+            paragraphs: [
+              'Es la pregunta que todo comité hace primero y casi siempre es la pregunta equivocada, porque «ChatGPT» nombra varios productos distintos con condiciones de datos distintas. Una pestaña gratuita del navegador, una suscripción de empresa y un contrato de API, que es la interfaz de máquina a máquina que llama un sistema como los nuestros, son tres situaciones distintas a ojos de la ley. Las condiciones sobre entrenamiento, conservación y procesamiento europeo cambian entre ellas. Cambian con el tiempo, así que un sí o un no impreso en esta página no valdría nada el mes siguiente.',
+              '<strong>La pregunta útil es en cuál de las tres entran tus datos y bajo qué contrato.</strong> Un empleado pegando el correo de un cliente en una herramienta gratuita es una situación. Un sistema llamando a una API bajo un contrato de encargo firmado, en región europea, con el entrenamiento excluido y con solo un contexto filtrado dentro del sobre, es una situación completamente distinta, aunque el modelo de debajo se llame igual. Tus abogados valoran el contrato. Nosotros construimos la segunda situación y les entregamos la prueba de que es lo que corre de verdad.',
+              'Por eso también una empresa que prohíbe las herramientas de IA a secas acaba muchas veces con menos control, no con más. La demanda no desaparece, se muda a cuentas personales y a teléfonos donde no aplica ningún contrato, ningún registro y ningún filtro. Un asistente autorizado con la arquitectura correcta da a la gente la capacidad dentro de un perímetro que alguien gobierna de verdad.',
+            ],
+          },
+          {
+            heading: 'Soberanía del dato, sin el eslogan',
+            id: 'soberania',
+            part: 'Dónde van tus datos',
+            paragraphs: [
+              'La soberanía del dato se usa como palabra de marketing, así que conviene concretarla. Significa que la ubicación de tus datos, las claves que los abren y el sistema de identidad que dice quién es quién responden ante ti, bajo una jurisdicción que elegiste. La ubicación sola no te lleva ahí. Un sistema cuyos datos están en Fráncfort pero cuyas claves de acceso, cuentas de administración y registros pertenecen a un proveedor es soberano en el folleto y en ningún otro sitio.',
+              'Hay un abanico. Ser honesto sobre él vale más que un eslogan. En un extremo está el software compartido, donde tus datos viven dentro del producto de otro bajo sus condiciones. Después viene correr en una región europea de una nube grande, luego una cuenta de nube propia y por último tus propios servidores en tu propio edificio. Cada escalón compra control y cuesta comodidad. Nosotros construimos por defecto en el tercero, tu propia cuenta en la nube, porque da el control que importa, la propiedad de los datos, de las claves y de la identidad, sin pedirle a tu equipo que administre máquinas físicas.',
+              '<strong>Y ahora el párrafo honesto, el que casi todos los proveedores se saltan.</strong> La aplicación que construimos corre entera dentro de infraestructura tuya. El modelo de lenguaje normalmente no, porque lo llamamos como servicio al proveedor que tú apruebes. Ejecutar un modelo abierto sobre tu propio hardware cerraría ese último hueco. Es otro proyecto con otros costes y otro equilibrio de calidad. No hemos desplegado modelos abiertos en producción, así que no te vamos a vender esa experiencia como si la tuviéramos. Si la inferencia entera en tus instalaciones es un requisito duro para ti, dilo en la primera conversación, porque cambia la arquitectura desde los cimientos.',
+              'Las preguntas sobre gobiernos extranjeros alcanzando tus datos, incluidas las leyes estadounidenses, van en esa misma primera conversación. Son terreno jurídico y tu asesoría tendrá su criterio. Lo que nosotros controlamos es la ingeniería que determina cuánto hay de lo que preocuparse, que es de lo que van las dos secciones siguientes.',
+            ],
+          },
+          {
+            heading: 'Un aislamiento que no depende de que el modelo se porte bien',
+            id: 'aislamiento',
+            part: 'Cómo se garantiza el aislamiento',
+            kind: 'checklist',
+            paragraphs: [
+              'Una versión temprana de uno de nuestros asistentes mantenía separadas a las empresas diciéndole al modelo, en sus instrucciones, que no omitiera nunca un filtro. Funcionaba en todas las pruebas que hicimos. Seguía estando mal, porque una instrucción a un modelo de lenguaje es una petición. Un modelo puede dejar de atender una petición por motivos que nadie predice desde fuera. A los clientes se lo hemos contado como la diferencia entre una garantía y una petición educada. Cambió nuestra manera de construir. <strong>La seguridad tiene que aguantar incluso cuando el modelo falla.</strong>',
+              'Hoy, en el agente que responde preguntas sobre datos de negocio en vivo para varias empresas a la vez, la separación se impone en cuatro sitios. El modelo no es ninguno de ellos.',
+            ],
+            bullets: [
+              'El contexto, la información que el modelo puede leer mientras responde, solo contiene lo que la persona que pregunta tiene derecho a ver. El asistente no puede filtrar lo que nunca tuvo. Ni siquiera puede formular una pregunta sobre una empresa que no existe en su mundo.',
+              'La corrección de nombres se limita a los centros para los que esa persona está autorizada. Cuando alguien escribe mal el nombre de un centro, la corrección solo puede caer dentro de su propio perímetro, así que un parecido no puede derivar hacia la empresa de al lado.',
+              'El código valida cada petición contra una lista blanca, una lista cerrada de valores permitidos, antes de construir ninguna consulta. El modelo propone, el código decide.',
+              'La consulta final lleva un filtro incondicional. Si la lista de permisos llegara vacía, la consulta se resuelve en una condición que no encaja con nada. El fallo cierra la puerta en vez de abrirla.',
+            ],
+          },
+          {
+            heading: 'Cuando arreglamos la arquitectura, murió una clase entera de fallos',
+            part: 'Cómo se garantiza el aislamiento',
+            paragraphs: [
+              'Las capas están bien. Cambiar el diseño para que el fallo no pueda existir está mejor. Uno de nuestros sistemas enseña la diferencia. Su aislamiento funcionaba originalmente por filtrado, con cada consulta llevando una condición que decía de qué empresa se permitían las filas. Después rehicimos el almacén de datos para que cada empresa viva en su propio esquema, su compartimento sellado dentro de la base de datos. La vista combinada las une con la empresa estampada en cada fila. Tras ese cambio, sumar dos empresas en una misma cifra dejó de ser un fallo que un filtro debe atrapar y pasó a ser una consulta que no se puede escribir.',
+              'El efecto práctico se vio enseguida. Una comparación laxa de nombres que había sido una preocupación real de seguridad bajo el diseño por filtrado simplemente dejó de importar, porque ni siquiera una coincidencia equivocada podía cruzar la frontera de un esquema. <strong>Arreglar la arquitectura mató la clase entera de fallos, no una instancia de ella.</strong> Ese es el listón al que apuntamos siempre que los datos lo permiten. Es una pregunta útil para cualquier proveedor. Qué fallos son imposibles en tu diseño, en vez de cuáles se atrapan.',
+            ],
+          },
+          {
+            heading: 'El modelo nunca es la autoridad',
+            part: 'Cómo se garantiza el aislamiento',
+            diagram: true,
+            paragraphs: [
+              'Nuestros sistemas comparten una regla de diseño. <strong>El juicio vive en el código, la interpretación del mundo vive en el modelo y el conocimiento vive en los datos.</strong> El modelo lee la pregunta de una persona y entrega un formulario estructurado, un contrato en formato fijo cuyos campos definimos de antemano. El código valida ese formulario, comprueba los permisos de quien pregunta y decide qué ocurre de verdad. Las consultas que tocan tus datos las construye el código a partir del formulario validado, con los valores pasados como parámetros y los nombres de columna sacados de una lista cerrada, nunca ensamblados con texto que escribió el modelo.',
+              'Donde los registros importan más damos un paso adicional. En uno de nuestros asistentes el modelo ni siquiera devuelve el texto que acaba delante del usuario. Devuelve una clave, un identificador. El código recupera el texto canónico al que esa clave apunta. Lo que la persona lee es con seguridad lo que se aprobó, palabra por palabra, sin importar lo que el modelo generase alrededor.',
+              'La identidad sigue la misma regla. Cuando un asistente consulta un sistema interno en nombre de alguien, lleva el testigo de identidad de esa persona, la credencial que tus sistemas ya usan para saber quién pregunta. Cada llamada posterior corre con los permisos del humano, no con los permisos amplios de una cuenta de robot. Si la persona no puede abrir un registro a mano, el asistente no puede abrírselo. Toda una familia de preguntas de acceso del RGPD se disuelve ahí, porque el modelo de acceso del asistente es el modelo de acceso que tu empresa ya auditó.',
+            ],
+            link: {
+              label: 'Por qué no nos gustan las arquitecturas agénticas',
+              href: '/blog/no-me-gustan-los-agentes-de-ia',
+            },
+          },
+          {
+            heading: 'Datos de salud, bajo el artículo más exigente que hay',
+            part: 'Cómo se ve en la práctica',
+            paragraphs: [
+              'Wazzy, nuestro propio producto de citas, funciona en clínicas dentales, de fisioterapia y de estética. Una nota de cita que dice quién visita qué clínica y por qué es un dato de salud, que el RGPD sitúa en su categoría más protegida y nos permite tratar al amparo del artículo 9.2.h, el que cubre la prestación de asistencia sanitaria. No elegimos la categoría más difícil para presumir. El producto la necesitaba. El resultado es que nuestras prácticas quedaron moldeadas por el caso más estricto desde el principio.',
+              'Cada campo sensible va cifrado por su cuenta, con AES-256-GCM, en vez de confiar en que el disco esté cifrado por debajo. La diferencia importa en la práctica. El cifrado de disco te protege si alguien se lleva el hardware, mientras que el cifrado por campo protege el dato de todos los procesos y personas que tocan la base de datos en su operación normal. <strong>Y el borrado está diseñado alrededor de lo que la ley exige, no alrededor del instinto</strong>, porque la ley española de autonomía del paciente, la 41/2002, obliga a conservar la historia clínica cinco años. Una petición de supresión tiene que honrar al paciente sin romper por lo bajo una obligación legal de conservación, así que el sistema separa lo que se borra ahora de lo que se retiene por obligación. Puede enseñar cuál es cuál.',
+              'Todo eso lo construimos porque no había alternativa. Es la razón de que esta página pueda hablar desde la experiencia y no desde una lista de comprobación. Es el listón que hereda el resto de nuestro trabajo con clientes.',
+            ],
+          },
+          {
+            heading: 'A la persona del otro lado se le avisa y puede llegar a un humano',
+            part: 'Cómo se ve en la práctica',
+            paragraphs: [
+              'Las conversaciones sobre cumplimiento tienden a fijarse en las bases de datos y a olvidar a la persona que está escribiendo. Ahí se cruzan dos deberes. El RGPD espera honestidad sobre cómo se usan los datos personales. El reglamento europeo de IA, en las obligaciones que aplican desde agosto de 2026, exige que a la gente se le diga cuándo está hablando con una máquina. Ninguno de los dos es exótico de implementar, pero los dos son fáciles de incumplir por omisión, un mensaje de bienvenida vago cada vez.',
+              'Nuestros sistemas conversacionales se presentan como lo que son. El camino a una persona forma parte del diseño en vez de ser una disculpa. En Wazzy, un caso urgente no recibe un párrafo tranquilizador de un modelo. Se escala al personal de la clínica, <strong>porque una máquina que reconoce su límite y entrega es más segura que una que improvisa seguridad.</strong> La misma forma se repite en el trabajo con clientes. El asistente hace el volumen repetitivo. Los momentos que necesitan a un humano llegan a un humano, con el rastro de la conversación puesto.',
+              'Hay un beneficio más callado. Cuando el traspaso está diseñado, los humanos detrás del asistente dejan de ser una ficción de la política de privacidad y pasan a ser una cola de verdad con dueños de verdad, que es exactamente la clase de afirmación que una autoridad puede verificar y encontrar cierta.',
+            ],
+          },
+          {
+            heading: 'Qué registramos y cómo se consulta',
+            id: 'registros',
+            part: 'Cómo se ve en la práctica',
+            paragraphs: [
+              '<strong>Se registra la decisión, no solo el resultado.</strong> Cada paso con significado queda escrito, qué entendió el asistente, qué pidió, qué rechazó el validador y por qué. El registro es de solo añadir, es decir que se pueden sumar entradas pero nunca editarlas ni borrarlas. El sistema no lo lee de vuelta durante la ejecución, así que no puede influir en una respuesta ni siquiera en principio. Existe para una cosa, para que alguien con una pregunta lo revise después. Ese alguien puede ser tu DPD, un auditor o la AEPD. Lo que reciben es el registro de lo que pasó, no una reconstrucción de memoria.',
+              'La telemetría, las mediciones técnicas que el sistema publica sobre su propio estado, funciona al revés. Corre sobre una lista blanca, así que los campos que lleva se deciden de antemano y quedan escritos, en vez de dejarse a lo que el código mande. Cuando una autoridad pregunte qué recoge tu vigilancia, la respuesta es una lista corta y cerrada, no una investigación.',
+              'Hasta la caducidad está diseñada para verse. Los testigos de acceso, las credenciales temporales que demuestran quién pregunta, mueren en torno a la hora. Reejecutar una petición vieja con un testigo muerto produce un error 401 claro en vez de tomar prestadas credenciales más frescas en silencio. Preferimos que un sistema falle de forma ruidosa y honesta a que acierte de una manera que nadie puede explicar. Un error nuevo y visible es mejor postura que un silencio cómodo.',
+            ],
+          },
+          {
+            heading: 'Qué nos va a pedir tu DPD y qué entregamos',
+            id: 'dpd',
+            part: 'Qué te llevas y qué preguntar',
+            kind: 'lattice',
+            paragraphs: [
+              'Comprar IA en Europa implica hoy una revisión predecible. El departamento legal y el DPD van a querer una evaluación de impacto relativa a la protección de datos, el estudio estructurado de qué puede salir mal para las personas cuyos datos se tratan. Van a querer un contrato de encargo con cada proveedor de la cadena. Esa revisión no la hacemos nosotros, es suya. <strong>Lo que hacemos es acortarla, porque los materiales que necesita son cosas que nuestros sistemas producen de todas formas.</strong>',
+            ],
+            bullets: [
+              'Un mapa del flujo de datos: qué entra al sistema, dónde se guarda, qué llamadas salen de la cuenta y qué viaja dentro de ellas.',
+              'La lista de proveedores por debajo del sistema, empezando por el proveedor de modelo que aprobaste, con los contratos que gobiernan cada uno.',
+              'Conservación y borrado, tal como están configurados: qué se guarda, cuánto tiempo, qué toca una petición de supresión y qué no puede tocar por ley.',
+              'El diseño del aislamiento por escrito, desde las cuatro capas que lo imponen hasta qué puede y qué no puede ver el modelo.',
+              'Los registros en sí: el registro de decisiones, la telemetría de lista blanca y cómo se consultan los dos cuando alguien pregunta.',
+            ],
+          },
+          {
+            heading: 'Cómo lo mantenemos cierto después del estreno',
+            part: 'Qué te llevas y qué preguntar',
+            paragraphs: [
+              '<strong>Una historia de cumplimiento que era cierta el día del estreno y no se midió después es un cuento</strong>. Estos sistemas cambian por debajo. Los proveedores actualizan modelos sin cambiarles el nombre, tu documentación crece y tus datos se mueven con el tiempo. Por eso hacemos dos cosas distintas. Antes de publicar cualquier cambio, una batería de pruebas, un banco de casos reales anotados que el sistema debe responder bien, frena la publicación si la calidad baja. Y una vez por semana, sobre el sistema vivo, reproducimos una conversación real de principio a fin y comprobamos qué pasó de verdad.',
+              'Es la misma disciplina que caza a un modelo empeorando en silencio, aplicada a las promesas de esta página. El aislamiento, los registros y las negativas se prueban como funcionalidades, porque eso es lo que son. Cuando tu DPD pregunte en marzo si las garantías de la revisión de septiembre siguen en pie, la respuesta honesta es un resultado de pruebas, no un encogimiento de hombros.',
+            ],
+            link: {
+              label: 'Empezar es fácil, mantenerlo vivo es lo difícil',
+              href: '/blog/mantener-viva-la-ia',
+            },
+          },
+          {
+            heading: 'Ocho preguntas para cualquier proveedor, nosotros incluidos',
+            part: 'Qué te llevas y qué preguntar',
+            kind: 'checklist',
+            paragraphs: [
+              'La introducción prometía que saldrías de aquí sabiendo qué preguntar. Estas son las preguntas que haríamos nosotros si estuviéramos en tu lado de la mesa, en el orden que más destapa.',
+            ],
+            bullets: [
+              'En qué cuenta de nube corre el sistema y qué le pasa el día que dejemos de trabajar juntos.',
+              'Qué sale exactamente de esa cuenta en una llamada al modelo, enseñado para nuestro caso concreto y no en términos generales.',
+              'Qué piezas de software imponen el aislamiento y si alguna de ellas consiste en una instrucción al modelo. Pide el historial honesto de esa respuesta.',
+              'Qué hace el sistema cuando una lista de permisos llega vacía, abrir la puerta o cerrarla.',
+              'Enséñame el registro de decisiones de una interacción real y dime quién puede editarlo. La respuesta correcta a la segunda mitad es nadie.',
+              'Qué puede recibir físicamente vuestra telemetría, una lista cerrada o lo que el código mande.',
+              'Qué frena una publicación y qué vigila el sistema vivo entre publicaciones. Dos respuestas distintas. Es una sola disfrazada de dos.',
+              'Quién es el dueño del repositorio, hoy, no al final de un plan de pagos.',
+            ],
+          },
+          {
+            heading: 'Dónde aparece esto en lo que construimos',
+            part: 'Qué te llevas y qué preguntar',
+            kind: 'lattice',
+            paragraphs: [
+              'Esta página no es un producto aparte y no se puede comprar suelta. Es cómo están construidas las cuatro cosas que hacemos. Cada una se encuentra con la pregunta desde un ángulo distinto.',
+            ],
+            bullets: [
+              'Asistentes sobre documentación interna, donde el trabajo es asegurar que una persona solo recupere los documentos que su puesto permite.',
+              'Agentes que consultan datos de negocio en vivo, donde el aislamiento entre empresas tiene que aguantar al nivel de la consulta, no del prompt.',
+              'Automatización de procesos documentales, donde el registro de qué se extrajo, se validó y se rechazó es el rastro de auditoría.',
+              'Chatbots de cara al cliente, donde el interesado es una persona que no eligió hablar con una máquina y merece el trato más estricto de todos.',
+            ],
+          },
+        ],
+        faqHeading: 'Lo que preguntan los clientes antes de que entre el departamento legal',
+        faq: [
+          {
+            q: '¿Está permitido siquiera usar un proveedor de modelo estadounidense bajo el RGPD?',
+            a: 'Esa valoración es de tus abogados. Los proveedores serios les dan material real con el que trabajar: contratos de encargo, regiones de procesamiento europeas y compromisos de no entrenar. Lo que nosotros controlamos es el lado de ingeniería de la pregunta, qué datos llegan a viajar en una llamada al modelo. Esa superficie la mantenemos tan pequeña como el caso permita y documentada campo a campo. Muchos de nuestros despliegues mandan bastante menos de lo que la gente supone, porque el modelo suele trabajar sobre una pregunta y un contexto permitido, no sobre tu base de datos.',
+          },
+          {
+            q: '¿Nuestros datos entrenan el modelo de alguien?',
+            a: 'No con los proveedores y las configuraciones que desplegamos. Las llamadas al modelo corren bajo contratos y ajustes que excluyen entrenar con tu contenido. La elección de proveedor la apruebas tú. Si un proveedor cambiara alguna vez esas condiciones, esa es una decisión que tomas tú con toda la información, no una que tomamos nosotros por ti.',
+          },
+          {
+            q: '¿Puede correr entero en nuestros propios servidores?',
+            a: 'El sistema que construimos puede correr. Corre, en infraestructura tuya. El modelo es la parte sobre la que hay que ser honesto. Llamamos a modelos como servicio a proveedores que tú apruebas, no hemos desplegado modelos abiertos en producción y no vamos a vender esa experiencia como si la tuviéramos. Plantea el requisito antes de que se presupueste nada y te diremos con claridad lo que costaría.',
+          },
+          {
+            q: '¿Necesitamos una evaluación de impacto para un asistente de IA?',
+            a: 'Bastantes veces sí. Siempre cuando el tratamiento es a gran escala o toca categorías especiales como los datos de salud. La decisión es de tu DPD, no nuestra. Lo que cambiamos es lo que cuesta tomarla. La mitad técnica de una evaluación de impacto es una descripción de flujos de datos, riesgos y salvaguardas. Nuestros sistemas producen esa descripción a partir de lo que hay construido de verdad, no de entrevistas y suposiciones.',
+          },
+          {
+            q: '¿Qué nos cambia en la práctica el reglamento europeo de IA?',
+            a: 'Para la mayoría de las empresas que despliegan, cambia lo que tienes que ser capaz de demostrar: los registros que el sistema guardó sobre sí mismo, una supervisión humana que funcione de verdad y saber qué datos entraron. Si tu uso concreto es de alto riesgo es una clasificación jurídica y nos mantenemos fuera de ella. La consecuencia de ingeniería es más simple, los sistemas que registran sus decisiones desde el primer día salen baratos de defender y los que no, caros de adaptar. Los nuestros registran desde el primer día.',
+          },
+          {
+            q: '¿Qué pasa cuando alguien le pide al asistente datos que no debería ver?',
+            a: 'Nada dramático, que es justo el objetivo. En uno de nuestros agentes las columnas sobre horas y ausencias de personas concretas existen en la base de datos y sencillamente no se le exponen al asistente, así que la pregunta no se puede responder con lo que tiene. La negativa está construida en lo que el sistema puede alcanzar, no en una frase de sus instrucciones. El intento queda registrado como cualquier otra decisión.',
+          },
+          {
+            q: '¿Con qué proveedores de modelo trabajáis?',
+            a: 'Con más de uno. La elección la apruebas tú. Nuestros sistemas en producción corren sobre más de un proveedor, Gemini entre ellos, porque distintos proyectos justificaron distintas decisiones. No somos revendedores de nadie, así que la recomendación sigue al caso de uso, al contrato que se ofrece y a por dónde pueden viajar los datos, en ese orden.',
+          },
+          {
+            q: 'Nuestra gente ya pega cosas en chatbots. ¿Montar un asistente oficial lo empeora?',
+            a: 'Por nuestra experiencia apunta al revés. Lo pegan porque necesitan la capacidad y no tienen un sitio autorizado donde conseguirla, así que el dato circula por cuentas personales que nadie gobierna. Un asistente oficial con contexto filtrado, proveedor aprobado y registros de verdad les da una herramienta mejor dentro de un perímetro que tu DPD sí puede describir. La política sola rara vez gana esa batalla. Una opción mejor suele ganarla.',
+          },
+          {
+            q: '¿De quién es el código?',
+            a: 'Tuyo, desde el primer día. Repositorios, documentación y arquitectura son tuyos, en una cuenta en la nube a tu nombre. No hay caja negra ni dependencia forzada. Si dejamos de trabajar juntos el sistema ni se entera.',
+          },
+        ],
+        cta: {
+          heading: '¿Tus datos tienen que quedarse donde están?',
+          body: 'Cuéntanos tu reto y te respondemos en menos de 24 horas laborables. Si no le vemos retorno, te lo diremos.',
+          button: 'Cuéntanos tu reto',
+        },
+      },
     },
   },
 
@@ -4278,7 +4550,7 @@ export const content: Record<Lang, SiteContent> = {
             id: 'records',
             paragraphs: [
               'Record the decision, not only the result. Every meaningful step is written down, what the assistant understood, what it asked for, what the validator rejected and why. The log is append-only, meaning entries can be added but never edited or removed, and the system never reads it back during execution, so it cannot influence an answer even in principle. It exists for one purpose, to be inspected afterwards by someone with a question. That someone might be your DPO, an auditor or a supervisory authority, and the answer they get is the record of what happened, not a reconstruction from memory.',
-              'The telemetry, the technical measurements the system sends home about its own health, works the other way round. It runs on an allow-list, so a field that is not explicitly on the list cannot be transmitted at all. The internal records are structurally unable to receive personal data. Not "we try not to log it", but "the field is not on the list, so it cannot arrive". When a regulator asks what your monitoring collects, the answer is a short, closed list rather than an investigation.',
+              'The telemetry, the technical measurements the system sends home about its own health, works the other way round. It runs on an allow-list, so the fields it carries are decided in advance and written down rather than left to whatever the code happens to send. When a regulator asks what your monitoring collects, the answer is a short, closed list rather than an investigation.',
               'Even expiry is designed to be visible. Access tokens, the temporary credentials that prove who is asking, die after about an hour, and re-running an old request with a dead token produces a clear 401 error instead of silently borrowing fresher credentials. We would rather a system fail loudly and honestly than succeed in a way nobody can account for. A new and visible error beats a comfortable silence.',
             ],
           },

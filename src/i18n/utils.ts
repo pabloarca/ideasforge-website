@@ -55,10 +55,12 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   // término recién nacido. Antes esta entrada era solo inglesa porque en agosto
   // no había demanda medible de coste en español.
   cost:        { es: '/cuanto-cuesta-un-agente-de-ia',  en: '/en/ai-agent-development-cost' },
-  // Pilar de confianza, solo inglés: `gdpr compliant ai` crece un 9.900 % con
-  // competencia 0, pero en español el planificador aún no ve nada. Se añade el
-  // espejo cuando lo vea.
-  compliance:  {                                        en: '/en/gdpr-compliant-ai' },
+  // Pilar de confianza. Nació solo en inglés porque `gdpr compliant ai` crece
+  // un 9.900 % con competencia 0 mientras el planificador no veía nada en
+  // español. El espejo español se añadió el 27 ago 2026 por decisión del
+  // propietario: la página no vive de la búsqueda, vive de la conversación con
+  // el comité que tiene que aprobar el proyecto, y ese comité es español.
+  compliance:  { es: '/ia-y-rgpd',                      en: '/en/gdpr-compliant-ai' },
   // Satelite del pilar de cumplimiento. Solo ingles, como su pilar.
   aiAct:       {                                        en: '/en/eu-ai-act-compliance' },
   realEstate:  { es: '/inmobiliarias',                 en: '/en/real-estate' },
