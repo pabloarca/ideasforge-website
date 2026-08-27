@@ -1635,7 +1635,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué construimos',
             part: 'El servicio',
             paragraphs: [
-              'Agentes de IA a medida que hacen trabajo real: responden preguntas sobre tu documentación y tus bases de datos, guían diagnósticos, cualifican solicitudes y ejecutan acciones sobre los sistemas que apruebes. Cada agente se construye para una tarea concreta y se conecta solo a las herramientas que esa tarea necesita. Cuando un agente no basta, construimos la arquitectura que coordina varios. Un orquestador entiende cada consulta y la dirige al especialista. Uno de nuestros sistemas en producción funciona así, con media docena de agentes especializados detrás.',
+              'Agentes de IA a medida que hacen trabajo real: responden preguntas sobre tu documentación y tus bases de datos, guían diagnósticos, cualifican solicitudes y ejecutan acciones sobre los sistemas que apruebes. <strong>Cada agente se construye para una tarea concreta y se conecta solo a las herramientas que esa tarea necesita.</strong> Cuando un agente no basta, construimos la arquitectura que coordina varios. Un orquestador entiende cada consulta y la dirige al especialista. Uno de nuestros sistemas en producción funciona así, con media docena de agentes especializados detrás.',
               'Estos son algunos de los encargos que más se repiten, con la ganancia que persigue cada uno.',
             ],
             kind: 'lattice',
@@ -1654,7 +1654,7 @@ export const content: Record<Lang, SiteContent> = {
             entradasDiagram: true,
             paragraphs: [
               'Los procesos con reglas claras se automatizan desde hace décadas. Lo que se quedaba fuera era todo lo que llegaba sin un formato fijo, por ejemplo un cliente manda el pedido en PDF, otro lo escribe en el cuerpo del correo y un tercero pide «lo del mes pasado, pero para el almacén nuevo». Automatizar eso exigía o una persona picando datos o un proyecto de reglas que se rompía con el primer proveedor que escribía distinto.',
-              'Un modelo de lenguaje cambió todas las reglas del juego, porque la parte cara ya no es leer la entrada sucia o desestructurada. El modelo entiende el pedido escrito de cualquier manera y el resto del sistema lo trata con la misma disciplina que un desarrollo de siempre. Por eso los encargos de arriba comparten forma, en medio de cada uno hay algo que leer o interpretar y alrededor hay código que se comporta igual todas las veces.',
+              '<strong>Un modelo de lenguaje cambió todas las reglas del juego, porque la parte cara ya no es leer la entrada sucia o desestructurada.</strong> El modelo entiende el pedido escrito de cualquier manera y el resto del sistema lo trata con la misma disciplina que un desarrollo de siempre. Por eso los encargos de arriba comparten forma, en medio de cada uno hay algo que leer o interpretar y alrededor hay código que se comporta igual todas las veces.',
             ],
           },
           {
@@ -1663,14 +1663,14 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Ningún agente nuestro empieza actuando por su cuenta. El primer día solo propone. Una persona revisa cada salida antes de que salga. Cuando la batería de pruebas y unas semanas de uso enseñan dónde acierta, se le sueltan primero las acciones de menos riesgo.',
               'Con un ejemplo se ve mejor. Un agente que contesta a proveedores empieza escribiendo borradores que aprueba el equipo. Semanas después manda él solo los acuses de recibo, mientras una reclamación o una negociación de precio siguen pasando por una persona.',
-              'Y hay una regla que no rompemos. Nunca ampliamos a la vez lo que el agente toca y lo que decide por su cuenta. Si le damos acceso a un sistema nuevo, en ese sistema vuelve al modo de revisión, aunque lleve meses trabajando solo en los demás.',
+              'Y hay una regla que no rompemos. <strong>Nunca ampliamos a la vez lo que el agente toca y lo que decide por su cuenta.</strong> Si le damos acceso a un sistema nuevo, en ese sistema vuelve al modo de revisión, aunque lleve meses trabajando solo en los demás.',
             ],
           },
           {
             heading: 'La seguridad es el punto de partida',
             part: 'Las garantías',
             paragraphs: [
-              'El modelo elige, pero no decide. Escoge dentro de un conjunto cerrado de acciones y es el código quien revisa esa elección antes de ejecutar nada. El agente de un taller puede consultar el historial de un vehículo, proponer cita y enviar un presupuesto. Borrar no puede, porque esa acción no existe en su lista y pedírsela por escrito no la crea. Por eso el límite no vive en una instrucción que el modelo pueda desoír, ahí está la diferencia entera entre una garantía y una petición educada.',
+              '<strong>El modelo elige, pero no decide.</strong> Escoge dentro de un conjunto cerrado de acciones y es el código quien revisa esa elección antes de ejecutar nada. El agente de un taller puede consultar el historial de un vehículo, proponer cita y enviar un presupuesto. Borrar no puede, porque esa acción no existe en su lista y pedírsela por escrito no la crea. Por eso el límite no vive en una instrucción que el modelo pueda desoír, ahí está la diferencia entera entre una garantía y una petición educada.',
               'Los agentes actúan con los permisos de la persona que los usa, a través de las cuentas de tu organización. Si le retiras el acceso a alguien, el agente también lo pierde.',
               'El reparto de papeles es la regla de la casa: el juicio vive en el código, la interpretación vive en el modelo y el conocimiento vive en tus datos. Todo lo que pueda resolverse con código normal se resuelve con código, porque cada llamada al modelo en producción añade coste, tiempo de espera y una variabilidad que hay que vigilar. Calcular un vencimiento o aplicar un tipo de IVA es código y sale igual las mil veces. Entender que «lo del otro día para el almacén nuevo» es el pedido 4512 con otra dirección de entrega, eso es el modelo. De ahí salen sistemas más baratos de operar y más fáciles de auditar, no menos capaces.',
               'Y cuando conviven datos de varias empresas o de varias áreas, el aislamiento no se pide por instrucciones. Se construye en capas que acaban en un filtro que el modelo no puede tocar y al agente solo se le entrega el contexto de quien pregunta, para que ni siquiera pueda formular una consulta sobre datos ajenos. Es lo que una asesoría ya exige a su propio equipo, que cada gestor vea sus empresas y ninguna más, aplicado a una pieza de software que además improvisa.',
@@ -1681,14 +1681,14 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Las garantías',
             diagram: true,
             paragraphs: [
-              'El modelo nunca llega a tocar tus sistemas. Interpreta la pregunta y entrega un contrato. A partir de ahí decide el código, que sí se comporta igual siempre. Lo peor que puede conseguir un mensaje malicioso es que se elija mal dentro de una lista que ya hemos revisado.',
+              '<strong>El modelo nunca llega a tocar tus sistemas.</strong> Interpreta la pregunta y entrega un contrato. A partir de ahí decide el código, que sí se comporta igual siempre. Lo peor que puede conseguir un mensaje malicioso es que se elija mal dentro de una lista que ya hemos revisado.',
             ],
           },
           {
             heading: 'Cómo se gana un agente su puesto en producción',
             part: 'Las garantías',
             paragraphs: [
-              'Una demostración se hace en días. Producción exige disciplina. Cada agente sale con una batería de pruebas, un conjunto de casos reales con su respuesta correcta anotada que se ejecuta entero antes de cada cambio. Dentro hay casos incómodos a propósito, la factura que llega sin número de pedido, la pregunta con dos lecturas posibles, el mensaje con faltas escrito desde el móvil, cada uno con la salida correcta escrita al lado. Si la calidad baja, el cambio no sale. En uno de nuestros agentes esa batería son 118 casos reales y con ella calibramos el enrutado del 72 % al 91 % de acierto.',
+              'Una demostración se hace en días. Producción exige disciplina. Cada agente sale con una batería de pruebas, un conjunto de casos reales con su respuesta correcta anotada que se ejecuta entero antes de cada cambio. Dentro hay casos incómodos a propósito, la factura que llega sin número de pedido, la pregunta con dos lecturas posibles, el mensaje con faltas escrito desde el móvil, cada uno con la salida correcta escrita al lado. <strong>Si la calidad baja, el cambio no sale.</strong> En uno de nuestros agentes esa batería son 118 casos reales y con ella calibramos el enrutado del 72 % al 91 % de acierto.',
               'Cada respuesta queda registrada con su contexto: qué consultó el agente, qué decidió y cuánto costó. Cuando llega una queja, reconstruimos exactamente qué pasó. Y lo que está en producción se revisa cada semana, porque un sistema con un modelo dentro puede empeorar sin que aparezca un solo error en ningún registro.',
             ],
           },
@@ -1696,7 +1696,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'El perímetro de confianza',
             part: 'Las garantías',
             paragraphs: [
-              'La batería hace algo más que vigilar la calidad. Dibuja el mapa de lo que el agente tiene demostrado y a ese mapa lo llamamos el perímetro de confianza. Dentro del perímetro, el agente actúa solo. Fuera, aparta el caso y lo entrega a una persona. Ese mapa no sale de una reunión, sale de los casos que el agente ya ha superado. Un agente que lleva meses tramitando pedidos nacionales recibe un día el primero con aduanas por medio. Lo honesto no es improvisar la respuesta, es reconocer que ese terreno no está probado y pasarlo a quien sepa, hasta que entre en la batería con sus propios casos.',
+              'La batería hace algo más que vigilar la calidad. Dibuja el mapa de lo que el agente tiene demostrado y a ese mapa lo llamamos el perímetro de confianza. <strong>Dentro del perímetro, el agente actúa solo. Fuera, aparta el caso y lo entrega a una persona.</strong> Ese mapa no sale de una reunión, sale de los casos que el agente ya ha superado. Un agente que lleva meses tramitando pedidos nacionales recibe un día el primero con aduanas por medio. Lo honesto no es improvisar la respuesta, es reconocer que ese terreno no está probado y pasarlo a quien sepa, hasta que entre en la batería con sus propios casos.',
               'Esto pide construir algo que a las personas les sale gratis. A un empleado nuevo se le enseña a preguntar cuando duda. A un modelo hay que construirle la duda, porque por sí solo no levanta la mano, rellena el hueco con algo que suena bien. Si a una solicitud le falta el CIF, el agente no registra nada y pide el dato. Esa parada no la decide el modelo, la impone el código.',
             ],
           },
@@ -1704,7 +1704,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Cuánta supervisión necesita',
             part: 'Las garantías',
             paragraphs: [
-              'Un agente en producción necesita a alguien dentro que responda por él. Ese trabajo ocupa menos de lo que parece, porque la supervisión cambia de naturaleza. La persona que hoy lee cada solicitud entera pasa a revisar la bandeja de dudas, donde cada caso llega con los datos extraídos y el motivo de la duda señalado. Decide de un vistazo lo que antes le llevaba un rato. Lo que el agente no resuelve solo no desaparece, se entrega. Antes de arrancar queda pactado qué casos escala, a qué bandeja llegan y quién los atiende.',
+              'Un agente en producción necesita a alguien dentro que responda por él. Ese trabajo ocupa menos de lo que parece, porque la supervisión cambia de naturaleza. La persona que hoy lee cada solicitud entera pasa a revisar la bandeja de dudas, donde cada caso llega con los datos extraídos y el motivo de la duda señalado. Decide de un vistazo lo que antes le llevaba un rato. <strong>Lo que el agente no resuelve solo no desaparece, se entrega.</strong> Antes de arrancar queda pactado qué casos escala, a qué bandeja llegan y quién los atiende.',
             ],
           },
           {
@@ -1720,7 +1720,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Empezamos por el problema, no por el modelo',
             part: 'Decidir con criterio',
             paragraphs: [
-              'No buscamos maneras de usar la IA en tu empresa. Buscamos los problemas que ya te cuestan dinero y evaluamos si un agente los resuelve con ganancia demostrable. Parece lo mismo y es lo contrario. La primera búsqueda produce juguetes que se enseñan bien y se abandonan pronto. La segunda produce sistemas que un responsable defiende delante de dirección con números.',
+              '<strong>No buscamos maneras de usar la IA en tu empresa. Buscamos los problemas que ya te cuestan dinero y evaluamos si un agente los resuelve con ganancia demostrable.</strong> Parece lo mismo y es lo contrario. La primera búsqueda produce juguetes que se enseñan bien y se abandonan pronto. La segunda produce sistemas que un responsable defiende delante de dirección con números.',
               'La primera fase se hace con quien sufre el proceso, no solo con quien compra la tecnología. Mapeamos el proceso paso a paso con sus actores, sus sistemas y sus tiempos. Después separamos los problemas que duelen hoy, los que ya cuestan horas o clientes, de los cuellos de botella que aguantarán solo hasta que el volumen crezca. Cada candidato se traduce a su ganancia esperada partiendo de una línea base medida, cuánto cuesta hoy en horas, en errores o en espera. Una línea base es algo tan poco solemne como esto, cuatro personas dedican la primera hora del día a clasificar el buzón y dos pedidos a la semana se traspapelan.',
               'De esa lista, la mayoría se descarta. Con lo que sobrevive no arrancamos un despliegue grande sino un piloto acotado: una parte del problema, un grupo reducido de usuarios y una métrica pactada de antemano. Estrecho y profundo antes que ancho y superficial, porque un piloto barato que falla es información y un despliegue caro que falla es un agujero. La apuesta es desigual a propósito. La pérdida máxima está escrita antes de empezar y es el coste del piloto. Lo que puede ganarse queda abierto.',
             ],
@@ -1729,7 +1729,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué ponemos nosotros y qué pones tú',
             part: 'Decidir con criterio',
             paragraphs: [
-              'La tecnología ya no es el cuello de botella y lo decimos habiendo construido la tecnología. Los proyectos se caen por el lado de la organización, cuando nadie tiene tiempo de revisar el piloto o el acceso a los datos se eterniza. Por eso pedimos tres cosas antes de empezar: un responsable con nombre que decide y responde, horas reales de su equipo para revisar los casos del piloto y acceso a los datos que el agente necesita. Sin esas horas no hay batería que calibrar ni nadie que pueda dar el resultado por bueno.',
+              '<strong>La tecnología ya no es el cuello de botella y lo decimos habiendo construido la tecnología.</strong> Los proyectos se caen por el lado de la organización, cuando nadie tiene tiempo de revisar el piloto o el acceso a los datos se eterniza. Por eso pedimos tres cosas antes de empezar: un responsable con nombre que decide y responde, horas reales de su equipo para revisar los casos del piloto y acceso a los datos que el agente necesita. Sin esas horas no hay batería que calibrar ni nadie que pueda dar el resultado por bueno.',
               'Y hay una parte que no se compra, se gana. Quien hoy hace la tarea a mano será quien vigile al agente mañana. Si entra al proyecto el último, lo vivirá como una amenaza y encontrará motivos por los que no funciona. Es la muerte más tonta de un buen sistema y se evita gratis, el mapeo del proceso se hace con esas personas dentro desde el primer día y con un papel nuevo encima de la mesa. Dejan de teclear datos y pasan a decidir sobre los casos que el agente aparta.',
             ],
           },
@@ -1737,7 +1737,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Cuándo un agente no compensa',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Decírtelo es parte del servicio. Si las reglas de tu proceso son claras y estables, un desarrollo tradicional lo resuelve más barato, más rápido y sin la vigilancia que exige un modelo. Un agente compensa cuando en medio del proceso hay que leer, interpretar o decidir sobre entradas que cambian, un correo redactado de cualquier manera, un documento escaneado torcido, una pregunta con tres formas de entenderse.',
+              '<strong>Decírtelo es parte del servicio.</strong> Si las reglas de tu proceso son claras y estables, un desarrollo tradicional lo resuelve más barato, más rápido y sin la vigilancia que exige un modelo. Un agente compensa cuando en medio del proceso hay que leer, interpretar o decidir sobre entradas que cambian, un correo redactado de cualquier manera, un documento escaneado torcido, una pregunta con tres formas de entenderse.',
               'Dos pruebas rápidas lo destapan. Si el proceso se deja escribir como una lista de comprobación, llega el archivo, se vuelca, se confirma, siempre con el mismo formato, lo tuyo son reglas y te sobra el modelo. Y si llevas meses apilando condiciones para cada manera nueva en que la gente escribe una dirección, el problema ya no es de reglas, es de lectura. Ahí empieza el terreno del agente.',
               'Tampoco compensa cuando nadie puede señalar la ganancia con el dedo, ni cuando los datos que el agente necesita no existen o el equipo que debería usarlo no quiere. En esos casos lo honesto es empezar por ordenar los datos o por el proceso, no por el agente. El mercado está pagando cara esa lección. Gartner calcula que antes de que acabe 2027 se habrá cancelado más del 40 % de los proyectos de IA agéntica. Nuestra manera de no engrosar esa cifra es descartar pronto y con números.',
             ],
@@ -1746,7 +1746,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué te llevas el último día',
             part: 'Decidir con criterio',
             paragraphs: [
-              'El repositorio está a tu nombre desde el primer día: código, documentación, manuales de operación, instrucciones del modelo y juegos de pruebas. La infraestructura también, montada en una nube a nombre de tu empresa. Hay sistemas nuestros funcionando sobre más de un proveedor de modelo. Cambiar el tuyo es posible y se hace con la batería de pruebas delante, porque modelos distintos se comportan distinto y lo honesto es medir el cambio, no prometer que no se nota.',
+              '<strong>El repositorio está a tu nombre desde el primer día</strong>: código, documentación, manuales de operación, instrucciones del modelo y juegos de pruebas. La infraestructura también, montada en una nube a nombre de tu empresa. Hay sistemas nuestros funcionando sobre más de un proveedor de modelo. Cambiar el tuyo es posible y se hace con la batería de pruebas delante, porque modelos distintos se comportan distinto y lo honesto es medir el cambio, no prometer que no se nota.',
               'Con el sistema entregamos el catálogo de incidencias, escrito para reconocer cada fallo desde fuera antes de saber su causa. Si decides operarlo por tu cuenta, formamos a tu equipo. El día que decidas prescindir de nosotros, ya lo tienes todo.',
             ],
           },
@@ -1754,7 +1754,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué cuesta',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Un agente a medida se mueve entre 2.500 y 10.000 € de construcción, según integraciones y exigencia de validación, más entre 150 y 500 € al mes de operación, que cubre las llamadas al modelo, la infraestructura y la vigilancia. La cuota se pacta antes de arrancar y los consumos se vigilan con límites, no es un contador abierto que descubres a fin de mes. Los sistemas con orquestador y varios agentes se presupuestan por proyecto. El desglose entero, qué encarece la construcción y a qué se va la cuota, está en la guía de coste.',
+              'Un agente a medida se mueve entre 2.500 y 10.000 € de construcción, según integraciones y exigencia de validación, más entre 150 y 500 € al mes de operación, que cubre las llamadas al modelo, la infraestructura y la vigilancia. <strong>La cuota se pacta antes de arrancar y los consumos se vigilan con límites, no es un contador abierto que descubres a fin de mes.</strong> Los sistemas con orquestador y varios agentes se presupuestan por proyecto. El desglose entero, qué encarece la construcción y a qué se va la cuota, está en la guía de coste.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
@@ -2014,7 +2014,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué construimos',
             part: 'El encargo',
             paragraphs: [
-              'Chatbots con inteligencia artificial para los canales donde ya están tus clientes o tu equipo, WhatsApp con la API oficial de Meta, la web y herramientas internas. El agente entiende lenguaje natural, consulta tus sistemas reales (agenda, CRM, base de datos) y termina la tarea dentro de la conversación. Terminar es la palabra importante. Lo habitual es que un chatbot explique el procedimiento y te deje a ti el trabajo. Estos lo hacen dentro de la conversación, sea reservar una cita, devolver una cifra o dejar una solicitud cualificada.',
+              'Chatbots con inteligencia artificial para los canales donde ya están tus clientes o tu equipo, WhatsApp con la API oficial de Meta, la web y herramientas internas. El agente entiende lenguaje natural, consulta tus sistemas reales (agenda, CRM, base de datos) y termina la tarea dentro de la conversación. <strong>Terminar es la palabra importante.</strong> Lo habitual es que un chatbot explique el procedimiento y te deje a ti el trabajo. Estos lo hacen dentro de la conversación, sea reservar una cita, devolver una cifra o dejar una solicitud cualificada.',
               'Esto es lo que hace. Los cuatro primeros son los encargos que más nos piden y el último va incluido en todos.',
             ],
             kind: 'lattice',
@@ -2032,14 +2032,14 @@ export const content: Record<Lang, SiteContent> = {
             part: 'El encargo',
             paragraphs: [
               'Casi todo el mundo ha sufrido uno: el bot que da vueltas en su guion, no entiende la segunda pregunta y esconde el camino hacia una persona. Y cuando por fin llega la persona, hay que contárselo todo otra vez. Esa experiencia tuvo dos causas y conviene separarlas. La primera es tecnológica y está resuelta, aquellos menús se rompían en cuanto alguien escribía como escriben las personas. La segunda sigue viva y es una manera de medir. A muchos bots se les pide que retengan el mayor número de conversaciones sin pasarlas al equipo humano, en lugar de que resuelvan el mayor número posible.',
-              'Nosotros lo medimos al revés. Una conversación cuenta cuando la tarea quedó hecha o cuando llegó a la persona adecuada con todo el contexto. Por eso la salida a persona nunca se esconde y el traspaso lleva el historial completo, para que nadie repita lo que ya escribió. Un cliente que pidió hablar con alguien y lo consiguió rápido vuelve. Uno que peleó diez minutos contra un guion no vuelve. Y tampoco te recomienda.',
+              'Nosotros lo medimos al revés. <strong>Una conversación cuenta cuando la tarea quedó hecha o cuando llegó a la persona adecuada con todo el contexto.</strong> Por eso la salida a persona nunca se esconde y el traspaso lleva el historial completo, para que nadie repita lo que ya escribió. Un cliente que pidió hablar con alguien y lo consiguió rápido vuelve. Uno que peleó diez minutos contra un guion no vuelve. Y tampoco te recomienda.',
             ],
           },
           {
             heading: 'De guion a acciones',
             part: 'El encargo',
             paragraphs: [
-              'Los chatbots de hace unos años eran menús de botones. Funcionaban hasta que el cliente escribía como escriben las personas, dando contexto, metiendo dos preguntas en una o pidiendo la opción que el menú no tenía. La generación actual no sigue un árbol rígido. Entiende texto libre, pero solo hace lo que le hemos permitido. El modelo interpreta la intención y elige entre un conjunto cerrado de acciones que definimos contigo, reservar, consultar, cambiar, escalar. El código ejecuta la acción elegida y valida el resultado antes de responder.',
+              'Los chatbots de hace unos años eran menús de botones. Funcionaban hasta que el cliente escribía como escriben las personas, dando contexto, metiendo dos preguntas en una o pidiendo la opción que el menú no tenía. La generación actual no sigue un árbol rígido. <strong>Entiende texto libre, pero solo hace lo que le hemos permitido.</strong> El modelo interpreta la intención y elige entre un conjunto cerrado de acciones que definimos contigo, reservar, consultar, cambiar, escalar. El código ejecuta la acción elegida y valida el resultado antes de responder.',
               'Ese reparto tiene una consecuencia que se nota pronto. Añadir una gestión nueva no es reescribir un árbol entero, es añadir una acción con sus pruebas. Y quitarla es quitarla, sin dejar restos de un menú viejo por el camino.',
             ],
           },
@@ -2047,7 +2047,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Pocas gestiones, cerradas de verdad',
             part: 'El encargo',
             paragraphs: [
-              'El error clásico del sector es el bot que sabe de todo y no cierra nada. Nosotros preferimos el contrario, un agente que hace pocas gestiones y las termina, con cada categoría medida por separado. Si el ochenta por ciento de tus conversaciones son tres trámites, el agente que hace esos tres de principio a fin vale más que el que responde regular a cien preguntas. Conviene separar dos cosas que se confunden. Las acciones que el agente ejecuta son pocas y cerradas. Las preguntas que responde apoyándose en tu documentación pueden ser muchas. Las dos se miden por separado, pero no se amplían igual.',
+              'El error clásico del sector es el bot que sabe de todo y no cierra nada. <strong>Nosotros preferimos el contrario, un agente que hace pocas gestiones y las termina, con cada categoría medida por separado.</strong> Si el ochenta por ciento de tus conversaciones son tres trámites, el agente que hace esos tres de principio a fin vale más que el que responde regular a cien preguntas. Conviene separar dos cosas que se confunden. Las acciones que el agente ejecuta son pocas y cerradas. Las preguntas que responde apoyándose en tu documentación pueden ser muchas. Las dos se miden por separado, pero no se amplían igual.',
               'En la práctica cada gestión es una categoría con nombre, sus casos de prueba y su número. «Cambiar una cita» se mide por separado, así que si su acierto baja se ve en su propia fila y no escondido en un promedio general. Las categorías se amplían cuando los números lo piden, no cuando la demo lo sugiere.',
             ],
           },
@@ -2056,7 +2056,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
               'La atención al cliente es donde un agente conversacional se paga antes. Responde lo habitual, cualifica el resto y escala lo que necesita criterio, así que las colas de espera se convierten en respuesta inmediata. La agencia inmobiliaria con la que trabajamos cifra en más de tres horas al día lo que se ahorra. Cada una de esas solicitudes le llevaba antes entre cinco y diez minutos de comprobación. Su equipo ya solo concierta visitas. Ahí atender y cualificar son la misma conversación, porque filtrar bien es lo que deja al equipo el trabajo que produce ingresos.',
-              'Buena parte del valor está en la hora a la que se contesta. Las consultas no llegan solo en horario de oficina, llegan también cuando el cliente tiene el móvil en la mano. Cuanto más tarda la respuesta, menos ganas le quedan. Un agente que contesta en el minuto convierte ese goteo nocturno en citas de la mañana siguiente.',
+              '<strong>Buena parte del valor está en la hora a la que se contesta.</strong> Las consultas no llegan solo en horario de oficina, llegan también cuando el cliente tiene el móvil en la mano. Cuanto más tarda la respuesta, menos ganas le quedan. Un agente que contesta en el minuto convierte ese goteo nocturno en citas de la mañana siguiente.',
             ],
             link: { label: 'El caso de la inmobiliaria', href: '/inmobiliarias' },
           },
@@ -2064,7 +2064,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Una reserva, mensaje a mensaje',
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
-              'Así se ve por dentro la gestión que más nos piden, una reserva. Son seis pasos. En cualquiera de ellos la conversación puede saltar a una persona, con el historial delante y dejando el mismo rastro.',
+              'Así se ve por dentro la gestión que más nos piden, una reserva. Son seis pasos. <strong>En cualquiera de ellos la conversación puede saltar a una persona, con el historial delante y dejando el mismo rastro.</strong>',
             ],
             kind: 'checklist',
             bullets: [
@@ -2081,7 +2081,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
               'Un agente que solo conversa sirve de poco. El valor está en las conexiones: la agenda que consulta antes de ofrecer hora, el CRM donde apunta, la base de datos de la que saca la respuesta. Y las conexiones traen su obligación, porque cualquier sistema externo puede caerse un martes a las once.',
-              'Cuando eso pasa, el agente no finge ni se rompe. Avisa de que esa gestión concreta no está disponible ahora mismo, sigue con las demás y tu equipo se entera por una alarma, no por las quejas. Cómo se construye eso, con un mecanismo que aparta automáticamente la pieza que falla, lo contamos en detalle en el blog.',
+              '<strong>Cuando eso pasa, el agente no finge ni se rompe.</strong> Avisa de que esa gestión concreta no está disponible ahora mismo, sigue con las demás y tu equipo se entera por una alarma, no por las quejas. Cómo se construye eso, con un mecanismo que aparta automáticamente la pieza que falla, lo contamos en detalle en el blog.',
             ],
             link: { label: 'Qué hace tu asistente cuando una herramienta se cae', href: '/blog/cuando-una-herramienta-se-cae' },
           },
@@ -2090,7 +2090,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
               'El miedo razonable de cualquier responsable es un bot improvisando delante de un cliente. Eso no se evita con promesas y tampoco se elimina del todo. Se reduce con la manera de construirlo. Lo que no se elimina se mide. Las respuestas de conocimiento salen de tus datos y tu documentación, con la fuente al lado. Las frases delicadas, una política de devoluciones, una condición legal, un precio, no las redacta el modelo. Son textos aprobados por ti que el sistema entrega tal cual. Los editas sin tocar código y ninguna edición llega a producción sin pasar su comprobación.',
-              'En las partes donde un dato inventado se paga caro damos un paso más y le cambiamos el papel al modelo. Un modelo de lenguaje está construido para responderte, así que cuando le falta un dato tiende a rellenar el hueco con algo que suena bien. Por eso ahí no redacta la respuesta. Lee lo que se le pide, decide con cuál de las salidas que le hemos dado encaja y entrega esa decisión en un formato fijo. A partir de ahí trabaja el código, que consulta el dato real y compone la respuesta. Si lo que le piden no encaja con ninguna salida, no hay nada que inventar, hay una parada.',
+              'En las partes donde un dato inventado se paga caro damos un paso más y le cambiamos el papel al modelo. Un modelo de lenguaje está construido para responderte, así que cuando le falta un dato tiende a rellenar el hueco con algo que suena bien. Por eso ahí no redacta la respuesta. Lee lo que se le pide, decide con cuál de las salidas que le hemos dado encaja y entrega esa decisión en un formato fijo. A partir de ahí trabaja el código, que consulta el dato real y compone la respuesta. <strong>Si lo que le piden no encaja con ninguna salida, no hay nada que inventar, hay una parada.</strong>',
               'Y cuando no hay dato para responder, el agente lo dice y ofrece el camino a una persona. Un «no lo sé» honesto conserva clientes. Una respuesta inventada los pierde sin que te enteres, que es la peor manera de perderlos. Por eso las respuestas se miden por categoría, para que un fallo aparezca en su propia fila en vez de perderse en un promedio.',
             ],
           },
@@ -2099,7 +2099,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
               'Hay conversaciones que llevan dentro cosas que el reglamento europeo trata aparte. Los datos de salud son el ejemplo más claro y están en el mismo grupo que la ideología, los datos biométricos o la orientación sexual, lo que la norma llama categorías especiales y protege de forma reforzada. Si tu negocio las toca, montar un asistente deja de ser solo una cuestión de producto.',
-              'Lo que ponemos ahí no es una promesa, es una lista. Cifrado campo a campo, que significa que cada dato sensible va cifrado por su cuenta dentro de la base de datos y no en bloque con todo lo demás. Plazos de conservación acordados por escrito y borrado a petición de todo lo que no esté sujeto a un plazo legal. Y el reparto de responsabilidades dicho desde el principio, tu empresa responde del tratamiento y nosotros somos el encargado, con su contrato.',
+              '<strong>Lo que ponemos ahí no es una promesa, es una lista.</strong> Cifrado campo a campo, que significa que cada dato sensible va cifrado por su cuenta dentro de la base de datos y no en bloque con todo lo demás. Plazos de conservación acordados por escrito y borrado a petición de todo lo que no esté sujeto a un plazo legal. Y el reparto de responsabilidades dicho desde el principio, tu empresa responde del tratamiento y nosotros somos el encargado, con su contrato.',
               'No es teoría. Wazzy, el asistente de citas que operamos nosotros, trabaja a diario con datos de salud y lleva esa disciplina puesta desde el primer día, así que cuando aparece un sector con requisitos de cumplimiento no empezamos de cero.',
             ],
           },
@@ -2107,7 +2107,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Medido, no supuesto',
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
-              'Los sistemas conversacionales se degradan en silencio. Una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Por eso fijamos la versión del modelo, de modo que actualizarla es una decisión nuestra y no una sorpresa del proveedor. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
+              '<strong>Los sistemas conversacionales se degradan en silencio.</strong> Una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Por eso fijamos la versión del modelo, de modo que actualizarla es una decisión nuestra y no una sorpresa del proveedor. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
               'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría afinar y cuál añadir.',
             ],
           },
@@ -2115,7 +2115,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Cómo se arranca',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Un agente conversacional no se lanza al mundo entero el primer día. Se estrena acotado, lo que llamamos el piloto, en un canal, en un horario o en un grupo de clientes. Ese piloto se paga y su precio entra dentro del proyecto final. con sus categorías medidas desde la primera conversación. Los textos delicados salen aprobados por ti antes de que nadie los lea y tu equipo sabe cómo llega un escalado y qué hacer con él.',
+              '<strong>Un agente conversacional no se lanza al mundo entero el primer día.</strong> Se estrena acotado, lo que llamamos el piloto, en un canal, en un horario o en un grupo de clientes. Ese piloto se paga y su precio entra dentro del proyecto final. con sus categorías medidas desde la primera conversación. Los textos delicados salen aprobados por ti antes de que nadie los lea y tu equipo sabe cómo llega un escalado y qué hacer con él.',
               'A las pocas semanas los números cuentan la verdad: qué se termina dentro de la conversación, qué escala con qué motivos y qué pregunta la gente que no habíamos previsto. Con eso se decide la ampliación, categoría a categoría. Es la manera de crecer sin ampliar nada que no se haya probado antes.',
             ],
           },
@@ -2123,7 +2123,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Cuándo un chatbot no compensa',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Decírtelo también es el servicio. Si te llegan un puñado de conversaciones al día, una página de preguntas bien escrita y una persona que contesta rápido te salen más baratas y más humanas. Si las respuestas que necesitas no están en ningún sistema, el trabajo previo es ordenar ese conocimiento, no montar el bot. Y si por el asunto que sea tu cliente necesita hablar con una persona, lo que toca es que llegue a ella antes, no poner una máquina en medio.',
+              '<strong>Decírtelo también es el servicio.</strong> Si te llegan un puñado de conversaciones al día, una página de preguntas bien escrita y una persona que contesta rápido te salen más baratas y más humanas. Si las respuestas que necesitas no están en ningún sistema, el trabajo previo es ordenar ese conocimiento, no montar el bot. Y si por el asunto que sea tu cliente necesita hablar con una persona, lo que toca es que llegue a ella antes, no poner una máquina en medio.',
               'Un agente conversacional compensa cuando hay volumen, cuando la información existe y cuando una parte real de las gestiones puede terminarse dentro de la conversación. Filtrar y cualificar cuentan como gestión terminada, aunque el cierre lo haga después una persona. Si tu caso no cumple alguna de las tres, te lo decimos en la primera llamada.',
             ],
           },
@@ -2131,7 +2131,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué cuesta',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Los rangos publicados para cualquier agente nuestro valen aquí, entre 2.500 y 10.000 € de construcción y entre 150 y 500 € al mes de operación. El factor propio de lo conversacional es el volumen. En WhatsApp tiene dos contadores en vez de uno. Cada conversación gasta sus llamadas al modelo. Meta cobra aparte por cada plantilla entregada, que es lo que son los recordatorios de cita. Los dos van desglosados. Antes de encargar nada tendrás una estimación, hecha con lo que ya tenemos medido en sistemas parecidos y aplicada a tu volumen. El piloto la convierte en medida con tus propias conversaciones. El desglose entero está en la guía de coste.',
+              'Los rangos publicados para cualquier agente nuestro valen aquí, entre 2.500 y 10.000 € de construcción y entre 150 y 500 € al mes de operación. El factor propio de lo conversacional es el volumen. <strong>En WhatsApp tiene dos contadores en vez de uno.</strong> Cada conversación gasta sus llamadas al modelo. Meta cobra aparte por cada plantilla entregada, que es lo que son los recordatorios de cita. Los dos van desglosados. Antes de encargar nada tendrás una estimación, hecha con lo que ya tenemos medido en sistemas parecidos y aplicada a tu volumen. El piloto la convierte en medida con tus propias conversaciones. El desglose entero está en la guía de coste.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
