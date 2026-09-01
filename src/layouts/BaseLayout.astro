@@ -138,6 +138,12 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+      El .ico va primero y sin `sizes` a propósito: es el que piden a ciegas los
+      navegadores viejos y muchas herramientas de terceros, que hasta hoy se
+      llevaban un 404 de `/favicon.ico`. Lleva 16, 32 y 48 dentro.
+    -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -173,6 +179,19 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
 
     {hreflangs.map((h) => <link rel="alternate" hreflang={h.code} href={h.href} />)}
     <link rel="alternate" hreflang="x-default" href={xDefault} />
+
+    <!--
+      El canal del idioma de la página, no los dos: quien se suscribe lo hace en
+      uno, y ofrecer el otro en el mismo sitio invita a acabar leyendo la mitad
+      en un idioma que no se pidió. Va en todas las páginas y no solo en el
+      blog, que es donde los lectores lo buscan.
+    -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${content[lang].meta.blogTitle.replace(/, Ideasforge$/, '')} · Ideasforge`}
+      href={lang === 'en' ? '/en/rss.xml' : '/rss.xml'}
+    />
 
     <!-- Open Graph -->
     <meta property="og:type" content={ogType} />

@@ -19,6 +19,7 @@
     "node": ">=18.17.1"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.3.0",
     "astro": "^5.7.0"
   },
