@@ -1680,6 +1680,24 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
+            heading: 'Facturas de proveedor, tickets y albaranes no se rompen igual',
+            paragraphs: [
+              'La lista de arriba se lee como si los tres fueran el mismo trabajo con distinto papel. No lo son. Quien haya intentado automatizarlos lo sabe. <strong>Cada tipo falla por un motivo distinto y por eso se trata distinto.</strong>',
+              'Una <strong>factura de proveedor</strong> llega en cien maquetaciones y el total está donde su emisor decidió ponerlo. Ahí el problema es de interpretación. Es donde un modelo de lenguaje aporta lo que ninguna plantilla podía.',
+              'Un <strong>ticket de gasto</strong> casi nunca es un PDF. Es una foto de un papel térmico arrugado, hecha con prisa en la puerta de un sitio y con media luz. El problema deja de ser interpretar y pasa a ser leer, que es justo donde las herramientas se caen y donde la comprobación posterior importa más.',
+              'Un <strong>albarán</strong> no se parece a ninguno de los dos, porque la pregunta que hay que responder no es qué pone. Es si lo que pone coincide con lo que se pidió. Eso no es extraer, es casar dos documentos. Un sistema que solo sabe extraer lo da por bueno sin haber comprobado nada.',
+            ],
+          },
+          {
+            heading: 'Del OCR a la contabilidad, hasta dónde llegamos',
+            paragraphs: [
+              'El dato sale comprobado y con su enlace al documento original, en el sitio desde el que tu equipo trabaja. Hasta ahí llegamos nosotros.',
+              '<strong>El asiento lo decides tú. No es una limitación nuestra, es una raya puesta a propósito.</strong> Clasificar un gasto es una decisión con criterio fiscal detrás, que cambia según el cliente y que a veces depende de una conversación que la máquina no ha tenido.',
+              'Un asiento equivocado tiene además una propiedad desagradable: no se nota al ponerlo, se nota meses después y a veces delante de una inspección. Preferimos dejar el dato impecable en la puerta y que la decisión la firme quien responde de ella.',
+              'Lo que sí te ahorras es todo lo anterior, que es donde estaban las horas. Nadie teclea importes, nadie busca el número de factura dos veces y nadie descubre en el cierre que faltaba un documento.',
+            ],
+          },
+          {
             heading: 'Lo que pasa cuando algo no cuadra',
             paragraphs: [
               'Un sistema que siempre responde es un sistema en el que no se puede confiar. El nuestro comprueba antes de dar un dato por bueno. Lo que no pasa la comprobación se detiene.',
@@ -3875,7 +3893,7 @@ export const content: Record<Lang, SiteContent> = {
               'El asistente había pedido confirmar la asistencia a una cita y esa pregunta se quedaba abierta veinticuatro horas. Dos horas y media después, la persona contestó con dos emojis. El asistente los leyó como lo que eran, algo que no iba de la cita, pero al marcarlos así dio por cerrada la confirmación.',
               'Un minuto más tarde esa misma persona escribió que sí iba. Ya no había nada abierto que confirmar. La cita se quedó en pendiente, la clínica nunca supo que iba <strong>y fue</strong>.',
               '<strong>La confirmación tenía veintiuna horas de vida por delante. No expiró, la mató un emoji.</strong> De ahí salió una regla de una línea que hoy va en todo lo que construimos. Que un mensaje no vaya de algo no significa que ese algo haya terminado. Solo una acción cierra una acción.',
-              'Y lo medimos, porque una anécdota sin cifra no sirve para decidir nada. En toda la vida del producto hay 287 confirmaciones que fueron por el camino bueno y 10 que se quemaron así, un 2,2 %.',
+              'Y lo medimos, porque una anécdota sin cifra no sirve para decidir nada. En toda la vida del producto hay 287 confirmaciones que fueron por el camino bueno, 105 que caducaron sin respuesta y 10 que se quemaron así.',
             ],
           },
           {
