@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { content } from '../i18n/ui';
 import { altsFor } from '../i18n/utils';
+import { EMPRESA, empresaCompleta } from '../lib/empresa';
 
 const lang = 'es' as const;
 const t = content[lang];
@@ -17,7 +18,39 @@ const t = content[lang];
     <h1 class="text-4xl font-bold tracking-tight text-fg sm:text-5xl">{t.footer.privacy}</h1>
 
     <div class="prose mt-10 max-w-none prose-headings:text-fg prose-headings:tracking-tight prose-a:text-accent prose-strong:text-fg">
-      <h2>1. Información que Recopilamos</h2>
+      {/* El responsable va el primero porque es lo primero que la norma pide
+           saber a quien lee: quién tiene sus datos y a dónde escribirle. Las
+           secciones que venían de antes se renumeran a partir de aquí. */}
+      <h2>1. Quién es el responsable de tus datos</h2>
+      {empresaCompleta ? (
+        <>
+          <p>
+            El responsable del tratamiento de los datos que nos facilitas a través de este sitio
+            es <strong>{EMPRESA.razonSocial}</strong>{EMPRESA.nif ? `, con NIF ${EMPRESA.nif},` : ','}
+            {' '}con domicilio en {EMPRESA.domicilio}.
+          </p>
+          <p>
+            Para cualquier asunto relacionado con tus datos, incluido ejercer los derechos que se
+            describen más abajo, puedes escribirnos a
+            {' '}<a href={`mailto:${EMPRESA.correo}`} class="link-inline">{EMPRESA.correo}</a>.
+            Respondemos en un plazo máximo de un mes.
+          </p>
+          <p>
+            Si consideras que no hemos atendido tu solicitud como corresponde, puedes reclamar
+            ante la <strong>Agencia Española de Protección de Datos</strong>, en
+            {' '}<a href="https://www.aepd.es" rel="noopener noreferrer" target="_blank" class="link-inline">www.aepd.es</a>.
+          </p>
+        </>
+      ) : (
+        <p>
+          <strong>Pendiente de completar.</strong> Esta sección se rellena desde
+          <code>src/lib/empresa.ts</code> y el verificador impide publicar el sitio mientras siga
+          vacía, para que esta página no salga con un hueco donde debería estar la identidad del
+          responsable.
+        </p>
+      )}
+
+      <h2>2. Información que Recopilamos</h2>
       <p>
         Recopilamos información personal que nos proporcionas voluntariamente cuando utilizas
         nuestro sitio web, como:
@@ -29,7 +62,7 @@ const t = content[lang];
         <li>Otra información que decidas proporcionar</li>
       </ul>
 
-      <h2>2. Cómo Utilizamos tu Información</h2>
+      <h2>3. Cómo Utilizamos tu Información</h2>
       <p>Podemos usar la información que recopilamos para los siguientes propósitos:</p>
       <ul>
         <li>Para proporcionar, operar y mantener nuestro sitio web y servicios</li>
@@ -39,7 +72,7 @@ const t = content[lang];
         <li>Para cumplir con obligaciones legales</li>
       </ul>
 
-      <h2>3. Compartir Información</h2>
+      <h2>4. Compartir Información</h2>
       <p>No compartimos tu información personal con terceros, excepto en los siguientes casos:</p>
       <ul>
         <li>Cuando lo exija la ley o en respuesta a solicitudes legales</li>
@@ -47,7 +80,7 @@ const t = content[lang];
         <li>Con tu consentimiento explícito</li>
       </ul>
 
-      <h2>4. Seguridad de tu Información</h2>
+      <h2>5. Seguridad de tu Información</h2>
       <p>
         Tomamos precauciones razonables para proteger tu información personal. Sin embargo, ten en
         cuenta que ningún método de transmisión por Internet es 100% seguro, y no podemos garantizar

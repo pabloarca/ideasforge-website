@@ -337,6 +337,24 @@ for (const p of paginas) {
   }
 }
 
+/* ── 8 bis. La identidad del responsable, sin huecos ─────────────────────────
+   Una política de privacidad sin decir quién responde no sirve para nada: nadie
+   puede ejercer sus derechos contra una identidad que no aparece. Y un hueco es
+   peor que una ausencia, porque la página parece completa.
+
+   Se comprueba sobre el sitio compilado y no sobre `src/lib/empresa.ts`, que
+   sería lo fácil: lo que importa es lo que se publica. Si mañana el bloque se
+   escribe de otra manera, esta regla lo sigue viendo. */
+for (const p of paginas.filter((x) => /^\/(politica-privacidad|en\/privacy-policy)$/.test(x.r))) {
+  if (/Pendiente de completar|<strong>Pending\.<\/strong>/.test(p.s)) {
+    error(
+      p.r,
+      'la política no dice quién es el responsable',
+      'rellena `src/lib/empresa.ts` con razón social, NIF, domicilio y correo'
+    );
+  }
+}
+
 /* ── 9. Ficheros que tienen que estar ────────────────────────────────────── */
 for (const [f, motivo] of [
   ['robots.txt', 'sin él los rastreadores van a ciegas'],
