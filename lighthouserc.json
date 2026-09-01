@@ -43,7 +43,21 @@
         "del umbral de la norma, porque el sitio da cero y volver a 0,1 sería",
         "aceptar de antemano una regresión que hoy no existe."
       ],
-      "preset": "lighthouse:no-pwa",
+      "//2": [
+        "SIN `preset`, y esta es la lección de la primera ejecución bloqueante.",
+        "Con `lighthouse:no-pwa` puesto, Lighthouse asegura por su cuenta unas",
+        "150 auditorías con un listón del 0,9, entre ellas `insights` nuevos de",
+        "Chrome que cambian de una versión a otra. El `continue-on-error` lo",
+        "estaba tapando: al quitarlo, el build se puso rojo por auditorías que",
+        "nadie había mirado nunca, mientras TODOS los umbrales calibrados",
+        "pasaban. Un listón que se mueve solo con cada actualización enseña a",
+        "ignorar el rojo, que es justo lo que este montaje quiere evitar.",
+        "",
+        "Las categorías ya agregan esas auditorías: si `target-size` falla,",
+        "`categories:accessibility` baja y el umbral de 95 lo caza. Se pierde el",
+        "nombre exacto del fallo en el resumen, que sigue estando en el informe",
+        "de la ejecución, y se gana un listón estable."
+      ],
       "assertions": {
         "categories:seo": ["error", { "minScore": 1 }],
         "categories:best-practices": ["error", { "minScore": 1 }],

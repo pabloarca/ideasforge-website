@@ -101,6 +101,19 @@ const rutas = new Set(paginas.map((p) => p.r));
 for (const p of paginas) {
   if (!p.canonical) error(p.r, 'sin canonical', 'toda página necesita la suya');
   if (!p.ogImage) error(p.r, 'sin og:image', 'al compartirla sale un hueco');
+  /*
+    Y que el fichero exista de verdad. Una etiqueta `og:image` que apunta a un
+    404 es peor que no tenerla: las redes cachean el hueco. Las portadas las
+    genera `scripts/integracion-og.mjs` al acabar el build, así que si esa
+    integración deja de correr o una ruta nueva no encaja en su lógica, aquí se
+    ve. En local hay que compilar antes, que es lo que hace `check:all`.
+  */
+  if (p.ogImage) {
+    const rel = p.ogImage.replace(/^https?:\/\/[^/]+/, '');
+    if (rel.startsWith('/') && !existsSync(join(DIST, rel))) {
+      error(p.r, 'og:image que no existe', rel);
+    }
+  }
   if (p.h1 !== 1) error(p.r, `${p.h1} etiquetas h1`, 'tiene que haber exactamente una');
 
   // Un salto de nivel (h2 → h4) rompe el esquema del documento.

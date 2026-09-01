@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import portadasSociales from './scripts/integracion-og.mjs';
 import tailwindcss from '@tailwindcss/vite';
 
 // 👉 Change this to your production domain. It is used for canonical URLs,
@@ -23,6 +24,7 @@ export default defineConfig({
   },
 
   integrations: [
+    portadasSociales(),
     sitemap({
       i18n: {
         defaultLocale: 'es',

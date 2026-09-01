@@ -16,7 +16,12 @@ interface Props {
   alternates?: Partial<Record<Lang, string>>;
   /** og:type, use 'article' for blog posts. */
   ogType?: 'website' | 'article';
-  /** Absolute or root-relative URL to a social share image. */
+  /**
+   * Imagen para compartir. Si la página no pasa ninguna, se usa la portada
+   * generada para ella, que se construye al terminar el build a partir de
+   * este mismo `og:image` (ver `scripts/integracion-og.mjs`). Las páginas con
+   * fotografía propia, como los posts con `heroImage`, pasan la suya y ganan.
+   */
   image?: string;
 }
 
@@ -26,14 +31,21 @@ const {
   description,
   alternates = { es: '/', en: '/en' },
   ogType = 'website',
-  image = '/og-default.png',
+  image,
 } = Astro.props;
 
 const site = Astro.site ?? new URL('https://ideasforge.io');
 const canonical = new URL(Astro.url.pathname, site).href;
 /** La misma ruta sin barra final, para deducir la miga de pan. */
 const canonicalPath = Astro.url.pathname.replace(/\/$/, '') || '/';
-const ogImage = new URL(image, site).href;
+/*
+  La ruta de la portada sale de la propia ruta de la página, así que una
+  página nueva la tiene sin declarar nada. La portada en sí no existe todavía
+  cuando se escribe esta etiqueta: la genera la integración al acabar el
+  build, leyendo precisamente esta etiqueta para saber cuáles hacen falta.
+*/
+const ogPropia = '/og' + (canonicalPath === '/' ? '/index' : canonicalPath) + '.png';
+const ogImage = new URL(image ?? ogPropia, site).href;
 
 // Organization structured data, shared by every page.
 const orgJsonLd = JSON.stringify({

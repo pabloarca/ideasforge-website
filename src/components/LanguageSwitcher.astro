@@ -16,10 +16,20 @@ const href = alternates[target] ?? (target === 'es' ? '/' : '/en');
 const t = content[current];
 ---
 
+{/*
+  El nombre accesible empieza por las mismas letras que se ven («EN», «ES»).
+  Antes era solo «Cambiar idioma» y la auditoría lo marcaba: quien maneja el
+  navegador por voz dice «pulsa EN», y si ese texto no está en el nombre
+  accesible el enlace no responde a nada.
+
+  Y el comentario va AQUÍ, encima del elemento, nunca entre sus atributos: ahí
+  el parser lo lee como una expresión y el build cae con «unterminated string
+  literal». Es la tercera vez en esta sesión que se rompe por lo mismo.
+*/}
 <a
   href={href}
   hreflang={target === 'es' ? 'es-ES' : 'en-US'}
-  aria-label={t.nav.switchTo}
+  aria-label={`${languages[target].slice(0, 2).toUpperCase()}, ${t.nav.switchTo}`}
   class:list={[
     'inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-fg transition-colors hover:text-accent',
     className,
