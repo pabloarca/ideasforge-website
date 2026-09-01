@@ -1,6 +1,6 @@
 ---
 title: 'El agente que consulta tus datos no escribe SQL'
-description: 'El patrón text-to-SQL promete que el modelo escriba consultas. Nosotros lo construimos para Savian con la decisión contraria. Esa decisión es la que lo hace seguro.'
+description: 'El patrón text-to-SQL promete que el modelo escribirá las consultas. Lo construimos para Savian con la decisión contraria, que es la que lo hace seguro.'
 lang: 'es'
 pubDate: 2025-08-12
 updatedDate: 2026-08-31
