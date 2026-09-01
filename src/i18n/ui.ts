@@ -207,8 +207,6 @@ export interface SiteContent {
     blogDescription: string;
     enterpriseTitle: string;
     enterpriseDescription: string;
-    realEstateTitle: string;
-    realEstateDescription: string;
 
   };
   nav: {
@@ -388,7 +386,7 @@ export interface SiteContent {
     /** Migrada a LongFormPage el 21 ago 2026: partes, FAQ y satélites de serie. */
     enterprise: LongFormPageContent;
     smb: LongFormPageContent;
-    realEstate: VerticalPageContent;
+    realEstate: LongFormPageContent;
     /**
      * Vertical de gestorías y asesorías, página larga en los dos idiomas desde
      * el 31 ago 2026. Dejó de ser plantilla corta porque Search Console mide
@@ -427,17 +425,6 @@ export interface SiteContent {
     /** Satelite del pilar de cumplimiento: posee `eu ai act compliance`. */
     aiAct?: LongFormPageContent;
   };
-}
-
-export interface VerticalPageContent {
-  /** Optional: dropped when the H1 already carries the eyebrow's subject. */
-  hero: { eyebrow?: string; title: string; subtitle: string; cta: string };
-  problem: { heading: string; body: string };
-  solution: { heading: string; body: string };
-  proof: { heading: string; body: string };
-  /** Optional second-audience block (e.g. property management on /en/real-estate). */
-  extra?: { heading: string; body: string };
-  cta: { heading: string; body: string; button: string };
 }
 
 /* Long-form SEO pages (keyword architecture). Rendered by LongFormPage.astro. */
@@ -522,9 +509,6 @@ export const content: Record<Lang, SiteContent> = {
       enterpriseTitle: 'Asistente de IA sobre tu documentación interna, Ideasforge',
       enterpriseDescription:
         'Para medianas y grandes empresas: un asistente que responde en lenguaje natural consultando tu documentación interna, tus wikis y tus sistemas.',
-      realEstateTitle: 'IA para inmobiliarias y agencias de alquiler, Ideasforge',
-      realEstateDescription:
-        'IA para inmobiliarias que atiende solicitudes 24/7, cualifica a los interesados y solo escala al equipo los que cumplen criterio.',
     },
     nav: {
       home: 'Inicio',
@@ -1471,31 +1455,142 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       realEstate: {
+        metaTitle: 'IA para inmobiliarias y gestión de alquileres, Ideasforge',
+        metaDescription:
+          'IA para inmobiliarias que atiende solicitudes a cualquier hora, cualifica con tus criterios y deja de teclear las facturas de los inquilinos. Dos casos reales.',
         hero: {
-          title: 'Tu inmobiliaria atendiendo 24/7, sin desbordar al equipo',
+          title: 'IA para tu inmobiliaria, de la primera consulta a la última factura',
           subtitle:
-            'Un agente de IA que recibe la solicitud, hace las preguntas de cualificación y solo escala al equipo humano las solicitudes que cumplen los criterios. Especialmente útil en los picos de demanda de alquiler.',
+            'Una agencia tiene dos cuellos de botella, las consultas que entran a cualquier hora y el papeleo que se acumula puertas adentro. Hemos construido para los dos y los dos están funcionando.',
           cta: 'Cuéntanos tu reto',
         },
-        problem: {
-          heading: 'El problema',
-          body: 'Cada solicitud entrante pasa por un mismo cuello de botella: alguien tiene que leerla, cualificarla y decidir si vale la pena programar una visita. Son entre cinco y diez minutos por solicitud, decenas de veces al día. En picos de alquiler se acumulan horas de retraso y los interesados se enfrían.',
-        },
-        solution: {
-          heading: 'La solución',
-          body: 'Un agente conversacional que recibe la solicitud y pregunta zona, presupuesto, fechas y requisitos. Al equipo solo le escala las que pasan el filtro, con un resumen por correo que dice si la solicitud cumple o no los requisitos que tú fijas y el porqué al lado. <strong>Quien decide sigue siendo una persona, con ese resumen delante.</strong> El interesado recibe respuesta inmediata y cada solicitud queda registrada con su veredicto y su justificación.',
-        },
-        proof: {
-          heading: 'Prueba en producción',
-          body: 'Es el sistema que construimos para Barceloneta Premium. Más de tres horas ahorradas al día solo en gestionar solicitudes entrantes y un equipo humano que ya solo concierta visitas en lugar de hacer triaje.',
-        },
-        extra: {
-          heading: 'Del alquiler a la venta y los procesos internos',
-          body: 'La señal de que la primera pieza funciona es lo que viene después. La agencia está ampliando el agente a la venta de viviendas y a procesos internos, sobre la misma base que ya filtra el alquiler. Ese es el patrón que recomendamos a cualquier inmobiliaria, empezar por el proceso que más horas se lleva, medirlo y crecer desde ahí.',
-        },
+        stats: [
+          {
+            value: '5 a 10 min',
+            label: 'costaba comprobar una sola consulta entrante, decenas de veces al día',
+          },
+          {
+            value: '+3 horas',
+            label: 'al día recuperó la agencia, solo en gestionar las solicitudes que entran',
+          },
+          {
+            value: '98 %',
+            label: 'de las facturas de suministros pasa sin que nadie las toque en la gestora',
+          },
+        ],
+        sections: [
+          {
+            heading: 'Dos trabajos distintos en el mismo negocio',
+            id: 'el-problema',
+            paragraphs: [
+              'Los dos cuellos de botella de una inmobiliaria están en extremos opuestos de la misma empresa. Uno mira hacia fuera, las consultas que llegan a cualquier hora de gente que quiere ver un piso. El otro mira hacia dentro, el papeleo que se acumula cuando esa gente ya se ha mudado.',
+              'Casi siempre se ataca primero el de fuera, porque hace ruido y se ve. El de dentro no se queja, solo se lleva las tardes de alguien.',
+              '<strong>Construimos para un cuello de botella cada vez y medimos lo que te cuesta hoy antes de construir nada.</strong> Los dos sistemas que cuenta esta página son eso, uno en una agencia que se ahogaba en consultas y otro en una gestora que se ahogaba en facturas.',
+            ],
+          },
+          {
+            heading: 'Las consultas y el precio de una hora de silencio',
+            paragraphs: [
+              'Quien busca piso no te escribe solo a ti. Escribe a la vez a todos los anuncios que le encajan. La conversación se la queda quien conteste primero con algo útil.',
+              'Que un interesado se enfríe no es una intuición de comercial, se midió en 2011 sobre más de un millón de consultas y las cifras están contadas en el blog. Lo que importa en esta página es la cuenta de tu lado.',
+              'Barceloneta Premium, una agencia de Barcelona, recibía decenas de mensajes de WhatsApp al día. Comprobar cada consulta se llevaba entre cinco y diez minutos antes de que nadie supiera si merecía una visita.',
+              '<strong>Esos minutos no se iban en vender. Se iban en averiguar si había algo que vender.</strong>',
+              'El canal tampoco lo elegimos nosotros. Según el panel de hogares de la CNMC, con datos del cuarto trimestre de 2025, el 94,6 % de los internautas españoles usa WhatsApp de forma habitual. La segunda aplicación de mensajería se queda en el 27,6 %. Un canal que nadie tiene que instalarse es medio camino hecho.',
+            ],
+            link: {
+              label: 'Las cifras de un interesado que se enfría',
+              href: '/blog/agente-ia-inmobiliaria',
+            },
+          },
+          {
+            heading: 'Qué hace el agente con una consulta',
+            paragraphs: [
+              'Mantiene la conversación en el idioma en que le han escrito y reúne lo que la agencia necesita saber: por qué preguntan, qué presupuesto manejan y qué documentación pueden aportar.',
+              '<strong>Los criterios no son nuestros y no están enterrados dentro del sistema.</strong> Viven en una hoja de cálculo del propio Drive de la agencia y los edita la agencia. El día que cambian los requisitos para considerar apto a alguien, nadie tiene que llamarnos.',
+              'Lo que recibe el equipo es un correo con el veredicto y un párrafo que lo explica. Alguien lee tres líneas y decide si concierta la visita.',
+              '<strong>Quien juzga sigue siendo una persona, que es lo sensato y además lo que pide la norma.</strong> El artículo 22 del reglamento europeo de protección de datos reconoce el derecho a no quedar sujeto a decisiones basadas únicamente en un tratamiento automatizado cuando te afectan de forma significativa. Una revisión humana con peso real es lo que hace que la decisión deje de ser «únicamente» automatizada.',
+              'El que ha escrito recibe respuesta al momento, a cualquier hora, también en los picos de alquiler donde antes se quedaba esperando. La agencia recuperó más de tres horas al día.',
+            ],
+          },
+          {
+            heading: 'La versión que hubo que tirar',
+            paragraphs: [
+              'La primera que construimos seguía el patrón sobre el que está montado casi todo lo que se vende como agente, un modelo con herramientas a su disposición e instrucciones de usarlas cuando hiciera falta.',
+              '<strong>Muchas veces no las usaba.</strong> No fallaba nada que se pudiera consultar después en ningún registro. El modelo decidía que podía responder sin comprobar, así que o se inventaba la respuesta o le decía a un interesado real que no podía avanzar cuando sí se podía.',
+              'La reconstrucción se llevó la contabilidad al código. Una máquina de estados lleva la cuenta de qué se ha reunido ya y en qué fase de preguntas está la conversación. El modelo enruta a la herramienta que toca en esa fase. <strong>El código lleva la cuenta y el modelo interpreta a las personas.</strong>',
+              'Lo contamos porque es el fallo que una demostración no enseña nunca. Un agente que responde con seguridad sin haber comprobado nada queda mejor en una reunión que uno que se para.',
+            ],
+          },
+          {
+            heading: 'La otra mitad, el papeleo de puertas adentro',
+            paragraphs: [
+              'El segundo cuello de botella no tiene ninguna conversación dentro. Stanton gestiona alquileres. Las facturas de luz, gas y agua que enviaban sus inquilinos se pasaban a mano a una hoja de cálculo, documento a documento.',
+              'Cada una costaba un minuto de teclado. Hoy llegan por el mismo chat que el equipo ya usaba, una capa de lectura con un modelo de lenguaje convierte cada una en una fila comprobada de esa misma hoja y <strong>el 98 % pasa sin que nadie las toque</strong>.',
+              'El resto se para y llega a una persona con el documento al lado y el motivo señalado. <strong>Pararse es el diseño y no el fallo.</strong> Un formato nuevo leído con la plantilla vieja no da ningún error, te entrega un número equivocado con buena pinta. Eso lo hemos visto pasar.',
+              'Nadie tuvo que aprender una herramienta nueva. El cliente ha seguido encargando procesos desde entonces, que es la señal que cuenta, porque lo que se usa se amplía.',
+            ],
+            link: {
+              label: 'El recorrido documental, paso a paso',
+              href: '/servicios/automatizacion-de-procesos-con-ia',
+            },
+          },
+          {
+            heading: 'Lo que no hace',
+            paragraphs: [
+              '<strong>Si alguien deja de contestar, la conversación se queda como está.</strong> No hay ninguna secuencia de insistencia. Fue decisión de la agencia y nos parece la buena, porque perseguir a quien se ha enfriado rara vez compensa la molestia que causa.',
+              'Tampoco escribe en tu CRM cuando tu CRM solo deja consultar. Es el caso de Barceloneta, así que el veredicto sale por correo, que además es donde el equipo abre las cosas.',
+              'Y no decide quién se queda el piso. Reúne, aplica los criterios que tú has escrito y explica su razonamiento. La firma es de una persona.',
+            ],
+          },
+          {
+            heading: 'Qué cuesta',
+            paragraphs: [
+              'Un sistema de este tamaño se mueve entre 2.500 y 10.000 € de construcción, con una operación mensual de entre 150 y 500 €. Qué mueve esas cifras está desglosado en la guía de coste.',
+              '<strong>Esa cuota paga la vigilancia y el mantenimiento, no el consumo.</strong> El modelo y la infraestructura van en cuentas a nombre de tu empresa, así que esas facturas las ves tú y no pasan por nosotros. La cuota no tiene permanencia y el repositorio es tuyo desde el primer día.',
+            ],
+            link: {
+              label: 'La guía de coste, rango por rango',
+              href: '/cuanto-cuesta-un-agente-de-ia',
+            },
+          },
+          {
+            heading: 'Por dónde se empieza',
+            paragraphs: [
+              'Por el de los dos cuellos de botella que más te esté costando este mes. Cuenta los minutos que se lleva una consulta y multiplica por cuántas entran al día. O cuenta los documentos que alguien reteclea en una semana. Ese número es a la vez el techo del presupuesto y la vara de medir.',
+              'Con los datos, los accesos y la tarea definida, dos semanas para un piloto es un plazo realista. El piloto se paga y su precio cuenta dentro del proyecto si sigues adelante, así que lo que compras ahí es una decisión apoyada en tus propios números.',
+            ],
+          },
+        ],
+        faqHeading: 'Preguntas de agencias y gestoras',
+        faq: [
+          {
+            q: '¿Hay que cambiar el CRM o el programa de gestión?',
+            a: 'No. Nos conectamos a lo que ya tienes y los resultados aterrizan donde tu equipo ya trabaja, que en los dos sistemas de esta página son un chat que ya usaban y una hoja de cálculo que ya tenían. Donde un sistema solo permite consultar y no escribir, te lo decimos y la salida va a otro sitio.',
+          },
+          {
+            q: '¿Quién decide si un interesado es apto?',
+            a: 'Una persona de tu agencia, con el resumen y su razonamiento delante. El agente reúne la información y aplica los criterios que tú has escrito, sin dar nunca la última palabra por su cuenta. Además de ser lo sensato, es lo que espera el artículo 22 del reglamento europeo de protección de datos sobre las decisiones tomadas solo por medios automáticos.',
+          },
+          {
+            q: '¿Podemos cambiar nosotros los criterios de cualificación?',
+            a: 'Sí, porque se diseñó así a propósito. Viven en una hoja de cálculo de tu propio Drive y no dentro del sistema, de modo que tu equipo los edita el día que cambian los requisitos sin abrirnos ninguna petición.',
+          },
+          {
+            q: '¿Qué pasa con las consultas que entran a las tres de la mañana?',
+            a: 'Se contestan. En eso está buena parte de la gracia, porque quien escribe a las tres de la mañana está escribiendo a varios anuncios a la vez y la respuesta útil es la que llega primero. Lo que necesite criterio espera a tu equipo por la mañana, ya reunido y resumido.',
+          },
+          {
+            q: '¿Sirve para venta o solo para alquiler?',
+            a: 'La agencia de esta página está ampliando la misma base del alquiler a la venta de viviendas y a procesos internos. Ese es el patrón que recomendamos, empezar por el proceso que más horas se lleva, medirlo y crecer desde ahí una vez que se ha demostrado.',
+          },
+          {
+            q: 'Somos una agencia pequeña. ¿No nos queda grande?',
+            a: 'Los dos sistemas de esta página funcionan en equipos pequeños. Lo que lo decide no es cuánta gente seáis, es si la misma tarea se repite lo suficiente como para pagarse su propia automatización. Decenas de consultas al día a cinco o diez minutos cada una responden rápido a esa pregunta.',
+          },
+        ],
         cta: {
-          heading: '¿Encaja para tu agencia?',
-          body: 'Cuéntanos tu reto. Si no le vemos retorno, te lo diremos.',
+          heading: '¿Cuál de los dos te está costando más?',
+          body: 'Cuéntanos dónde se van las horas, si en las consultas o en el papeleo. Te decimos si le vemos retorno y te respondemos en menos de un día laborable.',
           button: 'Cuéntanos tu reto',
         },
       },
@@ -1701,6 +1796,16 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>Un agente de IA es un programa que entiende lo que le pides y elige por su cuenta qué hacer para resolverlo.</strong> Dentro lleva un modelo de lenguaje, que es la parte que entiende, más una lista de acciones que alguien le ha autorizado, como consultar una agenda, buscar en un manual o registrar un dato.',
               'La diferencia con un bot de los de siempre está en quién decide la respuesta. La del bot ya estaba escrita antes de que nadie preguntara. La del agente se decide en el momento, según lo que le hayan pedido.',
               'Y la diferencia que importa en una empresa es sobre qué trabaja. Un asistente de uso general se queda en lo que trae de fábrica. Un agente de empresa entra en tus sistemas, con los permisos de quien lo usa y dentro de los límites que tú apruebes.',
+            ],
+          },
+          {
+            heading: 'Dónde acaba la IA generativa y empieza la IA agéntica',
+            id: 'ia-agentica',
+            part: 'La respuesta corta',
+            paragraphs: [
+              'Al buscar sobre esto te vas a cruzar con dos etiquetas que el mercado usa sin explicar nunca. <strong>La IA generativa produce contenido, desde un texto hasta un trozo de código.</strong> La IA agéntica usa esos mismos modelos para actuar: decide los pasos, consulta las herramientas que hacen falta, comprueba lo que sale y termina la tarea.',
+              'El ejemplo más corto que tenemos. La generativa te escribe el correo. La agéntica lo escribe, mira la agenda de los convocados y manda la invitación.',
+              'Esa capacidad de más trae una necesidad de control de más. Es la razón de que el resto de esta guía hable tanto de medir. <strong>Un sistema que solo escribe se corrige leyéndolo antes de enviarlo. Uno que actúa ya ha tocado tus sistemas cuando alguien se entera.</strong>',
             ],
           },
           {
@@ -1923,8 +2028,8 @@ export const content: Record<Lang, SiteContent> = {
             a: 'En nuestros proyectos sustituye tareas, no puestos. El agente absorbe el volumen repetitivo, el triaje, la primera respuesta, el tecleo de datos. Las personas se quedan la parte con criterio. En la agencia inmobiliaria del caso, el equipo dejó de filtrar solicitudes y pasó a concertar visitas, que es el trabajo que produce ingresos.',
           },
           {
-            q: '¿Qué es la IA agéntica y en qué se diferencia de la IA generativa?',
-            a: 'La IA generativa produce contenido, texto, imágenes, código. La IA agéntica usa esos mismos modelos para actuar, decidir pasos, consultar herramientas y completar tareas. La generativa escribe el correo. La agéntica lo escribe, comprueba la agenda y convoca la reunión. Más capacidad y también más necesidad de control, por eso el resto de esta guía habla tanto de medir.',
+            q: '¿«IA agéntica» y «agente de IA» son lo mismo?',
+            a: 'En la práctica se usan como sinónimos y no pasa nada por hacerlo. «Agente de IA» nombra la pieza que trabaja y «IA agéntica» nombra la categoría, la manera de construir sistemas que deciden y actúan en lugar de limitarse a responder. Si alguien te los presenta como dos productos distintos, te está vendiendo dos veces lo mismo.',
           },
           {
             q: '¿Un agente y la RPA son lo mismo?',
@@ -3780,9 +3885,6 @@ export const content: Record<Lang, SiteContent> = {
       enterpriseTitle: 'AI assistant over your internal documentation, Ideasforge',
       enterpriseDescription:
         'For mid-size and large companies: an assistant that answers in natural language by querying your internal documentation, wikis and systems.',
-      realEstateTitle: 'AI for Real Estate and Property Management, Ideasforge',
-      realEstateDescription:
-        'AI for real-estate agencies and property managers. An agent qualifies rental requests 24/7 and the utility invoices tenants send in stop being typed by hand.',
     },
     nav: {
       home: 'Home',
@@ -4687,32 +4789,141 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       realEstate: {
+        metaTitle: 'AI for Real Estate and Property Management, Ideasforge',
+        metaDescription:
+          'AI for real-estate agencies and property managers. An agent qualifies rental requests 24/7 and the utility invoices tenants send in stop being typed by hand.',
         hero: {
-          eyebrow: 'Real estate and property management',
-          title: 'Your agency answering 24/7, without overloading the team',
+          title: 'AI for real estate, from the first inquiry to the last invoice',
           subtitle:
-            'An AI agent that receives the request, asks the qualifying questions and only escalates the leads that match. Especially useful during rental-demand peaks.',
+            'An agency has two bottlenecks, the inquiries arriving at every hour and the paperwork piling up behind the door. We have built for both, and both are running in production.',
           cta: 'Tell us your challenge',
         },
-        problem: {
-          heading: 'The problem',
-          body: 'Every incoming request goes through the same bottleneck: someone has to read it, qualify it and decide whether it is worth scheduling a visit. That is five to ten minutes per inquiry, dozens of times a day. During rental peaks the backlog piles up and leads cool off.',
-        },
-        solution: {
-          heading: 'The solution',
-          body: 'A conversational agent that takes the request and asks area, budget, dates and requirements. It only escalates the leads that pass the filter, with an email summary saying whether the request meets the criteria you set and why. <strong>The decision is still made by a person, with that summary in front of them.</strong> The client gets an immediate reply and every request is recorded with its verdict and its reasons.',
-        },
-        proof: {
-          heading: 'Proof in production',
-          body: 'This is the system we built for Barceloneta Premium. More than three hours saved per day just on handling incoming requests, and a human team that now only schedules visits instead of triaging.',
-        },
-        extra: {
-          heading: 'AI for property management',
-          body: 'Property management has its own repetitive work. At Stanton, a property manager, the utility invoices tenants send in used to be typed into a spreadsheet by hand. Today a chatbot receives each invoice and an OCR layer with a language model turns it into a normalized row in the spreadsheet the team already uses. Two AI agents in production, and the client keeps extending the automation to more processes.',
-        },
+        stats: [
+          {
+            value: '5 to 10 min',
+            label: 'was what checking a single incoming inquiry used to cost, dozens of times a day',
+          },
+          {
+            value: '+3 hours',
+            label: 'a day the agency got back, on handling incoming requests alone',
+          },
+          {
+            value: '98%',
+            label: 'of the utility invoices go through untouched at the property manager we built for',
+          },
+        ],
+        sections: [
+          {
+            heading: 'Two bottlenecks at opposite ends of the agency',
+            id: 'the-problem',
+            paragraphs: [
+              'The two bottlenecks of an agency sit at opposite ends of the same business. One faces outward, the inquiries arriving at every hour from people who want to see a flat. The other faces inward, the paperwork that piles up once they have moved in.',
+              'The industry is trying things. AppFolio, a property management software company, surveyed more than two thousand professionals for its 2025 benchmark report and found AI use up from 21% to 34% in a single year, with the share saying they had no plans at all dropping from 51% to 37%.',
+              'An adoption figure tells you the industry is buying. It does not tell you which of the two bottlenecks anybody cleared.',
+              '<strong>We build for one bottleneck at a time, and we measure what it costs you today before anything gets built.</strong> The two systems on this page are exactly that, one at an agency that was drowning in inquiries and one at a property manager that was drowning in invoices.',
+            ],
+          },
+          {
+            heading: 'The inquiries, and what an hour of silence costs',
+            paragraphs: [
+              'Someone looking for a flat is not writing only to you. They write to every listing that fits, at the same time, and the conversation goes to whoever comes back first with something useful.',
+              'That an inquiry goes cold is not a hunch, it was measured back in 2011 across more than a million of them, and the numbers are in the blog. What matters on this page is the arithmetic on your side of it.',
+              'Barceloneta Premium, an agency in Barcelona, was receiving dozens of WhatsApp messages a day. Checking each one took five to ten minutes before anybody knew whether it was worth a visit.',
+              '<strong>Those minutes were not spent selling. They were spent finding out whether there was anything to sell.</strong>',
+            ],
+            link: {
+              label: 'The numbers on a cooling inquiry',
+              href: '/en/blog/ai-agent-real-estate',
+            },
+          },
+          {
+            heading: 'What the agent does with an inquiry',
+            paragraphs: [
+              'It holds the conversation in the language the person wrote in, and gathers what the agency needs to know: why they are asking, what budget they have and what documentation they can produce.',
+              '<strong>The criteria are not ours and they are not buried inside the system.</strong> They live in a spreadsheet on the agency’s own drive and the agency edits them. When the rules for a suitable applicant change, nobody has to call us first.',
+              'What the team receives is an email with the verdict and a paragraph explaining it. Somebody reads three lines and decides whether to book the visit. <strong>The judgment stays with a person, which is the right way round and also what the rules on automated decisions expect.</strong>',
+              'The person who wrote in gets an answer straight away, at any hour, including the rental peaks where they used to sit waiting. The agency got back more than three hours a day.',
+            ],
+          },
+          {
+            heading: 'The version we threw away',
+            paragraphs: [
+              'The first one we built followed the pattern almost everything sold as an agent is built on, a model with tools available to it and instructions to use them when needed.',
+              '<strong>It often did not use them.</strong> Nothing failed in a way anyone could look up afterwards. The model decided it could answer without checking, so it either made the answer up or told a real applicant it could not go on when it perfectly well could.',
+              'The rebuild moved the bookkeeping into code. A state machine tracks what has already been gathered and which phase the questions are in, and the model routes to whatever tool that phase calls for. <strong>The code keeps count and the model reads people.</strong>',
+              'We tell you this because it is the failure that a demonstration never shows. An agent that answers confidently without checking looks better in a meeting than one that stops.',
+            ],
+          },
+          {
+            heading: 'AI for property management, behind the door',
+            paragraphs: [
+              'The second bottleneck has no conversation in it at all. Stanton manages rental property, and the electricity, gas and water bills their tenants sent in were typed into a spreadsheet by hand, one document at a time.',
+              'Each one cost a minute of typing. Today they arrive through the chat the team already used, a reading layer with a language model turns each into a checked row in that same spreadsheet, and <strong>98% go through without anybody touching them</strong>.',
+              'The rest stops and reaches a person with the document alongside and the reason pointed at. <strong>Stopping is the design and not the failure.</strong> A new format read with the old template does not throw an error, it hands you a wrong number that looks convincing, and we have watched that happen.',
+              'Nobody had to learn a new tool. The client has kept commissioning more back-office processes since, which is the signal that counts, because what gets used gets extended.',
+            ],
+            link: {
+              label: 'The document flow, step by step',
+              href: '/en/services/ai-workflow-automation',
+            },
+          },
+          {
+            heading: 'What it will not do',
+            paragraphs: [
+              '<strong>If someone stops replying, the conversation stays where it is.</strong> There is no chasing sequence. That was the agency’s decision and we think it was the right one, because pursuing somebody who has gone cold rarely pays for the nuisance it causes.',
+              'It does not write into your CRM when your CRM only lets you read. That is the case at Barceloneta, so the verdict goes out by email, which is where the team opens things anyway.',
+              'And it does not decide who gets the flat. It gathers, applies the criteria you wrote and explains its reasoning, and a person signs it off.',
+            ],
+          },
+          {
+            heading: 'What it costs',
+            paragraphs: [
+              'A system of this size falls between €2,500 and €10,000 to build, with monthly operation between €150 and €500. The full breakdown of what moves those figures is in the pricing guide.',
+              '<strong>That monthly fee pays for the monitoring and the maintenance, not the consumption.</strong> Model usage and infrastructure run in accounts under your company’s name, so those bills are yours to see and they do not pass through us. There is no lock-in on the fee, and the repository is yours from the first day.',
+            ],
+            link: {
+              label: 'How much an AI agent costs',
+              href: '/en/ai-agent-development-cost',
+            },
+          },
+          {
+            heading: 'Where you start',
+            paragraphs: [
+              'With whichever of the two bottlenecks is costing you more this month. Count the minutes one inquiry takes and multiply by how many arrive, or count the documents somebody retypes in a week. That number is the budget ceiling and the yardstick at the same time.',
+              'With the data, the access and the task defined, two weeks for a pilot is realistic. The pilot is paid and its price counts toward the project if you carry on, so what you are buying at that point is a decision backed by your own numbers.',
+            ],
+          },
+        ],
+        faqHeading: 'Questions from agencies and property managers',
+        faq: [
+          {
+            q: 'Do we have to change our CRM or our property management software?',
+            a: 'No. We connect to what you already run and the results land where your team already works, which in the two systems on this page means a chat they already used and a spreadsheet they already had. Where a system only allows reading and not writing, we say so and the output goes somewhere else.',
+          },
+          {
+            q: 'Who decides whether an applicant is suitable?',
+            a: 'A person at your agency, with the summary and its reasoning in front of them. The agent gathers the information and applies the criteria you wrote, and it never issues the final word on its own. Beyond being the sensible arrangement, it is what the rules on decisions taken purely by automated means expect.',
+          },
+          {
+            q: 'Can we change the qualifying criteria ourselves?',
+            a: 'Yes, and that was deliberate. They live in a spreadsheet on your own drive rather than inside the system, so your team edits them the day the requirements change without opening a ticket with us.',
+          },
+          {
+            q: 'What happens with the inquiries that arrive at three in the morning?',
+            a: 'They get answered. That is most of the point, because the person writing at three in the morning is writing to several listings at once and the useful reply is the one that arrives first. Anything that needs judgment waits for your team in the morning, already gathered and summarized.',
+          },
+          {
+            q: 'Does this work for sales as well as rentals?',
+            a: 'The agency behind this page is extending the same base from rentals to sales and to internal processes. That is the pattern we recommend, start with the process eating the most hours, measure it and grow from there once it has proved itself.',
+          },
+          {
+            q: 'We are a small agency. Is this oversized for us?',
+            a: 'Both systems on this page run at small teams. What decides it is not headcount, it is whether the same task repeats often enough to pay for its own automation, and dozens of inquiries a day at five to ten minutes each answers that question quickly.',
+          },
+        ],
         cta: {
-          heading: 'Does it fit your agency?',
-          body: 'Tell us your challenge. If we don’t see a return, we’ll tell you.',
+          heading: 'Which of the two is costing you more?',
+          body: 'Tell us where the hours go, the inquiries or the paperwork, and we will tell you whether we see a return. We reply within one business day.',
           button: 'Tell us your challenge',
         },
       },
@@ -4912,6 +5123,16 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>An AI agent is a program that understands what you ask of it and works out on its own what to do about it.</strong> Inside it carries a language model, which is the part that understands, plus a list of actions someone has authorized, like checking a calendar, searching a manual or filing a record.',
               'What sets it apart from an old-style bot is who decides the answer. The bot’s answer was written before anyone asked. The agent’s is decided in the moment, from whatever it was asked.',
               'And the difference that matters inside a company is what it works on. A general-purpose assistant stops at what it ships with. A company agent goes into your systems, with the permissions of the person using it, and inside the limits you approve.',
+            ],
+          },
+          {
+            heading: 'Where generative AI ends and agentic AI begins',
+            id: 'agentic-ai',
+            part: 'The short answer',
+            paragraphs: [
+              'Search around this subject and you will run into two labels the market never stops to explain. <strong>Generative AI produces content, anything from a paragraph to a piece of code.</strong> Agentic AI uses those same models to act: it decides the steps, calls the tools it needs, checks what comes back and finishes the task.',
+              'The shortest example we have. Generative writes you the email. Agentic writes it, checks the calendars of the people invited and sends the invitation.',
+              'That extra capability brings an extra need for control. It is the reason the rest of this guide talks so much about measurement. <strong>A system that only writes gets corrected by reading it before you send it. One that acts has already touched your systems by the time anyone notices.</strong>',
             ],
           },
           {
@@ -5138,8 +5359,8 @@ export const content: Record<Lang, SiteContent> = {
             a: 'No. RPA imitates clicks and keystrokes on screens and works well for identical processes that never change. An agent reads content, a different document every time, a request written any old way, and decides with rules. They often coexist, RPA moving the mechanical part and the model handling whatever requires interpretation.',
           },
           {
-            q: 'What is the difference between agentic AI and generative AI?',
-            a: 'Generative AI produces content, text, images, code. Agentic AI uses those same models to act, deciding steps, calling tools and completing tasks. Generative writes the email. Agentic writes it, checks the calendar and books the meeting. More capability, and more need for control, which is why this guide talks so much about measurement.',
+            q: 'Are “agentic AI” and “AI agent” the same thing?',
+            a: 'In practice they are used interchangeably, and there is nothing wrong with that. “AI agent” names the piece that does the work and “agentic AI” names the category, the way of building systems that decide and act instead of only answering. If someone presents them to you as two different products, they are selling you the same thing twice.',
           },
           {
             q: 'What happens when the AI gets it wrong?',
