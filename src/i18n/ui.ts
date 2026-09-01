@@ -1237,16 +1237,13 @@ export const content: Record<Lang, SiteContent> = {
             { label: 'IA para gestorías', href: '/gestorias' },
           ],
         },
-        {
-          heading: 'Casos',
-          links: [
-            { label: 'Asistente de planta', href: '/casos/industrial' },
-            { label: 'Savian', href: '/casos/savian' },
-            { label: 'Stanton', href: '/casos/stanton' },
-            { label: 'Barceloneta Premium', href: '/casos/barceloneta' },
-            { label: 'Wazzy', href: '/casos/wazzy' },
-          ],
-        },
+        /* «Casos» SALIÓ DEL MENÚ el 1 sep 2026, por decisión del propietario:
+           «no lo quiero, solo se accede a los casos desde el carrusel». Vale
+           para la cabecera y para el pie, que salen los dos de esta misma
+           lista. **Las páginas de caso siguen vivas y enlazadas**, desde el
+           carrusel de la portada y desde el cuerpo de las páginas de servicio,
+           así que ni quedan huérfanas ni salen del sitemap. Lo que se retira
+           es el atajo permanente en la navegación, no el acceso. */
         {
           heading: 'Guías',
           links: [
@@ -4668,16 +4665,13 @@ export const content: Record<Lang, SiteContent> = {
             { label: 'AI for accounting firms', href: '/en/accounting-firms' },
           ],
         },
-        {
-          heading: 'Cases',
-          links: [
-            { label: 'Plant assistant', href: '/en/cases/industrial' },
-            { label: 'Savian', href: '/en/cases/savian' },
-            { label: 'Stanton', href: '/en/cases/stanton' },
-            { label: 'Barceloneta Premium', href: '/en/cases/barceloneta' },
-            { label: 'Wazzy', href: '/en/cases/wazzy' },
-          ],
-        },
+        /* «Cases» SALIÓ DEL MENÚ el 1 sep 2026, por decisión del propietario:
+           «no lo quiero, solo se accede a los casos desde el carrusel». Vale
+           para la cabecera y para el pie, que salen los dos de esta misma
+           lista. **Las páginas de caso siguen vivas y enlazadas**, desde el
+           carrusel de la portada y desde el cuerpo de las páginas de servicio,
+           así que ni quedan huérfanas ni salen del sitemap. Lo que se retira
+           es el atajo permanente en la navegación, no el acceso. */
         {
           heading: 'Guides',
           links: [
