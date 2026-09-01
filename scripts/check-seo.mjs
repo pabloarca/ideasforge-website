@@ -138,6 +138,32 @@ for (const p of paginas) {
   }
 }
 
+/* ── 1 bis. La barra final, una sola forma en todo el sitio ──────────────────
+   El 1 sep 2026 el sitio decía dos cosas a la vez: los enlaces internos
+   apuntaban a `/gestorias` y la canónica, og:url, el hreflang y el sitemap
+   declaraban `/gestorias/`. Como el hosting sirve la forma sin barra y redirige
+   la otra, **la canónica apuntaba a una URL que redirige**. Aquí se vigila que
+   no vuelvan a separarse. La raíz queda fuera: no existe sin su barra. */
+const sobra = (u) => {
+  try {
+    const ruta = u.startsWith('http') ? new URL(u).pathname : u;
+    return ruta !== '/' && ruta.endsWith('/');
+  } catch {
+    return false;
+  }
+};
+for (const p of paginas) {
+  if (sobra(p.canonical)) error(p.r, 'canonical con barra final', `${p.canonical} · el sitio va sin ella`);
+  const og = (p.s.match(/property="og:url" content="([^"]*)"/) || [])[1] || '';
+  if (sobra(og)) error(p.r, 'og:url con barra final', og);
+  for (const m of p.s.matchAll(/hreflang="[^"]*" href="([^"]*)"/g)) {
+    if (sobra(m[1])) error(p.r, 'hreflang con barra final', m[1]);
+  }
+  for (const e of p.enlaces) {
+    if (sobra(e)) error(p.r, 'enlace interno con barra final', e);
+  }
+}
+
 /* ── 2. Duplicados entre páginas ─────────────────────────────────────────── */
 for (const [campo, etiqueta] of [['titulo', 'title'], ['desc', 'description']]) {
   const por = new Map();
@@ -282,6 +308,9 @@ if (existsSync(sm)) {
   for (const u of locs) {
     const ruta = new URL(u).pathname.replace(/\/$/, '') || '/';
     if (!rutas.has(ruta)) error('sitemap', 'URL que no existe', u);
+  }
+  for (const u of locs) {
+    if (sobra(u)) error('sitemap', 'URL con barra final', u);
   }
   const faltan = paginas.filter((p) => !/^\/404$/.test(p.r))
     .filter((p) => !locs.some((u) => (new URL(u).pathname.replace(/\/$/, '') || '/') === p.r));
