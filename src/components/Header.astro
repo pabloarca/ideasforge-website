@@ -1,9 +1,10 @@
 ---
 import { type Lang, content } from '../i18n/ui';
-import { localizedPath, routeMap } from '../i18n/utils';
+import { localizedPath } from '../i18n/utils';
 import Icon from './Icon.astro';
 import type { IconName } from '../lib/icons';
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import { medidas } from '../lib/imagen';
 
 interface Props {
   lang: Lang;
@@ -16,59 +17,88 @@ const home = localizedPath('/', lang);
 
 /*
   Prueba del set «Astilla» (.private/icons/iconos-ideasforge.md) en la
-  navegacion. No son otras metaforas: son los cinco iconos que ya habia
-  (grid, briefcase, spark, file, user) redibujados con la construccion del
-  set. El de usuario no hizo falta dibujarlo, `autor` ya era exactamente eso.
-
-  `dropdown` sustituye a la comparacion `icon === 'grid'` que habia antes: el
-  desplegable dependia del nombre del icono, asi que cambiarlo lo habria roto.
+  navegacion. No son otras metaforas: son los iconos que ya habia (grid,
+  spark, file, user) redibujados con la construccion del set. El de usuario
+  no hizo falta dibujarlo, `autor` ya era exactamente eso.
 
   Tamano 20 y no 16: `rejilla` y `destello` llevan `minSize: 20` y por debajo
   pierden los cortes. 20 es tamano canonico, asi que no rompe la rejilla.
+
+  Los desplegables salen de `t.footer.navGroups` (decision del 28 ago 2026):
+  «Servicios» contiene servicios y nada mas, y lo que no lo es vive bajo
+  «Guias». El grupo marcado `soloPie` no sube aqui: son los verticales, que
+  hablan al publico secundario del arbitro (§4) y no al primario. Siguen en
+  el pie, a un clic de cualquier pagina.
+
+  «Servicios» lleva destino propio, la seccion de servicios de la home;
+  «Guias» abre el panel y no va a ninguna parte, asi que se pinta como
+  <button> y no como enlace muerto.
 */
-const links: Array<{ label: string; href: string; icon: IconName; dropdown?: true }> = [
-  { label: t.nav.services, href: localizedPath('/#servicios', lang), icon: 'rejilla', dropdown: true },
-  { label: t.nav.projects, href: localizedPath('/#proyectos', lang), icon: 'maletin' },
-  { label: t.nav.about, href: routeMap.about[lang]!, icon: 'destello' },
+type Enlace = { label: string; href: string; icon: IconName };
+type Grupo = { heading: string; href?: string; icon: IconName; links: Enlace[] };
+
+const grupos: Grupo[] = t.footer.navGroups
+  .filter((g) => !g.soloPie)
+  .map((g, i) => ({
+    heading: g.heading,
+    href: i === 0 ? localizedPath('/#servicios', lang) : undefined,
+    icon: (['rejilla', 'documento'] as IconName[])[i] ?? 'rejilla',
+    links: g.links as Enlace[],
+  }));
+
+// Enlaces sueltos, tras los desplegables. «Proyectos» salio del menu el 28
+// ago 2026 por decision del propietario: era un ancla a una seccion de la
+// home, no una pagina.
+const sueltos: Array<{ label: string; href: string; icon: IconName }> = [
   { label: t.nav.blog, href: localizedPath('/blog', lang), icon: 'documento' },
   { label: t.nav.contact, href: localizedPath('/#contacto', lang), icon: 'autor' },
 ];
 
-// Service/keyword pages, same list the footer renders. Shown as a dropdown
-// under "Servicios" on desktop and as a sub-list in the mobile menu.
-const serviceLinks = t.footer.servicesLinks;
+const claseRaiz =
+  'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-[15px] font-medium text-fg transition-colors hover:bg-bg-soft';
 ---
 
 <header class="sticky top-0 z-40 border-b border-border-soft bg-bg/95 backdrop-blur-md">
-  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
+  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
     <!-- Logo: real wordmark SVG from the original site -->
     <a href={home} class="flex items-center text-fg" aria-label="Ideasforge">
-      <img src="/ideasforge-logo.svg" alt="Ideasforge" class="h-7 w-auto sm:h-8" />
+      <img
+        src="/ideasforge-logo.svg"
+        alt="Ideasforge"
+        {...medidas('/ideasforge-logo.svg')}
+        class="h-7 w-auto sm:h-8"
+      />
     </a>
 
     <!-- Desktop nav (centered), hover paints a soft gray pill, text stays black -->
-    <nav class="hidden flex-1 items-center justify-center gap-1 md:flex" aria-label="Principal">
+    <nav class="hidden flex-1 items-center justify-center gap-0.5 md:flex" aria-label="Principal">
       {
-        links.map((l) => (
-          <div class={l.dropdown ? 'group relative' : 'contents'}>
-          <a
-            href={l.href}
-            class="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-[15px] font-medium text-fg transition-colors hover:bg-bg-soft"
-          >
-            <Icon name={l.icon} size={20} />
-            <span>{l.label}</span>
-            {l.dropdown && (
-              <Icon
-                name="chevron-abajo"
-                size={16}
-                class="text-muted transition-transform duration-200 group-hover:rotate-180"
-              />
+        grupos.map((g) => (
+          <div class="group relative">
+            {g.href ? (
+              <a href={g.href} class={claseRaiz}>
+                <Icon name={g.icon} size={20} />
+                <span>{g.heading}</span>
+                <Icon
+                  name="chevron-abajo"
+                  size={16}
+                  class="text-muted transition-transform duration-200 group-hover:rotate-180"
+                />
+              </a>
+            ) : (
+              <button type="button" class={claseRaiz} aria-haspopup="true">
+                <Icon name={g.icon} size={20} />
+                <span>{g.heading}</span>
+                <Icon
+                  name="chevron-abajo"
+                  size={16}
+                  class="text-muted transition-transform duration-200 group-hover:rotate-180"
+                />
+              </button>
             )}
-          </a>
-          {l.dropdown && (
             <div class="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-2 opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
               <div class="panel-float w-72 p-2">
-                {serviceLinks.map((s) => (
+                {g.links.map((s) => (
                   <a
                     href={s.href}
                     class="block rounded-md px-3 py-2.5 text-sm font-medium text-fg transition-colors hover:bg-bg-soft hover:text-accent"
@@ -78,8 +108,15 @@ const serviceLinks = t.footer.servicesLinks;
                 ))}
               </div>
             </div>
-          )}
           </div>
+        ))
+      }
+      {
+        sueltos.map((l) => (
+          <a href={l.href} class={claseRaiz}>
+            <Icon name={l.icon} size={20} />
+            <span>{l.label}</span>
+          </a>
         ))
       }
     </nav>
@@ -111,7 +148,7 @@ const serviceLinks = t.footer.servicesLinks;
         </summary>
         <div class="panel-float absolute right-0 mt-2 max-h-[calc(100dvh-6rem)] w-72 overflow-y-auto p-2">
           {
-            links.map((l) => (
+            sueltos.map((l) => (
               <a
                 href={l.href}
                 class="block rounded-md px-3 py-2.5 text-sm font-medium text-fg transition-colors hover:bg-bg-soft hover:text-accent"
@@ -120,17 +157,21 @@ const serviceLinks = t.footer.servicesLinks;
               </a>
             ))
           }
-          <p class="mt-2 border-t border-border-soft px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-[0.12em] text-faint">
-            {t.footer.servicesHeading}
-          </p>
           {
-            serviceLinks.map((s) => (
-              <a
-                href={s.href}
-                class="block rounded-md px-3 py-2 text-sm text-fg transition-colors hover:bg-bg-soft hover:text-accent"
-              >
-                {s.label}
-              </a>
+            grupos.map((g) => (
+              <Fragment>
+                <p class="mt-2 border-t border-border-soft px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-[0.12em] text-faint">
+                  {g.heading}
+                </p>
+                {g.links.map((s) => (
+                  <a
+                    href={s.href}
+                    class="block rounded-md px-3 py-2 text-sm text-fg transition-colors hover:bg-bg-soft hover:text-accent"
+                  >
+                    {s.label}
+                  </a>
+                ))}
+              </Fragment>
             ))
           }
         </div>

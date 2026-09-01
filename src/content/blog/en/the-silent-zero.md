@@ -6,6 +6,7 @@ pubDate: 2026-08-04
 updatedDate: 2026-08-23
 translationId: 'silent-zero'
 tags: ['Observability', 'Data', 'Agents']
+draft: true
 ---
 
 When a data assistant answers *"no results for that period"*, almost everyone reads it as just another answer. We learned to read it differently. **A zero is not a neutral answer, it is an alarm waiting to be classified.**

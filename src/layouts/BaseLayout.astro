@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { type Lang, languages } from '../i18n/ui';
+import { type Lang, languages, content } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -31,6 +31,8 @@ const {
 
 const site = Astro.site ?? new URL('https://ideasforge.io');
 const canonical = new URL(Astro.url.pathname, site).href;
+/** La misma ruta sin barra final, para deducir la miga de pan. */
+const canonicalPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 const ogImage = new URL(image, site).href;
 
 // Organization structured data, shared by every page.
@@ -41,6 +43,65 @@ const orgJsonLd = JSON.stringify({
   url: site.href,
   logo: new URL('/ideasforge-logo.svg', site).href,
 });
+
+/*
+  Miga de pan estructurada. Se deduce de la propia ruta en vez de pasarla
+  pagina por pagina: asi ninguna se queda sin ella al crearse.
+
+  Google la usa para sustituir la URL cruda del resultado por la ruta legible.
+  El tramo intermedio apunta a las anclas de la home porque `/servicios` y
+  `/casos` no existen como paginas: son secciones. Un elemento de la miga
+  tiene que ser una URL real, y esas lo son.
+*/
+const rutaSinIdioma = (lang === 'en' ? canonicalPath.replace(/^\/en/, '') : canonicalPath) || '/';
+const segmentos = rutaSinIdioma.split('/').filter(Boolean);
+const nav = content[lang].nav;
+const inicio = lang === 'en' ? '/en' : '/';
+const ramas: Record<string, { name: string; href: string }> = {
+  blog: { name: nav.blog, href: lang === 'en' ? '/en/blog' : '/blog' },
+  servicios: { name: nav.services, href: `${inicio}#servicios` },
+  services: { name: nav.services, href: `${inicio}#servicios` },
+  casos: { name: nav.projects, href: `${inicio}#proyectos` },
+};
+const migas = segmentos.length
+  ? [
+      { name: nav.home, href: inicio },
+      ...(segmentos.length > 1 && ramas[segmentos[0]] ? [ramas[segmentos[0]]] : []),
+      { name: title.replace(/, Ideasforge$/, ''), href: canonicalPath },
+    ]
+  : [];
+const breadcrumbJsonLd = migas.length
+  ? JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: migas.map((m, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: m.name,
+        item: new URL(m.href, site).href,
+      })),
+    })
+  : null;
+
+/*
+  Service en las cuatro paginas de servicio de cada idioma. Se deduce de la
+  ruta, igual que la miga, para que una pagina de servicio nueva lo herede.
+
+  SIN `areaServed` a proposito. Declarar un territorio aqui contradiria la
+  decision de no dar a entender que solo servimos a la UE, y los datos de
+  Search Console dicen que Latinoamerica pesa mas que Espana.
+*/
+const esServicio = /^\/(servicios|en\/services)\//.test(canonicalPath);
+const serviceJsonLd = esServicio
+  ? JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: title.replace(/, Ideasforge$/, ''),
+      description,
+      url: canonical,
+      provider: { '@type': 'Organization', name: 'Ideasforge', url: site.href },
+    }).replace(/</g, '\\u003c')
+  : null;
 
 // hreflang entries. x-default points at the default (Spanish) version.
 const hreflangs = (Object.keys(languages) as Lang[])
@@ -97,6 +158,12 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
 
     <!-- Structured data -->
     <script is:inline type="application/ld+json" set:html={orgJsonLd} />
+    {
+      breadcrumbJsonLd && (
+        <script is:inline type="application/ld+json" set:html={breadcrumbJsonLd} />
+      )
+    }
+    {serviceJsonLd && <script is:inline type="application/ld+json" set:html={serviceJsonLd} />}
     <slot name="head" />
   </head>
 

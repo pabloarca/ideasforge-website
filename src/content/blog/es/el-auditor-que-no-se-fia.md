@@ -3,9 +3,10 @@ title: 'El auditor que no se fía'
 description: 'Un segundo modelo que desconfía por diseño, una memoria deliberadamente corta y la métrica que delata al asistente que responde de memoria.'
 lang: 'es'
 pubDate: 2026-07-07
-updatedDate: 2026-08-23
+updatedDate: 2026-08-29
 translationId: 'distrustful-auditor'
 tags: ['Agentes', 'Datos', 'Observabilidad']
+draft: true
 ---
 
 En un asistente que responde preguntas de negocio, **el fallo más peligroso no es no saber la respuesta. Es responder de memoria.**
@@ -14,7 +15,7 @@ Un modelo de lenguaje con historial de conversación tiene siempre a mano una te
 
 ## Un evaluador que desconfía por diseño
 
-En el asistente que construimos para Savian, la solución fue incorporar un auditor en línea, un segundo modelo cuya regla de oro es no fiarse jamás de las cifras que aparecen en el contexto conversacional. Si la pregunta implica un dato de negocio, obliga a reconsultar la base de datos, aunque el asistente ya «sepa» la respuesta.
+En el asistente que construimos para [Savian](/casos/savian), la solución fue incorporar un auditor en línea, un segundo modelo cuya regla de oro es no fiarse jamás de las cifras que aparecen en el contexto conversacional. Si la pregunta implica un dato de negocio, obliga a reconsultar la base de datos, aunque el asistente ya «sepa» la respuesta.
 
 A eso se suma una decisión que parece una limitación y es una defensa. **La ventana de memoria es deliberadamente corta.** Un historial largo es cómodo para conversar y peligroso para los números, porque multiplica las cifras viejas disponibles para reciclar. Con la ventana corta, cada número que sale por WhatsApp viene de una consulta fresca.
 

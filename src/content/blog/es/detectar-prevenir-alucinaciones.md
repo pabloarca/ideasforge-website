@@ -3,15 +3,26 @@ title: 'Detectar y prevenir alucinaciones de la IA es arquitectura'
 description: 'Una alucinación es una respuesta bien redactada y falsa. Los cuatro mecanismos con los que nuestros sistemas las acorralan en producción, con sus números y sus cicatrices.'
 lang: 'es'
 pubDate: 2025-09-20
-updatedDate: 2026-08-23
+updatedDate: 2026-08-29
 translationId: 'hallucinations'
 tags: ['Agentes', 'Calidad', 'Observabilidad']
 heroImage: '/blog/hallucinations.jpg'
+draft: true
 ---
 
 Una alucinación es una respuesta que parece correcta, está bien redactada y es falsa. Un dato inventado, una cita que no existe, una cifra que el sistema no consultó. El oficio de construir agentes de IA consiste en buena parte en esto, en distinguir una respuesta correcta de una respuesta que solo lo parece. Y esa distinción no la hace un truco de prompt. La hace la arquitectura.
 
 Las alucinaciones que vemos en producción tienen casi siempre uno de dos orígenes. El modelo responde desde su memoria de la conversación, ignorando la instrucción de consultar los datos. O el contexto que le llega está mal construido y el modelo rellena los huecos con lo que suena probable. **Ninguno de los dos se arregla pidiéndole al modelo que no alucine. Los dos se arreglan quitándole la oportunidad.**
+
+## Por qué el modelo prefiere inventar a callarse
+
+No es un defecto raro que el sector no consigue cazar. Es el comportamiento premiado.
+
+El trabajo que mejor lo explica lo publicó OpenAI con Georgia Tech en septiembre de 2025 y su argumento cabe en una imagen de examen. A un modelo se le entrena y se le evalúa como a un estudiante ante una pregunta difícil, el «no lo sé» puntúa cero y la respuesta segura puntúa a veces, aunque sea inventada. Con esas reglas, adivinar con aplomo es la estrategia que gana.
+
+La conclusión de ese trabajo es la que nosotros veníamos aplicando por las malas. Mientras las pruebas premien el aplomo, el modelo rellenará huecos, así que la corrección no consiste en pedirle sinceridad. Consiste en cambiar las reglas del juego que lo rodea, que es exactamente el trabajo de los cuatro mecanismos de abajo.
+
+¿Y cuánto daño hace esto fuera de las demos? Un investigador de HEC París mantiene un registro de resoluciones judiciales en las que el tribunal encontró material inventado por IA, con un criterio de entrada estricto. A mediados de 2026 pasaba de 1.600 casos y la curva se empina en lugar de aplanarse. **Más de 650 son de abogados en ejercicio**, gente cuyo oficio es precisamente comprobar citas.
 
 ## El contexto manda
 
@@ -27,7 +38,7 @@ Detectar es tan importante como prevenir. Nuestra métrica favorita para esto co
 
 ## El texto que lee el usuario no lo escribe el modelo
 
-En uno de nuestros asistentes de planta dimos un paso más. Para las respuestas que tienen que ser exactas, el modelo no devuelve el texto final, devuelve una clave, un identificador. Es el código quien recupera el texto canónico al que esa clave apunta. **Lo que la persona lee es literalmente lo aprobado, palabra por palabra, diga lo que diga el modelo alrededor.** La interpretación queda en el modelo y el contenido queda fuera de su alcance, que es donde una alucinación no puede tocarlo.
+En nuestro asistente de planta dimos un paso más. Para las respuestas que tienen que ser exactas, el modelo no devuelve el texto final, devuelve una clave, un identificador. Es el código quien recupera el texto aprobado al que esa clave apunta. **Lo que la persona lee es literalmente lo aprobado, palabra por palabra, diga lo que diga el modelo alrededor.** La interpretación queda en el modelo y el contenido queda fuera de su alcance, que es donde una alucinación no puede tocarlo.
 
 ## Cuando el «no lo sé» también alucina
 
@@ -35,6 +46,6 @@ Hay una alucinación de la que casi nadie habla, la del sistema que dice *«no t
 
 ## Qué preguntar si estás comprando
 
-Si evalúas un asistente y te preocupan las respuestas inventadas, tres preguntas separan el folleto de la ingeniería. De dónde sale cada cifra que muestra, de una consulta fresca o de la memoria de la conversación. Qué métrica delata al modelo cuando responde sin consultar y quién la mira. Y qué pasa cuando la documentación no tiene la respuesta, un «no» honesto con rastro o un relleno con buena redacción.
+Si evalúas un asistente y te preocupan las respuestas inventadas, tres preguntas separan el folleto de la ingeniería. De dónde sale cada cifra que muestra, de una consulta fresca o de la memoria de la conversación. Qué métrica delata al modelo cuando responde sin consultar y quién la mira. Y qué pasa cuando la documentación no tiene la respuesta, un «no» claro con rastro o un relleno con buena redacción.
 
 Reducir alucinaciones no es suerte ni magia. **Es contexto bien construido, verificación que no se fía y contenido crítico fuera del alcance del modelo, todo medido en producción.** La próxima respuesta impecable que veas, recíbela con la primera pregunta de esta casa. *¿De dónde salió esta cifra?* Así lo hacemos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia). Si estás situando el concepto desde el principio, empieza por la [guía de agentes de IA](/agentes-de-ia).

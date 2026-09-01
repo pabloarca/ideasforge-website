@@ -1,5 +1,6 @@
 ---
 import { type Lang, content } from '../i18n/ui';
+import { medidas } from '../lib/imagen';
 import FaqList from './FaqList.astro';
 
 interface Props {
@@ -15,6 +16,7 @@ const t = content[lang].faq;
     src="/decor/diamond.png"
     alt=""
     aria-hidden="true"
+    {...medidas('/decor/diamond.png')}
     class="pointer-events-none absolute left-[8%] top-16 hidden h-32 w-32 select-none object-contain lg:block xl:h-40 xl:w-40"
     style="transform: rotate(-12deg);"
   />

@@ -1,11 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getLangFromUrl, localizedPath } from '../i18n/utils';
-import { content } from '../i18n/ui';
 
 // Best-effort language from the requested URL (static 404 defaults to ES).
 const lang = getLangFromUrl(Astro.url);
-const t = content[lang];
 const copy =
   lang === 'es'
     ? { title: 'Página no encontrada', body: 'La página que buscas no existe o se ha movido.', cta: 'Volver al inicio' }

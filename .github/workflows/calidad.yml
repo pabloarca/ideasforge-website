@@ -1,0 +1,103 @@
+# Alarma de calidad y SEO.
+#
+# Existe porque una revisión a mano caduca. La auditoría del 1 sep 2026 midió
+# el sitio y para cuando se escribió el informe una página ya había cambiado
+# debajo: `/en/smb` pasó de plantilla corta a 1.598 palabras en otra sesión.
+# Un informe describe un momento; esto vigila todos.
+#
+# Reparto de los tres verificadores:
+#   - `astro check`  → tipos, imports rotos, props que no existen.
+#   - `check:copy`   → la voz de la casa sobre el ORIGEN (puntuación, palabras
+#                      vetadas, hechos retirados, grafías británicas).
+#   - `check:seo`    → lo comprobable sin criterio sobre el SITIO COMPILADO
+#                      (metadatos, duplicados, medidas de imagen, datos
+#                      estructurados, enlazado, redirecciones, peso).
+#
+# Ninguno sabe si un texto es bueno. El verde es el suelo, no el techo.
+
+name: Calidad y SEO
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # Permite lanzarlo a mano desde la pestaña Actions sin tocar código.
+  workflow_dispatch:
+
+# Si se empuja dos veces seguidas, la primera ejecución se cancela: interesa el
+# estado del último commit, no el del anterior.
+concurrency:
+  group: calidad-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    name: Tipos, redacción y SEO
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # `npm ci` en vez de `install`: instala exactamente lo del lockfile, así
+      # que la ejecución de hoy y la de dentro de un año son la misma.
+      - name: Instalar
+        run: npm ci
+
+      - name: Tipos
+        run: npm run check
+
+      - name: Redacción (check:copy)
+        run: npm run check:copy
+
+      - name: Compilar
+        run: npm run build
+
+      - name: SEO y calidad técnica (check:seo)
+        run: npm run check:seo
+
+      # El sitio compilado queda descargable desde la ejecución, que sirve para
+      # mirar con calma qué generó exactamente un commit que falló.
+      - name: Guardar el sitio compilado
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
+
+  lighthouse:
+    name: Lighthouse (medición, todavía no bloquea)
+    runs-on: ubuntu-latest
+    needs: verificar
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar y compilar
+        run: |
+          npm ci
+          npm run build
+
+      # Lighthouse es lo único que ve lo que `check:seo` no puede ver por ser
+      # análisis estático: LCP, CLS, recursos que bloquean el render.
+      #
+      # Arranca SIN romper el build a propósito. Primero hacen falta varias
+      # ejecuciones para saber qué números da este sitio en este runner, y
+      # entonces se fijan umbrales de verdad en `lighthouserc.json` y se quita
+      # el `continue-on-error`. Poner umbrales inventados hoy solo enseñaría a
+      # ignorar el rojo, que es la peor costumbre que puede coger un equipo.
+      - name: Medir
+        continue-on-error: true
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true

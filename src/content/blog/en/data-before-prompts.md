@@ -1,9 +1,10 @@
 ---
 title: 'Data before prompts'
+metaTitle: 'Data before prompts: what beats prompt engineering'
 description: 'An entire market sells prompt engineering. Our production experience says you gain more by organizing the data than by polishing the prompt.'
 lang: 'en'
 pubDate: 2026-08-11
-updatedDate: 2026-08-23
+updatedDate: 2026-08-31
 translationId: 'data-before-prompt'
 tags: ['Data', 'Architecture', 'Agents']
 ---
@@ -24,11 +25,19 @@ In another of our systems, the separation between clients initially depended on 
 
 That is the recurring pattern. **The robust solution almost never lives in the text you pass the model.** It lives in how the data the model consumes is organized, and in the code that decides what it may touch.
 
+## The industry knows it and dodges it
+
+The title of a 2021 Google Research study says it without anaesthetic. Everyone wants to do the model work and nobody wants to do the data work.
+
+The study interviewed 53 teams applying AI in domains where getting it wrong is expensive, health, credit, conservation. And it put a name to what happens when data is treated as a formality, data cascades. Problems that start small, have no indicator to give them away, and compound until the system has to be rebuilt or the trust of the people using it erodes. Some take years to surface, and they almost always surface in production.
+
+Our two examples above are cascades caught in time. The threshold that detected nothing was a data problem dressed as a model problem. The filter someone could forget was a data problem dressed as a discipline problem. **In both cases the fix arrived before the bill because we looked in the right layer.**
+
 ## What this means if you are buying AI
 
 That the quality question for a vendor is not *"which model do you use?"* or *"how do you write your prompts?"*. It is *"what will you do with my data so the model works well?"*. Cleaning catalogs, unifying identifiers, deciding what gets indexed and how it is chunked, defining which fields exist and which are never exposed. It is less glamorous than a clever prompt, and it is where the system's endurance gets decided.
 
-Our internal motto sums it up: **judgment lives in the code, interpretation of the world lives in the model, and knowledge lives in the data.** Each piece where it belongs.
+Our internal motto sums it up: **judgment lives in the code, interpretation of language lives in the model, and knowledge lives in the data.** Each piece where it belongs.
 
 Next time a failure begs for a prompt tweak, look first at what the model received. *Was the data clean, organized and complete?* If the answer is no, you already know where the fix is not.
 

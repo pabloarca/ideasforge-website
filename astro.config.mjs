@@ -37,6 +37,18 @@ export default defineConfig({
   // Tailwind v4 is wired through the official Vite plugin (NOT the old
   // @astrojs/tailwind integration, which is deprecated for v4).
   vite: {
-    plugins: [tailwindcss()],
+    /*
+      El aserto de tipo no tapa un fallo, tapa un desajuste de versiones que no
+      es nuestro: en el árbol conviven dos Vite, el 6.4 que fija Astro y el 8.1
+      que arrastra `@tailwindcss/vite`. Cada uno declara su propio tipo
+      `Plugin`, así que TypeScript los ve incompatibles aunque la superficie
+      que el plugin usa de verdad sea la misma. La compilación funciona y el
+      CSS sale correcto.
+
+      Conviene quitarlo cuando Astro suba a Vite 8: si para entonces el
+      desajuste era real, el error aparecerá y habrá que atenderlo. Anotado en
+      PENDIENTES el 1 sep 2026.
+    */
+    plugins: [/** @type {any} */ (tailwindcss())],
   },
 });

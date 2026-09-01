@@ -179,7 +179,7 @@ const field =
                 >
                   <Icon name="correcto" size={12} />
                 </span>
-                <span>{item}</span>
+                <span set:html={item} />
               </li>
             ))}
           </ul>

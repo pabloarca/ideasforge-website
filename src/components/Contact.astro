@@ -1,6 +1,7 @@
 ---
 import { type Lang, content } from '../i18n/ui';
 import { routeMap } from '../i18n/utils';
+import { medidas } from '../lib/imagen';
 
 interface Props {
   lang: Lang;
@@ -21,6 +22,7 @@ const field =
     src="/decor/cube.png"
     alt=""
     aria-hidden="true"
+    {...medidas('/decor/cube.png')}
     class="pointer-events-none absolute right-[8%] top-12 hidden h-32 w-32 select-none object-contain lg:block xl:h-40 xl:w-40"
   />
 

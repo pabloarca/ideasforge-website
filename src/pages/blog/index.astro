@@ -15,7 +15,33 @@ const posts = (await getCollection('blog', ({ data }) => data.lang === lang && !
 const slugOf = (id: string) => id.replace(/^(es|en)\//, '');
 const fmt = (d: Date) =>
   d.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+
+/*
+  El índice se declara como Blog y nombra sus entradas. Sirve para que un
+  rastreador vea la lista como una colección con partes, en vez de como una
+  página suelta llena de enlaces. Se genera de `posts`, así que una entrada
+  nueva entra sola y una que se va a la nevera desaparece sola.
+*/
+const site = Astro.site ?? new URL('https://ideasforge.io');
+const blogJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: t.meta.blogTitle.replace(/, Ideasforge$/, ''),
+  description: t.meta.blogDescription,
+  url: new URL('/blog', site).href,
+  inLanguage: 'es-ES',
+  publisher: { '@type': 'Organization', name: 'Ideasforge', url: site.href },
+  blogPost: posts.map((p) => ({
+    '@type': 'BlogPosting',
+    headline: p.data.title,
+    url: new URL(`/blog/${slugOf(p.id)}`, site).href,
+    datePublished: p.data.pubDate.toISOString(),
+    ...(p.data.updatedDate ? { dateModified: p.data.updatedDate.toISOString() } : {}),
+  })),
+}).replace(/</g, '\\u003c');
 ---
+
+<script is:inline type="application/ld+json" set:html={blogJsonLd} />
 
 <BaseLayout
   lang={lang}
@@ -44,9 +70,19 @@ const fmt = (d: Date) =>
             </div>
             <div class="flex flex-1 flex-col p-7 sm:p-8">
               <div class="flex flex-wrap items-center gap-3">
+                {/* Estreno y reescritura, en ese orden. Cuatro entradas de 2025
+                    citan hechos de 2026 y con solo la fecha de estreno parecían
+                    adivinar el futuro. La de estreno se queda porque es la que
+                    ordena la lista. */}
                 <time datetime={post.data.pubDate.toISOString()} class="text-xs font-medium uppercase tracking-wide text-faint">
                   {fmt(post.data.pubDate)}
                 </time>
+                {post.data.updatedDate &&
+                  post.data.updatedDate.toDateString() !== post.data.pubDate.toDateString() && (
+                    <time datetime={post.data.updatedDate.toISOString()} class="text-xs text-faint">
+                      · {t.blog.updatedOn} {fmt(post.data.updatedDate)}
+                    </time>
+                  )}
                 {post.data.tags.slice(0, 3).map((tag) => (
                   <span class="rounded-full border border-border-soft px-2.5 py-0.5 text-xs text-muted">
                     {tag}

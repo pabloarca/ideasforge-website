@@ -4,6 +4,7 @@ import { content } from '../i18n/ui';
 import { altsFor } from '../i18n/utils';
 
 const lang = 'es' as const;
+const page = content[lang].pages.aiAct!;
 ---
 
-<LongFormPage lang={lang} page={content[lang].pages.about} alternates={altsFor('about')} />
+<LongFormPage lang={lang} page={page} alternates={altsFor('aiAct')} />

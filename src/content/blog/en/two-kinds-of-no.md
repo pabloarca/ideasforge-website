@@ -6,6 +6,7 @@ pubDate: 2026-06-09
 updatedDate: 2026-08-23
 translationId: 'two-nos'
 tags: ['Agents', 'Knowledge', 'Product']
+draft: true
 ---
 
 Every AI assistant says "no" many times a day. The interesting question is which of the two kinds of no it is saying, because there are two and they have nothing in common.

@@ -1,9 +1,10 @@
 ---
 title: 'Te cuento un secreto: no me gustan las arquitecturas agénticas'
+metaTitle: 'No me gustan las arquitecturas agénticas'
 description: 'Vendemos agentes de IA y no nos gusta cómo los construye casi todo el mundo. Las reglas de negocio no pueden vivir en el prompt, tienen que vivir en el código.'
 lang: 'es'
 pubDate: 2026-08-18
-updatedDate: 2026-08-23
+updatedDate: 2026-08-31
 translationId: 'dont-like-agents'
 tags: ['Agentes', 'Arquitectura', 'Seguridad']
 ---
@@ -36,7 +37,7 @@ Demos por bueno un prompt perfecto que el modelo nunca ignora. Aun así queda un
 
 ### Los errores no se suman, se multiplican
 
-Un agente encadena pasos y cada paso puede salir mal. La intuición dice que un sistema que acierta el 95 % de las veces es un sistema fiable. La aritmética dice otra cosa. Para que una tarea de veinte pasos termine bien tienen que salir bien los veinte, así que las probabilidades se multiplican entre sí. Un 95 % de acierto por paso deja la tarea completa en un 36 %. Con diez pasos se queda en un 59 %. **La fiabilidad que impresiona en un paso suelto se evapora en cuanto los pasos se encadenan.**
+Un agente encadena pasos y cada paso puede salir mal. La intuición dice que un sistema que acierta el 95 % de las veces es un sistema fiable. La aritmética dice otra cosa. Para que una tarea de veinte pasos termine bien tienen que salir bien los veinte, así que las probabilidades se multiplican entre sí. Un 95 % de acierto por paso deja la tarea completa en un 36 %. Con diez pasos se queda en casi un 60 %. **La fiabilidad que impresiona en un paso suelto se evapora en cuanto los pasos se encadenan.**
 
 La salida no es abandonar los agentes, es acortarlos. Por eso los nuestros dividen el trabajo en tramos cortos, cada uno verificable por separado, con puntos de vuelta atrás y con confirmación de una persona en los momentos delicados. Hay además un detalle que casi nadie cuenta. El coste crece con la longitud, porque cada paso arrastra todo el contexto de los anteriores y las conversaciones largas se encarecen a un ritmo que las demostraciones nunca enseñan.
 
@@ -46,13 +47,19 @@ Aquí está la trampa de las demostraciones, que casi todas tienen menos de cinc
 
 A finales de 2024 un equipo de Carnegie Mellon montó [una empresa simulada](https://arxiv.org/abs/2412.14161) para medir esto. Una compañía ficticia con herramientas reales, con su repositorio de código, su gestor de proyectos y su mensajería interna. Les encargaron a los mejores agentes del momento 175 tareas de oficina de las que cualquier empleado reconocería como parte de un día normal. El mejor agente que ha pasado por esa prueba completó por sí solo el 30,3 % de las tareas. El resto de los intentos fracasó o se quedó por el camino. Hubo agentes que llegaron a hacer trampas, uno renombró a otro usuario para fingir que había encontrado a la persona que le habían pedido buscar.
 
+Otro examen del mismo año midió la dimensión que más importa en una empresa, que no es acertar una vez sino acertar siempre. [Tau-bench](https://arxiv.org/abs/2406.12045) ponía a los agentes a resolver gestiones de clientes de una aerolínea y una tienda, con herramientas y reglas delante. Y añadía una métrica con trampa, repetir la misma tarea ocho veces y contar solo lo resuelto las ocho. El mejor agente del momento rondaba el 61 % a la primera en el escenario de tienda. Contando solo lo que resolvía las ocho veces, caía al 25 %.
+
+Los modelos de hoy puntúan más alto a la primera. La distancia entre la primera vez y la octava es de otra naturaleza, porque no mide puntería, mide cuánto varía el resultado de una vez a otra. Y variar es la naturaleza misma del componente. **A quien atiende clientes no le sirve el sistema que acierta a veces. Ningún vídeo de demostración enseña la octava repetición.**
+
 Y Gartner, la consultora a la que esas mismas empresas piden consejo, [estima](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) que más del 40 % de los proyectos de IA agéntica se cancelarán antes de acabar 2027, por costes que se disparan, por valor que no aparece o por controles de riesgo insuficientes. Ninguna de las tres causas es un misterio si has leído hasta aquí.
 
 ## La seguridad tampoco acompaña
 
 Hay un segundo frente y es más incómodo que la aritmética, porque no se arregla ni con modelos mejores.
 
-Un modelo de lenguaje recibe por el mismo canal las instrucciones que le das y el texto que le llega de fuera. No hay nada que separe unas de otro, así que cualquiera que pueda hacerle llegar texto puede intentar colarle una orden disfrazada de contenido. La seguridad clásica resuelve este problema separando datos de instrucciones. Aquí esa separación no existe. Por eso la inyección de instrucciones encabeza por segunda edición consecutiva la [lista de riesgos de OWASP](https://owasp.org/www-project-top-10-for-large-language-model-applications/) para aplicaciones con modelos de lenguaje. En diciembre de 2025 el [centro nacional de ciberseguridad británico](https://www.ncsc.gov.uk/news/mistaking-ai-vulnerability-could-lead-to-large-scale-breaches) fue más allá y avisó de que probablemente no se arregle nunca como categoría. Su recomendación oficial es dejar de esperar el parche y diseñar los sistemas para que el daño posible sea pequeño.
+Un modelo de lenguaje recibe por el mismo canal las instrucciones que le das y el texto que le llega de fuera. No hay nada que separe unas de otro, así que cualquiera que pueda hacerle llegar texto puede intentar colarle una orden disfrazada de contenido. La seguridad clásica resuelve este problema separando datos de instrucciones. Aquí esa separación no existe.
+
+Por eso la inyección de instrucciones encabeza por segunda edición consecutiva la [lista de riesgos de OWASP](https://owasp.org/www-project-top-10-for-large-language-model-applications/) para aplicaciones con modelos de lenguaje. En diciembre de 2025 el [centro nacional de ciberseguridad británico](https://www.ncsc.gov.uk/news/mistaking-ai-vulnerability-could-lead-to-large-scale-breaches) fue más allá y avisó de que probablemente no se arregle nunca como categoría. Su recomendación oficial es dejar de esperar el parche y diseñar los sistemas para que el daño posible sea pequeño.
 
 Piensa en lo que eso significa para las arquitecturas. Si la puerta de entrada no se puede cerrar del todo, la única defensa seria es reducir lo que hay detrás de la puerta. No consiste en afinar lo que se le dice al modelo, consiste en recortar lo que el modelo puede hacer cuando lo engañen.
 
@@ -62,7 +69,7 @@ El caso extremo es el montaje donde el modelo se enchufa directamente a la base 
 
 ## Cómo lo construimos nosotros
 
-Nuestro reparto es siempre el mismo: el juicio vive en el código, la interpretación del mundo vive en el modelo y el conocimiento vive en los datos. El juicio es todo lo que decide qué está permitido y qué no. La interpretación es entender qué quiere decir una persona cuando escribe como escriben las personas. El conocimiento es lo que el sistema sabe de tu negocio, versionado y consultable. Suena abstracto hasta que se baja a un sistema concreto, así que bajemos.
+Nuestro reparto es siempre el mismo: el juicio vive en el código, la interpretación del lenguaje vive en el modelo y el conocimiento vive en los datos. El juicio es todo lo que decide qué está permitido y qué no. La interpretación es entender qué quiere decir una persona cuando escribe como escriben las personas. El conocimiento es lo que el sistema sabe de tu negocio, versionado y consultable. Suena abstracto hasta que se baja a un sistema concreto, así que bajemos.
 
 ### El modelo elige, el código ejecuta
 
@@ -76,11 +83,13 @@ El agente no tiene una credencial todopoderosa propia. Las consultas a los siste
 
 ### La pieza que decide no caduca con el modelo
 
-Hay una consecuencia de este reparto que se nota el día que toca cambiar de modelo. Ese día llega siempre, porque los proveedores retiran modelos con regularidad y con fecha. Cuando el modelo no es la autoridad, sustituirlo es un cambio acotado que se puede medir. Al valorar si cambiábamos el modelo de uno de nuestros sistemas por otro más barato, pasamos las dos versiones por el mismo juego de preguntas con su respuesta correcta anotada. El barato perdía diez puntos de acierto y en las preguntas donde había que elegir entre dos opciones parecidas caía del 89 % al 44 %, así que se quedó fuera con esos números delante. Si las reglas hubieran vivido en el prompt, esa comparación no habría existido, porque no habría habido contra qué comparar.
+Hay una consecuencia de este reparto que se nota el día que toca cambiar de modelo. Ese día llega siempre, porque los proveedores retiran modelos con regularidad y con fecha. Cuando el modelo no es la autoridad, sustituirlo es un cambio acotado que se puede medir.
+
+Al valorar si cambiábamos el modelo de uno de nuestros sistemas por otro más barato, pasamos las dos versiones por la misma batería de pruebas, los casos reales con su respuesta correcta anotada. El barato perdía diez puntos de acierto y en las preguntas donde había que elegir entre dos opciones parecidas caía del 89 % al 44 %, así que se quedó fuera con esos números delante. Si las reglas hubieran vivido en el prompt, esa comparación no habría existido, porque no habría habido contra qué comparar.
 
 ### La decisión se puede guardar
 
-Queda el beneficio menos visible, que con los años es el que más importa. Si la decisión vive dentro del modelo, cuando algo sale raro no queda nada que examinar, solo un texto que salió. En nuestro reparto la decisión queda entera fuera del modelo, así que se puede registrar qué entendió, qué pidió, qué descartó el validador y por qué lo descartó. Cuando seis meses después alguien pregunta por qué el sistema respondió lo que respondió, hay algo que enseñar. Sobre esa base se montan las pruebas de regresión que cada cambio tiene que pasar antes de publicarse y la medición semanal que vigila que nada se degrade en silencio.
+Queda el beneficio menos visible, que con los años es el que más importa. Si la decisión vive dentro del modelo, cuando algo sale raro no queda nada que examinar, solo un texto que salió. En nuestro reparto la decisión queda entera fuera del modelo, así que se puede registrar qué entendió, qué pidió, qué descartó el validador y por qué lo descartó. Cuando seis meses después alguien pregunta por qué el sistema respondió lo que respondió, hay algo que enseñar. Sobre esa base se monta la batería de pruebas que cada cambio tiene que pasar antes de publicarse y la medición semanal que vigila que nada se degrade en silencio.
 
 ### Lo que este reparto cuesta
 
@@ -88,7 +97,7 @@ Para ser justos, esta forma de construir también tiene factura. Exige entender 
 
 ## No somos los únicos que hemos llegado aquí
 
-Lo revelador de esta postura es quién más la sostiene. No son los escépticos de la IA. Son los que construyen agentes para ganarse la vida.
+Lo revelador de esta postura es quién más la sostiene. No es un escéptico de la IA. Es el fabricante de uno de los modelos que usamos.
 
 [Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents), la guía de Anthropic, el fabricante de Claude, recomienda empezar por flujos orquestados por código y reservar la autonomía del agente para los problemas que de verdad la necesitan. Cuanta más estructura conoces del problema, menos decisiones deberías delegarle al modelo.
 
@@ -96,7 +105,7 @@ Nosotros mantenemos en producción un sistema con media docena de agentes especi
 
 De ahí salen tres reglas que aplicamos siempre. El bucle de control es nuestro y no de un marco de moda. Los prompts se versionan y se prueban como cualquier otro código. Y cada agente se mantiene pequeño y centrado en tareas de pocos pasos.
 
-Cada uno llega desde un ángulo distinto, el fabricante de modelos, el que vende un agente de programación y la comunidad que los opera a diario. Todos aterrizan en el mismo sitio. La autonomía del modelo no es un objetivo de diseño, es un coste que solo se paga cuando compra algo a cambio.
+La autonomía del modelo no es un objetivo de diseño, es un coste que solo se paga cuando compra algo a cambio.
 
 ## Cuándo sí tiene sentido soltarle la mano al modelo
 

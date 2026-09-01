@@ -6,6 +6,7 @@ pubDate: 2026-08-21
 updatedDate: 2026-08-23
 translationId: 'four-layers-isolation'
 tags: ['Security', 'Architecture', 'Agents']
+draft: true
 ---
 
 One of our assistants answers business questions for several companies at once. Same software, same models, everyone's data living in the same warehouse. From day one it has carried the question every data owner asks, with good reason. What stops, exactly, one company's answer from carrying another company's numbers inside.

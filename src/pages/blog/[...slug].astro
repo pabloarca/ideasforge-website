@@ -78,7 +78,7 @@ const articleJsonLd = JSON.stringify({
 
 <BaseLayout
   lang={lang}
-  title={`${post.data.title}, Ideasforge`}
+  title={`${post.data.metaTitle ?? post.data.title}, Ideasforge`}
   description={post.data.description}
   alternates={alternates}
   ogType="article"

@@ -1,5 +1,6 @@
 ---
 import { type Lang, content } from '../i18n/ui';
+import { medidas } from '../lib/imagen';
 import Icon from './Icon.astro';
 import CarouselBehaviour from './CarouselBehaviour.astro';
 
@@ -58,6 +59,7 @@ const t = content[lang].caseStudies;
                   <img
                     src={item.clientLogo}
                     alt={item.client}
+                    {...medidas(item.clientLogo)}
                     class="hidden h-14 w-auto self-start object-contain sm:block"
                     loading="lazy"
                     decoding="async"
@@ -80,6 +82,29 @@ const t = content[lang].caseStudies;
                     <span class="text-xl font-bold text-white sm:text-[1.75rem] sm:text-fg">{item.metricBig}</span>
                     <span class="hidden text-[15px] leading-snug text-muted sm:block">{item.metricSmall}</span>
                   </div>
+                  {/* El enlace es explicito y no la ficha entera: la pista se
+                      arrastra con el dedo y un enlace de tarjeta completa se
+                      dispararia al soltar. Solo aparece donde hay pagina.
+
+                      A diferencia del cuerpo y de metricSmall, este SI se ve
+                      en movil: es la unica via a la pagina de caso desde el
+                      carrusel, y ocultarlo dejaba el destino inalcanzable en
+                      el dispositivo desde el que mas se navega. Toma el mismo
+                      tratamiento de color que metricBig, blanco sobre la
+                      imagen en movil y acento sobre fondo claro. */}
+                  {item.href && (
+                    <a
+                      href={item.href}
+                      class="group mt-3 inline-flex items-center gap-1.5 text-[15px] text-white sm:mt-5 sm:text-accent"
+                    >
+                      <span class="underline-offset-2 group-hover:underline">{item.hrefLabel}</span>
+                      <Icon
+                        name="flecha-derecha"
+                        size={16}
+                        class="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5"
+                      />
+                    </a>
+                  )}
                 </div>
               </div>
 
@@ -93,6 +118,7 @@ const t = content[lang].caseStudies;
                   <img
                     src={item.image}
                     alt={item.title}
+                    {...medidas(item.image)}
                     class="absolute inset-0 h-full w-full object-cover"
                     loading="lazy"
                     decoding="async"

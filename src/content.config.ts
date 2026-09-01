@@ -10,6 +10,10 @@ const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
+    // Titulo para la pestana del navegador y el resultado de busqueda, cuando
+    // el H1 es mas largo de lo que Google llega a mostrar (unos 60 caracteres).
+    // Si falta, se usa `title`.
+    metaTitle: z.string().optional(),
     description: z.string(),
     lang: z.enum(['es', 'en']),
     pubDate: z.coerce.date(),

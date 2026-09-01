@@ -21,6 +21,7 @@
 */
 import GridBackdrop from './graficos/GridBackdrop.astro';
 import { coverFamilies, seedFrom } from './graficos/gradients';
+import { medidas } from '../lib/imagen';
 
 interface Props {
   title: string;
@@ -43,6 +44,7 @@ const family = coverFamilies[(index ?? seed) % coverFamilies.length];
     <img
       src={image}
       alt=""
+      {...medidas(image)}
       loading="lazy"
       decoding="async"
       class:list={['h-full w-full object-cover', className]}

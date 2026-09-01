@@ -48,8 +48,19 @@ const EXCEPCIONES_DOS_PUNTOS = [
   'Te cuento un secreto: no me gustan',
 ];
 
+/*
+ * Patrones de rótulo, donde los dos puntos separan una etiqueta de su texto
+ * y no anuncian una enumeración. Mismo criterio que la excepción declarada
+ * para «Guía: …» el 21 ago 2026: el nombre del cliente en el título de una
+ * página de caso dice de quién va la página, no introduce una lista.
+ */
+const ROTULOS_DOS_PUNTOS = [
+  // Título de página de caso: «Savian: …», «Stanton: …»
+  /(^|['"])\s*[A-ZÁÉÍÓÚÑ][\wáéíóúñÁÉÍÓÚÑ]*:\s/,
+];
+
 const PALABRAS_VETADAS = [
-  'crucial', 'fundamental', 'esencial', 'robusto', 'vibrante', 'innovador',
+  'crucial', 'fundamental', 'esencial', 'robust', 'vibrante', 'innovador',
   'transformador', 'imprescindible', 'potenciar', 'impulsar', 'empoderar',
   'sinergia', 'panorama', 'en un mundo donde', 'imagina que',
   'es importante destacar', 'cabe señalar', 'en definitiva', 'prosa',
@@ -63,8 +74,107 @@ const PALABRAS_VETADAS = [
   'no es solo', 'no se trata de',
 ];
 
+/*
+ * Léxico que el propietario ya corrigió una vez (revisión de patrones del
+ * 27 ago 2026: se releyeron TODAS sus correcciones del historial y seis
+ * términos corregidos seguían vivos en clones de otras páginas). Hoy hay
+ * cero usos, así que cualquier aparición es una recaída, no una duda.
+ */
+const LEXICO_VETADO = [
+  [/Fráncfort/g, 'Frankfurt'],
+  [/\brendible/g, 'capaz de rendir cuentas'],
+  [/harina de otro costal/g, 'otra cosa, dicho llano'],
+  [/por lo bajo/g, 'en silencio, o como mínimo, según el caso'],
+  [/cuenta de nube/g, 'cuenta en la nube'],
+  [/parada a parada/g, 'paso a paso («parada» es solo la de modelo)'],
+  [/seudonimiz/g, 'separar el dato de la persona, dicho así'],
+  [/testigo de (acceso|identidad)/g, 'credencial'],
+  [/\blax[oa]s?\b/g, 'poco estricto/a'],
+  [/\bcanónic[oa]s?\b/g, 'aprobado, o el de referencia'],
+  [/Actualizad[oa] en agosto/g, 'fuera: el propietario lo quitó y reapareció una vez'],
+  // Vetadas por el propietario en todo el sitio, 27 ago 2026 (noche)
+  [/honest[oa]s?/g, 'claridad, a tiempo, sensato… según el trabajo de la frase'],
+  [/honestidad/g, 'claridad («claridad de máquina» es el concepto renombrado)'],
+  [/instinto/g, 'primer impulso'],
+];
+
+/*
+ * Hechos y afirmaciones RETIRADOS: cero apariciones en todo el sitio, en
+ * los dos idiomas. La lección del 27 ago es que un hecho corregido en la
+ * página señalada sobrevivía en sus clones («24 horas laborables» seguía en
+ * 15 sitios; el ranking de datos de salud, en 4, dos de ellos en inglés).
+ * Cuando se retire un hecho nuevo, su huella entra AQUÍ en el mismo cambio.
+ */
+const HECHOS_RETIRADOS = [
+  ['24 horas laborables', 'pasó a «un día laborable» (27 ago 2026)'],
+  ['24 business hours', 'pasó a «one business day» (27 ago 2026)'],
+  ['pueden recibir datos personales', 'hecho retirado por el propietario (20 ago 2026)'],
+  ['cannot receive personal data', 'hecho retirado por el propietario (20 ago 2026)'],
+  ['a gran escala o toca', 'criterio AEPD corregido: dos o más criterios de su lista'],
+  ['categoría más protegida', 'ranking inexistente: categorías especiales del art. 9, sin jerarquía'],
+  ['most protected category', 'ranking inexistente: special categories, no hierarchy'],
+  ['strictest category', 'el mismo ranking inexistente'],
+  ['listón más alto', 'el mismo ranking, dicho de otra manera'],
+  ['respeta los cinco años', 'la conservación de la historia clínica es de la clínica, no de Wazzy'],
+  ['respects the five years', 'la conservación de la historia clínica es de la clínica, no de Wazzy'],
+  ['cinco céntimos', 'coste de la prueba semanal retirado por el propietario (27 ago 2026)'],
+  ['five cents', 'coste de la prueba semanal retirado por el propietario (27 ago 2026)'],
+  ['0,05 €', 'la misma cifra retirada'],
+  ['€0.05', 'la misma cifra retirada'],
+  // Ojo: la huella es la fórmula CON «sin esperar». La observación genérica
+  // sobre equipos que esperan a su departamento de analítica sigue siendo
+  // válida, lo retirado es atribuírsela a Savian (§1 del árbitro).
+  ['sin esperar a analítica', 'la espera de Savian era llegar a la oficina, no una cola de analítica (28 ago 2026)'],
+  ['without waiting for analytics', 'la misma atribución, en inglés'],
+  // El CRM de Barceloneta solo tiene puntos de consulta, sin escritura: el
+  // resumen va por correo. Corregido en /inmobiliarias el 28 ago 2026 y el
+  // clon inglés sobrevivió hasta el 1 sep, que es cuando entra esta huella.
+  ['rastro completo queda en el CRM', 'el CRM de Barceloneta no admite escritura: el resumen va por correo (28 ago 2026)'],
+  ['full trail in the CRM', 'el CRM de Barceloneta no admite escritura: el resumen va por correo (28 ago 2026)'],
+];
+
+/* Daños típicos de una edición quirúrgica: nunca son intencionados. */
+const DANOS_EDICION = [
+  [/(?<!\.)\.\.(?!\.)/, 'punto doble'],
+  [/\. \./, 'punto suelto tras punto'],
+  [/, *\./, 'coma pegada a punto'],
+  [/\.,/, 'punto pegado a coma'],
+  [/ ,/, 'espacio antes de coma'],
+];
+
+/** Comprobaciones comunes a los dos idiomas, sobre el texto bruto. */
+function revisaComunes(t, fallos) {
+  for (const re of LEXICO_VETADO) {
+    for (const m of [...t.matchAll(new RegExp(re[0].source, re[0].flags))]) {
+      fallos.push([`léxico ya corregido, debe ser «${re[1]}»`, contexto(t, m.index)]);
+    }
+  }
+  for (const [huella, motivo] of HECHOS_RETIRADOS) {
+    let i = t.indexOf(huella);
+    while (i >= 0) {
+      fallos.push([`hecho retirado: ${motivo}`, contexto(t, i)]);
+      i = t.indexOf(huella, i + 1);
+    }
+  }
+  const sinEtiquetas = t.replace(/<[^>]+>/g, '');
+  for (const [re, nombre] of DANOS_EDICION) {
+    for (const m of [...sinEtiquetas.matchAll(new RegExp(re.source, 'g'))]) {
+      fallos.push([`daño de edición: ${nombre}`, contexto(sinEtiquetas, m.index)]);
+    }
+  }
+}
+
+/*
+ * Terminos literales de la normativa que colisionan con la lista de palabras
+ * vetadas. «Derechos fundamentales» es el nombre del articulo 27 del
+ * reglamento de IA y «servicios esenciales» es un dominio del anexo III: no
+ * son relleno, son como se llaman. Se retiran antes de buscar.
+ */
+const TERMINOS_LEGALES = [/derechos fundamentales/gi, /servicios esenciales/gi];
+
 function revisa(nombre, textoBruto) {
-  const t = soloProsa(textoBruto);
+  let t = soloProsa(textoBruto);
+  for (const re of TERMINOS_LEGALES) t = t.replace(re, ' ');
   const fallos = [];
   const avisos = [];
 
@@ -100,11 +210,13 @@ function revisa(nombre, textoBruto) {
     }
   }
 
-  // Dos puntos: válidos solo si introducen tres o más elementos.
-  // Heurística: comas hasta el final de la frase. Una enumeración de tres
-  // escrita a la manera de la casa («a, b y c») solo tiene una coma, así que
-  // también cuenta como válida la combinación de al menos una coma con una
-  // conjunción posterior. Dos ideas unidas («X: porque Y») no tienen ninguna.
+  // Dos puntos: válidos si introducen dos o más elementos (ampliado el 27 ago
+  // 2026; antes exigían tres). Heurística: detrás tiene que haber una coma o
+  // una conjunción. Una enumeración de dos («a y b») no lleva coma, y una de
+  // tres a la manera de la casa («a, b y c») lleva solo una, así que contar
+  // comas ya no distingue. Dos ideas unidas sin conjunción («X: porque Y») no
+  // tienen ninguna de las dos cosas y siguen cayendo. La unión CON conjunción
+  // se cuela: es el precio de admitir la enumeración de dos, asumido en §7.
   // Una frase no cruza un salto de línea en estas fuentes, así que el resto
   // se corta también ahí: sin ese corte, el dos puntos de un título de
   // frontmatter se validaba con las comas de la descripción vecina.
@@ -113,6 +225,10 @@ function revisa(nombre, textoBruto) {
   for (const m of [...t.matchAll(/:\s/g)]) {
     const alrededor = t.slice(Math.max(0, m.index - 90), m.index + 90);
     if (EXCEPCIONES_DOS_PUNTOS.some((e) => alrededor.includes(e))) continue;
+    // El rótulo se mira justo delante de los dos puntos, no en el contexto
+    // ancho: si no, cualquier nombre propio cercano indultaría la frase.
+    const antes = t.slice(Math.max(0, m.index - 40), m.index + 2);
+    if (ROTULOS_DOS_PUNTOS.some((re) => re.test(antes))) continue;
     const tras = t.slice(m.index + 1);
     if (/^[ \t]*\n/.test(tras)) {
       const bloques = (tras.slice(0, 1500).match(/\n[ \t]*(\*\*|- )/g) || []).length;
@@ -120,10 +236,30 @@ function revisa(nombre, textoBruto) {
     }
     const resto = t.slice(m.index + 2, m.index + 220).split(/\.\s|\n/)[0];
     const comas = (resto.match(/,/g) || []).length;
-    const conjTrasComa = /,[^,]*\s(y|e|o|u)\s/.test(resto);
-    if (comas < 2 && !(comas >= 1 && conjTrasComa)) {
+    const conjuncion = /\s(y|e|o|u)\s/.test(resto);
+    if (comas === 0 && !conjuncion) {
       avisos.push(['dos puntos que no enumeran', contexto(t, m.index)]);
     }
+  }
+
+
+  revisaComunes(textoBruto, fallos);
+
+  // «parada» es término de la casa: la parada de modelo (§12 del árbitro).
+  // Usarla sin «modelo» a la vista es la extensión que el propietario
+  // corrigió el 27 ago («Un flujo de facturas, parada a parada»).
+  const EXCEPCIONES_PARADA = ['no hay nada que inventar, hay una parada'];
+  for (const linea of textoBruto.split('\n')) {
+    if (!/\bparadas?\b/i.test(linea)) continue;
+    if (/modelo/i.test(linea)) continue;
+    if (/máquinas? parad[ao]s?/i.test(linea)) continue; // el adjetivo, no el término
+    if (EXCEPCIONES_PARADA.some((e) => linea.includes(e))) continue;
+    if (/^\s*[a-zA-Z_]+:\s*[{['"]?\s*$/.test(linea)) continue; // clave de código
+    const i = linea.search(/\bparadas?\b/i);
+    avisos.push([
+      '«parada» sin «modelo» cerca: ¿se ha extendido el término de la casa?',
+      linea.slice(Math.max(0, i - 55), i + 45).replace(/\s+/g, ' ').trim(),
+    ]);
   }
 
   return { nombre, fallos, avisos };
@@ -136,7 +272,9 @@ function revisa(nombre, textoBruto) {
  * exercise, compromise y franchise, que no llevan zeta en ningún inglés.
  */
 const BRITANICO = {
-  organisation: 'organization', organise: 'organize', organised: 'organized',
+  organisation: 'organization', organisations: 'organizations',
+  organise: 'organize', organised: 'organized',
+  digitise: 'digitize', digitised: 'digitized', digitisation: 'digitization',
   recognise: 'recognize', recognised: 'recognized', recognises: 'recognizes',
   prioritise: 'prioritize', optimise: 'optimize', optimisation: 'optimization',
   authorise: 'authorize', authorised: 'authorized', authorisation: 'authorization',
@@ -178,6 +316,7 @@ function revisaIngles(nombre, textoBruto) {
       fallos.push([`ortografía británica «${brit}», debe ser «${ameri}»`, contexto(t, m.index)]);
     }
   }
+  revisaComunes(textoBruto, fallos);
   return { nombre, fallos };
 }
 
@@ -224,6 +363,36 @@ for (const o of objetivosEn) {
     console.log(`  ERROR  ${regla}\n         …${ctx}…`);
   }
   totalFallos += r.fallos.length;
+}
+
+// ── Páginas de caso huérfanas ──────────────────────────────────────────────
+// Una corrección de texto puede llevarse por delante un enlace sin que se
+// note: pasó el 29 ago 2026 con `/casos/savian`, cuyo enlace desde la página
+// de servicio murió dentro del párrafo que lo alojaba. El estándar de la casa
+// es dos entradas por caso, la ficha del carrusel y una editorial desde su
+// página de servicio.
+const RUTAS = 'src/i18n/utils.ts';
+const casos = [...readFileSync(RUTAS, 'utf8').matchAll(/'(\/casos\/[a-z-]+)'/g)].map((m) => m[1]);
+const uiEntero = readFileSync(UI, 'utf8');
+const huerfanas = [];
+for (const ruta of casos) {
+  // El routeMap declara la ruta una vez; solo cuentan las referencias de ui.ts.
+  const veces = (uiEntero.match(new RegExp(`["']${ruta}["']`, 'g')) || []).length;
+  if (veces === 0) {
+    huerfanas.push(['página de caso sin ninguna entrada', `${ruta} no se enlaza desde ui.ts`]);
+  } else if (veces === 1) {
+    console.log(
+      `\n${UI}\n  aviso  página de caso con una sola entrada\n         …${ruta}, y el estándar son dos…`
+    );
+    totalAvisos += 1;
+  }
+}
+if (huerfanas.length) {
+  console.log(`\n${UI}`);
+  for (const [regla, ctx] of huerfanas) {
+    console.log(`  ERROR  ${regla}\n         …${ctx}…`);
+  }
+  totalFallos += huerfanas.length;
 }
 
 console.log(

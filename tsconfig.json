@@ -1,7 +1,8 @@
 {
   "extends": "astro/tsconfigs/strict",
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"],
+  "//": "revisiones/ son volcados de usar y tirar, fuera del control de versiones. Estaban dentro del alcance de astro check y daban 14 errores que no son del sitio, lo que entrena a ignorar el rojo.",
+  "exclude": ["dist", "revisiones"],
   "compilerOptions": {
     "strictNullChecks": true,
     "baseUrl": ".",

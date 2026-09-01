@@ -7,6 +7,7 @@ updatedDate: 2026-08-23
 translationId: 'hallucinations'
 tags: ['Agents', 'Quality', 'Observability']
 heroImage: '/blog/hallucinations.jpg'
+draft: true
 ---
 
 A hallucination is an answer that looks right, reads well and is false. An invented figure, a citation that does not exist, a number the system never queried. A large part of building AI agents is exactly this, telling a correct answer from an answer that merely looks correct. And that distinction is not made by a prompt trick. It is made by architecture.
@@ -35,6 +36,6 @@ There is a hallucination almost nobody talks about, the system that says "I have
 
 ## What to ask if you are buying
 
-If you are evaluating an assistant and invented answers worry you, three questions separate the brochure from the engineering. Where does every figure it shows come from, a fresh query or the conversation's memory. Which metric catches the model answering without querying, and who watches it. And what happens when the documentation has no answer, an honest "no" with a trail or well-written filler.
+If you are evaluating an assistant and invented answers worry you, three questions separate the brochure from the engineering. Where does every figure it shows come from, a fresh query or the conversation's memory. Which metric catches the model answering without querying, and who watches it. And what happens when the documentation has no answer, a clear "no" with a trail or well-written filler.
 
 Reducing hallucinations is neither luck nor magic. **It is well-built context, verification that trusts nothing and critical content kept out of the model's reach, all of it measured in production.** That is how we work in [AI agent development](/en/services/ai-agent-development), and if you are mapping the concept from the start, begin with the [AI agents guide](/en/ai-agents). The next impeccable answer you see, greet it with the first question of this house. *Where did this figure come from?*

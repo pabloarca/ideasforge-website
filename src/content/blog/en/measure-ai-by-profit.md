@@ -3,7 +3,7 @@ title: 'Measure AI by profit, not by productivity'
 description: 'Productivity is AI''s comfortable metric, it always looks good and commits to nothing. We prefer the uncomfortable one, which concrete gain did the system move.'
 lang: 'en'
 pubDate: 2026-06-16
-updatedDate: 2026-08-23
+updatedDate: 2026-08-31
 translationId: 'measure-by-profit'
 tags: ['Business', 'Method', 'Automation']
 ---
@@ -18,15 +18,29 @@ When a project can only justify itself with generic productivity, it is usually 
 
 The difference shows in our own cases. At the real-estate agency we work with, the measure is not *"the team moves faster"*. It is more than three hours a day that stopped going into screening inquiries, each one previously costing five to ten minutes of manual checking. At the property manager, the measure is that invoices stopped being typed. Small, concrete figures. They can be checked, which is why they count.
 
+## The whole industry has just measured itself with this yardstick
+
+And the result explains why we insist.
+
+In August 2025 an MIT report titled "The GenAI Divide" went through more than three hundred corporate AI initiatives, with interviews and surveys of executives. Its headline traveled the world, 95% of pilots reached no measurable impact on the bottom line. The method drew criticism, so it is worth crossing with something larger.
+
+McKinsey's global survey on the state of AI, published a few months later with almost two thousand executives from more than a hundred countries, measured the same thing from another angle. More than eight in ten organizations see no tangible impact of generative AI on their operating result. And that is with almost nine in ten already using AI in some function.
+
+The easy reading of those figures is that AI does not work. It is not ours, and it is not the reports' either.
+
+What both describe is mass adoption without integration or measurement, pilots that stay demos, and capabilities built with no outcome to chase. Exactly the project from the section above, the one justified with generic productivity because nobody defined what it should move. **The 95% does not say the technology fails. It says that without a defined gain there is no way to show it worked.**
+
+The small group that does extract value shares a pattern, according to the report itself, concrete processes, integration with the systems that already exist and outcomes defined before building. The uncomfortable yardstick, under another name.
+
 ## How to buy AI with this yardstick
 
 Our method starts there, and it is sometimes uncomfortable. The first phase is not choosing technology, it is mapping where it hurts and translating every candidate use case into its expected gain. The second is discarding. Of all the cases AI "could" solve, most usually do not make the cut. Either the gain is fuzzy or the case is not viable yet. If something does not pay off, we say so before invoicing it, because a project without a defined gain is exactly the kind that dies at month six. And the ones that do launch still face the second exam, [staying alive](/en/blog/keeping-ai-alive).
 
-This also changes budget conversations. A system that saves three hours of qualified work a day defends itself in front of any finance director. **A system that "improves team productivity" competes with everything else that also improves it, from a second monitor to a better chair.**
+This also changes budget conversations. A system that gives a team back three hours a day defends itself in front of any finance director. **A system that "improves team productivity" competes with everything else that also improves it, from a second monitor to a better chair.**
 
 ## The transformation that multiplies
 
-There is a deeper reason to be demanding about the metric. Digital transformation was largely additive, each tool contributed its saving. AI transformation, done well, is multiplicative. A system that filters inquiries does not just save the screening hours, it changes what the team can do with its day, and that changes how many deals fit in a month. **Precisely because the potential is multiplicative, measuring it with an unauditable metric wastes it.**
+There is a deeper reason to be demanding about the metric. Digital transformation was largely additive, each tool contributed its saving. AI transformation, done well, is multiplicative. A system that filters inquiries saves the screening hours and on top of that frees the team for something else, so it changes how many deals fit in a month. **Precisely because the potential is multiplicative, measuring it with an unauditable metric wastes it.**
 
 Productivity comes anyway, and we do not dismiss it. But it comes as a consequence, not as the justification.
 

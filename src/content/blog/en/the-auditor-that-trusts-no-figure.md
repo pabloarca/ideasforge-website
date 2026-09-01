@@ -6,6 +6,7 @@ pubDate: 2026-07-07
 updatedDate: 2026-08-23
 translationId: 'distrustful-auditor'
 tags: ['Agents', 'Data', 'Observability']
+draft: true
 ---
 
 In an assistant that answers business questions, **the most dangerous failure is not ignorance. It is answering from memory.**

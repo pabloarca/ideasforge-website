@@ -57,7 +57,7 @@ const { lang, page: p, title, description, routeKey } = Astro.props;
         </div>
         <div class="bg-bg p-8">
           <h2 class="text-2xl font-bold text-fg">{p.solution.heading}</h2>
-          <p class="mt-4 text-[15px] leading-relaxed text-muted">{p.solution.body}</p>
+          <p class="mt-4 text-[15px] leading-relaxed text-muted" set:html={p.solution.body} />
         </div>
       </div>
     </div>
@@ -66,9 +66,7 @@ const { lang, page: p, title, description, routeKey } = Astro.props;
   <section class="bg-bg py-16 sm:py-20">
     <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">
       <p class="eyebrow">{p.proof.heading}</p>
-      <p class="mt-4 text-balance text-2xl font-bold leading-snug text-fg sm:text-3xl">
-        {p.proof.body}
-      </p>
+      <p class="mt-4 text-balance text-2xl font-bold leading-snug text-fg sm:text-3xl" set:html={p.proof.body} />
     </div>
   </section>
 

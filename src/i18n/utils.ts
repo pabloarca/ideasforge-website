@@ -38,6 +38,12 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   home:        { es: '/',                              en: '/en' },
   blog:        { es: '/blog',                          en: '/en/blog' },
   start:       { es: '/empezar',                       en: '/en/get-started' },
+  /* EN LA NEVERA (31 ago 2026, decisión del propietario). La entrada se
+     conserva porque el contenido sigue entero en `pages.about` de ui.ts y
+     porque el bloque «El equipo» esperaba datos suyos que nunca llegaron.
+     Para revivirla: recrear `src/pages/quienes-somos.astro` y
+     `src/pages/en/about.astro` (nueve líneas cada uno, en el historial de
+     git) y devolver la línea a `sueltos` de Header y a `menu` de Footer. */
   about:       { es: '/quienes-somos',                 en: '/en/about' },
   privacy:     { es: '/politica-privacidad',           en: '/en/privacy-policy' },
   cookies:     { es: '/politica-cookies',              en: '/en/cookies-policy' },
@@ -61,8 +67,20 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   // propietario: la página no vive de la búsqueda, vive de la conversación con
   // el comité que tiene que aprobar el proyecto, y ese comité es español.
   compliance:  { es: '/ia-y-rgpd',                      en: '/en/gdpr-compliant-ai' },
-  // Satelite del pilar de cumplimiento. Solo ingles, como su pilar.
-  aiAct:       {                                        en: '/en/eu-ai-act-compliance' },
+  // Satélite del pilar de cumplimiento. Nació solo en inglés y ganó su espejo
+  // español el 28 ago 2026: la página española de RGPD enlazaba aquí, así que
+  // un lector español acababa en una página en inglés. Era la única fuga de
+  // idioma del sitio y la única página sin pareja.
+  aiAct:       { es: '/reglamento-europeo-de-ia',       en: '/en/eu-ai-act-compliance' },
+  // Familia nueva de rutas (28 ago 2026): los casos. No persiguen término,
+  // su trabajo es convertir a quien ya llegó y dar destino a las tarjetas del
+  // carrusel, que hasta ahora no enlazaban a ninguna parte. Sin entrada inglesa hasta que
+  // se escriba el espejo, así que esta ruta no emite hreflang todavía.
+  caseSavian:  { es: '/casos/savian' },
+  caseStanton: { es: '/casos/stanton' },
+  caseBarceloneta: { es: '/casos/barceloneta' },
+  caseIndustrial: { es: '/casos/industrial' },
+  caseWazzy: { es: '/casos/wazzy' },
   realEstate:  { es: '/inmobiliarias',                 en: '/en/real-estate' },
   accounting:  { es: '/gestorias',                     en: '/en/accounting-firms' },
 };

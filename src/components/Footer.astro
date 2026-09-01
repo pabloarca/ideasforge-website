@@ -3,6 +3,7 @@ import { type Lang, content } from '../i18n/ui';
 import { localizedPath, routeMap } from '../i18n/utils';
 import Icon from './Icon.astro';
 import type { IconName } from '../lib/icons';
+import { medidas } from '../lib/imagen';
 
 interface Props {
   lang: Lang;
@@ -12,10 +13,16 @@ const { lang } = Astro.props;
 const t = content[lang];
 const year = new Date().getFullYear();
 
+/*
+  Los tres grupos de navegacion, los mismos que pinta la cabecera. Antes esto
+  era una sola columna titulada «Servicios» con diez entradas de las que solo
+  cuatro lo eran (corregido el 28 ago 2026).
+
+  El menu suelto pierde «Servicios», que ahora es el rotulo de un grupo, y
+  «Proyectos», que salio por decision del propietario: era un ancla a una
+  seccion de la home y no una pagina.
+*/
 const menu: Array<{ label: string; href: string; icon: IconName }> = [
-  { label: t.nav.services, href: localizedPath('/#servicios', lang), icon: 'rejilla' },
-  { label: t.nav.projects, href: localizedPath('/#proyectos', lang), icon: 'maletin' },
-  { label: t.nav.about, href: routeMap.about[lang]!, icon: 'destello' },
   { label: t.nav.blog, href: localizedPath('/blog', lang), icon: 'documento' },
   { label: t.nav.contact, href: localizedPath('/#contacto', lang), icon: 'autor' },
 ];
@@ -28,11 +35,16 @@ const legal = [
 
 <footer class="border-t border-border-soft bg-bg-soft">
   <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
-    <div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-5">
+    <div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-6">
       <!-- Logo + legal -->
       <div class="lg:col-span-2">
         <a href={localizedPath('/', lang)} class="inline-flex items-center" aria-label="Ideasforge">
-          <img src="/ideasforge-logo.svg" alt="Ideasforge" class="h-8 w-auto" />
+          <img
+            src="/ideasforge-logo.svg"
+            alt="Ideasforge"
+            {...medidas('/ideasforge-logo.svg')}
+            class="h-8 w-auto"
+          />
         </a>
         <ul class="mt-8 space-y-3">
           {legal.map((l) => (
@@ -43,19 +55,28 @@ const legal = [
         </ul>
       </div>
 
-      <!-- Services (crawlable links to the keyword/service pages) -->
-      <nav aria-label={t.footer.servicesHeading}>
-        <h2 class="text-base font-bold text-fg">{t.footer.servicesHeading}</h2>
-        <ul class="mt-5 space-y-3.5">
-          {t.footer.servicesLinks.map((l) => (
-            <li>
-              <a href={l.href} class="text-sm text-fg transition-colors hover:text-accent">{l.label}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <!-- Los tres grupos, rastreables y con el mismo texto de enlace que la
+           cabecera: servicios, sectores y guias. -->
+      {
+        t.footer.navGroups.map((g) => (
+          <nav aria-label={g.heading}>
+            <h2 class="text-base font-bold text-fg">{g.heading}</h2>
+            <ul class="mt-5 space-y-3.5">
+              {g.links.map((l) => (
+                <li>
+                  <a href={l.href} class="text-sm text-fg transition-colors hover:text-accent">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
 
-      <!-- Menu -->
+      <!-- Menu + contacto, en una sola columna: el menu suelto se quedo en
+           tres entradas al pasar servicios a grupo y salir proyectos. -->
+      <div>
       <nav aria-label={t.footer.menu}>
         <h2 class="text-base font-bold text-fg">{t.footer.menu}</h2>
         <ul class="mt-5 space-y-3.5">
@@ -70,9 +91,7 @@ const legal = [
         </ul>
       </nav>
 
-      <!-- Contact / Social -->
-      <div>
-        <h2 class="text-base font-bold text-fg">{t.footer.contactHeading}</h2>
+        <h2 class="mt-10 text-base font-bold text-fg">{t.footer.contactHeading}</h2>
         <a
           href="https://www.linkedin.com/"
           rel="noopener noreferrer"

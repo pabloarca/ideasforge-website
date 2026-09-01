@@ -1,6 +1,7 @@
 ---
 import { type Lang, content } from '../i18n/ui';
 import { localizedPath } from '../i18n/utils';
+import { medidas } from '../lib/imagen';
 
 interface Props {
   lang: Lang;
@@ -48,6 +49,7 @@ const logos = [
                 <img
                   src={`/integrations/${id}.png`}
                   alt=""
+                  {...medidas(`/integrations/${id}.png`)}
                   loading="lazy"
                   decoding="async"
                   class="h-11 w-11 object-contain sm:h-14 sm:w-14"

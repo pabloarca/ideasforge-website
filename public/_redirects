@@ -1,0 +1,111 @@
+# Mapa de redirecciones de la web vieja a la nueva.
+#
+# Dos fuentes, y la segunda corrigió a la primera:
+#   1. El sitemap de https://ideasforge.io leído el 31 ago 2026. Declaraba 17
+#      URL, todas en español.
+#   2. Search Console, exportación de 16 meses del 31 ago 2026. Reveló 35 URL
+#      con impresiones, entre ellas una web inglesa entera bajo /en/ que el
+#      sitemap no declaraba, y restos de una versión anterior en www con otra
+#      estructura. El sitemap se quedaba corto en la mitad del tráfico visible.
+#
+# Formato de Cloudflare Pages: ORIGEN  DESTINO  CÓDIGO. El 301 es permanente,
+# que es lo que traslada la autoridad. Las reglas se evalúan de arriba abajo,
+# así que lo específico va antes que lo genérico. El origen se compara solo
+# contra la ruta, no contra el dominio, así que estas reglas valen igual para
+# ideasforge.io y para www.ideasforge.io.
+
+# ══ ESPAÑOL ══════════════════════════════════════════════════════════════════
+
+# ── Entradas con equivalente exacto en la web nueva ──────────────────────────
+# Son las que más importan: mismo asunto, artículo heredero, autoridad que se
+# traslada entera. La de facturas cargaba 2.001 impresiones, la segunda del
+# sitio, y toda una familia de búsquedas de OCR detrás.
+/automatizando-la-gestion-de-facturas-con-ocr-ia   /blog/automatizacion-facturas-ocr-ia   301
+/ai-agents-sql                                     /blog/ai-agents-sql                    301
+/automatizacion-de-procesos-con-ia                 /servicios/automatizacion-de-procesos-con-ia   301
+
+# ── Entradas cuyo asunto vive ahora en una página de servicio o vertical ─────
+# Las dos de inmobiliaria eran un par que se canibalizaba en la web vieja y
+# ahora convergen en el vertical, que es lo correcto.
+/agente-de-ia-inmobiliario                         /inmobiliarias   301
+/agente-de-ia-para-inmobiliaria                    /inmobiliarias   301
+/tareas-del-crm-sin-entrar-al-crm                  /servicios/automatizacion-de-procesos-con-ia   301
+
+# ── OJO, decisión pendiente del propietario ─────────────────────────────────
+# El heredero natural de esta entrada es `detectar-prevenir-alucinaciones`,
+# que se mandó a la nevera el 31 ago 2026. Mientras siga apagado, el destino
+# menos malo es la guía, que cubre el asunto en su sección de lo que puede
+# salir mal. Search Console le cuenta 423 impresiones y búsquedas propias
+# («detectar alucinaciones de ia», 90 impresiones), así que reviviéndolo se
+# recupera un traslado exacto.
+/alucinaciones-ai                                  /agentes-de-ia   301
+
+# ── Entradas sin heredero, al índice del blog ───────────────────────────────
+# Nada del sitio nuevo trata estos asuntos. Van al blog y no a la home para
+# no mandar señales de tema equivocadas.
+/utiliza-la-ia-para-crear-contenido                /blog   301
+/ia-en-la-cocina-%f0%9f%a5%97                      /blog   301
+/ia-en-la-cocina-*                                 /blog   301
+
+# ── La decisión ya tomada ───────────────────────────────────────────────────
+# 91 de los 177 clics de la web vieja y 2.774 impresiones, con intención de
+# hacérselo uno mismo que la web nueva no sirve. Decisión registrada: a la
+# home.
+/analisis-de-sitios-web-con-ia                     /   301
+
+# ── Páginas ─────────────────────────────────────────────────────────────────
+/proyectos                                         /#proyectos   301
+/category/proyectos                                /#proyectos   301
+/author/79650pwpadmin                              /   301
+
+# ══ INGLÉS ═══════════════════════════════════════════════════════════════════
+# La web vieja tenía versión inglesa bajo /en/ conservando el slug español.
+# No aparecía en el sitemap y por poco se queda fuera. /en/ai-agents-sql es la
+# segunda URL más vista del sitio entero, con 882 impresiones, más que
+# cualquier página española salvo dos.
+/en/ai-agents-sql                                  /en/blog/ai-agents-sql                 301
+/en/automatizando-la-gestion-de-facturas-con-ocr-ia   /en/blog/invoice-automation-ocr-ai   301
+/en/automatizacion-de-procesos-con-ia              /en/services/ai-workflow-automation     301
+/en/tareas-del-crm-sin-entrar-al-crm               /en/services/ai-workflow-automation     301
+/en/agente-de-ia-inmobiliario                      /en/real-estate   301
+/en/agente-de-ia-para-inmobiliaria                 /en/real-estate   301
+/en/alucinaciones-ai                               /en/ai-agents     301
+/en/analisis-de-sitios-web-con-ia                  /en/              301
+/en/utiliza-la-ia-para-crear-contenido             /en/blog          301
+/en/ia-en-la-cocina-%f0%9f%a5%97                   /en/blog          301
+/en/ia-en-la-cocina-*                              /en/blog          301
+/en/politica-cookies                               /en/cookies-policy   301
+/en/politica-privacidad                            /en/privacy-policy   301
+/en/proyectos                                      /en/#proyectos    301
+/en/category/proyectos                             /en/#proyectos    301
+
+# ══ LA VERSIÓN ANTERIOR EN www ═══════════════════════════════════════════════
+# Antes del WordPress hubo otra web en www.ideasforge.io con el español bajo
+# /es/ y otros slugs. Le quedan impresiones sueltas. Ninguna de sus entradas
+# tiene heredero, así que van al índice que les corresponde.
+/es                                                /       301
+/es/blog/*                                         /blog   301
+/es/*                                              /       301
+/blog/ai-content-generation                        /blog      301
+/blog/asbestos-tracker-webmap                      /#proyectos   301
+/en/blog/ai-powered-website-roasting               /en/    301
+
+# ══ RESTOS DE WORDPRESS QUE NUNCA DEBERÍAN RESPONDER 200 ═════════════════════
+# No estaban en el sitemap ni en Search Console, pero existen en toda
+# instalación y a veces tienen enlaces entrantes. Se cortan de raíz.
+/wp-admin/*                                        /   301
+/wp-content/*                                      /   301
+/wp-includes/*                                     /   301
+/feed                                              /blog   301
+/comments/feed                                     /blog   301
+/en/feed                                           /en/blog   301
+/en/author/*                                       /en/       301
+/en/category/*                                     /en/blog   301
+/en/tag/*                                          /en/blog   301
+/author/*                                          /   301
+/category/*                                        /blog   301
+/tag/*                                             /blog   301
+
+# `/`, `/blog`, `/politica-privacidad`, `/politica-cookies`, `/en/` y
+# `/en/blog` existen igual en la web nueva, así que no necesitan regla. La
+# barra final la resuelve el propio hosting.

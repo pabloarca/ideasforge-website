@@ -39,9 +39,25 @@ const t = content[lang].hero;
       <div
         class="mx-auto aspect-[16/9] max-w-6xl overflow-hidden border border-border-soft bg-surface"
       >
+        {/*
+          `poster` es lo que arregla el LCP. Sin el, la caja se queda vacia
+          hasta que llegan los primeros fotogramas, y el hueco cae justo en la
+          zona que mide Google. Con el, la portada pinta la imagen a los 27 KB
+          y el video la sustituye cuando llega, sin salto porque tienen el
+          mismo encuadre.
+
+          Ojo si algun dia se cambia el video: el fuente es 1600x576, una tira
+          de 25:9, y esta caja es 16:9, asi que `object-cover` recorta los
+          lados y solo se ve la franja central de 1024x576. El poster tiene que
+          salir del mismo fotograma y a la misma medida, o el relevo se nota.
+
+          Comprimido el 31 ago 2026 de 3.450 KB a 530 KB (H.264 CRF 30). El
+          maestro original vive en el historial de git.
+        */}
         <video
           class="h-full w-full object-cover"
           src="/videos/genaisolutions.mp4"
+          poster="/videos/hero-poster.webp"
           autoplay
           loop
           muted

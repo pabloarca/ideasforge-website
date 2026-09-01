@@ -3,7 +3,7 @@ title: 'La firma del síntoma vale más que el arreglo'
 description: 'Documentar cómo se reconoce un fallo desde fuera rinde más que documentar cómo se arregló. Tres firmas reales de un asistente de IA en producción.'
 lang: 'es'
 pubDate: 2026-07-21
-updatedDate: 2026-08-23
+updatedDate: 2026-08-31
 translationId: 'symptom-signature'
 tags: ['Observabilidad', 'Mantenimiento', 'Agentes']
 ---
@@ -12,15 +12,25 @@ Cuando un sistema falla, casi todos los equipos documentan lo mismo, qué se rom
 
 La razón es simple. **El arreglo se aplica una vez. La firma se reutiliza cada vez que el sistema vuelve a comportarse raro** y con componentes no deterministas eso pasa más de lo que a nadie le gustaría admitir.
 
+## No es la base de errores conocidos de toda la vida
+
+La gestión de servicios de TI lleva décadas manteniendo algo parecido. En ITIL, el marco de referencia del sector, se llama base de datos de errores conocidos y guarda cada problema con su causa raíz, su apaño temporal y el estado de su arreglo.
+
+Nuestro catálogo de incidencias se parece y se diferencia en el orden. Una base de errores conocidos se organiza por causas, porque en el software clásico la causa es estable y el síntoma varía. **Con componentes no deterministas pasa lo contrario, el síntoma se repite y la causa cambia.**
+
+El mismo «no responde nada» puede venir hoy de una conexión caída y mañana de un cambio que alguien publicó, así que lo valioso no es archivar la causa de ayer. Es reconocer el síntoma de hoy y tener la lista corta de causas que lo han producido antes.
+
+Por eso la entrada de nuestro catálogo empieza por cómo se ve el fallo desde fuera y no por qué lo causó. La tradición sirve. El orden hay que dárselo la vuelta.
+
 ## Tres firmas reales
 
 Estas tres salen del catálogo de uno de nuestros asistentes en producción, un sistema con un orquestador y varios agentes especializados detrás.
 
-**Todo cae en «sin candidatos» con puntuación nula.** El instinto culpa al modelo, al prompt o a los umbrales. La firma dice que son vectores sin generar. Alguien añadió ejemplos nuevos al catálogo sin relanzar la ingesta y la búsqueda descarta todo lo que no tiene vector. Del susto salió un procedimiento. Tras cualquier alta en el catálogo, ejecutar la ingesta y verificar que quedan cero pendientes antes de tocar nada más.
+**El asistente deja de encontrar nada, pregunte lo que le pregunten.** El primer impulso culpa al modelo o a sus instrucciones. La firma dice otra cosa. Alguien añadió documentos nuevos y nadie los pasó por el proceso que los deja buscables, así que para la búsqueda es como si no existieran. Del susto salió un procedimiento. Después de cada alta, ejecutar ese proceso y comprobar que no queda ninguno pendiente antes de tocar nada más.
 
-**Todo lo que pasa por el modelo devuelve nulo, pero las continuaciones funcionan.** Las continuaciones son el único camino del sistema que no invoca al modelo. Si ellas viven y lo demás no, el diagnóstico es inmediato. El problema está en la conexión con el modelo, no en las instrucciones. Aquella vez apuntaba a un despliegue inexistente tras un cambio manual. Veinte minutos de diagnóstico convertidos en dos.
+**El asistente se queda mudo en todo menos en los mensajes de seguir la conversación.** Esos son el único camino que no pasa por el modelo. Si ellos viven y lo demás no, el diagnóstico es inmediato. El problema está en la conexión con el modelo, no en lo que le hemos escrito. Aquella vez el sistema llamaba a una dirección que ya no existía, tras un cambio hecho a mano. Veinte minutos de diagnóstico convertidos en dos.
 
-**Funciona en producción y falla en las pruebas o al revés.** La firma más incómoda, porque nadie quiere mirarla. El mensaje llegaba en un campo de la petición distinto del que leía el código. No era un fallo del banco de pruebas, era un fallo latente que también afectaba a producción si el sistema de origen cambiaba de campo. Lo detectó una persona leyendo con atención, no una alarma. También eso es un dato. Hay firmas que todavía no sabemos automatizar.
+**Funciona en producción y falla en las pruebas o al revés.** La firma más incómoda, porque nadie quiere mirarla. El texto del usuario venía guardado en un sitio y el código lo buscaba en otro. No era un fallo del entorno de pruebas, era una bomba de relojería. El día que el sistema de origen cambiara de sitio, producción se rompía igual. Lo detectó una persona leyendo con atención, no una alarma. También eso es un dato. Hay firmas que todavía no sabemos automatizar.
 
 ## Por qué esto le importa a quien compra IA
 

@@ -1,9 +1,10 @@
 ---
 title: 'An AI agent for real-estate agencies, from the inside'
+metaTitle: 'An AI agent for real-estate agencies'
 description: 'Dozens of WhatsApp messages a day, five to ten minutes per inquiry and an overloaded team. What the agent that filters requests for a Barcelona agency actually does.'
 lang: 'en'
 pubDate: 2025-06-15
-updatedDate: 2026-08-23
+updatedDate: 2026-08-31
 translationId: 'real-estate-agent'
 tags: ['Agents', 'Real estate', 'Automation']
 heroImage: '/blog/inmo.jpg'
@@ -25,9 +26,29 @@ More than three hours a day saved on handling incoming requests alone. The team 
 
 That is also the yardstick we use to decide whether an AI project deserves to exist, **that it moves a business figure and not a feeling**. We tell that story in [measure AI by profit](/en/blog/measure-ai-by-profit).
 
+## "Going cold" is not a feeling, it has numbers
+
+The idea that an interested person goes cold sounds like salesperson's intuition. It has been measured.
+
+The classic study on the life of an inbound inquiry was published by Harvard Business Review in 2011, with 1.25 million inquiries received by 42 American companies. Those that attempted contact within the first hour multiplied their chances of a useful conversation by almost seven compared with those trying an hour later. Compared with those letting a day pass, they multiplied it by more than sixty.
+
+And how many companies answer at that speed? The same article audited 2,241 of them with a test inquiry. 37% replied within the first hour. 23% never replied at all.
+
+The study has its years on it and it measured phone calls, so it is worth not stretching it. What has not expired is the mechanism. Someone looking for a flat is not writing only to you, they are writing to every listing that fits, all at once. **The conversation goes to whoever replies first with something useful.** An agent replies with something useful at midnight on a Sunday.
+
+We did not pick the channel either. According to the CNMC household panel, with data from the fourth quarter of 2025, 94.6% of Spanish internet users use WhatsApp regularly. The second messaging app is Instagram, at 27.6%. The conversation happens where people already are. A channel nobody has to install is half the battle won.
+
 ## What it takes for it not to be a demo
 
 An agent like this touches personal data, calendars and reputation, so **the invisible part weighs more than the visible one**. The conversation leaves a complete trail, every request is recorded with its verdict and its justification, and the filter that decides what gets escalated does not live in the model's instructions. It lives in code that always runs. These are the same construction rules we apply to all our [conversational AI](/en/services/conversational-ai) work, whether it serves an agency or a clinic.
+
+## What had to be thrown away first
+
+This agent that sounds so reasonable today was not born that way. The first version followed the pattern almost everything sold as an agent is built on, a model with tools at its disposal and the instruction to use them when needed.
+
+**Many times it did not use them.** Nothing failed that you could look up in a log. The model decided it could answer without checking, so it either invented the answer or told the person it could not go on when it could.
+
+We rebuilt it the other way round, with the state of the conversation carried in code and the model interpreting inside that state.
 
 ## And after rentals, the rest
 

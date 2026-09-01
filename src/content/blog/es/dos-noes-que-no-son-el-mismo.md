@@ -3,9 +3,10 @@ title: 'Dos «no» que no son el mismo'
 description: 'Cuando un asistente de IA no puede responder, hay dos causas de naturaleza distinta. Confundirlas es el error clásico que hincha la documentación sin arreglar nada.'
 lang: 'es'
 pubDate: 2026-06-09
-updatedDate: 2026-08-23
+updatedDate: 2026-08-29
 translationId: 'two-nos'
 tags: ['Agentes', 'Conocimiento', 'Producto']
+draft: true
 ---
 
 Todo asistente de IA dice «no» muchas veces al día. La pregunta interesante es cuál de los dos noes está diciendo, porque hay dos y no se parecen en nada.
@@ -27,6 +28,12 @@ En el asistente de planta que mantenemos para una empresa industrial, los dos no
 El límite de producto se responde sin buscar nada, con un texto oficial que sale de un catálogo versionado. El modelo identifica el caso, pero el texto no lo redacta él. Así la política del producto es consistente, auditable y no depende del humor de un generador.
 
 La falta de documentación, en cambio, solo se puede pronunciar después de haber buscado. Y deja rastro. Cada turno registra una etiqueta corta de necesidad no satisfecha, con un vocabulario controlado en lugar de texto libre. Esas etiquetas convierten los noes en datos y los datos en dos colas de trabajo separadas.
+
+## Decir «no» va contra el entrenamiento
+
+Hay una razón de fondo para que los buenos noes escaseen. Los modelos aprenden con exámenes donde el «no lo sé» puntúa cero y la respuesta segura puntúa a veces, así que reconocer un hueco es exactamente lo que su entrenamiento castiga. Lo explicó OpenAI en un trabajo de septiembre de 2025 y lo contamos con calma [al hablar de alucinaciones](/blog/detectar-prevenir-alucinaciones).
+
+Un asistente que pronuncia bien sus dos noes está nadando contra esa corriente. Eso no se consigue pidiéndolo por favor en las instrucciones. Se consigue con las dos capas de arriba, el catálogo versionado que responde el límite sin buscar y la señal de «sin coincidencia» que se escucha en lugar de taparse.
 
 ## El matiz que nos costó encontrar
 

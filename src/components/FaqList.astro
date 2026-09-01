@@ -16,6 +16,7 @@
 */
 import { type Faq } from '../i18n/ui';
 import Icon from './Icon.astro';
+import { medidas } from '../lib/imagen';
 
 interface Props {
   items: Faq[];
@@ -24,7 +25,35 @@ interface Props {
   class?: string;
 }
 const { items, group = 'faq', class: className = '' } = Astro.props;
+
+/** Una respuesta puede venir como cadena o como lista de párrafos. */
+const parrafos = (a: Faq['a']) => (Array.isArray(a) ? a : [a]);
+
+/*
+  FAQPage estructurado. Va aquí y no en el layout porque aquí están los datos:
+  cualquier FAQ del sitio lo hereda sin que su página tenga que acordarse.
+
+  Expectativa honesta de lo que da: Google retiró el resultado enriquecido de
+  FAQ en 2023 salvo para fuentes oficiales, así que esto NO va a pintar
+  desplegables en el buscador. Sirve para que un motor de respuesta encuentre
+  la pregunta y la respuesta emparejadas en vez de tener que deducirlo del
+  acordeón.
+
+  El escape de `<` evita que una respuesta que algún día contenga una etiqueta
+  cierre el <script> antes de tiempo.
+*/
+const faqJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: parrafos(item.a).join(' ') },
+  })),
+}).replace(/</g, '\\u003c');
 ---
+
+<script is:inline type="application/ld+json" set:html={faqJsonLd} />
 
 <div class:list={['divide-y divide-border-soft border-y border-border-soft', className]}>
   {
@@ -48,18 +77,23 @@ const { items, group = 'faq', class: className = '' } = Astro.props;
             <img
               src={item.image}
               alt=""
+              {...medidas(item.image)}
               loading="lazy"
               decoding="async"
               class="aspect-[21/9] w-full object-cover"
             />
-            <p class="px-6 pb-6 pl-[3.5rem] pr-10 pt-5 text-[15px] leading-relaxed text-muted">
-              {item.a}
-            </p>
+            <div class="space-y-4 px-6 pb-6 pl-[3.5rem] pr-10 pt-5 text-[15px] leading-relaxed text-muted">
+              {parrafos(item.a).map((p) => (
+                <p>{p}</p>
+              ))}
+            </div>
           </div>
         ) : (
-          <p class="px-6 pb-5 pl-[3.5rem] pr-10 text-[15px] leading-relaxed text-muted">
-            {item.a}
-          </p>
+          <div class="space-y-4 px-6 pb-5 pl-[3.5rem] pr-10 text-[15px] leading-relaxed text-muted">
+            {parrafos(item.a).map((p) => (
+              <p>{p}</p>
+            ))}
+          </div>
         )}
       </details>
     ))

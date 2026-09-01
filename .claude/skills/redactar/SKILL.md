@@ -38,19 +38,17 @@ fila, no añadir reglas.
 5. **Correcciones del propietario, numeradas y devueltas.** Sus mensajes
    con varios cambios se convierten en lista numerada y se responde número
    a número con lo que cambió, para que vea de un vistazo si falta alguna.
-6. **Revisión en frío antes de dar una página por terminada.** Al cerrar
-   cambios de fondo en una página se ejecuta `npm run frio -- <ruta>`, que
-   deja un fichero en `revisiones/` con el prompt dentro. Se le da la ruta
-   completa del fichero para que lo arrastre a una conversación NUEVA de
-   claude.ai. Nada de portapapeles ni de pegar dos mil palabras a mano: se
-   probó el 25 ago y no le sirvió. No se da por terminada una página sin
-   ese paso.
+**La revisión en frío ya no es un paso obligatorio** (decisión del
+propietario, 28 ago 2026). Dejó de bloquear el cierre de una página y no se
+ofrece por defecto. La herramienta sigue ahí, `npm run frio -- <ruta>`, que
+deja el fichero listo en `revisiones/` para arrastrarlo a una conversación
+nueva de claude.ai, y se usa solo cuando él la pida.
 
-**Por qué el lector frío no puede ser un subagente.** Se comprobó el 25 ago
-2026: un subagente hereda el CLAUDE.md entero, la memoria persistente del
-propietario, el catálogo de skills y hasta las rutas de otros proyectos
+**Si alguna vez se vuelve a usar, no puede hacerla un subagente.** Se
+comprobó el 25 ago 2026: hereda el CLAUDE.md entero, la memoria persistente
+del propietario, el catálogo de skills y hasta las rutas de otros proyectos
 abiertos. Es aislamiento de mensajes, no de contexto, y su valor está justo
-en no tener contexto. La preparación se automatiza; el juicio, no.
+en no tener contexto.
 
 **El silencio no aprueba.** Una decisión solo entra en la sección 3 del
 árbitro cuando el propietario dice que sí con esas palabras. Que pase a otro
@@ -65,11 +63,13 @@ recomendación llegó con los datos a favor y sin el argumento en contra, que
 existía y era fuerte. Una recomendación sin su contraparte no es un consejo,
 es una conclusión disfrazada.
 
-**Cómo se triangula lo que devuelve.** El lector frío no ve el banco de
-hechos, así que marcará como dudoso algo que sí está verificado. Cada apunte
-suyo cae en uno de tres sitios y se dice en cuál: se aplica, se rechaza con
-la evidencia del banco que él no podía ver, o es decisión del propietario
-porque toca una norma suya (le pasó a Codex con los dos puntos).
+**Cómo se triangula una revisión de fuera.** Vale para cualquiera que
+mire desde fuera, sea Codex, el propietario o un lector sin contexto. Quien
+revisa no ve el banco de hechos, así que marcará como dudoso algo que sí
+está verificado. Cada apunte cae en uno de tres sitios y se dice en cuál: se
+aplica, se rechaza con la evidencia del banco que no podía ver, o es
+decisión del propietario porque toca una norma suya (le pasó a Codex con los
+dos puntos).
 
 ## De dónde sale cada afirmación (tres caminos, ninguno más)
 
@@ -103,6 +103,31 @@ porque toca una norma suya (le pasó a Codex con los dos puntos).
 3. Hecho o decisión nueva → banco (sección 1) o decisiones cerradas
    (sección 3). Si el propietario rechaza algo que pasaba los criterios,
    lo que falta se añade al árbitro ANTES de reescribir (sección 8).
+
+## Cuando el propietario pasa correcciones
+
+1. **Clasificar cada una: local o global.** «Esta página», «este bloque» es
+   local. Una palabra rara, un hecho falso o un dato retirado es global
+   aunque lo señale en una sola página: se busca en el sitio ENTERO, en los
+   dos idiomas, y se corrigen todos los clones en la misma pasada. (El 27
+   ago se releyeron todas sus correcciones: seis seguían vivas en clones,
+   dos de ellas hechos legales, en la home y en los espejos ingleses.)
+2. **Si retira un hecho o veta una palabra, su huella entra en
+   `check-copy.mjs`** (`HECHOS_RETIRADOS` o `LEXICO_VETADO`) en el mismo
+   cambio. Reglas nuevas al verificador, no a la prosa.
+3. **Verificar contra la página renderizada que TODAS quedaron aplicadas**
+   antes de responder, una por una. Ya ocurrió responder sin haber
+   aplicado ninguna.
+4. **Los estilos esperan a su pasada; los hechos no.** Un hecho corregido
+   se propaga a todos los espejos aunque la página esté en cola.
+5. **Igualar espejos no autoriza a propagar un defecto.** Antes de copiar
+   algo de un idioma al otro, comprobar que el original cumple las
+   decisiones cerradas del árbitro. El 27 ago detecté que el menú inglés
+   tenía el pilar de RGPD y el español no, y lo copié al español para
+   igualar. El inglés llevaba contradiciendo desde su construcción la
+   decisión del 21 ago de que el cumplimiento es pilar de confianza y NO
+   un quinto servicio. Una asimetría es una pregunta, no una orden: puede
+   significar que a un lado le falta algo o que al otro le sobra.
 
 ## Lo que la máquina no ve
 

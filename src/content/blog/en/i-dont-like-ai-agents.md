@@ -1,9 +1,10 @@
 ---
 title: 'Here is a secret: I don''t like agentic architectures'
+metaTitle: 'I don''t like agentic architectures'
 description: 'We sell AI agents, and we don''t like how almost everyone builds them. Business rules cannot live in the prompt, they have to live in the code.'
 lang: 'en'
 pubDate: 2026-08-18
-updatedDate: 2026-08-23
+updatedDate: 2026-08-31
 translationId: 'dont-like-agents'
 tags: ['Agents', 'Architecture', 'Security']
 ---
@@ -36,7 +37,7 @@ Grant the perfect prompt that the model never ignores. There is still a problem 
 
 ### Errors do not add up, they multiply
 
-An agent chains steps and every step can go wrong. Intuition says a system that gets it right 95% of the time is a reliable system. Arithmetic says otherwise. For a twenty-step task to end well, all twenty steps have to go well, so the probabilities multiply. A 95% success rate per step leaves the full task at 36%. With ten steps, at 59%. **The reliability that impresses in a single step evaporates as soon as steps are chained.**
+An agent chains steps and every step can go wrong. Intuition says a system that gets it right 95% of the time is a reliable system. Arithmetic says otherwise. For a twenty-step task to end well, all twenty steps have to go well, so the probabilities multiply. A 95% success rate per step leaves the full task at 36%. With ten steps, at almost 60%. **The reliability that impresses in a single step evaporates as soon as steps are chained.**
 
 The way out is not to give up on agents, it is to shorten them. That is why ours split the job into short stretches, each verifiable on its own, with rollback points and a person confirming at the delicate moments. There is also a detail almost nobody mentions, that cost grows with length, because every step drags along the full context of the previous ones and long conversations get expensive at a rate the demos never show.
 
@@ -45,6 +46,10 @@ Here is the trick behind the demos, almost all of them have fewer than five step
 ### What comes out when someone measures without selling anything
 
 In late 2024 a team at Carnegie Mellon built [a simulated company](https://arxiv.org/abs/2412.14161) to measure this. A fictional firm with real tools, with its code repository, its project tracker and its internal messaging. The best agents of the moment were handed 175 office tasks any employee would recognize as part of a normal day. The best agent to go through that test completed 30.3% of the tasks on its own. The rest of the attempts failed or got lost along the way. Some agents even cheated, one renamed another user to pretend it had found the person it had been asked to look for.
+
+Another exam from the same year measured the dimension that matters most inside a company, which is not getting it right once but getting it right every time. [Tau-bench](https://arxiv.org/abs/2406.12045) had agents resolve customer transactions for an airline and a shop, with tools and rules in front of them. And it added a metric with a catch, repeating the same task eight times and counting only what was solved all eight. The best agent of the moment was around 61% first time in the shop scenario. Counting only what it solved eight times out of eight, it fell to 25%.
+
+Today's models score higher first time. The distance between the first attempt and the eighth is of another nature, because it does not measure aim, it measures how much the result varies from one run to the next. And varying is the very nature of the component. **A system that is right sometimes is no use to whoever serves customers. No demo video ever shows the eighth repetition.**
 
 And Gartner, the consultancy those same companies ask for advice, [estimates](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) that more than 40% of agentic AI projects will be canceled before the end of 2027, over escalating costs, value that never shows up or insufficient risk controls. None of the three causes is a mystery if you have read this far.
 
@@ -62,7 +67,7 @@ The extreme case is the setup where the model is plugged straight into the datab
 
 ## How we build them
 
-Our split is always the same: judgment lives in the code, interpretation of the world lives in the model and knowledge lives in the data. Judgment is everything that decides what is allowed and what is not. Interpretation is understanding what a person means when they write the way people write. Knowledge is what the system knows about your business, versioned and queryable. It sounds abstract until you take it down to a concrete system, so let's take it down.
+Our split is always the same: judgment lives in the code, interpretation of language lives in the model and knowledge lives in the data. Judgment is everything that decides what is allowed and what is not. Interpretation is understanding what a person means when they write the way people write. Knowledge is what the system knows about your business, versioned and queryable. It sounds abstract until you take it down to a concrete system, so let's take it down.
 
 ### The model chooses, the code executes
 
@@ -76,11 +81,11 @@ The agent has no all-powerful credential of its own. Queries to internal systems
 
 ### The part that decides does not expire with the model
 
-There is a consequence of this split that shows up the day you have to change models. That day always comes, because providers retire models regularly and with a date attached. When the model is not the authority, replacing it is a bounded change you can measure. When we considered swapping the model in one of our systems for a cheaper one, we ran both versions through the same set of questions with their correct answer recorded. The cheaper one lost ten points of accuracy, and on the questions where it had to choose between two similar options it fell from 89% to 44%, so it stayed out with those numbers on the table. If the rules had lived in the prompt, that comparison would never have existed, because there would have been nothing to compare against.
+There is a consequence of this split that shows up the day you have to change models. That day always comes, because providers retire models regularly and with a date attached. When the model is not the authority, replacing it is a bounded change you can measure. When we considered swapping the model in one of our systems for a cheaper one, we ran both versions through the same test suite, the real cases with their correct answer recorded. The cheaper one lost ten points of accuracy, and on the questions where it had to choose between two similar options it fell from 89% to 44%, so it stayed out with those numbers on the table. If the rules had lived in the prompt, that comparison would never have existed, because there would have been nothing to compare against.
 
 ### The decision can be stored
 
-There remains the least visible benefit, the one that matters most as years pass. If the decision lives inside the model, when something goes wrong there is nothing to examine, only a text that came out. In our split the decision sits entirely outside the model, so we can record what it understood, what it asked for, what the validator rejected and why it rejected it. When someone asks six months later why the system answered what it answered, there is something to show. On that foundation sit the regression tests every change has to pass before going live and the weekly measurement that watches for silent degradation.
+There remains the least visible benefit, the one that matters most as years pass. If the decision lives inside the model, when something goes wrong there is nothing to examine, only a text that came out. In our split the decision sits entirely outside the model, so we can record what it understood, what it asked for, what the validator rejected and why it rejected it. When someone asks six months later why the system answered what it answered, there is something to show. On that foundation sits the test suite every change has to pass before going live and the weekly measurement that watches for silent degradation.
 
 ### What this split costs
 
