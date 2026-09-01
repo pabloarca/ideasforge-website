@@ -38,17 +38,31 @@ fila, no añadir reglas.
 5. **Correcciones del propietario, numeradas y devueltas.** Sus mensajes
    con varios cambios se convierten en lista numerada y se responde número
    a número con lo que cambió, para que vea de un vistazo si falta alguna.
+
 **La revisión en frío ya no es un paso obligatorio** (decisión del
 propietario, 28 ago 2026). Dejó de bloquear el cierre de una página y no se
-ofrece por defecto. La herramienta sigue ahí, `npm run frio -- <ruta>`, que
-deja el fichero listo en `revisiones/` para arrastrarlo a una conversación
-nueva de claude.ai, y se usa solo cuando él la pida.
+ofrece por defecto: se usa solo cuando él la pida.
 
-**Si alguna vez se vuelve a usar, no puede hacerla un subagente.** Se
-comprobó el 25 ago 2026: hereda el CLAUDE.md entero, la memoria persistente
-del propietario, el catálogo de skills y hasta las rutas de otros proyectos
-abiertos. Es aislamiento de mensajes, no de contexto, y su valor está justo
-en no tener contexto.
+**Cómo se lanza** (1 sep 2026): `npm run frio -- <ruta> --auto` la hace y
+devuelve el informe en el momento. Sin `--auto` sigue dejando el fichero en
+`revisiones/` para arrastrarlo a mano a claude.ai. Acepta una ruta publicada
+(`blog/el-falso-exito`, que lee de `dist/`) o un `.md` del repositorio, para
+revisar un post antes de compilarlo. `--prompt "..."` cambia la pregunta de
+esa pasada y `--modelo sonnet` cambia el revisor.
+
+**Lo que no puede hacerla es un subagente.** Se comprobó el 25 ago 2026:
+hereda el CLAUDE.md entero, la memoria persistente del propietario, el
+catálogo de skills y hasta las rutas de otros proyectos abiertos. Es
+aislamiento de mensajes, no de contexto, y su valor está justo en no tener
+contexto. `--auto` sí lo consigue porque lanza un proceso `claude` aparte en
+un directorio temporal vacío, sin herramientas, con un settings vacío y sin
+mensaje de sistema. Auditado el 1 sep 2026 preguntándole qué contexto tenía:
+solo el correo del propietario y la fecha. Si se toca alguna de esas cuatro
+llaves, hay que volver a auditarlo.
+
+**Su juicio no se aplica solo.** El lector frío no conoce el banco de hechos
+ni las decisiones cerradas: acierta en la forma y puede equivocarse en el
+fondo. Cada apunte se triangula antes de tocar una línea.
 
 **El silencio no aprueba.** Una decisión solo entra en la sección 3 del
 árbitro cuando el propietario dice que sí con esas palabras. Que pase a otro

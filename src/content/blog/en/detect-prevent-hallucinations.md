@@ -14,6 +14,16 @@ A hallucination is an answer that looks right, reads well and is false. An inven
 
 The hallucinations we see in production almost always have one of two origins. Either the model answers from its memory of the conversation, ignoring the instruction to query the data, or the context it receives is badly built and the model fills the gaps with whatever sounds probable. **Neither gets fixed by asking the model not to hallucinate. Both get fixed by removing the opportunity.**
 
+## Why the model would rather invent than stay quiet
+
+This is not some odd defect the industry has failed to pin down. It is the rewarded behavior.
+
+The work that explains it best was published by OpenAI with Georgia Tech in September 2025, and its argument fits inside a picture of an exam. A model is trained and graded the way a student is graded on a hard question, where "I don't know" scores zero and a confident answer sometimes scores, even when it is made up. Under those rules, guessing with assurance is the strategy that wins.
+
+The conclusion of that paper is the one we had been reaching the hard way. As long as the tests reward assurance, the model will keep filling gaps, so the correction is not to ask it for sincerity. It is to change the rules of the game around it, which is exactly what the four mechanisms below are for.
+
+And how much damage does this do outside a demo? A researcher at HEC Paris keeps a register of court rulings in which the judge found AI-invented material, with a strict test for entry. By the middle of 2026 it was past 1,600 cases, and the curve is steepening rather than flattening out. **More than 650 of them come from practicing lawyers**, people whose trade is precisely to check citations.
+
 ## Context is king
 
 A model is only as good as what it can read while answering. If the search that feeds it returns irrelevant or stale fragments, the model will complete with probability what should come from a document. That is why we order the data and the tools before polishing a single instruction. We tell that story in [data before prompts](/en/blog/data-before-prompts), and it is the part of the work nobody sees because it never appears in the demo.

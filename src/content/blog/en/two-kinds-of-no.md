@@ -25,9 +25,15 @@ Confusing them is the classic mistake of documentation assistants. The team sees
 
 In the plant-floor assistant we maintain for an industrial company, the two kinds of no live in different layers of the system, deliberately.
 
-The product limit is answered without searching anything, with an official text that comes from a versioned catalog. The model identifies the case; it does not write the text. That keeps product policy consistent, auditable, and independent of a generator's mood.
+The product limit is answered without searching anything, with an official text that comes from a versioned catalog. The model identifies the case. It does not write the text. That keeps product policy consistent, auditable, and independent of a generator's mood.
 
 The documentation gap, by contrast, can only be declared after searching. And it leaves a trail. Every turn records a short unmet-need label, drawn from a controlled vocabulary rather than free text. Those labels turn the no's into data, and the data into two separate work queues.
+
+## Saying no goes against the training
+
+There is a deeper reason why good no's are scarce. Models learn from exams where "I don't know" scores zero and a confident answer sometimes scores, so admitting a gap is exactly what their training punishes. OpenAI explained it in a paper in September 2025, and we tell it slowly [when we talk about hallucinations](/en/blog/detect-prevent-hallucinations).
+
+An assistant that pronounces both of its no's well is swimming against that current. That is not achieved by asking for it politely in the instructions. It is achieved with the two layers above, the versioned catalog that answers the product limit without searching and the "no match" signal that gets listened to instead of covered over.
 
 ## The nuance that took us a while
 

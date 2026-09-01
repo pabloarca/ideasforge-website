@@ -1217,7 +1217,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Para grandes empresas',
           title: 'Un asistente de IA sobre tu documentación y tu conocimiento interno',
           subtitle:
-            'Un asistente conversacional a medida que entiende preguntas en lenguaje natural y responde consultando tu documentación y tus sistemas internos, con la referencia de dónde salió cada respuesta. Cuando hace falta, guía paso a paso o ejecuta acciones. Funciona hoy en una gran empresa industrial.',
+            'Un asistente conversacional a medida que entiende preguntas en lenguaje natural y responde consultando tu documentación y tus sistemas internos, con la referencia de dónde salió cada respuesta. Cuando una respuesta no basta, lleva a la persona por un diagnóstico paso a paso o ejecuta la acción en el sistema que toca.',
         },
         sections: [
           {
@@ -4590,7 +4590,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Enterprise offering',
           title: 'An AI assistant over your internal documentation and knowledge',
           subtitle:
-            'A custom conversational assistant that understands natural-language questions and answers by querying your documentation and internal systems, with a reference to where each answer came from. When needed, it guides step by step or takes actions. It runs today at a large industrial company.',
+            'A custom conversational assistant that understands natural-language questions and answers by querying your documentation and internal systems, with a reference to where each answer came from. When an answer is not enough, it walks the person through a step-by-step diagnosis or runs the action in the right system.',
         },
         sections: [
           {
