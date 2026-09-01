@@ -5038,6 +5038,24 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
+            heading: 'Supplier invoices, receipts and delivery notes break differently',
+            paragraphs: [
+              'The list above reads as though the three were the same job on different paper. They are not, and anyone who has tried to automate them knows it. <strong>Each type fails for a different reason, so each one gets handled differently.</strong>',
+              'A <strong>supplier invoice</strong> arrives in a hundred layouts with the total wherever its issuer decided to put it. There the problem is interpretation. It is where a language model brings what no template ever could.',
+              'An <strong>expense receipt</strong> is almost never a PDF. It is a photograph of a crumpled thermal slip, taken in a hurry in a doorway with half the light you would want. The problem stops being interpretation and goes back to being reading, which is exactly where tools fall over and where the checking afterwards matters most.',
+              'A <strong>delivery note</strong> is like neither of them, because the question to answer is not what it says. It is whether what it says matches what was ordered. That is not extraction, it is matching two documents. A system that only knows how to extract will wave it through without having checked anything.',
+            ],
+          },
+          {
+            heading: 'From OCR to the ledger, and where we stop',
+            paragraphs: [
+              'The data comes out checked, with its link back to the original document, in the place your team already works from. That is as far as we go.',
+              '<strong>The entry is yours to make. That is not a limitation on our side, it is a line drawn on purpose.</strong> Classifying a cost is a decision with tax judgment behind it, one that changes from client to client and that sometimes rests on a conversation the machine was never part of.',
+              'A wrong entry also has an unpleasant property: it does not show up when you make it. It shows up months later, sometimes in front of an inspection. We would rather leave the data spotless at the door and have the decision signed by whoever answers for it.',
+              'What you do save is everything that came before, which is where the hours were. Nobody keys in amounts, nobody looks up the same invoice number twice and nobody finds out at closing that a document was missing.',
+            ],
+          },
+          {
             heading: 'What happens when something does not add up',
             paragraphs: [
               'A system that always answers is a system you cannot trust. Ours checks before treating a value as good. What does not pass the check stops.',
