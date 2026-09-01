@@ -65,4 +65,7 @@ export const EMPRESA: Empresa = {
 export const OBLIGATORIOS: (keyof Empresa)[] = ['razonSocial', 'domicilio', 'correo'];
 
 /** True cuando el bloque del responsable se puede pintar entero. */
-export const empresaCompleta = OBLIGATORIOS.every((k) => (EMPRESA[k] ?? '').trim().length > 0);
+export const empresaCompleta = OBLIGATORIOS.every((k) => {
+  const v = EMPRESA[k];
+  return typeof v === 'string' && v.trim().length > 0;
+});
