@@ -35,6 +35,19 @@ export interface Empresa {
   domicilio: string;
   /** Correo al que se dirigen las solicitudes de derechos. */
   correo: string;
+  /**
+   * Quién firma lo que se publica. Un artículo firmado por una organización
+   * no tiene autor a ojos de un buscador, y la experiencia de quien escribe es
+   * parte de lo que se evalúa. Con nombre, los veinte posts dejan de ser
+   * anónimos.
+   */
+  autor: string;
+  /**
+   * Perfiles oficiales. Alimentan `sameAs` del dato estructurado, que es como
+   * un buscador ata la web a una entidad conocida, y el icono del pie. Hasta
+   * el 1 sep 2026 el pie apuntaba a linkedin.com a secas, que no decía nada.
+   */
+  perfiles: string[];
 }
 
 export const EMPRESA: Empresa = {
@@ -42,6 +55,8 @@ export const EMPRESA: Empresa = {
   razonSocial: 'Ideasforge',
   domicilio: 'Calle Camino Viejo de Vélez 18, 1.º P, 29730 Torre de Benagalbón, Málaga',
   correo: 'pablo@ideasforge.io',
+  autor: 'Pablo Arca',
+  perfiles: ['https://www.linkedin.com/company/105676583'],
 };
 
 /** Los campos que no pueden quedar vacíos si la web se publica. */

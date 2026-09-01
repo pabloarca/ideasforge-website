@@ -289,6 +289,8 @@ export interface SiteContent {
     /** Sin flecha en el texto: la pone el icono compartido. */
     backToBlog: string;
     publishedOn: string;
+    /** «por», delante de la firma. */
+    byline: string;
     /** Posición dentro del carrusel: «Artículo 3 de 8». Se parte en dos para
      *  que el número lo escriba el script sin tocar la traducción. */
     counterLabel: string;
@@ -912,6 +914,7 @@ export const content: Record<Lang, SiteContent> = {
       viewAll: 'Visitar blog',
       backToBlog: 'Volver al blog',
       publishedOn: 'Publicado el',
+      byline: 'por',
       counterLabel: 'Artículo',
       counterOf: 'de',
     },
@@ -2296,7 +2299,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         sections: [
           {
-            heading: 'Qué procesos la IA ha habilitado para automatizar',
+            heading: 'Qué resuelve la automatización de procesos con IA',
             part: 'Lo que se abre ahora',
             paragraphs: [
               'Los procesos que las herramientas clásicas no pudieron automatizar comparten un rasgo. En algún punto, una persona tiene que leer y decidir. Llega una factura y alguien la teclea. Llega una solicitud y alguien la cualifica. Llega una pregunta y alguien busca la respuesta.',
@@ -4284,6 +4287,7 @@ export const content: Record<Lang, SiteContent> = {
       viewAll: 'Visit blog',
       backToBlog: 'Back to blog',
       publishedOn: 'Published on',
+      byline: 'by',
       counterLabel: 'Article',
       counterOf: 'of',
     },
@@ -5614,7 +5618,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         sections: [
           {
-            heading: 'Which processes AI has made automatable',
+            heading: 'What AI workflow automation actually solves',
             part: 'What opens up now',
             kind: 'lattice',
             paragraphs: [

@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import { type Lang, languages, content } from '../i18n/ui';
+import { EMPRESA } from '../lib/empresa';
 
 interface Props {
   lang: Lang;
@@ -62,13 +63,42 @@ const canonical = new URL(canonicalPath, site).href;
 const ogPropia = '/og' + (canonicalPath === '/' ? '/index' : canonicalPath) + '.png';
 const ogImage = new URL(image ?? ogPropia, site).href;
 
-// Organization structured data, shared by every page.
+/*
+  Organization, en todas las páginas.
+
+  Llevaba solo nombre, URL y logotipo, que es lo mínimo y no ata la web a
+  nada. Un buscador construye la ficha de una entidad cruzando señales: dónde
+  está, cómo se la contacta y qué perfiles oficiales confirman que existe. Eso
+  es `sameAs`, y es la razón de que un perfil de LinkedIn suelto valga más aquí
+  que en el pie.
+
+  Los datos salen de `src/lib/empresa.ts`, los mismos que firman la política de
+  privacidad, para que no puedan contradecirse.
+*/
 const orgJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Ideasforge',
+  name: EMPRESA.marca,
+  legalName: EMPRESA.razonSocial,
   url: site.href,
   logo: new URL('/ideasforge-logo.svg', site).href,
+  image: new URL('/og-default.png', site).href,
+  email: EMPRESA.correo,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Calle Camino Viejo de Vélez 18, 1.º P',
+    postalCode: '29730',
+    addressLocality: 'Torre de Benagalbón',
+    addressRegion: 'Málaga',
+    addressCountry: 'ES',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'sales',
+    email: EMPRESA.correo,
+    availableLanguage: ['es', 'en'],
+  },
+  sameAs: EMPRESA.perfiles,
 });
 
 /*

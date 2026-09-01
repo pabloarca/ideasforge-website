@@ -5,6 +5,7 @@ import PageNav from '../../components/PageNav.astro';
 import { getCollection, render } from 'astro:content';
 import { content } from '../../i18n/ui';
 import { localizedPath } from '../../i18n/utils';
+import { EMPRESA } from '../../lib/empresa';
 
 const lang = 'es' as const;
 
@@ -56,7 +57,9 @@ const articleJsonLd = JSON.stringify({
   ...(post.data.updatedDate ? { dateModified: post.data.updatedDate.toISOString() } : {}),
   inLanguage: 'es-ES',
   ...(post.data.heroImage ? { image: new URL(post.data.heroImage, site).href } : {}),
-  author: { '@type': 'Organization', name: 'Ideasforge', url: site.href },
+  /* Persona y no organización: un artículo sin autor humano no tiene autor a
+     ojos de un buscador, y quien escribe es parte de lo que se evalúa. */
+  author: { '@type': 'Person', name: EMPRESA.autor },
   publisher: { '@type': 'Organization', name: 'Ideasforge', url: site.href },
 });
 /*
@@ -111,6 +114,10 @@ const articleJsonLd = JSON.stringify({
 
     <header class="mt-6 border-b border-border pb-8">
       <div class="flex flex-wrap items-center gap-3">
+        {/* La firma va visible y no solo en el dato estructurado: un buscador
+            valora la experiencia de quien escribe, y para valorarla tiene que
+            verla en la página igual que la ve el lector. */}
+        <span class="font-mono text-xs text-faint">{t.blog.byline} {EMPRESA.autor}</span>
         <time datetime={post.data.pubDate.toISOString()} class="font-mono text-xs text-faint">
           {t.blog.publishedOn} {fmt(post.data.pubDate)}
         </time>

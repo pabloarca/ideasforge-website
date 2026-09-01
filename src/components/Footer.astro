@@ -27,6 +27,8 @@ const menu: Array<{ label: string; href: string; icon: IconName }> = [
   { label: t.nav.contact, href: localizedPath('/#contacto', lang), icon: 'autor' },
 ];
 
+import { EMPRESA } from '../lib/empresa';
+
 /* Misma variable que gobierna el aviso de cookies, ver CookieConsent.astro. */
 const hayMedicion = Boolean(import.meta.env.PUBLIC_GA_ID);
 
@@ -114,7 +116,7 @@ const legal = [
 
         <h2 class="mt-10 text-base font-bold text-fg">{t.footer.contactHeading}</h2>
         <a
-          href="https://www.linkedin.com/"
+          href={EMPRESA.perfiles[0]}
           rel="noopener noreferrer"
           target="_blank"
           aria-label="LinkedIn"
