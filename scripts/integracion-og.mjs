@@ -32,6 +32,9 @@ function familiaDe(ruta) {
   if (/^\/(pymes|gestorias|inmobiliarias|en\/(smb|accounting-firms|real-estate))$/.test(ruta)) {
     return 'vertical';
   }
+  // Las legales caían en el saco de «guía» por defecto y se anunciaban como
+  // tal. Nadie comparte una política de cookies, pero salía mal.
+  if (/^\/(politica-|en\/(privacy|cookies)-policy)/.test(ruta)) return 'legal';
   return 'guia';
 }
 

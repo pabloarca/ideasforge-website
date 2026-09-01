@@ -35,7 +35,7 @@ export const OG = { ancho: 1200, alto: 630 };
  * vistazo se distinga un caso de una guía sin leer nada. Los tonos salen de
  * los que ya usa el sitio.
  */
-/** @typedef {'guia'|'servicio'|'caso'|'blog'|'vertical'|'home'} Familia */
+/** @typedef {'guia'|'servicio'|'caso'|'blog'|'vertical'|'home'|'legal'} Familia */
 
 /** @type {Record<Familia,[string,string]>} */
 /* Primero el fondo, después el color del filete que lo acompaña. */
@@ -46,6 +46,7 @@ const FONDOS = {
   caso: ['#0a1a3f', '#5fb3f5'],
   blog: ['#161616', '#9aa0ff'],
   vertical: ['#0a2a2a', '#4fd1a5'],
+  legal: ['#242424', '#9a9a9a'],
 };
 
 /** @type {Record<Familia,{es:string,en:string}>} */
@@ -56,6 +57,7 @@ const ETIQUETA = {
   caso: { es: 'Caso en producción', en: 'Case in production' },
   blog: { es: 'Blog', en: 'Blog' },
   vertical: { es: 'Sector', en: 'Sector' },
+  legal: { es: 'Legal', en: 'Legal' },
 };
 
 /**
