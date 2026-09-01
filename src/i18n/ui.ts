@@ -209,6 +209,18 @@ export interface SiteContent {
     enterpriseDescription: string;
 
   };
+  /**
+   * Aviso de cookies. Existe porque Google Analytics instala cookies que no
+   * son necesarias para que la web funcione, y esas exigen consentimiento
+   * previo: nada se carga hasta que alguien decide.
+   */
+  consent: {
+    heading: string;
+    body: string;
+    accept: string;
+    reject: string;
+    link: string;
+  };
   nav: {
     /** Etiqueta de la home en la miga de pan estructurada. */
     home: string;
@@ -362,6 +374,9 @@ export interface SiteContent {
     legal: string;
     privacy: string;
     cookies: string;
+    /** Reabre el aviso de cookies. Obligatorio: retirar el consentimiento
+     *  tiene que ser tan fácil como darlo. */
+    cookiePrefs: string;
     contactHeading: string;
     rights: string;
     /** Crawlable links to the service/keyword pages. */
@@ -509,6 +524,13 @@ export const content: Record<Lang, SiteContent> = {
       enterpriseTitle: 'Asistente de IA sobre tu documentación interna, Ideasforge',
       enterpriseDescription:
         'Para medianas y grandes empresas: un asistente que responde en lenguaje natural consultando tu documentación interna, tus wikis y tus sistemas.',
+    },
+    consent: {
+      heading: 'Cookies de medición',
+      body: 'Usamos Google Analytics para saber qué páginas sirven y cuáles no. Instala cookies, así que no se carga hasta que decidas. Si dices que no, la web funciona exactamente igual.',
+      accept: 'Aceptar',
+      reject: 'Rechazar',
+      link: 'Leer la política de cookies',
     },
     nav: {
       home: 'Inicio',
@@ -1149,6 +1171,7 @@ export const content: Record<Lang, SiteContent> = {
       legal: 'Legal',
       privacy: 'Política de Privacidad',
       cookies: 'Política de Cookies',
+      cookiePrefs: 'Preferencias de cookies',
       contactHeading: 'Contáctanos',
       rights: 'Ideasforge. Todos los derechos reservados.',
       navGroups: [
@@ -3886,6 +3909,13 @@ export const content: Record<Lang, SiteContent> = {
       enterpriseDescription:
         'For mid-size and large companies: an assistant that answers in natural language by querying your internal documentation, wikis and systems.',
     },
+    consent: {
+      heading: 'Measurement cookies',
+      body: 'We use Google Analytics to learn which pages earn their place and which do not. It sets cookies, so nothing loads until you decide. If you say no, the site works exactly the same.',
+      accept: 'Accept',
+      reject: 'Reject',
+      link: 'Read the cookies policy',
+    },
     nav: {
       home: 'Home',
       services: 'Services',
@@ -4495,6 +4525,7 @@ export const content: Record<Lang, SiteContent> = {
       legal: 'Legal',
       privacy: 'Privacy Policy',
       cookies: 'Cookies Policy',
+      cookiePrefs: 'Cookie preferences',
       contactHeading: 'Contact us',
       rights: 'Ideasforge. All rights reserved.',
       navGroups: [

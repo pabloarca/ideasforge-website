@@ -27,6 +27,9 @@ const menu: Array<{ label: string; href: string; icon: IconName }> = [
   { label: t.nav.contact, href: localizedPath('/#contacto', lang), icon: 'autor' },
 ];
 
+/* Misma variable que gobierna el aviso de cookies, ver CookieConsent.astro. */
+const hayMedicion = Boolean(import.meta.env.PUBLIC_GA_ID);
+
 const legal = [
   { label: t.footer.privacy, href: routeMap.privacy[lang] },
   { label: t.footer.cookies, href: routeMap.cookies[lang] },
@@ -52,6 +55,24 @@ const legal = [
               <a href={l.href} class="text-sm text-fg transition-colors hover:text-accent">{l.label}</a>
             </li>
           ))}
+          {/* Reabre el aviso de cookies. No es un adorno: retirar el
+              consentimiento tiene que costar lo mismo que darlo, y sin este
+              enlace la única salida sería borrar el almacenamiento a mano.
+              Va como <button> y no como <a> porque no lleva a ninguna parte.
+
+              Y solo aparece si hay medición configurada: sin ella no hay nada
+              que preferir y sería un botón que no hace nada. */}
+          {hayMedicion && (
+          <li>
+            <button
+              type="button"
+              data-cookie-prefs
+              class="text-left text-sm text-fg transition-colors hover:text-accent"
+            >
+              {t.footer.cookiePrefs}
+            </button>
+          </li>
+          )}
         </ul>
       </div>
 

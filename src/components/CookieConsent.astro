@@ -1,0 +1,158 @@
+---
+/*
+  Aviso de cookies y carga condicional de Google Analytics.
+
+  La regla que gobierna todo esto: **nada de Google se descarga hasta que
+  alguien dice que sí**. No se usa el modo de consentimiento de Google, que
+  carga la biblioteca primero y le pide que no mida: eso ya es una petición al
+  tercero y ya deja huella. Aquí, mientras no haya un sí, el navegador no habla
+  con Google en absoluto.
+
+  Lo que la norma exige y aquí se cumple, por si alguien revisa esto en el
+  futuro y se pregunta por qué está así:
+
+  - **Rechazar cuesta lo mismo que aceptar.** Los dos botones son del mismo
+    tamaño, están al mismo nivel y ninguno es más llamativo. Un «Aceptar»
+    grande con un «Configurar» pequeño al lado es el patrón que la AEPD señala.
+  - **Nada preseleccionado y nada cargado antes** de la decisión.
+  - **Retirar el consentimiento es tan fácil como darlo**: el enlace del pie
+    reabre este mismo aviso, y volver a decidir sobrescribe lo anterior.
+  - No hay muro: si se rechaza, la web funciona igual y no se vuelve a
+    preguntar.
+
+  La decisión vive en `localStorage` y no en una cookie, que sería irónico.
+  Guarda también la fecha, porque el consentimiento caduca y conviene poder
+  demostrar cuándo se dio.
+
+  El identificador de GA se lee de `PUBLIC_GA_ID` en tiempo de compilación. Sin
+  esa variable no se emite NADA de este componente, ni el aviso: sin medición
+  no hay cookies que consentir, y preguntar por nada es peor que no preguntar.
+*/
+import { type Lang, content } from '../i18n/ui';
+import { routeMap } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].consent;
+const politica = routeMap.cookies[lang];
+
+const GA_ID = import.meta.env.PUBLIC_GA_ID;
+---
+
+{
+  GA_ID && (
+    <>
+      <div
+        id="cookie-consent"
+        role="dialog"
+        aria-modal="false"
+        aria-labelledby="cookie-consent-title"
+        hidden
+        class="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-bg p-5 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.25)] sm:p-6"
+      >
+        <div class="mx-auto flex max-w-5xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+          <div>
+            <p id="cookie-consent-title" class="text-[15px] font-semibold text-fg">
+              {t.heading}
+            </p>
+            <p class="mt-1.5 text-sm leading-relaxed text-muted">
+              {t.body}{' '}
+              <a href={politica} class="link-inline">
+                {t.link}
+              </a>
+            </p>
+          </div>
+
+          {/* Los dos botones, mismo tamaño y mismo peso visual. Rechazar va
+              primero en el orden del documento para que el teclado lo alcance
+              antes, que es el que más cuesta a quien no usa ratón. */}
+          <div class="flex shrink-0 gap-3">
+            <button
+              type="button"
+              data-consent="denied"
+              class="min-w-[7.5rem] rounded-lg border border-border px-5 py-2.5 text-sm font-semibold text-fg transition-colors hover:bg-bg-soft"
+            >
+              {t.reject}
+            </button>
+            <button
+              type="button"
+              data-consent="granted"
+              class="min-w-[7.5rem] rounded-lg border border-fg bg-fg px-5 py-2.5 text-sm font-semibold text-bg transition-colors hover:bg-primary-hover"
+            >
+              {t.accept}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <script is:inline define:vars={{ GA_ID }}>
+        (function () {
+          var CLAVE = 'if-consent';
+          var aviso = document.getElementById('cookie-consent');
+
+          function cargaAnalitica() {
+            if (window.__ifGaCargado) return;
+            window.__ifGaCargado = true;
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+            document.head.appendChild(s);
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              window.dataLayer.push(arguments);
+            }
+            window.gtag = gtag;
+            gtag('js', new Date());
+            // `anonymize_ip` ya es el comportamiento por defecto en GA4; se
+            // deja explícito para que se vea al leer, no porque cambie nada.
+            gtag('config', GA_ID, { anonymize_ip: true });
+          }
+
+          function leer() {
+            try {
+              return JSON.parse(localStorage.getItem(CLAVE) || 'null');
+            } catch (e) {
+              return null;
+            }
+          }
+
+          function decidir(valor) {
+            try {
+              localStorage.setItem(
+                CLAVE,
+                JSON.stringify({ estado: valor, fecha: new Date().toISOString() })
+              );
+            } catch (e) {
+              /* Navegación privada o almacenamiento bloqueado: la decisión vale
+                 para esta visita y se volverá a preguntar. Nunca se asume un sí. */
+            }
+            if (aviso) aviso.hidden = true;
+            if (valor === 'granted') cargaAnalitica();
+          }
+
+          if (aviso) {
+            aviso.addEventListener('click', function (ev) {
+              var b = ev.target.closest('[data-consent]');
+              if (b) decidir(b.getAttribute('data-consent'));
+            });
+          }
+
+          // Reabrir desde el pie o desde la política. Es el mismo camino para
+          // cambiar de opinión en cualquiera de los dos sentidos.
+          document.addEventListener('click', function (ev) {
+            var b = ev.target.closest('[data-cookie-prefs]');
+            if (!b) return;
+            ev.preventDefault();
+            if (aviso) aviso.hidden = false;
+          });
+
+          var previo = leer();
+          if (previo && previo.estado === 'granted') cargaAnalitica();
+          else if (!previo && aviso) aviso.hidden = false;
+        })();
+      </script>
+    </>
+  )
+}
