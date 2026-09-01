@@ -5006,7 +5006,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
-            heading: 'What goes into a system like this and what does not',
+            heading: 'What AI for accounting firms covers, and what it does not',
             paragraphs: ['What we automate in an accounting firm and what we leave where it is.'],
             kind: 'checklist',
             bullets: [
@@ -5442,7 +5442,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         sections: [
           {
-            heading: 'What we build',
+            heading: 'What custom AI agent development covers',
             part: 'The service',
             paragraphs: [
               'Custom AI agents that do real work: they answer questions against your documentation and databases, run guided diagnostics, qualify requests and execute actions on the systems you approve. <strong>Each agent is built for one concrete task and connects only to the tools that task needs.</strong> When one agent is not enough, we build the architecture that coordinates several. An orchestrator understands each query and routes it to the specialist. One of our production systems runs this way, with half a dozen specialized agents behind the orchestrator.',
