@@ -2,6 +2,7 @@
 import { type Lang, content } from '../i18n/ui';
 import Icon from './Icon.astro';
 import { routeMap } from '../i18n/utils';
+import { CLAVE_WEB3FORMS, RUTA_GRACIAS } from '../lib/formulario';
 
 interface Props {
   lang: Lang;
@@ -11,6 +12,7 @@ const t = content[lang].start;
 const c = content[lang].contact;
 const f = t.form;
 const privacyHref = routeMap.privacy[lang];
+const rutaGracias = RUTA_GRACIAS[lang];
 
 // Shared control styling. Kept in one place so the eight inputs on this page
 // cannot drift apart from each other.
@@ -35,8 +37,13 @@ const field =
         Web3Forms confirmation page.
       */}
       <form action="https://api.web3forms.com/submit" method="POST" class="grid gap-6">
-        <input type="hidden" name="access_key" value="YOUR-WEB3FORMS-ACCESS-KEY" />
+        <input type="hidden" name="access_key" value={CLAVE_WEB3FORMS} />
         <input type="hidden" name="subject" value={f.subject} />
+        {/* Sin `redirect`, quien envía aterriza en la página de confirmación
+            de Web3Forms. Con él, en la nuestra. Pide URL absoluta. */}
+        {rutaGracias && (
+          <input type="hidden" name="redirect" value={new URL(rutaGracias, Astro.site ?? 'https://ideasforge.io').href} />
+        )}
         <input
           type="checkbox"
           name="botcheck"
@@ -153,7 +160,7 @@ const field =
             {c.privacyPre}
             <a href={privacyHref} class="text-accent underline decoration-dotted underline-offset-2 hover:decoration-solid">
               {c.privacyLink}
-            </a>.
+            </a>{c.privacyPost}
           </span>
         </label>
 

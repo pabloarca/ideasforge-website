@@ -1,0 +1,48 @@
+---
+/*
+  Acuse de los dos formularios, el de contacto de la home y el de exploración.
+
+  Existe para no soltar al visitante en la página de confirmación de
+  Web3Forms, que es de ellos y aparece justo en el momento de más confianza de
+  toda la visita. A cambio de una página, el acuse lo damos nosotros y con
+  nuestras palabras.
+
+  Va `noindex` porque nadie la busca: solo tiene sentido detrás del envío. Sale
+  también del sitemap, en `astro.config.mjs`.
+
+  El par inglés existe desde el 1 sep 2026, así que las alternativas salen ya
+  del `routeMap` como en cualquier otra página.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { content } from '../i18n/ui';
+import { altsFor } from '../i18n/utils';
+import { EMPRESA } from '../lib/empresa';
+
+const lang = 'es' as const;
+const t = content[lang].thanks;
+---
+
+<BaseLayout
+  lang={lang}
+  title={t.metaTitle}
+  description={t.metaDescription}
+  alternates={altsFor('thanks')}
+  noindex
+>
+  <section class="mx-auto max-w-3xl px-5 py-24 sm:px-8 sm:py-32">
+    <p class="font-mono text-sm uppercase tracking-wide text-accent">{t.eyebrow}</p>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight text-fg sm:text-5xl">{t.title}</h1>
+
+    <div class="mt-8 space-y-5 text-lg text-muted">
+      {t.body.map((p) => <p>{p}</p>)}
+      <p>
+        {t.extraPre}<a href={`mailto:${EMPRESA.correo}`} class="link-inline">{EMPRESA.correo}</a
+        >{t.extraPost}
+      </p>
+    </div>
+
+    <p class="mt-10 border-t border-border-soft pt-8 text-lg text-muted">
+      {t.blogPre}<a href="/blog" class="link-inline">{t.blogLink}</a>{t.blogPost}
+    </p>
+  </section>
+</BaseLayout>

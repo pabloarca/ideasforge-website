@@ -74,6 +74,13 @@ export default defineConfig({
     portadasSociales(),
     sitemap({
       /*
+        Fuera del sitemap las páginas que solo tienen sentido detrás de una
+        acción. El acuse de los formularios va además `noindex` en su propia
+        cabecera: un sitemap que anuncia una URL que la página pide no indexar
+        es una contradicción que el buscador registra como tal.
+      */
+      filter: (url) => !/\/(gracias|thank-you)$/.test(new URL(url).pathname.replace(/\/+$/, '')),
+      /*
         `lastmod` SOLO donde la fecha es de verdad, que hoy es el blog.
 
         La tentación es poner la fecha de compilación en las 57 URL, y es peor

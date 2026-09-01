@@ -93,9 +93,12 @@ const LEXICO_VETADO = [
   [/\bcanónic[oa]s?\b/g, 'aprobado, o el de referencia'],
   [/Actualizad[oa] en agosto/g, 'fuera: el propietario lo quitó y reapareció una vez'],
   // Vetadas por el propietario en todo el sitio, 27 ago 2026 (noche)
-  [/honest[oa]s?/g, 'claridad, a tiempo, sensato… según el trabajo de la frase'],
+  [/\bhonest[oa]s?\b/g, 'claridad, a tiempo, sensato… según el trabajo de la frase'],
   [/honestidad/g, 'claridad («claridad de máquina» es el concepto renombrado)'],
-  [/instinto/g, 'primer impulso'],
+  // La forma inglesa faltaba, y por eso «keeping it honest» sobrevivió en la
+  // guía de coste hasta el 1 sep. El veto del propietario era de todo el sitio.
+  [/\bhonest(ly|y)?\b/g, 'la forma inglesa de la palabra vetada el 27 ago'],
+  [/\binstinto/g, 'primer impulso'],
 ];
 
 /*
@@ -131,6 +134,18 @@ const HECHOS_RETIRADOS = [
   // clon inglés sobrevivió hasta el 1 sep, que es cuando entra esta huella.
   ['rastro completo queda en el CRM', 'el CRM de Barceloneta no admite escritura: el resumen va por correo (28 ago 2026)'],
   ['full trail in the CRM', 'el CRM de Barceloneta no admite escritura: el resumen va por correo (28 ago 2026)'],
+  // Retirado de /empezar y de /en/get-started por el propietario. La huella es
+  // el tamaño del equipo dicho de nosotros, no de un cliente: las preguntas
+  // frecuentes inglesas siguen diciendo con razón que los clientes de las dos
+  // páginas de números son equipos pequeños, y eso se queda.
+  ['somos un equipo pequeño', 'el tamaño del equipo se retira de la web (1 sep 2026)'],
+  ['we are a small team', 'el tamaño del equipo se retira de la web (1 sep 2026)'],
+  // La batería de Wazzy quedó EN DUDA el 29 ago 2026: el ROADMAP del producto
+  // da 206 casos dorados y 41 campos donde la ficha decía 145 y 37, y el banco
+  // declara que ninguna de las dos parejas se publica hasta que el propietario
+  // elija. Estaba viva en las dos guías de coste y sale el 1 sep.
+  ['145 conversaciones anotadas', 'cifra del eval de Wazzy EN DUDA en el banco (29 ago 2026)'],
+  ['145 annotated conversations', 'cifra del eval de Wazzy EN DUDA en el banco (29 ago 2026)'],
 ];
 
 /* Daños típicos de una edición quirúrgica: nunca son intencionados. */

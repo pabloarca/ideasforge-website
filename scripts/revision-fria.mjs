@@ -42,12 +42,14 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 
-/* El prompt por defecto es literal y no se toca sin motivo (decisión del
-   25 ago 2026). Su fuerza está en lo que NO pide: no pide versiones
-   alternativas, no pide ajustarse a un estilo y no da contexto que el
-   revisor pueda usar para justificar lo que lee. `--prompt` lo sustituye
-   para una pasada suelta, sin tocar la decisión. */
-const PROMPT_POR_DEFECTO = `Ahora analiza la página entera. Dame correcciones o apuntes bloque por bloque, no me des varias versiones, solo anotaciones de cosas que no te cuadran, que tienen poca coherencia o que no son veraces. Justifica esas anotaciones y lo que harías en su lugar:`;
+/* El prompt por defecto es el del propietario (decisión del 1 sep 2026, que
+   sustituye al del 25 ago). Pide las tres cosas a la vez, incoherencias,
+   frases mal formuladas y abstracciones, y en la primera pasada sobre veinte
+   piezas la parte de forma fue con diferencia la más productiva. Su fuerza
+   sigue estando en lo que NO pide, que es ni versiones alternativas, ni
+   ajuste a un estilo, ni contexto que el revisor pueda usar para justificar
+   lo que lee. `--prompt` lo sustituye para una pasada suelta. */
+const PROMPT_POR_DEFECTO = `revisa este texto y dime si encuentras incoherencias, frases mal formuladas o abstractas que cambiarías`;
 
 /* Argumentos: la ruta es el primer suelto; el resto son banderas con valor. */
 const args = process.argv.slice(2);

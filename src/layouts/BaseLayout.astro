@@ -32,6 +32,13 @@ interface Props {
    * fotografía propia, como los posts con `heroImage`, pasan la suya y ganan.
    */
   image?: string;
+  /**
+   * Fuera del índice de los buscadores. Para las páginas que solo tienen
+   * sentido detrás de una acción, como el acuse de los formularios: nadie la
+   * busca, y indexada compite con las páginas que sí queremos que salgan.
+   * `follow` se conserva para que los enlaces que lleva sigan contando.
+   */
+  noindex?: boolean;
 }
 
 const {
@@ -43,6 +50,7 @@ const {
   publishedTime,
   modifiedTime,
   image,
+  noindex = false,
 } = Astro.props;
 
 const site = Astro.site ?? new URL('https://ideasforge.io');
@@ -194,7 +202,14 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
       en Discover. No cambia el posicionamiento, cambia cuánto ocupa el
       resultado, que es lo que decide si alguien lo pulsa.
     -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta
+      name="robots"
+      content={
+        noindex
+          ? 'noindex, follow'
+          : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+      }
+    />
 
     <!--
       Space Grotesk servida por nosotros, un fichero variable de 22 KB. La

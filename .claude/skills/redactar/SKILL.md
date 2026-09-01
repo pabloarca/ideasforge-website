@@ -50,6 +50,10 @@ devuelve el informe en el momento. Sin `--auto` sigue dejando el fichero en
 revisar un post antes de compilarlo. `--prompt "..."` cambia la pregunta de
 esa pasada y `--modelo sonnet` cambia el revisor.
 
+**La pregunta por defecto la fijó el propietario el 1 sep 2026** y sustituye a
+la del 25 ago: «revisa este texto y dime si encuentras incoherencias, frases
+mal formuladas o abstractas que cambiarías». La anterior solo pedía fondo.
+
 **Lo que no puede hacerla es un subagente.** Se comprobó el 25 ago 2026:
 hereda el CLAUDE.md entero, la memoria persistente del propietario, el
 catálogo de skills y hasta las rutas de otros proyectos abiertos. Es

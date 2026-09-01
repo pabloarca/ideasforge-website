@@ -306,6 +306,9 @@ export interface SiteContent {
     eyebrow: string;
     heading: string;
     subhead: string;
+    /** Asunto del correo que llega al buzón. Va aquí, y no escrito en el
+     *  componente, porque el inglés recibía el asunto en español. */
+    subject: string;
     name: string;
     email: string;
     company: string;
@@ -315,6 +318,10 @@ export interface SiteContent {
     messageHint: string;
     privacyPre: string;
     privacyLink: string;
+    /** Cierre de la casilla, detrás del enlace. Existe porque la etiqueta dejó
+     *  de decir «acepto» la política, que insinuaba un consentimiento del
+     *  6.1.a cuando el amparo del formulario es el 6.1.b. */
+    privacyPost: string;
     submit: string;
     /** Pointer to the longer exploration form, split so the link sits inline. */
     startPre: string;
@@ -323,6 +330,22 @@ export interface SiteContent {
   };
   /** Standalone page holding the exploration form. */
   start: StartPageContent;
+  /** Acuse propio al que aterrizan los dos formularios tras enviar. */
+  thanks: {
+    metaTitle: string;
+    metaDescription: string;
+    eyebrow: string;
+    title: string;
+    body: string[];
+    /** Partido para que el correo de la casa entre como enlace, y salga de
+     *  `EMPRESA` en vez de escribirse aquí. */
+    extraPre: string;
+    extraPost: string;
+    /** Igual, para que el enlace al blog vaya dentro de la frase. */
+    blogPre: string;
+    blogLink: string;
+    blogPost: string;
+  };
   /** Shared architecture diagram, reused wherever the argument is made. */
   flowDiagram: FlowDiagramContent;
   /** Diagrama de la guía: el chatbot de guion frente al agente. */
@@ -965,6 +988,7 @@ export const content: Record<Lang, SiteContent> = {
       eyebrow: 'Contacto',
       heading: 'Cuéntanos tu reto.',
       subhead: 'Te respondemos en un día laborable. Sin presentación comercial de cuarenta diapositivas.',
+      subject: 'Nuevo mensaje desde ideasforge.io',
       name: 'Nombre',
       email: 'Correo electrónico',
       company: 'Empresa',
@@ -972,8 +996,9 @@ export const content: Record<Lang, SiteContent> = {
       optional: 'Opcional',
       message: 'Qué quieres construir o qué problema quieres resolver',
       messageHint: 'Cuéntanoslo como se lo contarías a un compañero. No hace falta que sepas qué tecnología lo resuelve.',
-      privacyPre: 'He leído y acepto la ',
+      privacyPre: 'He leído la ',
       privacyLink: 'Política de privacidad',
+      privacyPost: ' y sé que solo usaréis mis datos para contestarme.',
       submit: 'Enviar',
       startPre: 'Si ya tienes claro que quieres empezar, ',
       startLink: 'el formulario de exploración',
@@ -1079,7 +1104,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       ],
       legend:
-        'Cada capa aguanta el fallo de la anterior. La primera es lo único que el modelo llega a ver. Quién decide ese contenido es el código, igual que en las otras tres. La última desconfía incluso de las de arriba. Si la lista de permisos llega vacía, la consulta no casa con ninguna fila y la respuesta es el vacío.',
+        'Cada capa aguanta el fallo de la anterior. La primera es lo único que el modelo llega a ver. Ese contenido lo decide el código, igual que en las otras tres. La última desconfía incluso de las de arriba. Si la lista de permisos llega vacía, la consulta no casa con ninguna fila y la respuesta viene vacía.',
     },
     gateDiagram: {
       title: 'Qué le pasa a un cambio antes de salir',
@@ -1105,7 +1130,7 @@ export const content: Record<Lang, SiteContent> = {
         'Estas preguntas son las mismas que haríamos en una primera reunión. Contestarlas por escrito nos ahorra esa reunión a los dos y nos deja empezar a trabajar antes.',
       getHeading: 'Qué recibes',
       get: [
-                'Respuesta en un día laborable, escrita por una persona que ha leído tu caso. Somos un equipo pequeño y contesta quien va a trabajar en él.',
+        'Respuesta en un día laborable, escrita por una persona que ha leído tu caso.',
         'Una primera lectura de dónde creemos que la IA aporta en lo que nos cuentas y dónde no.',
       ],
       notHeading: 'Qué no recibes',
@@ -1168,6 +1193,22 @@ export const content: Record<Lang, SiteContent> = {
         subject: 'Nueva exploración desde ideasforge.io',
       },
     },
+    thanks: {
+      metaTitle: 'Mensaje recibido, Ideasforge',
+      metaDescription:
+        'Hemos recibido lo que nos has contado. Te contestamos en un día laborable y lo hace la persona que trabajaría en tu caso.',
+      eyebrow: 'Recibido',
+      title: 'Lo hemos recibido',
+      body: [
+        'Te contestamos en un día laborable. Lo hace una persona que habrá leído tu caso entero, la misma que trabajaría en él si seguimos adelante.',
+        'No vas a recibir ningún correo de confirmación y tampoco te hemos apuntado a ninguna lista. El siguiente correo nuestro que te llegue será la respuesta a lo que nos has contado.',
+      ],
+      extraPre: 'Si se te ha quedado algo fuera, escríbenos a ',
+      extraPost: ' y lo sumamos al mismo hilo.',
+      blogPre: 'Mientras esperas, en ',
+      blogLink: 'el blog',
+      blogPost: ' contamos cómo construimos estos sistemas y qué nos ha salido mal por el camino.',
+    },
     footer: {
       tagline: 'Desarrollo de IA generativa en producción para empresas. Lo medimos cada semana.',
       menu: 'Menú',
@@ -1194,6 +1235,16 @@ export const content: Record<Lang, SiteContent> = {
             { label: 'IA para pymes', href: '/pymes' },
             { label: 'IA para inmobiliarias', href: '/inmobiliarias' },
             { label: 'IA para gestorías', href: '/gestorias' },
+          ],
+        },
+        {
+          heading: 'Casos',
+          links: [
+            { label: 'Asistente de planta', href: '/casos/industrial' },
+            { label: 'Savian', href: '/casos/savian' },
+            { label: 'Stanton', href: '/casos/stanton' },
+            { label: 'Barceloneta Premium', href: '/casos/barceloneta' },
+            { label: 'Wazzy', href: '/casos/wazzy' },
           ],
         },
         {
@@ -1229,7 +1280,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
-            heading: 'Un buscador te da diez documentos, esto te da la respuesta',
+            heading: 'Un buscador te da diez documentos, este asistente te da la respuesta',
             part: 'Lo que construimos',
             paragraphs: [
               'La diferencia con el buscador de siempre está en quién hace el trabajo final. <strong>Un buscador devuelve diez documentos donde puede estar la respuesta y la persona sigue teniendo que leerlos.</strong> Este asistente responde a la pregunta y la acompaña con la referencia de dónde salió, para que verificar cueste un clic en lugar de una tarde.',
@@ -1250,7 +1301,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Lo que construimos',
             paragraphs: [
               '¿Por qué no un solo agente que lo haga todo? A partir de cierto tamaño esa pieza única se vuelve enorme e imposible de mantener, así que nuestra arquitectura para estos casos es otra.',
-              'Un orquestador entiende la intención de cada pregunta y la enruta al agente especializado que corresponde, uno por dominio de conocimiento. En el caso industrial que sostiene esta página, ese orquestador coordina media docena de agentes especializados y el conjunto suma unas 86 piezas conectadas entre sí. Ese caso está contado entero en <a class="link-inline" href="/casos/industrial">su propia página</a>.',
+              'Un orquestador entiende la intención de cada pregunta y la enruta al agente especializado que corresponde, uno por dominio de conocimiento. En el caso industrial del que sale esta página, ese orquestador coordina media docena de agentes especializados y el conjunto suma unas 86 piezas conectadas entre sí. Ese caso está contado entero en <a class="link-inline" href="/casos/industrial">su propia página</a>.',
               'Quien hace la pregunta no se entera de nada de lo que pasa por detrás, solo recibe una respuesta. <strong>La arquitectura importa por lo que permite, añadir un dominio nuevo sin tocar los demás</strong>, medir cada agente por separado y que un fallo en uno no arrastre al conjunto.',
             ],
           },
@@ -1258,7 +1309,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Los dos «no» que un asistente serio distingue',
             part: 'Cómo se gana la confianza',
             paragraphs: [
-              '<strong>La confianza no se gana respondiendo bien, se gana respondiendo bien y negándose bien.</strong> Hay dos «no» distintos. El «esto queda fuera del producto», que se responde al instante y con texto de catálogo, sin gastar una búsqueda. Y el «esto debería estar documentado y no lo está», que solo se dice después de buscar de verdad y deja rastro, porque es una tarea para el equipo de documentación.',
+              '<strong>La confianza no se gana respondiendo bien, se gana respondiendo bien y negándose bien.</strong> Hay dos «no» distintos. El «esto queda fuera del producto», que se responde al instante y con texto de catálogo, sin lanzar una búsqueda. Y el «esto debería estar documentado y no lo está», que solo se dice después de buscar de verdad y deja rastro, porque es una tarea para el equipo de documentación.',
               'Confundirlos sale caro en las dos direcciones y separarlos tiene más ingeniería detrás de la que parece.',
             ],
           },
@@ -1276,7 +1327,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo se gana la confianza',
             paragraphs: [
               'Un asistente que lee toda la documentación de la empresa plantea una pregunta obvia. ¿Quién puede preguntarle qué?',
-              'Nuestra respuesta es que <strong>el asistente hereda los permisos que ya existen</strong>. La recuperación de documentos respeta el rol de quien pregunta, así que nadie recibe en una respuesta un fragmento que no podría abrir a mano. Y cuando el asistente consulta un sistema interno, viaja con la identidad de la persona, no con una cuenta de robot que lo ve todo.',
+              'Nuestra respuesta es que <strong>el asistente hereda los permisos que ya existen</strong>. La recuperación de documentos respeta el rol de quien pregunta, así que nadie recibe en una respuesta un fragmento que no podría abrir a mano. Y cuando el asistente consulta un sistema interno, viaja con la identidad de la persona, no con una cuenta de servicio que lo ve todo.',
               'Cada decisión queda además registrada, qué entendió, a dónde enrutó, qué respondió.',
             ],
           },
@@ -1284,8 +1335,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Garantías para grandes empresas',
             part: 'Garantías y encaje',
             paragraphs: [
-              'El asistente corre en tu infraestructura, en tu nube o en tus servidores, con los datos donde tú decidas. <strong>Se entra con el inicio de sesión que tu gente ya usa</strong>, así que dar y quitar acceso sigue siendo cosa de tu equipo, no nuestra.',
-              'El repositorio está a tu nombre desde el primer día. Y <strong>la calidad se mide siempre</strong>, con una batería de casos reales que frena cualquier cambio que empeore el sistema y una vigilancia semanal de lo que está en producción.',
+              'El asistente corre en tu infraestructura, en tu nube o en tus servidores, con los datos donde tú decidas. La única pieza externa es la llamada al modelo, bajo los acuerdos que tú apruebes. <strong>Se entra con el inicio de sesión que tu gente ya usa</strong>, así que dar y quitar acceso sigue siendo cosa de tu equipo, no nuestra.',
+              'El código es tuyo desde el primer día, en tu repositorio. Y <strong>la calidad se mide siempre</strong>, con una batería de casos reales que frena cualquier cambio que empeore el sistema y una vigilancia semanal de lo que está en producción.',
               'El coste de un sistema de este tamaño se presupuesta por proyecto, porque depende de tus fuentes, tus sistemas y tu exigencia de validación. Lo desglosa la <a class="link-inline" href="/cuanto-cuesta-un-agente-de-ia">guía de coste</a>, que explica qué mueve cada cifra y dónde se sale del rango estándar.',
               'Y cómo las reglas europeas de protección de datos moldean todo lo anterior tiene su propia página, escrita para el comité que tiene que aprobarlo.',
             ],
@@ -1839,7 +1890,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               '<strong>Un agente de IA es un programa que entiende lo que le pides y elige por su cuenta qué hacer para resolverlo.</strong> Dentro lleva un modelo de lenguaje, que es la parte que entiende, más una lista de acciones que alguien le ha autorizado, como consultar una agenda, buscar en un manual o registrar un dato.',
               'La diferencia con un bot de los de siempre está en quién decide la respuesta. La del bot ya estaba escrita antes de que nadie preguntara. La del agente se decide en el momento, según lo que le hayan pedido.',
-              'Y la diferencia que importa en una empresa es sobre qué trabaja. Un asistente de uso general se queda en lo que trae de fábrica. Un agente de empresa entra en tus sistemas, con los permisos de quien lo usa y dentro de los límites que tú apruebes.',
+              'Y la diferencia que importa en una empresa es sobre qué datos trabaja. Un asistente de uso general se queda en lo que trae de fábrica. Un agente de empresa entra en tus sistemas, con los permisos de quien lo usa y dentro de los límites que tú apruebes.',
             ],
           },
           {
@@ -1849,7 +1900,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Al buscar sobre esto te vas a cruzar con dos etiquetas que el mercado usa sin explicar nunca. <strong>La IA generativa produce contenido, desde un texto hasta un trozo de código.</strong> La IA agéntica usa esos mismos modelos para actuar: decide los pasos, consulta las herramientas que hacen falta, comprueba lo que sale y termina la tarea.',
               'El ejemplo más corto que tenemos. La generativa te escribe el correo. La agéntica lo escribe, mira la agenda de los convocados y manda la invitación.',
-              'Esa capacidad de más trae una necesidad de control de más. Es la razón de que el resto de esta guía hable tanto de medir. <strong>Un sistema que solo escribe se corrige leyéndolo antes de enviarlo. Uno que actúa ya ha tocado tus sistemas cuando alguien se entera.</strong>',
+              'Esa capacidad extra exige un control extra. Es la razón de que el resto de esta guía hable tanto de medir. <strong>Un sistema que solo escribe se corrige leyéndolo antes de enviarlo. Uno que actúa ya ha tocado tus sistemas cuando alguien se entera.</strong>',
             ],
           },
           {
@@ -1915,11 +1966,11 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Lo que puede hacer y lo que no',
             part: 'Lo que puede salir mal',
             paragraphs: [
-              'Nada de esto se enchufa y funciona. <strong>La distancia entre un buen resultado y llevarte una decepción está casi siempre en el alcance del proyecto.</strong> Con un alcance demasiado amplio el sistema corre el peligro de ser mediocre en todo y de no ganarse la confianza para nada. Con uno demasiado estrecho, el montaje cuesta más que el trabajo que ahorra.',
+              'Nada de esto se enchufa y funciona. <strong>La distancia entre un buen resultado y una decepción está casi siempre en el alcance del proyecto.</strong> Con un alcance demasiado amplio el sistema corre el peligro de ser mediocre en todo y de no ganarse la confianza en nada. Con uno demasiado estrecho, el montaje cuesta más que el trabajo que ahorra.',
               'Los proyectos que salen bien eligen una tarea con un límite claro alrededor, la demuestran y después la amplían.',
               'Lo que los sistemas de hoy hacen bien es leer lo que llega sin forma fija, entender una petición escrita de veinte maneras, seguir un procedimiento paso a paso y actuar dentro de un conjunto cerrado de acciones que alguien aprobó. Esa lista es nueva de verdad y es la razón de que procesos que sobrevivieron a todas las olas de automatización anteriores estén ahora en juego.',
               'Lo que no hacen es inventar conocimiento que nadie escribió, garantizar un resultado sin que un código lo compruebe antes, ni mejorar solos mientras nadie mide.',
-              '<strong>Parte de nuestro trabajo es decirte cuándo no hace falta un agente.</strong> A veces basta con una regla, con un formulario bien hecho o con rediseñar el proceso, porque un modelo encima de un proceso roto o mal formulado solo hace que el desastre llegue antes.',
+              '<strong>Parte de nuestro trabajo es decirte cuándo no hace falta un agente.</strong> A veces basta con una regla, con un formulario bien hecho o con rediseñar el proceso, porque un modelo encima de un proceso roto o mal definido solo hace que el desastre llegue antes.',
             ],
           },
           {
@@ -1970,7 +2021,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'La conversación de cinco minutos que lo decide',
             part: 'Para tu empresa',
             paragraphs: [
-              'Con un proceso candidato en la cabeza, tres preguntas separan el proyecto que compensa del que da titular. Las dos primeras ya las contestaste en la criba de arriba y aquí se dicen en voz alta.',
+              'Con un proceso candidato en la cabeza, tres preguntas separan el proyecto que compensa del que solo da titulares. Las dos primeras ya las contestaste en la criba de arriba y aquí se dicen en voz alta.',
               'Antes de las tres, una comprobación. Si el proceso te vino a la cabeza por lo bien que quedaría en una demostración y no por lo que te está costando, hay una trampa esperándote y tiene nombre, el juguete brillante.',
               'La primera es de números. Cuántas veces al día ocurre y cuánto se tarda cada vez. Multiplica las dos cifras y tendrás los minutos al día que ese proyecto puede llegar a ahorrarte como mucho, que conviene saber antes de encargar nada.',
               'La segunda es sobre el tipo de trabajo. Qué hace exactamente la persona que hoy lo resuelve, mirar o decidir. Si solo comprueba que un campo está donde tiene que estar, tu problema es de reglas y el modelo te sobra. Si tiene que leer, entender y elegir entre opciones que no siempre son las mismas, ahí empieza el terreno del agente.',
@@ -1983,7 +2034,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'A medida, de catálogo o las dos cosas',
             part: 'Para tu empresa',
             paragraphs: [
-              'La pregunta de comprar o construir arrastra una fama injusta de ser una decisión de tecnología. Es una decisión sobre cuánto se parece tu proceso al de los demás.',
+              'La pregunta de comprar o construir tiene fama de ser una decisión técnica y no lo es. Es una decisión sobre cuánto se parece tu proceso al de los demás.',
               'Donde tu proceso es estándar, un producto probado le gana a un desarrollo a medida en tiempo y en precio. Fingir lo contrario sería venderte horas. Donde tu proceso lleva dentro tu criterio, tu modelo de datos y tus excepciones, una herramienta de catálogo aplana justo lo que hace que ese proceso sea tuyo. La suscripción que parecía barata empieza a costar apaños.',
               '<strong>El patrón que funciona no tiene ningún brillo. Compra las piezas estándar, la gestión de tickets, los calendarios, el programa de contabilidad. Y construye la capa fina de inteligencia que lee, decide y las conecta como funciona de verdad tu operación.</strong>',
               'Esa capa es donde viven los agentes. Es lo bastante pequeña como para pagarla y es la parte que ningún fabricante puede meter en una caja, porque la caja no ha visto nunca tu negocio.',
@@ -2002,7 +2053,7 @@ export const content: Record<Lang, SiteContent> = {
               'Comprar la plataforma antes que el caso. Primero un proceso en producción con su cifra, después la conversación sobre plataformas, si es que sigue haciendo falta.',
               'Dejar la medición para el final. La batería de pruebas se construye con el sistema, no después del susto. Añadirla después cuesta el doble y llega tarde.',
               'No nombrar un dueño interno. Un agente sin dueño se queda huérfano en tres meses, con métricas que nadie mira y pequeñas decisiones que nadie toma.',
-              'Esperar datos perfectos para arrancar. Alcanzables basta. Ordenarlos suele ser la primera fase del proyecto y rinde más que cualquier ajuste de instrucciones.',
+              'Esperar datos perfectos para arrancar. Con que sean alcanzables, basta. Ordenarlos suele ser la primera fase del proyecto y rinde más que cualquier ajuste de instrucciones.',
               'Prometer al comité que el agente funcionará solo desde el primer día. Es la promesa que mejor suena en una reunión y la que más caro se paga después, porque la autonomía se suelta poco a poco, según lo que las pruebas vayan demostrando.',
             ],
           },
@@ -2049,7 +2100,7 @@ export const content: Record<Lang, SiteContent> = {
               'Orquestador. La pieza que reparte cada petición al agente o herramienta adecuados. En nuestro asistente de planta reparte entre media docena de especialistas.',
               'Herramienta. Cada acción concreta que un agente puede ejecutar: consultar una base de datos, reservar una cita, enviar un correo.',
               'Contrato estructurado. El formato fijo con el que el modelo entrega lo que entendió, para que un código lo valide antes de actuar. En las propuestas lo verás como salida estructurada o function calling.',
-              'Batería de pruebas. Casos reales, con su respuesta correcta escrita al lado, que todo cambio debe superar antes de publicarse. En inglés las verás como evals.',
+              'Batería de pruebas. Casos reales, con su respuesta correcta escrita al lado, que todo cambio debe superar antes de publicarse. En inglés lo verás como evals.',
               'Telemetría. Las mediciones que el propio sistema publica sobre cómo está funcionando. Bien diseñada, solo recoge campos aprobados de antemano, para que no viajen datos personales.',
               'RPA. Automatización que imita clics y teclas sobre las pantallas de siempre. Funciona muy bien mientras nada cambie y se rompe cuando la pantalla cambia. Un agente ataca el mismo problema entendiendo el contenido, así que en muchas empresas conviven, cada uno en lo suyo.',
               'Alucinación. Respuesta falsa con apariencia impecable. Se combate con arquitectura, no con ruegos al modelo.',
@@ -2060,7 +2111,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Cuánto cuesta, en corto',
             part: 'Para tu empresa',
             paragraphs: [
-              'Un agente a medida de un solo trabajo arranca en torno a los 2.500 € de construcción, los que tocan varios sistemas se acercan a los 10.000 € y la operación mensual se mueve entre 150 y 500 €. Los sistemas multiagente grandes se presupuestan por proyecto. Qué mueve cada cifra, a dónde va la cuota mensual y qué es tuyo al final tiene su propia guía, con el detalle.',
+              'Un agente a medida de un solo trabajo arranca en torno a los 2.500 € de construcción, los que tocan varios sistemas se acercan a los 10.000 € y la operación mensual se mueve entre 150 y 500 €. Los sistemas multiagente grandes se presupuestan por proyecto. Qué mueve cada cifra, a dónde va la cuota mensual y qué es tuyo al final tiene su propia guía.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, la guía completa', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
@@ -2119,7 +2170,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Desarrollo de agentes de IA a medida',
           title: 'Agentes de IA para empresas, construidos para llegar a producción y quedarse.',
           subtitle:
-            'Diseñamos, construimos y mantenemos agentes de IA a medida para medianas y grandes empresas. Sobre tu infraestructura y medidos antes de cada cambio.',
+            'Diseñamos, construimos y mantenemos agentes de IA a medida para medianas y grandes empresas. Funcionan sobre tu infraestructura y se miden antes de cada cambio.',
           cta: 'Cuéntanos tu reto',
         },
         sections: [
@@ -2139,7 +2190,7 @@ export const content: Record<Lang, SiteContent> = {
               'Cualificación de solicitudes. Cada entrada se lee, se puntúa y se dirige. Tu equipo recibe solo las que valen su tiempo. De veinte solicitudes de presupuesto que entran por la web, tres merecen una llamada hoy y el resto puede esperar a mañana.',
               'Acciones sobre tus sistemas. La gestión completa, ejecutada dentro de un conjunto cerrado de acciones que tú apruebas. Dar de alta al cliente, generar su contrato y dejarlo listo para la firma, sin que nadie copie datos de una pantalla a otra.',
             ],
-            link: { label: 'Si estás situando el concepto, empieza por la guía de agentes de IA', href: '/agentes-de-ia' },
+            link: { label: 'Si todavía estás decidiendo qué es un agente y qué no, empieza por la guía de agentes de IA', href: '/agentes-de-ia' },
           },
           {
             heading: 'Lo que antes no salía a cuenta automatizar',
@@ -2148,7 +2199,7 @@ export const content: Record<Lang, SiteContent> = {
               'Los procesos con reglas claras se automatizan desde hace décadas. Lo que se quedaba fuera era todo lo que llegaba sin un formato fijo, por ejemplo un cliente manda el pedido en PDF, otro lo escribe en el cuerpo del correo y un tercero pide «lo del mes pasado, pero para el almacén nuevo».',
               'Automatizar eso exigía o una persona picando datos o un proyecto de reglas que se rompía con el primer proveedor o usuario que escribiera la petición de forma distinta.',
               '¿Por qué ahora sí sale a cuenta?',
-              '<strong>Los modelos de lenguaje o LLM cambiaron todas las reglas del juego, porque la parte cara ya no es leer la entrada sucia o desestructurada.</strong> El modelo entiende el pedido escrito de cualquier manera y lo traslada o traduce al lenguaje que el resto del sistema pueda procesar.',
+              '<strong>Los modelos de lenguaje o LLM cambiaron todas las reglas del juego, porque la parte cara ya no es leer la entrada sucia o desestructurada.</strong> El modelo entiende el pedido escrito de cualquier manera y lo traduce a los campos que el resto del sistema espera.',
             ],
           },
           {
@@ -2184,8 +2235,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Cómo se gana un agente su puesto en producción',
             part: 'Las garantías',
             paragraphs: [
-              'Una demostración se hace en días. Producción exige disciplina. Cada agente sale con una batería de pruebas, un conjunto de casos reales con su respuesta correcta anotada que se ejecuta entera antes de cada cambio. Dentro hay casos problemáticos, incómodos o ambiguos a propósito, la factura que llega sin número de pedido, la pregunta con dos lecturas posibles, el mensaje con faltas escrito desde el móvil.',
-              '<strong>Si la calidad baja, el cambio no sale.</strong> En uno de nuestros agentes esa batería son 118 casos reales y con ella llevamos del 72 % al 91 % el acierto del enrutado, la pieza que decide qué agente atiende cada pregunta.',
+              'Una demostración se hace en días. Producción exige disciplina. Cada agente sale con una batería de pruebas, un conjunto de casos reales con su respuesta correcta anotada que se ejecuta entera antes de cada cambio. Dentro hay casos incómodos y ambiguos a propósito, la factura que llega sin número de pedido, la pregunta con dos lecturas posibles, el mensaje con faltas escrito desde el móvil.',
+              '<strong>Si la calidad baja, el cambio no sale.</strong> En uno de nuestros agentes esa batería tiene 118 casos reales y con ella llevamos del 72 % al 91 % el acierto del enrutado, la pieza que decide qué agente atiende cada pregunta.',
               'Cada respuesta queda registrada con su contexto: qué consultó el agente, qué decidió y cuánto costó. Cuando llega una queja, reconstruimos exactamente qué pasó. Y lo que está en producción se revisa cada semana, porque un sistema con un modelo dentro puede empeorar sin que aparezca un solo error en ningún registro.',
             ],
           },
@@ -2193,7 +2244,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'El perímetro de confianza',
             part: 'Las garantías',
             paragraphs: [
-              'La batería hace algo más que vigilar la calidad. Dibuja el mapa de lo que el agente tiene demostrado y a ese mapa lo llamamos el perímetro de confianza. <strong>Dentro del perímetro, el agente actúa solo. Fuera, aparta el caso y lo entrega a una persona.</strong>',
+              'La batería hace algo más que vigilar la calidad. Dibuja el mapa de lo que el agente ha demostrado y a ese mapa lo llamamos el perímetro de confianza. <strong>Dentro del perímetro, el agente actúa solo. Fuera, aparta el caso y lo entrega a una persona.</strong>',
               'Ese mapa no sale de una reunión, sale de los casos que el agente ya ha superado. Un agente que lleva meses tramitando pedidos nacionales recibe un día el primero con aduanas por medio. Lo que toca no es improvisar la respuesta, es reconocer que ese terreno no está probado y pasarlo a quien sepa, hasta que entre en la batería con sus propios casos.',
               'Esto pide construir algo que a las personas les sale gratis. A un empleado nuevo se le enseña a preguntar cuando duda. ¿Y a un modelo? Hay que construirle la duda, porque por sí solo no levanta la mano, rellena el hueco con algo que suena bien.',
               'Si a una solicitud le falta el CIF, el agente no registra nada y pide el dato. Esa parada no la decide el modelo, la impone el código.',
@@ -2203,7 +2254,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Cuánta supervisión necesita',
             part: 'Las garantías',
             paragraphs: [
-              'Un agente en producción necesita a alguien dentro que responda por él. La persona que hoy lee cada solicitud entera pasa a revisar la bandeja de dudas, donde cada caso llega con los datos extraídos y el motivo de la duda señalado. Decide de un vistazo lo que antes le llevaba un rato.',
+              'Un agente en producción necesita un responsable en tu equipo que responda por él. La persona que hoy lee cada solicitud entera pasa a revisar la bandeja de dudas, donde cada caso llega con los datos extraídos y el motivo de la duda señalado. Decide de un vistazo lo que antes le llevaba un rato.',
               '<strong>Lo que el agente no resuelve solo no desaparece, se entrega.</strong> Antes de arrancar queda pactado qué casos escala, a qué bandeja llegan y quién los atiende.',
             ],
           },
@@ -2274,7 +2325,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿El agente puede conectarse a nuestros sistemas internos?',
-            a: 'Esa es la gracia. ERP, bases de datos, sistemas industriales, documentación. El agente solo habla con los sistemas que apruebes, con los permisos de cada usuario.',
+            a: 'Sí, es exactamente para eso. ERP, bases de datos, sistemas industriales, documentación. El agente solo habla con los sistemas que apruebes, con los permisos de cada usuario.',
           },
           {
             q: '¿El agente decide por su cuenta?',
@@ -2312,7 +2363,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Automatización de procesos con IA',
           title: 'Los procesos que la automatización clásica no cerraba',
           subtitle:
-            'Automatización de procesos empresariales con IA. Los flujos de trabajo que llevan documentos, conversaciones o decisiones por el medio, llevados de principio a fin sobre tus sistemas.',
+            'Automatización de procesos empresariales con IA. Los flujos de trabajo que llevan documentos, conversaciones o decisiones de por medio, resueltos de principio a fin sobre tus sistemas.',
           cta: 'Cuéntanos tu reto',
         },
         sections: [
@@ -2329,7 +2380,7 @@ export const content: Record<Lang, SiteContent> = {
             bullets: [
               'Entrada de documentos. Facturas, tickets y formularios escaneados que se leen, se validan y se registran en tus sistemas sin que nadie los teclee.',
               'Gestión de solicitudes. Consultas entrantes cualificadas y dirigidas a quien corresponde, a cualquier hora, con lo que hace falta para decidir ya extraído.',
-              'Consultas a datos. Preguntas de negocio que se convierten en consultas seguras a la base de datos y vuelven respondidas en segundos.',
+              'Consultas a datos. Preguntas de negocio que se convierten en consultas seguras a la base de datos y vuelven con la respuesta en segundos.',
               'Redacción a partir de datos. Correos, resúmenes y avisos que el flujo escribe con lo que ya averiguó. Los que van a una persona de tu equipo pueden salir solos. Los que van a un cliente salen de una plantilla que tú apruebas, rellena con datos ya validados.',
               'Escalado con contexto. Los casos que piden criterio llegan a tu equipo con todo lo que el sistema ya averiguó, para decidir sin rebuscar.',
             ],
@@ -2340,17 +2391,17 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'La automatización clásica, la de reglas y la robotización de pantallas, funciona muy bien mientras la entrada no cambia. Su debilidad la conoce cualquiera que la haya mantenido. La regla que leía la factura del proveedor A no entiende la del proveedor B y el robot que rellenaba un formulario se pierde cuando el programa cambia de versión.',
               'Cada variación nueva es una regla nueva que escribir y la lista no termina nunca.',
-              'La IA cambia el reparto. El modelo interpreta la entrada aunque venga con otro formato, otra redacción u otro orden, así que la variación deja de romper el flujo. A cambio exige validación y medición, porque interpretar no es infalible.',
-              '¿De qué lado cae el tuyo? Hay una prueba rápida que hacemos en la primera llamada, pedir tres ejemplos reales de la entrada y de tres orígenes distintos, porque tres facturas del mismo proveedor se parecen siempre y no prueban nada. Si los tres se parecen entre sí, tu problema es de reglas. Si cada uno viene de una manera distinta, ahí hace falta el modelo (LLM, llamada a la IA o como prefieras llamarle).',
+              'La IA cambia dónde está el esfuerzo. El modelo interpreta la entrada aunque venga con otro formato, otra redacción u otro orden, así que la variación deja de romper el flujo. A cambio exige validación y medición, porque interpretar puede fallar.',
+              '¿De qué lado cae el tuyo? Hay una prueba rápida que hacemos en la primera llamada, pedir tres ejemplos reales de la entrada y de tres orígenes distintos, porque tres facturas del mismo proveedor se parecen siempre y no prueban nada. Si los tres se parecen entre sí, tu problema es de reglas. Si cada uno viene de una manera distinta, ahí hace falta el modelo (LLM, llamada a la IA o como prefieras llamarlo).',
               'La misma frontera también se dibuja al revés. <strong>Si tu proceso tiene reglas claras sobre datos que siempre llegan igual, la automatización clásica lo resuelve más barato y más rápido, sin modelo que vigilar.</strong> Eso también lo construimos nosotros. Te lo diremos en la primera conversación, porque meter IA donde no hace falta es pagar vigilancia a cambio de nada.',
               'Y cuando ya tienes automatización clásica funcionando, no la tiramos. Conviven bien, con las reglas moviendo lo estable y el modelo leyendo lo variable, cada pieza en el papel que le toca.',
             ],
           },
           {
-            heading: 'Automatizar pasos no es mover una ganancia',
+            heading: 'Automatizar pasos no es mover una cifra',
             part: 'Lo que se abre ahora',
             paragraphs: [
-              'Un sistema puede producir resúmenes, borradores y registros a docenas sin que el negocio note nada. <strong>Producir cosas no es mover una ganancia.</strong> Por eso la unidad de trabajo aquí no es la tarea suelta sino el proceso entero, de la entrada al resultado, con su métrica delante: las horas que se dejan de pagar por teclear, los errores que dejan de corregirse, la espera que deja de existir.',
+              'Un sistema puede producir resúmenes, borradores y registros a docenas sin que el negocio note nada. <strong>Producir cosas no es mover una cifra.</strong> Por eso la unidad de trabajo aquí no es la tarea suelta sino el proceso entero, de la entrada al resultado, con su métrica delante: las horas que se dejan de pagar por teclear, los errores que dejan de producirse, la espera que deja de existir.',
               'Se ve mejor con un ejemplo. Un sistema que redacta resúmenes de cada reunión produce salidas a diario. Si nadie decide nada distinto con ellos, la ganancia es cero y el coste no. Un flujo que deja cada factura registrada sin que nadie la toque convierte su resultado en horas que puedes contar.',
               'La diferencia no está en la tecnología. Está en si el resultado cambia algo que el negocio mide.',
               'Ese criterio cambia decisiones de diseño. A veces el paso que más ahorra no se acelera, se elimina, porque reorganizar el proceso hace innecesario lo que íbamos a automatizar. Y un flujo que resuelve la mayor parte del volumen con una fracción del esfuerzo gana a la ambición de cubrirlo todo, que es la que convierte los proyectos en obras interminables.',
@@ -2364,7 +2415,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Nuestros flujos son una cadena de pasos que siempre corre igual, con paradas de modelo donde hace falta interpretar. <strong>El código mueve los datos, llama a cada sistema y decide el orden.</strong> El modelo entra solo en esas paradas: leer un documento, entender una petición, clasificar un caso. Y devuelve un resultado con estructura fija que el código puede comprobar.',
               '¿Por qué no dejar que el modelo lleve el flujo entero? Cada llamada a un modelo en producción cuesta dinero, tarda y puede variar, así que cuantas menos llamadas y más acotadas, más barato de operar y más estable es el flujo.',
-              'No lo decimos solo nosotros. Anthropic, uno de los grandes fabricantes de modelos, aconseja en <a class="link-inline" href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener noreferrer" target="_blank">Building effective agents</a> empezar con flujos que orquesta el código y guardar la autonomía del agente para los pocos casos que la justifican.',
+              'No lo decimos solo nosotros. Anthropic, uno de los grandes laboratorios de modelos, aconseja en <a class="link-inline" href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener noreferrer" target="_blank">Building effective agents</a> empezar con flujos que orquesta el código y guardar la autonomía del agente para los pocos casos que la justifican.',
             ],
           },
           {
@@ -2397,11 +2448,11 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Dos procesos reales en producción',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'En Stanton, una gestora de fincas, las facturas de luz, agua y gas de cada inquilino se metían a mano. Hoy el equipo las reenvía por Telegram, una lectura con IA extrae los datos y el resultado aterriza como filas normalizadas en el Excel con el que ya trabajaban.',
+              'En Stanton, una gestora de fincas, las facturas de luz, agua y gas de cada inquilino se metían a mano. Hoy el equipo las reenvía por Telegram, un modelo lee la factura y extrae los datos y el resultado aterriza como filas normalizadas en el Excel con el que ya trabajaban.',
               '<strong>Cada factura costaba un minuto de teclado. Hoy el 98 % pasa sin que nadie la toque</strong> y el resto escala con el documento al lado. Son dos agentes en producción, sin ninguna herramienta nueva que aprender. El cliente ya nos ha encargado más procesos administrativos, que es la señal de éxito que más nos importa. El caso entero, con lo que tuvimos que añadirle después, tiene <a class="link-inline" href="/casos/stanton">su propia página</a> que puedes visitar.',
               'En Barceloneta Premium, una agencia inmobiliaria de Barcelona, el equipo recibe cada día decenas de consultas por WhatsApp de gente que busca alquiler. Cada consulta se llevaba entre cinco y diez minutos de comprobación a mano.',
               'Ahora el flujo extrae de cada conversación el motivo, el presupuesto y la documentación. Al equipo le llega un correo que dice si cumple o no los requisitos que la agencia fijó, con el porqué al lado. Quien decide sigue siendo una persona, con ese correo delante. La agencia cifra en más de tres horas al día lo que recupera para el trabajo que sí necesita personas.',
-              'Los dos casos se parecen en dos cosas: entraron por un canal que el equipo ya usaba y su ganancia se podía medir antes y después. Eso es lo que buscamos en cada proceso nuevo.',
+              'Los dos casos se parecen en dos cosas: entraron por un canal que el equipo ya usaba y tenían una cifra medible antes y después. Eso es lo que buscamos en cada proceso nuevo.',
             ],
             link: { label: 'Ver los proyectos', href: '/#proyectos' },
           },
@@ -2530,7 +2581,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Agentes conversacionales',
           title: 'Chatbots con IA que terminan la tarea',
           subtitle:
-            'Agentes conversacionales que atienden, cualifican y actúan. Citas reservadas, solicitudes filtradas y dudas resueltas, trabajando sobre los sistemas que ya usas.',
+            'Agentes conversacionales que atienden, cualifican y actúan. Citas reservadas, solicitudes filtradas y dudas resueltas, todo sobre los sistemas que ya usas.',
           cta: 'Cuéntanos tu reto',
         },
         sections: [
@@ -2546,7 +2597,7 @@ export const content: Record<Lang, SiteContent> = {
             bullets: [
               'Atención que resuelve. Respuestas apoyadas en tus datos y tu documentación, con su referencia, a cualquier hora.',
               'Gestiones completas. Reservar, cambiar, cancelar o consultar, con la agenda y la ficha actualizadas en el momento.',
-              'Filtro de conversaciones. Las que valen pasan a tu equipo cualificadas y el resto queda atendido sin robarle tiempo a nadie.',
+              'Filtro de conversaciones. Las que tienen recorrido comercial pasan a tu equipo ya cualificadas y el resto queda atendido sin robarle tiempo a nadie.',
               'Consultas internas. La misma ingeniería hacia dentro, con empleados que preguntan a sus datos o a su documentación.',
               'Salida a persona. Cuando la conversación necesita a alguien del equipo, llega a alguien del equipo, con el historial entero.',
             ],
@@ -2558,7 +2609,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Casi todo el mundo ha sufrido uno: el bot que da vueltas en su guion, no entiende la segunda pregunta y esconde el camino hacia una persona. Y cuando por fin llega la persona, hay que contárselo todo otra vez.',
               'Esa experiencia tuvo dos causas y conviene separarlas. La primera es tecnológica y está resuelta, aquellos menús se rompían en cuanto alguien escribía como escriben las personas. La segunda sigue viva y es una manera de medir. A muchos bots se les pide que retengan el mayor número de conversaciones sin pasarlas al equipo humano, en lugar de que resuelvan el mayor número posible.',
-              'Nosotros lo medimos al revés. <strong>Una conversación cuenta cuando la tarea quedó hecha o cuando llegó a la persona adecuada con todo el contexto.</strong> Por eso la salida a persona nunca se esconde y el traspaso lleva el historial completo, para que nadie repita lo que ya escribió.',
+              'Nosotros medimos otra cosa. <strong>Una conversación cuenta cuando la tarea quedó hecha o cuando llegó a la persona adecuada con todo el contexto.</strong> Por eso la salida a persona nunca se esconde y el traspaso lleva el historial completo, para que nadie repita lo que ya escribió.',
               'Un cliente que pidió hablar con alguien y lo consiguió rápido vuelve. Uno que peleó diez minutos contra un guion no vuelve. Y tampoco te recomienda.',
             ],
           },
@@ -2585,7 +2636,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'La atención al cliente es donde un agente conversacional se rentabiliza antes. Responde lo habitual, cualifica el resto y escala lo que necesita criterio, así que las colas de espera se convierten en respuesta inmediata.',
               'La agencia inmobiliaria con la que trabajamos recibe decenas de consultas de alquiler al día por WhatsApp. Cada una le llevaba antes entre cinco y diez minutos de comprobación y hoy cifra en más de tres horas al día lo que se ahorra. Su equipo ya solo concierta visitas. Ese caso está contado entero en <a class="link-inline" href="/casos/barceloneta">su propia página</a>.',
-              'Ahí atender y cualificar son la misma conversación, porque filtrar bien es lo que deja al equipo el trabajo que produce ingresos.',
+              'Ahí se atiende y se cualifica en el mismo mensaje, porque filtrar bien es lo que deja al equipo el trabajo que produce ingresos.',
               '<strong>Buena parte del valor está en la hora a la que se contesta.</strong> Las consultas no llegan solo en horario de oficina, llegan también cuando el cliente tiene el móvil en la mano. Cuanto más tarda la respuesta, menos ganas le quedan de volver a escribir. Un agente que contesta al minuto uno convierte ese goteo nocturno en citas.',
             ],
             link: { label: 'El caso de la inmobiliaria', href: '/inmobiliarias' },
@@ -2594,7 +2645,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Una reserva, mensaje a mensaje',
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
-              'Son seis pasos. <strong>En cualquiera de ellos la conversación puede saltar a una persona, con el historial delante y dejando el mismo rastro.</strong>',
+              'Son seis pasos. <strong>En cualquiera de ellos la conversación puede saltar a una persona, con el historial delante y con el mismo registro que cualquier otra conversación.</strong>',
             ],
             kind: 'checklist',
             bullets: [
@@ -2602,12 +2653,12 @@ export const content: Record<Lang, SiteContent> = {
               'El agente entiende. Detecta qué gestión pide, para quién y con qué condiciones, aunque venga todo en una frase.',
               'Consulta la agenda real. La disponibilidad sale del calendario en ese momento, no de una copia de ayer.',
               'Propone y encaja. Ofrece huecos concretos y absorbe los cambios, el jueves no, mejor el viernes a primera hora.',
-              'Confirma y escribe. La cita queda en la agenda y en la ficha, con su confirmación dentro del chat.',
+              'Confirma y registra. La cita queda en la agenda y en la ficha, con su confirmación dentro del chat.',
               'Queda registrado. La conversación y lo que el agente hizo se pueden reconstruir después, paso a paso.',
             ],
           },
           {
-            heading: 'Un chatbot serio no vive solo',
+            heading: 'Un chatbot útil depende de otros sistemas',
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
               'Un agente que solo conversa sirve de poco. El valor está en las conexiones: la agenda que consulta antes de ofrecer hora, el CRM donde apunta, la base de datos de la que saca la respuesta. Y cada conexión nueva es una cosa más que puede fallar, porque <strong>cualquier sistema externo puede caerse un martes a las once</strong>.',
@@ -2623,7 +2674,7 @@ export const content: Record<Lang, SiteContent> = {
               'Las respuestas de conocimiento salen de tus datos y tu documentación, con la fuente al lado. Las frases delicadas, una política de devoluciones, una condición legal, un precio, no las redacta el modelo. Son textos aprobados por ti que el sistema entrega tal cual. Los editas sin tocar código y ninguna edición llega a producción sin pasar su comprobación.',
               'En las partes donde un dato inventado se paga caro damos un paso más y le cambiamos el papel al modelo. Un modelo de lenguaje está construido para responderte, así que cuando le falta un dato rellena el hueco con algo que suena bien.',
               '¿Cómo se le quita esa costumbre? Ahí el modelo no redacta la respuesta. Lee lo que se le pide, decide con cuál de las salidas que le hemos dado encaja y entrega esa decisión en un formato fijo. A partir de ahí trabaja el código, que consulta el dato real y compone la respuesta.',
-              '<strong>Si lo que le piden no encaja con ninguna salida, no hay nada que inventar, hay una parada.</strong>',
+              '<strong>Si lo que le piden no encaja con ninguna salida, no hay nada que inventar, el sistema se detiene y la conversación pasa a una persona.</strong>',
               'Y cuando no hay dato para responder, el agente lo dice y ofrece el camino a una persona. Un «no lo sé» a tiempo conserva clientes. Una respuesta inventada los pierde sin que te enteres, que es la peor manera de perderlos. Por eso las respuestas se miden por categoría, para que un fallo aparezca en su propia fila en vez de perderse en un promedio.',
             ],
           },
@@ -2641,7 +2692,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
               '<strong>Los sistemas conversacionales se degradan en silencio.</strong> Una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Por eso fijamos la versión del modelo, de modo que actualizarla es una decisión nuestra y no una sorpresa del proveedor. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
-              'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría afinar y cuál añadir. Cómo se leen esos números en un sistema propio, con su cicatriz medida, está en <a class="link-inline" href="/casos/wazzy">la página de Wazzy</a>.',
+              'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría afinar y cuál añadir. Cómo se leen esos números en un sistema propio, con sus fallos y lo que costó corregirlos, está en <a class="link-inline" href="/casos/wazzy">la página de Wazzy</a>.',
             ],
           },
           {
@@ -2649,14 +2700,14 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Decidir con criterio',
             paragraphs: [
               '<strong>Un agente conversacional no se lanza al mundo entero el primer día.</strong> Se estrena acotado, lo que llamamos el piloto, en un canal, en un horario o en un grupo de clientes, con sus categorías medidas desde la primera conversación. Los textos delicados salen aprobados por ti antes de que nadie los lea y tu equipo sabe cómo llega un escalado y qué hacer con él.',
-              'A las pocas semanas podemos valorar si el piloto está preparado para salir al mundo real: qué se termina dentro de la conversación, qué escala con qué motivos y qué pregunta la gente que no habíamos previsto. Con eso se decide la ampliación, categoría a categoría. Es la manera de crecer sin ampliar nada que no se haya probado antes.',
+              'A las pocas semanas podemos valorar si el piloto está listo para ampliarse: qué se termina dentro de la conversación, qué escala con qué motivos y qué pregunta la gente que no habíamos previsto. Con eso se decide la ampliación, categoría a categoría. Es la manera de crecer sin ampliar nada que no se haya probado antes.',
             ],
           },
           {
             heading: 'Cuándo un agente conversacional no compensa',
             part: 'Decidir con criterio',
             paragraphs: [
-              '<strong>Decírtelo también es el servicio.</strong> Si te llegan un puñado de conversaciones al día, una página de preguntas bien escrita y una persona que contesta rápido te sale más barato. Si las respuestas que necesitas no están en ningún sistema, el trabajo previo es ordenar ese conocimiento, no montar el bot. Y si por el asunto que sea tu cliente necesita hablar con una persona, lo que toca es que llegue a ella antes, no poner una máquina en medio.',
+              '<strong>Decírtelo también es el servicio.</strong> Si te llegan un puñado de conversaciones al día, una página de preguntas bien escrita y una persona que contesta rápido te sale más barato. Si las respuestas que necesitas no están en ningún sistema, el trabajo previo es ordenar ese conocimiento, no montar el bot. Y si por el motivo que sea tu cliente necesita hablar con una persona, lo que toca es que llegue a ella antes, no poner una máquina en medio.',
               '¿Y cuándo sí? Un agente conversacional compensa cuando hay volumen, cuando la información existe y cuando una parte real de las gestiones puede terminarse dentro de la conversación. Filtrar y cualificar cuentan como gestión terminada, aunque el cierre lo haga después una persona. Si tu caso no cumple alguna de las tres, te lo decimos en la primera llamada.',
             ],
           },
@@ -2665,7 +2716,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Decidir con criterio',
             paragraphs: [
               'Los rangos publicados para cualquier agente nuestro valen aquí, entre 2.500 y 10.000 € de construcción y entre 150 y 500 € al mes de operación. El factor propio de lo conversacional es el volumen.',
-              '<strong>En WhatsApp tiene dos contadores en vez de uno.</strong> Cada conversación gasta sus llamadas al modelo. Meta cobra aparte cada plantilla que entrega. Un recordatorio de cita es una plantilla, así que cada aviso tiene su propio coste. Los dos van desglosados.',
+              '<strong>En WhatsApp el coste tiene dos contadores en vez de uno.</strong> Cada conversación gasta sus llamadas al modelo. Meta cobra aparte cada plantilla que entrega. Un recordatorio de cita es una plantilla, así que cada aviso tiene su propio coste. Los dos van desglosados.',
               'Antes de encargar nada tendrás una estimación, hecha con lo que ya tenemos medido en sistemas parecidos y aplicada a tu volumen. El piloto la convierte en medida con tus propias conversaciones. El desglose entero está en la guía de coste.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
@@ -2711,7 +2762,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Cuántas conversaciones hacen falta para que compense?',
-            a: 'No damos un número mágico porque depende de lo que cuesta hoy tu canal. El piloto lo mide con tus conversaciones reales, se paga y su precio entra dentro del proyecto final. Si la cuenta no sale, te lo decimos nosotros antes de ampliar.',
+            a: 'No damos un número mágico porque depende de lo que te cuesta hoy atender esos mensajes a mano. El piloto lo mide con tus conversaciones reales, se paga y su precio entra dentro del proyecto final. Si la cuenta no sale, te lo decimos nosotros antes de ampliar.',
           },
         ],
         cta: {
@@ -2729,7 +2780,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Guía de precios',
           title: '¿Cuánto cuesta un agente de IA?',
           subtitle:
-            'Un agente de IA a medida construido por Ideasforge cuesta entre 2.500 y 10.000 € de construcción, más 150 a 500 € al mes para mantenerlo funcionando y vigilado. Esta página explica qué mueve esa cifra, con datos de coste reales de nuestros sistemas en producción.',
+            'Un agente de IA a medida construido por Ideasforge cuesta entre 2.500 y 10.000 € de construcción, más 150 a 500 € al mes por operarlo y medirlo. El modelo y la nube se facturan aparte, a tu empresa. Esta página explica qué mueve esa cifra, con datos de coste reales de nuestros sistemas en producción.',
         },
         sections: [
           {
@@ -2748,9 +2799,9 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: ['<strong>Cuatro cosas explican casi cualquier presupuesto que enviamos.</strong>'],
             bullets: [
               'A cuántos sistemas se conecta. Un agente que solo responde preguntas es más barato que uno que además escribe en tu calendario, en tu CRM o en tu base de datos, porque cada sistema conectado necesita sus propios permisos y sus propias pruebas.',
-              'El estado de tus datos. Si el conocimiento que el agente necesita vive en fuentes limpias y legibles, el modelo rinde mejor y la construcción se acorta. Solemos ganar más ordenando los datos y las herramientas que puliendo instrucciones.',
-              'Cuánta prueba necesitas antes de salir. Nuestro asistente de citas Wazzy no publica un cambio hasta que pasa una batería de 145 conversaciones anotadas. No todos los proyectos necesitan esa profundidad. Elegirla forma parte de la conversación del precio.',
-              'Quién lo opera después. La cuota mensual cubre vigilar el sistema en producción. La siguiente sección enseña a dónde va ese dinero.',
+              'El estado de tus datos. Si el conocimiento que el agente necesita vive en fuentes limpias y legibles, el modelo rinde mejor y la construcción se acorta. Se avanza más ordenando los datos y las herramientas que puliendo instrucciones.',
+              'Cuántas pruebas necesitas antes de salir. Nuestro asistente de citas Wazzy no publica un cambio hasta que pasa una batería de conversaciones anotadas de una en una. No todos los proyectos necesitan esa profundidad. Elegirla forma parte de la conversación del precio.',
+              'Quién lo opera después. La cuota mensual cubre vigilar el sistema en producción. La siguiente sección explica en qué se gasta.',
             ],
           },
           {
@@ -2760,7 +2811,7 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>Tener un agente funcionando genera dos gastos distintos y conviene no mezclarlos.</strong> Uno es lo que el sistema consume para funcionar, el modelo y la infraestructura, que va en cuentas a nombre de tu empresa. El otro es nuestra cuota, que paga el trabajo de vigilarlo.',
               'Cada mensaje que entra dispara llamadas al proveedor del modelo. Ese es el coste bruto de tener el agente en marcha, lo paga tu empresa y sube o baja con el uso, así que no lo escondemos dentro de nuestra cuota. La infraestructura funciona igual. La cuenta en la nube está a tu nombre, así que su factura también.',
               'Que vaya aparte tiene una consecuencia buena para ti. Lo ves, así que puedes bajarlo. <strong>Conocer el reparto del gasto es lo que permite recortarlo midiendo, en lugar de a ciegas.</strong> En Wazzy lo medimos por capas: leer y estructurar el mensaje que entra se lleva entre el 52 y el 57 % del gasto de modelo, decidir qué hacer a continuación entre el 24 y el 31 % y escribir la respuesta entre el 16 y el 19 %.',
-              'Con ese mapa delante se decide con datos. En uno de nuestros sistemas probamos un modelo más barato y la batería de pruebas lo descartó, porque la calidad general bajaba diez puntos. El ahorro existía y no compensaba.',
+              'Con ese mapa delante se decide con datos. En uno de nuestros sistemas probamos un modelo más barato y la batería de pruebas lo descartó, porque la calidad general bajaba diez puntos. El ahorro era real. No compensaba.',
               '<strong>Nuestra cuota paga otra cosa, que es el trabajo de vigilar.</strong> Una vez por semana lanzamos una conversación de prueba anonimizada contra el sistema vivo de principio a fin. Y antes de publicar cualquier cambio tiene que pasar la batería de pruebas. Son dos cosas distintas y separadas a propósito. <strong>La batería frena los cambios, la prueba semanal vigila lo que ya está funcionando.</strong>',
             ],
             link: { label: 'Por qué mantener viva la IA es lo difícil', href: '/blog/mantener-viva-la-ia' },
@@ -2807,7 +2858,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Soberanía del dato',
           title: 'IA conforme al RGPD que tu delegado de protección de datos puede comprobar',
           subtitle:
-            'Construimos agentes de IA para empresas sujetas al reglamento europeo, estén donde estén, cuyos datos no pueden salir de su control. Todo corre en una cuenta en la nube a tu nombre, el aislamiento lo garantiza el código y no una instrucción al modelo. Cada decisión queda registrada para que alguien pueda revisarla después. Escrito desde cinco sistemas en producción.',
+            'Construimos agentes de IA para empresas sujetas al reglamento europeo, estén donde estén, cuyos datos no pueden salir de su control. La aplicación y sus datos corren en una cuenta en la nube a tu nombre, el aislamiento lo garantiza el código y no una instrucción al modelo. Cada decisión queda registrada para que alguien pueda revisarla después. Escrito desde cinco sistemas en producción.',
           cta: 'Cuéntanos tu reto',
         },
         sections: [
@@ -2832,7 +2883,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             bullets: [
               'Por dónde viajan los datos personales cuando alguien usa el sistema, incluido cada tercero de la cadena.',
-              'Quién puede ver qué. Qué pieza de software impone ese límite cuando alguien empuja contra él.',
+              'Quién puede ver qué. Qué pieza de software impone ese límite cuando alguien intenta saltárselo.',
               'Por qué el sistema respondió lo que respondió, reconstruido después a partir de registros y no de memoria.',
             ],
           },
@@ -2845,7 +2896,7 @@ export const content: Record<Lang, SiteContent> = {
               'La limitación de finalidad, que es un deber tuyo y no del agente, pasa a ser algo verificable. Un agente que solo puede llamar a tres funciones aprobadas no tiene camino técnico para desviarse de su finalidad, así que la arquitectura no garantiza la limitación pero sí permite demostrarla.',
               'Y la responsabilidad proactiva pasa a ser una pregunta sobre registros. Si el sistema no puede enseñar por qué hizo lo que hizo, ningún documento de política lo va a enseñar tampoco.',
               '<strong>Por eso decimos que el papeleo sigue a la arquitectura y no al revés.</strong> Un sistema bien construido hace que el contrato de encargo, la evaluación de impacto y el registro de actividades de tratamiento se escriban antes y se defiendan mejor, porque cada afirmación de esos documentos señala algo que existe de verdad en el código.',
-              '¿Y al revés, primero los papeles y luego el sistema? Ninguna cantidad de documentación convierte en capaz de rendir cuentas un sistema que no lo es.',
+              '¿Y al revés, primero los papeles y luego el sistema? Ninguna documentación vuelve auditable un sistema que no lo es.',
             ],
           },
           {
@@ -2928,7 +2979,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo se garantiza el aislamiento',
             kind: 'checklist',
             paragraphs: [
-              'Una versión temprana de uno de nuestros asistentes mantenía separadas a las empresas diciéndole al modelo, en sus instrucciones, que no omitiera nunca un filtro. Funcionaba en todas las pruebas que hicimos.',
+              'Una versión temprana de uno de nuestros asistentes mantenía separadas a las empresas diciéndole al modelo, en sus instrucciones, que no se saltara nunca el filtro. Funcionaba en todas las pruebas que hicimos.',
               '¿Y si funcionaba, qué había que arreglar? Seguía estando mal, porque una instrucción a un modelo de lenguaje es una petición. Un modelo puede dejar de atender una petición por motivos que nadie predice desde fuera.',
               'A los clientes se lo hemos contado como la diferencia entre una garantía y una petición educada. Cambió nuestra manera de construir. <strong>La seguridad tiene que aguantar incluso cuando el modelo falla.</strong>',
               'El sistema donde mejor se ve es el de Savian, un agente que responde a los responsables de varias empresas del mismo grupo, cada uno sobre las suyas. Corre en la cuenta de Savian, que es quien lo encarga. Ahí la separación se impone en cuatro sitios. El modelo no es ninguno de ellos.',
@@ -2945,7 +2996,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo se garantiza el aislamiento',
             paragraphs: [
               'Las capas de seguridad están bien, pero cambiar el diseño para que el fallo no pueda existir está mejor. Uno de nuestros sistemas enseña la diferencia. Su aislamiento funcionaba originalmente por filtrado, con cada consulta llevando una condición que decía de qué empresa se permitían las filas.',
-              'Después rehicimos el almacén de datos para que cada empresa viva en su propio esquema, su compartimento sellado dentro de la base de datos. La vista combinada las une con la empresa estampada en cada fila. Las consultas del asistente corren contra el esquema de quien pregunta, nunca contra la vista combinada, que existe para otros usos.',
+              'Después rehicimos el almacén de datos para que cada empresa viva en su propio esquema, su compartimento sellado dentro de la base de datos. La vista combinada las une con con la empresa marcada en cada fila. Las consultas del asistente corren contra el esquema de quien pregunta, nunca contra la vista combinada, que existe para otros usos.',
               'Tras ese cambio, sumar dos empresas en una misma cifra dejó de ser un fallo que un filtro debe atrapar y pasó a ser una consulta que el asistente no puede formular.',
               'El efecto práctico se vio enseguida. Una comparación poco estricta de nombres que había sido una preocupación real de seguridad bajo el diseño por filtrado simplemente dejó de importar, porque ni siquiera una coincidencia equivocada podía cruzar la frontera de un esquema.',
               '<strong>Arreglar la arquitectura mató la clase entera de fallos, no un caso suelto.</strong> Es el nivel al que apuntamos siempre que los datos lo permiten.',
@@ -3054,7 +3105,7 @@ export const content: Record<Lang, SiteContent> = {
               'Qué piezas de software imponen el aislamiento y si alguna de ellas consiste en una instrucción al modelo. Pide que te cuenten cómo llegaron a esa respuesta.',
               'Qué hace el sistema cuando una lista de permisos llega vacía, abrir la puerta o cerrarla.',
               'Enséñame el registro de decisiones de una conversación real y dime quién puede editarlo. Si alguien puede, ese registro no sirve como prueba.',
-              'Qué puede recibir físicamente vuestra telemetría, una lista cerrada o lo que el código mande.',
+              'Qué puede recibir técnicamente vuestra telemetría, una lista cerrada o lo que el código mande.',
               'Qué frena una publicación y qué vigila el sistema vivo entre publicaciones. Tienen que ser dos mecanismos distintos. Si te dan uno solo con dos nombres, no lo son.',
               'Quién es el dueño del repositorio, hoy, no al final de un plan de pagos.',
             ],
@@ -3144,7 +3195,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Reglamento europeo de IA',
           title: 'El reglamento europeo de IA, explicado para la empresa que la usa',
           subtitle:
-            'La mayoría de las empresas no fabrican inteligencia artificial, la usan. Para ellas el reglamento es una lista de cosas que hay que poder demostrar: una supervisión que funcione, unos registros que existan y saber qué hacen tus sistemas. El Ómnibus Digital de julio de 2026 aplazó los deberes más pesados a diciembre de 2027, mientras que la transparencia y la alfabetización ya se aplican hoy. Esta guía recorre el mapa entero en lenguaje llano.',
+            'La mayoría de las empresas no fabrican inteligencia artificial, la usan. Para ellas el reglamento es una lista de cosas que hay que poder demostrar: una supervisión que funcione, unos registros que existan y una descripción clara de lo que hacen tus sistemas. El Ómnibus Digital de julio de 2026 aplazó los deberes más pesados a diciembre de 2027, mientras que la transparencia y la alfabetización ya se aplican hoy. Esta guía recorre el mapa entero en lenguaje llano.',
           cta: 'Empezar por la versión corta',
           ctaHref: '#corta',
         },
@@ -3160,10 +3211,10 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Esta página es para quien dentro de una empresa ha recibido la pregunta de si cumplís el reglamento europeo de IA y necesita dar una respuesta con estructura. Recorre la norma desde el punto de vista de quien la usa, que en el texto legal se llama responsable del despliegue.',
               '<strong>La mayoría de las empresas no fabrican inteligencia artificial, la usan.</strong> Esa distinción decide casi todos tus deberes, así que conviene fijarla antes que ninguna otra cosa.',
-              'La escriben ingenieros. Construimos agentes de IA que funcionan dentro de empresas sujetas a estas normas, así que nuestro trabajo está en el lado que recibe estas revisiones. Y la escribimos desde España, donde la autoridad que vigila es la AESIA.',
+              'La escriben ingenieros. Construimos agentes de IA que funcionan dentro de empresas sujetas a estas normas, así que somos los que respondemos el cuestionario de cumplimiento, no los que lo mandan. Y la escribimos desde España, donde la autoridad que vigila es la AESIA.',
               'Esto no es asesoramiento jurídico. No clasificamos tu riesgo. Las decisiones que necesitan un abogado van señaladas como tales a lo largo de toda la página.',
             ],
-            link: { label: 'El pilar que esta guía amplía: IA conforme al RGPD', href: '/ia-y-rgpd' },
+            link: { label: 'La guía de la que parte esta: IA conforme al RGPD', href: '/ia-y-rgpd' },
           },
           {
             heading: 'El reglamento entero en seis frases',
@@ -3187,7 +3238,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'El mapa de la ley',
             paragraphs: [
               'El reglamento no regula la inteligencia artificial como si fuera una sustancia. Regula usos, ordenados por el daño que un fallo podría hacerle a los derechos, la seguridad o el sustento de una persona.',
-              'Una lista corta de prácticas está prohibida sin más, con la puntuación social y las técnicas manipuladoras dentro. Un conjunto definido de usos es de alto riesgo y carga con la maquinaria pesada de la norma. Una banda intermedia lleva deberes de transparencia, que es avisar de que se está tratando con una máquina. Todo lo demás es riesgo mínimo y casi no lleva nada.',
+              'Una lista corta de prácticas está prohibida sin más, con la puntuación social y las técnicas manipuladoras dentro. Un conjunto definido de usos es de alto riesgo y carga con la maquinaria pesada de la norma. Una banda intermedia lleva deberes de transparencia, que consiste en avisar a la persona de que está interactuando con una máquina. Todo lo demás es riesgo mínimo y casi no lleva nada.',
               '¿Y dónde cae un asistente normal de empresa? Un asistente interno que responde sobre documentación, un chatbot que reserva citas o un agente que lee facturas caen, en la mayoría de configuraciones, en la banda limitada o en la mínima.',
               '<strong>El régimen duro lo dispara el dominio, no lo avanzada que sea la tecnología.</strong> En cuanto la IA toca contratación, crédito, educación, servicios esenciales, biometría o cualquiera de los demás dominios del anexo III, la misma tecnología de debajo pasa a ser de alto riesgo con todo lo que eso arrastra.',
               'En qué banda cae tu uso concreto es la primera pregunta para tus abogados. Las secciones siguientes te dan el vocabulario para esa conversación.',
@@ -3197,14 +3248,14 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'El eje aparte, los modelos de propósito general',
             part: 'El mapa de la ley',
             paragraphs: [
-              'Los modelos grandes a los que llaman como servicio sistemas como los nuestros viven bajo su propio capítulo, en vigor desde agosto de 2025 para las empresas que los proveen. Quien provee un modelo de propósito general debe documentación técnica, información a las empresas que construyen encima, una política de derechos de autor y un resumen del contenido usado para entrenar.',
+              'Los modelos grandes que sistemas como los nuestros consumen como servicio viven bajo su propio capítulo, en vigor desde agosto de 2025 para las empresas que los proveen. Quien provee un modelo de propósito general debe documentación técnica, información a las empresas que construyen encima, una política de derechos de autor y un resumen del contenido usado para entrenar.',
               '<strong>Casi nada de eso es deber tuyo y todo es asunto tuyo al comprar.</strong> La documentación que publica un proveedor de modelo baja hasta tu expediente de cumplimiento, porque la descripción de tu sistema se apoya en la descripción del modelo de debajo.',
               'Cuando montamos ese expediente para un cliente, las condiciones y la documentación del proveedor de modelo entran dentro. Es una razón más de que la elección de proveedor la apruebes tú en vez de heredarla de nosotros.',
               'Lo que hay que pedir es corto. Quien te venda algo construido sobre un modelo grande debería poder nombrar el modelo, señalar la documentación que su proveedor publica para este reglamento y enseñar qué datos tuyos llegan hasta él. Si alguna de las tres se queda en blanco, ese hueco lo cargas tú.',
             ],
           },
           {
-            heading: 'El calendario ya ocurrió',
+            heading: 'El calendario ya va por la mitad',
             part: 'El mapa de la ley',
             kind: 'checklist',
             paragraphs: [
@@ -3214,7 +3265,7 @@ export const content: Record<Lang, SiteContent> = {
               'Desde el 2 de febrero de 2025. Las prácticas prohibidas pasaron a ser ilegales y el artículo 4 empezó a exigir alfabetización en materia de IA, es decir que quien trabaja con estos sistemas tenga formación proporcional a su puesto. Esto aplica a todo sistema de IA, sea de alto riesgo o no.',
               'Desde el 2 de agosto de 2025. Se aplican las obligaciones de quien provee modelos de propósito general, incluido el régimen de los modelos con riesgo sistémico. Si despliegas sistemas construidos sobre modelos grandes, tus proveedores llevan un año con deberes.',
               'Desde el 2 de agosto de 2026. Se aplican los deberes de transparencia del artículo 50, como avisar a una persona de que está hablando con una máquina. El artículo 26, el que gobierna a quien despliega sistemas de alto riesgo, iba a entrar aquí hasta que el Ómnibus Digital lo movió.',
-              'Desde el 2 de diciembre de 2027. Llegan las obligaciones de alto riesgo de los sistemas del anexo III, con el artículo 26 dentro, después de que el Ómnibus Digital, el Reglamento (UE) 2026/1744, las moviera desde agosto de 2026. La IA integrada en productos que ya cubre la legislación europea de seguridad, con los productos sanitarios y las máquinas dentro, va detrás, el 2 de agosto de 2028.',
+              'A partir del 2 de diciembre de 2027. Llegan las obligaciones de alto riesgo de los sistemas del anexo III, con el artículo 26 dentro, después de que el Ómnibus Digital, el Reglamento (UE) 2026/1744, las moviera desde agosto de 2026. La IA integrada en productos que ya cubre la legislación europea de seguridad, con los productos sanitarios y las máquinas dentro, va detrás, el 2 de agosto de 2028.',
             ],
           },
           {
@@ -3224,7 +3275,7 @@ export const content: Record<Lang, SiteContent> = {
               'La estructura de sanciones va por tramos, como la del RGPD. Las prácticas prohibidas llegan a 35 millones de euros o al 7 % de la facturación mundial, lo que sea más alto. Casi todo lo demás, con los deberes de quien despliega dentro, llega a 15 millones o al 3 %. Dar información engañosa a las autoridades tiene su propio tramo, más bajo.',
               '¿Y qué probabilidad real hay de que te inspeccionen? Nadie que te venda certeza sobre eso merece que le creas. Lo que sí se puede decir con pruebas es quién está mirando.',
               'Cada país nombra a su autoridad de vigilancia del mercado y la nuestra llegó antes que ninguna. <strong>La AESIA fue la primera agencia nacional de Europa dedicada solo a la IA</strong>, creada por el Real Decreto 729/2023, con potestad sancionadora plena desde agosto de 2025 y dieciséis guías publicadas.',
-              'Su línea declarada durante 2026 ha sido avisar antes que sancionar. Ya ha abierto investigaciones preliminares sobre sistemas desplegados por organizaciones españolas. <strong>La ventana en la que nadie miraba se está cerrando</strong>, en plazo y sin dramatismo.',
+              'Su línea declarada durante 2026 ha sido avisar antes que sancionar. Ya ha abierto investigaciones preliminares sobre sistemas desplegados por organizaciones españolas. <strong>La ventana en la que nadie miraba se está cerrando</strong>. Sin dramatismo, pero con fecha.',
               'La consecuencia práctica para quien compra es de calendario. Construir un sistema que pueda demostrar lo que hace mientras se está construyendo cuesta poco. Lo sabemos porque es como trabajamos de todas formas. Añadírselo con la fecha de una autoridad encima es la versión cara del mismo proyecto.',
             ],
           },
@@ -3232,7 +3283,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: '¿Es siquiera un sistema de IA a ojos del reglamento?',
             part: 'En qué casilla estás',
             paragraphs: [
-              'Los comités pierden tiempo de verdad en esta pregunta, así que conviene cerrarla pronto. El reglamento define un sistema de IA por siete elementos y <strong>el que carga con el peso es la inferencia</strong>: un sistema basado en una máquina, con cierta autonomía, que deduce de lo que recibe cómo generar resultados como predicciones, recomendaciones o decisiones.',
+              'Los comités pierden tiempo de verdad en esta pregunta, así que conviene cerrarla pronto. La Comisión desglosa la definición de sistema de IA en siete elementos y <strong>el que carga con el peso es la inferencia</strong>: un sistema basado en una máquina, con cierta autonomía, que deduce de lo que recibe cómo generar resultados como predicciones, recomendaciones o decisiones.',
               'La Comisión Europea publicó unas directrices sobre esta definición exacta en febrero de 2025, precisamente porque todas las empresas hacían la misma pregunta.',
               'La lectura práctica es más estrecha que el pánico. Una calculadora, una fórmula fija de hoja de cálculo o un motor de reglas que aplica siempre la misma lógica escrita no infiere y por lo general queda fuera. Un sistema que aprende patrones, ordena candidatos, puntúa riesgo o genera texto sí infiere y está dentro.',
               'Los casos de frontera existen, pertenecen a tus abogados y el razonamiento conviene dejarlo por escrito caiga del lado que caiga. Para cualquier cosa construida sobre un modelo de lenguaje la pregunta se responde sola, porque un modelo infiere, es su trabajo entero.',
@@ -3245,7 +3296,7 @@ export const content: Record<Lang, SiteContent> = {
               'Dos papeles cargan con casi todo el peso. Un proveedor desarrolla un sistema de IA o encarga que se desarrolle, para ponerlo en el mercado bajo su propio nombre. Un responsable del despliegue usa un sistema de IA de forma profesional, bajo su propia autoridad y para sus propios fines.',
               '<strong>El proveedor responde del diseño y quien despliega responde del uso.</strong> Los deberes de diseño son la conformidad, la documentación y el registro donde toque. Los deberes de uso son el asunto de esta guía.',
               'Un banco que compra un sistema de puntuación crediticia a un fabricante es responsable del despliegue, con deberes de supervisión, vigilancia y registros. El fabricante es el proveedor, con deberes sobre cómo se construyó y documentó el sistema.',
-              'El reparto se repite mercado abajo: la clínica que usa un asistente de citas, la industria que usa una ayuda al diagnóstico y la asesoría que extrae datos de documentos son responsables del despliegue de esos sistemas, los haya construido quien los haya construido.',
+              'El reparto se repite mercado abajo: la clínica que usa un asistente de citas, el hospital que usa una ayuda al diagnóstico y la asesoría que extrae datos de documentos son responsables del despliegue de esos sistemas, los haya construido quien los haya construido.',
               'Cuando construimos un agente a medida para un cliente, quién cuenta como proveedor de ese sistema concreto es justo la clase de frontera que un contrato debe fijar por escrito en vez de dejarla a la suposición.',
               'Lo sacamos en la primera conversación, tus abogados y los nuestros cierran la redacción. El lado de ingeniería de la respuesta, quién documenta qué y quién guarda qué registros, se diseña desde dentro en lugar de discutirse después.',
             ],
@@ -3258,7 +3309,7 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>La tercera es la trampa silenciosa</strong>, porque «finalidad prevista» suena a lenguaje de marketing y es en realidad el concepto sobre el que descansa el reglamento entero.',
               'Concretando. Una empresa que licencia un asistente documental general y lo convierte en una herramienta que criba candidaturas de empleo ha cambiado la finalidad hacia un dominio del anexo III y con ella, quizá, su propio papel. Una empresa que rebautiza el sistema de un fabricante como producto propio se ha metido en deberes de proveedor por la vía de la marca.',
               'Nada de esto prohíbe personalizar, le pone precio. Y ese precio es documentación y deberes que alguien tiene que aceptar a conciencia. Si una modificación concreta es «sustancial» es un juicio jurídico.',
-              'Nuestra aportación es más estrecha y llega antes. Un sistema construido con una finalidad prevista escrita, un registro de qué cambió y unos registros de lo que el sistema hace de verdad le dan a tus abogados la materia prima para emitir ese juicio barato. Un sistema montado de manera informal no les da nada. Un abogado prudente sin nada con lo que trabajar siempre te dará la respuesta cara.',
+              'Nuestra aportación es más estrecha y llega antes. Un sistema construido con una finalidad prevista escrita, un registro de qué cambió y unos registros de lo que el sistema hace de verdad le dan a tus abogados la materia prima para emitir ese juicio en una tarde en vez de en una auditoría. Un sistema montado de manera informal no les da nada. Un abogado prudente sin nada con lo que trabajar siempre te dará la respuesta cara.',
             ],
           },
           {
@@ -3285,7 +3336,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'El artículo 6.3 abre una salida estrecha. Un sistema que cae en un dominio del anexo III puede evitar la condición de alto riesgo cuando solo hace una tarea procedimental estrecha, cuando mejora el resultado de una actividad humana ya terminada o cuando detecta patrones sin sustituir el juicio humano.',
               'Una herramienta que da formato a las notas de una entrevista toca empleo y a las claras no está decidiendo la carrera de nadie.',
-              'Dos condiciones guardan esa salida. La excepción tiene que estar documentada, con una evaluación escrita de por qué el sistema encaja, hecha antes de apoyarse en ella y no después de que alguien pregunte.',
+              'Tres cosas estrechan esa salida. La excepción tiene que estar documentada, con una evaluación escrita de por qué el sistema encaja, hecha antes de apoyarse en ella y no después de que alguien pregunte. Hay que registrarse además en la base de datos de la UE, que es el paso que más se olvida.',
               '<strong>Y el perfilado cierra la puerta de golpe.</strong> Un sistema en un dominio del anexo III que perfile a personas, en el sentido que le da el RGPD de evaluar aspectos de su vida como el rendimiento, la fiabilidad o la situación económica, es siempre de alto riesgo, haga lo que haga además.',
               'Nuestro consejo como constructores no tiene ningún brillo. Decide de qué lado de esa línea va a vivir un sistema antes de construirlo, escribe esa intención y diseña los flujos de datos para que el sistema no pueda cruzarla en silencio. La deriva es el riesgo de verdad aquí, una herramienta útil que gana una función por trimestre hasta que está haciendo aquello que nadie clasificó.',
             ],
@@ -3306,6 +3357,7 @@ export const content: Record<Lang, SiteContent> = {
               'Conservar los registros generados automáticamente que estén bajo tu control durante al menos seis meses, más si otra ley lo dice. Sin registros no hay defensa.',
               'Informar a los trabajadores y a sus representantes antes de desplegar un sistema de alto riesgo que les afecte en el trabajo. Encender una vigilancia en silencio es un incumplimiento por sí solo.',
               'Usar la información del proveedor para hacer tu evaluación de impacto de protección de datos cuando toque. Los dos reglamentos se encuentran exactamente aquí.',
+              'Informar a la persona afectada cuando el sistema del anexo III se use para tomar una decisión sobre ella o para ayudar a tomarla. Es el deber que más pregunta un departamento de personal.',
               'Cooperar con la autoridad de vigilancia del mercado cuando venga a preguntar, que resume todos los deberes de arriba en una sola pregunta práctica, si puedes enseñar los deberes hechos.',
             ],
           },
@@ -3313,7 +3365,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'El paso extra que deben algunos, la evaluación de derechos',
             part: 'Qué debe hacer quien despliega',
             paragraphs: [
-              'El artículo 27 añade un deber más que no es para todos. <strong>Solo lo debe un grupo definido.</strong> Son los organismos públicos, las empresas privadas que prestan servicios públicos y quienes usan sistemas de alto riesgo para puntuación crediticia o para riesgo y precio en seguros de vida y salud.',
+              'El artículo 27 añade un deber más que no es para todos. <strong>Solo obliga a un grupo definido.</strong> Son los organismos públicos, las empresas privadas que prestan servicios públicos y quienes usan sistemas de alto riesgo para puntuación crediticia o para riesgo y precio en seguros de vida y salud.',
               'Esos tienen que hacer una evaluación de impacto sobre los derechos fundamentales antes del primer uso. Es lo que suena, una mirada estructurada a qué derechos podría tocar el sistema, quién queda expuesto y qué pasa cuando sale mal.',
               'El reglamento permite apoyarse en trabajo ya hecho. Quien despliega puede basarse en una evaluación que hiciera el proveedor o en una evaluación de impacto existente que cubra el terreno, lo que en la práctica significa que el ejercicio se solapa mucho con la evaluación de impacto que tu delegado de protección de datos ya sabe hacer. La misma disciplina, con la lente más ancha.',
               'Nuestro papel ahí sigue siendo el mismo que en el resto de la página. La evaluación es tuya, la haces y la firmas tú. La descripción del sistema que necesita, qué hace, qué entra en él, quién lo supervisa y qué queda registrado, es el expediente que nuestros sistemas producen como efecto secundario de estar construidos así.',
@@ -3324,10 +3376,10 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Qué debe hacer quien despliega',
             paragraphs: [
               'El artículo 4 es la obligación que las empresas siguen pasando por alto porque parece blanda. Desde febrero de 2025, proveedores y responsables del despliegue tienen que garantizar un nivel suficiente de alfabetización en materia de IA en las personas que operan y usan estos sistemas por su cuenta, proporcional a su puesto y al contexto.',
-              'Aplica a todo sistema de IA, sea de alto riesgo o no, lo que la convierte en <strong>el único deber del reglamento que casi con seguridad te aplica hoy</strong>.',
+              'Aplica a todo sistema de IA, sea de alto riesgo o no, lo que la convierte en <strong>el deber del reglamento que te aplica hoy con independencia de lo que hagas</strong>.',
               '¿Y cuánta formación es suficiente? «Suficiente» no está definido como un certificado. La idea no es mandar a todo el mundo a un curso. Quien aprueba los resultados de un modelo debería entender qué se le puede confiar y qué no. Quien opera un asistente debería saber qué no hay que darle nunca. Quien supervisa un sistema de alto riesgo necesita profundidad bastante para justificar que lo anula.',
               'Formación que corresponda a los puestos, escrita y con fechas, es a la vez lo que la ley espera y la reducción de riesgo más barata de toda esta página.',
-              'Es además, de forma callada, una pregunta de compras. Pregúntale a cualquier proveedor qué material le entrega a tu equipo para esto, porque un suministrador que se encoge de hombros está dando por hecho que tu gente va a usar mal su sistema.',
+              'Es además, de forma callada, una pregunta de compras. Pregúntale a cualquier proveedor qué material le entrega a tu equipo para esto, porque un suministrador que se encoge de hombros te está trasladando entero el riesgo de que tu gente lo use mal.',
             ],
           },
           {
@@ -3335,7 +3387,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Qué debe hacer quien despliega',
             paragraphs: [
               'Los deberes de transparencia del artículo 50 se aplican desde agosto de 2026 y son de una concreción que se agradece. A la persona que interactúa con un sistema de IA hay que informarle de que lo está haciendo, salvo que resulte obvio por el contexto.',
-              'El audio, la imagen y el vídeo sintéticos tienen que ir marcados como generados artificialmente. Quien despliega reconocimiento de emociones o categorización biométrica debe informar a las personas expuestas.',
+              'El audio, la imagen y el vídeo sintéticos tienen que ir marcados como generados artificialmente y ese marcado lo debe quien construye el sistema. A quien despliega le toca avisar cuando publique una ultrasuplantación o un texto generado sobre asuntos de interés público. Quien despliega reconocimiento de emociones o categorización biométrica debe informar a las personas expuestas.',
               'Para los sistemas que la mayoría de las empresas tienen de verdad en marcha, esto se reduce a diseñar la interfaz sin trampas. El asistente se presenta como asistente, el informe generado dice que se ha generado y el camino hacia una persona existe de verdad.',
               'Contamos cómo se presentan nuestros sistemas conversacionales y cómo entregan los casos urgentes al equipo en la página del servicio. Ese mismo diseño sirve para este artículo sin modificarlo.',
               'A estas alturas el patrón está claro. <strong>Estos deberes son baratos de cumplir cuando se diseñan dentro y vergonzosos de cumplir a posteriori.</strong>',
@@ -3348,9 +3400,9 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Lee otra vez la lista de deberes con ojos de ingeniero y se descompone en tres propiedades del sistema. Cosas que el sistema tiene que producir sobre sí mismo, que son registros. Cosas que una persona tiene que poder hacerle, que son inspeccionar, intervenir y anular. Y cosas que nunca puede cambiar en silencio, que son su finalidad y sus entradas.',
               '<strong>Ninguna de las tres se puede añadir de forma convincente después. Las tres salen baratas cuando son decisiones de diseño.</strong>',
-              'Aquí es donde nuestra manera de trabajar coincide con el reglamento. Y no porque construyéramos pensando en él, sino porque producción nos llevó antes a las mismas conclusiones. Nuestros sistemas escriben cada decisión según ocurre, en un registro al que se puede añadir pero que nunca se edita. El propio sistema no lo lee de vuelta, así que documenta el comportamiento sin influir en él.',
-              'La supervisión no es un nombre en un archivo. Las personas que hay detrás de nuestros asistentes reciben bandejas de casos reales con su rastro. Cada acción que un sistema hace por alguien corre con los permisos de esa persona, así que la pregunta de quién pudo hacer esto siempre tiene una respuesta que tu sistema de identidad ya conocía.',
-              'La vigilancia, que es el deber que suena más vago, es el que podemos enseñar de forma más concreta. Antes de publicar un cambio tiene que pasar una batería de casos anotados y anonimizados. Después de publicar, una prueba semanal recorre de principio a fin una conversación de prueba anonimizada contra el sistema vivo.',
+              'Aquí es donde nuestra manera de trabajar coincide con el reglamento. Y no porque construyéramos pensando en él, sino porque operar sistemas en producción nos llevó antes a las mismas conclusiones. Nuestros sistemas escriben cada decisión según ocurre, en un registro al que se puede añadir pero que nunca se edita. El propio sistema nunca vuelve a leerlo, así que documenta el comportamiento sin influir en él.',
+              'La supervisión no es un nombre en un archivo. Las personas que hay detrás de nuestros asistentes reciben bandejas de casos reales con su rastro. Cada acción que un sistema hace por alguien corre con los permisos de esa persona, así que la pregunta de quién pudo hacer esto siempre tiene una respuesta que tu sistema de identidad ya conoce.',
+              'La vigilancia es el deber que suena más vago y el que mejor podemos demostrar. Antes de publicar un cambio tiene que pasar una batería de casos anotados y anonimizados. Después de publicar, una prueba semanal recorre de principio a fin una conversación de prueba anonimizada contra el sistema vivo.',
               'Dos comprobaciones separadas a propósito. Juntas son exactamente la prueba de «vigilar el funcionamiento del sistema» que el artículo 26 le pide a quien despliega.',
             ],
             link: { label: 'El diseño de registros, aislamiento e identidad, en detalle', href: '/ia-y-rgpd' },
@@ -3366,7 +3418,7 @@ export const content: Record<Lang, SiteContent> = {
               'La finalidad prevista del sistema por escrito, que es la frase con la que empieza cualquier pregunta de clasificación.',
               'La descripción técnica de qué hace, qué datos entran y qué llamadas salen, caso de uso por caso de uso.',
               'El diseño de la supervisión: qué personas pueden inspeccionar, intervenir y parar qué, con qué interfaz.',
-              'El registro de decisiones y cómo se consulta, con la conservación configurada a tus obligaciones, con los seis meses como suelo para el alto riesgo.',
+              'El registro de decisiones y cómo se consulta, con la conservación ajustada a tus obligaciones y seis meses como suelo para el alto riesgo.',
               'Las pruebas de evaluación, que son la batería de casos que frena cada publicación y la prueba semanal que vigila el sistema vivo.',
               'La cadena de proveedores por debajo del sistema, empezando por el proveedor de modelo que aprobaste y las condiciones que lo obligan.',
             ],
@@ -3379,11 +3431,11 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>Nada de esto exige un consultor para empezar.</strong> Una persona competente de dentro, con una hoja de cálculo, lleva a una empresa de «ni idea» a «mapeado, con preguntas abiertas para los abogados» en días. Y las preguntas abiertas salen afiladas en vez de vagas.',
             ],
             bullets: [
-              'Inventaría todos los sistemas de IA en uso profesional, incluidos los que llegaron dentro de otros productos, los copilotos, el módulo de puntuación de la herramienta de personal, el chatbot del servicio de soporte. Las herramientas que nadie aprobó cuentan, porque al reglamento le da igual que compras no las viera pasar.',
+              'Haz inventario de todos los sistemas de IA en uso profesional, incluidos los que llegaron dentro de otros productos, los copilotos, el módulo de puntuación de la herramienta de personal, el chatbot del servicio de soporte. Las herramientas que nadie aprobó cuentan, porque al reglamento le da igual que el departamento de compras no las viera pasar.',
               'Asigna un papel por sistema, proveedor o responsable del despliegue, anotando quién más está en la cadena. Casi todas las entradas dirán responsable del despliegue. Las excepciones son donde tus abogados deberían mirar primero.',
               'Cruza cada sistema contra los ocho dominios del anexo III. Lo que toque uno queda marcado. Y lo marcado o va a los abogados o recibe una evaluación documentada del artículo 6.3, escrita ahora y no cuando alguien pregunte.',
               'Pon nombre a la supervisión de todo lo que pueda ser de alto riesgo, personas reales con autoridad para anular. Y mira si pasarían el nivel de alfabetización de su puesto.',
-              'Verifica el papel: instrucciones de uso de cada proveedor, información a los trabajadores donde los sistemas toquen el puesto de trabajo. Y los registros encendidos, conservados y legibles por alguien.',
+              'Revisa la documentación: instrucciones de uso de cada proveedor, información a los trabajadores donde los sistemas toquen el puesto de trabajo. Y los registros encendidos, conservados y legibles por alguien.',
               'Pon por escrito las preguntas a los proveedores, cuál es la finalidad prevista, qué documentación acompaña al sistema y qué os van a dar para supervisión, alfabetización y registros. Un proveedor que responde despacio también te ha dicho algo.',
             ],
           },
@@ -3402,7 +3454,7 @@ export const content: Record<Lang, SiteContent> = {
         faq: [
           {
             q: 'No estamos en la Unión Europea. ¿Nos alcanza el reglamento?',
-            a: 'Puede. El reglamento aplica por mercado y cubre a proveedores y responsables del despliegue de fuera de la Unión siempre que el sistema se ponga en el mercado europeo o su resultado se use en la Unión. Una empresa estadounidense cuya IA sirve a clientes europeos está dentro, tenga la sede donde la tenga. Si tu montaje concreto cruza esa línea es una pregunta para tus abogados, corta de hacer.',
+            a: 'Puede. El reglamento aplica por mercado y cubre a proveedores y responsables del despliegue de fuera de la Unión siempre que el sistema se ponga en el mercado europeo o su resultado se use en la Unión. Una empresa estadounidense cuya IA sirve a clientes europeos está dentro, tenga la sede donde la tenga. Si tu montaje concreto cruza esa línea es una pregunta para tus abogados, de las que se contestan rápido.',
           },
           {
             q: 'Solo usamos ChatGPT y la IA que viene dentro de Microsoft 365. ¿Somos proveedores?',
@@ -3416,7 +3468,7 @@ export const content: Record<Lang, SiteContent> = {
             a: 'Por sí solo, normalmente no. Su deber de casa es la transparencia, que la gente sepa que habla con una máquina. Se mueve hacia el alto riesgo cuando el uso cruza a un dominio del anexo III o cuando perfila a personas en el sentido del RGPD. Un bot de soporte que empieza a decidir devoluciones puntuando la fiabilidad de un cliente ha cambiado de categoría en el fondo, diga lo que diga la etiqueta. La clasificación la deciden tus abogados. La deriva es lo que hay que vigilar.',
           },
           {
-            q: 'Personal quiere IA para cribar currículums. ¿Qué activa eso?',
+            q: 'Recursos Humanos quiere IA para cribar currículums. ¿Qué activa eso?',
             a: [
               'El empleo es uno de los ocho dominios del anexo III y la criba de candidaturas está nombrada dentro, así que la hipótesis de trabajo es alto riesgo con todo lo que arrastra, deberes del artículo 26, información a los trabajadores y supervisión incluidos. Y la excepción que el reglamento reserva para usos menores no aplica aquí, porque cribar currículums perfila a personas.',
               'Es la manera más común en que una empresa mediana adquiere su primer sistema de alto riesgo sin enterarse, normalmente dentro de una actualización de su herramienta de personal, así que merece un responsable con nombre y una conversación con los abogados antes de encender la función.',
@@ -3439,7 +3491,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Hay algún alivio para las empresas pequeñas?',
-            a: 'Alguno, real pero estrecho. El reglamento obliga a montar entornos controlados de pruebas, donde las empresas ensayan sistemas con el regulador mirando. El español arrancó pronto, con la AESIA seleccionando doce empresas en 2025. También existe documentación simplificada para proveedores pequeños en algunos puntos. Lo que no existe es una exención de fondo para pymes, porque una empresa pequeña que despliega un sistema de alto riesgo carga con los mismos deberes básicos que una grande, escalados por proporcionalidad y no perdonados.',
+            a: 'Alguno, real pero estrecho. El reglamento obliga a los Estados miembros a montar entornos controlados de pruebas, donde las empresas ensayan sistemas con el regulador mirando. El español arrancó pronto, con la AESIA seleccionando doce empresas en 2025. También existe documentación simplificada para proveedores pequeños en algunos puntos. Lo que no existe es una exención de fondo para pymes, porque una empresa pequeña que despliega un sistema de alto riesgo carga con los mismos deberes básicos que una grande, escalados por proporcionalidad y no perdonados.',
           },
           {
             q: 'Si una autoridad pregunta por un sistema que nos habéis construido, ¿qué le enseñamos?',
@@ -3963,6 +4015,8 @@ export const content: Record<Lang, SiteContent> = {
       items: [
         {
           client: 'Industrial company',
+          href: '/en/cases/industrial',
+          hrefLabel: 'What it cost to know it was right',
           image: '/case-studies/industrial.jpg',
           title: 'Guided troubleshooting for whoever is at the machine',
           body: 'Plant knowledge lived in dense manuals and in the heads of the most experienced people. We built an assistant on the company’s own systems. Operators query production and fault data, and get step-by-step guided troubleshooting when a machine stops.',
@@ -3973,6 +4027,8 @@ export const content: Record<Lang, SiteContent> = {
         {
           client: 'Savian',
           clientLogo: '/logos/savian.png',
+          href: '/en/cases/savian',
+          hrefLabel: 'How it is built and what we took away from the model',
           image: '/case-studies/harvest.jpg',
           title: 'Anyone on the team, asking their own data',
           body: 'Finding out yesterday’s output meant waiting until you were in front of a computer. We built a WhatsApp assistant that understands the question in natural language and returns the figure by querying the database. The split is always the same: judgment lives in the code, interpretation of language lives in the model, and knowledge lives in the data.',
@@ -3983,6 +4039,8 @@ export const content: Record<Lang, SiteContent> = {
         {
           client: 'Stanton',
           clientLogo: '/logos/stanton.png',
+          href: '/en/cases/stanton',
+          hrefLabel: 'The invoice that arrived different, and what we added',
           image: '/case-studies/stanton.jpg',
           title: 'The invoices stopped being typed',
           body: 'Their tenants’ electricity, gas and water bills were keyed in by hand, one by one. Now the team uploads them to a Telegram chat and an agent running on Gemini reads each document and returns the data as rows ready to review. They started with invoices and keep extending the system to other back-office processes.',
@@ -3992,6 +4050,8 @@ export const content: Record<Lang, SiteContent> = {
         {
           client: 'Barceloneta Premium',
           clientLogo: '/logos/bcnpremium.png',
+          href: '/en/cases/barceloneta',
+          hrefLabel: 'The first version and why we threw it away',
           image: '/case-studies/barceloneta.jpg',
           title: 'The filter that works while the office is closed',
           body: 'Every rental inquiry arriving on WhatsApp took five to ten minutes of manual checking, and dozens came in every day. The agent talks to the applicant, collects reason, budget and paperwork, and emails the team a summary with a paragraph explaining why each one fits or does not. The team stopped screening and went back to booking viewings.',
@@ -4001,6 +4061,8 @@ export const content: Record<Lang, SiteContent> = {
         {
           client: 'Wazzy',
           clientLogo: '/logos/wazzy.png',
+          href: '/en/cases/wazzy',
+          hrefLabel: 'What it costs to trust your own code',
           image: '/case-studies/dentist.jpg',
           title: 'Booking an appointment without calling or waiting',
           body: 'Wazzy is our own product: we shaped the business, the product and the assistant’s architecture. It books, changes and cancels appointments over WhatsApp against the real calendar, and escalates to the team when a conversation gets complicated. It handles health data, so encryption goes field by field and deletion respects clinical-record retention law.',
@@ -4315,6 +4377,34 @@ export const content: Record<Lang, SiteContent> = {
       subtitle: 'The questions we usually answer before we start.',
       items: [
         {
+          q: 'What budget do we need?',
+          a: 'A custom agent runs between €2,500 and €10,000 to build, depending on how many systems it has to touch and how much validation it needs, plus €150 to €500 a month to operate, which covers watching it and keeping it working. The model and the infrastructure sit in accounts under your company’s name, so those bills are yours and they are not inside the fee. Larger systems with several agents are quoted per project.',
+        },
+        {
+          q: 'How long until we have something working?',
+          a: 'With the data available, the access granted and the task clearly scoped, a pilot in two weeks is realistic. When one of those conditions is missing, what stretches is the preparation and not the build. The pilot is paid work and its price counts toward the final project.',
+        },
+        {
+          q: 'Is there a minimum term on the monthly fee?',
+          a: 'There is none. The fee pays for watching and maintaining the system that month and you stop paying whenever you decide. Nothing switches off when you do, because the repository has been in your name since day one and the infrastructure runs in accounts that are yours. What you stop having is our work, not what was built.',
+        },
+        {
+          q: 'What if what we need does not involve AI?',
+          a: 'We tell you. If your process runs on clear rules over data that always arrives the same way, automation without a model solves it cheaper and faster, with nothing to watch afterwards. We build that too. An agent pays off when something in the middle of the process has to read, interpret or decide over inputs that change.',
+        },
+        {
+          q: 'Do you work as an AI automation consultant?',
+          a: 'Yes, as the first phase of every project. Before anything is built we study your processes and your data and tell you where an agent pays off and where it does not. If we see no return, we say so and it ends there. And when there is one, the same team that recommended the system builds it and operates it, so the advice answers for its results.',
+        },
+        {
+          q: 'Do you only work with large enterprises?',
+          a: 'No. We have dedicated packages for small businesses (customer support, lead qualification, document automation) with the same engineering we use on enterprise projects.',
+        },
+        {
+          q: 'Where do you work from?',
+          a: 'From Spain. We work with companies bound by European rules, wherever they are based, because what decides how the system has to be built is the rule your company answers to and not where it has its head office.',
+        },
+        {
           q: 'Does my data leave my infrastructure?',
           a: 'Only if you decide so. We deploy on your cloud or your own servers, with your organization’s accounts, and the system stores the minimum it needs. The only outbound path is the calls to the model provider, and you approve which ones happen and what travels in them.',
         },
@@ -4326,20 +4416,13 @@ export const content: Record<Lang, SiteContent> = {
           q: 'How do you know AI keeps working after delivery?',
           a: 'In two ways. A test suite runs before every change and blocks it if quality drops. Once live, we keep measuring every week. If the system stops understanding a question, we catch it before it reaches the end user.',
         },
-        {
-          q: 'Do you only work with large enterprises?',
-          a: 'No. We have dedicated packages for small businesses (customer support, lead qualification, document automation) with the same engineering we use on enterprise projects.',
-        },
-        {
-          q: 'Do you work as an AI automation consultant?',
-          a: 'Yes, as the first phase of every project. Before anything is built we study your processes and your data and tell you where an agent pays off and where it does not. If we see no return, we say so and it ends there. And when there is one, the same team that recommended the system builds it and operates it, so the advice answers for its results.',
-        },
       ],
     },
     contact: {
       eyebrow: 'Contact',
       heading: 'Tell us your challenge.',
       subhead: 'We reply within one business day. No forty-slide sales deck.',
+      subject: 'New message from ideasforge.io',
       name: 'Name',
       email: 'Email',
       company: 'Company',
@@ -4347,8 +4430,9 @@ export const content: Record<Lang, SiteContent> = {
       optional: 'Optional',
       message: 'What you want to build, or the problem you want to solve',
       messageHint: 'Describe it the way you would to a colleague. You do not need to know which technology solves it.',
-      privacyPre: 'I have read and accept the ',
+      privacyPre: 'I have read the ',
       privacyLink: 'Privacy Policy',
+      privacyPost: ' and I know you will only use my data to reply to me.',
       submit: 'Send',
       startPre: 'If you already know you want to start, ',
       startLink: 'the exploration form',
@@ -4366,7 +4450,7 @@ export const content: Record<Lang, SiteContent> = {
       },
       edges: { contract: 'JSON contract', rejects: 'rejects', accepts: 'accepts' },
       legend:
-        'The model never reaches your systems. It interprets the question and hands over a contract, and from there the code decides, and the code does behave the same every time. The worst a malicious message can achieve is a wrong pick from a list we have already reviewed.',
+        'The model never reaches your systems. It interprets the question and hands over a contract, and from there the code decides. Unlike the model, the code behaves the same way every time. The worst a malicious message can achieve is a wrong pick from a list we have already reviewed.',
     },
     chatVsAgent: {
       title: 'Bot vs AI agent',
@@ -4388,7 +4472,7 @@ export const content: Record<Lang, SiteContent> = {
       lanes: {
         fijo: { name: 'A fixed flow with no model', segs: ['Code decides the whole path'] },
         paradas: {
-          name: 'A fixed flow with model stops',
+          name: 'A fixed flow with model checkpoints',
           segs: ['Code', 'The model reads', 'Code'],
         },
         agente: { name: 'An agent', segs: ['The model decides the whole path, step by step'] },
@@ -4451,7 +4535,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       ],
       legend:
-        'Each layer holds when the one above it fails. The first decides what the model gets to see and the other three are ordinary code that behaves the same way every time. The last one distrusts even the three above it. If the permission list arrives empty, the query matches no rows and the answer is nothing.',
+        'Each layer holds even if the one above it fails. The first decides what the model gets to see and the other three are ordinary code that behaves the same way every time. The last one distrusts even the three above it. If the permission list arrives empty, the query matches no rows. It fails closed.',
     },
     gateDiagram: {
       title: 'What happens to a change before it ships',
@@ -4477,8 +4561,7 @@ export const content: Record<Lang, SiteContent> = {
         'These are the same questions we would ask in a first meeting. Answering them in writing saves that meeting for both of us and lets us start working sooner.',
       getHeading: 'What you get',
       get: [
-        'A confirmation email as soon as you send it, with a copy of what you told us.',
-        'A reply within one business day, written by a person who has read your case. We are a small team, and the person who replies is the one who would work on it.',
+        'A reply within one business day, written by a person who has read your case.',
         'A first read of where we think AI helps in what you describe, and where it does not.',
       ],
       notHeading: 'What you do not get',
@@ -4541,6 +4624,22 @@ export const content: Record<Lang, SiteContent> = {
         subject: 'New exploration from ideasforge.io',
       },
     },
+    thanks: {
+      metaTitle: 'Message received, Ideasforge',
+      metaDescription:
+        'Your message reached us. We reply within one business day, and the person who replies is the one who would work on your case.',
+      eyebrow: 'Received',
+      title: 'We have it',
+      body: [
+        'We reply within one business day. The reply comes from a person who has read your whole case, the same one who would work on it if we go ahead.',
+        'You will not get a confirmation email and we have not added you to any list. The next email you get from us will be the answer to what you told us.',
+      ],
+      extraPre: 'If something got left out, write to ',
+      extraPost: ' and we will add it to the same thread.',
+      blogPre: 'While you wait, ',
+      blogLink: 'the blog',
+      blogPost: ' covers how we build these systems and what went wrong along the way.',
+    },
     footer: {
       tagline: 'Generative AI development in production for businesses. Measured every week.',
       menu: 'Menu',
@@ -4570,6 +4669,16 @@ export const content: Record<Lang, SiteContent> = {
           ],
         },
         {
+          heading: 'Cases',
+          links: [
+            { label: 'Plant assistant', href: '/en/cases/industrial' },
+            { label: 'Savian', href: '/en/cases/savian' },
+            { label: 'Stanton', href: '/en/cases/stanton' },
+            { label: 'Barceloneta Premium', href: '/en/cases/barceloneta' },
+            { label: 'Wazzy', href: '/en/cases/wazzy' },
+          ],
+        },
+        {
           heading: 'Guides',
           links: [
             { label: 'Guide: AI agents', href: '/en/ai-agents' },
@@ -4595,9 +4704,9 @@ export const content: Record<Lang, SiteContent> = {
         sections: [
           {
             heading: 'Trapped knowledge costs money every day',
-            part: 'Who it happens to',
+            part: 'Who this happens to',
             paragraphs: [
-              'The symptom is familiar. Someone needs a technical fact, a procedure or the history of a problem, and the answer exists but is buried. They ask a colleague, the colleague asks the most senior person in the company and the veteran knows it by heart because the document that holds it is two hundred pages long. Each of these queries steals minutes from two or three people at once, always the same ones.',
+              'The symptom is familiar. Someone needs a technical fact, a procedure or the history of a problem, and the answer exists but is buried. They ask a colleague, the colleague asks the most senior person in the company and the veteran knows it by heart because nobody else is going to read the two hundred pages that hold it. Each of these queries steals minutes from two or three people at once, always the same ones.',
               'The real cost is not only the minutes. It is the dependence on a few people, which turns every absence and every retirement into an operational risk.',
             ],
           },
@@ -4606,7 +4715,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'What we build',
             paragraphs: [
               'The difference from a search box is who does the final work. A search box returns ten documents where the answer might be, and the person still has to read them. This assistant answers the question, in the language of whoever asked, and attaches the reference of where the answer came from, so verifying costs one click instead of one afternoon.',
-              'Underneath sits production-grade retrieval over your documentation, what the sector calls RAG, a search that feeds relevant fragments to the model so it answers from your sources rather than from its memory. A demo RAG finds the easy things. A production one has to find the hard things, dense documents, house vocabulary and badly phrased questions at three in the afternoon.',
+              'Underneath sits production-grade retrieval over your documentation, what the industry calls RAG, a search that feeds relevant fragments to the model so it answers from your sources rather than from its memory. A demo RAG finds the easy things. A production one has to find the hard things, dense documents, in-house vocabulary and half-formed questions typed between two tasks.',
             ],
           },
           {
@@ -4621,29 +4730,29 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Half a dozen agents, one conversation',
             part: 'What we build',
             paragraphs: [
-              'Past a certain size, a single agent that does everything becomes one huge piece nobody can maintain. Our architecture for these cases is different. An orchestrator understands the intent of each question and routes it to the specialized agent for that domain, one per area of knowledge. In the industrial case behind this page, that orchestrator coordinates half a dozen specialized agents and the whole adds up to some 86 connected pieces.',
+              'Past a certain size, a single agent that does everything becomes one huge piece nobody can maintain. Our architecture for these cases is different. An orchestrator understands the intent of each question and routes it to the specialized agent for that domain, one per area of knowledge. In the industrial case behind this page, that orchestrator coordinates half a dozen specialized agents and the whole adds up to some 86 connected pieces. That case is told in full on <a class="link-inline" href="/en/cases/industrial">its own page</a>.',
               'The person asking sees none of this. They write their question and get their answer. The architecture matters for what it allows, adding a new domain without touching the others, measuring each agent separately and keeping a failure in one from dragging down the rest.',
             ],
           },
           {
             heading: 'The two kinds of "no" a serious assistant tells apart',
-            part: 'How trust is earned',
+            part: 'How the assistant earns trust',
             paragraphs: [
-              'Trust is not earned by answering well alone. It is earned by answering well and refusing well. There are two different kinds of "no". The "this is outside the product", answered instantly with catalogue text, no search spent. And the "this should be documented and is not", said only after genuinely searching, and leaving a trace, because it is a task for whoever owns the documentation.',
+              'Trust is not earned by answering well alone. It is earned by answering well and refusing well. There are two different kinds of "no". The "this is outside the product", answered instantly with catalog text, no search spent. And the "this should be documented and is not", said only after genuinely searching, and leaving a trace, because it is a task for whoever owns the documentation.',
               'Confusing them is expensive in both directions, and separating them takes more engineering than it seems.',
             ],
           },
           {
             heading: 'When the clarification does not need the model',
-            part: 'How trust is earned',
+            part: 'How the assistant earns trust',
             paragraphs: [
-              'One design detail that shows how we think. When the assistant offers several options, the person’s short reply, an ordinal, a bare term, a "the second one", is resolved without calling the model, through a simple rule that recognizes those terms and those numbers and that expires after fifteen minutes. It looks like a minor saving and is three things at once, an instant response, one less call to pay for and one less message exposed to malicious instructions hidden in text.',
+              'One design detail that shows how we think. When the assistant offers several options, the person’s short reply, a number, a bare term, a "the second one", is resolved without calling the model, through a simple rule that recognizes those terms and those numbers and that expires after fifteen minutes. It looks like a minor saving and is three things at once, an instant response, one less call to pay for and one less message exposed to malicious instructions hidden in text.',
               'The general rule behind the detail is that the model gets used where it earns its place, understanding open language, and avoided where an ordinary program does the same job faster, cheaper and without surprises.',
             ],
           },
           {
             heading: 'Everyone sees what their job allows',
-            part: 'How trust is earned',
+            part: 'How the assistant earns trust',
             paragraphs: [
               'An assistant that reads all of the company’s documentation raises an obvious question, who may ask it what. Our answer is that the assistant inherits the permissions that already exist. Retrieval respects the role of whoever asks, so nobody receives in an answer a fragment they could not open by hand. And when the assistant queries an internal system, it travels with the person’s identity, not with an all-seeing robot account.',
               'Every decision is recorded as well, what was understood, where it was routed, what was answered. That record is never consulted during execution.',
@@ -4651,16 +4760,16 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'Enterprise guarantees',
-            part: 'Guarantees and fit',
+            part: 'Guarantees, capabilities and cost',
             paragraphs: [
-              'The assistant runs on your infrastructure, your cloud or your own servers, with your organization’s accounts for access and your data wherever you decide. The repository is in your name from day one. And quality is measured all the time, with a battery of real cases that blocks any change that degrades the system and a weekly watch on what is live.',
+              'The assistant runs on your infrastructure, your cloud or your own servers, with the call to the language model as the only external piece, with your organization’s accounts for access and your data wherever you decide. The repository is in your name from day one. And quality is measured all the time, with a battery of real cases that blocks any change that degrades the system and a weekly watch on what is live.',
               'A system of this size is quoted per project, because the cost depends on your sources, your systems and how much validation you demand. For how the rules of European data protection shape all of this, the full story is on its own page.',
             ],
             link: { label: 'GDPR-compliant AI on infrastructure you own', href: '/en/gdpr-compliant-ai' },
           },
           {
             heading: 'Technical capabilities',
-            part: 'Guarantees and fit',
+            part: 'Guarantees, capabilities and cost',
             kind: 'lattice',
             paragraphs: [
               'For the technical review, this is what sits underneath, one line per piece.',
@@ -4683,19 +4792,19 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'What about questions the documentation does not cover?',
-            a: 'The assistant says so, plainly and with a trace. We separate "outside the product" from "missing documentation", each with its own answer and its own work queue, so real gaps end up as tasks for whoever owns the documentation. An assistant that fills gaps with fake confidence is exactly what we refuse to build.',
+            a: 'The assistant says so, plainly and with a trace. We separate "outside the product" from "missing documentation", each with its own answer and its own work queue, so real gaps end up as tasks for whoever owns the documentation. An assistant that fills gaps with false confidence is exactly what we refuse to build.',
           },
           {
             q: 'Will employees see documents that are not theirs to see?',
-            a: 'No. The search that feeds the assistant respects each role’s permissions, so a restricted document never even reaches what the model reads before answering. And system queries travel with the identity of the person asking, under their usual permissions. If someone cannot open a record by hand, their assistant cannot either.',
+            a: 'No. The search that feeds the assistant respects each role’s permissions, so a restricted document never enters the context the model sees before answering. And system queries travel with the identity of the person asking, under their usual permissions. If someone cannot open a record by hand, their assistant cannot either.',
           },
           {
             q: 'How does it stay current when documentation changes?',
-            a: 'Documents are processed again whenever they change, and quality is watched in two ways, a battery of real cases before each change of ours and a weekly probe on the live system. When something stops being found or understood, it shows in the metrics before it becomes a complaint.',
+            a: 'Documents are processed again whenever they change, and quality is watched in two ways, a battery of real cases before every change we ship and a weekly probe on the live system. When something stops being found or understood, it shows in the metrics before it becomes a complaint.',
           },
           {
-            q: 'Does it handle our house vocabulary, and several languages?',
-            a: 'House vocabulary is precisely the hard case the retrieval gets calibrated for, with real cases from your people rather than lab examples. The languages you need are defined during exploration.',
+            q: 'Does it handle our in-house vocabulary, and several languages?',
+            a: 'Your jargon is exactly what we calibrate retrieval against, using real questions from your people, with real cases from your people rather than lab examples. The languages you need are defined during exploration.',
           },
           {
             q: 'Can it run without leaving our infrastructure?',
@@ -4707,7 +4816,7 @@ export const content: Record<Lang, SiteContent> = {
           },
         ],
         cta: {
-          heading: 'Interested for your company?',
+          heading: 'Interested in this for your company?',
           body: 'Tell us your challenge. If we don’t see a return, we’ll tell you.',
           button: 'Tell us your challenge',
         },
@@ -5201,8 +5310,8 @@ export const content: Record<Lang, SiteContent> = {
             id: 'agentic-ai',
             part: 'The short answer',
             paragraphs: [
-              'Search around this subject and you will run into two labels the market never stops to explain. <strong>Generative AI produces content, anything from a paragraph to a piece of code.</strong> Agentic AI uses those same models to act: it decides the steps, calls the tools it needs, checks what comes back and finishes the task.',
-              'The shortest example we have. Generative writes you the email. Agentic writes it, checks the calendars of the people invited and sends the invitation.',
+              'Search around this subject and you will run into two labels the market never bothers to explain. <strong>Generative AI produces content, anything from a paragraph to a piece of code.</strong> Agentic AI uses those same models to act: it decides the steps, calls the tools it needs, checks what comes back and finishes the task.',
+              'The shortest example we have. Generative drafts the email. Agentic writes it, checks the calendars of the people invited and sends the invitation.',
               'That extra capability brings an extra need for control. It is the reason the rest of this guide talks so much about measurement. <strong>A system that only writes gets corrected by reading it before you send it. One that acts has already touched your systems by the time anyone notices.</strong>',
             ],
           },
@@ -5215,7 +5324,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             bullets: [
               '<strong>The reactive kind.</strong> Answers the same way to the same situation every time, following fixed rules. A thermostat that turns the heating on when the temperature drops. Cheap and predictable, though it only ever serves what someone worked out in advance.',
-              '<strong>The planning kind.</strong> Takes a goal and works out the steps to get there itself, redoing them when something goes sideways. Ask it for a quote and it checks the catalogue, looks at stock and flags a missing part. <strong>This is what gets sold today as an AI agent, ours included.</strong>',
+              '<strong>The planning kind.</strong> Takes a goal and works out the steps to get there itself, redoing them when something goes sideways. Ask it for a quote and it checks the catalog, looks at stock and flags a missing part. <strong>This is what gets sold today as an AI agent, ours included.</strong>',
               '<strong>The learning kind.</strong> Would improve by itself, from its own experience, with nobody touching it again. It is the one that turns up most in promises and least in production.',
             ],
           },
@@ -5238,10 +5347,10 @@ export const content: Record<Lang, SiteContent> = {
             ],
             bullets: [
               'A fixed flow with no model. Steps run in a set order and rules decide the branches. Your ERP and your integration platform already do this, and it is the cheapest thing that works.',
-              'A fixed flow with model stops. The same dependable flow, with the model called only at the two or three points where something has to be read or interpreted. It is the most common shape in real company systems today, and the first one we consider.',
+              'A fixed flow with model checkpoints. The same dependable flow, with the model called only at the two or three points where something has to be read or interpreted. It is the most common shape in real company systems today, and the first one we consider.',
               'An agent. It gets a goal, a closed set of actions and its limits. From there it decides which action comes next as it goes. It earns its keep when the route genuinely changes with every case.',
               'An agent inside a flow. The route stays fixed on the outside and one of its steps hands control to an agent, which resolves that stretch and hands it back. It gives room where cases arrive messy and keeps everything else predictable.',
-              'Several agents with an orchestrator. A single front door reads the request and sends it to the right specialist. It is the right answer when the domains really are different, which is exactly why we use it in our plant assistant. For anything else it is the wrong one, because every agent you add costs again what the first one cost.',
+              'Several agents with an orchestrator. A single front door reads the request and sends it to the right specialist. It is the right answer when the domains really are different, which is exactly why we use it in our plant assistant. For anything else it is the wrong one, because every agent you add brings its own build, its own tests and its own monitoring.',
             ],
             link: {
               label: 'Why we do not like agentic architectures',
@@ -5261,15 +5370,15 @@ export const content: Record<Lang, SiteContent> = {
               'Reading documents that arrive in no fixed format. Invoices, delivery notes, contracts, job sheets. Every sender uses its own template, so somebody ends up keying them in one by one. We have this running on utility bills.',
               'Asking your own data a question without knowing how to query it. Somebody asks in their own words and gets the figure back, without opening a dashboard or learning to write a query. We have this running over WhatsApp.',
               'Searching internal documentation and guiding a diagnosis. Manuals, procedures and a fault history that exist but that nobody finds in time. We have this running at an industrial plant.',
-              'Qualifying what arrives as messages. Requests, leads, quote inquiries. The agent gathers what it takes to decide and hands it over in order. The person still decides. We have this running at a real estate agency.',
-              'Answering and handling things outside office hours. Bookings, changes and cancellations at any hour, with the calendar kept up to date and a person behind it for anything urgent. We have this running in clinics, with our own product.',
+              'Qualifying inbound messages. Requests, leads, quote inquiries. The agent gathers what it takes to decide and hands it over in order. The person still decides. We have this running at a real estate agency.',
+              'Answering and resolving requests outside office hours. Bookings, changes and cancellations at any hour, with the calendar kept up to date and a person behind it for anything urgent. We have this running in clinics, with our own product.',
             ],
           },
           {
             heading: 'What it can do, and what it cannot',
             part: 'What can go wrong',
             paragraphs: [
-              'None of this is plug and play. <strong>The gap between a good result and a disappointment is almost always in the scope of the project.</strong> Too broad and the system risks being mediocre at everything and earning trust for nothing. Too narrow and the wiring costs more than the work it saves. The projects that go well pick one task with a clear boundary around it, prove it, then widen it.',
+              'None of this is plug and play. <strong>The gap between a good result and a disappointment is almost always in the scope of the project.</strong> Too broad and the system risks being mediocre at everything and trusted for nothing. Too narrow and the wiring costs more than the work it saves. The projects that go well pick one task with a clear boundary around it, prove it, then widen it.',
               'What these systems are genuinely good at is reading what arrives without a fixed shape, understanding a request written twenty different ways, following a procedure step by step and acting within a closed set of actions someone approved. That list is new, and it is why processes that survived every earlier wave of automation are in play now.',
               'What they do not do is invent knowledge nobody wrote down, guarantee an outcome without code checking it first, or improve on their own while nobody measures. <strong>Part of our job is telling you when you do not need an agent.</strong> Sometimes a rule, a well-built form or a redesigned process is enough, because a model sitting on top of a broken or badly framed process only makes the mess arrive sooner.',
             ],
@@ -5278,10 +5387,10 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Measured before every change, watched after',
             part: 'What can go wrong',
             paragraphs: [
-              'There is a risk almost nobody budgets for. <strong>A system with AI in it can get worse on its own, without anyone touching it.</strong> The provider updates the model without changing its name, your documentation grows and your data drifts. <a class="link-inline" href="https://arxiv.org/abs/2307.09009" rel="noopener noreferrer" target="_blank">Chen, Zaharia and Zou</a>, at Stanford and Berkeley, measured this on the same commercial model in March and in June of 2023. Its behavior changed so much that on one task accuracy went from 97.6% to 2.4%, with nothing touched on the customer side. Gartner calculated in June 2025 that more than 40% of agentic AI projects will be canceled before the end of 2027. In our experience that mortality lives in the upkeep, not in the launch.',
+              'There is a risk almost nobody budgets for. <strong>A system with AI in it can get worse on its own, without anyone touching it.</strong> The provider updates the model without changing its name, your documentation grows and your data drifts. <a class="link-inline" href="https://arxiv.org/abs/2307.09009" rel="noopener noreferrer" target="_blank">Chen, Zaharia and Zou</a>, at Stanford and Berkeley, measured this on the same commercial model in March and in June of 2023. Its behavior changed so much that on one task accuracy went from 97.6% to 2.4%, with nothing touched on the customer side. Gartner forecast in June 2025 that more than 40% of agentic AI projects will be canceled before the end of 2027. In our experience those cancellations happen in the upkeep, not at launch, not in the launch.',
               'Models are not deterministic, they do not always return the same thing, so checking one answer on one day guarantees nothing. The only discipline that works there is statistical and dull. Before any change ships, a suite of annotated, anonymized cases has to pass. If quality drops, the change does not go out.',
-              'After launch the watching does not stop. Once a week we replay an anonymized test conversation end to end against the live system. In the plant assistant, routing accuracy was measured on real cases and went from 72% to 91%. We also knew when to stop. Chasing a hundred percent ends with you tuning the tests until they pass rather than improving the system. In Wazzy, for instance, we started with an architecture of agents with tools at their disposal and have rebuilt it three times before landing on the one that genuinely raised the share of conversations that end well.',
-              'None of these figures appears by itself. They exist because the system was built from the start to measure itself, with its test suite and its weekly watch inside the budget. <strong>When you evaluate any provider, ours included, ask for theirs.</strong> What it takes for a system to get past its sixth month has an article of its own.',
+              'After launch the watching does not stop. Once a week we replay a scripted end-to-end test conversation end to end against the live system. In the plant assistant, routing accuracy was measured on real cases and went from 72% to 91%. We also knew when to stop. Chasing a hundred percent ends with you tuning the tests until they pass rather than improving the system. In Wazzy, for instance, we started with an architecture of agents with tools at their disposal and have rebuilt it three times before landing on the one that genuinely raised the share of conversations that end well.',
+              'Numbers like these do not appear on their own. They exist because the system was built from the start to measure itself, with its test suite and its weekly watch inside the budget. <strong>When you evaluate any provider, ours included, ask for theirs.</strong> What it takes for a system to get past its sixth month has an article of its own.',
             ],
             link: {
               label: 'Starting is easy, keeping it alive is the hard part',
@@ -5322,7 +5431,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'The five-minute conversation that decides it',
             part: 'For your company',
             paragraphs: [
-              'With a candidate process in mind, three questions separate the project that pays from the one that makes a headline. You answered the first two in the sieve above and here they get said out loud.',
+              'With a candidate process in mind, three questions separate the project that pays from the one that only makes a good slide. You answered the first two in the sieve above and here they get said out loud.',
               'Before the three, one check. If the process came to mind because of how good it would look in a demo rather than because of what it is costing you, there is a trap waiting for you and it has a name, the shiny toy.',
               'The first is about numbers. How many times a day does it happen, and how long does it take each time. Multiply the two and you have the minutes a day this project could save you at the very most, which is worth knowing before commissioning anything.',
               'The second is about the kind of work. What does the person handling it today actually do, look or decide. If they only check that a field is where it should be, yours is a rules problem and the model is surplus. If they have to read, understand and choose between options that are not always the same, that is where agent territory starts.',
@@ -5337,7 +5446,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Custom, off the shelf, or both',
             part: 'For your company',
             paragraphs: [
-              'The build-or-buy question has an unhelpful reputation as a technology choice. It is a variety choice. Where your process is standard, a proven product will beat a custom build on speed and price, and pretending otherwise would be selling you hours. Where your process carries your particular judgment, your data model and your exceptions, off-the-shelf tools flatten exactly what makes the process yours, and the subscription that looked cheap starts costing workarounds.',
+              'The build-or-buy question has an unhelpful reputation as a technology choice. It is a question of how standard your process really is. Where your process is standard, a proven product will beat a custom build on speed and price, and pretending otherwise would be selling you hours. Where your process carries your particular judgment, your data model and your exceptions, off-the-shelf tools flatten exactly what makes the process yours, and the subscription that looked cheap starts costing workarounds.',
               '<strong>The pattern that works is unglamorous. Buy the standard pieces, the ticketing, the calendars, the accounting software, and build the thin layer of intelligence that reads, decides and connects them the way your operation actually runs.</strong> That layer is where agents live, it is small enough to afford and it is the part no vendor can ship in a box, because the box has never seen your business.',
               'One caution from the buying side. If a proposal only makes sense with every process migrated onto someone’s platform, you are not buying automation, you are buying a dependency. Ask what remains yours the day the contract ends. Our answer is everything, repository, infrastructure and data, and it is in writing.',
             ],
@@ -5353,7 +5462,7 @@ export const content: Record<Lang, SiteContent> = {
               'Starting with the impressive case instead of the painful one, which is the shiny toy from a few sections back. Spectacle wins applause, the boring hour-eating process wins renewed budget.',
               'Buying the platform before the case. First one process in production with its figure, then the platform conversation, if it is still needed.',
               'Leaving measurement for the end. The test suite is built with the system, not after the scare. Adding it afterwards costs double and arrives late.',
-              'Naming no internal owner. An ownerless agent is an orphan within three months, metrics unread and small decisions untaken.',
+              'No internal owner. An ownerless agent is an orphan within three months, metrics unread and small decisions untaken.',
               'Waiting for perfect data. Reachable is enough, and ordering it is usually the first phase of the project, worth more than any prompt tuning.',
               'Promising the committee the agent will run on its own from day one. It is the promise that sounds best in a meeting and the one paid for most dearly afterwards, because autonomy gets released little by little, on what the tests actually show.',
             ],
@@ -5447,11 +5556,11 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'Is our data used to train models?',
-            a: 'No. Calls to the model run under agreements and settings that exclude training on your content, and the provider is yours to approve. Our systems also run in a cloud account under your name, so the data never lives on our infrastructure.',
+            a: 'No. Calls to the model run under agreements and settings that exclude training on your content, and and you approve which provider we use. Our systems also run in a cloud account under your name, so the data never lives on our infrastructure.',
           },
           {
             q: 'What if the provider changes the model underneath?',
-            a: 'It happens, unannounced. It is documented that the same commercial model can perform very differently months apart without changing its name. That is exactly why every system carries its test battery and its weekly probe, which catch the change before your users do. And switching models is not always a configuration tweak, sometimes it means touching the system, so anyone promising otherwise is selling smoke.',
+            a: 'It happens, unannounced. It is documented that the same commercial model can perform very differently months apart without changing its name. That is exactly why every system carries its test battery and its weekly probe, which catch the change before your users do. And switching models is not always a configuration tweak, sometimes it means touching the system, so anyone promising otherwise is selling you a fantasy.',
           },
           {
             q: 'How long until production?',
@@ -5492,7 +5601,7 @@ export const content: Record<Lang, SiteContent> = {
               'Request qualification. Every incoming item is read, scored and routed. Your team receives only the ones worth its time. Of twenty quote requests arriving through the website, three deserve a call today and the rest can wait until tomorrow.',
               'Actions on your systems. The full transaction, executed inside a closed set of actions you approve. Registering the client, generating their contract and leaving it ready for signature, with nobody copying data from one screen to another.',
             ],
-            link: { label: 'If you are still placing the concept, start with the AI agents guide', href: '/en/ai-agents' },
+            link: { label: 'If you are still working out what an AI agent actually is, start with the AI agents guide', href: '/en/ai-agents' },
           },
           {
             heading: 'What never used to be worth automating',
@@ -5516,16 +5625,16 @@ export const content: Record<Lang, SiteContent> = {
             part: 'The guarantees',
             capasDiagram: true,
             paragraphs: [
-              '<strong>The model chooses, but it does not decide.</strong> It picks from a closed set of actions, and it is the code that reviews that choice before anything runs. A workshop’s agent can look up a vehicle’s history, propose an appointment and send a quote. Deleting it cannot do, because that action does not exist in its list and asking for it in writing does not create it. That is why the limit does not live in an instruction the model can ignore, and there sits the difference between a guarantee and what we call a polite request, a perfectly written prompt that can still fail at any moment.',
-              'The division of labor is the house rule: judgment lives in the code, interpretation of language lives in the model and knowledge lives in your data. Everything ordinary code can solve, ordinary code solves, because every model call in production adds cost, waiting time and a variability someone has to watch. Working out a due date or applying a tax rate with code (a script) will come out the same the millionth time it runs, whereas an LLM, not being deterministic, will not always give the same result. Understanding that “the one from the other day for the new warehouse” means order 4512 with a different delivery address, that is the model. What comes out of the split is systems that are cheaper to run and easier to audit, not less capable.',
-              'And when data from several companies or several departments lives side by side, isolation is not requested in the instructions. It is built in layers that end in a filter the model cannot touch, and the agent only ever receives the context of the person asking, so it cannot even phrase a query about anyone else’s data. It is what an accounting firm already demands of its own team, that each manager sees their clients and no others.',
+              '<strong>The model chooses, but it does not decide.</strong> It picks from a closed set of actions, and it is the code that reviews that choice before anything runs. A workshop’s agent can look up a vehicle’s history, propose an appointment and send a quote. Deleting it cannot do, because that action does not exist in its list and asking for it in writing does not create it. That is why the limit does not live in an instruction the model can ignore, and that is the difference between a guarantee and a polite request, a perfectly written prompt that can still fail at any moment.',
+              'We split the work the same way in every system: judgment lives in the code, interpretation of language lives in the model and knowledge lives in your data. Everything ordinary code can solve, ordinary code solves, because every model call in production adds cost, waiting time and a variability someone has to watch. Working out a due date or applying a tax rate with code (a script) will come out the same the millionth time it runs, whereas an LLM, not being deterministic, will not always give the same result. Understanding that “the one from the other day for the new warehouse” means order 4512 with a different delivery address, that is the model. What comes out of the split is systems that are cheaper to run and easier to audit, not less capable.',
+              'And when data from several companies or several departments lives side by side, isolation is not something we ask the model for in a prompt. It is built in layers that end in a filter the model cannot touch, and the agent only ever receives the context of the person asking, so it cannot even phrase a query about anyone else’s data. It is what an accounting firm already demands of its own team, that each manager sees their clients and no others.',
             ],
           },
           {
             heading: 'The model interprets, the code decides',
             part: 'The guarantees',
             paragraphs: [
-              '<strong>The model (LLM, AI, or whatever you want to call it) never gets to touch your systems.</strong> It interprets the question and hands over a fixed-field form, what we call a contract. From there the code decides, and code does behave the same way every time. The worst a malicious message can achieve is a bad pick from a list we already reviewed.',
+              '<strong>The model (LLM, AI, or whatever you want to call it) never gets to touch your systems.</strong> It interprets the question and hands over a fixed-field form, what we call a contract. From there the code decides, and code does behave the same way every time. The worst a malicious message can achieve is a bad pick from a list we already reviewed. A system built this way, with everything we had to take away from the model along the road, is on <a class="link-inline" href="/en/cases/savian">the Savian page</a>.',
             ],
           },
           {
@@ -5540,8 +5649,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'The trust perimeter',
             part: 'The guarantees',
             paragraphs: [
-              'The suite does more than watch quality. It draws the map of what the agent has actually proven, and we call that map the trust perimeter. <strong>Inside the perimeter, the agent acts alone. Outside it, it sets the case aside and hands it to a person.</strong> That map does not come out of a meeting, it comes out of the cases the agent has already passed. An agent that has spent months processing domestic orders receives its first one with customs in the middle. The right move is not improvising an answer, it is recognizing that this ground has not been proven and passing it to someone who knows, until it enters the suite with cases of its own.',
-              'This asks us to build something people get for free. A new employee is taught to ask when unsure. A model has to have the doubt built into it, because on its own it does not raise a hand, it fills the gap with something that sounds right. If a request is missing the tax ID, the agent registers nothing and asks for it. That stop is not the model’s decision, the code imposes it.',
+              'The suite does more than watch quality. It draws the map of what the agent has actually proven, and we call that map the trust perimeter. <strong>Inside the perimeter, the agent acts alone. Outside it, it sets the case aside and hands it to a person.</strong> That map does not come out of a meeting, it comes out of the cases the agent has already passed. An agent that has spent months processing domestic orders receives its first order that involves customs. The right move is not improvising an answer, it is recognizing that this ground has not been proven and passing it to someone who knows, until it enters the suite with cases of its own.',
+              'This asks us to build something people get for free. A new employee is taught to ask when unsure. The doubt has to be engineered around the model, because on its own it does not raise a hand, it fills the gap with something that sounds right. If a request is missing the tax ID, the agent registers nothing and asks for it. That stop is not the model’s decision, the code imposes it.',
             ],
           },
           {
@@ -5556,7 +5665,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Deciding with judgment',
             paragraphs: [
               '<strong>We do not look for ways to use AI in your company. We look for the problems already costing you money</strong> and evaluate whether an agent solves them with a gain you can demonstrate. It sounds the same and it is the opposite. The first search produces toys that demo well and get abandoned soon. The second produces systems a manager defends in front of the board with numbers.',
-              'The first phase happens with the people who suffer the process, not only with the people who buy the technology. We map the process step by step with its actors, its systems and its timings. Then we separate the problems that hurt today, the ones already costing hours or customers, from the bottlenecks that will hold only until volume grows. Each candidate gets translated into its expected gain against a measured baseline, what it costs today in hours, errors or waiting.',
+              'The first phase happens with the people who live the process every day, not only with the people who buy the technology. We map the process step by step with its actors, its systems and its timings. Then we separate the problems that hurt today, the ones already costing hours or customers, from the bottlenecks that will hold only until volume grows. Each candidate gets translated into its expected gain against a measured baseline, what it costs today in hours, errors or waiting.',
               'Most of that list gets discarded. With what survives we do not start a big rollout but a bounded pilot: one slice of the problem, a small group of users and a metric agreed in advance. Narrow and deep before wide and shallow, because a cheap pilot that fails is information and an expensive rollout that fails is a hole.',
             ],
           },
@@ -5564,7 +5673,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What we bring and what you bring',
             part: 'Deciding with judgment',
             paragraphs: [
-              '<strong>Technology is no longer the bottleneck, and we say that having built the technology.</strong> Projects fall over on the organizational side, when nobody has time to review the pilot or access to the data drags on forever. So we ask for three things before starting: a named owner who decides and answers, real hours from their team to review the pilot cases, and access to the data the agent needs. Without those hours there is no suite to calibrate and nobody who can call the result good.',
+              '<strong>Technology is no longer the bottleneck, and we say that having built the technology.</strong> Projects fall over on the organizational side, when nobody has time to review the pilot or access to the data drags on forever. So we ask for three things before starting: a named owner who decides and answers, real hours from their team to review the pilot cases, and access to the data the agent needs. Without those hours there is no suite to calibrate and nobody with the authority to sign off on the result.',
               'And there is a part that cannot be bought, only earned. Whoever does the task by hand today will be the one watching the agent tomorrow. If they join the project last, they will experience it as a threat and will find reasons why it does not work. It is the silliest way for a good system to die and it costs nothing to avoid. The process mapping happens with those people in the room from day one, and with a new role on the table for them.',
             ],
           },
@@ -5635,7 +5744,7 @@ export const content: Record<Lang, SiteContent> = {
           },
         ],
         cta: {
-          heading: 'Interested for your company?',
+          heading: 'Interested in this for your company?',
           body: 'Tell us your challenge. If we see no return in it, we will say so.',
           button: 'Tell us your challenge',
         },
@@ -5680,10 +5789,10 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
-            heading: 'Automating steps is not moving a gain',
+            heading: 'Automating steps is not moving the needle',
             part: 'What opens up now',
             paragraphs: [
-              'A system can turn out summaries, drafts and records by the dozen without the business noticing a thing. <strong>Producing things is not moving a gain.</strong> That is why the unit of work here is not the loose task but the whole process, from input to outcome, with its metric in front: the hours you stop paying for typing, the errors that stop needing correction, the wait that stops existing.',
+              'A system can turn out summaries, drafts and records by the dozen without the business noticing a thing. <strong>Producing output is not moving the needle.</strong> That is why the unit of work here is not the individual task but the whole process but the whole process, from input to outcome, with its metric in front: the hours you stop paying for typing, the errors that stop needing correction, the delay that disappears.',
               'An example makes it clearer. A system that writes up every meeting produces output daily. If nobody decides anything differently because of it, the gain is zero and the cost is not. A flow that leaves every invoice filed without anyone touching it turns its output into hours you can count. The difference is not in the technology. It is in whether the outcome changes something the business measures.',
               'That criterion changes design decisions. Sometimes the step that saves the most does not get faster, it disappears, because reorganizing the process makes the thing we were about to automate unnecessary. And a flow that resolves most of the volume with a fraction of the effort beats the ambition of covering everything, which is what turns projects into work that never ends. On the blog we explain how we measure that gain and why we do not call it productivity.',
             ],
@@ -5696,8 +5805,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Code runs the flow, the model does the reading',
             part: 'How we build it',
             paragraphs: [
-              'Our flows are a chain of steps that always runs the same way, with model stops where something has to be interpreted. <strong>The code moves the data, calls each system and decides the order.</strong> The model only comes in at those stops: reading a document, understanding a request, classifying a case. And it returns a result in a fixed shape the code can check. This is not an engineering whim. Every model call in production costs money, takes time and can vary, so the fewer and the more bounded the calls, the cheaper the flow is to run and the more stable it is.',
-              'We are not the only ones saying it. Anthropic, one of the large model makers, recommends in <a class="link-inline" href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener noreferrer" target="_blank">Building effective agents</a> starting with flows the code orchestrates and saving agent autonomy for the few cases that justify it.',
+              'Our flows are a chain of steps that always runs the same way, with model calls at the points that require interpretation. <strong>The code moves the data, calls each system and decides the order.</strong> The model only comes in at those stops: reading a document, understanding a request, classifying a case. And it returns a result in a fixed shape the code can check. This is not an engineering whim. Every model call in production costs money, takes time and can vary, so the fewer and the more bounded the calls, the cheaper the flow is to run and the more stable it is.',
+              'We are not the only ones saying it. Anthropic, one of the leading model developers, recommends in <a class="link-inline" href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener noreferrer" target="_blank">Building effective agents</a> starting with flows the code orchestrates and saving agent autonomy for the few cases that justify it.',
             ],
           },
           {
@@ -5705,13 +5814,13 @@ export const content: Record<Lang, SiteContent> = {
             part: 'How we build it',
             kind: 'checklist',
             paragraphs: [
-              'So none of this stays abstract, here is how an invoice travels through the system from arrival to filing. Six steps. <strong>Whatever fails the validation at the fourth does not go on, it heads to a person with the case prepared and the reason flagged.</strong>',
+              'So none of this stays abstract. Here is how an invoice travels through the system from arrival to filing. Six steps. <strong>Anything that fails validation at step four stops there, it heads to a person with the case prepared and the reason flagged.</strong>',
             ],
             bullets: [
               'It arrives. The invoice comes in through the channel the team already uses, a forwarded email or a chat. It is filed exactly as it arrived.',
               'It gets classified. The code works out what type it is and which flow it belongs to, without spending a model call when a rule is enough.',
               'It gets read. The model extracts the fields in a fixed shape: supplier, dates, amounts, taxes.',
-              'It gets validated. The code checks that everything adds up: the total sums, the tax fits, the supplier exists, the amount is in range.',
+              'It gets validated. The code checks that everything adds up: the total sums, the tax adds up, the supplier exists, the amount is in range.',
               'It gets filed. What passed lands in your system, an ERP or a spreadsheet, with its reference back to the original document.',
               'It leaves a trail. Every step records what was read and what was decided, so the run can be reconstructed later.',
             ],
@@ -5728,8 +5837,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Two real processes in production',
             part: 'How we build it',
             paragraphs: [
-              'At Stanton, a property management firm, the electricity, water and gas bills for every tenant used to be keyed in by hand. Today the team forwards them over Telegram, an AI reading extracts the data and the result lands as normalized rows in the same spreadsheet they already worked with. Each invoice cost a minute of typing. <strong>Today 98% goes through without anyone touching it</strong> and the rest escalates with the document alongside. Two agents in production, with no new tool to learn. The client has already commissioned more administrative processes, which is the success signal that matters most to us.',
-              'At Barceloneta Premium, a real estate agency in Barcelona, the team gets dozens of WhatsApp inquiries a day from people looking to rent. Each inquiry took five to ten minutes to check by hand. Now the flow pulls the reason, the budget and the paperwork out of every conversation. What reaches the team is an email saying whether the requirements the agency set are met, budget and paperwork, with the why beside it. The decision is still a person’s, with that email in front of them. The agency puts at over three hours a day what it wins back for the work that does need people.',
+              'At Stanton, a property management firm, the electricity, water and gas bills for every tenant used to be keyed in by hand. Today the team forwards them over Telegram, an AI step reads and extracts the data and the result lands as normalized rows in the same spreadsheet they already worked with. Each invoice cost a minute of typing. <strong>Today 98% goes through without anyone touching it</strong> and the rest escalates with the document alongside. Two agents in production, with no new tool to learn. The client has already commissioned more administrative processes, which is the success signal that matters most to us. The whole case, with what we had to add to it afterwards, has <a class="link-inline" href="/en/cases/stanton">its own page</a>.',
+              'At Barceloneta Premium, a real estate agency in Barcelona, the team gets dozens of WhatsApp inquiries a day from people looking to rent. Each inquiry took five to ten minutes to check by hand. Now the flow pulls the reason, the budget and the paperwork out of every conversation. What reaches the team is an email saying whether the requirements the agency set are met, budget and paperwork, with the why beside it. The decision is still a person’s, with that email in front of them. The agency estimates it wins back over three hours a day for the work that does need people.',
               'The two cases are alike in two ways: they came in through a channel the team already used, and their gain could be measured before and after. That is what we look for in every new process.',
             ],
             link: {
@@ -5741,9 +5850,9 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Measured like the software it is',
             part: 'How we build it',
             paragraphs: [
-              'A flow with a model inside can degrade without throwing a single error, because the model changes or the documents change. That is why we pin the model version, so updating it is our decision rather than a surprise from the provider. Every change goes through a suite of real test cases before it ships, and every run records what was read, what was decided and what was filed. When something does not add up weeks later, we reconstruct the exact run instead of arguing from memory. And when a real error does slip through, the circuit is always the same: reproduce the run, fix it, and the case joins the test suite so it never slips through quietly again. A flow of ours ages by learning from its own scares.',
+              'A flow with a model inside can degrade without throwing a single error, because the model changes or the documents change. That is why we pin the model version, so updating it is our decision rather than a surprise from the provider. Every change goes through a suite of real test cases before it ships, and every run records what was read, what was decided and what was filed. When something does not add up weeks later, we reconstruct the exact run instead of arguing from memory. And when a real error does slip through, the circuit is always the same: reproduce the run, fix it, and the case joins the test suite so it never slips through quietly again. Our flows age by learning from their own near misses.',
               'And if one day a figure is missing or a source is down, in the questions-to-your-data case the system answers with what it has and says what got left out, rather than returning an incomplete number that looks complete. In a document flow it is the other way round, what does not add up is not half filed, it escalates. That machine clarity is the difference between a number you can take into a meeting with your partners to defend the project and one that leaves you exposed.',
-              'The monthly operation reads in three numbers: how much the flow resolved on its own, how much it escalated and for which reasons, and what each run cost. Those three decide where to sharpen, which new rule to add and whether the next expansion pays. <strong>Without them, working well is an opinion.</strong> Every flow also inherits the house alarms, so if an external service goes down or a quota runs out, we know before your team suffers it.',
+              'The monthly operation comes down to three numbers: how much the flow resolved on its own, how much it escalated and for which reasons, and what each run cost. Those three decide where to sharpen, which new rule to add and whether the next expansion pays. <strong>Without them, working well is an opinion.</strong> Every flow also inherits the house alarms, so if an external service goes down or a quota runs out, we know before your team suffers it.',
             ],
           },
           {
@@ -5751,7 +5860,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'How we build it',
             paragraphs: [
               '<strong>The automation connects to what you already use</strong>: ERP, CRM, databases, email, messaging and, yes, that spreadsheet that governs half a department. The entry point can be the channel your team already has in its pocket, a Telegram or WhatsApp chat or an email inbox, because the best new tool is the one nobody has to learn.',
-              'And the repository is yours from day one, with its documentation and its operating manuals. If one day you want to run it with your own team or another provider, you take the whole flow with its documentation and its tests, not a subscription. What is a service while we work together is the operation, the weekly watch and the house alarms. That is stated in the quote.',
+              'And the repository is yours from day one, with its documentation and its operating manuals. If one day you want to run it with your own team or another provider, you take the whole flow with its documentation and its tests, not a subscription. What is a service while we work together is the operation, the weekly check and our standard alerting. That is stated in the quote.',
             ],
             link: {
               label: 'Document automation for accounting firms',
@@ -5788,14 +5897,14 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Deciding with judgment',
             paragraphs: [
               'There are steps we deliberately leave with human confirmation: the ones that move real money, the irreversible ones and the ones that decide about people. <strong>The flow prepares the case, the person presses the button.</strong> It is not a technical limitation but a design choice, because an error that is cheap to correct can be automated and an expensive one should not be.',
-              'We also do not automate processes without volume, because a flow that runs three times a month does not pay for its upkeep, nor processes better redesigned than accelerated. If your case falls into one of those groups, we tell you before we start and you save the entire project.',
+              'We also do not automate processes without volume, because a flow that runs three times a month does not pay for its upkeep, nor processes better redesigned than accelerated. If your case falls into one of those groups, we tell you before we start and you save yourself the entire project.',
             ],
           },
           {
             heading: 'What it costs',
             part: 'Deciding with judgment',
             paragraphs: [
-              'A single-process flow starts around €2,500 to build, the ones touching several of your systems approach €10,000, and monthly operation runs between €150 and €500, covering monitoring and maintenance. Model usage and infrastructure run in accounts under your company’s name, so those bills are yours and are not part of the fee. What moves those figures here is concrete: how many systems have to be connected, how much validation the process demands and how much volume runs through it. <strong>The healthy rule is that the measured cost of the process today sets the ceiling for the budget and the pilot confirms it, not the other way round.</strong> The full breakdown is in the cost guide.',
+              'A single-process flow starts around €2,500 to build, the ones touching several of your systems approach €10,000, and monthly operation runs between €150 and €500, covering monitoring and maintenance. Model usage and infrastructure run in accounts under your company’s name, so those bills are yours and are not part of the fee. What moves those figures here is concrete: how many systems have to be connected, how much validation the process demands and how much volume runs through it. <strong>The sensible rule is that the measured cost of the process today sets the ceiling for the budget and the pilot confirms it, not the other way round.</strong> The full breakdown is in the cost guide.',
             ],
             link: {
               label: 'How much does an AI agent cost, broken down',
@@ -5811,7 +5920,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'Is this RPA?',
-            a: 'Not the same thing, although plenty of RPA suites now ship AI reading inside them. RPA repeats clicks and rules over screens and breaks when something changes place or format. What we add is a model that interprets the content, so variation does not break the flow. They coexist well, RPA moving the stable parts and the model reading the variable ones.',
+            a: 'Not the same thing, although plenty of RPA suites now bundle AI-based reading inside them. RPA repeats clicks and rules over screens and breaks when something changes place or format. What we add is a model that interprets the content, so variation does not break the flow. They coexist well, RPA moving the stable parts and the model reading the variable ones.',
           },
           {
             q: 'What if the AI misreads a document?',
@@ -5819,7 +5928,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'How much of the process really gets automated?',
-            a: 'It depends how many odd cases it has, so it gets measured rather than estimated. The system records what it resolves on its own and what it escalates to a person, and you see that share from the first month.',
+            a: 'It depends how many edge cases it has, so it gets measured rather than estimated. The system records what it resolves on its own and what it escalates to a person, and you see that share from the first month.',
           },
           {
             q: 'Do we have to replace our ERP or our tools?',
@@ -5861,7 +5970,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Conversational agents',
           title: 'AI chatbots that finish the job',
           subtitle:
-            'Conversational agents that answer, qualify and act. Appointments booked, requests filtered and questions resolved, working on the systems you already run.',
+            'Conversational agents that answer, qualify and act. Appointments booked, requests filtered and questions resolved, running on top of the systems you already use.',
           cta: 'Tell us your challenge',
         },
         sections: [
@@ -5871,13 +5980,13 @@ export const content: Record<Lang, SiteContent> = {
             kind: 'lattice',
             paragraphs: [
               'AI chatbots for the channels where your customers or your team already are, WhatsApp on the official Meta API, the web and internal tools. The agent understands plain language, queries your real systems (calendar, CRM, database) and finishes the task inside the conversation. <strong>Finishing is the word that matters.</strong> The usual script chatbot explains the procedure and leaves the work to you. These do it in the conversation, whether that is booking an appointment, returning a figure or handing over a qualified request.',
-              'This is what they can do. The first four are the jobs we get asked for most and the last one comes with all of them.',
+              'This is what they can do. The first four are the jobs we get asked for most and the fifth is included in every build.',
             ],
             bullets: [
               'Support that resolves. Answers grounded in your data and your documentation, with the source beside them, at any hour.',
               'Complete transactions. Book, change, cancel or check, with the calendar and the record updated on the spot.',
               'Conversation filter. The ones worth it reach your team already qualified and the rest get handled without stealing anyone’s time.',
-              'Internal queries. The same engineering pointed inward, with staff asking their own data or their own documentation.',
+              'Internal queries. The same agent, pointed at your team instead of your customers, with staff asking their own data or their own documentation.',
               'Handover to a person. When a conversation needs someone from the team, it reaches someone from the team, with the whole history attached.',
             ],
             link: {
@@ -5912,7 +6021,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'AI customer service',
             part: 'How it works and why to trust it',
             paragraphs: [
-              'Customer service is where a conversational agent turns a profit soonest. It answers the routine, qualifies the rest and escalates what needs judgment, so waiting queues turn into immediate replies. The real estate agency we work with takes in dozens of rental inquiries a day over WhatsApp. Each one used to take five to ten minutes to check by hand, and today the agency puts the saving at over three hours a day. Their team now only books viewings. There, answering and qualifying are the same conversation, because filtering well is what leaves the team the work that brings in revenue.',
+              'Customer service is where a conversational agent turns a profit soonest. It answers the routine, qualifies the rest and escalates what needs judgment, so waiting queues turn into immediate replies. The real estate agency we work with takes in dozens of rental inquiries a day over WhatsApp. Each one used to take five to ten minutes to check by hand, and today the agency puts the saving at over three hours a day. Their team now spends its time on viewings instead of filtering. There, answering and qualifying are the same conversation, because filtering well is what leaves the team the work that brings in revenue. That case is told in full on <a class="link-inline" href="/en/cases/barceloneta">its own page</a>.',
               '<strong>A good part of the value is in the hour you reply.</strong> Inquiries do not arrive only in office hours, they also arrive when the customer has the phone in their hand. The longer the reply takes, the less inclined they are to write again. An agent that answers within the first minute turns that overnight trickle into appointments.',
             ],
             link: {
@@ -5971,7 +6080,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'How it works and why to trust it',
             paragraphs: [
               '<strong>Conversational systems degrade quietly.</strong> A model update or a new document changes answers without a single visible error. That is why we pin the model version, so updating it is our decision rather than a surprise from the provider. Every change goes through a test suite before it ships and every conversation leaves a record that can be reconstructed.',
-              'The operation has its numbers too: what share ends in the task done, what share escalates and for which reasons, what each conversation costs. Those are what decide which category to sharpen and which to add.',
+              'The operation has its numbers too: what share ends in the task done, what share escalates and for which reasons, what each conversation costs. Those are what decide which category to sharpen and which to add. How those numbers get read on a system of our own, with its failures and what they cost to correct, is on <a class="link-inline" href="/en/cases/wazzy">the Wazzy page</a>.',
             ],
           },
           {
@@ -5979,7 +6088,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Deciding with judgment',
             paragraphs: [
               '<strong>A conversational agent does not go out to the whole world on day one.</strong> It launches bounded, what we call the pilot, on one channel, in one time slot or with one group of customers, with its categories measured from the first conversation. The delicate texts come approved by you before anyone reads them, and your team knows how an escalation arrives and what to do with it.',
-              'A few weeks in we can judge whether the pilot is ready for the real world: what finishes inside the conversation, what escalates and why, and what people ask that we had not anticipated. That is what decides the expansion, category by category. It is how you grow without extending anything that has not been tested first.',
+              'A few weeks in we can judge whether the pilot is ready to expand: what finishes inside the conversation, what escalates and why, and what people ask that we had not anticipated. That is what decides the expansion, category by category. It is how you grow without extending anything that has not been tested first.',
             ],
           },
           {
@@ -6060,15 +6169,15 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Pricing guide',
           title: 'How much does an AI agent cost?',
           subtitle:
-            'A custom AI agent built by Ideasforge typically costs between €2,500 and €10,000 to build, plus €150 to €500 a month to keep it running and measured. This page explains what moves the number, with real cost data from our systems in production.',
+            'A custom AI agent built by Ideasforge typically costs between €2,500 and €10,000 to build, plus €150 to €500 a month for us to operate and measure it. The model and cloud bills are separate, and they are yours. This page explains what moves the number, with real cost data from our systems in production.',
         },
         sections: [
           {
             heading: 'The short answer',
             id: 'answer',
             paragraphs: [
-              'A single-job agent sits at the lower end of the range. One channel, one system to connect to and a clearly scoped task, like reading the invoices that arrive in a chat and turning each one into a row of data ready to use. Building it starts around €2,500, and running it around €150 a month.',
-              'The upper end belongs to agents that touch several systems and need deeper validation before going live, like an assistant that answers from your documentation and also queries live data. Those builds approach €10,000 and their operation sits in the upper part of the monthly range.',
+              'A single-job agent sits at the lower end of the range. One channel, one system to connect to and a clearly scoped task, like reading the invoices that arrive in a chat and turning each one into a row in your spreadsheet. <strong>Building it starts around €2,500, and running it around €150 a month.</strong>',
+              'The upper end belongs to agents that touch several systems and need deeper validation before going live, like an assistant that answers from your documentation and also queries live data. Those builds approach €10,000 and their operating fee sits at the top of the monthly range.',
               'Larger multi-agent systems are quoted per project.',
               '<strong>And there is a third figure worth being clear about from the start.</strong> The model the agent uses and the cloud it runs on sit in accounts under your company’s name, so those bills are yours and they are not inside the monthly fee.',
             ],
@@ -6076,11 +6185,11 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'What moves the price',
             id: 'factors',
-            paragraphs: ['Four things explain almost every quote we send.'],
+            paragraphs: ['<strong>Four things explain almost every quote we send.</strong>'],
             bullets: [
               'How many systems it connects to. An agent that only answers questions is cheaper than one that also writes to your calendar, your CRM or your database, because every connected system needs its own permissions and its own tests.',
-              'The state of your data. If the knowledge the agent needs lives in clean, readable sources, the model performs better and the build gets shorter. We usually gain more by ordering data and tools than by polishing instructions.',
-              'How much proof you need before going live. Our appointments assistant Wazzy does not ship a change until a battery of 145 annotated conversations passes. Not every project needs that depth, and choosing it is part of the price conversation.',
+              'The state of your data. If the knowledge the agent needs lives in clean, readable sources, the model performs better and the build gets shorter. We usually gain more by cleaning up data and tools than by rewriting prompts.',
+              'How much proof you need before going live. Our appointments assistant Wazzy does not ship a change until a battery of conversations annotated one by one passes. Not every project needs that depth, and choosing it is part of the price conversation.',
               'Who operates it afterwards. The monthly fee covers watching the system in production, and the next section shows where that money actually goes.',
             ],
           },
@@ -6088,19 +6197,19 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'The two costs of a running agent',
             id: 'operation',
             paragraphs: [
-              '<strong>Keeping an agent running produces two separate costs, and it is worth not mixing them.</strong> One is what the system consumes to work, the model and the infrastructure, which sits in accounts under your company’s name. The other is our fee, which pays for the work of watching it.',
+              '<strong>A running agent has two costs, and they are worth keeping apart.</strong> One is what the system consumes to work, the model and the infrastructure, which sits in accounts under your company’s name. The other is our fee, which pays for the work of watching it.',
               'Every message that comes in triggers calls to the model provider. That is the raw running cost of having the agent live, your company pays it, and it goes up and down with usage, so we do not bury it inside our fee. Infrastructure works the same way. The cloud account is in your name, so its bill is too.',
               'Keeping it separate has an upside for you. You can see it, so you can bring it down. <strong>Knowing how the spend splits is what lets you cut it by measuring instead of guessing.</strong> In Wazzy we meter it per layer: reading and structuring the incoming message takes 52 to 57 percent of the model spend, deciding what to do next takes 24 to 31 percent and writing the reply takes 16 to 19 percent.',
-              'With that map in front of you, the decision comes from data. In one of our systems we tried a cheaper model and the test battery rejected it, because overall quality fell ten points. The saving was real and it did not pay off.',
-              '<strong>Our fee pays for something else, which is the work of watching.</strong> Once a week we run an anonymized test conversation against the live system from end to end, and before any change ships the test battery has to pass. Two different things, kept separate on purpose. The battery gates changes, and the weekly test watches what is already running.',
+              'With that map in front of you, the decision comes from data. In one of our systems we tried a cheaper model and the test battery rejected it, because overall quality fell ten points. The saving was real. It just was not worth what it cost in quality.',
+              '<strong>Our fee pays for something else, which is the work of watching it.</strong> Once a week we run an anonymized test conversation against the live system from end to end. And before any change ships, the test battery has to pass. Two different things, kept separate on purpose. <strong>The battery gates changes, and the weekly test watches what is already running.</strong>',
             ],
             link: { label: 'Why keeping AI alive is the hard part', href: '/en/blog/keeping-ai-alive' },
           },
           {
             heading: 'What you own at the end',
             paragraphs: [
-              'The repository is in your name from day one and the infrastructure runs in a cloud account that belongs to you, not to us. If we part ways, the system stays yours, with its documentation and its record of changes.',
-              'That also explains what the fee does not include. You are not renting the agent, so the monthly cost is operation, not a license that stops working when you stop paying.',
+              '<strong>The repository is in your name from day one</strong> and the infrastructure runs in a cloud account that belongs to you, not to us. If we part ways, the system stays yours, with its documentation and its record of changes.',
+              'That also explains what the fee does not include. <strong>You are not renting the agent</strong>, so the monthly cost is operation, not a license that stops working when you stop paying.',
             ],
             link: { label: 'How we build AI agents', href: '/en/services/ai-agent-development' },
           },
@@ -6109,15 +6218,18 @@ export const content: Record<Lang, SiteContent> = {
         faq: [
           {
             q: 'How much does an AI chatbot cost?',
-            a: 'A support chatbot sits at the lower end of the range, from €2,500 of build, because it usually lives on one channel and draws on one knowledge source. The price climbs when it stops only answering and starts acting, booking appointments or updating records, because every action needs its own permissions and tests.',
+            a: 'A support chatbot sits at the lower end of the range, starting at €2,500 to build, because it usually lives on one channel and draws on one knowledge source. The price climbs when it stops only answering and starts acting, booking appointments or updating records, because every action needs its own permissions and tests.',
           },
           {
             q: 'Why is there a monthly fee at all?',
-            a: 'Because the model your agent runs on changes underneath it. Providers update models without changing their name, and a system that answered well yesterday can start failing quietly. The fee pays for the metering and the weekly test that catch it before your users do.',
+            a: [
+              'Because the model your agent runs on changes underneath it. Providers update models without changing their name, and a system that answered well yesterday can start failing quietly. The fee pays for the metering and the weekly test that catch it before your users do.',
+              'And the arithmetic works because the expensive part, building the battery of cases with their annotated answers, was already paid for during the build. Running it before every change and watching every week is machine work.',
+            ],
           },
           {
             q: 'Can we run it without you afterwards?',
-            a: 'Yes. Everything is yours, so you can take over whenever you want, and we run handover sessions when a client asks for them. Keep one thing in mind, though. Operating an agent means measuring it, and if nobody keeps measuring, failures turn silent.',
+            a: 'Yes. Everything is yours, so you can take over whenever you want, and we run handover sessions when a client asks for them. Keep one thing in mind, though. Operating an agent means measuring it, and if nobody keeps measuring, you find out from a customer.',
           },
         ],
         cta: {
@@ -6135,7 +6247,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Data sovereignty',
           title: 'GDPR-compliant AI on infrastructure you own',
           subtitle:
-            'We build AI agents for companies bound by European rules, wherever they are based, whose data cannot leave their control. Everything runs in a cloud account under your name, isolation is enforced by code rather than by instructions to a model, and every decision is recorded so that someone can inspect it later. Written from five systems in production, and updated for the AI Act calendar as the Digital Omnibus left it in July 2026.',
+            'We build AI agents for companies bound by European rules, wherever they are based, whose data cannot leave their control. The application and its data run in a cloud account under your name, isolation is enforced by code rather than by instructions to a model, and every decision is recorded so that your DPO or an auditor can reconstruct it later. Based on five systems running in production, and updated for the AI Act calendar as the Digital Omnibus left it in July 2026.',
           cta: 'See how it is built',
           ctaHref: '#isolation',
         },
@@ -6172,7 +6284,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Compliance is an architecture decision, not a paperwork one',
             paragraphs: [
               'The regulation itself never mentions artificial intelligence by name. It regulates personal data, and an assistant that reads invoices, books appointments or answers questions about your operations is full of personal data from the first day. So the same familiar principles apply, and each of them lands on a concrete engineering choice.',
-              'Data minimisation stops being a policy line and becomes a question about context. A language model can only leak what it was given, so the real control is what enters the prompt in the first place. Purpose limitation becomes a question about tools. An agent that can only call three approved functions cannot quietly repurpose your data, because it has no path to do so. And accountability becomes a question about records. If the system cannot show why it did what it did, no policy document will show it either.',
+              'Data minimization stops being a policy line and becomes a question about context. A language model can only leak what it was given, so the real control is what enters the prompt in the first place. Purpose limitation becomes a question about tools. An agent that can only call three approved functions cannot quietly repurpose your data, because it has no path to do so. And accountability becomes a question about records. If the system cannot show why it did what it did, no policy document will show it either.',
               'This is why we say the paperwork follows the architecture and not the other way round. A well-built system makes the DPA, the impact assessment and the register of processing activities faster to write and easier to defend, because every claim in those documents points at something that actually exists in the code. The reverse does not work. No amount of documentation makes an unaccountable system accountable.',
             ],
           },
@@ -6189,8 +6301,8 @@ export const content: Record<Lang, SiteContent> = {
           part: 'Where your data goes',
             id: 'infrastructure',
             paragraphs: [
-              'The infrastructure runs in a cloud account that belongs to you, not to us, and the repository is in your name from the first day. We do not host your assistant on our side and hand you a login. This is unusual in the sector and it is deliberate, because it removes a whole family of questions your DPO would otherwise have to chase. There is no second controller to map, no vendor database holding a copy of your records and no exit negotiation if we part ways. The system stays where it always was, with its documentation and its history.',
-              'The only outbound path is the call to the model provider, the company that runs the language model itself. You approve which provider, under which agreement and with which settings, and you approve what is allowed to travel inside those calls. Nothing else leaves the account. Model providers sign data processing agreements, the contracts that bind a supplier to process data only on your instructions, and the serious ones offer European processing regions. Whether a given setup satisfies the rules on international transfers is your lawyers’ assessment to make. Our job is to hand them a complete map of what flows where, so the assessment takes days instead of months.',
+              'The infrastructure runs in a cloud account that belongs to you, not to us, and the repository is in your name from the first day. We do not host your assistant on our side and hand you a login. This is unusual in the sector and it is deliberate, because it removes a whole family of questions your DPO would otherwise have to chase. While we maintain the system we act as your processor, under a data processing agreement and with named access you can revoke. What disappears is the vendor database holding a copy of your records, and the exit negotiation over who keeps what. The system stays where it always was, with its documentation and its history.',
+              'The only outbound path is the call to the model provider, the company that runs the language model itself. You approve which provider, under which agreement and with which settings, and you approve what is allowed to travel inside those calls. The only other outbound path is our own health telemetry, which travels on a closed allow-list of technical fields and is described further down. Model providers sign data processing agreements, the contracts that bind a supplier to process data only on your instructions, and the serious ones offer European processing regions. Whether a given setup satisfies the rules on international transfers is your lawyers’ assessment to make. Our job is to hand them a complete map of what flows where, so the assessment takes days instead of months.',
               'Everything else in this page builds on that starting point. Isolation, records and health-data handling all assume the data already sits inside an account you control, because that is the only place from which the rest can be guaranteed.',
             ],
             link: { label: 'What it costs to build and run one', href: '/en/ai-agent-development-cost' },
@@ -6231,7 +6343,7 @@ export const content: Record<Lang, SiteContent> = {
               'Today, in the agent that answers questions about live business data for several companies at once, the separation is enforced in four places, and the model is not one of them.',
             ],
             bullets: [
-              'The context, the information the model is allowed to read while answering, only ever contains what the person asking is entitled to see. The assistant cannot leak what it never held, and it cannot even formulate a question about a company that does not exist in its world.',
+              'The context, the information the model is allowed to read while answering, only ever contains what the person asking is entitled to see. The assistant cannot leak what it never held, and it cannot even form a query about a company that does not exist in its world.',
               'Name matching is confined to the sites that person is authorized for. When someone types a misspelt site name, the correction can only land inside their own perimeter, so a near-miss cannot drift into a neighbouring company.',
               'Code validates every request against an allow-list, a closed list of permitted values, before any query is built. The model proposes, the code decides.',
               'The final query carries an unconditional filter. If the permission list ever arrives empty, the query resolves to a condition that matches nothing. Failure closes the door instead of opening it.',
@@ -6258,8 +6370,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Health data, under the strictest article there is',
           part: 'What it looks like in practice',
             paragraphs: [
-              'Wazzy, our own appointments product, runs in dental, physiotherapy and aesthetics clinics. An appointment note that says who visits which clinic and why is health data, which the GDPR places among the special categories of its Article 9, with no hierarchy among them. The party processing it under Article 9.2.h, the ground that covers healthcare provision, is the clinic, which is the controller. We process on its behalf, as a processor. We did not choose the hardest category to make a point. The product needed it, and the result is that our practices were shaped by the strictest case first.',
-              'Every sensitive field is encrypted on its own, with AES-256-GCM, rather than relying on the disk being encrypted underneath. The difference matters in practice. Disk encryption protects you if someone steals the hardware, while field-level encryption protects the data from every process and person that touches the database in normal operation. Deletion is designed around what the law requires rather than around instinct, Wazzy retains what the law obliges it to retain, no more and no less, and that period is not ours to set. The clinic sets it, as the controller, with Spanish patient-rights law in front of it, Law 41/2002, which sets a five-year floor for medical records and longer in some regions. An appointment in a chat is not the medical record, which lives in the clinic’s own system, but the logic is the same. A deletion request must honor the patient without quietly breaking a legal retention duty, so the system separates what is erased now from what is retained under obligation, and can show which is which.',
+              'Wazzy, our own appointments product, runs in dental, physiotherapy and aesthetics clinics. An appointment note that says who visits which clinic and why is health data, which the GDPR places among the special categories of its Article 9, with no hierarchy among them. The party processing it under Article 9.2.h, the ground that covers healthcare provision, is the clinic, which is the controller. We process on its behalf, as a processor. We did not pick that regime to make a point. The product needed it, and the result is that our practices were shaped by the strictest case first.',
+              'Every sensitive field is encrypted on its own, with AES-256-GCM, rather than relying on the disk being encrypted underneath. The difference matters in practice. Disk encryption protects you if someone steals the hardware, while field-level encryption protects the data from every process and person that touches the database in normal operation. Deletion is designed around what the law requires. Wazzy retains what the law obliges it to retain, no more and no less, and that period is not ours to set. The clinic sets it, as the controller, with Spanish patient-rights law in front of it, Law 41/2002, which sets a five-year floor for medical records and longer in some regions. An appointment in a chat is not the medical record, which lives in the clinic’s own system, but the logic is the same. A deletion request must honor the patient without quietly breaking a legal retention duty, so the system separates what is erased now from what is retained under obligation, and can show which is which.',
               'We built all of that because we had to. It is the reason this page can speak from experience rather than from a checklist, and it is the standard the rest of our client work inherits.',
             ],
           },
@@ -6268,7 +6380,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Compliance talk tends to fixate on databases and forget the person typing. Two duties meet there. The GDPR expects clarity about how personal data is used, and the AI Act, in its transparency duty, one of the ones that kept its date, requires that people be told when they are interacting with a machine. Neither duty is exotic to implement, but both are easy to fail by omission, one vague welcome message at a time.',
               'Our conversational systems present themselves as what they are, and the escalation path is part of the design rather than an apology. In Wazzy, our appointments product, an urgent case does not get a soothing paragraph from a model. It gets escalated to the clinic’s staff, because a machine that recognizes its limit and hands over is safer than one that improvises confidence. The same shape repeats in our client work. The assistant does the repetitive volume, and the moments that need a human reach a human, with the conversation’s trail attached.',
-              'There is a quieter benefit. When the handover is designed, the humans behind the assistant stop being a fiction in the privacy policy and become an actual queue with actual owners, which is exactly the kind of claim an authority can verify and find true.',
+              'There is a quieter benefit. When the handover is designed, the humans behind the assistant stop being a fiction in the privacy policy and become an actual queue with actual owners, which is exactly the kind of claim an authority can check and confirm.',
             ],
           },
           {
@@ -6277,7 +6389,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Record the decision, not only the result. Every meaningful step is written down, what the assistant understood, what it asked for, what the validator rejected and why. The log is append-only, meaning entries can be added but never edited or removed, and the system never reads it back during execution, so it cannot influence an answer even in principle. It exists for one purpose, to be inspected afterwards by someone with a question. That someone might be your DPO, an auditor or a supervisory authority, and the answer they get is the record of what happened, not a reconstruction from memory.',
               'The telemetry, the technical measurements the system sends home about its own health, works the other way round. It runs on an allow-list, so the fields it carries are decided in advance and written down rather than left to whatever the code happens to send. When a regulator asks what your monitoring collects, the answer is a short, closed list rather than an investigation.',
-              'Even expiry is designed to be visible. Access tokens, the temporary credentials that prove who is asking, die after about an hour, and re-running an old request with a dead token produces a clear 401 error instead of silently borrowing fresher credentials. We would rather a system fail loudly and visibly than succeed in a way nobody can account for. A new and visible error beats a comfortable silence.',
+              'Even expiry is designed to be visible. Access tokens, the temporary credentials that prove who is asking, expire after 60 minutes, and re-running an old request with a dead token produces a clear 401 error instead of silently borrowing fresher credentials. We would rather a system fail loudly and visibly than succeed in a way nobody can account for. A new and visible error beats a comfortable silence.',
             ],
           },
           {
@@ -6299,7 +6411,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'How we keep it true after launch',
             paragraphs: [
-              'A compliance story that was true at launch and unmeasured afterwards is a story, and these systems change underneath you. Model providers update models without changing their names, your documentation grows and your data shifts over time. So we do two separate things. Before any change ships, a test battery, a bank of annotated, anonymized cases the system must answer correctly, blocks the release if quality drops. And once a week, on the live system, we run an anonymized test conversation from end to end and check what actually happened.',
+              'A compliance story that was true at launch and unmeasured afterwards is a story, and these systems change underneath you. Model providers update models without changing their names, your documentation grows and your data shifts over time. So we do two separate things. Before any change ships, a test battery, a bank of annotated, anonymized cases the system must answer correctly, blocks the release if quality drops. And once a week, on the live system, we run a scripted end-to-end test conversation from end to end and check what actually happened.',
               'This is the same discipline that catches a model quietly getting worse, applied to the promises on this page. The isolation, the records and the refusal behaviors are tested like features, because that is what they are. When your DPO asks in March whether the guarantees from the September review still hold, the answer that counts is a test result, not a shrug.',
             ],
             link: { label: 'Why keeping AI alive is the hard part', href: '/en/blog/keeping-ai-alive' },
@@ -6375,7 +6487,7 @@ export const content: Record<Lang, SiteContent> = {
           },
         ],
         cta: {
-          heading: 'Does your data have to stay where it is?',
+          heading: 'Does your data have to stay under your control?',
           body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
           button: 'Tell us your challenge',
         },
@@ -6389,7 +6501,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'EU AI Act',
           title: 'EU AI Act compliance, for companies that deploy AI',
           subtitle:
-            'Most companies are deployers under the EU AI Act, and for them the regulation is a list of things they must be able to demonstrate: oversight that works, logs that exist and knowing what their systems do. The Digital Omnibus of July 2026 moved the heaviest of those obligations to December 2027, while transparency and AI literacy apply today. This guide walks the whole map in plain terms, written by engineers who build systems that have to survive these reviews, not by lawyers selling the review.',
+            'Most companies are deployers under the EU AI Act, and for them the regulation is a list of things they must be able to demonstrate: oversight that works, logs that exist, and a clear account of what their systems do. The Digital Omnibus of July 2026 moved the heaviest of those obligations to December 2027, while transparency and AI literacy apply today. This guide lays out the whole map in plain terms, written by engineers who build systems that have to survive these reviews, not by lawyers selling the review.',
           cta: 'Start with the short version',
           ctaHref: '#short',
         },
@@ -6440,12 +6552,12 @@ export const content: Record<Lang, SiteContent> = {
             part: 'The map of the law',
             paragraphs: [
               'The large models that systems like ours call as a service live under their own chapter, in force since August 2025 for the companies that provide them. Providers of general-purpose models owe technical documentation, information to the companies building on top, a copyright policy and a summary of the content used for training, and the handful of models classed as systemic risk owe more on top of that.',
-              'Little of it is your duty as a deployer, and all of it is your business as a buyer. The documentation a model provider publishes flows downhill into your compliance file, because the description of your system leans on the description of the model underneath. When we assemble the file for a client, the model provider’s terms and documentation go in it, which is one more reason the choice of provider is approved by you rather than defaulted by us.',
+              'Little of it is your duty as a deployer, and all of it is your business as a buyer. The documentation a model provider publishes flows downhill into your compliance file, because the description of your system leans on the description of the model underneath. When we assemble the file for a client, the model provider’s terms and documentation go in it, which is one more reason the choice of provider is approved by you not defaulted into by us.',
               'The practical ask is short. Whoever sells you anything built on a large model should be able to name the model, point at its provider’s AI Act documentation and show what of your data reaches it. If any of those three draws a blank, the gap is yours to carry.',
             ],
           },
           {
-            heading: 'The calendar already happened',
+            heading: 'The calendar is already half run',
             part: 'The map of the law',
             kind: 'checklist',
             paragraphs: [
@@ -6463,7 +6575,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'The map of the law',
             paragraphs: [
               'The penalty structure is tiered like the GDPR’s. Prohibited practices reach 35 million euros or 7 percent of worldwide turnover, whichever is higher. Most other breaches, deployer duties included, reach 15 million or 3 percent. Supplying misleading information to authorities has its own lower tier. Which bracket a concrete failure lands in is a legal question, and the answer to "how likely is an inspection" is that nobody selling you certainty deserves your trust.',
-              'What can be said with evidence is who is watching. Each member state names its market surveillance authority, and ours is a useful preview of what these authorities look like, because it moved first. AESIA, the Spanish agency created by Royal Decree 729/2023, was the first dedicated national AI supervisor in Europe, has held full sanctioning powers since August 2025 and published sixteen compliance guides within months of the regulation biting. Its declared line through 2026 has been warnings before sanctions, and it has already opened preliminary investigations into systems deployed by Spanish organizations. The window in which nobody was looking is closing, on schedule and without drama.',
+              'What can be said with evidence is who is watching. Each member state names its market surveillance authority, and ours is a useful preview of what these authorities look like, because it moved first. AESIA, the Spanish agency created by Royal Decree 729/2023, was the first dedicated national AI supervisor in Europe, has held full sanctioning powers since August 2025 and published sixteen compliance guides within months of the first obligations applying. Its declared line through 2026 has been warnings before sanctions, and it has already opened preliminary investigations into systems deployed by Spanish organizations. The enforcement machinery exists now, and it is staffed.',
               'The practical consequence for a buyer is timing. Building demonstrability into a system while it is being built costs little, and we know because it is how we work anyway. Retrofitting it under an authority’s deadline is the expensive version of the same project.',
             ],
           },
@@ -6471,7 +6583,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Is it even an AI system under the Act?',
             part: 'Which box you are in',
             paragraphs: [
-              'Committees lose real time here, so settle it early. The Act defines an AI system through seven elements, and the one that carries the weight is inference: a machine-based system, operating with some autonomy, that infers from its input how to generate outputs like predictions, recommendations or decisions. The European Commission published guidelines on this exact definition in February 2025, precisely because every company asked the same question.',
+              'Internal committees can burn weeks on this question. Settle it in the first meeting. The Act defines an AI system through seven elements, and the one that carries the weight is inference: a machine-based system, operating with some autonomy, that infers from its input how to generate outputs like predictions, recommendations or decisions. The European Commission published guidelines on this exact definition in February 2025, precisely because every company asked the same question.',
               'The practical reading is narrower than the panic. A calculator, a fixed spreadsheet formula or a rules engine that applies the same written logic every time does not infer, and generally falls outside. A system that learns patterns, ranks candidates, scores risk or generates text does infer, and is in. The borderline cases exist, they belong to counsel, and the reasoning is worth writing down either way.',
               'For anything built on a language model the question answers itself, models infer, that is their entire job. So we never spend a client’s money arguing that an agent is not AI. We spend it building the agent so that the duties that follow are already met.',
             ],
@@ -6481,8 +6593,8 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Which box you are in',
             paragraphs: [
               'Two roles carry almost all of the weight. A provider develops an AI system, or has one developed, and places it on the market under its own name. A deployer uses an AI system professionally, under its own authority, for its own purposes. The provider owes the design-side duties, conformity, documentation and registration where it applies. The deployer owes the use-side duties, and they are the subject of this guide.',
-              'A bank that buys a credit-scoring system from a vendor is a deployer, with duties about oversight, monitoring and logs. The vendor is the provider, with duties about how the system was built and documented. The same split repeats down the market: the clinic using an appointment assistant, the manufacturer using a diagnostic aid and the accounting firm running document extraction are deployers of those systems, whoever built them.',
-              'When we build a custom agent for a client, the question of who counts as provider of that specific system is exactly the kind of boundary a contract should fix in writing rather than leave to assumption. We flag it in the first conversation, our lawyers and yours settle the wording, and the engineering side of the answer, who documents what, who keeps which records, is designed in rather than argued about later.',
+              'A bank that buys a credit-scoring system from a vendor is a deployer, with duties about oversight, monitoring and logs. The vendor is the provider, with duties about how the system was built and documented. The same split repeats down the market: the clinic using an appointment assistant, the workshop using a fault-diagnosis tool and the accounting firm running document extraction are deployers of those systems, whoever built them.',
+              'When we build a custom agent for a client, the question of who counts as provider of that specific system is settled by the facts, not by the contract, but the contract can still fix in writing who documents what rather than leave it to assumption. We flag it in the first conversation, our lawyers and yours settle the wording, and the engineering side of the answer, who documents what, who keeps which records, is designed in rather than argued about later.',
             ],
           },
           {
@@ -6490,7 +6602,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Which box you are in',
             paragraphs: [
               'The roles are not permanent labels. The Act moves a deployer into the provider seat when it puts its own name or trademark on a high-risk system, when it substantially modifies one, or when it changes a system’s intended purpose into high-risk territory. The third one is the quiet trap, because intended purpose sounds like marketing language and is actually the concept the whole regulation rests on.',
-              'Concretely. A company that licenses a general document assistant and turns it into a tool that screens job applications has changed the purpose into an Annex III domain, and with it, possibly, its own role. A company that rebadges a vendor’s system as its own product has walked into provider duties by branding. None of this outlaws customisation, it prices it, and the price is documentation and duties that someone must consciously accept.',
+              'Concretely. A company that licenses a general document assistant and turns it into a tool that screens job applications has changed the purpose into an Annex III domain, and with it, possibly, its own role. A company that rebadges a vendor’s system as its own product has walked into provider duties by branding. None of this outlaws customization, it prices it, and the price is documentation and duties that someone must consciously accept.',
               'Whether any specific modification is "substantial" is a legal judgment. Our contribution is narrower and earlier. Systems built with a written intended purpose, a record of what changed and logs of what the system actually does give your lawyers the raw material to make that judgment cheaply. Systems assembled informally give them nothing to work with, and a careful lawyer with nothing to work from will always give you the expensive answer.',
             ],
           },
@@ -6502,7 +6614,7 @@ export const content: Record<Lang, SiteContent> = {
               'High-risk by domain means the Act lists where the stakes are high enough for the heavy regime. Annex III names eight areas. If your use of AI touches one of them, assume high-risk until your lawyers conclude otherwise.',
             ],
             bullets: [
-              'Biometrics: identification, categorisation of people and emotion recognition, with the narrow exceptions the Act itself carves.',
+              'Biometrics: identification, categorization of people and emotion recognition, with the narrow exceptions the Act itself carves.',
               'Critical infrastructure: safety components in traffic, water, gas, heating and electricity.',
               'Education and training: admission, evaluation, level placement and exam surveillance.',
               'Employment and worker management: recruitment, screening, promotion, termination, task allocation and performance monitoring.',
@@ -6517,7 +6629,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Which box you are in',
             paragraphs: [
               'Article 6(3) opens a narrow exit. A system that lands in an Annex III domain may still avoid high-risk status when it only performs a narrow procedural task, improves the result of a human activity that is already complete, or detects patterns without replacing human judgment. A tool that formats interview notes touches employment and plainly is not deciding anyone’s career.',
-              'Two conditions guard the exit. The exemption must be documented, a written assessment of why the system qualifies, produced before you rely on it rather than after someone asks. And profiling slams the door shut. A system in an Annex III domain that profiles people, in the GDPR sense of evaluating aspects of their life like performance, reliability or economic situation, is always high-risk, whatever else it does.',
+              'Three things narrow that exit. The exemption must be documented, a written assessment of why the system qualifies, produced before you rely on it rather than after someone asks. You also have to register in the EU database, which is the step most people miss. And profiling slams the door shut. A system in an Annex III domain that profiles people, in the GDPR sense of evaluating aspects of their life like performance, reliability or economic situation, is always high-risk, whatever else it does.',
               'Our advice as builders is unglamorous. Decide which side of this line a system is meant to live on before it is built, write that intention down and design the data flows so the system cannot quietly drift across. Drift is the real risk here, a helpful tool that gains one feature per quarter until it is doing the thing nobody classified.',
             ],
           },
@@ -6537,6 +6649,7 @@ export const content: Record<Lang, SiteContent> = {
               'Keep the automatically generated logs that are under your control for at least six months, longer where other law says so. No logs, no defense.',
               'Tell workers and their representatives before deploying a high-risk system that affects them at work. Quietly switching on monitoring is its own breach.',
               'Use the provider’s information to run your data protection impact assessment where one is due. The two regulations meet exactly here.',
+              'Tell the affected person when the Annex III system is used to make a decision about them, or to help make one. It is the duty an HR department asks about most.',
               'Cooperate with the market surveillance authority when it comes asking, which folds every duty above into one practical question, can you show your homework.',
             ],
           },
@@ -6562,8 +6675,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Telling people they are talking to a machine',
             part: 'What deployers must do',
             paragraphs: [
-              'The transparency duties in Article 50 apply since August 2026 and they are refreshingly concrete. People interacting with an AI system must be informed they are doing so, unless it is obvious from context. Synthetic audio, image and video content must be marked as artificially generated. Deployers of emotion recognition or biometric categorisation must inform the people exposed to them.',
-              'For the systems most companies actually run, this reduces to plain interface design. The assistant introduces itself as an assistant, the generated report says it was generated and the escalation path to a human is real. We covered how our own conversational systems present themselves and hand urgent cases to staff on the sovereignty page, and the same design serves this article without modification. By now the pattern is clear. These duties are cheap to meet when they are designed in and embarrassing to meet after the fact.',
+              'The transparency duties in Article 50 apply since August 2026 and they are refreshingly concrete. People interacting with an AI system must be informed they are doing so, unless it is obvious from context. Synthetic audio, image and video content must be marked as artificially generated, and that marking is the provider’s duty. Yours is to disclose a deepfake you publish, or AI-generated text you put out on a matter of public interest. Deployers of emotion recognition or biometric categorization must inform the people exposed to them.',
+              'For the systems most companies actually run, this reduces to plain interface design. The assistant introduces itself as an assistant, the generated report says it was generated and the escalation path to a human is real. We covered how our own conversational systems present themselves and hand urgent cases to staff on the sovereignty page, and the same design serves this article without modification. By now the pattern is clear. These duties are cheap to meet when they are designed in and expensive to retrofit.',
             ],
             link: { label: 'How our systems present themselves and escalate', href: '/en/gdpr-compliant-ai' },
           },
@@ -6573,7 +6686,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Read the duty list again with an engineer’s eye and it breaks down into three properties of the system. Things the system must produce about itself, logs and records. Things a human must be able to do to it, inspect, intervene and override. And things it must never silently change, its purpose and its inputs. None of the three can be added convincingly after the fact, all three are cheap when they are design decisions.',
               'This is where our practice happens to line up with the regulation, not because we built for the Act but because production forced the same conclusions earlier. Our systems write down each decision as it happens, in a record that can be added to but never edited, and the system itself never reads that record back, so it documents behavior without influencing it. Oversight is not a name in a file. The people behind our assistants get real queues with real trails, and every action a system takes on someone’s behalf runs under that person’s own permissions, so the question "who could have done this" always has an answer your identity system already knew.',
-              'Monitoring, the duty that sounds vaguest, is the one we can show most concretely. Before any change ships, a battery of annotated, anonymized cases must pass, and one of our systems carries 118 of them. After shipping, a weekly probe runs an anonymized test conversation against the live system end to end. Two separate checks, kept apart on purpose, and together they are precisely the "monitor the operation of the system" evidence Article 26 asks a deployer to have.',
+              'Monitoring, the duty that sounds vaguest, is the one we can show most concretely. Before any change ships, a battery of annotated, anonymized cases must pass, and one of our systems carries 118 of them. After shipping, a weekly probe runs a scripted end-to-end test conversation against the live system end to end. Two separate checks, kept apart on purpose, and together they are precisely the "monitor the operation of the system" evidence Article 26 asks a deployer to have.',
             ],
             link: { label: 'The records, isolation and identity design in full', href: '/en/gdpr-compliant-ai' },
           },
@@ -6582,7 +6695,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'How it lands in a real system',
             kind: 'lattice',
             paragraphs: [
-              'When a system we built enters your compliance review, these artefacts exist because the build produced them, not because someone reconstructed them for the meeting.',
+              'When a system we built enters your compliance review, these artifacts exist because the build produced them, not because someone reconstructed them for the meeting.',
             ],
             bullets: [
               'A written intended purpose for the system, the sentence every classification question starts from.',
@@ -6606,7 +6719,7 @@ export const content: Record<Lang, SiteContent> = {
               'Screen each system against the eight Annex III domains. Anything that touches one gets flagged, and anything flagged either goes to counsel or gets a documented Article 6(3) assessment, written now, not when asked.',
               'Name the oversight for anything plausibly high-risk, real people with authority to override, and check they would pass the literacy bar for their role.',
               'Verify the paper: instructions of use from each provider, worker information where systems touch the workplace, and logs, switched on, retained, and readable by someone.',
-              'Put the vendor questions in writing, what is the intended purpose, what documentation accompanies the system, what will you give us for oversight, literacy and logging. A vendor who answers slowly has told you something too.',
+              'Put the vendor questions in writing, what is the intended purpose, what documentation accompanies the system, what will you give us for oversight, literacy and logging. A vendor who cannot answer in writing has answered.',
             ],
           },
           {
@@ -6614,7 +6727,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'What to do now',
             paragraphs: [
               'The AI Act and the GDPR ask different questions about the same system. One regulates the use by risk, the other the personal data inside, and a system that answers both well tends to be one system, built once, with records, oversight and restraint designed in rather than promised. That architecture is what our sovereignty page describes mechanism by mechanism, and it is the standard everything we build inherits, whether or not a given system ever goes near Annex III.',
-              'If you are deciding whether to build something under these rules, the same candor applies to budgets, and we publish ours. And if what you need first is the map of duties turned into a working system, that is the actual job description of an AI agent development company working under these rules in 2026.',
+              'If you are deciding whether to build something under these rules, the same candor applies to prices, and we publish ours. And if what you need first is the map of duties turned into a working system, that is the actual job description of an AI agent development company working under these rules in 2026.',
             ],
             link: { label: 'What an AI agent costs to build and run', href: '/en/ai-agent-development-cost' },
           },
@@ -6631,7 +6744,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'Is a customer-service chatbot high-risk?',
-            a: 'By itself, normally not. Its home duty is transparency, people must know they are talking to a machine. It moves toward high-risk when the use crosses into an Annex III domain or when it profiles people in the GDPR sense. A support bot that starts making decisions about refunds based on scoring a customer’s reliability has changed category in substance, whatever it says on the tin. Classification is your lawyers’ call, drift is the thing to watch.',
+            a: 'By itself, normally not. Its home duty is transparency, people must know they are talking to a machine. It moves toward high-risk when the use crosses into an Annex III domain, and once it is there, profiling people in the GDPR sense closes the narrow exemption. A support bot that starts making decisions about refunds based on scoring a customer’s reliability has changed category in substance, whatever it says on the tin. Classification is your lawyers’ call, drift is the thing to watch.',
           },
           {
             q: 'HR wants AI to screen CVs. What does that trigger?',
@@ -6660,6 +6773,482 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Deploying AI under these rules?',
+          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
+          button: 'Tell us your challenge',
+        },
+      },
+      /*
+       * Páginas de caso, espejo inglés (1 sep 2026). El español las escribió
+       * entre el 28 y el 29 de agosto y quedaron sin par, así que las cinco
+       * rutas no emitían hreflang y el grupo «Casos» no podía entrar en el
+       * menú sin descuadrar las dos cabeceras. Con estos cinco espejos entra.
+       *
+       * Divergencia deliberada en `caseIndustrial`: el español publica las tres
+       * mediciones del enrutado (72,8 → 89,3 → 91,5) y aquí solo van la primera
+       * y la última. La intermedia está EN DUDA en el banco desde el 1 sep,
+       * porque 89,3 % no es una división de 118, y un espejo no propaga una
+       * cifra que el árbitro no da por buena. Se iguala el día que el
+       * propietario mire el resumen del proyecto.
+       */
+      caseSavian: {
+        tocHeading: 'What this page covers',
+        metaTitle: 'Savian: an agent that takes the data to the field, Ideasforge',
+        metaDescription:
+          'The data was already on a dashboard and the people who needed it were out in the field. How we built Savian an agent that answers by message and by voice.',
+        hero: {
+          eyebrow: 'Case in production',
+          title: 'Savian: the data was on a dashboard and the person who needed it was in a van',
+          subtitle:
+            'Savian is an agricultural company whose managers need production and attendance data to decide. The data was there and there was a dashboard to look it up, but the person who needs it is out in the field or in a van, with no computer in front of them. Today they ask the way they would ask a colleague, by message or by voice note, and the answer comes back in seconds. This page tells how it is built and the two things we had to take away from the model along the way.',
+          cta: 'Start with the problem',
+          ctaHref: '#problem',
+        },
+        sections: [
+          {
+            heading: 'The data was there and it still did not arrive',
+            id: 'problem',
+            part: 'The problem',
+            paragraphs: [
+              'Savian works in agriculture. The owners and the managers of its growing estates need production and attendance data every day, for decisions that cannot wait.',
+              'It is worth saying up front what the problem was not. That data was not lost and it was not hidden. Savian already had a dashboard where you can look up the same information the agent answers today, built and running before the agent existed.',
+              'The problem was the last mile, which is the one almost nobody tells. <strong>A dashboard is a desk tool. It is designed for somebody sitting down</strong>, with the whole screen in front of them and time to pick filters and read a table.',
+              'And where is the person who needs the number? Not in that chair. They are in a van first thing in the morning or in the middle of an estate, with the phone in a pocket and their hands busy. Getting fluent with a dashboard is a job in itself, and it is not the job of somebody working in the field.',
+              'So the question waited. It got looked up back at the office, once there was a computer in front of them and the day in the field was over. A number that arrives at the end of the day stops being useful for deciding. It becomes useful for explaining what already happened.',
+            ],
+          },
+          {
+            heading: 'The first version let the model write the query',
+            part: 'What we removed',
+            paragraphs: [
+              'The first version did the thing that looks obvious when you have a language model in front of you. It took the question in plain Spanish, wrote a SQL query with it and ran that query. SQL is the language you use to ask a database for data.',
+              'It worked. <strong>In a demo it worked very well, which is exactly the problem with letting it write the query.</strong>',
+              'Why pull something that works? For two separate reasons that are worth keeping apart, because one is visible immediately and the other is not.',
+            ],
+          },
+          {
+            heading: 'Why we pulled it',
+            part: 'What we removed',
+            paragraphs: [
+              'The first one is security. A model that is allowed to write the query can write any query the language allows. The only thing stopping it is a sentence in its instructions, and an instruction to a language model is a request rather than a guarantee. It gets followed almost every time. That “almost” is the whole difference when there is data from several companies on the other side.',
+              'The second one is duller and we saw it before the first. It made mistakes. Queries that ran without an error and returned a number that was not the one somebody had asked for, which is the worst kind of failure because nobody sees it.',
+              'That is where the rule that orders everything we have built since comes from. <strong>Judgment lives in the code, the interpretation of language lives in the model and knowledge lives in the data.</strong> The model does what it is good at, which is understanding what it has been asked. The code does what needs guarantees, which is touching the data.',
+            ],
+            link: { label: 'Why we do not like agentic architectures', href: '/en/blog/i-dont-like-ai-agents' },
+          },
+          {
+            heading: 'Matching names also lived inside the model',
+            part: 'What we removed',
+            paragraphs: [
+              'That was not the only thing we had to take out of there. Work sites and estates have long names that nobody types the same way twice, so the agent corrects what the person writes and matches it to the real name. That correction exists so that nobody has to remember an exact label.',
+              'At first the model did that matching too. We handed it the list of work sites and estates that person has access to and asked it which one they meant.',
+              'It failed often. And when it did not fail outright it did something worse, matching to the closest name on the list, which is not always the right one. <strong>A name that looks alike is not a name that matches.</strong> The model does not tell those two things apart well.',
+              'Today an approximate matching algorithm does the comparison, what in English is called fuzzy matching. It measures how close two pieces of text are and returns a score, so you can set a floor and discard anything below it. Accuracy went up as soon as it stopped being an opinion.',
+              'The shape of the fix is the same as with the query. A task that looked like language turned out to be comparison. And comparing is one of those things code does the same way every time.',
+            ],
+          },
+          {
+            heading: 'The model proposes, the code builds',
+            part: 'How it works today',
+            paragraphs: [
+              'Today the model writes no query at all. It reads the question and returns a form with fixed fields that we defined in advance: the period, the scope, the filters, the metric and the groupings. Nothing else.',
+              'The code takes that form, checks that every field carries an allowed value and builds the query itself, with the values passed as parameters and the column names taken from a closed list. <strong>No identifier is assembled from text the model wrote.</strong>',
+              'And that is where the guarantee comes from. A form with five known fields can be checked in full before anything runs. A query written in free text cannot.',
+            ],
+            link: { label: 'The agent that queries data without writing a single query', href: '/en/blog/ai-agents-sql' },
+          },
+          {
+            heading: 'Four layers between one company and the one next door',
+            part: 'How it works today',
+            paragraphs: [
+              'The agent answers managers from several companies in the same group, each one about their own, so keeping them apart is the guarantee that holds the whole system up. <strong>Separation is enforced in four places. The model is none of the four.</strong>',
+              'The information the model can read while it answers contains only the companies of whoever is asking, so the rest do not exist for it and it cannot filter out what it never had.',
+              'The name correction we just described searches only inside those same companies. Somebody who writes a name half finished or with a letter out of place lands on the site they meant, if that site is theirs. If it is not, they land nowhere.',
+              'After that, the code validates the request against a closed list of allowed values before building anything. And the final query carries an unconditional filter that, if the permission list ever arrived empty, resolves into a condition no row can match. When something fails, the system closes rather than opening.',
+            ],
+          },
+          {
+            heading: 'What the agent refuses to answer',
+            part: 'What it will not do',
+            paragraphs: [
+              'There are questions the system does not answer on purpose. The columns holding hours worked, lateness and absences for named individuals exist in the database and are simply not exposed to the agent.',
+              '<strong>The refusal does not live in a sentence in its instructions, it lives in what the system can reach.</strong> It is not that it decides not to answer, it is that it has nothing to answer with.',
+            ],
+          },
+          {
+            heading: 'A voice note from the field',
+            part: 'Voice',
+            paragraphs: [
+              'With your hands busy and the phone in your pocket, typing is not always comfortable either. The natural way to ask something in the field is to send a voice note, so the agent understands them.',
+              '<strong>Behind a voice note there are three models and each one does a single thing.</strong> The first transcribes the audio into text. The second reads that text, works out what is being asked and composes the answer, with the usual split, because the code still fetches the data. The third turns the answer into speech.',
+              'It is the same idea that holds up the rest of the system, splitting the work into pieces that each do one thing and can be checked separately.',
+            ],
+          },
+          {
+            heading: 'A written number is not a spoken number',
+            part: 'Voice',
+            paragraphs: [
+              'That chain taught us something that shows up in no demo. The model composing the answer has to write figures and dates out in words, because the one reading them aloud reads what is written.',
+              'And what happens when it does not? A text that says “12,539 kilos” does not sound like twelve thousand five hundred and thirty-nine kilos when a synthesizer reads it. Spelled out in words, it does. The same goes for dates, which spoken and written look nothing alike.',
+              'It looks like a finishing detail and it decides whether the system gets used or abandoned. <strong>An answer that sounds odd does not get questioned, it stops being listened to.</strong>',
+            ],
+          },
+          {
+            heading: 'What gets measured every week',
+            part: 'What we watch',
+            paragraphs: [
+              'The most useful measure on this system compares two things that should always agree: the tool the conversation called for and the tool the model actually used. <strong>When the tool asked for and the tool used do not match, it almost always means the model answered from memory instead of querying</strong>, which is the failure no system error gives away.',
+              'The gaps get classified too, one by one. A question that falls outside what the agent covers, one it does cover but has no data for, and one it did not understand are three different problems, with three different fixes and three different owners. Counting them together solves none of them.',
+            ],
+          },
+          {
+            heading: 'Where it stands today and what comes next',
+            part: 'What we watch',
+            paragraphs: [
+              'The question that used to wait for the office now gets asked from wherever the person is, on a phone, typed or spoken, and the answer comes back in seconds. <strong>The dashboard is still there for anyone who wants it. What changed is that you no longer have to reach it.</strong>',
+              'What is coming next are automatic alerts, the “tell me when this happens” kind, so the system stops waiting for the question and speaks first.',
+            ],
+          },
+        ],
+        cta: {
+          heading: 'Do you have data nobody looks up because it is too much work to reach?',
+          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
+          button: 'Tell us your challenge',
+        },
+      },
+      caseStanton: {
+        tocHeading: 'What this page covers',
+        metaTitle: 'Stanton: invoices that stopped being typed, Ideasforge',
+        metaDescription:
+          'How we automated utility invoice entry for Stanton, with 98% going through untouched. And the day one supplier redesigned its invoice without telling anyone.',
+        hero: {
+          eyebrow: 'Case in production',
+          title: 'Stanton: we assumed invoices do not change. Invoices change',
+          subtitle:
+            'Stanton is a property manager that used to key in every tenant’s electricity, gas and water invoices by hand, at a minute of typing per document. Today 98% go through without anyone touching them. This page tells how it works, why it comes in through a Telegram chat and what we had to add after one utility company redesigned its invoice without telling anyone.',
+          cta: 'Start with the problem',
+          ctaHref: '#problem',
+        },
+        sections: [
+          {
+            heading: 'A minute of typing per invoice',
+            id: 'problem',
+            part: 'The problem',
+            paragraphs: [
+              'Stanton manages properties. Every tenant brings their own electricity, gas and water invoices along with them. Every utility company issues them its own way, with the total wherever each one felt like putting it and the line items written in different words.',
+              'Somebody turned those into data, document by document. <strong>A minute of typing per invoice, every month.</strong>',
+              'None of this is a volume problem, it is a trust problem. As long as somebody has to check the row against the paper, the work has not gone away, it has only moved.',
+            ],
+          },
+          {
+            heading: 'Why it comes in through a Telegram chat',
+            part: 'How it comes in',
+            paragraphs: [
+              'The team forwards the invoices to a Telegram chat, which acts as the inbox. There is no new tool to learn and no extra screen to open every morning.',
+              'The choice has a part worth saying out loud. <strong>Telegram is not the channel people are used to.</strong> That is the reason almost nobody uses it for this.',
+              'We picked it anyway because for this job it is the most workable option there is. Its programming interface is simple and free, so the inbox gets built in hours rather than weeks and it does not add a monthly fee to the project before anyone has shown that it works.',
+              'And the part the team does care about holds. Forwarding a document to a chat is something anybody knows how to do from a phone, wherever they are.',
+            ],
+          },
+          {
+            heading: 'We assumed the format does not change',
+            part: 'What we learned',
+            paragraphs: [
+              'The first version read each invoice, pulled out the fields and dropped them into the spreadsheet the team already worked with. It worked. That was not the problem.',
+              'So what got past us? An assumption we had never written down anywhere. We took it for granted that a utility company always issues its invoices the same way.',
+              'It does not. A utility company redesigns its invoice whenever it suits, without telling anyone and certainly without telling the property manager receiving them. The day that happens, the system keeps reading, keeps extracting and keeps writing rows. <strong>Only some of them no longer say what they appear to say.</strong>',
+              'That is the expensive failure in this class of system. Not the one that breaks loudly, but the one that keeps running and fills a spreadsheet with data nobody is going to check again.',
+            ],
+          },
+          {
+            heading: 'That is why the flow checks the format before going on',
+            part: 'What we learned',
+            paragraphs: [
+              '<strong>What we added was not more intelligence, it was a check.</strong> Before accepting the reading, the flow verifies that the invoice has the shape it is expected to have.',
+              'When that check fails, the flow does not carry on. It does not try to guess where the total has moved to, it does not approximate it and it does not write a row with whatever it managed to pull. It stops and tells a person, with the document in front of them so they can decide.',
+              'The invoice that arrives different stops being a silent data point and becomes a warning. It is more work on the day it happens and much less work in the months that follow, when nobody has to audit a spreadsheet backwards looking for the point where the figures stopped adding up.',
+            ],
+          },
+          {
+            heading: 'What gets checked before a number is accepted',
+            part: 'What we learned',
+            paragraphs: [
+              'The format check is one of three. The other two are just as dull and do the same job.',
+              'That every field is there, because a missing field cannot sit empty in the spreadsheet as if the number did not exist. That they add up between them, because a total that does not match its line items is a total you cannot rely on. And that the format is the expected one, which is the one we learned the hard way.',
+              '<strong>All three run in the middle of the flow, before anything reaches the spreadsheet.</strong> Validating at the end, once the data is written, turns every error into a correction somebody has to trace.',
+            ],
+            link: { label: 'Why validation is the real product', href: '/en/blog/invoice-automation-ocr-ai' },
+          },
+          {
+            heading: 'The 98% that goes through and the 2% that does not',
+            part: 'What you see from outside',
+            paragraphs: [
+              'Today 98% of the invoices become rows without anyone touching them. The team no longer types amounts or dates.',
+              '<strong>The remaining 2% does not disappear, it escalates.</strong> It comes out of the flow with the document beside it and the reason flagged, so whoever reviews it sees where it got stuck instead of having to hunt for it.',
+              'And why not aim for a hundred percent? Because that split is what makes the number worth anything. A system that passed everything would be making things up in the 2% it did not understand. That 2% would land in the spreadsheet looking exactly like the rest.',
+            ],
+          },
+          {
+            heading: 'It started with one process and carried on with the rest',
+            part: 'What you see from outside',
+            paragraphs: [
+              'These are two agents in production, not a platform. And the word agent is deliberate, because underneath each one there are flows, which are sequences of steps that run the same way every time.',
+              '<strong>The agent is the one deciding which flow to trigger with whatever just arrived.</strong> It is the usual split, the model picks the path and the code walks it, with the difference that here the path is a whole flow rather than a query.',
+              'They started with utility invoices, which was the process eating the most hours. Since then the client has been extending the automation to other back-office processes.',
+              'That is the pattern we recommend and the one we see survive. The first process pays for the plumbing, the connection, the logging and the checks. The ones after it reuse all of that and get decided with the numbers from the one already running.',
+              'On how long the first one takes, the straight answer depends on what is there at the start. With the data available, the access granted and the task clearly defined, a pilot in two weeks is realistic.',
+            ],
+            link: { label: 'How we approach process automation', href: '/en/services/ai-workflow-automation' },
+          },
+        ],
+        cta: {
+          heading: 'Is your team still typing documents?',
+          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
+          button: 'Tell us your challenge',
+        },
+      },
+      caseBarceloneta: {
+        tocHeading: 'What this page covers',
+        metaTitle: 'Barceloneta Premium: filtering rental inquiries, Ideasforge',
+        metaDescription:
+          'An agent that handles Barceloneta Premium’s rental inquiries over WhatsApp and filters them. The first version had tools and would not use them.',
+        hero: {
+          eyebrow: 'Case in production',
+          title: 'Barceloneta Premium: we gave the model tools and it did not use them',
+          subtitle:
+            'A rental agency in Barcelona gets dozens of inquiries a day over WhatsApp. Checking each one took five to ten minutes. Today an agent holds that conversation and hands the team a verdict ready to act on. This page tells how it works and, above all, why the first version had to be thrown away.',
+          cta: 'Start with the problem',
+          ctaHref: '#problem',
+        },
+        sections: [
+          {
+            heading: 'Ten minutes per inquiry, dozens of inquiries a day',
+            id: 'problem',
+            part: 'The problem',
+            paragraphs: [
+              'A rental agency gets inquiries all day and almost none of them lead anywhere. Every interested person writes over WhatsApp. Before you can say anything useful you have to find out what they are looking for, on what budget and what paperwork they have.',
+              'That check took five to ten minutes per inquiry, with dozens arriving a day. In the rental peaks the work did not fit in the day, so replies got delayed and the person asking went cold while waiting.',
+              '<strong>The bottleneck was not replying. It was working out, for each conversation, whether it was worth replying at all.</strong>',
+            ],
+          },
+          {
+            heading: 'The first version had tools and would not use them',
+            part: 'What we removed',
+            paragraphs: [
+              'We built it the way almost everything sold as an agent gets built today. A model with a set of tools at its disposal, each one able to look something up or record something, plus the instruction to use them when needed.',
+              'And what can go wrong there? That a lot of the time it did not use them. The tool was not failing, the connection was not failing and there was no error to look at. <strong>The model simply decided it could answer without calling the tool.</strong>',
+              'That came out in two ways and neither is good. Either it made the answer up, because a model missing a fact fills the hole with something that sounds reasonable. Or it got stuck, telling the person it could not go any further when it could.',
+              'What stands out about this case is that on paper everything was right. The tools existed, the instruction to use them was written down and it worked in testing. An instruction to a model is a request, not a guarantee. Here the request was nothing less than remembering to look before speaking.',
+            ],
+            link: { label: 'Why we do not like agentic architectures', href: '/en/blog/i-dont-like-ai-agents' },
+          },
+          {
+            heading: 'The conversation stopped being the model’s business',
+            part: 'How it works today',
+            paragraphs: [
+              'What we did was take away from the model the decision about where the conversation stands. That decision moved to a separate mechanism, written in code, that keeps track of where each chat has got to.',
+              'It runs on two things. Which pieces of information have already been collected, because knowing the budget and not the paperwork is not the same as the other way round. And which stage of questions the conversation is in, because there is an order and the questions do not all get asked at once.',
+              'With those two, the mechanism always knows the exact situation. And that is where the model comes back in, doing what it is good at: reading what the person just wrote and deciding which tool fits that particular state.',
+              'The split is the usual one and that is why it works. <strong>The code keeps count and the model interprets.</strong> Neither one does the other’s job, so there is no longer any point where remembering something depends on a model’s goodwill.',
+            ],
+          },
+          {
+            heading: 'How a lead is judged suitable',
+            part: 'How it works today',
+            paragraphs: [
+              'The agent does not fill in a form and send it. It asks the way somebody from the team would ask, gathering over the course of the conversation what the agency needs to know: solvency, whether there are pets, whether anyone smokes in the property and a few other things the agency defines.',
+              'With that, the request gets classified as suitable or not. The criteria are set in advance, so the classification is always the same for the same answers and does not depend on the words somebody happened to use.',
+              'And where do those criteria live? The answer is the part that usually surprises people. In a spreadsheet table, in the agency’s own Drive, which they open and edit whenever they like. If they change their mind about a requirement tomorrow, they change it there.',
+              'Nobody has to tell us, nobody has to wait for a release on our side and there is no place in the system where that criterion is written down twice. <strong>Whoever sets the rules is whoever answers for them. That is why they live where that person can reach them.</strong>',
+            ],
+          },
+          {
+            heading: 'Who really decides, and what happens with silence',
+            part: 'What it does not do',
+            paragraphs: [
+              'The agent closes nothing. Once it has gathered the information, it sends the team a summary with the classification and a paragraph explaining why. Somebody at the agency reads it and decides whether to book the viewing.',
+              'That separation is not decoration. An automatic classification about people is a recommendation. The decision about who gets to rent a home belongs to whoever answers for it.',
+              'And there is something the system does not do, on purpose. <strong>If the interested person stops replying, the conversation stays exactly where it was.</strong> It does not push, it does not remind them on the third day and it does not write again a week later.',
+              'That was decided because chasing somebody who has gone cold does not pay off for the agency. It is one less feature to build, one less to maintain and one less to explain when somebody asks why a robot is writing to them.',
+            ],
+          },
+          {
+            heading: 'Why the summary goes out by email',
+            part: 'What it does not do',
+            paragraphs: [
+              'The summary arrives by email, which at first glance looks like the lazy option when the agency has a CRM. The reason is duller and more common than it sounds.',
+              'The agency’s CRM lets you read its data from outside, but it does not let you write to it. It has read endpoints rather than a full interface, so no external system can leave anything inside it.',
+              'You can fight that or you can accept it. We build for what is there, so the verdict goes out through the channel that does work and reaches the person who has to decide just as fast.',
+              'It is the kind of detail that shows up in no demo and decides the whole design. <strong>Before promising anyone that the result lands in their system, it is worth checking whether their system lets anything land.</strong>',
+            ],
+          },
+          {
+            heading: 'Three hours a day, and the signal that came later',
+            part: 'What you see from outside',
+            paragraphs: [
+              'The agency puts what it gets back at more than three hours a day, in handling incoming requests alone. <strong>The team stopped doing triage and moved to booking viewings</strong>, which is the part of the job that brings in revenue.',
+              'The person asking, on top of that, gets an answer straight away and at any hour, including the peaks where they used to be left waiting.',
+              'The signal that matters most to us came later. The agency is extending the agent to home sales and to internal processes, on the same foundation that already filters rentals.',
+            ],
+            link: { label: 'The case told from the inside, on the blog', href: '/en/blog/ai-agent-real-estate' },
+          },
+        ],
+        cta: {
+          heading: 'Is your team doing triage instead of selling?',
+          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
+          button: 'Tell us your challenge',
+        },
+      },
+      caseIndustrial: {
+        tocHeading: 'What this page covers',
+        metaTitle: 'A plant assistant for an industrial company, Ideasforge',
+        metaDescription:
+          'A plant assistant for a large industrial company. The first routing measurement came out at 72.8% over 118 real queries. And what we did with that number.',
+        hero: {
+          eyebrow: 'Case in production',
+          title: 'A plant assistant, and what it cost to know whether it was right',
+          subtitle:
+            'A large industrial company had its operating knowledge split between dense manuals and the memory of its most experienced people. We built an assistant that answers from the company’s own systems and walks through the diagnosis step by step. This page tells how it is put together and what it cost us to show that it was getting the answers right.',
+          cta: 'Start with the problem',
+          ctaHref: '#problem',
+        },
+        sections: [
+          {
+            heading: 'Nobody reads the manual with the machine stopped',
+            id: 'problem',
+            part: 'The problem',
+            paragraphs: [
+              'The knowledge of a plant lives in two places and neither is at hand when you need it. Part of it is in long manuals, written to be read with time and calm. The other part is in the heads of the people who have worked there for years.',
+              'Somebody standing in front of a stopped machine can reach neither. They are not going to read forty pages, and the person who knows may be on another shift or not in that day.',
+              'What this company wanted was not a search engine. <strong>A search engine returns documents and leaves the reading to whoever has the least time.</strong> They wanted an answer, with the steps to follow, taken from their own systems.',
+            ],
+          },
+          {
+            heading: 'Half a dozen agents and a single point of contact',
+            part: 'How it works',
+            paragraphs: [
+              'Underneath there is not one assistant but several. Half a dozen specialized agents, each with its own ground, coordinated by an orchestrator that decides which of them a query belongs to.',
+              'From outside none of that shows. Whoever asks writes once and gets one answer, without picking a recipient and without knowing there is a division of labor in there.',
+              'The division exists for a practical reason. <strong>An agent covering a narrow area answers better on that area than a general model trying to cover all of them at once.</strong>',
+              'But that architecture solves one problem and creates another. A decision appears that did not exist before, which is getting right which agent each question belongs to. If that decision fails, it makes no difference how good the agent was that the query never reached.',
+            ],
+            link: { label: 'Why we do not like agentic architectures', href: '/en/blog/i-dont-like-ai-agents' },
+          },
+          {
+            heading: 'The first measurement came out at 72.8%',
+            part: 'What it cost to know',
+            paragraphs: [
+              'That decision has to be measured, and measuring it is work. We gathered 118 real queries, the kind actually asked on the plant floor. Then we checked one by one whether the question had reached the agent it belonged to.',
+              'And how many landed where they should? 72.8%. <strong>Something more than one in four queries was ending up at the wrong agent.</strong>',
+              'A number like that is uncomfortable to show and it is the only door there is to improving. <strong>Without measuring, what you have is the impression that it works, which is exactly what everybody has before they measure.</strong>',
+              'With the 118 in front of you, you can see where it breaks. We corrected the routing and ran the same queries again, and a second round of corrections left it at 91.5%.',
+              'The same 118 every round. Changing the exam between one measurement and the next turns the comparison into decoration.',
+            ],
+          },
+          {
+            heading: 'Why we stopped near 92%',
+            part: 'What it cost to know',
+            paragraphs: [
+              'And how far do you keep going? From 91.5% to 100% there is a stretch, and the temptation to walk it is strong, because a round number shows far better.',
+              'We decided to stop near 92% and say so out loud. <strong>Past a certain point, what improves is no longer the system but the exam.</strong>',
+              'When you chase a perfect score, every case that fails pushes you to adjust the test until it stops failing. The number goes up, the system stays where it was and what you have built is an exam cut to fit whoever passes it.',
+              'The same discipline took away an idea we liked. We tried a cheaper model for the routing and it lost ten points overall, which is already plenty.',
+              'What mattered was in the tie cases, the ones where two agents could both fit and you have to pick well. There it fell from 89% to 44%. The saving was on the model bill and the cost was on the hard queries, which are the ones that make somebody ask in the first place.',
+            ],
+            link: { label: 'Measure AI by profit, not by productivity', href: '/en/blog/measure-ai-by-profit' },
+          },
+          {
+            heading: 'Whoever asks is in charge, not the assistant',
+            part: 'What holds the rest up',
+            paragraphs: [
+              'There are two decisions you cannot see from outside, and they are the ones that let this run inside a large company.',
+              'The first is about permissions. <strong>The assistant has no access of its own to anything.</strong> When it queries a system it does so with the identity of the person asking, so each one sees what their role allows them to see and not one field more.',
+              'The second is about exactness. When the answer has to include a reference text, the model does not write it. It returns a key and the code goes and fetches that text as it is stored, in its own words and with no variation.',
+              'Both come from the same idea, the one that orders everything else. <strong>Anything that can have consequences is not left to a model’s judgment, it is settled in code.</strong>',
+            ],
+          },
+        ],
+        cta: {
+          heading: 'Does your operating knowledge live in manuals and in three people’s memory?',
+          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
+          button: 'Tell us your challenge',
+        },
+      },
+      caseWazzy: {
+        tocHeading: 'What this page covers',
+        metaTitle: 'Wazzy: our WhatsApp appointment assistant, Ideasforge',
+        metaDescription:
+          'Wazzy handles hundreds of appointments a month over WhatsApp in clinics, with health data involved and without a single appointment ever being booked twice.',
+        hero: {
+          eyebrow: 'Our own product',
+          title: 'Wazzy: hundreds of appointments a month and none ever booked twice',
+          subtitle:
+            'Wazzy is our appointment assistant on WhatsApp. It works in dental, physiotherapy and aesthetics clinics, it handles health data every day and it is the system where we try things first before building them for a client.',
+          cta: 'See how it works',
+          ctaHref: '#what-it-does',
+        },
+        sections: [
+          {
+            heading: 'Wazzy answers the clinic’s WhatsApp at any hour',
+            id: 'what-it-does',
+            part: 'What it is',
+            paragraphs: [
+              'A small clinic loses bookings for a fairly untechnical reason. The person on the desk is with somebody in front of them, and whoever writes in asking for an appointment gets no reply. Wazzy answers that message at eleven at night or in the middle of a consultation.',
+              '<strong>It books, changes and cancels appointments over WhatsApp. It leaves the calendar and the patient record up to date without anyone typing anything in the morning.</strong> It is in production in dental, physiotherapy and aesthetics clinics, and it handles hundreds of appointments a month.',
+              'A conversation like that fits in four messages. Somebody writes at half past ten at night saying they need an appointment for a cleaning, afternoon if possible. Wazzy offers two specific slots, the person picks one and the appointment is in the clinic’s calendar before anybody unlocks the door.',
+              'When the message is not a booking, the work looks more like a receptionist’s. An hour has to be moved, and “next week is not great after all” has to be understood as a cancellation. And sometimes you have to notice that whoever is writing has a pain that will not wait until Thursday. That last one the assistant does not resolve, it escalates to a person.',
+            ],
+            link: {
+              label: 'What we build with this for other companies',
+              href: '/en/services/conversational-ai',
+            },
+          },
+          {
+            heading: 'What can be checked from outside',
+            part: 'Why we trust it',
+            paragraphs: [
+              '<strong>The first version of Wazzy was an agent with tools at its disposal and we left it behind.</strong> The one in production today splits the work differently, with much more weight on the code side and considerably less on the model side. How it is put together inside is not something we are going to spell out here, among other reasons because it is not information we owe the competition. What we can show is what that decision produces.',
+              'No appointment has ever been booked twice in the whole history of the product. Not one. It is a failure you cannot fix with an apology, because when it happens there are two people at the door at the same time and one of them has to go home.',
+              '<strong>Nothing reaches production without first passing a battery of real cases with their correct answers written down.</strong> That includes what the clinic itself edits from its own panel, which does not change what the assistant answers until the battery approves it. And we pin the model version, so a provider update does not turn up on its own in production on a Tuesday morning.',
+              'On the running system there are 103 checks watching, tied to 91 named rules the system has to satisfy. And once a week a test walks the whole system end to end, booking an appointment the way a person would.',
+            ],
+          },
+          {
+            heading: 'An appointment at a clinic is health data',
+            part: 'Health data',
+            paragraphs: [
+              'That changes the rules before a line is written. European rules set health data apart in Article 9, among the categories that cannot be processed without a listed reason. The one that covers a clinic is 9.2.h, the healthcare one.',
+              '<strong>Yes, we do store personal data.</strong> Saying otherwise would be more comfortable and it would be false. What we do is store it encrypted field by field rather than encrypting the whole store in one piece, so what gets decrypted is the field needed at that moment.',
+              'The law sets how long a medical record has to be kept, but that duty belongs to the clinic and not to us. Wazzy deletes on request everything that has no legal period over it. What does have one is kept for as long as that period lasts.',
+              '<strong>And the model does not talk to the database.</strong> The two things an assistant can get wrong here, inventing a fact or pulling somebody else’s, do not depend on the model behaving well.',
+            ],
+            link: { label: 'How we handle personal data, in detail', href: '/en/gdpr-compliant-ai' },
+          },
+          {
+            heading: 'The emoji that closed a confirmation',
+            part: 'The scar',
+            paragraphs: [
+              'No system in production is free of having done something silly. This is ours, and we tell it because a rule came out of it that we have used ever since in everything we build.',
+              'The assistant had asked somebody to confirm they were coming to an appointment, and that question stayed open for twenty-four hours. Two and a half hours later, the person replied with two emojis. The assistant read them for what they were, something that was not about the appointment, but in marking them that way it treated the confirmation as closed.',
+              'A minute later that same person wrote to say they were coming. There was nothing open left to confirm. The appointment stayed as pending, the clinic never knew they were coming <strong>and they came</strong>.',
+              '<strong>The confirmation had twenty-one hours of life ahead of it. It did not expire, an emoji killed it.</strong> Out of that came a one-line rule that now goes into everything we build. A message not being about something does not mean that something has finished. Only an action closes an action.',
+              'And we measure it, because an anecdote without a number is no use for deciding anything. Across the life of the product there are 287 confirmations that went the right way, 105 that expired with no reply and 10 that burned like that one.',
+            ],
+          },
+          {
+            heading: 'What we learn here ends up in your project',
+            part: 'What you take from it',
+            paragraphs: [
+              '<strong>Wazzy is the only system of ours where we are the ones who pay when something goes wrong.</strong> That is why it is where we try things first. Almost everything we know about what breaks in a conversational assistant, we know because of it. That learning arrives at client projects already done.',
+              'A client does not buy Wazzy. Wazzy belongs to a clinic and to its appointments. What we build for another company is built for that company’s problem. What carries over from here is the method, which is the tests in front of every change and the discipline of not leaving a model a decision the code can make.',
+            ],
+            link: {
+              label: 'How we build a custom agent',
+              href: '/en/services/ai-agent-development',
+            },
+          },
+        ],
+        cta: {
+          heading: 'Do you want one like this for your company?',
           body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
           button: 'Tell us your challenge',
         },

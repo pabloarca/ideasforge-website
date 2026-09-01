@@ -45,6 +45,10 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
      `src/pages/en/about.astro` (nueve líneas cada uno, en el historial de
      git) y devolver la línea a `sueltos` de Header y a `menu` de Footer. */
   about:       { es: '/quienes-somos',                 en: '/en/about' },
+  // Acuse de los dos formularios. Va `noindex` y fuera del sitemap, pero la
+  // entrada hace falta igual: el par de hreflang y el selector de idioma se
+  // construyen desde aquí, y una página sin par manda al visitante a la portada.
+  thanks:      { es: '/gracias',                       en: '/en/thank-you' },
   privacy:     { es: '/politica-privacidad',           en: '/en/privacy-policy' },
   cookies:     { es: '/politica-cookies',              en: '/en/cookies-policy' },
   enterprise:  { es: '/servicios/conocimiento-corporativo', en: '/en/services/corporate-knowledge' },
@@ -74,13 +78,15 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   aiAct:       { es: '/reglamento-europeo-de-ia',       en: '/en/eu-ai-act-compliance' },
   // Familia nueva de rutas (28 ago 2026): los casos. No persiguen término,
   // su trabajo es convertir a quien ya llegó y dar destino a las tarjetas del
-  // carrusel, que hasta ahora no enlazaban a ninguna parte. Sin entrada inglesa hasta que
-  // se escriba el espejo, así que esta ruta no emite hreflang todavía.
-  caseSavian:  { es: '/casos/savian' },
-  caseStanton: { es: '/casos/stanton' },
-  caseBarceloneta: { es: '/casos/barceloneta' },
-  caseIndustrial: { es: '/casos/industrial' },
-  caseWazzy: { es: '/casos/wazzy' },
+  // carrusel, que hasta ahora no enlazaban a ninguna parte. Emparejadas el
+  // 1 sep 2026, cuando se escribieron los cinco espejos ingleses: hasta ese día
+  // ninguna emitía hreflang y el grupo «Casos» no podía entrar en el menú sin
+  // descuadrar las dos cabeceras.
+  caseSavian:  { es: '/casos/savian',      en: '/en/cases/savian' },
+  caseStanton: { es: '/casos/stanton',     en: '/en/cases/stanton' },
+  caseBarceloneta: { es: '/casos/barceloneta', en: '/en/cases/barceloneta' },
+  caseIndustrial: { es: '/casos/industrial',   en: '/en/cases/industrial' },
+  caseWazzy: { es: '/casos/wazzy',         en: '/en/cases/wazzy' },
   realEstate:  { es: '/inmobiliarias',                 en: '/en/real-estate' },
   accounting:  { es: '/gestorias',                     en: '/en/accounting-firms' },
 };

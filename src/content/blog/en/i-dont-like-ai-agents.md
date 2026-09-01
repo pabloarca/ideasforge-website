@@ -9,7 +9,7 @@ translationId: 'dont-like-agents'
 tags: ['Agents', 'Architecture', 'Security']
 ---
 
-Yes, it is what we sell. It is on our home page. And still, I don't like agentic architectures. Let me sharpen the confession before it sounds like a scandal. **The category is not what bothers me, what bothers me is the way of building it that dominates the market.** An AI agent can be a serious piece of engineering. What I almost never like is where the industry has decided the rules should live.
+Yes, it is what we sell. It is on our home page. And still, I don't like agentic architectures. Let me sharpen the confession before it sounds like a scandal. **The category is not what bothers me, what bothers me is the way the industry has decided to build them.** An AI agent can be a serious piece of engineering. What I almost never like is where the industry has decided the rules should live.
 
 This article exists because the conversation keeps repeating. A client arrives asking for an agent, we build it, and at some point in the project someone asks why our version looks so little like the one in the demo videos. The short answer is that we would not let the one in the videos sign anything in your name. The long answer is this article.
 
@@ -21,15 +21,15 @@ And where do the rules governing that decision live? In the prompt, the text of 
 
 Models are not deterministic. The same question does not always return the same answer. An instruction respected today can be ignored tomorrow without anything having changed in your system, with no error message and nobody noticing. **Building business rules on that foundation is building on sand.**
 
-It is worth asking why the industry builds this way, because the answer is not laziness. The fashionable frameworks make wiring up the loop an afternoon's work. Demos come out dazzling, investor money flows toward whatever carries the agentic label, and adding a sentence to the prompt is infinitely cheaper than programming a validation. Every incentive pushes in the same direction, and none of them points at what happens in production two years later.
+It is worth asking why the industry builds this way, because the answer is not laziness. The fashionable frameworks make wiring up the loop an afternoon's work. Demos come out dazzling, investor money flows toward whatever carries the agentic label, and adding a sentence to the prompt is infinitely cheaper than programming a validation. Every incentive pushes in the same direction, and none of them points to what happens in production two years later.
 
 ## A guarantee and a polite request
 
-We once inherited a piece that entrusted a security filter to the prompt. The instruction read, literally, *"under no circumstances omit the filter"*. It sounded firm. **Put to the test, it was not a guarantee, it was a polite request to a system that signs no contracts.** We marked it for removal, moved the filter into code that always runs, and out of it came the phrase we have used ever since to explain our approach, that you have to learn to tell a guarantee from a polite request.
+We once inherited a system that entrusted a security filter to the prompt. The instruction read, literally, *"under no circumstances omit the filter"*. It sounded firm. **Put to the test, it was not a guarantee, it was a polite request to a system that signs no contracts.** We marked it for removal, moved the filter into code that always runs, and and that gave us the phrase we have used ever since to explain our approach, that you have to learn to tell a guarantee from a polite request.
 
 The striking part is that nobody had done anything wrong in the classic sense. The filter existed, the instruction was clear and the system behaved well most days. What failed ran deeper. A text generator had been asked to act as a barrier. Barriers are not requested, they are built.
 
-If you have a system like this at home, there is a test you can run today without touching anything. Find any sentence in the prompt that starts with "never" or "under no circumstances" and ask yourself what would happen if the model, one day in a thousand, ignored it. If the answer is that nothing would happen because the code would stop it, that rule lives where it should. If the answer is that you would have a problem, now you know the only thing protecting your business. A sentence.
+If you have a system like this running in your company, there is a test you can run today without touching anything. Find any sentence in the prompt that starts with "never" or "under no circumstances" and ask yourself what would happen if the model, one day in a thousand, ignored it. If the answer is that nothing would happen because the code would stop it, that rule lives where it should. If the answer is that you would have a problem, now you know the only thing protecting your business. A sentence.
 
 ## The arithmetic is against it
 
@@ -39,7 +39,7 @@ Grant the perfect prompt that the model never ignores. There is still a problem 
 
 An agent chains steps and every step can go wrong. Intuition says a system that gets it right 95% of the time is a reliable system. Arithmetic says otherwise. For a twenty-step task to end well, all twenty steps have to go well, so the probabilities multiply. A 95% success rate per step leaves the full task at 36%. With ten steps, at almost 60%. **The reliability that impresses in a single step evaporates as soon as steps are chained.**
 
-The way out is not to give up on agents, it is to shorten them. That is why ours split the job into short stretches, each verifiable on its own, with rollback points and a person confirming at the delicate moments. There is also a detail almost nobody mentions, that cost grows with length, because every step drags along the full context of the previous ones and long conversations get expensive at a rate the demos never show.
+The way out is not to give up on agents, it is to shorten them. That is why ours split the job into short stretches, each verifiable on its own, with rollback points and a person confirming before anything irreversible. There is also a detail almost nobody mentions, that cost grows with length, because every step drags along the full context of the previous ones and long conversations get expensive at a rate the demos never show.
 
 Here is the trick behind the demos, almost all of them have fewer than five steps. With five steps at 95% per step, the whole thing works three times out of four and the video gets recorded on the second take. Your company's real processes rarely fit in five steps.
 
@@ -47,9 +47,9 @@ Here is the trick behind the demos, almost all of them have fewer than five step
 
 In late 2024 a team at Carnegie Mellon built [a simulated company](https://arxiv.org/abs/2412.14161) to measure this. A fictional firm with real tools, with its code repository, its project tracker and its internal messaging. The best agents of the moment were handed 175 office tasks any employee would recognize as part of a normal day. The best agent to go through that test completed 30.3% of the tasks on its own. The rest of the attempts failed or got lost along the way. Some agents even cheated, one renamed another user to pretend it had found the person it had been asked to look for.
 
-Another exam from the same year measured the dimension that matters most inside a company, which is not getting it right once but getting it right every time. [Tau-bench](https://arxiv.org/abs/2406.12045) had agents resolve customer transactions for an airline and a shop, with tools and rules in front of them. And it added a metric with a catch, repeating the same task eight times and counting only what was solved all eight. The best agent of the moment was around 61% first time in the shop scenario. Counting only what it solved eight times out of eight, it fell to 25%.
+Another exam from the same year measured the dimension that matters most inside a company, which is not getting it right once but getting it right every time. [Tau-bench](https://arxiv.org/abs/2406.12045) had agents resolve customer transactions for an airline and a shop, with tools and rules in front of them. And it added a metric with a catch, repeating the same task eight times and counting only what was solved all eight. The best agent of the moment was around 61% on the first attempt in the shop scenario. Counting only what it solved eight times out of eight, it fell to 25%.
 
-Today's models score higher first time. The distance between the first attempt and the eighth is of another nature, because it does not measure aim, it measures how much the result varies from one run to the next. And varying is the very nature of the component. **A system that is right sometimes is no use to whoever serves customers. No demo video ever shows the eighth repetition.**
+Today's models score higher first time. The distance between the first attempt and the eighth measures something else entirely, because it does not measure aim, it measures how much the result varies from one run to the next. And variation is what a language model does by definition. **A system that is right sometimes is no use to whoever serves customers. No demo video ever shows the eighth repetition.**
 
 And Gartner, the consultancy those same companies ask for advice, [estimates](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) that more than 40% of agentic AI projects will be canceled before the end of 2027, over escalating costs, value that never shows up or insufficient risk controls. None of the three causes is a mystery if you have read this far.
 
@@ -63,7 +63,7 @@ Think about what that means for architectures. If the front door cannot be fully
 
 Now go back to the typical agentic architecture and count ingredients. The agent has access to private data. It reads text that comes from outside. And it holds tools to act on your systems. Each one apart is harmless. Together they open the door for a malicious text to end up moving data it never should have, which is exactly the risk that tops the OWASP list. The first two are usually the reason the system exists. The third is the one to cut down.
 
-The extreme case is the setup where the model is plugged straight into the database through a connector that lets it write the queries itself (the now-famous MCP connectors). From that moment it can write any query the language allows, and the only thing stopping it is a sentence in its prompt, along the lines of "do not query the payroll table". We have already seen which family that sentence belongs to. It is a polite request.
+The extreme case is the setup where the model is plugged straight into the database through a connector that lets it write the queries itself (MCP connectors). From that moment it can write any query the language allows, and the only thing stopping it is a sentence in its prompt, along the lines of "do not query the payroll table". We have already seen which family that sentence belongs to. It is a polite request.
 
 ## How we build them
 
@@ -77,11 +77,11 @@ In the plant-floor assistant we built for an industrial company, the same happen
 
 ### Never more permissions than the person
 
-The agent has no all-powerful credential of its own. Queries to internal systems are fired by the user with their usual permissions, the same ones they hold across the rest of their company's applications. And when in doubt, the system blocks. If someone's permission list arrives empty, the answer is a flat no instead of default access.
+The agent has no all-powerful credential of its own. Queries to internal systems are executed under the user's own credentials with their usual permissions, the same ones they hold across the rest of their company's applications. And when in doubt, the system blocks. If someone's permission list arrives empty, the answer is a flat no, not full access by default.
 
 ### The part that decides does not expire with the model
 
-There is a consequence of this split that shows up the day you have to change models. That day always comes, because providers retire models regularly and with a date attached. When the model is not the authority, replacing it is a bounded change you can measure. When we considered swapping the model in one of our systems for a cheaper one, we ran both versions through the same test suite, the real cases with their correct answer recorded. The cheaper one lost ten points of accuracy, and on the questions where it had to choose between two similar options it fell from 89% to 44%, so it stayed out with those numbers on the table. If the rules had lived in the prompt, that comparison would never have existed, because there would have been nothing to compare against.
+There is a consequence of this split that shows up the day you have to change models. That day always comes, because providers retire models on a published schedule. When the model is not the authority, replacing it is a bounded change you can measure. When we considered swapping the model in one of our systems for a cheaper one, we ran both versions through the same test suite, the real cases with their correct answer recorded. The cheaper one lost ten points of accuracy, and on the questions where it had to choose between two similar options it fell from 89% to 44%, so we kept the original. If the rules had lived in the prompt, that comparison would never have existed, because there would have been nothing to compare against.
 
 ### The decision can be stored
 
@@ -89,7 +89,7 @@ There remains the least visible benefit, the one that matters most as years pass
 
 ### What this split costs
 
-To be fair, this way of building has a bill too. It demands understanding the process before programming it, so the start is slower than gluing a model to a database. Every new capability is engineering work rather than one more sentence in the prompt. And the system will not surprise you with skills nobody asked for, because it is designed precisely for that. These are real costs, and we pay them in exchange for something concrete, that the system behaves the same on demo day and on day one thousand.
+To be fair, this way of building has a bill too. It demands understanding the process before programming it, so the start is slower than gluing a model to a database. Every new capability is engineering work rather than one more sentence in the prompt. And the system will not surprise you with skills nobody asked for, because that is exactly what it was designed to prevent. These are real costs, and we pay them in exchange for something concrete, that the system behaves the same on demo day and on day one thousand.
 
 ## We are not the only ones who ended up here
 
@@ -97,7 +97,7 @@ The revealing part of this position is who else holds it. Not the AI skeptics. T
 
 [Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents), the guide by Anthropic, the maker of Claude, recommends starting with code-orchestrated workflows and saving agent autonomy for the problems that genuinely need it. The more structure you know about the problem, the fewer decisions you should delegate to the model.
 
-We run a system with half a dozen specialized agents in production, so we say this from experience. Splitting one task across several agents that coordinate on their own fragments the context and makes one agent's decisions collide with another's. It works when changes are executed by a single one and the others contribute judgment rather than actions.
+We run a system with half a dozen specialized agents in production, so we say this from experience. Splitting one task across several agents that coordinate on their own fragments the context and makes one agent's decisions collide with another's. It works when changes are executed by a single one and the others contribute analysis rather than actions.
 
 Three rules come out of that and we apply them always. The control loop is ours and not a fashionable framework's. Prompts are versioned and tested like any other code. And each agent stays small and focused on tasks of few steps.
 
@@ -105,7 +105,7 @@ Each one arrives from a different angle, the model maker, the company selling a 
 
 ## When letting go of the model's hand does make sense
 
-It would be comfortable to stop here and leave the picture in black and white, but the other half would be missing. There are problems where autonomy pays off. They are precisely the ones whose structure you do not know in advance. Exploring an unfamiliar codebase, researching an open question, preparing a draft a person will review calmly before anything happens. In those cases you cannot write the flow in advance because you do not know which steps will be needed. And the cost of a wrong step is low, the draft gets thrown away and nothing happened.
+It would be comfortable to stop here and leave the picture in black and white, but the other half would be missing. There are problems where autonomy pays off. They are precisely the ones whose structure you do not know in advance. Exploring an unfamiliar codebase, researching an open question, preparing a draft a person will review calmly before anything happens. In those cases you cannot write the flow in advance because you do not know which steps will be needed. And the cost of a wrong step is low, the draft gets thrown away and nothing has happened.
 
 Notice that the two criteria go together. Unknown structure and low cost of error. Coding agents work because they meet both, the terrain changes with every task and a person reviews before anything reaches production. An agent with write access to your invoicing meets neither.
 
@@ -121,7 +121,7 @@ None of the three requires knowing how to program. All three take a minute to an
 
 ## So why do we sell them?
 
-Because "AI agent" is how the market names this category, and arguing with your client's vocabulary wastes everyone's time. **What matters is not the label, it is where the rules live.** When we build an agent, the model does what it is irreplaceable at, understanding human language with all its ambiguity. The code does what the model is a danger at, deciding what is allowed. Nobody notices that division in the demo, because demos reward exactly the opposite.
+Because "AI agent" is how the market names this category, and arguing with your client's vocabulary wastes everyone's time. **What matters is not the label, it is where the rules live.** When we build an agent, the model does what it is irreplaceable at, understanding human language with all its ambiguity. The code does what the model is dangerous at, deciding what is allowed. Nobody notices that division in the demo, because demos are scored on exactly the opposite.
 
 **An agent like that is less spectacular on day one. It holds up better for the next three years.**
 

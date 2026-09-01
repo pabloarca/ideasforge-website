@@ -1,0 +1,44 @@
+---
+/*
+  English mirror of `/gracias`. Same reasoning, same shape: both forms land
+  here instead of on the Web3Forms confirmation page, which belongs to them
+  and shows up at the most trusting moment of the whole visit.
+
+  `noindex` because nobody searches for it: it only makes sense behind a
+  submission. It is kept out of the sitemap in `astro.config.mjs`, and
+  `check-seo` exempts it on its own, by reading the robots tag rather than
+  from a list of routes.
+*/
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { content } from '../../i18n/ui';
+import { altsFor } from '../../i18n/utils';
+import { EMPRESA } from '../../lib/empresa';
+
+const lang = 'en' as const;
+const t = content[lang].thanks;
+---
+
+<BaseLayout
+  lang={lang}
+  title={t.metaTitle}
+  description={t.metaDescription}
+  alternates={altsFor('thanks')}
+  noindex
+>
+  <section class="mx-auto max-w-3xl px-5 py-24 sm:px-8 sm:py-32">
+    <p class="font-mono text-sm uppercase tracking-wide text-accent">{t.eyebrow}</p>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight text-fg sm:text-5xl">{t.title}</h1>
+
+    <div class="mt-8 space-y-5 text-lg text-muted">
+      {t.body.map((p) => <p>{p}</p>)}
+      <p>
+        {t.extraPre}<a href={`mailto:${EMPRESA.correo}`} class="link-inline">{EMPRESA.correo}</a
+        >{t.extraPost}
+      </p>
+    </div>
+
+    <p class="mt-10 border-t border-border-soft pt-8 text-lg text-muted">
+      {t.blogPre}<a href="/en/blog" class="link-inline">{t.blogLink}</a>{t.blogPost}
+    </p>
+  </section>
+</BaseLayout>

@@ -2,6 +2,7 @@
 import { type Lang, content } from '../i18n/ui';
 import { routeMap } from '../i18n/utils';
 import { medidas } from '../lib/imagen';
+import { CLAVE_WEB3FORMS, RUTA_GRACIAS } from '../lib/formulario';
 
 interface Props {
   lang: Lang;
@@ -10,6 +11,7 @@ const { lang } = Astro.props;
 const t = content[lang].contact;
 const privacyHref = routeMap.privacy[lang];
 const startHref = routeMap.start[lang];
+const rutaGracias = RUTA_GRACIAS[lang];
 
 // Shared control styling, mirrors the longer form on the exploration page.
 const field =
@@ -35,15 +37,21 @@ const field =
 
     <!--
       Posts to Web3Forms (works on fully static hosting with no backend).
-      Create a free access key at https://web3forms.com and paste it below.
+      The access key comes from the PUBLIC_WEB3FORMS_KEY env var: see
+      src/lib/formulario.ts for why it does not live in this repository.
     -->
     <form
       action="https://api.web3forms.com/submit"
       method="POST"
       class="mt-12 grid gap-6"
     >
-      <input type="hidden" name="access_key" value="YOUR-WEB3FORMS-ACCESS-KEY" />
-      <input type="hidden" name="subject" value="Nuevo mensaje desde ideasforge.io" />
+      <input type="hidden" name="access_key" value={CLAVE_WEB3FORMS} />
+      <input type="hidden" name="subject" value={t.subject} />
+      {/* Sin `redirect`, quien envía aterriza en la página de confirmación
+          de Web3Forms. Con él, en la nuestra. Pide URL absoluta. */}
+      {rutaGracias && (
+        <input type="hidden" name="redirect" value={new URL(rutaGracias, Astro.site ?? 'https://ideasforge.io').href} />
+      )}
       <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
 
       <div class="grid gap-6 sm:grid-cols-2">
@@ -106,7 +114,7 @@ const field =
         />
         <span>
           {t.privacyPre}
-          <a href={privacyHref} class="text-accent underline decoration-dotted underline-offset-2 hover:decoration-solid">{t.privacyLink}</a>.
+          <a href={privacyHref} class="text-accent underline decoration-dotted underline-offset-2 hover:decoration-solid">{t.privacyLink}</a>{t.privacyPost}
         </span>
       </label>
 

@@ -31,7 +31,19 @@ if (!existsSync(DIST)) {
    idea es cazar una regresión gorda, no perseguir kilobytes. */
 const PRESUPUESTO = {
   ficheroKB: 600,        // ningún recurso suelto por encima
-  sitioMB: 8,            // dist/ entero
+  /*
+   * Sube de 8 a 9 el 1 sep 2026, y conviene saber por qué antes de bajarlo.
+   * El 8 se calibró cuando el sitio tenía 58 páginas y las portadas sociales
+   * acababan de pasar de degradado a fondo plano. Medido hoy, dist/ estaba en
+   * 8,06 MB ANTES de escribir los cinco espejos ingleses de los casos, o sea
+   * que la regla ya estaba en rojo por el crecimiento normal del sitio. Con
+   * las cinco páginas queda en 8,46 MB, de los cuales 1,64 MB son las 54
+   * portadas generadas en la compilación, una por página.
+   * La regla sigue sirviendo para lo que se montó, que era cazar un salto como
+   * el de las portadas con degradado (10,9 MB). Si vuelve a quedarse corta, lo
+   * que toca no es subirla otra vez, es `astro:assets` sobre las imágenes.
+   */
+  sitioMB: 9,            // dist/ entero
   htmlKB: 400,           // una página compilada
   tituloMax: 62,         // con el sufijo «, Ideasforge»
   descMin: 70,
@@ -82,6 +94,14 @@ const paginas = htmls.map((f) => {
     s,
     kb: Math.round(statSync(f).size / 1024),
     exenta: EXENTAS.some((re) => re.test(r)),
+    /*
+      Una página que se declara `noindex` está fuera del índice a propósito, así
+      que las tres reglas que persiguen tráfico dejan de aplicarle: no compite
+      por ningún término, nadie la enlaza porque solo se llega tras una acción y
+      no tiene por qué estar en el sitemap. Se lee de la etiqueta y no de una
+      lista de rutas, para que la próxima no haya que acordarse de apuntarla.
+    */
+    noindex: /name="robots"[^>]*content="noindex/.test(s),
     titulo: (s.match(/<title>([^<]*)<\/title>/) || [])[1] || '',
     desc: (s.match(/name="description" content="([^"]*)"/) || [])[1] || '',
     canonical: (s.match(/rel="canonical" href="([^"]*)"/) || [])[1] || '',
@@ -96,6 +116,9 @@ const paginas = htmls.map((f) => {
   };
 });
 const rutas = new Set(paginas.map((p) => p.r));
+/* La 404 nunca se indexó ni se enlaza, y las `noindex` lo piden ellas mismas. */
+const fueraDelIndice = (p) => /^\/404$/.test(p.r) || p.noindex;
+const rutasFuera = new Set(paginas.filter(fueraDelIndice).map((p) => p.r));
 
 /* ── 1. Metadatos por página ─────────────────────────────────────────────── */
 for (const p of paginas) {
@@ -133,7 +156,7 @@ for (const p of paginas) {
     error(p.r, `description de ${p.desc.length} caracteres`,
       `fuera del rango ${PRESUPUESTO.descMin}-${PRESUPUESTO.descMax}: «${p.desc.slice(0, 70)}…»`);
   }
-  if (p.palabras < PRESUPUESTO.palabrasMin) {
+  if (p.palabras < PRESUPUESTO.palabrasMin && !fueraDelIndice(p)) {
     aviso(p.r, `${p.palabras} palabras`, `por debajo de ${PRESUPUESTO.palabrasMin} una página no compite por ningún término`);
   }
 }
@@ -250,7 +273,7 @@ for (const p of paginas) {
   }
 }
 for (const [r, n] of entrantes) {
-  if (n === 0 && r !== '/' && r !== '/en' && !/^\/404$/.test(r)) {
+  if (n === 0 && r !== '/' && r !== '/en' && !rutasFuera.has(r)) {
     error(r, 'página huérfana', 'ningún enlace interno apunta a ella');
   }
 }
@@ -276,7 +299,7 @@ for (const inicio of ['/', '/en']) {
 for (const p of paginas) {
   const d = profundidad.get(p.r);
   if (d === undefined) {
-    if (!/^\/404$/.test(p.r)) error(p.r, 'inalcanzable', 'no se llega desde ninguna portada siguiendo enlaces');
+    if (!fueraDelIndice(p)) error(p.r, 'inalcanzable', 'no se llega desde ninguna portada siguiendo enlaces');
   } else if (d > PRESUPUESTO.profundidadMax) {
     aviso(p.r, `a ${d} clics de la portada`, `el techo de la casa son ${PRESUPUESTO.profundidadMax}`);
   }
@@ -312,7 +335,7 @@ if (existsSync(sm)) {
   for (const u of locs) {
     if (sobra(u)) error('sitemap', 'URL con barra final', u);
   }
-  const faltan = paginas.filter((p) => !/^\/404$/.test(p.r))
+  const faltan = paginas.filter((p) => !fueraDelIndice(p))
     .filter((p) => !locs.some((u) => (new URL(u).pathname.replace(/\/$/, '') || '/') === p.r));
   for (const p of faltan) aviso('sitemap', 'página fuera del sitemap', p.r);
 } else {
