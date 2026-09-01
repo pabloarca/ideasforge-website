@@ -2,6 +2,38 @@
 @plugin "@tailwindcss/typography";
 
 /*
+  Space Grotesk, servida por nosotros.
+
+  Antes venía de Google Fonts con ocho pesos de dos familias. La medición del
+  CI del 1 sep 2026 dijo tres cosas de esa decisión:
+    - el CSS de Google bloqueaba el render 224 ms;
+    - el texto de las entradas de blog se recolocaba al llegar la tipografía,
+      y eso era el CLS de 0,107 que sacaba el post de facturas del umbral;
+    - de las dos familias, **Raleway no se usaba en ninguna parte** y aun así
+      se descargaban sus tres pesos, igual que el peso 300 de Space Grotesk.
+
+  Y hay una cuarta razón que no es de rendimiento: cargar de Google Fonts
+  manda la IP de cada visitante a un tercero. Para una casa que vende
+  cumplimiento del RGPD, servir su propia tipografía es coherencia.
+
+  Es una fuente variable, así que un único fichero de 22 KB cubre de 300 a
+  700. Licencia SIL Open Font License 1.1, que permite el alojamiento propio.
+*/
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  /* El rango completo del eje de peso: la variable los interpola todos. */
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/space-grotesk-latin.woff2') format('woff2');
+  /* Subconjunto latino. Cubre el castellano entero, acentos, eñe y signos de
+     apertura. El latin-ext es para lenguas del este de Europa y aquí sobra. */
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/*
   Tailwind v4 is CSS-first: this file *is* the config. Tokens replicate the
   Ideasforge WordPress kit so the new Astro site matches the original look.
   Primary action color is BLACK (matches the dark CTA buttons on the original).
@@ -15,8 +47,24 @@
   --color-border-soft: #efefef;
 
   --color-fg: #000000;             /* strong black for headings */
-  --color-muted: #7a7a7a;          /* body text */
-  --color-faint: #a3a3a3;          /* meta / labels */
+  /*
+    Los dos grises subieron de tono el 1 sep 2026 porque no pasaban el
+    contraste mínimo de la norma (WCAG AA pide 4,5:1 para texto normal). Los
+    medía Lighthouse desde el CI: fallaba en las cuatro páginas de la muestra,
+    entre 16 y 84 elementos en cada una, y era lo único que dejaba la
+    accesibilidad en 89.
+
+    No eran decenas de arreglos, eran estas dos líneas.
+
+      muted  #7a7a7a → #5f5f5f    de 4,29:1 a 6,39:1
+      faint  #a3a3a3 → #767676    de 2,52:1 a 4,54:1
+
+    `faint` se queda justo en el suelo de la norma a propósito, para que siga
+    siendo más claro que `muted` y la jerarquía de tres niveles (negro, cuerpo,
+    secundario) no se pierda. Bajar más de #767676 vuelve a incumplir.
+  */
+  --color-muted: #5f5f5f;          /* body text */
+  --color-faint: #767676;          /* meta / labels */
 
   --color-primary: #000000;        /* primary action = black button */
   --color-primary-hover: #1a1a1a;
@@ -110,15 +158,28 @@ body {
   transform: translateY(-2px);
 }
 
-/* Inline link inside body copy rendered with set:html (modals, paragraphs).
-   Accent colour and no underline at rest, so it never competes with the <u>
-   used for emphasis in the same paragraph. */
+/*
+  Enlace dentro del texto corrido.
+
+  Llevaba solo color, y la norma no lo admite: quien no distingue el azul del
+  negro no ve que ahí hay un enlace. Lo cazó Lighthouse desde el CI el 1 sep
+  2026 (`link-in-text-block`).
+
+  La solución NO es subrayarlo entero, porque entonces choca con el <u> que
+  esta misma casa usa para enfatizar dentro del mismo párrafo, que era la razón
+  por la que no llevaba subrayado. Va **punteado** en reposo, que es una señal
+  que no depende del color y que no se confunde con el énfasis, y pasa a sólido
+  al posarse encima.
+*/
 @utility link-inline {
   color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
   text-underline-offset: 2px;
 }
 .link-inline:hover {
-  text-decoration: underline;
+  text-decoration-style: solid;
 }
 
 /* Floating pill chip, used in Services and FAQ rows */

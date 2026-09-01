@@ -29,12 +29,27 @@
       }
     },
     "assert": {
+      "//": [
+        "Umbrales fijados el 1 sep 2026 con la primera medición real (ejecución",
+        "33476338444), no inventados. Lo que dio entonces, mediana de 3 pasadas:",
+        "rendimiento 97-100, SEO 100, buenas prácticas 100, LCP 0,63-0,68 s.",
+        "Los errores se ponen POR DEBAJO de lo medido, con holgura: la idea es",
+        "cazar una regresión, no perseguir el último punto.",
+        "",
+        "Accesibilidad y CLS siguen en aviso una vuelta más. Se arreglaron ese",
+        "mismo día el contraste, los enlaces solo por color, el área de los",
+        "puntos del carrusel y la tipografía autoalojada que provocaba el salto,",
+        "pero NADA de eso está medido todavía. Se endurecen cuando la siguiente",
+        "ejecución confirme los números, no antes."
+      ],
       "preset": "lighthouse:no-pwa",
       "assertions": {
-        "categories:seo": ["warn", { "minScore": 1 }],
+        "categories:seo": ["error", { "minScore": 1 }],
+        "categories:best-practices": ["error", { "minScore": 1 }],
+        "categories:performance": ["error", { "minScore": 0.95 }],
+        "largest-contentful-paint": ["error", { "maxNumericValue": 1500 }],
+        "total-blocking-time": ["error", { "maxNumericValue": 200 }],
         "categories:accessibility": ["warn", { "minScore": 0.95 }],
-        "categories:performance": ["warn", { "minScore": 0.9 }],
-        "largest-contentful-paint": ["warn", { "maxNumericValue": 2500 }],
         "cumulative-layout-shift": ["warn", { "maxNumericValue": 0.1 }],
         "total-byte-weight": ["warn", { "maxNumericValue": 1600000 }],
         "unused-css-rules": "off",

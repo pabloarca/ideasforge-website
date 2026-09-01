@@ -126,12 +126,28 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Google Fonts: Space Grotesk (display + body) + Raleway (accents) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      Space Grotesk servida por nosotros, un fichero variable de 22 KB. La
+      declaración vive en global.css; aquí solo se precarga.
+
+      El `preload` es lo que arregla el salto de maquetación: sin él, el
+      navegador no descubre la tipografía hasta que ha leído y aplicado el CSS,
+      pinta con la de respaldo y recoloca el texto cuando llega la buena. Con
+      él la pide en la primera tanda y llega antes de pintar.
+
+      `crossorigin` es obligatorio aunque el fichero sea nuestro: las fuentes
+      se piden en modo anónimo, y sin el atributo el navegador descarga el
+      fichero dos veces.
+
+      Antes esto eran tres etiquetas a Google, con dos familias, ocho pesos y
+      224 ms de bloqueo de render.
+    -->
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="preload"
+      href="/fonts/space-grotesk-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
 
     <title>{title}</title>

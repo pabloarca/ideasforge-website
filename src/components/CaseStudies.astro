@@ -152,12 +152,18 @@ const t = content[lang].caseStudies;
       >
         {
           t.items.map((_, i) => (
+            /* El punto se ve de 10 px y se pulsa de 24, que es el mínimo que
+               pide la norma y que Lighthouse marcaba como `target-size`. Lo da
+               el pseudoelemento, que agranda el área sensible sin tocar nada de
+               lo que se ve: `-inset-[7px]` son los 7 px por lado que llevan de
+               10 a 24. El comentario va aquí y no entre los atributos, donde el
+               parser lo leería como una expresión y rompería el build. */
             <button
               type="button"
               data-carousel-dot
               data-index={i}
               aria-label={`${lang === 'es' ? 'Proyecto' : 'Project'} ${i + 1}`}
-              class="h-2.5 w-2.5 rounded-full bg-border transition-colors"
+              class="relative h-2.5 w-2.5 rounded-full bg-border transition-colors before:absolute before:-inset-[7px] before:content-['']"
             />
           ))
         }
