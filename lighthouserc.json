@@ -36,11 +36,12 @@
         "Los errores se ponen POR DEBAJO de lo medido, con holgura: la idea es",
         "cazar una regresión, no perseguir el último punto.",
         "",
-        "Accesibilidad y CLS siguen en aviso una vuelta más. Se arreglaron ese",
-        "mismo día el contraste, los enlaces solo por color, el área de los",
-        "puntos del carrusel y la tipografía autoalojada que provocaba el salto,",
-        "pero NADA de eso está medido todavía. Se endurecen cuando la siguiente",
-        "ejecución confirme los números, no antes."
+        "Segunda medición, tras autoalojar la tipografía y subir el contraste",
+        "(ejecución 33478132008): rendimiento 100 en las cuatro, accesibilidad",
+        "96-100, LCP 0,29-0,44 s y CLS 0,000 en todas. Con eso medido,",
+        "accesibilidad y CLS pasan también a error. El CLS baja a 0,05, la mitad",
+        "del umbral de la norma, porque el sitio da cero y volver a 0,1 sería",
+        "aceptar de antemano una regresión que hoy no existe."
       ],
       "preset": "lighthouse:no-pwa",
       "assertions": {
@@ -49,8 +50,8 @@
         "categories:performance": ["error", { "minScore": 0.95 }],
         "largest-contentful-paint": ["error", { "maxNumericValue": 1500 }],
         "total-blocking-time": ["error", { "maxNumericValue": 200 }],
-        "categories:accessibility": ["warn", { "minScore": 0.95 }],
-        "cumulative-layout-shift": ["warn", { "maxNumericValue": 0.1 }],
+        "categories:accessibility": ["error", { "minScore": 0.95 }],
+        "cumulative-layout-shift": ["error", { "maxNumericValue": 0.05 }],
         "total-byte-weight": ["warn", { "maxNumericValue": 1600000 }],
         "unused-css-rules": "off",
         "uses-long-cache-ttl": "off",
