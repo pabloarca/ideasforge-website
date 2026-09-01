@@ -1,5 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
 import sitemap from '@astrojs/sitemap';
 import portadasSociales from './scripts/integracion-og.mjs';
 import tailwindcss from '@tailwindcss/vite';
@@ -7,6 +9,33 @@ import tailwindcss from '@tailwindcss/vite';
 // 👉 Change this to your production domain. It is used for canonical URLs,
 //    hreflang alternates and the sitemap.
 const SITE = 'https://ideasforge.io';
+
+/*
+  Fechas reales de las entradas del blog, leídas del frontmatter para que el
+  sitemap pueda declarar `lastmod` sin inventarse nada. Se hace aquí con un
+  lector mínimo y no con la API de contenido porque la configuración se evalúa
+  antes de que esa API exista.
+*/
+const fechasDelBlog = (() => {
+  const mapa = new Map();
+  for (const idioma of ['es', 'en']) {
+    const dir = `./src/content/blog/${idioma}`;
+    if (!existsSync(dir)) continue;
+    for (const fichero of readdirSync(dir).filter((f) => f.endsWith('.md'))) {
+      const txt = readFileSync(join(dir, fichero), 'utf8');
+      // Un borrador no está publicado, así que tampoco está en el sitemap.
+      if (/^draft:\s*true/m.test(txt)) continue;
+      const act = (txt.match(/^updatedDate:\s*(\S+)/m) || [])[1];
+      const pub = (txt.match(/^pubDate:\s*(\S+)/m) || [])[1];
+      const fecha = act || pub;
+      if (!fecha) continue;
+      const slug = fichero.replace(/\.md$/, '');
+      const ruta = idioma === 'en' ? `/en/blog/${slug}` : `/blog/${slug}`;
+      mapa.set(ruta, new Date(fecha).toISOString());
+    }
+  }
+  return mapa;
+})();
 
 // https://astro.build/config
 export default defineConfig({
@@ -44,6 +73,25 @@ export default defineConfig({
   integrations: [
     portadasSociales(),
     sitemap({
+      /*
+        `lastmod` SOLO donde la fecha es de verdad, que hoy es el blog.
+
+        La tentación es poner la fecha de compilación en las 57 URL, y es peor
+        que no poner nada: un sitemap donde todo cambió «hoy», cada día, deja de
+        aportar información y Google acaba ignorando el campo del sitio entero.
+        Las páginas fijas no llevan fecha de modificación en ninguna parte, así
+        que no se inventa.
+
+        Las entradas del blog sí la tienen, en `updatedDate` o, si nunca se ha
+        revisado, en `pubDate`. El mapa se construye una vez y se consulta por
+        URL al serializar.
+      */
+      serialize(item) {
+        const ruta = new URL(item.url).pathname.replace(/\/+$/, '') || '/';
+        const fecha = fechasDelBlog.get(ruta);
+        if (fecha) item.lastmod = fecha;
+        return item;
+      },
       i18n: {
         defaultLocale: 'es',
         locales: {

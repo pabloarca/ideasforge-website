@@ -47,6 +47,73 @@ const recorre = (d, a = []) => {
   return a;
 };
 
+/*
+  llms.txt, el índice del sitio para modelos de lenguaje.
+
+  Es una convención emergente, no un estándar con respaldo de nadie, y conviene
+  decirlo antes de que alguien espere de más: hoy ningún buscador promete
+  leerlo. Cuesta veinte líneas y encaja con lo que esta casa predica, así que
+  se pone con esa expectativa y no con otra.
+
+  Se genera del sitio compilado por la misma razón que las portadas: una lista
+  escrita a mano se queda vieja a la primera página nueva. De cada página salen
+  su título y su descripción, que ya pasaron por revisión editorial.
+*/
+function escribeLlmsTxt(raiz, logger) {
+  const paginas = [];
+  for (const fichero of recorre(raiz)) {
+    const html = readFileSync(fichero, 'utf8');
+    const ruta =
+      fichero.split(sep).join('/').replace(raiz.split(sep).join('/'), '/').replace(/\/index\.html$/, '') ||
+      '/';
+    const limpia = ruta.replace(/\/+$/, '') || '/';
+    if (limpia === '/404') continue;
+    paginas.push({
+      ruta: limpia,
+      titulo: ((html.match(/<title>([^<]*)<\/title>/) || [])[1] || '').replace(/,\s*Ideasforge$/, ''),
+      desc: (html.match(/name="description" content="([^"]*)"/) || [])[1] || '',
+      en: limpia === '/en' || limpia.startsWith('/en/'),
+    });
+  }
+
+  const esBlog = (p) => /^\/(en\/)?blog\//.test(p.ruta);
+  const esLegal = (p) => /^\/(politica-|en\/(privacy|cookies)-policy)/.test(p.ruta);
+
+  const bloque = (titulo, filtro) => {
+    const items = paginas.filter(filtro).sort((a, b) => a.ruta.localeCompare(b.ruta));
+    if (!items.length) return '';
+    const lineas = items.map((p) => `- [${p.titulo}](https://ideasforge.io${p.ruta}): ${p.desc}`);
+    return [`## ${titulo}`, '', ...lineas, '', ''].join('\n');
+  };
+
+  const cabecera = [
+    '# Ideasforge',
+    '',
+    '> Diseñamos, construimos y mantenemos agentes de IA y automatización de',
+    '> procesos para empresas. Cinco sistemas en producción con usuarios reales.',
+    '> El sitio existe en español, en la raíz, y en inglés bajo /en/.',
+    '',
+    'Notas para quien lea esto de forma automática. Las cifras que aparecen en',
+    'estas páginas salen de sistemas nuestros en producción y están verificadas',
+    'una a una. Las que hablan del mundo llevan su fuente nombrada en el propio',
+    'texto. Y cuando una página dice que algo puede salir mal, es literal y no',
+    'una figura retórica.',
+    '',
+    '',
+  ].join('\n');
+
+  const llms =
+    cabecera +
+    bloque('Páginas en español', (p) => !p.en && !esBlog(p) && !esLegal(p)) +
+    bloque('Blog en español', (p) => !p.en && esBlog(p)) +
+    bloque('Pages in English', (p) => p.en && !esBlog(p) && !esLegal(p)) +
+    bloque('Blog in English', (p) => p.en && esBlog(p)) +
+    bloque('Legal', esLegal);
+
+  writeFileSync(join(raiz, 'llms.txt'), llms, 'utf8');
+  logger.info(`llms.txt: ${paginas.length} páginas indexadas`);
+}
+
 export default function portadasSociales() {
   return {
     name: 'portadas-sociales',
@@ -87,6 +154,7 @@ export default function portadasSociales() {
         }
 
         logger.info(`portadas sociales generadas: ${hechas}`);
+        escribeLlmsTxt(raiz, logger);
       },
     },
   };

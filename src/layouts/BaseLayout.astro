@@ -17,6 +17,13 @@ interface Props {
   /** og:type, use 'article' for blog posts. */
   ogType?: 'website' | 'article';
   /**
+   * Fechas del artículo, solo para posts. Van a Open Graph, que es lo que leen
+   * las redes al construir la vista previa. El JSON-LD ya las llevaba, pero es
+   * otro consumidor: uno alimenta al buscador y el otro a quien comparte.
+   */
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  /**
    * Imagen para compartir. Si la página no pasa ninguna, se usa la portada
    * generada para ella, que se construye al terminar el build a partir de
    * este mismo `og:image` (ver `scripts/integracion-og.mjs`). Las páginas con
@@ -31,6 +38,8 @@ const {
   description,
   alternates = { es: '/', en: '/en' },
   ogType = 'website',
+  publishedTime,
+  modifiedTime,
   image,
 } = Astro.props;
 
@@ -150,6 +159,13 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
     <meta name="generator" content={Astro.generator} />
 
     <!--
+      Sin esto Google recorta las imágenes a una miniatura en los resultados y
+      en Discover. No cambia el posicionamiento, cambia cuánto ocupa el
+      resultado, que es lo que decide si alguien lo pulsa.
+    -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+    <!--
       Space Grotesk servida por nosotros, un fichero variable de 22 KB. La
       declaración vive en global.css; aquí solo se precarga.
 
@@ -200,6 +216,12 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    {publishedTime && (
+      <meta property="article:published_time" content={publishedTime.toISOString()} />
+    )}
+    {modifiedTime && (
+      <meta property="article:modified_time" content={modifiedTime.toISOString()} />
+    )}
     <meta property="og:site_name" content="Ideasforge" />
 
     <!-- Twitter -->

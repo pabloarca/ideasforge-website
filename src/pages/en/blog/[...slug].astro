@@ -82,6 +82,8 @@ const articleJsonLd = JSON.stringify({
   description={post.data.description}
   alternates={alternates}
   ogType="article"
+  publishedTime={post.data.pubDate}
+  modifiedTime={post.data.updatedDate}
   image={post.data.heroImage}
 >
   <script is:inline slot="head" type="application/ld+json" set:html={articleJsonLd} />
