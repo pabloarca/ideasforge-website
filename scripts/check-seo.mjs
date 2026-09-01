@@ -355,6 +355,58 @@ for (const p of paginas.filter((x) => /^\/(politica-privacidad|en\/privacy-polic
   }
 }
 
+/* ── 8 ter. Grafías británicas en las páginas inglesas ───────────────────────
+   `check-copy` ya vigila esto, pero solo sobre `ui.ts` y los markdown del
+   blog. Las páginas escritas directamente en `.astro`, que son las cuatro
+   legales, quedaban fuera de esa red. Se coló un «enquiry» en la política de
+   privacidad inglesa el 1 sep 2026 y lo cazó una comprobación a mano, que es
+   exactamente lo que este verificador existe para no depender de.
+
+   Se mira sobre el compilado, así que cubre venga el texto de donde venga. Las
+   palabras van con sus límites para no cazar «specialist» al buscar
+   «specialise», que ya dio un falso positivo ese mismo día. */
+const BRITANICAS = {
+  enquiry: 'inquiry', enquiries: 'inquiries', organise: 'organize',
+  organising: 'organizing', organisation: 'organization',
+  organisations: 'organizations', recognise: 'recognize',
+  recognising: 'recognizing', specialise: 'specialize',
+  specialised: 'specialized', normalise: 'normalize', normalised: 'normalized',
+  analyse: 'analyze', analysing: 'analyzing', realise: 'realize',
+  realised: 'realized', realising: 'realizing', optimise: 'optimize',
+  optimisation: 'optimization', judgement: 'judgment', behaviour: 'behavior',
+  licence: 'license', centre: 'center', digitise: 'digitize',
+  digitisation: 'digitization', practise: 'practice', cancelled: 'canceled',
+  travelled: 'traveled',
+};
+
+/* Nombres propios que nacieron con grafía británica. No son faltas y no se
+   corrigen: el organismo se llama así. Misma lista que en `check-copy.mjs`. */
+const NOMBRES_PROPIOS = ['national cyber security centre'];
+
+for (const p of paginas.filter((x) => x.r === '/en' || x.r.startsWith('/en/'))) {
+  /*
+    Se mira el documento entero y no solo `<main>`. La primera versión de esta
+    regla se limitaba al contenido principal y se le escapó un «realising» vivo
+    en la portada inglesa, porque estaba dentro de un modal que se pinta fuera.
+    Lo que se publica es todo, no solo lo que va en `<main>`.
+  */
+  let texto = p.s
+    .replace(/<head[\s\S]*?<\/head>/, ' ')
+    .replace(/<script[\s\S]*?<\/script>/g, ' ')
+    .replace(/<[^>]*>/g, ' ');
+  for (const nombre of NOMBRES_PROPIOS) {
+    texto = texto.replace(new RegExp(nombre, 'gi'), ' ');
+  }
+  for (const [brit, ameri] of Object.entries(BRITANICAS)) {
+    // Ojo con el escapado: dentro de una plantilla, `\b` es el carácter de
+    // retroceso y no un límite de palabra, así que hace falta `\\b`. Escrito
+    // mal, esta regla no encuentra nada nunca y parece que todo está bien.
+    if (new RegExp(`\\b${brit}\\b`, 'i').test(texto)) {
+      error(p.r, 'grafía británica', `«${brit}» debería ser «${ameri}»`);
+    }
+  }
+}
+
 /* ── 9. Ficheros que tienen que estar ────────────────────────────────────── */
 for (const [f, motivo] of [
   ['robots.txt', 'sin él los rastreadores van a ciegas'],
