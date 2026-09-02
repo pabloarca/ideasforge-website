@@ -3997,7 +3997,7 @@ export const content: Record<Lang, SiteContent> = {
     },
     hero: {
       eyebrow: 'We are the forge of your ideas',
-      title: 'Stop searching your systems. AI agents that answer and act.',
+      title: 'We build AI agents that answer from your data and act in your systems.',
       subtitle:
         'At Ideasforge we design and maintain custom AI agents for mid-size and large companies, on your infrastructure and measured before every change.',
       ctaPrimary: 'Tell us your challenge',
