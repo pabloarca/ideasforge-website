@@ -38,7 +38,11 @@ const { lang } = Astro.props;
 const t = content[lang].consent;
 const politica = routeMap.cookies[lang];
 
-const GA_ID = import.meta.env.PUBLIC_GA_ID;
+// El `.trim()` va por lo mismo que en `lib/formulario.ts`: la clave hermana
+// llegó a producción el 2 sep 2026 con un espacio delante, pegado al guardarla
+// en Cloudflare. Aquí el daño sería mayor todavía, porque un `GA_ID` con
+// espacio es un valor y encendería el aviso de cookies sin que se midiera nada.
+const GA_ID = import.meta.env.PUBLIC_GA_ID?.trim();
 ---
 
 {

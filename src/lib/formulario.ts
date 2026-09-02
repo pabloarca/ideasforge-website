@@ -18,7 +18,15 @@
  * Es deliberado: un formulario que no envía nada tiene que doler en el build y
  * no descubrirse por un cliente que escribió y nunca recibió respuesta.
  */
-export const CLAVE_WEB3FORMS = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+/*
+  El `.trim()` no es adorno. El 2 sep 2026 la clave llegó a producción con un
+  espacio delante, pegado sin querer al guardarla en Cloudflare, y el
+  formulario quedó publicado y mudo: Web3Forms compara la clave carácter a
+  carácter, así que un espacio la rechaza igual que si estuviera vacía. Y el
+  aviso de abajo no saltaba, porque una cadena con un espacio sí es un valor.
+  Fallaba en silencio, que es la peor forma de fallar.
+*/
+export const CLAVE_WEB3FORMS = (import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '').trim();
 
 if (!CLAVE_WEB3FORMS) {
   console.warn(
