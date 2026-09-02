@@ -568,7 +568,7 @@ export const content: Record<Lang, SiteContent> = {
     },
     hero: {
       eyebrow: 'Somos la forja de tus ideas',
-      title: 'Deja de buscar en tus sistemas. Agentes de IA que responden y actúan.',
+      title: 'Construimos agentes de IA que responden con tus datos y actúan en tus sistemas.',
       subtitle:
         'En Ideasforge diseñamos y mantenemos agentes de IA a medida para medianas y grandes empresas, sobre tu infraestructura y medidos antes de cada cambio.',
       ctaPrimary: 'Cuéntanos tu reto',

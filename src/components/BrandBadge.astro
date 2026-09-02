@@ -59,9 +59,15 @@ const { text, class: extraClass = '' } = Astro.props;
     navegador las compone sin recalcular el layout, y el marco ya ocupa su
     sitio desde el primer fotograma, asi que nada se desplaza alrededor.
 
-    El texto usa clip-path por pasos. El ultimo paso se pasa un 2% de largo a
-    proposito: con fuente proporcional el borde del recorte no cae exacto en
-    la ultima letra, y sin ese margen la ese final aparecia cortada.
+    El texto usa clip-path por pasos, y el recorte existe SOLO mientras dura
+    la animacion. En reposo no hay clip-path: al terminar, el texto se ve
+    entero sea cual sea el ancho que tenga la caja en ese momento. Antes
+    (hasta el 2 sep 2026) el estado final se fijaba con `forwards` a un
+    recorte del 102% de la caja, y en movil la ultima letra salia partida por
+    la mitad en todas las paginas: la fuente propia llega despues de la de
+    sistema (font-display: swap), la caja crece y el recorte fijado por la
+    animacion se quedaba con el ancho viejo. `backwards` aplica el primer
+    fotograma durante el retardo, para que el texto no asome antes de tiempo.
   */
   .hb-line {
     position: absolute;
@@ -90,10 +96,10 @@ const { text, class: extraClass = '' } = Astro.props;
     animation: hb-appear 180ms ease-out 640ms forwards;
   }
   .hb-text {
-    clip-path: inset(0 100% 0 0);
     /* La funcion de tiempo llega en linea desde el marcado: steps(N), con N
-       la longitud del texto de cada idioma. */
-    animation: hb-type 900ms 750ms forwards;
+       la longitud del texto de cada idioma. Sin `forwards` a proposito: el
+       estado de reposo es sin recorte (ver la nota de arriba). */
+    animation: hb-type 900ms 750ms backwards;
   }
 
   @keyframes hb-grow-v {
@@ -112,8 +118,11 @@ const { text, class: extraClass = '' } = Astro.props;
     }
   }
   @keyframes hb-type {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
     to {
-      clip-path: inset(0 -2% 0 0);
+      clip-path: inset(0 0 0 0);
     }
   }
 
