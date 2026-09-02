@@ -146,6 +146,24 @@ const HECHOS_RETIRADOS = [
   // elija. Estaba viva en las dos guías de coste y sale el 1 sep.
   ['145 conversaciones anotadas', 'cifra del eval de Wazzy EN DUDA en el banco (29 ago 2026)'],
   ['145 annotated conversations', 'cifra del eval de Wazzy EN DUDA en el banco (29 ago 2026)'],
+  // La promesa absoluta del héroe de /ia-y-rgpd contradecía a su propia
+  // sección 03, que explica bien que de la cuenta salen dos caminos, la
+  // llamada al proveedor del modelo y el canal de mensajería, y que WhatsApp o
+  // Telegram reciben el contenido íntegro. Lo que la página entrega de verdad
+  // no es que el dato no salga: es que decides tú qué sale y a dónde, y que
+  // queda dibujado para tu DPD.
+  ['no pueden salir de su control', 'contradecía la sección 03 de /ia-y-rgpd (2 sep 2026)'],
+  ['cannot leave their control', 'la misma promesa absoluta, en inglés'],
+  // La telemetría con lista blanca la retiró el propietario el 20 ago 2026 («sí
+  // se almacenan datos personales») y el banco la marca «prohibido publicarlo».
+  // Sobrevivió en la página de cumplimiento hasta el 2 sep, en cinco sitios y
+  // en las dos lenguas. OJO: la lista blanca de PARÁMETROS DE CONSULTA es otra
+  // cosa, es el aislamiento, está VERIFICADA y no se toca. Por eso las huellas
+  // llevan la palabra telemetría al lado y no cazan «lista blanca» a secas.
+  ['telemetría de lista blanca', 'hecho retirado por el propietario (20 ago 2026)'],
+  ['telemetría, las mediciones técnicas', 'el párrafo de la telemetría con lista blanca, retirado'],
+  ['allow-listed telemetry', 'el mismo hecho retirado, en inglés'],
+  ['health telemetry, which travels', 'la telemetría como camino de salida, retirada'],
 ];
 
 /* Daños típicos de una edición quirúrgica: nunca son intencionados. */

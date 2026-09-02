@@ -2850,12 +2850,12 @@ export const content: Record<Lang, SiteContent> = {
         tocHeading: 'Qué verás en esta página',
         metaTitle: 'IA y RGPD, un sistema que tu DPD pueda defender, Ideasforge',
         metaDescription:
-          'Agentes de IA para empresas con datos que no pueden salir de su control: infraestructura a tu nombre, aislamiento por código y cada decisión registrada.',
+          'Agentes de IA donde tú decides qué sale de tus sistemas y a dónde: infraestructura a tu nombre, aislamiento por código y cada decisión registrada.',
         hero: {
           eyebrow: 'Soberanía del dato',
           title: 'IA conforme al RGPD que tu delegado de protección de datos puede comprobar',
           subtitle:
-            'Construimos agentes de IA para empresas sujetas al reglamento europeo, estén donde estén, cuyos datos no pueden salir de su control. La aplicación y sus datos corren en una cuenta en la nube a tu nombre, el aislamiento lo garantiza el código y no una instrucción al modelo. Cada decisión queda registrada para que alguien pueda revisarla después. Escrito desde cinco sistemas en producción.',
+            'Construimos agentes de IA para empresas sujetas al reglamento europeo, estén donde estén. Tú decides qué sale de tus sistemas y a dónde. La aplicación y sus datos corren en una cuenta en la nube a tu nombre, el aislamiento lo garantiza el código y no una instrucción al modelo. Cada decisión queda registrada para que alguien pueda revisarla después. Escrito desde cinco sistemas en producción.',
           cta: 'Cuéntanos tu reto',
         },
         sections: [
@@ -3053,7 +3053,6 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>Se registra la decisión, no solo el resultado.</strong> Cada paso con significado queda escrito, qué entendió el asistente, qué pidió, qué rechazó el validador y por qué. El registro es de solo añadir, es decir que se pueden sumar entradas pero nunca editarlas ni borrarlas. El sistema no lo lee de vuelta durante la ejecución, así que no puede influir en una respuesta ni siquiera en principio.',
               'Existe para una cosa, para que alguien con una pregunta lo revise después. Ese alguien puede ser tu DPD, un auditor o la AEPD. Lo que reciben es el registro de lo que pasó, no una reconstrucción de memoria.',
               'Que nadie lo edite no significa que sea eterno. Contiene datos personales, así que tiene su plazo de conservación y una petición de supresión puede alcanzarlo, lo que se resuelve poniéndole fecha de caducidad y separando el dato de la persona, en vez de con la tecla de borrar.',
-              'La telemetría, las mediciones técnicas que el sistema publica sobre su propio estado, funciona al revés. Corre sobre una lista blanca, así que los campos que lleva se deciden de antemano y quedan escritos, en vez de dejarse a lo que el código mande. Cuando una autoridad pregunte qué recoge tu vigilancia, la respuesta es una lista corta y cerrada, no una investigación.',
               'Hasta la caducidad está diseñada para verse. Las credenciales temporales que demuestran quién está preguntando caducan en torno a la hora. Repetir una petición vieja con una credencial caducada produce un error claro y visible en vez de tomar prestadas credenciales más frescas en silencio.',
               'Preferimos que un sistema falle de forma ruidosa y visible a que acierte de una manera que nadie puede explicar. Un error nuevo y visible es mejor postura que un silencio cómodo.',
             ],
@@ -3072,7 +3071,7 @@ export const content: Record<Lang, SiteContent> = {
               'La lista de proveedores por debajo del sistema, con los contratos que gobiernan cada uno: el proveedor de modelo que aprobaste, el canal de mensajería si el asistente vive en uno y nosotros mismos, que también somos encargados.',
               'Conservación y borrado, tal como están configurados: qué se guarda, cuánto tiempo, qué toca una petición de supresión y qué no puede tocar por ley.',
               'El diseño del aislamiento por escrito, desde las cuatro capas que lo imponen hasta qué puede y qué no puede ver el modelo.',
-              'Los registros en sí: el registro de decisiones, la telemetría de lista blanca y cómo se consultan los dos cuando alguien pregunta.',
+              'Los registros en sí: el registro de decisiones y cómo se consulta cuando alguien pregunta.',
             ],
           },
           {
@@ -6241,7 +6240,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Data sovereignty',
           title: 'GDPR-compliant AI on infrastructure you own',
           subtitle:
-            'We build AI agents for companies bound by European rules, wherever they are based, whose data cannot leave their control. The application and its data run in a cloud account under your name, isolation is enforced by code rather than by instructions to a model, and every decision is recorded so that your DPO or an auditor can reconstruct it later. Based on five systems running in production, and updated for the AI Act calendar as the Digital Omnibus left it in July 2026.',
+            'We build AI agents for companies bound by European rules, wherever they are based, and you decide what leaves your systems and where it goes. The application and its data run in a cloud account under your name, isolation is enforced by code rather than by instructions to a model, and every decision is recorded so that your DPO or an auditor can reconstruct it later. Based on five systems running in production, and updated for the AI Act calendar as the Digital Omnibus left it in July 2026.',
           cta: 'See how it is built',
           ctaHref: '#isolation',
         },
@@ -6296,7 +6295,7 @@ export const content: Record<Lang, SiteContent> = {
             id: 'infrastructure',
             paragraphs: [
               'The infrastructure runs in a cloud account that belongs to you, not to us, and the repository is in your name from the first day. We do not host your assistant on our side and hand you a login. This is unusual in the sector and it is deliberate, because it removes a whole family of questions your DPO would otherwise have to chase. While we maintain the system we act as your processor, under a data processing agreement and with named access you can revoke. What disappears is the vendor database holding a copy of your records, and the exit negotiation over who keeps what. The system stays where it always was, with its documentation and its history.',
-              'The only outbound path is the call to the model provider, the company that runs the language model itself. You approve which provider, under which agreement and with which settings, and you approve what is allowed to travel inside those calls. The only other outbound path is our own health telemetry, which travels on a closed allow-list of technical fields and is described further down. Model providers sign data processing agreements, the contracts that bind a supplier to process data only on your instructions, and the serious ones offer European processing regions. Whether a given setup satisfies the rules on international transfers is your lawyers’ assessment to make. Our job is to hand them a complete map of what flows where, so the assessment takes days instead of months.',
+              'Two paths lead out of the account and both have to be drawn. The first is the call to the model provider, the company that runs the language model itself. You approve which provider, under which agreement and with which settings, and you approve what is allowed to travel inside those calls. The second appears when the assistant lives in a messaging channel. If the conversation comes in over WhatsApp or Telegram, that channel receives the full content and is one more third party in the chain, with its own agreement and its own transfer assessment. A web or internal assistant has no second exit. Model providers sign data processing agreements, the contracts that bind a supplier to process data only on your instructions, and the serious ones offer European processing regions. Whether a given setup satisfies the rules on international transfers is your lawyers’ assessment to make. Our job is to hand them a complete map of what flows where, so the assessment takes days instead of months.',
               'Everything else in this page builds on that starting point. Isolation, records and health-data handling all assume the data already sits inside an account you control, because that is the only place from which the rest can be guaranteed.',
             ],
             link: { label: 'What it costs to build and run one', href: '/en/ai-agent-development-cost' },
@@ -6378,11 +6377,10 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
-            heading: 'What we record, and what we cannot record',
+            heading: 'What we record, and how it is inspected',
             id: 'records',
             paragraphs: [
               'Record the decision, not only the result. Every meaningful step is written down, what the assistant understood, what it asked for, what the validator rejected and why. The log is append-only, meaning entries can be added but never edited or removed, and the system never reads it back during execution, so it cannot influence an answer even in principle. It exists for one purpose, to be inspected afterwards by someone with a question. That someone might be your DPO, an auditor or a supervisory authority, and the answer they get is the record of what happened, not a reconstruction from memory.',
-              'The telemetry, the technical measurements the system sends home about its own health, works the other way round. It runs on an allow-list, so the fields it carries are decided in advance and written down rather than left to whatever the code happens to send. When a regulator asks what your monitoring collects, the answer is a short, closed list rather than an investigation.',
               'Even expiry is designed to be visible. Access tokens, the temporary credentials that prove who is asking, expire after 60 minutes, and re-running an old request with a dead token produces a clear 401 error instead of silently borrowing fresher credentials. We would rather a system fail loudly and visibly than succeed in a way nobody can account for. A new and visible error beats a comfortable silence.',
             ],
           },
@@ -6399,7 +6397,7 @@ export const content: Record<Lang, SiteContent> = {
               'The list of suppliers underneath the system, starting with the model provider you approved, with the agreements that govern each one.',
               'Retention and deletion, as configured: what is kept, for how long, what a deletion request touches and what it lawfully must not touch.',
               'The isolation design in writing, from the four enforcement layers to what the model can and cannot see.',
-              'The records themselves: the decision log, the allow-listed telemetry and how both are consulted when someone asks a question.',
+              'The records themselves: the decision log and how it is consulted when someone asks a question.',
             ],
           },
           {
