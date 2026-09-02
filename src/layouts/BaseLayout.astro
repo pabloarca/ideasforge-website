@@ -60,7 +60,16 @@ const site = Astro.site ?? new URL('https://ideasforge.io');
   que de aquí salen la canónica, og:url y la miga de pan. La raíz es la
   excepción obvia: `https://ideasforge.io` no existe sin su barra.
 */
-const canonicalPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+/*
+  El `.html` se quita desde el 2 sep 2026. Con `build.format: 'file'` la ruta
+  que ve Astro es `/empezar.html`, que es el nombre del FICHERO y no la URL:
+  Cloudflare Pages lo sirve en `/empezar`. Sin este recorte la canónica se
+  declaraba con extensión y apuntaba a una dirección que ningún enlace del
+  sitio usa, que es la misma familia de error que el cambio de formato venía a
+  cerrar. Lo vigila ahora `check-seo`, comparando cada canónica con la ruta de
+  su propia página.
+*/
+const canonicalPath = Astro.url.pathname.replace(/\.html$/, '').replace(/\/+$/, '') || '/';
 const canonical = new URL(canonicalPath, site).href;
 /*
   La ruta de la portada sale de la propia ruta de la página, así que una

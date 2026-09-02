@@ -42,7 +42,11 @@ const recorre = (d, a = []) => {
   for (const f of readdirSync(d, { withFileTypes: true })) {
     const p = join(d, f.name);
     if (f.isDirectory()) recorre(p, a);
-    else if (f.name === 'index.html') a.push(p);
+    // Desde el 2 sep 2026 el compilado es `gestorias.html` y no
+    // `gestorias/index.html` (`build.format: 'file'`, ver astro.config.mjs).
+    // Se aceptan las dos formas para que este script no dependa de esa
+    // decisión, que es de servidor y puede volver a cambiar.
+    else if (f.name.endsWith('.html')) a.push(p);
   }
   return a;
 };
@@ -64,7 +68,7 @@ function escribeLlmsTxt(raiz, logger) {
   for (const fichero of recorre(raiz)) {
     const html = readFileSync(fichero, 'utf8');
     const ruta =
-      fichero.split(sep).join('/').replace(raiz.split(sep).join('/'), '/').replace(/\/index\.html$/, '') ||
+      fichero.split(sep).join('/').replace(raiz.split(sep).join('/'), '/').replace(/\/index\.html$/, '').replace(/\.html$/, '') ||
       '/';
     const limpia = ruta.replace(/\/+$/, '') || '/';
     if (limpia === '/404') continue;
@@ -135,7 +139,7 @@ export default function portadasSociales() {
             .replace(/&amp;/g, '&')
             .replace(/&quot;/g, '"');
           const ruta =
-            fichero.split(sep).join('/').replace(raiz.split(sep).join('/'), '/').replace(/\/index\.html$/, '') ||
+            fichero.split(sep).join('/').replace(raiz.split(sep).join('/'), '/').replace(/\/index\.html$/, '').replace(/\.html$/, '') ||
             '/';
           const limpia = ruta.replace(/\/+$/, '') || '/';
           const lang = limpia === '/en' || limpia.startsWith('/en/') ? 'en' : 'es';

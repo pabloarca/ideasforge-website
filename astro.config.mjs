@@ -52,12 +52,26 @@ export default defineConfig({
     redirige**, que es de las pocas cosas que un buscador toma como error y no
     como matiz.
 
-    `never` alinea lo que declaramos con lo que enlazamos y con lo que el
-    hosting sirve. `build.format` sigue en `directory`, que es lo que genera
-    `gestorias/index.html`. En el servidor de desarrollo, `/gestorias/` pasa a
-    dar 404, que es exactamente lo que hará producción.
+    `never` alinea lo que declaramos con lo que enlazamos.
+
+    CORRECCIÓN DEL 2 SEP 2026, medida en producción y no supuesta. La frase de
+    arriba sobre lo que sirve Cloudflare Pages estaba AL REVÉS: con
+    `build.format: 'directory'` el compilado es `gestorias/index.html`, y ante
+    esa forma Pages normaliza AÑADIENDO la barra. Comprobado con `curl`:
+    `https://ideasforge.io/empezar` devolvía 308 a `/empezar/` mientras la
+    página declaraba su canónica sin barra. O sea que el error que esta
+    decisión decía corregir seguía vivo, con el signo cambiado, en las 68
+    páginas a la vez.
+
+    `build.format: 'file'` lo cierra de verdad: genera `gestorias.html` y Pages
+    lo sirve en `/gestorias` con un 200 limpio, que es la forma que ya
+    declaraban la canónica, el sitemap, los hreflang y los destinos de
+    `_redirects`. Se elige esta salida y no `trailingSlash: 'always'` porque
+    aquella habría obligado a reescribir todo eso y habría dejado cada URL
+    vieja con dos saltos, el 301 del mapa y el 308 de la barra.
   */
   trailingSlash: 'never',
+  build: { format: 'file' },
 
   // Native i18n routing. Spanish is the default language and lives at the
   // root (/, /blog, ...). English lives under /en/ (/en, /en/blog, ...).

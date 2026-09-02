@@ -81,9 +81,19 @@ const todos = (d, a = []) => {
   return a;
 };
 const ficheros = todos(DIST);
-const htmls = ficheros.filter((f) => f.endsWith('index.html'));
+/*
+  Desde el 2 sep 2026 una página compilada es `gestorias.html` y no
+  `gestorias/index.html`: lo cambió `build.format: 'file'` para que Cloudflare
+  Pages sirva la forma sin barra que el sitio lleva declarando desde siempre en
+  su canónica. Se aceptan las dos formas a propósito, porque es una decisión de
+  servidor y puede volver a moverse, y este verificador no debería caerse con
+  ella. Con la forma nueva entra además `404.html`, que antes no llegaba aquí:
+  las reglas que no le aplican ya lo tenían contemplado.
+*/
+const htmls = ficheros.filter((f) => f.endsWith('.html'));
 const rutaDe = (f) =>
-  f.split(sep).join('/').replace(new RegExp(`^${DIST}`), '').replace(/\/index\.html$/, '') || '/';
+  f.split(sep).join('/').replace(new RegExp(`^${DIST}`), '')
+    .replace(/\/index\.html$/, '').replace(/\.html$/, '') || '/';
 
 const paginas = htmls.map((f) => {
   const s = readFileSync(f, 'utf8');
@@ -123,6 +133,20 @@ const rutasFuera = new Set(paginas.filter(fueraDelIndice).map((p) => p.r));
 /* ── 1. Metadatos por página ─────────────────────────────────────────────── */
 for (const p of paginas) {
   if (!p.canonical) error(p.r, 'sin canonical', 'toda página necesita la suya');
+  /*
+    Y que apunte a SÍ MISMA. Una canónica que nombra otra dirección le dice al
+    buscador que indexe esa otra, y si esa otra redirige o no existe, la página
+    se cae del índice sin que nadie lo note. El 2 sep 2026 el cambio de formato
+    de compilación dejó las 69 canónicas declarándose `/empezar.html`, una forma
+    que ningún enlace del sitio usa, y ninguna regla de aquí lo vio: bastaba con
+    que la etiqueta existiera.
+  */
+  if (p.canonical) {
+    const suya = new URL(p.canonical).pathname.replace(/\/+$/, '') || '/';
+    if (suya !== p.r) {
+      error(p.r, 'canónica que no es la suya', `declara ${suya} y la página vive en ${p.r}`);
+    }
+  }
   if (!p.ogImage) error(p.r, 'sin og:image', 'al compartirla sale un hueco');
   /*
     Y que el fichero exista de verdad. Una etiqueta `og:image` que apunta a un
