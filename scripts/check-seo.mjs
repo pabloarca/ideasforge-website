@@ -454,6 +454,58 @@ for (const p of paginas.filter((x) => x.r === '/en' || x.r.startsWith('/en/'))) 
   }
 }
 
+/* ── 8 quater. Caracteres invisibles y letras disfrazadas ────────────────────
+   Un espacio de ancho cero o una «а» cirílica dentro de una palabra latina son
+   idénticos a nada y a una «a» al mirarlos. **No hay revisión a ojo que los
+   cace**, y por eso son trabajo de máquina y no de lector.
+
+   Entran solos, sin que nadie los escriba: pegando un párrafo de un PDF, de un
+   estudio, de un borrador escrito en otro editor. Y una vez dentro rompen
+   cosas que nadie relaciona con ellos, la búsqueda del navegador, un `grep`
+   por una frase que sabemos que está y no aparece, un buscar-y-reemplazar que
+   deja la mitad sin tocar.
+
+   Se mira sobre el compilado, como las grafías británicas, para que cubra
+   también las páginas escritas en `.astro`. El 2 sep 2026, cuando se escribió
+   esta regla, el sitio estaba limpio: entra como guardia y no como arreglo.
+
+   OJO A LO QUE NO ES: no se prohíbe el griego ni el cirílico. Un post puede
+   citar «τ-bench» o una palabra rusa con todo derecho. Lo que se persigue es
+   la MEZCLA dentro de una misma palabra, que es la firma del homoglifo y no
+   tiene ningún uso legítimo. */
+const INVISIBLES = new Map([
+  ['​', 'espacio de ancho cero'],
+  ['‌', 'no-unión de ancho cero'],
+  ['‍', 'unión de ancho cero'],
+  ['﻿', 'marca de orden de bytes'],
+  ['⁠', 'unión de palabras'],
+  ['­', 'guion blando'],
+  [' ', 'separador de línea'],
+  [' ', 'separador de párrafo'],
+  ['᠎', 'separador vocálico mongol'],
+]);
+const LATINA = /[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]/;
+const NO_LATINA = /[Ѐ-ӿͰ-Ͽ]/;
+
+for (const p of paginas) {
+  const texto = p.s.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<style[\s\S]*?<\/style>/g, ' ');
+  for (const [ch, nombre] of INVISIBLES) {
+    const n = texto.split(ch).length - 1;
+    if (n > 0) {
+      error(p.r, `${n} ${nombre}`, 'carácter invisible: no se ve al revisar y rompe búsquedas y reemplazos');
+    }
+  }
+  /* Una palabra que mezcla alfabetos. Se parte por espacios y signos para que
+     «τ-bench» quede como dos piezas, la griega sola y la latina sola, y no
+     salte. Lo que salta es «cοntrol» con una ómicron dentro. */
+  for (const palabra of texto.split(/[^\p{L}\p{N}]+/u)) {
+    if (palabra.length > 1 && LATINA.test(palabra) && NO_LATINA.test(palabra)) {
+      const intrusas = [...palabra].filter((c) => NO_LATINA.test(c)).join('');
+      error(p.r, `«${palabra}» mezcla alfabetos`, `lleva ${intrusas} entre letras latinas, que es la firma de un homoglifo`);
+    }
+  }
+}
+
 /* ── 9. Ficheros que tienen que estar ────────────────────────────────────── */
 for (const [f, motivo] of [
   ['robots.txt', 'sin él los rastreadores van a ciegas'],
