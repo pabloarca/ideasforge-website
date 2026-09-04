@@ -17,7 +17,7 @@ We learned it maintaining one of our assistants in production. Three completely 
 
 **The first is the true zero.** No activity was recorded. The answer is correct and there is nothing to fix. This is the only innocent zero, and the problem is that the other two disguise themselves as it.
 
-**The second is the badly built query.** The system queried, but queried wrong. It happened to us with a date range that included one day too many, mistaking an exclusive date for an inclusive one. And it happened with a regression where an identifier changed meaning and every filter by manager started returning empty. In both cases the data existed; the system was not finding it.
+**The second is the badly built query.** The system queried, but queried wrong. It happened to us with a date range that included one day too many, mistaking an exclusive date for an inclusive one. And it happened with a regression where an identifier changed meaning and every filter by manager started returning empty. In both cases the data existed. The system was not finding it.
 
 **The third is the most treacherous, nothing was queried at all.** In a query that grouped several sources, the source with no rows simply vanished from the result. The user saw a table, the table was well formed, and one of their companies was missing from it. No error, no warning, no red log line. The system worked. The answer was incomplete and looked complete.
 

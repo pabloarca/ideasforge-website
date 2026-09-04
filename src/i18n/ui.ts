@@ -4349,7 +4349,7 @@ export const content: Record<Lang, SiteContent> = {
     integrations: {
       title: 'We integrate with your stack',
       subtitle:
-        'SharePoint, Confluence, Azure, SAP, ERP, CRM and models from OpenAI, Anthropic and Google. Your systems stay put; AI flows through them.',
+        'SharePoint, Confluence, Azure, SAP, ERP, CRM and models from OpenAI, Anthropic and Google. Your systems stay put and AI flows through them.',
       cta: 'Tell us your challenge',
     },
     blog: {

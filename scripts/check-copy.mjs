@@ -339,17 +339,42 @@ const NOMBRES_PROPIOS = ['national cyber security centre'];
 function bloqueIngles(src) {
   const ini = src.indexOf('\n  en: {');
   if (ini < 0) throw new Error('No encuentro el bloque en de ui.ts');
-  return src.slice(ini);
+  /*
+    Y se corta donde cierra el objeto `content`. El español va acotado entre dos
+    marcas y el inglés se llevaba el resto del fichero, cierre incluido. No
+    importaba mientras solo se buscaran palabras británicas; al entrar la regla
+    de puntuación el 2 sep 2026 empezó a cazar el cierre de JavaScript como si
+    fuera prosa.
+  */
+  const resto = src.slice(ini);
+  const fin = resto.indexOf('\n};');
+  return fin < 0 ? resto : resto.slice(0, fin);
 }
 
 function revisaIngles(nombre, textoBruto) {
-  let t = textoBruto;
+  // Mismo filtro que el español: sin él, las claves de objeto, las rutas y las
+  // etiquetas entran como si fueran texto visible.
+  let t = soloProsa(textoBruto);
   for (const n of NOMBRES_PROPIOS) t = t.split(n).join(' ');
   const fallos = [];
   for (const [brit, ameri] of Object.entries(BRITANICO)) {
     for (const m of [...t.matchAll(new RegExp(`\\b${brit}\\b`, 'gi'))]) {
       fallos.push([`ortografía británica «${brit}», debe ser «${ameri}»`, contexto(t, m.index)]);
     }
+  }
+  /*
+    Las reglas de puntuación de §7 valen también para el inglés, todas salvo la
+    coma antes de «y», que en inglés sigue las normas del idioma. Hasta el 2 sep
+    2026 solo se comprobaban sobre el español, y el inglés llevaba publicado un
+    «Your systems stay put; AI flows through them» en la portada mientras su
+    espejo español decía lo mismo con una «y». Una regla escrita y no vigilada
+    dura lo que tarda alguien en no acordarse.
+  */
+  for (const m of [...t.matchAll(/;/g)]) {
+    fallos.push(['punto y coma', contexto(t, m.index)]);
+  }
+  for (const m of [...t.matchAll(/—/g)]) {
+    fallos.push(['raya larga', contexto(t, m.index)]);
   }
   revisaComunes(textoBruto, fallos);
   return { nombre, fallos };
