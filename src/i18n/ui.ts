@@ -6039,11 +6039,12 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
-            heading: 'A serious chatbot does not live alone',
+            heading: 'WhatsApp Business API integration, and what it has to connect to',
             part: 'How it works and why to trust it',
             paragraphs: [
               'An agent that only talks is worth little. The value is in the connections: the calendar it checks before offering a time, the CRM where it writes, the database the answer comes from. And every new connection is one more thing that can fail, because any external system can go down on a Tuesday at eleven.',
               '<strong>When that happens the agent neither pretends nor breaks.</strong> It says that particular transaction is unavailable right now, carries on with the rest, and your team hears it from an alarm rather than from complaints. How that is built, with a mechanism that automatically sets aside the failing piece, we tell in full on the blog.',
+              'Integration is where a WhatsApp project stops being a chatbot and becomes software. The official Meta API is the easy half. The hard half is on the other side, and it depends on what you already run. In our own appointment assistant the agent writes to the calendar and to the patient record. At the rental agency the CRM only allows reading, so the qualified summary reaches the team by email and a person decides. Neither case is a limit of the model. Both are decisions about what you already have in place.',
             ],
             link: {
               label: 'What your assistant does when a tool goes down',
