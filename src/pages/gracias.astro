@@ -45,4 +45,17 @@ const t = content[lang].thanks;
       {t.blogPre}<a href="/blog" class="link-inline">{t.blogLink}</a>{t.blogPost}
     </p>
   </section>
+  {/*
+    Conversión. Se mide AQUÍ y no en el `submit` del formulario por dos
+    razones. La primera es que aquí ya se sabe que llegó: el envío puede
+    fallar y el evento se habría contado igual. La segunda es que un evento
+    disparado justo antes de una navegación a otro dominio se pierde a
+    menudo, porque el navegador cancela la petición en curso.
+
+    No viaja ni un dato del formulario. `forge.track` solo acepta cinco
+    parámetros y ninguno es de texto libre.
+  */}
+  <script is:inline define:vars={{ idioma: lang }}>
+    if (window.forge) window.forge.track('formulario_enviado', { idioma: idioma });
+  </script>
 </BaseLayout>

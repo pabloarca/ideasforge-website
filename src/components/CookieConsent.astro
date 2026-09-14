@@ -42,11 +42,24 @@ const politica = routeMap.cookies[lang];
 // llegó a producción el 2 sep 2026 con un espacio delante, pegado al guardarla
 // en Cloudflare. Aquí el daño sería mayor todavía, porque un `GA_ID` con
 // espacio es un valor y encendería el aviso de cookies sin que se midiera nada.
-const GA_ID = import.meta.env.PUBLIC_GA_ID?.trim();
+/*
+  Desde el 14 sep 2026 este componente NO carga nada: solo pregunta y avisa a
+  `Analitica.astro`, que es quien mide y quien decide qué terceros hay. Antes
+  el aviso y la carga vivían aquí juntos, y por eso añadir Google Ads o el
+  píxel de Meta obligaba a tocar el componente del consentimiento.
+
+  El aviso aparece si hay ALGUNA medición configurada. Sin ninguna no se emite
+  nada: preguntar por nada es peor que no preguntar.
+*/
+const HAY_MEDICION = !!(
+  import.meta.env.PUBLIC_GA_ID?.trim() ||
+  import.meta.env.PUBLIC_ADS_ID?.trim() ||
+  import.meta.env.PUBLIC_META_PIXEL_ID?.trim()
+);
 ---
 
 {
-  GA_ID && (
+  HAY_MEDICION && (
     <>
       <div
         id="cookie-consent"
@@ -91,28 +104,10 @@ const GA_ID = import.meta.env.PUBLIC_GA_ID?.trim();
         </div>
       </div>
 
-      <script is:inline define:vars={{ GA_ID }}>
+      <script is:inline>
         (function () {
           var CLAVE = 'if-consent';
           var aviso = document.getElementById('cookie-consent');
-
-          function cargaAnalitica() {
-            if (window.__ifGaCargado) return;
-            window.__ifGaCargado = true;
-            var s = document.createElement('script');
-            s.async = true;
-            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
-            document.head.appendChild(s);
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-              window.dataLayer.push(arguments);
-            }
-            window.gtag = gtag;
-            gtag('js', new Date());
-            // `anonymize_ip` ya es el comportamiento por defecto en GA4; se
-            // deja explícito para que se vea al leer, no porque cambie nada.
-            gtag('config', GA_ID, { anonymize_ip: true });
-          }
 
           function leer() {
             try {
@@ -133,7 +128,7 @@ const GA_ID = import.meta.env.PUBLIC_GA_ID?.trim();
                  para esta visita y se volverá a preguntar. Nunca se asume un sí. */
             }
             if (aviso) aviso.hidden = true;
-            if (valor === 'granted') cargaAnalitica();
+            if (window.forge) window.forge.consentir(valor);
           }
 
           if (aviso) {
@@ -152,9 +147,9 @@ const GA_ID = import.meta.env.PUBLIC_GA_ID?.trim();
             if (aviso) aviso.hidden = false;
           });
 
-          var previo = leer();
-          if (previo && previo.estado === 'granted') cargaAnalitica();
-          else if (!previo && aviso) aviso.hidden = false;
+          /* La carga de un consentimiento previo la hace `Analitica.astro`,
+             que corre antes. Aquí solo queda decidir si hay que preguntar. */
+          if (!leer() && aviso) aviso.hidden = false;
         })();
       </script>
     </>

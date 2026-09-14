@@ -30,3 +30,6 @@ pnpm-debug.log*
 
 # Volcados de revisión en frío: generados, de usar y tirar
 revisiones/
+
+# Marca del ultimo aviso a IndexNow: es local, no compartida.
+.indexnow-estado.json

@@ -1,0 +1,192 @@
+---
+/*
+  Capa central de analítica.
+
+  Existe desde el 14 sep 2026, cuando la auditoría contra el pliego de campos
+  destapó que la web se publicaba y no se medía nada: GA4 cargaba bien y con
+  consentimiento, pero no había un solo evento. Se sabía cuánta gente entraba y
+  nada de lo que hacía.
+
+  **Qué resuelve, y por qué es una capa y no tres `gtag` sueltos.** Un
+  componente que quiere medir algo no sabe si hay consentimiento, ni si GA está
+  cargado, ni si además hay que avisar a Meta. Si cada uno lo resuelve por su
+  cuenta, la regla de «nada antes del sí» se cumple en unos sitios y en otros
+  no, y eso no se descubre hasta que alguien audita. Aquí solo hay una puerta:
+  `forge.track()`. Quien mide no sabe a dónde va el dato, y esa ignorancia es
+  la que mantiene la promesa.
+
+  **Nada se descarga antes del sí.** Igual que antes: no se usa el modo de
+  consentimiento de Google, que carga la biblioteca y luego le pide que no
+  mida. Mientras no haya un sí, el navegador no habla con nadie. Los eventos
+  que ocurran mientras tanto se guardan en memoria y se envían al aceptar; si
+  se rechaza, se tiran. No se guardan en disco: una cola que sobrevive a la
+  visita sería seguimiento por la puerta de atrás.
+
+  **Los datos personales no se filtran porque no caben.** `track` no acepta
+  cualquier parámetro: solo los cinco de `CAMPOS`, y cada valor se recorta a
+  100 caracteres. No es una advertencia en un comentario, es que un correo o el
+  texto que alguien escriba en el formulario no tiene por dónde entrar. En una
+  casa que trata datos de salud, la diferencia entre una promesa y una reja
+  importa.
+
+  Los identificadores se leen de variables de entorno. Sin ninguna, esto emite
+  la capa igualmente —para que `forge.track` nunca reviente— pero no carga nada
+  ni pide consentimiento: sin medición no hay cookies que consentir.
+*/
+const GA_ID = import.meta.env.PUBLIC_GA_ID?.trim();
+const ADS_ID = import.meta.env.PUBLIC_ADS_ID?.trim();
+const PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID?.trim();
+---
+
+<script is:inline define:vars={{ GA_ID, ADS_ID, PIXEL_ID }}>
+  (function () {
+    var CLAVE = 'if-consent';
+    /* Los únicos parámetros que viajan. Cualquier otra clave se descarta sin
+       avisar: es la reja de la que habla la cabecera del componente. */
+    var CAMPOS = ['seccion', 'destino', 'idioma', 'valor', 'pagina'];
+    var cola = [];
+    var concedido = false;
+
+    function limpia(params) {
+      var salida = {};
+      if (!params) return salida;
+      for (var i = 0; i < CAMPOS.length; i++) {
+        var k = CAMPOS[i];
+        if (params[k] === undefined || params[k] === null) continue;
+        salida[k] = String(params[k]).slice(0, 100);
+      }
+      return salida;
+    }
+
+    function envia(nombre, params) {
+      if (window.gtag) window.gtag('event', nombre, params);
+      if (window.fbq) window.fbq('trackCustom', nombre, params);
+    }
+
+    function cargaEtiqueta(id) {
+      if (window.__ifGtagCargado) return;
+      window.__ifGtagCargado = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () {
+        window.dataLayer.push(arguments);
+      };
+      window.gtag('js', new Date());
+    }
+
+    function cargaTerceros() {
+      /* Google Analytics y Google Ads comparten biblioteca: se descarga una
+         vez y se configuran los dos identificadores que haya. */
+      if (GA_ID || ADS_ID) {
+        cargaEtiqueta(GA_ID || ADS_ID);
+        // `anonymize_ip` ya es el comportamiento por defecto en GA4; explícito
+        // para que se vea al leer, no porque cambie nada.
+        if (GA_ID) window.gtag('config', GA_ID, { anonymize_ip: true });
+        if (ADS_ID) window.gtag('config', ADS_ID);
+      }
+      if (PIXEL_ID && !window.fbq) {
+        /* eslint-disable */
+        !(function (f, b, e, v, n, t, s) {
+          if (f.fbq) return;
+          n = f.fbq = function () {
+            n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+          };
+          if (!f._fbq) f._fbq = n;
+          n.push = n;
+          n.loaded = !0;
+          n.version = '2.0';
+          n.queue = [];
+          t = b.createElement(e);
+          t.async = !0;
+          t.src = v;
+          s = b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t, s);
+        })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+        /* eslint-enable */
+        window.fbq('init', PIXEL_ID);
+        window.fbq('track', 'PageView');
+      }
+    }
+
+    var forge = {
+      /** Registra un evento. Si aún no hay consentimiento, espera en memoria. */
+      track: function (nombre, params) {
+        if (!nombre) return;
+        var p = limpia(params);
+        if (!concedido) {
+          if (cola.length < 20) cola.push([nombre, p]);
+          return;
+        }
+        envia(nombre, p);
+      },
+      /** La llama el aviso de cookies. 'granted' carga y vacía la cola. */
+      consentir: function (estado) {
+        if (estado !== 'granted') {
+          cola = [];
+          return;
+        }
+        concedido = true;
+        cargaTerceros();
+        for (var i = 0; i < cola.length; i++) envia(cola[i][0], cola[i][1]);
+        cola = [];
+      },
+      hayMedicion: !!(GA_ID || ADS_ID || PIXEL_ID),
+    };
+    window.forge = forge;
+
+    /* Consentimiento ya dado en una visita anterior. */
+    try {
+      var previo = JSON.parse(localStorage.getItem(CLAVE) || 'null');
+      if (previo && previo.estado === 'granted') forge.consentir('granted');
+    } catch (e) {
+      /* Navegación privada o almacenamiento bloqueado: se preguntará otra vez.
+         Nunca se asume un sí. */
+    }
+
+    /*
+      Instrumentación declarativa: cualquier elemento con `data-evento` se mide
+      al pulsarlo, y sus `data-ev-*` viajan como parámetros. Así un componente
+      nuevo declara lo que mide en su propio marcado, sin tocar este fichero ni
+      repetir código de GA.
+    */
+    document.addEventListener(
+      'click',
+      function (ev) {
+        var el = ev.target.closest ? ev.target.closest('[data-evento]') : null;
+        if (!el) return;
+        var params = {};
+        for (var i = 0; i < CAMPOS.length; i++) {
+          var v = el.getAttribute('data-ev-' + CAMPOS[i]);
+          if (v !== null) params[CAMPOS[i]] = v;
+        }
+        forge.track(el.getAttribute('data-evento'), params);
+      },
+      true
+    );
+
+    /*
+      Y una regla por DESTINO, no por marcado: cualquier enlace al formulario
+      cuenta como intención de contacto. Va así a propósito. Esos botones son
+      diez y viven en componentes distintos; etiquetarlos uno a uno garantiza
+      que el próximo se olvide, y lo que define la conversión no es qué botón
+      se pulsó sino a dónde lleva.
+    */
+    document.addEventListener(
+      'click',
+      function (ev) {
+        var a = ev.target.closest ? ev.target.closest('a[href]') : null;
+        if (!a) return;
+        var destino = a.getAttribute('href') || '';
+        if (!/^\/(en\/get-started|empezar)(\?|#|$)/.test(destino)) return;
+        forge.track('cta_formulario', {
+          destino: destino,
+          pagina: location.pathname,
+        });
+      },
+      true
+    );
+  })();
+</script>
