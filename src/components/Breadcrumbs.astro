@@ -1,0 +1,60 @@
+---
+/*
+  Miga de pan visible.
+
+  Recibe el MISMO array que construye el `BreadcrumbList` de `BaseLayout`. Esa
+  es toda la gracia del componente: lo que se ve y lo que se declara salen de
+  una sola fuente, así que no pueden contradecirse. Google compara las dos y
+  penaliza la divergencia; el motivo de fondo es más simple, y es que un dato
+  con dos dueños acaba teniendo dos valores.
+
+  Hasta el 14 sep 2026 solo existía el JSON-LD. El pliego de campos pide «ruta
+  jerárquica visible», y además la miga estructurada sin su versión en pantalla
+  es una declaración que el visitante no puede comprobar.
+
+  El último tramo NO es un enlace: es la página en la que ya estás, y enlazarla
+  a sí misma es ruido para quien navega con teclado o con lector de pantalla.
+  Va con `aria-current="page"`, que es cómo se dice eso.
+
+  El texto del último tramo es el título de la pestaña sin la marca, que es más
+  corto que el H1 porque para eso existe `metaTitle`. Aun así puede ser largo,
+  así que en pantallas estrechas se recorta con puntos suspensivos en vez de
+  partirse en tres líneas.
+*/
+interface Miga {
+  name: string;
+  href: string;
+}
+interface Props {
+  migas: Miga[];
+  /** Etiqueta accesible del `nav`, traducida. */
+  label: string;
+}
+const { migas, label } = Astro.props;
+---
+
+{
+  migas.length > 1 && (
+    <nav aria-label={label} class="border-b border-border-soft">
+      <ol class="mx-auto flex max-w-7xl items-center gap-1.5 px-5 py-3 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-faint sm:px-8">
+        {migas.map((miga, i) => {
+          const ultimo = i === migas.length - 1;
+          return (
+            <li class="flex min-w-0 items-center gap-1.5">
+              {i > 0 && <span aria-hidden="true" class="select-none text-border">/</span>}
+              {ultimo ? (
+                <span aria-current="page" class="truncate text-muted">
+                  {miga.name}
+                </span>
+              ) : (
+                <a href={miga.href} class="whitespace-nowrap transition hover:text-accent">
+                  {miga.name}
+                </a>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  )
+}

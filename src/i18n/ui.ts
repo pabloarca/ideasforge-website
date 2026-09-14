@@ -224,6 +224,8 @@ export interface SiteContent {
   nav: {
     /** Etiqueta de la home en la miga de pan estructurada. */
     home: string;
+    /** Etiqueta accesible del `nav` de la miga de pan visible. */
+    breadcrumb: string;
     services: string;
     projects: string;
     about: string;
@@ -559,6 +561,7 @@ export const content: Record<Lang, SiteContent> = {
     },
     nav: {
       home: 'Inicio',
+      breadcrumb: 'Ruta de navegación',
       services: 'Servicios',
       projects: 'Proyectos',
       about: 'Quiénes somos',
@@ -3987,6 +3990,7 @@ export const content: Record<Lang, SiteContent> = {
     },
     nav: {
       home: 'Home',
+      breadcrumb: 'Breadcrumb',
       services: 'Services',
       projects: 'Projects',
       about: 'About us',

@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieConsent from '../components/CookieConsent.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { type Lang, languages, content } from '../i18n/ui';
 import { EMPRESA } from '../lib/empresa';
 
@@ -33,6 +34,14 @@ interface Props {
    */
   image?: string;
   /**
+   * Texto alternativo de la imagen social. Por defecto, el título: las
+   * portadas que genera el build pintan literalmente ese título, así que
+   * describirlas con él no es una aproximación, es lo que la imagen dice.
+   * Una página que pase una FOTOGRAFÍA propia en `image` debería pasar
+   * también su propio alt, porque ahí el título ya no describe nada.
+   */
+  imageAlt?: string;
+  /**
    * Fuera del índice de los buscadores. Para las páginas que solo tienen
    * sentido detrás de una acción, como el acuse de los formularios: nadie la
    * busca, y indexada compite con las páginas que sí queremos que salgan.
@@ -50,6 +59,7 @@ const {
   publishedTime,
   modifiedTime,
   image,
+  imageAlt,
   noindex = false,
 } = Astro.props;
 
@@ -136,6 +146,13 @@ const ramas: Record<string, { name: string; href: string }> = {
   servicios: { name: nav.services, href: `${inicio}#servicios` },
   services: { name: nav.services, href: `${inicio}#servicios` },
   casos: { name: nav.projects, href: `${inicio}#proyectos` },
+  /*
+    `cases` faltaba, y por eso las cinco páginas de caso inglesas decían
+    «Home > Wazzy…» mientras sus gemelas españolas decían «Inicio > Proyectos >
+    Wazzy…». Detectado el 14 sep 2026 al auditar el pliego de campos. El ancla
+    es la misma en los dos idiomas porque los `id` de la portada no se traducen.
+  */
+  cases: { name: nav.projects, href: `${inicio}#proyectos` },
 };
 const migas = segmentos.length
   ? [
@@ -271,6 +288,7 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={imageAlt ?? title} />
     {publishedTime && (
       <meta property="article:published_time" content={publishedTime.toISOString()} />
     )}
@@ -284,6 +302,7 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={imageAlt ?? title} />
 
     <!-- Structured data -->
     <script is:inline type="application/ld+json" set:html={orgJsonLd} />
@@ -305,6 +324,8 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
     </a>
 
     <Header lang={lang} alternates={alternates} />
+
+    <Breadcrumbs migas={migas} label={nav.breadcrumb} />
 
     <main id="main">
       <slot />

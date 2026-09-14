@@ -37,6 +37,63 @@ const fechasDelBlog = (() => {
   return mapa;
 })();
 
+/*
+  Pares de idioma para el `hreflang` DEL SITEMAP.
+
+  Hasta el 14 sep 2026 esto lo hacia la opcion `i18n` de `@astrojs/sitemap`, y
+  emparejaba por convencion de ruta: espera que la inglesa sea la espanola con
+  `/en` delante. Aqui los slugs estan traducidos a proposito
+  (`/servicios/agentes-conversacionales` contra `/en/services/conversational-ai`),
+  asi que solo acertaba donde la ruta coincide letra a letra: la portada y el
+  indice del blog. **Resultado: 4 URL con alternates de 66, mientras el `<head>`
+  las declaraba en las 69.** Lo destapo la auditoria contra el pliego de campos.
+
+  Ahora los pares salen de las dos fuentes que ya los conocen: `routeMap` para
+  las paginas fijas y `translationId` para las entradas del blog. Es el mismo
+  origen que alimenta el selector de idioma y el hreflang de la cabecera, que
+  es justo lo que evita que el sitemap vuelva a contar otra historia.
+*/
+const paresDeIdioma = (() => {
+  const pares = new Map();
+  /** @param {string} es @param {string} en */
+  const apunta = (es, en) => {
+    const enlaces = [
+      { lang: 'es-ES', url: new URL(es, SITE).href },
+      { lang: 'en-US', url: new URL(en, SITE).href },
+    ];
+    pares.set(es.replace(/\/+$/, '') || '/', enlaces);
+    pares.set(en.replace(/\/+$/, '') || '/', enlaces);
+  };
+
+  // Paginas fijas: se lee `routeMap` como texto por lo mismo que las fechas,
+  // que la configuracion se evalua antes de que exista la API de contenido.
+  const utils = readFileSync('./src/i18n/utils.ts', 'utf8');
+  const mapa = utils.slice(utils.indexOf('export const routeMap'));
+  for (const m of mapa.matchAll(/\{\s*es:\s*'([^']+)',\s*en:\s*'([^']+)'\s*\}/g)) {
+    apunta(m[1], m[2]);
+  }
+
+  // Entradas del blog: se emparejan por `translationId`, como en la web.
+  const porTraduccion = new Map();
+  for (const idioma of ['es', 'en']) {
+    const dir = `./src/content/blog/${idioma}`;
+    if (!existsSync(dir)) continue;
+    for (const fichero of readdirSync(dir).filter((f) => f.endsWith('.md'))) {
+      const txt = readFileSync(join(dir, fichero), 'utf8');
+      if (/^draft:\s*true/m.test(txt)) continue;
+      const id = (txt.match(/^translationId:\s*['"]?([^'"\s]+)/m) || [])[1];
+      if (!id) continue;
+      const slug = fichero.replace(/\.md$/, '');
+      const ruta = idioma === 'en' ? `/en/blog/${slug}` : `/blog/${slug}`;
+      porTraduccion.set(id, { ...(porTraduccion.get(id) || {}), [idioma]: ruta });
+    }
+  }
+  for (const par of porTraduccion.values()) {
+    if (par.es && par.en) apunta(par.es, par.en);
+  }
+  return pares;
+})();
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE,
@@ -111,15 +168,15 @@ export default defineConfig({
         const ruta = new URL(item.url).pathname.replace(/\/+$/, '') || '/';
         const fecha = fechasDelBlog.get(ruta);
         if (fecha) item.lastmod = fecha;
+        const enlaces = paresDeIdioma.get(ruta);
+        if (enlaces) item.links = enlaces;
         return item;
       },
-      i18n: {
-        defaultLocale: 'es',
-        locales: {
-          es: 'es-ES',
-          en: 'en-US',
-        },
-      },
+      /*
+        SIN la opcion `i18n`: emparejaba por convencion de ruta y aqui los
+        slugs estan traducidos. Los alternates los pone `serialize` desde
+        `paresDeIdioma`, arriba.
+      */
     }),
   ],
 
