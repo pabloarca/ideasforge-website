@@ -22,6 +22,15 @@ const blog = defineCollection({
     // language switcher + hreflang on blog posts.
     translationId: z.string(),
     tags: z.array(z.string()).default([]),
+    /*
+      Autor. Opcional y casi siempre ausente: hoy escribe una sola persona y su
+      nombre vive en `src/lib/empresa.ts`, que es la fuente única que también
+      firma la política de privacidad. El campo existe desde el 14 sep 2026 para
+      que una firma invitada no obligue a tocar la plantilla, y quien lo rellene
+      cambia la firma visible Y el `author` del JSON-LD a la vez, que es donde
+      se separan los dos cuando alguien lo hace a mano.
+    */
+    author: z.string().optional(),
     draft: z.boolean().default(false),
     // Path inside /public, used as the card thumbnail on the blog index/preview.
     heroImage: z.string().optional(),

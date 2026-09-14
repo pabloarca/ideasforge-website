@@ -74,7 +74,7 @@ const articleJsonLd = JSON.stringify({
   ...(ogFoto ? { image: new URL(ogFoto.src, site).href } : {}),
   /* Persona y no organización: un artículo sin autor humano no tiene autor a
      ojos de un buscador, y quien escribe es parte de lo que se evalúa. */
-  author: { '@type': 'Person', name: EMPRESA.autor },
+  author: { '@type': 'Person', name: post.data.author ?? EMPRESA.autor },
   publisher: { '@type': 'Organization', name: 'Ideasforge', url: site.href },
 });
 /*
@@ -132,7 +132,7 @@ const articleJsonLd = JSON.stringify({
         {/* La firma va visible y no solo en el dato estructurado: un buscador
             valora la experiencia de quien escribe, y para valorarla tiene que
             verla en la página igual que la ve el lector. */}
-        <span class="font-mono text-xs text-faint">{t.blog.byline} {EMPRESA.autor}</span>
+        <span class="font-mono text-xs text-faint">{t.blog.byline} {post.data.author ?? EMPRESA.autor}</span>
         <time datetime={post.data.pubDate.toISOString()} class="font-mono text-xs text-faint">
           {t.blog.publishedOn} {fmt(post.data.pubDate)}
         </time>

@@ -197,6 +197,13 @@ export interface Faq {
   a: string | string[];
   /** Optional full-width image rendered above the answer text when the FAQ is open. */
   image?: string;
+  /**
+   * Retira la pregunta de la página y del schema sin borrarla (14 sep 2026).
+   * Para una respuesta que deja de ser cierta mientras se decide la nueva:
+   * borrarla pierde la redacción y comentarla la deja fuera del tipado, que es
+   * como una pregunta vuelve a publicarse con un dato viejo.
+   */
+  oculta?: boolean;
 }
 
 export interface SiteContent {

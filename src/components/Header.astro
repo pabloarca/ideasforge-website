@@ -86,7 +86,7 @@ const claseRaiz =
                 />
               </a>
             ) : (
-              <button type="button" class={claseRaiz} aria-haspopup="true">
+              <button type="button" class={claseRaiz} aria-haspopup="true" aria-expanded="false" data-menu-raiz>
                 <Icon name={g.icon} size={20} />
                 <span>{g.heading}</span>
                 <Icon
@@ -179,3 +179,37 @@ const claseRaiz =
     </div>
   </div>
 </header>
+
+<script is:inline>
+  /*
+    El desplegable del menú lo abre el CSS, con `group-hover` y
+    `group-focus-within`. Funciona con ratón y funciona con teclado, porque al
+    tabular dentro del grupo el panel aparece. Lo que faltaba era CONTARLO: el
+    botón decía `aria-haspopup` y nunca decía si estaba abierto, así que un
+    lector de pantalla anunciaba un menú y no sabía en qué estado. Y pulsarlo
+    no hacía nada, que en un `<button>` es peor todavía.
+
+    Esto no reimplementa la apertura: sigue mandándola el CSS. Solo sincroniza
+    el atributo con lo que ya ocurre, y añade el clic para quien espera que un
+    botón responda al pulsarlo. Dieciséis líneas, sin dependencias y sin tocar
+    el estilo: si este script no llega a ejecutarse, el menú se abre igual.
+  */
+  document.querySelectorAll("[data-menu-raiz]").forEach(function (boton) {
+    var grupo = boton.parentElement;
+    if (!grupo) return;
+    var marca = function (abierto) {
+      boton.setAttribute("aria-expanded", abierto ? "true" : "false");
+    };
+    grupo.addEventListener("mouseenter", function () { marca(true); });
+    grupo.addEventListener("mouseleave", function () { marca(false); });
+    grupo.addEventListener("focusin", function () { marca(true); });
+    grupo.addEventListener("focusout", function (ev) {
+      if (!grupo.contains(ev.relatedTarget)) marca(false);
+    });
+    boton.addEventListener("click", function () {
+      var abierto = boton.getAttribute("aria-expanded") === "true";
+      if (abierto) boton.blur();
+      else { var primero = grupo.querySelector("a[href]"); if (primero) primero.focus(); }
+    });
+  });
+</script>

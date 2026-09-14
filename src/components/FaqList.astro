@@ -24,7 +24,35 @@ interface Props {
   group?: string;
   class?: string;
 }
-const { items, group = 'faq', class: className = '' } = Astro.props;
+const { items: todas, group = 'faq', class: className = '' } = Astro.props;
+
+/* Una pregunta oculta no se pinta y TAMPOCO entra en el schema: publicarla
+   solo para las máquinas sería peor que publicarla entera. */
+const items = todas.filter((i) => !i.oculta);
+
+/*
+  Ancla por pregunta, deducida del propio texto.
+
+  Para qué: que se pueda enlazar una respuesta concreta, que es lo que hace
+  falta al mandarla por correo y lo que necesita un motor de respuesta para
+  citarla sin arrastrar la página entera. El identificador entra también en el
+  JSON-LD como `url`, así que cada par pregunta-respuesta tiene dirección.
+
+  Se deduce del texto y no se escribe a mano por lo de siempre: un campo más
+  que rellenar es un campo que alguien olvida. Contrapartida asumida: si se
+  reescribe una pregunta cambia su ancla y un enlace viejo deja de apuntar a
+  ella. Cae dentro de la propia página, que es un fallo blando.
+*/
+const ancla = (q: string) =>
+  'p-' +
+  q
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60);
+const rutaBase = Astro.url.pathname.replace(/\.html$/, '').replace(/\/+$/, '') || '/';
 
 /** Una respuesta puede venir como cadena o como lista de párrafos. */
 const parrafos = (a: Faq['a']) => (Array.isArray(a) ? a : [a]);
@@ -48,6 +76,7 @@ const faqJsonLd = JSON.stringify({
   mainEntity: items.map((item) => ({
     '@type': 'Question',
     name: item.q,
+    url: `${rutaBase}#${ancla(item.q)}`,
     acceptedAnswer: { '@type': 'Answer', text: parrafos(item.a).join(' ') },
   })),
 }).replace(/</g, '\\u003c');
@@ -58,7 +87,7 @@ const faqJsonLd = JSON.stringify({
 <div class:list={['divide-y divide-border-soft border-y border-border-soft', className]}>
   {
     items.map((item) => (
-      <details name={group} class="group [&_summary]:list-none">
+      <details id={ancla(item.q)} name={group} class="group scroll-mt-24 [&_summary]:list-none">
         <summary class="flex cursor-pointer items-center gap-4 px-6 py-5 text-left font-semibold text-fg [&::-webkit-details-marker]:hidden">
           <span class="grid h-6 w-6 shrink-0 place-items-center text-accent" aria-hidden="true">
             {/* Galón del set. Gira al abrirse en vez de cambiar de símbolo:
@@ -99,3 +128,30 @@ const faqJsonLd = JSON.stringify({
     ))
   }
 </div>
+
+<script is:inline>
+  /*
+    Al llegar con `#p-...` en la dirección, abrir esa pregunta.
+
+    Hace falta porque el ancla sola no basta: el navegador salta al `<details>`
+    y lo deja cerrado, así que quien sigue el enlace aterriza mirando el
+    título de una respuesta que no ve. Chrome lo abre solo desde hace poco;
+    los demás no.
+
+    Sin este script el enlace sigue llevando al sitio correcto: se pierde la
+    apertura, no el destino.
+  */
+  (function () {
+    function abre() {
+      var id = decodeURIComponent(location.hash.slice(1));
+      if (!id) return;
+      var el = document.getElementById(id);
+      if (el && el.tagName === "DETAILS") {
+        el.open = true;
+        el.scrollIntoView({ block: "start" });
+      }
+    }
+    abre();
+    window.addEventListener("hashchange", abre);
+  })();
+</script>
