@@ -4877,24 +4877,24 @@ export const content: Record<Lang, SiteContent> = {
             kind: 'lattice',
             bullets: [
               '<strong>24/7 customer service.</strong> An agent on WhatsApp or your website that answers the usual requests at any hour, resolves the ones it has been trusted with and hands the rest to your team with the context already gathered.',
-              '<strong>Lead qualification.</strong> It holds the first conversation, asks the questions you define and applies your criteria. Your team receives a summary with the reasons, and the final say on every applicant stays with a person.',
+              '<strong>Lead qualification.</strong> It holds the first conversation, asks the questions you define and applies your criteria. Your team receives a summary with the reasons, and the final say on every lead stays with a person.',
               '<strong>Document automation.</strong> Invoices, receipts and forms that arrive by chat or email and land as checked rows where your team already works. If that place is a spreadsheet, it stays a spreadsheet.',
-              '<strong>Support and maintenance.</strong> Someone watching the system every week and answerable when it needs attention. No change ships without passing the test suite first.',
+              '<strong>Support and maintenance.</strong> Someone watching the system every week and on call when it needs attention. No change ships without passing the test suite first.',
             ],
           },
           {
             heading: 'Measured at businesses your size',
             paragraphs: [
-              'Stanton manages rental properties. The electricity, gas and water bills their tenants sent in were typed into a spreadsheet by hand, a minute each. Today a chat the team already used receives them, a reading layer with a language model turns each one into a checked row in that same spreadsheet and <strong>98% of the invoices go through with nobody touching them</strong>. The client has kept commissioning more processes since.',
-              'Barceloneta Premium rents apartments in Barcelona and receives dozens of WhatsApp inquiries a day. Checking each one used to take five to ten minutes of somebody’s attention. Now an agent holds the conversation, gathers what the agency needs to know and hands the team an email summary with the reasons already written. <strong>The agency got more than three hours a day back.</strong>',
-              'The third system is our own product. Wazzy books, moves and cancels appointments on WhatsApp for clinics, and it handles hundreds of appointments a month. In the entire history of the product, no appointment has ever been double-booked. We run it ourselves, with our own money on the line, which is where the maintenance discipline this page describes was learned.',
+              'Stanton manages rental properties. The electricity, gas and water bills their tenants sent in were typed into a spreadsheet by hand, a minute each. Today a chat the team already used receives them, a reading layer with a language model turns each one into a checked row in that same spreadsheet and <strong>98% of the bills go through with nobody touching them</strong>. The client has kept commissioning more processes since.',
+              'Barceloneta Premium rents out apartments in Barcelona and receives dozens of WhatsApp inquiries a day. Checking each one used to take five to ten minutes of somebody’s attention. Now an agent holds the conversation, gathers what the agency needs to know and hands the team an email summary with the reasons already written. <strong>The agency got more than three hours a day back.</strong>',
+              'The third system is our own product. Wazzy books, reschedules and cancels appointments on WhatsApp for clinics, and it handles hundreds of appointments a month. In the entire history of the product, no appointment has ever been double-booked. We run it ourselves, with our own money on the line, which is where the maintenance discipline this page describes was learned.',
             ],
           },
           {
             heading: 'When we tell you not to buy',
             paragraphs: [
-              'Some projects are born from a pain and some are born from a demo. We wrote about the second kind and called it the shiny toy, the project nobody suffers when it is missing, whose gain never had a number and where the AI sits in the headline instead of in the result.',
-              'There is also the case where the right answer is simpler than an agent. If your process follows clear rules and nothing in it needs interpreting, classic automation without a model does the job for less money and with no model to keep an eye on. We build that too, and we say so when it is the better buy.',
+              'Some projects are born from a pain point and some are born from a demo. We wrote about the second kind and called it the shiny toy, the project nobody misses when it is not there, whose gain never had a number and where the AI sits in the headline instead of in the result.',
+              'There is also the case where the right answer is simpler than an agent. If your process follows clear rules and nothing in it needs interpreting, conventional automation without a model does the job for less money and with no model to keep an eye on. We build that too, and we say so when it is the better buy.',
             ],
             link: {
               label: 'The shiny toy, told in full',
@@ -4906,7 +4906,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'A fixed-scope build falls between €2,500 and €10,000, and keeping it watched and maintained costs between €150 and €500 a month. They are the same ranges we publish for every project, broken down in the pricing guide.',
               'What the model consumes and what the infrastructure costs are not inside that fee. Both run on accounts opened in your company’s name, so those bills arrive at your desk, visible line by line, and never pass through us.',
-              '<strong>The fee has no lock-in.</strong> You pay for the month you get and stop when you decide, and what was built does not switch off when you do, because the repository and the infrastructure were yours from the first day.',
+              '<strong>The fee has no lock-in.</strong> You pay for the month you get and stop when you decide, and what was built does not switch off that day, because the repository and the infrastructure were yours from the first day.',
             ],
             link: {
               label: 'The pricing guide, range by range',
@@ -4933,11 +4933,11 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'What does the monthly fee pay for, exactly?',
-            a: 'The monitoring and the maintenance of that month: the weekly check in production and someone answerable when the system needs attention. Any change has to pass the test suite before it reaches your users.',
+            a: 'The monitoring and the maintenance of that month: the weekly check in production and someone on call when the system needs attention. Any change has to pass the test suite before it reaches your users.',
           },
           {
             q: 'Our data lives in spreadsheets. Is that a problem?',
-            a: 'It is the normal case, not a handicap. The two client systems on this page read from a chat and write to a spreadsheet. What we do check before starting is that the data the process needs exists somewhere at all, because that is the one thing a build cannot invent.',
+            a: 'It is the normal case, not a drawback. The two client systems on this page read from a chat and write to a spreadsheet. What we do check before starting is that the data the process needs exists somewhere at all, because that is the one thing a build cannot invent.',
           },
           {
             q: 'How long until something is running?',
