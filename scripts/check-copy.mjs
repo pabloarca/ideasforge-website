@@ -402,16 +402,42 @@ function revisaIngles(nombre, textoBruto) {
   }
   /*
     Comma splice: dos oraciones independientes unidas por una coma. En español
-    es corriente y en inglés es un error, y las once lecturas en frío del
-    14 sep 2026 lo marcaron en las once páginas como la señal más repetida de
-    traducción. Va como AVISO y no como error porque la detección es
-    heurística: tras una subordinada («Although it works, it is slow») la coma
-    es correcta. EL REMEDIO ES EL PUNTO: los once informes reco-
-    mendaban raya larga o punto y coma, y esta casa tiene las dos vetadas por
-    las reglas de aquí arriba.
+    es corriente y en inglés es un error. Va como AVISO, nunca como error,
+    porque la detección es heurística y el juicio es de quien lee.
+
+    **La primera versión de esta regla avisó 128 veces y tenía razón en unas
+    veinte.** Se miró la lista entera antes de corregir nada, el 14 sep 2026, y
+    salió esto: 34 llevaban una subordinada delante («If it breaks one that used
+    to pass, it does not ship»), donde la coma es la correcta; y 65 eran el
+    patrón contrastivo «no es A, es B», que es el ritmo de esta casa y que el
+    inglés SÍ admite cuando las dos mitades son cortas y paralelas. Partir esas
+    65 con un punto habría aplanado la voz para arreglar algo que no lo estaba.
+
+    Una regla que acierta una de cada seis no señala: tapa. Así que ahora se
+    descuentan los dos casos y lo que queda pide mirada de verdad.
+
+    EL REMEDIO, cuando toca, ES EL PUNTO. La raya larga y el punto y coma están
+    vetados en esta casa y los cazan las reglas de aquí arriba.
   */
-  const SPLICE = /,\s+(it|they|we|you|he|she|that|this|there)\s+(is|are|was|were|does|do|did|has|have|had|will|would|can|could|should)\b/gi;
+  const SPLICE =
+    /,\s+(it|they|we|you|he|she|that|this|there)\s+(is|are|was|were|does|do|did|has|have|had|will|would|can|could|should)\b/gi;
+  /* Conjunciones que hacen dependiente a la primera mitad. */
+  const SUBORDINA =
+    /(^|[.!?]\s+)[*“"'(]*(and |but |so |or |yes, |no, )?[*“"'(]*(if|when|while|although|though|because|after|before|since|unless|until|once|whenever|whether|as|where|even if|so that|given that)\b/i;
+  /* Negación en la primera mitad: es el contraste «no es A, es B». */
+  const CONTRASTE = /(\b(not|no|none|never|nothing|nobody|neither)\b|n’t\b|n't\b|\bcannot\b)/i;
+  const FIN_ORACION = /[.!?]/g;
   for (const m of [...t.matchAll(SPLICE)]) {
+    /* La primera mitad: desde el final de la oración anterior hasta la coma. */
+    let desde = -1;
+    FIN_ORACION.lastIndex = 0;
+    for (const f of [...t.slice(0, m.index).matchAll(FIN_ORACION)]) desde = f.index;
+    const primera = t.slice(desde + 1, m.index);
+    if (SUBORDINA.test(primera.trim())) continue;
+    /* Una primera mitad corta suele ser una introducción («In plain terms,»,
+       «Yes,», «For the technical review,»), no una oración independiente. */
+    if (primera.trim().split(/\s+/).length < 5) continue;
+    if (CONTRASTE.test(primera)) continue;
     avisos.push(['posible comma splice: en inglés se parte en dos con un punto', contexto(t, m.index)]);
   }
   revisaComunes(textoBruto, fallos);

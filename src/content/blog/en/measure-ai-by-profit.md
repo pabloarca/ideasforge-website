@@ -14,7 +14,7 @@ We prefer the uncomfortable metric, which concrete gain the system delivered. Ho
 
 ## Fuzzy productivity is the symptom of a fuzzy project
 
-When a project can only justify itself with generic productivity, it is usually because nobody defined what it was supposed to move. **The capability got built, "now we have an assistant", instead of the outcome being pursued, "inquiries get answered in minutes and the team closes more viewings".**
+When a project can only justify itself with generic productivity, that is usually because nobody defined what it was supposed to move. **The capability got built, "now we have an assistant", instead of the outcome being pursued, "inquiries get answered in minutes and the team closes more viewings".**
 
 The difference shows in our own cases. At the real-estate agency we work with, the measure is not *"the team moves faster"*. It is more than three hours a day that stopped going into screening inquiries, each one previously costing five to ten minutes of manual checking. At the property manager, the measure is that invoices stopped being typed. Small, concrete figures. They can be checked, which is why they count.
 

@@ -4298,7 +4298,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 heading: 'A shortcut of ours and how we closed it',
-                body: 'One of our systems had a test build that skipped the login. It was created so changes could be tried without authenticating every time, it was documented and it was flagged for removal, which is exactly the kind of thing still sitting there two years later. What we did was put a dry-run mode inside the authenticated path that does the same job, so the shortcut was left with no reason to exist. Since then every temporary fix we write down carries its own expiry date.',
+                body: 'One of our systems had a test build that skipped the login. It was created so changes could be tried without authenticating every time. It was documented and it was flagged for removal, which is exactly the kind of thing still sitting there two years later. What we did was put a dry-run mode inside the authenticated path that does the same job, so the shortcut was left with no reason to exist. Since then every temporary fix we write down carries its own expiry date.',
               },
             ],
             closingLine:
@@ -5451,7 +5451,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'For your company',
             paragraphs: [
               'The build-or-buy question has an unhelpful reputation as a technology choice. It is a question of how standard your process really is. Where your process is standard, a proven product will beat a custom build on speed and price, and pretending otherwise would be selling you hours. Where your process carries your particular judgment, your data model and your exceptions, off-the-shelf tools flatten exactly what makes the process yours, and the subscription that looked cheap starts costing workarounds.',
-              '<strong>The pattern that works is unglamorous. Buy the standard pieces, the ticketing, the calendars, the accounting software, and build the thin layer of intelligence that reads, decides and connects them the way your operation actually runs.</strong> That layer is where agents live, it is small enough to afford and it is the part no vendor can ship in a box, because the box has never seen your business.',
+              '<strong>The pattern that works is unglamorous. Buy the standard pieces, the ticketing, the calendars, the accounting software, and build the thin layer of intelligence that reads, decides and connects them the way your operation actually runs.</strong> That layer is where agents live. It is small enough to afford and it is the part no vendor can ship in a box, because the box has never seen your business.',
               'One caution from the buying side. If a proposal only makes sense with every process migrated onto someone’s platform, you are not buying automation, you are buying a dependency. Ask what remains yours the day the contract ends. Our answer is everything, repository, infrastructure and data, and it is in writing.',
             ],
           },
@@ -5707,7 +5707,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What it costs',
             part: 'Deciding with judgment',
             paragraphs: [
-              'A custom agent runs between €2,500 and €10,000 to build, depending on integrations and validation requirements, plus €150 to €500 a month to operate, which covers monitoring and maintenance. Model usage and infrastructure run in accounts under your company’s name, so those bills are yours and are not part of the fee. <strong>The monthly fee is agreed before anything starts and consumption is watched with caps, it is not an open meter you discover at the end of the month.</strong> Systems with an orchestrator and several agents are quoted per project. The full breakdown, what makes the build more expensive and where the monthly fee goes, is in the cost guide.',
+              'A custom agent runs between €2,500 and €10,000 to build, depending on integrations and validation requirements, plus €150 to €500 a month to operate, which covers monitoring and maintenance. Model usage and infrastructure run in accounts under your company’s name, so those bills are yours and are not part of the fee. <strong>The monthly fee is agreed before anything starts and consumption is watched with caps. It is not an open meter you discover at the end of the month.</strong> Systems with an orchestrator and several agents are quoted per project. The full breakdown, what makes the build more expensive and where the monthly fee goes, is in the cost guide.',
             ],
             link: { label: 'AI agent development cost, broken down', href: '/en/ai-agent-development-cost' },
           },
@@ -6156,7 +6156,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'How many conversations does it take to pay off?',
-            a: 'We do not give a magic number, because it depends on what your channel costs you today. The pilot measures it with your real conversations, it is paid for and its price counts toward the final project. If the math does not work, we are the ones who tell you before you expand.',
+            a: 'We do not give a magic number, because it depends on what your channel costs you today. The pilot measures it with your real conversations. It is paid for and its price counts toward the final project. If the math does not work, we are the ones who tell you before you expand.',
           },
         ],
         cta: {
@@ -6463,7 +6463,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'Can this run entirely on our own servers?',
-            a: 'The system we build can, and does, run in infrastructure you own. The model is the part to be clear about. We call models as a service from providers you approve, we have not deployed open models in production, and we will not sell that experience as if we had it. Raise the requirement before anything is quoted and we will tell you plainly what it would take.',
+            a: 'The system we build can, and does, run in infrastructure you own. The model is the part to be clear about. We call models as a service from providers you approve. We have not deployed open models in production, and we will not sell that experience as if we had it. Raise the requirement before anything is quoted and we will tell you plainly what it would take.',
           },
           {
             q: 'Do we need a DPIA for an AI assistant?',
