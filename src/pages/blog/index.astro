@@ -66,7 +66,13 @@ const blogJsonLd = JSON.stringify({
               {/* Misma portada que el acordeon de la home: si el post no trae
                   imagen, se genera con la paleta del diamante. `compact` deja
                   el titulo fuera porque la tarjeta ya lo muestra al lado. */}
-              <PostCover title={post.data.title} image={post.data.heroImage} index={i} compact />
+              <PostCover
+                title={post.data.title}
+                image={post.data.heroImage}
+                index={i}
+                compact
+                sizes="(min-width: 1024px) 320px, (min-width: 640px) 288px, 100vw"
+              />
             </div>
             <div class="flex flex-1 flex-col p-7 sm:p-8">
               <div class="flex flex-wrap items-center gap-3">

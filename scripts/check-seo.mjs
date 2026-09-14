@@ -42,8 +42,21 @@ const PRESUPUESTO = {
    * La regla sigue sirviendo para lo que se montó, que era cazar un salto como
    * el de las portadas con degradado (10,9 MB). Si vuelve a quedarse corta, lo
    * que toca no es subirla otra vez, es `astro:assets` sobre las imágenes.
+   *
+   * **Sube de 9 a 20 el 14 sep 2026, y es la excepción que el párrafo de arriba
+   * anunciaba: se ha hecho `astro:assets`.** Las doce fotografías salen ahora en
+   * AVIF, WebP y JPEG a cuatro anchos cada una, o sea unos 170 derivados que
+   * antes no existían. dist/ pasa de 8,5 a 16,1 MB **y a la vez lo que se
+   * descarga un visitante BAJA**: la portada iba en 1.186 KB de imágenes para
+   * todos y ahora va en 361 KB en un móvil y 326 en un escritorio.
+   *
+   * Conviene saber entonces qué mide ya esta regla, porque no es lo que medía:
+   * ocupación en disco, que en Pages no cuesta nada y no la paga nadie. Lo que
+   * de verdad importaía es el peso por visita, y eso hoy no se mide. Anotado en
+   * PENDIENTES. Mientras tanto se queda como red contra un descuido gordo, un
+   * vídeo sin comprimir o una carpeta entera colada en `public/`.
    */
-  sitioMB: 9,            // dist/ entero
+  sitioMB: 20,            // dist/ entero
   htmlKB: 400,           // una página compilada
   tituloMax: 62,         // con el sufijo «, Ideasforge»
   descMin: 70,

@@ -1,4 +1,6 @@
 ---
+import { getImage } from 'astro:assets';
+import { foto } from '../../../lib/fotos';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Icon from '../../../components/Icon.astro';
 import PageNav from '../../../components/PageNav.astro';
@@ -48,6 +50,19 @@ const fmt = (d: Date) =>
 
 // Article structured data.
 const site = Astro.site ?? new URL('https://ideasforge.io');
+/*
+  Imagen social del artículo.
+
+  La portada ya no vive en `public/`: desde el 14 sep 2026 la procesa Astro y
+  sale como WebP con un nombre con hash. Para la página eso es una mejora, pero
+  para compartir NO se usa esa: se genera aparte un JPEG de 1200 px, que es el
+  ancho que piden las redes y el formato que todas leen sin discusión. Sin esto
+  el `og:image` de las dieciséis entradas con fotografía apuntaba a una ruta que
+  la mudanza dejó vacía, y habrían salido sin imagen al compartirlas.
+*/
+const ogFoto = post.data.heroImage
+  ? await getImage({ src: foto(post.data.heroImage), width: 1200, format: 'jpeg' })
+  : null;
 const articleJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -56,7 +71,7 @@ const articleJsonLd = JSON.stringify({
   datePublished: post.data.pubDate.toISOString(),
   ...(post.data.updatedDate ? { dateModified: post.data.updatedDate.toISOString() } : {}),
   inLanguage: 'en-US',
-  ...(post.data.heroImage ? { image: new URL(post.data.heroImage, site).href } : {}),
+  ...(ogFoto ? { image: new URL(ogFoto.src, site).href } : {}),
   /* Persona y no organización: un artículo sin autor humano no tiene autor a
      ojos de un buscador, y quien escribe es parte de lo que se evalúa. */
   author: { '@type': 'Person', name: EMPRESA.autor },
@@ -87,7 +102,7 @@ const articleJsonLd = JSON.stringify({
   ogType="article"
   publishedTime={post.data.pubDate}
   modifiedTime={post.data.updatedDate}
-  image={post.data.heroImage}
+  image={ogFoto?.src}
 >
   <script is:inline slot="head" type="application/ld+json" set:html={articleJsonLd} />
   <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">

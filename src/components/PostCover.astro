@@ -21,7 +21,8 @@
 */
 import GridBackdrop from './graficos/GridBackdrop.astro';
 import { coverFamilies, seedFrom } from './graficos/gradients';
-import { medidas } from '../lib/imagen';
+import { Picture } from 'astro:assets';
+import { foto } from '../lib/fotos';
 
 interface Props {
   title: string;
@@ -31,9 +32,23 @@ interface Props {
   index?: number;
   /** Oculta el título sobre la portada generada, para miniaturas pequeñas. */
   compact?: boolean;
+  /**
+   * El hueco real que ocupa la portada, en formato `sizes`. Lo pone quien la
+   * coloca porque solo él lo sabe: en el acordeón de la home una hoja abierta
+   * ronda los 700 px y en el índice del blog la miniatura son 320. Con un
+   * valor único, uno de los dos sitios se baja una variante que no necesita.
+   */
+  sizes?: string;
   class?: string;
 }
-const { title, image, index, compact = false, class: className = '' } = Astro.props;
+const {
+  title,
+  image,
+  index,
+  compact = false,
+  sizes = '100vw',
+  class: className = '',
+} = Astro.props;
 
 const seed = seedFrom(title);
 const family = coverFamilies[(index ?? seed) % coverFamilies.length];
@@ -41,10 +56,12 @@ const family = coverFamilies[(index ?? seed) % coverFamilies.length];
 
 {
   image ? (
-    <img
-      src={image}
+    <Picture
+      src={foto(image)}
       alt=""
-      {...medidas(image)}
+      formats={['avif', 'webp']}
+      widths={[320, 640, 960, 1280]}
+      sizes={sizes}
       loading="lazy"
       decoding="async"
       class:list={['h-full w-full object-cover', className]}

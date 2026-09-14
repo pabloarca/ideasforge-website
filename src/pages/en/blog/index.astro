@@ -62,7 +62,13 @@ const blogJsonLd = JSON.stringify({
               {/* Same cover as the home accordion: when a post has no image,
                   one is generated from the diamond palette. `compact` leaves
                   the title out because the card already shows it alongside. */}
-              <PostCover title={post.data.title} image={post.data.heroImage} index={i} compact />
+              <PostCover
+                title={post.data.title}
+                image={post.data.heroImage}
+                index={i}
+                compact
+                sizes="(min-width: 1024px) 320px, (min-width: 640px) 288px, 100vw"
+              />
             </div>
             <div class="flex flex-1 flex-col p-7 sm:p-8">
               <div class="flex flex-wrap items-center gap-3">

@@ -1,6 +1,8 @@
 ---
 import { type Lang, content } from '../i18n/ui';
+import { Picture } from 'astro:assets';
 import { medidas } from '../lib/imagen';
+import { foto } from '../lib/fotos';
 import Icon from './Icon.astro';
 import CarouselBehaviour from './CarouselBehaviour.astro';
 
@@ -115,10 +117,20 @@ const t = content[lang].caseStudies;
                   otra y el filete se pone vertical. */}
               <div class="absolute inset-0 overflow-hidden sm:relative sm:min-h-[280px] sm:border-t sm:border-border-soft lg:min-h-full lg:border-l lg:border-t-0">
                 {item.image ? (
-                  <img
-                    src={item.image}
+                  /*
+                    `sizes` describe el hueco REAL, no el fichero: a partir de
+                    1024 px la ficha parte en dos columnas dentro de un
+                    contenedor de 1280, así que la foto ocupa unos 600 px; por
+                    debajo va a sangre. Sin esta línea el navegador supone
+                    100vw siempre, y en un móvil se baja la variante grande,
+                    que es justo lo que se venía a arreglar.
+                  */
+                  <Picture
+                    src={foto(item.image)}
                     alt={item.title}
-                    {...medidas(item.image)}
+                    formats={['avif', 'webp']}
+                    widths={[400, 600, 800, 1200]}
+                    sizes="(min-width: 1024px) 600px, 100vw"
                     class="absolute inset-0 h-full w-full object-cover"
                     loading="lazy"
                     decoding="async"
