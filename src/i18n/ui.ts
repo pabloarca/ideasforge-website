@@ -5016,7 +5016,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'The first one we built followed the pattern almost everything sold as an agent is built on, a model with tools available to it and instructions to use them when needed.',
               '<strong>It often did not use them.</strong> Nothing failed in a way anyone could look up afterwards. The model decided it could answer without checking, so it either made the answer up or told a real applicant it could not go on when it perfectly well could.',
-              'The rebuild moved the bookkeeping into code. A state machine tracks what has already been gathered and which phase the questions are in, and the model routes to whatever tool that phase calls for. <strong>The code keeps count and the model reads people.</strong>',
+              'The rebuild moved the bookkeeping into code. A state machine tracks what has already been gathered and which phase the questions are in, and the model routes to whatever tool that phase calls for. <strong>The code keeps track and the model reads people.</strong>',
               'We tell you this because it is the failure that a demonstration never shows. An agent that answers confidently without checking looks better in a meeting than one that stops.',
             ],
           },
@@ -7029,9 +7029,9 @@ export const content: Record<Lang, SiteContent> = {
             id: 'problem',
             part: 'The problem',
             paragraphs: [
-              'A rental agency gets inquiries all day and almost none of them lead anywhere. Every interested person writes over WhatsApp. Before you can say anything useful you have to find out what they are looking for, on what budget and what paperwork they have.',
-              'That check took five to ten minutes per inquiry, with dozens arriving a day. In the rental peaks the work did not fit in the day, so replies got delayed and the person asking went cold while waiting.',
-              '<strong>The bottleneck was not replying. It was working out, for each conversation, whether it was worth replying at all.</strong>',
+              'A rental agency gets inquiries all day and almost none of them lead anywhere. Every interested person writes over WhatsApp. Before you can say anything useful you have to find out what they are looking for, on what budget and what documentation they have.',
+              'That check took five to ten minutes per inquiry, with dozens arriving a day. When rental demand peaks, the work did not fit in the day, so replies got delayed and the lead went cold while waiting.',
+              '<strong>Replying was not the bottleneck. The bottleneck was working out, for each conversation, whether it was worth replying at all.</strong>',
             ],
           },
           {
@@ -7041,7 +7041,7 @@ export const content: Record<Lang, SiteContent> = {
               'We built it the way almost everything sold as an agent gets built today. A model with a set of tools at its disposal, each one able to look something up or record something, plus the instruction to use them when needed.',
               'And what can go wrong there? That a lot of the time it did not use them. The tool was not failing, the connection was not failing and there was no error to look at. <strong>The model simply decided it could answer without calling the tool.</strong>',
               'That came out in two ways and neither is good. Either it made the answer up, because a model missing a fact fills the hole with something that sounds reasonable. Or it got stuck, telling the person it could not go any further when it could.',
-              'What stands out about this case is that on paper everything was right. The tools existed, the instruction to use them was written down and it worked in testing. An instruction to a model is a request, not a guarantee. Here the request was nothing less than remembering to look before speaking.',
+              'What stands out about this case is that on paper everything was right. The tools existed, the instruction to use them was written down and it worked in testing. An instruction to a model is a request, not a guarantee. And here, all it was being asked to do was check before it spoke.',
             ],
             link: { label: 'Why we do not like agentic architectures', href: '/en/blog/i-dont-like-ai-agents' },
           },
@@ -7059,7 +7059,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'How a lead is judged suitable',
             part: 'How it works today',
             paragraphs: [
-              'The agent does not fill in a form and send it. It asks the way somebody from the team would ask, gathering over the course of the conversation what the agency needs to know: solvency, whether there are pets, whether anyone smokes in the property and a few other things the agency defines.',
+              'The agent does not fill in a form and send it. It asks the way somebody from the team would ask, gathering over the course of the conversation what the agency needs to know: affordability, whether there are pets, whether anyone smokes and a few other things the agency defines.',
               'With that, the request gets classified as suitable or not. The criteria are set in advance, so the classification is always the same for the same answers and does not depend on the words somebody happened to use.',
               'And where do those criteria live? The answer is the part that usually surprises people. In a spreadsheet table, in the agency’s own Drive, which they open and edit whenever they like. If they change their mind about a requirement tomorrow, they change it there.',
               'Nobody has to tell us, nobody has to wait for a release on our side and there is no place in the system where that criterion is written down twice. <strong>Whoever sets the rules is whoever answers for them. That is why they live where that person can reach them.</strong>',
@@ -7072,7 +7072,7 @@ export const content: Record<Lang, SiteContent> = {
               'The agent closes nothing. Once it has gathered the information, it sends the team a summary with the classification and a paragraph explaining why. Somebody at the agency reads it and decides whether to book the viewing.',
               'That separation is not decoration. An automatic classification about people is a recommendation. The decision about who gets to rent a home belongs to whoever answers for it.',
               'And there is something the system does not do, on purpose. <strong>If the interested person stops replying, the conversation stays exactly where it was.</strong> It does not push, it does not remind them on the third day and it does not write again a week later.',
-              'That was decided because chasing somebody who has gone cold does not pay off for the agency. It is one less feature to build, one less to maintain and one less to explain when somebody asks why a robot is writing to them.',
+              'That was decided because chasing somebody who has gone cold does not pay off for the agency. It is one less feature to build, one less to maintain and one less to explain when somebody asks why a bot is writing to them.',
             ],
           },
           {
@@ -7080,8 +7080,8 @@ export const content: Record<Lang, SiteContent> = {
             part: 'What it does not do',
             paragraphs: [
               'The summary arrives by email, which at first glance looks like the lazy option when the agency has a CRM. The reason is duller and more common than it sounds.',
-              'The agency’s CRM lets you read its data from outside, but it does not let you write to it. It has read endpoints rather than a full interface, so no external system can leave anything inside it.',
-              'You can fight that or you can accept it. We build for what is there, so the verdict goes out through the channel that does work and reaches the person who has to decide just as fast.',
+              'The agency’s CRM lets you read its data from outside, but it does not let you write to it. It has a read-only API, so no external system can write anything to it.',
+              'You can fight that or you can accept it. We build for what is there, so the verdict goes out through the channel that does work and reaches the decision-maker just as fast.',
               'It is the kind of detail that shows up in no demo and decides the whole design. <strong>Before promising anyone that the result lands in their system, it is worth checking whether their system lets anything land.</strong>',
             ],
           },
@@ -7089,9 +7089,9 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Three hours a day, and the signal that came later',
             part: 'What you see from outside',
             paragraphs: [
-              'The agency puts what it gets back at more than three hours a day, in handling incoming requests alone. <strong>The team stopped doing triage and moved to booking viewings</strong>, which is the part of the job that brings in revenue.',
+              'The agency estimates what it gets back at more than three hours a day, in handling incoming requests alone. <strong>The team stopped doing triage and moved to booking viewings</strong>, which is the part of the job that brings in revenue.',
               'The person asking, on top of that, gets an answer straight away and at any hour, including the peaks where they used to be left waiting.',
-              'The signal that matters most to us came later. The agency is extending the agent to home sales and to internal processes, on the same foundation that already filters rentals.',
+              'The signal that matters most to us came later. The agency is extending the agent to home sales and to internal processes, on the same foundation that already screens rental inquiries.',
             ],
             link: { label: 'The case told from the inside, on the blog', href: '/en/blog/ai-agent-real-estate' },
           },
