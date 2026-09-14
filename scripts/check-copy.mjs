@@ -99,6 +99,10 @@ const LEXICO_VETADO = [
   // guía de coste hasta el 1 sep. El veto del propietario era de todo el sitio.
   [/\bhonest(ly|y)?\b/g, 'la forma inglesa de la palabra vetada el 27 ago'],
   [/\binstinto/g, 'primer impulso'],
+  // 14 sep 2026: «booked twice» es ambiguo en inglés. Un nativo puede leerlo
+  // como que ningún cliente reservó una segunda vez, lo contrario de lo que dice
+  // el dato (DOUBLE_BOOKING_DETECTED = 0). El término idiomático es el de la fuente.
+  [/booked twice/g, 'double-booked («booked twice» se lee como que nadie repite reserva)'],
 ];
 
 /*
@@ -335,6 +339,12 @@ const BRITANICO = {
    National Cyber Security Centre se llama así. */
 const NOMBRES_PROPIOS = ['national cyber security centre'];
 
+/* Palabras británicas por USO, no por grafia. Ver el comentario de
+   `revisaIngles`. Entra aquí solo lo que no admite duda en contexto. */
+const VOCABULARIO_BRITANICO = {
+  'the other way round': 'the other way around',
+};
+
 /** Solo el bloque inglés de ui.ts. */
 function bloqueIngles(src) {
   const ini = src.indexOf('\n  en: {');
@@ -357,6 +367,7 @@ function revisaIngles(nombre, textoBruto) {
   let t = soloProsa(textoBruto);
   for (const n of NOMBRES_PROPIOS) t = t.split(n).join(' ');
   const fallos = [];
+  const avisos = [];
   for (const [brit, ameri] of Object.entries(BRITANICO)) {
     for (const m of [...t.matchAll(new RegExp(`\\b${brit}\\b`, 'gi'))]) {
       fallos.push([`ortografía británica «${brit}», debe ser «${ameri}»`, contexto(t, m.index)]);
@@ -376,8 +387,35 @@ function revisaIngles(nombre, textoBruto) {
   for (const m of [...t.matchAll(/—/g)]) {
     fallos.push(['raya larga', contexto(t, m.index)]);
   }
+  /*
+    Vocabulario británico, que es distinto de la ortografía de arriba. La
+    decisión del 25 ago 2026 es inglés americano en TODO el sitio, y
+    `BRITANICO` solo miraba cómo se escriben las palabras, no cuáles se usan:
+    cazaba «behaviour» y dejaba pasar «the other way round». Lo destaparon las
+    once lecturas en frío del 14 sep 2026. «flat» por apartamento NO entra
+    aquí: «a flat no» es americano correcto y hay que mirarlo caso por caso.
+  */
+  for (const [brit, ameri] of Object.entries(VOCABULARIO_BRITANICO)) {
+    for (const m of [...t.matchAll(new RegExp(brit, 'gi'))]) {
+      fallos.push([`vocabulario británico «${brit}», debe ser «${ameri}»`, contexto(t, m.index)]);
+    }
+  }
+  /*
+    Comma splice: dos oraciones independientes unidas por una coma. En español
+    es corriente y en inglés es un error, y las once lecturas en frío del
+    14 sep 2026 lo marcaron en las once páginas como la señal más repetida de
+    traducción. Va como AVISO y no como error porque la detección es
+    heurística: tras una subordinada («Although it works, it is slow») la coma
+    es correcta. EL REMEDIO ES EL PUNTO: los once informes reco-
+    mendaban raya larga o punto y coma, y esta casa tiene las dos vetadas por
+    las reglas de aquí arriba.
+  */
+  const SPLICE = /,\s+(it|they|we|you|he|she|that|this|there)\s+(is|are|was|were|does|do|did|has|have|had|will|would|can|could|should)\b/gi;
+  for (const m of [...t.matchAll(SPLICE)]) {
+    avisos.push(['posible comma splice: en inglés se parte en dos con un punto', contexto(t, m.index)]);
+  }
   revisaComunes(textoBruto, fallos);
-  return { nombre, fallos };
+  return { nombre, fallos, avisos };
 }
 
 function contexto(t, i) {
@@ -417,12 +455,17 @@ const objetivosEn = [
 
 for (const o of objetivosEn) {
   const r = revisaIngles(o.nombre, o.texto);
-  if (!r.fallos.length) continue;
+  if (!r.fallos.length && !r.avisos.length) continue;
   console.log(`\n${r.nombre}`);
   for (const [regla, ctx] of r.fallos) {
     console.log(`  ERROR  ${regla}\n         …${ctx}…`);
   }
+  for (const [regla, ctx] of r.avisos) {
+    console.log(`  aviso  ${regla}
+         …${ctx}…`);
+  }
   totalFallos += r.fallos.length;
+  totalAvisos += r.avisos.length;
 }
 
 // ── Páginas de caso huérfanas ──────────────────────────────────────────────
