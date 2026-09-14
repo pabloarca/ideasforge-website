@@ -106,9 +106,17 @@ const slots = layoutFor(posts.length, 0);
               index={i}
               sizes="(min-width: 1024px) 700px, 100vw"
             />
-            {/* Velo que oscurece los cantos, para que la abierta destaque. */}
+            {/*
+              Velo que oscurece los cantos, para que la abierta destaque.
+
+              SOLO de 768 px para arriba (`max-md:hidden`), que es donde existe
+              el acordeón. Por debajo, la fila pasa a ser un carrusel horizontal
+              de tarjetas al 82 % (ver el `@media` de aquí abajo): ahí no hay
+              cantos que oscurecer, se ven enteras, y el velo solo puede
+              ensuciar la única que cabe en pantalla.
+            */}
             <span
-              class="pointer-events-none absolute inset-0 bg-black/25 transition-opacity duration-700 group-aria-[current=true]:opacity-0"
+              class="pointer-events-none absolute inset-0 bg-black/25 transition-opacity duration-700 group-aria-[current=true]:opacity-0 max-md:hidden"
               aria-hidden="true"
             />
           </a>
