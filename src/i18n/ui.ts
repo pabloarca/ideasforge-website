@@ -3999,7 +3999,7 @@ export const content: Record<Lang, SiteContent> = {
       title: 'We build AI agents that answer from your data and act in your systems.',
       subtitle:
         'At Ideasforge we design and maintain custom AI agents for mid-size and large companies, on your infrastructure and measured before every change.',
-      ctaPrimary: 'Tell us your challenge',
+      ctaPrimary: 'Tell us what you’re up against',
     },
     trustedBy: {
       heading: 'Companies we work with',
@@ -4143,7 +4143,7 @@ export const content: Record<Lang, SiteContent> = {
           },
         ],
       },
-      cta: 'Tell us your challenge',
+      cta: 'Tell us what you’re up against',
     },
     whyUs: {
       eyebrow: 'Commitments',
@@ -4195,7 +4195,7 @@ export const content: Record<Lang, SiteContent> = {
               heading: 'What we don’t promise',
               body: 'We don’t promise the system will always get it right. We promise we will find out before you do and leave a written record of why it failed, so the same error does not slip past twice.',
             },
-            cta: { label: 'Tell us your challenge', href: '/en/#contacto' },
+            cta: { label: 'Tell us what you’re up against', href: '/en/#contacto' },
           },
         },
         {
@@ -4242,7 +4242,7 @@ export const content: Record<Lang, SiteContent> = {
               heading: 'What we don’t promise',
               body: 'We don’t promise you will never need us. We promise that the day you decide to move on you won’t have to ask us for anything, because you have had it all at home since day one.',
             },
-            cta: { label: 'Tell us your challenge', href: '/en/#contacto' },
+            cta: { label: 'Tell us what you’re up against', href: '/en/#contacto' },
           },
         },
         {
@@ -4271,7 +4271,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 heading: 'The model chooses, the code executes',
-                body: 'Our data assistant, and most of the ones we build, are built the other way round. The model does not write the query. It fills in a closed form (a JSON contract) with the fields we defined and a program reads that form and builds the query that reaches the database. That program only knows how to build the queries we taught it, so no other one can come out of there. The plant assistant we built for an industrial company works the same way with documents. The model picks a label from a closed list and the code retrieves the official text attached to it. <u class="text-fg">A malicious message can, at most, pick the wrong option from a list we have already reviewed.</u>',
+                body: 'Our data assistant, and most of the ones we build, are built the other way around. The model does not write the query. It fills in a closed form (a JSON contract) with the fields we defined and a program reads that form and builds the query that reaches the database. That program only knows how to build the queries we taught it, so no other one can come out of there. The plant assistant we built for an industrial company works the same way with documents. The model picks a label from a closed list and the code retrieves the official text attached to it. <u class="text-fg">A malicious message can, at most, pick the wrong option from a list we have already reviewed.</u>',
               },
               {
                 heading: 'Never more permissions than the person',
@@ -4296,7 +4296,7 @@ export const content: Record<Lang, SiteContent> = {
               heading: 'What we don’t promise',
               body: 'We don’t promise an invulnerable system, because there is no such thing. We promise to apply the highest security our AI architectures allow and to keep a tight grip on everything the language model can and cannot do.',
             },
-            cta: { label: 'Tell us your challenge', href: '/en/#contacto' },
+            cta: { label: 'Tell us what you’re up against', href: '/en/#contacto' },
           },
         },
       ],
@@ -4350,7 +4350,7 @@ export const content: Record<Lang, SiteContent> = {
       title: 'We integrate with your stack',
       subtitle:
         'SharePoint, Confluence, Azure, SAP, ERP, CRM and models from OpenAI, Anthropic and Google. Your systems stay put and AI flows through them.',
-      cta: 'Tell us your challenge',
+      cta: 'Tell us what you’re up against',
     },
     blog: {
       eyebrow: 'Blog',
@@ -4390,7 +4390,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           q: 'Do you work as an AI automation consultant?',
-          a: 'Yes, as the first phase of every project. Before anything is built we study your processes and your data and tell you where an agent pays off and where it does not. If we see no return, we say so and it ends there. And when there is one, the same team that recommended the system builds it and operates it, so the advice answers for its results.',
+          a: 'Yes, as the first phase of every project. Before anything is built we study your processes and your data and tell you where an agent pays off and where it does not. If we don’t think it will pay for itself, we say so and it ends there. And when there is one, the same team that recommended the system builds it and operates it, so the advice answers for its results.',
         },
         {
           q: 'Do you only work with large enterprises?',
@@ -4416,7 +4416,7 @@ export const content: Record<Lang, SiteContent> = {
     },
     contact: {
       eyebrow: 'Contact',
-      heading: 'Tell us your challenge.',
+      heading: 'Tell us what you’re up against.',
       subhead: 'We reply within one business day. No forty-slide sales deck.',
       subject: 'New message from ideasforge.io',
       name: 'Name',
@@ -4550,7 +4550,7 @@ export const content: Record<Lang, SiteContent> = {
     start: {
       metaTitle: 'Start the exploration, Ideasforge',
       metaDescription:
-        'Tell us which process you want to solve and we reply within one business day with a first read of your case.',
+        'Tell us which process you want to solve and we’ll reply within one business day with a first read of your case.',
       eyebrow: 'Step 1 · Explore',
       title: 'Let’s start with your case',
       subtitle:
@@ -4810,8 +4810,8 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Interested in this for your company?',
-          body: 'Tell us your challenge. If we don’t see a return, we’ll tell you.',
-          button: 'Tell us your challenge',
+          body: 'Tell us what you’re up against. If we don’t think it will pay for itself, we’ll tell you.',
+          button: 'Tell us what you’re up against',
         },
       },
       smb: {
@@ -4822,7 +4822,7 @@ export const content: Record<Lang, SiteContent> = {
           title: 'AI for your small business, one outcome at a time',
           subtitle:
             'Four fixed-scope packages built with the same engineering as our larger projects, priced before we start and measured once they run.',
-          cta: 'Tell us your challenge',
+          cta: 'Tell us what you’re up against',
         },
         stats: [
           {
@@ -4876,7 +4876,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Stanton manages rental properties. The electricity, gas and water bills their tenants sent in were typed into a spreadsheet by hand, a minute each. Today a chat the team already used receives them, a reading layer with a language model turns each one into a checked row in that same spreadsheet and <strong>98% of the invoices go through with nobody touching them</strong>. The client has kept commissioning more processes since.',
               'Barceloneta Premium rents apartments in Barcelona and receives dozens of WhatsApp inquiries a day. Checking each one used to take five to ten minutes of somebody’s attention. Now an agent holds the conversation, gathers what the agency needs to know and hands the team an email summary with the reasons already written. <strong>The agency got more than three hours a day back.</strong>',
-              'The third system is our own product. Wazzy books, moves and cancels appointments on WhatsApp for clinics, and it handles hundreds of appointments a month. In the entire history of the product, no appointment has ever been booked twice. We run it ourselves, with our own money on the line, which is where the maintenance discipline this page describes was learned.',
+              'The third system is our own product. Wazzy books, moves and cancels appointments on WhatsApp for clinics, and it handles hundreds of appointments a month. In the entire history of the product, no appointment has ever been double-booked. We run it ourselves, with our own money on the line, which is where the maintenance discipline this page describes was learned.',
             ],
           },
           {
@@ -4940,7 +4940,7 @@ export const content: Record<Lang, SiteContent> = {
         cta: {
           heading: 'What would you stop doing by hand first?',
           body: 'Describe the task that repeats most and how often it comes around, and leave the technology to us. We answer within one business day.',
-          button: 'Tell us your challenge',
+          button: 'Tell us what you’re up against',
         },
       },
       realEstate: {
@@ -4951,7 +4951,7 @@ export const content: Record<Lang, SiteContent> = {
           title: 'AI for real estate, from the first inquiry to the last invoice',
           subtitle:
             'An agency has two bottlenecks, the inquiries arriving at every hour and the paperwork piling up behind the door. We have built for both, and both are running in production.',
-          cta: 'Tell us your challenge',
+          cta: 'Tell us what you’re up against',
         },
         stats: [
           {
@@ -4972,7 +4972,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Two bottlenecks at opposite ends of the agency',
             id: 'the-problem',
             paragraphs: [
-              'The two bottlenecks of an agency sit at opposite ends of the same business. One faces outward, the inquiries arriving at every hour from people who want to see a flat. The other faces inward, the paperwork that piles up once they have moved in.',
+              'The two bottlenecks of an agency sit at opposite ends of the same business. One faces outward, the inquiries arriving at every hour from people who want to see an apartment. The other faces inward, the paperwork that piles up once they have moved in.',
               'The industry is trying things. AppFolio, a property management software company, surveyed more than two thousand professionals for its 2025 benchmark report and found AI use up from 21% to 34% in a single year, with the share saying they had no plans at all dropping from 51% to 37%.',
               'An adoption figure tells you the industry is buying. It does not tell you which of the two bottlenecks anybody cleared.',
               '<strong>We build for one bottleneck at a time, and we measure what it costs you today before anything gets built.</strong> The two systems on this page are exactly that, one at an agency that was drowning in inquiries and one at a property manager that was drowning in invoices.',
@@ -4981,7 +4981,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'The inquiries, and what an hour of silence costs',
             paragraphs: [
-              'Someone looking for a flat is not writing only to you. They write to every listing that fits, at the same time, and the conversation goes to whoever comes back first with something useful.',
+              'Someone looking for an apartment is not writing only to you. They write to every listing that fits, at the same time, and the conversation goes to whoever comes back first with something useful.',
               'That an inquiry goes cold is not a hunch, it was measured back in 2011 across more than a million of them, and the numbers are in the blog. What matters on this page is the arithmetic on your side of it.',
               'Barceloneta Premium, an agency in Barcelona, was receiving dozens of WhatsApp messages a day. Checking each one took five to ten minutes before anybody knew whether it was worth a visit.',
               '<strong>Those minutes were not spent selling. They were spent finding out whether there was anything to sell.</strong>',
@@ -5014,7 +5014,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'The second bottleneck has no conversation in it at all. Stanton manages rental property, and the electricity, gas and water bills their tenants sent in were typed into a spreadsheet by hand, one document at a time.',
               'Each one cost a minute of typing. Today they arrive through the chat the team already used, a reading layer with a language model turns each into a checked row in that same spreadsheet, and <strong>98% go through without anybody touching them</strong>.',
-              'The rest stops and reaches a person with the document alongside and the reason pointed at. <strong>Stopping is the design and not the failure.</strong> A new format read with the old template does not throw an error, it hands you a wrong number that looks convincing, and we have watched that happen.',
+              'The rest stops and reaches a person with the document alongside and the reason flagged. <strong>Stopping is the design and not the failure.</strong> A new format read with the old template does not throw an error, it hands you a wrong number that looks convincing, and we have watched that happen.',
               'Nobody had to learn a new tool. The client has kept commissioning more back-office processes since, which is the signal that counts, because what gets used gets extended.',
             ],
             link: {
@@ -5027,14 +5027,14 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               '<strong>If someone stops replying, the conversation stays where it is.</strong> There is no chasing sequence. That was the agency’s decision and we think it was the right one, because pursuing somebody who has gone cold rarely pays for the nuisance it causes.',
               'It does not write into your CRM when your CRM only lets you read. That is the case at Barceloneta, so the verdict goes out by email, which is where the team opens things anyway.',
-              'And it does not decide who gets the flat. It gathers, applies the criteria you wrote and explains its reasoning, and a person signs it off.',
+              'And it does not decide who gets the apartment. It gathers, applies the criteria you wrote and explains its reasoning, and a person signs it off.',
             ],
           },
           {
             heading: 'What it costs',
             paragraphs: [
               'A system of this size falls between €2,500 and €10,000 to build, with monthly operation between €150 and €500. The full breakdown of what moves those figures is in the pricing guide.',
-              '<strong>That monthly fee pays for the monitoring and the maintenance, not the consumption.</strong> Model usage and infrastructure run in accounts under your company’s name, so those bills are yours to see and they do not pass through us. There is no lock-in on the fee, and the repository is yours from the first day.',
+              '<strong>That monthly fee pays for the monitoring and the maintenance, not the usage.</strong> Model usage and infrastructure run in accounts under your company’s name, so those bills are yours to see and they do not pass through us. There is no lock-in on the fee, and the repository is yours from the first day.',
             ],
             link: {
               label: 'How much an AI agent costs',
@@ -5079,7 +5079,7 @@ export const content: Record<Lang, SiteContent> = {
         cta: {
           heading: 'Which of the two is costing you more?',
           body: 'Tell us where the hours go, the inquiries or the paperwork, and we will tell you whether we see a return. We reply within one business day.',
-          button: 'Tell us your challenge',
+          button: 'Tell us what you’re up against',
         },
       },
       accounting: {
@@ -5162,7 +5162,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'A system that always answers is a system you cannot trust. Ours checks before treating a value as good. What does not pass the check stops.',
               'Stopping is not the failure, it is the design. <strong>A new format processed with the old template produces data that looks fine.</strong> That is worse than not processing it, because nobody reviews what looks fine, and we have watched it happen.',
-              'When something stops, it reaches a person with the document in front of them and the reason pointed at. Not as a loose alert mid-afternoon that somebody then has to go and investigate.',
+              'When something stops, it reaches a person with the document in front of them and the reason flagged. Not as a loose alert mid-afternoon that somebody then has to go and investigate.',
             ],
             link: {
               label: 'The full flow, step by step',
@@ -5203,7 +5203,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What it costs',
             paragraphs: [
               'A system this size falls in the range we break down in the pricing guide, with a fixed build and a monthly fee while it is running.',
-              '<strong>That fee pays for the monitoring and the maintenance, not the consumption.</strong> The model calls and the infrastructure go into accounts in your name, so you see what you spend and it does not go through us.',
+              '<strong>That fee pays for the monitoring and the maintenance, not the usage.</strong> The model calls and the infrastructure go into accounts in your name, so you see what you spend and it does not go through us.',
             ],
             link: {
               label: 'How much an AI agent costs',
@@ -5247,7 +5247,7 @@ export const content: Record<Lang, SiteContent> = {
         cta: {
           heading: 'How many invoices does your team type today?',
           body: 'Tell us which process eats the most hours, not the technology you think fixes it. We reply within one business day with a first read on your case.',
-          button: 'Tell us your challenge',
+          button: 'Tell us what you’re up against',
         },
       },
       about: {
@@ -5259,7 +5259,7 @@ export const content: Record<Lang, SiteContent> = {
           title: 'A team that maintains what it builds',
           subtitle:
             'If your idea is not viable, we will say so before we invoice it. If it has legs, we work alongside you until it runs in production.',
-          cta: 'Tell us your challenge',
+          cta: 'Tell us what you’re up against',
         },
         sections: [
           {
@@ -5273,7 +5273,7 @@ export const content: Record<Lang, SiteContent> = {
         cta: {
           heading: 'Shall we talk about your case?',
           body: 'Write to us about the problem you have right now, not the technology you think fixes it. We reply within one working day.',
-          button: 'Tell us your challenge',
+          button: 'Tell us what you’re up against',
         },
       },
       aiGuide: {
@@ -5562,8 +5562,8 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Does an AI agent fit your company?',
-          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
-          button: 'Tell us your challenge',
+          body: 'Tell us what you’re up against and we’ll reply within one business day. If we don’t think it will pay for itself, we’ll tell you.',
+          button: 'Tell us what you’re up against',
         },
       },
       agentDev: {
@@ -5576,7 +5576,7 @@ export const content: Record<Lang, SiteContent> = {
           title: 'Enterprise AI agents, built to reach production and stay there.',
           subtitle:
             'We design, build and maintain custom AI agents for mid-size and large companies. On your infrastructure, measured before every change.',
-          cta: 'Tell us your challenge',
+          cta: 'Tell us what you’re up against',
         },
         sections: [
           {
@@ -5738,8 +5738,8 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Interested in this for your company?',
-          body: 'Tell us your challenge. If we see no return in it, we will say so.',
-          button: 'Tell us your challenge',
+          body: 'Tell us what you’re up against. If we don’t think it will pay for itself, we’ll say so.',
+          button: 'Tell us what you’re up against',
         },
       },
       processAuto: {
@@ -5752,7 +5752,7 @@ export const content: Record<Lang, SiteContent> = {
           title: 'The processes classic automation could never close',
           subtitle:
             'AI business process automation. The workflows with documents, conversations or decisions in the middle, carried end to end on your own systems.',
-          cta: 'Tell us your challenge',
+          cta: 'Tell us what you’re up against',
         },
         sections: [
           {
@@ -5844,7 +5844,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'How we build it',
             paragraphs: [
               'A flow with a model inside can degrade without throwing a single error, because the model changes or the documents change. That is why we pin the model version, so updating it is our decision rather than a surprise from the provider. Every change goes through a suite of real test cases before it ships, and every run records what was read, what was decided and what was filed. When something does not add up weeks later, we reconstruct the exact run instead of arguing from memory. And when a real error does slip through, the circuit is always the same: reproduce the run, fix it, and the case joins the test suite so it never slips through quietly again. Our flows age by learning from their own near misses.',
-              'And if one day a figure is missing or a source is down, in the questions-to-your-data case the system answers with what it has and says what got left out, rather than returning an incomplete number that looks complete. In a document flow it is the other way round, what does not add up is not half filed, it escalates. That machine clarity is the difference between a number you can take into a meeting with your partners to defend the project and one that leaves you exposed.',
+              'And if one day a figure is missing or a source is down, in the questions-to-your-data case the system answers with what it has and says what got left out, rather than returning an incomplete number that looks complete. In a document flow it is the other way around, what does not add up is not half filed, it escalates. That machine clarity is the difference between a number you can take into a meeting with your partners to defend the project and one that leaves you exposed.',
               'The monthly operation comes down to three numbers: how much the flow resolved on its own, how much it escalated and for which reasons, and what each run cost. Those three decide where to sharpen, which new rule to add and whether the next expansion pays. <strong>Without them, working well is an opinion.</strong> Every flow also inherits the house alarms, so if an external service goes down or a quota runs out, we know before your team suffers it.',
             ],
           },
@@ -5897,7 +5897,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What it costs',
             part: 'Deciding with judgment',
             paragraphs: [
-              'A single-process flow starts around €2,500 to build, the ones touching several of your systems approach €10,000, and monthly operation runs between €150 and €500, covering monitoring and maintenance. Model usage and infrastructure run in accounts under your company’s name, so those bills are yours and are not part of the fee. What moves those figures here is concrete: how many systems have to be connected, how much validation the process demands and how much volume runs through it. <strong>The sensible rule is that the measured cost of the process today sets the ceiling for the budget and the pilot confirms it, not the other way round.</strong> The full breakdown is in the cost guide.',
+              'A single-process flow starts around €2,500 to build, the ones touching several of your systems approach €10,000, and monthly operation runs between €150 and €500, covering monitoring and maintenance. Model usage and infrastructure run in accounts under your company’s name, so those bills are yours and are not part of the fee. What moves those figures here is concrete: how many systems have to be connected, how much validation the process demands and how much volume runs through it. <strong>The sensible rule is that the measured cost of the process today sets the ceiling for the budget and the pilot confirms it, not the other way around.</strong> The full breakdown is in the cost guide.',
             ],
             link: {
               label: 'How much does an AI agent cost, broken down',
@@ -5950,8 +5950,8 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Which process is costing you hours?',
-          body: 'Tell us your challenge. If we see no return in it, we will say so.',
-          button: 'Tell us your challenge',
+          body: 'Tell us what you’re up against. If we don’t think it will pay for itself, we’ll say so.',
+          button: 'Tell us what you’re up against',
         },
       },
       conversational: {
@@ -5964,7 +5964,7 @@ export const content: Record<Lang, SiteContent> = {
           title: 'AI chatbots that finish the job',
           subtitle:
             'Conversational agents that answer, qualify and act. Appointments booked, requests filtered and questions resolved, running on top of the systems you already use.',
-          cta: 'Tell us your challenge',
+          cta: 'Tell us what you’re up against',
         },
         sections: [
           {
@@ -5992,7 +5992,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'How it works and why to trust it',
             paragraphs: [
               'Almost everyone has suffered one: the bot that goes around its script, does not understand the second question and hides the way out to a human. And when the human finally arrives, you have to tell the whole story again. That experience had two causes and it is worth separating them. The first is technical and it is solved, those menus broke the moment somebody wrote the way people write. The second is still with us and it is a way of measuring. Plenty of bots are asked to hold on to as many conversations as possible without passing them to the team, rather than to resolve as many as possible.',
-              'We measure it the other way round. <strong>A conversation counts when the task got done or when it reached the right person with all the context.</strong> That is why the way out is never hidden and the handover carries the full history, so nobody repeats what they already typed. A customer who asked for a human and got one quickly comes back. One who fought a script for ten minutes does not. And does not recommend you either.',
+              'We measure it the other way around. <strong>A conversation counts when the task got done or when it reached the right person with all the context.</strong> That is why the way out is never hidden and the handover carries the full history, so nobody repeats what they already typed. A customer who asked for a human and got one quickly comes back. One who fought a script for ten minutes does not. And does not recommend you either.',
             ],
           },
           {
@@ -6150,8 +6150,8 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'A conversational agent for your business?',
-          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
-          button: 'Tell us your challenge',
+          body: 'Tell us what you’re up against and we’ll reply within one business day. If we don’t think it will pay for itself, we’ll tell you.',
+          button: 'Tell us what you’re up against',
         },
       },
       cost: {
@@ -6228,8 +6228,8 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Want a number for your case?',
-          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
-          button: 'Tell us your challenge',
+          body: 'Tell us what you’re up against and we’ll reply within one business day. If we don’t think it will pay for itself, we’ll tell you.',
+          button: 'Tell us what you’re up against',
         },
       },
       compliance: {
@@ -6279,7 +6279,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'The regulation itself never mentions artificial intelligence by name. It regulates personal data, and an assistant that reads invoices, books appointments or answers questions about your operations is full of personal data from the first day. So the same familiar principles apply, and each of them lands on a concrete engineering choice.',
               'Data minimization stops being a policy line and becomes a question about context. A language model can only leak what it was given, so the real control is what enters the prompt in the first place. Purpose limitation becomes a question about tools. An agent that can only call three approved functions cannot quietly repurpose your data, because it has no path to do so. And accountability becomes a question about records. If the system cannot show why it did what it did, no policy document will show it either.',
-              'This is why we say the paperwork follows the architecture and not the other way round. A well-built system makes the DPA, the impact assessment and the register of processing activities faster to write and easier to defend, because every claim in those documents points at something that actually exists in the code. The reverse does not work. No amount of documentation makes an unaccountable system accountable.',
+              'This is why we say the paperwork follows the architecture and not the other way around. A well-built system makes the DPA, the impact assessment and the register of processing activities faster to write and easier to defend, because every claim in those documents points at something that actually exists in the code. The reverse does not work. No amount of documentation makes an unaccountable system accountable.',
             ],
           },
           {
@@ -6481,8 +6481,8 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Does your data have to stay under your control?',
-          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
-          button: 'Tell us your challenge',
+          body: 'Tell us what you’re up against and we’ll reply within one business day. If we don’t think it will pay for itself, we’ll tell you.',
+          button: 'Tell us what you’re up against',
         },
       },
       aiAct: {
@@ -6766,8 +6766,8 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Deploying AI under these rules?',
-          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
-          button: 'Tell us your challenge',
+          body: 'Tell us what you’re up against and we’ll reply within one business day. If we don’t think it will pay for itself, we’ll tell you.',
+          button: 'Tell us what you’re up against',
         },
       },
       /*
@@ -6789,10 +6789,10 @@ export const content: Record<Lang, SiteContent> = {
         metaDescription:
           'The data was already on a dashboard and the people who needed it were out in the field. How we built Savian an agent that answers by message and by voice.',
         hero: {
-          eyebrow: 'Case in production',
+          eyebrow: 'Live in production',
           title: 'Savian: the data was on a dashboard and the person who needed it was in a van',
           subtitle:
-            'Savian is an agricultural company whose managers need production and attendance data to decide. The data was there and there was a dashboard to look it up, but the person who needs it is out in the field or in a van, with no computer in front of them. Today they ask the way they would ask a colleague, by message or by voice note, and the answer comes back in seconds. This page tells how it is built and the two things we had to take away from the model along the way.',
+            'Savian is an agricultural company whose managers need production and attendance data to decide. The data was there and there was a dashboard to look it up, but the person who needs it is out in the field or in a van, with no computer in front of them. Today they ask the way they would ask a colleague, by message or by voice note, and the answer comes back in seconds. This page explains how it is built and the two things we had to take away from the model along the way.',
           cta: 'Start with the problem',
           ctaHref: '#problem',
         },
@@ -6904,8 +6904,8 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Do you have data nobody looks up because it is too much work to reach?',
-          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
-          button: 'Tell us your challenge',
+          body: 'Tell us what you’re up against and we’ll reply within one business day. If we don’t think it will pay for itself, we’ll tell you.',
+          button: 'Tell us what you’re up against',
         },
       },
       caseStanton: {
@@ -6914,10 +6914,10 @@ export const content: Record<Lang, SiteContent> = {
         metaDescription:
           'How we automated utility invoice entry for Stanton, with 98% going through untouched. And the day one supplier redesigned its invoice without telling anyone.',
         hero: {
-          eyebrow: 'Case in production',
+          eyebrow: 'Live in production',
           title: 'Stanton: we assumed invoices do not change. Invoices change',
           subtitle:
-            'Stanton is a property manager that used to key in every tenant’s electricity, gas and water invoices by hand, at a minute of typing per document. Today 98% go through without anyone touching them. This page tells how it works, why it comes in through a Telegram chat and what we had to add after one utility company redesigned its invoice without telling anyone.',
+            'Stanton is a property manager that used to key in every tenant’s electricity, gas and water invoices by hand, at a minute of typing per document. Today 98% go through without anyone touching them. This page explains how it works, why it comes in through a Telegram chat and what we had to add after one utility company redesigned its invoice without telling anyone.',
           cta: 'Start with the problem',
           ctaHref: '#problem',
         },
@@ -6995,8 +6995,8 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Is your team still typing documents?',
-          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
-          button: 'Tell us your challenge',
+          body: 'Tell us what you’re up against and we’ll reply within one business day. If we don’t think it will pay for itself, we’ll tell you.',
+          button: 'Tell us what you’re up against',
         },
       },
       caseBarceloneta: {
@@ -7005,10 +7005,10 @@ export const content: Record<Lang, SiteContent> = {
         metaDescription:
           'An agent that handles Barceloneta Premium’s rental inquiries over WhatsApp and filters them. The first version had tools and would not use them.',
         hero: {
-          eyebrow: 'Case in production',
+          eyebrow: 'Live in production',
           title: 'Barceloneta Premium: we gave the model tools and it did not use them',
           subtitle:
-            'A rental agency in Barcelona gets dozens of inquiries a day over WhatsApp. Checking each one took five to ten minutes. Today an agent holds that conversation and hands the team a verdict ready to act on. This page tells how it works and, above all, why the first version had to be thrown away.',
+            'A rental agency in Barcelona gets dozens of inquiries a day over WhatsApp. Checking each one took five to ten minutes. Today an agent holds that conversation and hands the team a verdict ready to act on. This page explains how it works and, above all, why the first version had to be thrown away.',
           cta: 'Start with the problem',
           ctaHref: '#problem',
         },
@@ -7039,7 +7039,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'How it works today',
             paragraphs: [
               'What we did was take away from the model the decision about where the conversation stands. That decision moved to a separate mechanism, written in code, that keeps track of where each chat has got to.',
-              'It runs on two things. Which pieces of information have already been collected, because knowing the budget and not the paperwork is not the same as the other way round. And which stage of questions the conversation is in, because there is an order and the questions do not all get asked at once.',
+              'It runs on two things. Which pieces of information have already been collected, because knowing the budget and not the paperwork is not the same as the other way around. And which stage of questions the conversation is in, because there is an order and the questions do not all get asked at once.',
               'With those two, the mechanism always knows the exact situation. And that is where the model comes back in, doing what it is good at: reading what the person just wrote and deciding which tool fits that particular state.',
               'The split is the usual one and that is why it works. <strong>The code keeps count and the model interprets.</strong> Neither one does the other’s job, so there is no longer any point where remembering something depends on a model’s goodwill.',
             ],
@@ -7087,8 +7087,8 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Is your team doing triage instead of selling?',
-          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
-          button: 'Tell us your challenge',
+          body: 'Tell us what you’re up against and we’ll reply within one business day. If we don’t think it will pay for itself, we’ll tell you.',
+          button: 'Tell us what you’re up against',
         },
       },
       caseIndustrial: {
@@ -7097,10 +7097,10 @@ export const content: Record<Lang, SiteContent> = {
         metaDescription:
           'A plant assistant for a large industrial company. The first routing measurement came out at 72.8% over 118 real queries. And what we did with that number.',
         hero: {
-          eyebrow: 'Case in production',
+          eyebrow: 'Live in production',
           title: 'A plant assistant, and what it cost to know whether it was right',
           subtitle:
-            'A large industrial company had its operating knowledge split between dense manuals and the memory of its most experienced people. We built an assistant that answers from the company’s own systems and walks through the diagnosis step by step. This page tells how it is put together and what it cost us to show that it was getting the answers right.',
+            'A large industrial company had its operating knowledge split between dense manuals and the memory of its most experienced people. We built an assistant that answers from the company’s own systems and walks through the diagnosis step by step. This page explains how it is put together and what it cost us to show that it was getting the answers right.',
           cta: 'Start with the problem',
           ctaHref: '#problem',
         },
@@ -7162,18 +7162,18 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Does your operating knowledge live in manuals and in three people’s memory?',
-          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
-          button: 'Tell us your challenge',
+          body: 'Tell us what you’re up against and we’ll reply within one business day. If we don’t think it will pay for itself, we’ll tell you.',
+          button: 'Tell us what you’re up against',
         },
       },
       caseWazzy: {
         tocHeading: 'What this page covers',
         metaTitle: 'Wazzy: our WhatsApp appointment assistant, Ideasforge',
         metaDescription:
-          'Wazzy handles hundreds of appointments a month over WhatsApp in clinics, with health data involved and without a single appointment ever being booked twice.',
+          'Wazzy handles hundreds of appointments a month over WhatsApp in clinics, with health data involved and without a single appointment ever being double-booked.',
         hero: {
           eyebrow: 'Our own product',
-          title: 'Wazzy: hundreds of appointments a month and none ever booked twice',
+          title: 'Wazzy: hundreds of appointments a month and none ever double-booked',
           subtitle:
             'Wazzy is our appointment assistant on WhatsApp. It works in dental, physiotherapy and aesthetics clinics, it handles health data every day and it is the system where we try things first before building them for a client.',
           cta: 'See how it works',
@@ -7200,7 +7200,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Why we trust it',
             paragraphs: [
               '<strong>The first version of Wazzy was an agent with tools at its disposal and we left it behind.</strong> The one in production today splits the work differently, with much more weight on the code side and considerably less on the model side. How it is put together inside is not something we are going to spell out here, among other reasons because it is not information we owe the competition. What we can show is what that decision produces.',
-              'No appointment has ever been booked twice in the whole history of the product. Not one. It is a failure you cannot fix with an apology, because when it happens there are two people at the door at the same time and one of them has to go home.',
+              'No appointment has ever been double-booked in the whole history of the product. Not one. It is a failure you cannot fix with an apology, because when it happens there are two people at the door at the same time and one of them has to go home.',
               '<strong>Nothing reaches production without first passing a battery of real cases with their correct answers written down.</strong> That includes what the clinic itself edits from its own panel, which does not change what the assistant answers until the battery approves it. And we pin the model version, so a provider update does not turn up on its own in production on a Tuesday morning.',
               'On the running system there are 103 checks watching, tied to 91 named rules the system has to satisfy. And once a week a test walks the whole system end to end, booking an appointment the way a person would.',
             ],
@@ -7242,8 +7242,8 @@ export const content: Record<Lang, SiteContent> = {
         ],
         cta: {
           heading: 'Do you want one like this for your company?',
-          body: 'Tell us your challenge and we reply within one business day. If we don’t see a return, we’ll tell you.',
-          button: 'Tell us your challenge',
+          body: 'Tell us what you’re up against and we’ll reply within one business day. If we don’t think it will pay for itself, we’ll tell you.',
+          button: 'Tell us what you’re up against',
         },
       },
     },

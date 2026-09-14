@@ -48,7 +48,7 @@ This agent that sounds so reasonable today was not born that way. The first vers
 
 **Many times it did not use them.** Nothing failed that you could look up in a log. The model decided it could answer without checking, so it either invented the answer or told the person it could not go on when it could.
 
-We rebuilt it the other way round, with the state of the conversation kept in code and the model interpreting inside that state.
+We rebuilt it the other way around, with the state of the conversation kept in code and the model interpreting inside that state.
 
 ## And after rentals, the rest
 

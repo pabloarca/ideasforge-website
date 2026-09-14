@@ -18,7 +18,7 @@ IT service management has kept something similar for decades. In ITIL, the refer
 
 Our incident catalog looks a lot like it. It differs in one thing, the entry point. A known-error database is organized by cause, because in classic software the cause is stable and the symptom varies.
 
-**With non-deterministic components it is the other way round, the symptom repeats and the cause changes.** The same "it answers nothing" can come today from a dropped connection and tomorrow from a change someone shipped, so the valuable thing is not filing yesterday's cause. It is recognizing today's symptom and having the short list of causes that have produced it before.
+**With non-deterministic components it is the other way around, the symptom repeats and the cause changes.** The same "it answers nothing" can come today from a dropped connection and tomorrow from a change someone shipped, so the valuable thing is not filing yesterday's cause. It is recognizing today's symptom and having the short list of causes that have produced it before.
 
 That is why an entry in our catalog starts with how the failure looks from the outside and not with what caused it. The tradition is sound. The order has to be flipped.
 
@@ -30,7 +30,7 @@ These three come from the catalog of one of our production assistants, an orches
 
 **The assistant goes mute on everything except the messages that carry a conversation forward.** Those are the only path that never goes through the model. If they are alive and everything else is not, the diagnosis is immediate. The problem is the connection to the model, not what we wrote for it. That time the system was calling a model endpoint that no longer existed after a manual config change. Twenty minutes of diagnosis turned into two.
 
-**It works in production and fails in the test bench, or the other way round.** The most uncomfortable signature, because nobody wants to look at it. The user’s text was stored in one place and the code was looking for it in another. It was not a test-environment defect, it was a time bomb. The day the upstream system moved it, production would break the same way. A person reading carefully caught it, not an alarm. That is data too. Some signatures still have no automated detector.
+**It works in production and fails in the test bench, or the other way around.** The most uncomfortable signature, because nobody wants to look at it. The user’s text was stored in one place and the code was looking for it in another. It was not a test-environment defect, it was a time bomb. The day the upstream system moved it, production would break the same way. A person reading carefully caught it, not an alarm. That is data too. Some signatures still have no automated detector.
 
 ## Why this matters if you are the one buying AI
 
