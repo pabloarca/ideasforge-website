@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
+import { htmlATexto } from './html-a-texto.mjs';
 import { join, sep, dirname } from 'node:path';
 import { portadaSocial } from './og.mjs';
 
@@ -103,6 +104,9 @@ function escribeLlmsTxt(raiz, logger) {
     'texto. Y cuando una página dice que algo puede salir mal, es literal y no',
     'una figura retórica.',
     '',
+    'El texto completo de todas estas páginas, en un solo fichero, está en',
+    'https://ideasforge.io/llms-full.txt',
+    '',
     '',
   ].join('\n');
 
@@ -116,6 +120,61 @@ function escribeLlmsTxt(raiz, logger) {
 
   writeFileSync(join(raiz, 'llms.txt'), llms, 'utf8');
   logger.info(`llms.txt: ${paginas.length} páginas indexadas`);
+}
+
+/*
+  llms-full.txt, el texto entero del sitio en un solo fichero.
+
+  `llms.txt` es el índice: dice qué páginas hay. Esto dice qué sabe esta casa.
+  Un modelo que solo lee el índice tiene que pedir veintitantas URL para
+  responder a algo; con esto le basta una.
+
+  Sale del sitio compilado y con el MISMO extractor que usa la lectura en
+  frío (`html-a-texto.mjs`), a propósito: lo que se le enseña a un modelo es
+  exactamente lo que se le enseña al revisor y lo que lee una persona. Tres
+  consumidores, un solo texto.
+
+  Fuera las legales y el 404: ocupan y no dicen nada de lo que hacemos.
+
+  La misma advertencia que `llms.txt`: es convención emergente, nadie promete
+  leerlo, y se pone con esa expectativa.
+*/
+function escribeLlmsFullTxt(raiz, logger) {
+  const esLegal = (r) => /^\/(politica-|en\/(privacy|cookies)-policy)/.test(r);
+  const piezas = [];
+  for (const fichero of recorre(raiz)) {
+    const html = readFileSync(fichero, 'utf8');
+    const ruta =
+      fichero.split(sep).join('/').replace(raiz.split(sep).join('/'), '/').replace(/\/index\.html$/, '').replace(/\.html$/, '') ||
+      '/';
+    const limpia = ruta.replace(/\/+$/, '') || '/';
+    if (limpia === '/404' || esLegal(limpia)) continue;
+    const texto = htmlATexto(html);
+    if (!texto) continue;
+    piezas.push({ ruta: limpia, texto });
+  }
+  piezas.sort((a, b) => a.ruta.localeCompare(b.ruta));
+
+  const cabecera = [
+    '# Ideasforge, texto completo',
+    '',
+    '> El contenido entero del sitio, página por página. El índice con las',
+    '> descripciones está en https://ideasforge.io/llms.txt',
+    '',
+    'Las cifras que hablan de nosotros salen de sistemas en producción y están',
+    'verificadas una a una. Las que hablan del mundo llevan su fuente nombrada en',
+    'el propio texto. Cada bloque empieza por la URL de la que sale, para que se',
+    'pueda citar.',
+    '',
+  ].join('\n');
+
+  const cuerpo = piezas
+    .map((p) => `\n---\n\nURL: https://ideasforge.io${p.ruta}\n\n${p.texto}\n`)
+    .join('');
+  const salida = cabecera + cuerpo;
+  writeFileSync(join(raiz, 'llms-full.txt'), salida, 'utf8');
+  const kb = Math.round(Buffer.byteLength(salida, 'utf8') / 1024);
+  logger.info(`llms-full.txt: ${piezas.length} páginas, ${kb} KB`);
 }
 
 export default function portadasSociales() {
@@ -159,6 +218,7 @@ export default function portadasSociales() {
 
         logger.info(`portadas sociales generadas: ${hechas}`);
         escribeLlmsTxt(raiz, logger);
+        escribeLlmsFullTxt(raiz, logger);
       },
     },
   };

@@ -183,6 +183,51 @@ const breadcrumbJsonLd = migas.length
   Search Console dicen que Latinoamerica pesa mas que Espana.
 */
 const esServicio = /^\/(servicios|en\/services)\//.test(canonicalPath);
+/*
+  La oferta SOLO donde la página publica el rango de verdad.
+
+  Los únicos números de precio autorizados son los del 20 ago 2026:
+  construcción de 2.500 a 10.000 € y operación de 150 a 500 € al mes. Seis de
+  las ocho páginas de servicio los publican; conocimiento corporativo no, en
+  los dos idiomas, así que ahí no se declara una oferta que el visitante no ve.
+  Un dato estructurado que afirma más que la página es la clase de
+  contradicción que un revisor encuentra primero.
+
+  Que la lista y el texto no se separen NO se confía a la memoria: `check-seo`
+  compara las dos cosas página por página y falla si a una le falta lo que la
+  otra tiene.
+
+  La cuota mensual lleva su salvedad dentro, porque publicarla desnuda
+  insinuaría que cubre el consumo del modelo y la infraestructura, y no los
+  cubre: esas facturas son del cliente y van a su nombre.
+*/
+const publicaPrecio =
+  esServicio && !/(conocimiento-corporativo|corporate-knowledge)$/.test(canonicalPath);
+const ofertas = publicaPrecio
+  ? [
+      {
+        '@type': 'AggregateOffer',
+        name: lang === 'es' ? 'Construcción, alcance cerrado' : 'Fixed-scope build',
+        priceCurrency: 'EUR',
+        lowPrice: 2500,
+        highPrice: 10000,
+      },
+      {
+        '@type': 'AggregateOffer',
+        name:
+          lang === 'es'
+            ? 'Operación y mantenimiento, al mes'
+            : 'Operation and maintenance, monthly',
+        description:
+          lang === 'es'
+            ? 'Cubre la vigilancia y el mantenimiento. El consumo del modelo y la infraestructura van en cuentas a nombre del cliente y quedan fuera de la cuota.'
+            : 'Covers monitoring and maintenance. Model usage and infrastructure are billed to accounts in the client’s name and are not included in the fee.',
+        priceCurrency: 'EUR',
+        lowPrice: 150,
+        highPrice: 500,
+      },
+    ]
+  : null;
 const serviceJsonLd = esServicio
   ? JSON.stringify({
       '@context': 'https://schema.org',
@@ -191,8 +236,44 @@ const serviceJsonLd = esServicio
       description,
       url: canonical,
       provider: { '@type': 'Organization', name: 'Ideasforge', url: site.href },
+      ...(ofertas ? { offers: ofertas } : {}),
     }).replace(/</g, '\\u003c')
   : null;
+
+/*
+  WebSite y WebPage, que faltaban.
+
+  `WebSite` identifica al sitio como entidad y cuelga de la organización. Se
+  emite con `@id` para que la página se refiera a él en vez de repetirlo.
+  **SIN `SearchAction`**: esa propiedad declara un buscador interno y aquí no
+  hay ninguno. Sería pedir una caja de búsqueda que no existe.
+
+  `WebPage` no se emite en los artículos: ya declaran `Article`, que es un tipo
+  más específico, y poner los dos describe lo mismo dos veces.
+*/
+const websiteId = `${site.href}#website`;
+const websiteJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': websiteId,
+  name: 'Ideasforge',
+  url: site.href,
+  inLanguage: lang === 'es' ? 'es-ES' : 'en-US',
+  publisher: { '@type': 'Organization', name: EMPRESA.marca, url: site.href },
+});
+const webpageJsonLd =
+  ogType === 'article'
+    ? null
+    : JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: title.replace(/, Ideasforge$/, ''),
+        description,
+        url: canonical,
+        inLanguage: lang === 'es' ? 'es-ES' : 'en-US',
+        isPartOf: { '@id': websiteId },
+        primaryImageOfPage: ogImage,
+      }).replace(/</g, '\\u003c');
 
 // hreflang entries. x-default points at the default (Spanish) version.
 const hreflangs = (Object.keys(languages) as Lang[])
@@ -306,6 +387,10 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
 
     <!-- Structured data -->
     <script is:inline type="application/ld+json" set:html={orgJsonLd} />
+    <script is:inline type="application/ld+json" set:html={websiteJsonLd} />
+    {webpageJsonLd && (
+      <script is:inline type="application/ld+json" set:html={webpageJsonLd} />
+    )}
     {
       breadcrumbJsonLd && (
         <script is:inline type="application/ld+json" set:html={breadcrumbJsonLd} />

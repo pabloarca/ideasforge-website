@@ -1,3 +1,66 @@
+# robots.txt de ideasforge.io
+#
+# Hasta el 14 sep 2026 esto eran tres líneas: un comodín que lo permitía todo.
+# El comportamiento no cambia con esta versión —todos los rastreadores de abajo
+# ya pasaban por el comodín— y ese es el sentido de escribirla: DECLARAR lo que
+# ya era cierto, en vez de dejarlo dependiendo de una regla genérica que nadie
+# eligió. Bloquear cualquiera de ellos es ahora cambiar una línea, y se ve en el
+# historial quién lo decidió y cuándo.
+#
+# Por qué se permiten los de IA, y no es descuido: esta casa publica además
+# /llms.txt y /llms-full.txt, o sea que ya ha decidido que quiere que la lean
+# las máquinas. Prohibirles el sitio y a la vez servirles un índice sería
+# contradecirse. Y la citación por asistentes es hoy un canal de entrada, no una
+# fuga: quien pregunta a un modelo por agentes de IA no iba a teclear nuestra
+# URL de todos modos.
+
+# ── Buscadores ───────────────────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# ── Búsqueda y respuesta con IA ──────────────────────────────────────────────
+# Son los que citan con enlace, así que son los que traen visitas.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Peticiones que hace un asistente porque una persona se lo ha pedido en ese
+# momento. Bloquearlo es negarle la página a un visitante real con intermediario.
+User-agent: Claude-User
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# ── Recogida para entrenamiento ──────────────────────────────────────────────
+# Estos no devuelven visitas: alimentan modelos. Se permiten porque lo que
+# publicamos es el argumento de venta, y un modelo que lo ha leído nos nombra
+# cuando le preguntan. Si algún día se decide lo contrario, aquí, y pasando
+# `Allow` a `Disallow`.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# ── Todo lo demás ────────────────────────────────────────────────────────────
 User-agent: *
 Allow: /
 

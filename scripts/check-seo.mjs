@@ -374,6 +374,15 @@ if (totalMB > PRESUPUESTO.sitioMB) {
 for (const f of ficheros) {
   const kb = statSync(f).size / 1024;
   const r = f.split(sep).join('/').replace(new RegExp(`^${DIST}`), '');
+  /*
+    `llms-full.txt` queda fuera del presupuesto por fichero, y es la única
+    excepción. Ese presupuesto existe para lo que descarga un navegador al
+    visitar una página; este fichero es el texto entero del sitio en uno solo,
+    no lo pide ninguna navegación y su tamaño ES su función. Exentarlo evita
+    la tentación de recortarlo para que pase un límite que no le corresponde.
+    Sí cuenta para el total del sitio, que ahí sí ocupa disco de verdad.
+  */
+  if (r === '/llms-full.txt') continue;
   if (kb > PRESUPUESTO.ficheroKB) {
     error('peso', `${r} pesa ${Math.round(kb)} KB`, `el presupuesto por fichero son ${PRESUPUESTO.ficheroKB} KB`);
   }
@@ -506,10 +515,36 @@ for (const p of paginas) {
   }
 }
 
-/* ── 9. Ficheros que tienen que estar ────────────────────────────────────── */
+/* ── 9. La oferta declarada y el precio publicado, de acuerdo ─────────── */
+/*
+  `AggregateOffer` se emite en las páginas de servicio que publican el rango de
+  2.500 a 10.000 €, y solo en esas: seis de las ocho, porque conocimiento
+  corporativo no lo publica en ninguno de los dos idiomas.
+
+  La lista vive en `BaseLayout.astro` como una condición sobre la ruta, y una
+  condición sobre la ruta se queda vieja en cuanto alguien añade el precio a una
+  página o se lo quita a otra. Esto lo impide en los dos sentidos: un dato
+  estructurado que afirme un precio que la página no enseña, o una página que
+  enseñe el precio sin declararlo. Regla al verificador y no a la memoria.
+*/
+for (const p of paginas) {
+  if (!/\/(servicios|en\/services)\//.test(p.r)) continue;
+  const declara = p.s.includes('AggregateOffer');
+  const enseña = /2[.,]500/.test(p.s) && /10[.,]000/.test(p.s);
+  if (declara && !enseña) {
+    error(p.r, 'declara AggregateOffer y no publica el rango', 'el dato estructurado afirma un precio que el visitante no ve');
+  }
+  if (!declara && enseña) {
+    error(p.r, 'publica el rango y no declara AggregateOffer', 'revísalo en `publicaPrecio`, en BaseLayout.astro');
+  }
+}
+
+/* ── 10. Ficheros que tienen que estar ────────────────────────────────────── */
 for (const [f, motivo] of [
   ['robots.txt', 'sin él los rastreadores van a ciegas'],
   ['og-default.png', 'es el respaldo de og:image de casi todas las páginas'],
+  ['llms.txt', 'el índice del sitio para modelos de lenguaje'],
+  ['llms-full.txt', 'el texto completo del sitio para modelos de lenguaje'],
 ]) {
   if (!existsSync(join(DIST, f))) error('ficheros', `falta ${f}`, motivo);
 }
