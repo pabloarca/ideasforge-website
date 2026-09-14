@@ -6375,7 +6375,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Health data, under the strictest article there is',
           part: 'What it looks like in practice',
             paragraphs: [
-              'Wazzy, our own appointments product, runs in dental, physiotherapy and aesthetics clinics. An appointment note that says who visits which clinic and why is health data, which the GDPR places among the special categories of its Article 9, with no hierarchy among them. The party processing it under Article 9.2.h, the ground that covers healthcare provision, is the clinic, which is the controller. We process on its behalf, as a processor. We did not pick that regime to make a point. The product needed it, and the result is that our practices were shaped by the strictest case first.',
+              'Wazzy, our own appointments product, runs in dental, physiotherapy and aesthetic clinics. An appointment note that says who visits which clinic and why is health data, which the GDPR places among the special categories of its Article 9, with no hierarchy among them. The party processing it under Article 9.2.h, the ground that covers healthcare provision, is the clinic, which is the controller. We process on its behalf, as a processor. We did not pick that regime to make a point. The product needed it, and the result is that our practices were shaped by the strictest case first.',
               'Every sensitive field is encrypted on its own, with AES-256-GCM, rather than relying on the disk being encrypted underneath. The difference matters in practice. Disk encryption protects you if someone steals the hardware, while field-level encryption protects the data from every process and person that touches the database in normal operation. Deletion is designed around what the law requires. Wazzy retains what the law obliges it to retain, no more and no less, and that period is not ours to set. The clinic sets it, as the controller, with Spanish patient-rights law in front of it, Law 41/2002, which sets a five-year floor for medical records and longer in some regions. An appointment in a chat is not the medical record, which lives in the clinic’s own system, but the logic is the same. A deletion request must honor the patient without quietly breaking a legal retention duty, so the system separates what is erased now from what is retained under obligation, and can show which is which.',
               'We built all of that because we had to. It is the reason this page can speak from experience rather than from a checklist, and it is the standard the rest of our client work inherits.',
             ],
@@ -7186,7 +7186,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Our own product',
           title: 'Wazzy: hundreds of appointments a month and none ever double-booked',
           subtitle:
-            'Wazzy is our appointment assistant on WhatsApp. It works in dental, physiotherapy and aesthetics clinics, it handles health data every day and it is the system where we try things first before building them for a client.',
+            'Wazzy is our appointment assistant on WhatsApp. It works in dental, physiotherapy and aesthetic clinics, it handles health data every day and it is the system where we try things first before building them for a client.',
           cta: 'See how it works',
           ctaHref: '#what-it-does',
         },
@@ -7196,10 +7196,10 @@ export const content: Record<Lang, SiteContent> = {
             id: 'what-it-does',
             part: 'What it is',
             paragraphs: [
-              'A small clinic loses bookings for a fairly untechnical reason. The person on the desk is with somebody in front of them, and whoever writes in asking for an appointment gets no reply. Wazzy answers that message at eleven at night or in the middle of a consultation.',
-              '<strong>It books, changes and cancels appointments over WhatsApp. It leaves the calendar and the patient record up to date without anyone typing anything in the morning.</strong> It is in production in dental, physiotherapy and aesthetics clinics, and it handles hundreds of appointments a month.',
+              'A small clinic loses bookings for a reason that has little to do with technology. The person on the desk is with somebody in front of them, and whoever writes in asking for an appointment gets no reply. Wazzy answers that message at eleven at night or in the middle of a consultation.',
+              '<strong>It books, changes and cancels appointments over WhatsApp. It leaves the calendar and the patient record up to date without anyone typing anything in the morning.</strong> It is in production in dental, physiotherapy and aesthetic clinics, and it handles hundreds of appointments a month.',
               'A conversation like that fits in four messages. Somebody writes at half past ten at night saying they need an appointment for a cleaning, afternoon if possible. Wazzy offers two specific slots, the person picks one and the appointment is in the clinic’s calendar before anybody unlocks the door.',
-              'When the message is not a booking, the work looks more like a receptionist’s. An hour has to be moved, and “next week is not great after all” has to be understood as a cancellation. And sometimes you have to notice that whoever is writing has a pain that will not wait until Thursday. That last one the assistant does not resolve, it escalates to a person.',
+              'When the message is not a booking, the work looks more like a receptionist’s. An appointment has to be moved, and “next week is not great after all” has to be understood as a cancellation. And sometimes you have to notice that whoever is writing has a pain that will not wait until Thursday. That last one the assistant does not resolve, it escalates to a person.',
             ],
             link: {
               label: 'What we build with this for other companies',
@@ -7212,7 +7212,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               '<strong>The first version of Wazzy was an agent with tools at its disposal and we left it behind.</strong> The one in production today splits the work differently, with much more weight on the code side and considerably less on the model side. How it is put together inside is not something we are going to spell out here, among other reasons because it is not information we owe the competition. What we can show is what that decision produces.',
               'No appointment has ever been double-booked in the whole history of the product. Not one. It is a failure you cannot fix with an apology, because when it happens there are two people at the door at the same time and one of them has to go home.',
-              '<strong>Nothing reaches production without first passing a battery of real cases with their correct answers written down.</strong> That includes what the clinic itself edits from its own panel, which does not change what the assistant answers until the battery approves it. And we pin the model version, so a provider update does not turn up on its own in production on a Tuesday morning.',
+              '<strong>Nothing reaches production without first passing a battery of real cases with their correct answers written down.</strong> That includes what the clinic itself edits from its own panel, which does not change what the assistant answers until it passes the battery. And we pin the model version, so a provider update does not turn up on its own in production on a Tuesday morning.',
               'On the running system there are 103 checks watching, tied to 91 named rules the system has to satisfy. And once a week a test walks the whole system end to end, booking an appointment the way a person would.',
             ],
           },
@@ -7220,10 +7220,10 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'An appointment at a clinic is health data',
             part: 'Health data',
             paragraphs: [
-              'That changes the rules before a line is written. European rules set health data apart in Article 9, among the categories that cannot be processed without a listed reason. The one that covers a clinic is 9.2.h, the healthcare one.',
+              'That changes the rules before a line is written. The GDPR sets health data apart in its Article 9, among the categories that cannot be processed without a listed reason. The one that covers a clinic is Article 9.2.h, the healthcare one.',
               '<strong>Yes, we do store personal data.</strong> Saying otherwise would be more comfortable and it would be false. What we do is store it encrypted field by field rather than encrypting the whole store in one piece, so what gets decrypted is the field needed at that moment.',
               'The law sets how long a medical record has to be kept, but that duty belongs to the clinic and not to us. Wazzy deletes on request everything that has no legal period over it. What does have one is kept for as long as that period lasts.',
-              '<strong>And the model does not talk to the database.</strong> The two things an assistant can get wrong here, inventing a fact or pulling somebody else’s, do not depend on the model behaving well.',
+              '<strong>And the model does not talk to the database.</strong> The two things an assistant can get wrong here, inventing a fact or pulling up another patient’s record, do not depend on the model behaving well.',
             ],
             link: { label: 'How we handle personal data, in detail', href: '/en/gdpr-compliant-ai' },
           },
@@ -7233,17 +7233,17 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'No system in production is free of having done something silly. This is ours, and we tell it because a rule came out of it that we have used ever since in everything we build.',
               'The assistant had asked somebody to confirm they were coming to an appointment, and that question stayed open for twenty-four hours. Two and a half hours later, the person replied with two emojis. The assistant read them for what they were, something that was not about the appointment, but in marking them that way it treated the confirmation as closed.',
-              'A minute later that same person wrote to say they were coming. There was nothing open left to confirm. The appointment stayed as pending, the clinic never knew they were coming <strong>and they came</strong>.',
+              'A minute later that same person wrote to say they were coming. There was nothing open left to confirm. The appointment stayed as pending, the clinic never knew they were coming <strong>and then they showed up</strong>.',
               '<strong>The confirmation had twenty-one hours of life ahead of it. It did not expire, an emoji killed it.</strong> Out of that came a one-line rule that now goes into everything we build. A message not being about something does not mean that something has finished. Only an action closes an action.',
-              'And we measure it, because an anecdote without a number is no use for deciding anything. Across the life of the product there are 287 confirmations that went the right way, 105 that expired with no reply and 10 that burned like that one.',
+              'And we measure it, because an anecdote without a number is no use for deciding anything. Across the life of the product there are 287 confirmations that went the right way, 105 that expired with no reply and 10 that were lost the same way.',
             ],
           },
           {
             heading: 'What we learn here ends up in your project',
             part: 'What you take from it',
             paragraphs: [
-              '<strong>Wazzy is the only system of ours where we are the ones who pay when something goes wrong.</strong> That is why it is where we try things first. Almost everything we know about what breaks in a conversational assistant, we know because of it. That learning arrives at client projects already done.',
-              'A client does not buy Wazzy. Wazzy belongs to a clinic and to its appointments. What we build for another company is built for that company’s problem. What carries over from here is the method, which is the tests in front of every change and the discipline of not leaving a model a decision the code can make.',
+              '<strong>Wazzy is the only system of ours where we are the ones who pay when something goes wrong.</strong> That is why it is where we try things first. Almost everything we know about what breaks in a conversational assistant, we know because of it. By the time it reaches a client project, that learning is already done.',
+              'A client does not buy Wazzy. Wazzy is built for a clinic and its appointments. What we build for another company is built for that company’s problem. What carries over from here is the method, which is testing every change before it ships and the discipline of not leaving a model a decision the code can make.',
             ],
             link: {
               label: 'How we build a custom agent',
