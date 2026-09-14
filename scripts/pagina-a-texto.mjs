@@ -13,7 +13,7 @@
  * Solo el contenido: se descartan cabecera, navegación lateral, pie y
  * scripts, porque son los mismos en todas las páginas y ensucian la lectura.
  */
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
 const ruta = process.argv[2];
 if (!ruta) {
@@ -21,14 +21,23 @@ if (!ruta) {
   process.exit(1);
 }
 
-const fichero = `dist/${ruta.replace(/^\/+|\/+$/g, '')}/index.html`.replace('dist//', 'dist/');
+/* Las dos formas de salida de Astro, en este orden. El sitio usa
+   `build.format: 'file'` desde el 2 sep 2026, que genera `en/smb.html`, pero
+   se prueba también `en/smb/index.html` para que un cambio de esa opción no
+   vuelva a dejar mudo al lector frío. Pasó: el cambio de formato rompió este
+   script y no se notó en doce días, porque la lectura en frío dejó de ser
+   obligatoria el 28 ago y nadie la lanzó en ese tiempo. */
+const base = ruta.replace(/^\/+|\/+$/g, '');
+const candidatos = base
+  ? [`dist/${base}.html`, `dist/${base}/index.html`]
+  : ['dist/index.html'];
 let html;
-try {
-  html = readFileSync(fichero, 'utf8');
-} catch {
-  console.error(`No encuentro ${fichero}. ¿Has compilado? npx astro build`);
+const fichero = candidatos.find((f) => existsSync(f));
+if (!fichero) {
+  console.error(`No encuentro ninguno de ${candidatos.join(' ni ')}. ¿Has compilado? npx astro build`);
   process.exit(1);
 }
+html = readFileSync(fichero, 'utf8');
 
 // Solo el cuerpo de la página.
 const ini = html.indexOf('<main');
@@ -63,6 +72,13 @@ t = t
   .replace(/&quot;/g, '"')
   .replace(/&#39;|&apos;/g, "'")
   .replace(/[ \t]+/g, ' ')
+  /* Las etiquetas se sustituyen por un espacio arriba, así que `</u>.` salía
+     como espacio más punto y el lector frío lo denunciaba como falta de la
+     página. Pasó el 14 sep 2026: cuatro avisos de la portada inglesa eran de
+     esta herramienta y no del texto. Un informe con ruido propio se cree
+     menos, así que el espacio se retira antes de la puntuación. */
+  .replace(/ +([.,;:!?)»”])/g, '$1')
+  .replace(/([(«“]) +/g, '$1')
   .replace(/ *\n */g, '\n')
   .replace(/\n{3,}/g, '\n\n')
   .trim();
