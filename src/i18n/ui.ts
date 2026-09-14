@@ -4957,11 +4957,11 @@ export const content: Record<Lang, SiteContent> = {
       realEstate: {
         metaTitle: 'AI for Real Estate and Property Management, Ideasforge',
         metaDescription:
-          'AI for real-estate agencies and property managers. An agent qualifies rental requests 24/7 and the utility invoices tenants send in stop being typed by hand.',
+          'AI for real-estate agencies and property managers. An agent qualifies rental requests 24/7 and the utility bills tenants send in stop being typed by hand.',
         hero: {
-          title: 'AI for real estate, from the first inquiry to the last invoice',
+          title: 'AI for real estate, from the first inquiry to the last bill',
           subtitle:
-            'An agency has two bottlenecks, the inquiries arriving at every hour and the paperwork piling up behind the door. We have built for both, and both are running in production.',
+            'An agency has two bottlenecks, the inquiries arriving at all hours and the paperwork piling up in the back office. We have built for both, and both are running in production.',
           cta: 'Tell us what you’re up against',
         },
         stats: [
@@ -4975,7 +4975,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             value: '98%',
-            label: 'of the utility invoices go through untouched at the property manager we built for',
+            label: 'of the utility bills go through untouched at the property management company we built for',
           },
         ],
         sections: [
@@ -4983,10 +4983,10 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Two bottlenecks at opposite ends of the agency',
             id: 'the-problem',
             paragraphs: [
-              'The two bottlenecks of an agency sit at opposite ends of the same business. One faces outward, the inquiries arriving at every hour from people who want to see an apartment. The other faces inward, the paperwork that piles up once they have moved in.',
+              'The two bottlenecks of an agency sit at opposite ends of the same business. One faces outward, the inquiries arriving at all hours from people who want to see an apartment. The other faces inward, the paperwork that piles up once they have moved in.',
               'The industry is trying things. AppFolio, a property management software company, surveyed more than two thousand professionals for its 2025 benchmark report and found AI use up from 21% to 34% in a single year, with the share saying they had no plans at all dropping from 51% to 37%.',
               'An adoption figure tells you the industry is buying. It does not tell you which of the two bottlenecks anybody cleared.',
-              '<strong>We build for one bottleneck at a time, and we measure what it costs you today before anything gets built.</strong> The two systems on this page are exactly that, one at an agency that was drowning in inquiries and one at a property manager that was drowning in invoices.',
+              '<strong>We build for one bottleneck at a time, and we measure what it costs you today before anything gets built.</strong> The two systems on this page are exactly that, one at an agency that was drowning in inquiries and one at a property management company that was drowning in bills.',
             ],
           },
           {
@@ -4994,7 +4994,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Someone looking for an apartment is not writing only to you. They write to every listing that fits, at the same time, and the conversation goes to whoever comes back first with something useful.',
               'That an inquiry goes cold is not a hunch, it was measured back in 2011 across more than a million of them, and the numbers are in the blog. What matters on this page is the arithmetic on your side of it.',
-              'Barceloneta Premium, an agency in Barcelona, was receiving dozens of WhatsApp messages a day. Checking each one took five to ten minutes before anybody knew whether it was worth a visit.',
+              'Barceloneta Premium, an agency in Barcelona, was receiving dozens of WhatsApp messages a day. Checking each one took five to ten minutes before anybody knew whether it was worth a viewing.',
               '<strong>Those minutes were not spent selling. They were spent finding out whether there was anything to sell.</strong>',
             ],
             link: {
@@ -5007,7 +5007,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'It holds the conversation in the language the person wrote in, and gathers what the agency needs to know: why they are asking, what budget they have and what documentation they can produce.',
               '<strong>The criteria are not ours and they are not buried inside the system.</strong> They live in a spreadsheet on the agency’s own drive and the agency edits them. When the rules for a suitable applicant change, nobody has to call us first.',
-              'What the team receives is an email with the verdict and a paragraph explaining it. Somebody reads three lines and decides whether to book the visit. <strong>The judgment stays with a person, which is the right way round and also what the rules on automated decisions expect.</strong>',
+              'What the team receives is an email with the verdict and a paragraph explaining it. Somebody reads three lines and decides whether to book the viewing. <strong>The judgment stays with a person, which is the right way round and also what the rules on automated decisions require.</strong>',
               'The person who wrote in gets an answer straight away, at any hour, including the rental peaks where they used to sit waiting. The agency got back more than three hours a day.',
             ],
           },
@@ -5015,8 +5015,8 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'The version we threw away',
             paragraphs: [
               'The first one we built followed the pattern almost everything sold as an agent is built on, a model with tools available to it and instructions to use them when needed.',
-              '<strong>It often did not use them.</strong> Nothing failed in a way anyone could look up afterwards. The model decided it could answer without checking, so it either made the answer up or told a real applicant it could not go on when it perfectly well could.',
-              'The rebuild moved the bookkeeping into code. A state machine tracks what has already been gathered and which phase the questions are in, and the model routes to whatever tool that phase calls for. <strong>The code keeps track and the model reads people.</strong>',
+              '<strong>It often did not use them.</strong> Nothing failed in a way anyone could look up afterwards. The model decided it could answer without checking, so it either made the answer up or told a real applicant it could not proceed when it perfectly well could.',
+              'The rebuild moved the tallying into code. A state machine tracks what has already been gathered and which phase the questions are in, and the model routes to whatever tool that phase calls for. <strong>The code keeps track and the model reads people.</strong>',
               'We tell you this because it is the failure that a demonstration never shows. An agent that answers confidently without checking looks better in a meeting than one that stops.',
             ],
           },
@@ -5025,7 +5025,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'The second bottleneck has no conversation in it at all. Stanton manages rental property, and the electricity, gas and water bills their tenants sent in were typed into a spreadsheet by hand, one document at a time.',
               'Each one cost a minute of typing. Today they arrive through the chat the team already used, a reading layer with a language model turns each into a checked row in that same spreadsheet, and <strong>98% go through without anybody touching them</strong>.',
-              'The rest stops and reaches a person with the document alongside and the reason flagged. <strong>Stopping is the design and not the failure.</strong> A new format read with the old template does not throw an error, it hands you a wrong number that looks convincing, and we have watched that happen.',
+              'The rest stops and reaches a person with the document alongside and the reason flagged. <strong>Stopping is by design, not a failure.</strong> A new format read with the old template does not throw an error, it hands you a wrong number that looks convincing, and we have watched that happen.',
               'Nobody had to learn a new tool. The client has kept commissioning more back-office processes since, which is the signal that counts, because what gets used gets extended.',
             ],
             link: {
@@ -5036,7 +5036,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'What it will not do',
             paragraphs: [
-              '<strong>If someone stops replying, the conversation stays where it is.</strong> There is no chasing sequence. That was the agency’s decision and we think it was the right one, because pursuing somebody who has gone cold rarely pays for the nuisance it causes.',
+              '<strong>If someone stops replying, the conversation stays where it is.</strong> There is no follow-up sequence. That was the agency’s decision and we think it was the right one, because pursuing somebody who has gone cold is rarely worth the irritation it causes.',
               'It does not write into your CRM when your CRM only lets you read. That is the case at Barceloneta, so the verdict goes out by email, which is where the team opens things anyway.',
               'And it does not decide who gets the apartment. It gathers, applies the criteria you wrote and explains its reasoning, and a person signs it off.',
             ],
@@ -5083,8 +5083,8 @@ export const content: Record<Lang, SiteContent> = {
             a: 'The agency behind this page is extending the same base from rentals to sales and to internal processes. That is the pattern we recommend, start with the process eating the most hours, measure it and grow from there once it has proved itself.',
           },
           {
-            q: 'We are a small agency. Is this oversized for us?',
-            a: 'Both systems on this page run at small teams. What decides it is not headcount, it is whether the same task repeats often enough to pay for its own automation, and dozens of inquiries a day at five to ten minutes each answers that question quickly.',
+            q: 'We are a small agency. Is this overkill for us?',
+            a: 'Both systems on this page are running in small teams. What decides it is not headcount, it is whether the same task repeats often enough to pay for its own automation, and dozens of inquiries a day at five to ten minutes each answers that question quickly.',
           },
         ],
         cta: {
