@@ -4014,7 +4014,7 @@ export const content: Record<Lang, SiteContent> = {
     },
     trustedBy: {
       heading: 'Companies we work with',
-      subheading: 'Industry, agriculture, real estate, healthcare and professional services.'
+      subheading: 'Manufacturing, agriculture, real estate, healthcare and professional services.'
     },
     caseStudies: {
       eyebrow: 'Projects',
@@ -4061,7 +4061,7 @@ export const content: Record<Lang, SiteContent> = {
           hrefLabel: 'The first version and why we threw it away',
           image: '/case-studies/barceloneta.jpg',
           title: 'The filter that works while the office is closed',
-          body: 'Every rental inquiry arriving on WhatsApp took five to ten minutes of manual checking, and dozens came in every day. The agent talks to the applicant, collects reason, budget and paperwork, and emails the team a summary with a paragraph explaining why each one fits or does not. The team stopped screening and went back to booking viewings.',
+          body: 'Every rental inquiry arriving on WhatsApp took five to ten minutes of manual checking, and dozens came in every day. The agent talks to the applicant, collects reason, budget and paperwork, and emails the team a summary with a paragraph explaining why each one fits or does not. The team stopped screening applications and went back to booking viewings.',
           metricBig: '+3 hours',
           metricSmall: 'saved per day answering requests.',
         },
@@ -4072,7 +4072,7 @@ export const content: Record<Lang, SiteContent> = {
           hrefLabel: 'What it costs to trust your own code',
           image: '/case-studies/dentist.jpg',
           title: 'Booking an appointment without calling or waiting',
-          body: 'Wazzy is our own product: we shaped the business, the product and the assistant’s architecture. It books, changes and cancels appointments over WhatsApp against the real calendar, and escalates to the team when a conversation gets complicated. It handles health data, so encryption goes field by field and deletion respects clinical-record retention law.',
+          body: 'Wazzy is our own product: we shaped the business, the product and the assistant’s architecture. It books, changes and cancels appointments over WhatsApp against the real calendar, and escalates to the team when a conversation gets complicated. It handles health data, so encryption goes field by field and deletion respects medical-record retention periods.',
           metricBig: '103 controls',
           metricSmall: 'watch the system in production and raise the alarm if something breaks.',
         },
@@ -4107,7 +4107,7 @@ export const content: Record<Lang, SiteContent> = {
             title: 'An agent for repetitive work',
             icon: 'automatizacion',
             description:
-              'Registers invoices, fires alerts and lands the data in your systems with nobody typing. Your team only reviews the doubtful cases.',
+              'Registers invoices, fires alerts and lands the data in your systems with nobody typing. Your team only reviews the borderline cases.',
             proof: 'Like at Stanton',
             pageLabel: 'AI workflow automation',
             href: '/en/services/ai-workflow-automation',
@@ -4163,7 +4163,7 @@ export const content: Record<Lang, SiteContent> = {
       items: [
         {
           title: 'Observability by default',
-          body: 'Every change goes through the test suite before it ships, and we keep measuring every week afterwards. If one of them stops understanding queries well, we know before you do.',
+          body: 'Every change goes through the test suite before it ships, and we keep measuring every week afterwards. If it stops understanding queries well, we know before you do.',
           modal: {
             eyebrow: 'Observability by default',
             title: 'We measure every change before it ships to production',
@@ -4173,7 +4173,7 @@ export const content: Record<Lang, SiteContent> = {
               { title: 'Tests before going live', body: 'If a change lowers quality, it never reaches your users.' },
               { title: 'We know why it answered that', body: 'What it consulted and what it discarded is on record.' },
               { title: 'We count what it could not do', body: 'Every unanswered question is logged with its reason.' },
-              { title: 'We watch your provider', body: 'If they update the model on their own, we notice first.' },
+              { title: 'We watch your provider', body: 'If they update the model without warning, we notice first.' },
               { title: 'It flags partial answers', body: 'It states what it queried and what was left out.' },
             ],
             diagram: { after: 3, kind: 'gate' },
@@ -4219,7 +4219,7 @@ export const content: Record<Lang, SiteContent> = {
               'AI providers change prices and retire models. Some platforms shut down outright. The system we hand over is designed so that none of that news ever becomes your problem.',
             bullets: [
               { title: 'Repository under your name', body: 'From day one, not at the end.' },
-              { title: 'You are not buying a subscription', body: 'You are buying a system that stays in your house.' },
+              { title: 'You are not buying a subscription', body: 'You are buying a system that stays in-house.' },
               { title: 'A real handover', body: 'Operations manual and sessions with your people if you want them.' },
             ],
             openingLine: 'Vendor dependence is rarely in the contract. It lives in the day-to-day.',
@@ -4251,7 +4251,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             notPromised: {
               heading: 'What we don’t promise',
-              body: 'We don’t promise you will never need us. We promise that the day you decide to move on you won’t have to ask us for anything, because you have had it all at home since day one.',
+              body: 'We don’t promise you will never need us. We promise that the day you decide to move on you won’t have to ask us for anything, because you have had it all in-house since day one.',
             },
             cta: { label: 'Tell us what you’re up against', href: '/en/#contacto' },
           },
@@ -4265,7 +4265,7 @@ export const content: Record<Lang, SiteContent> = {
             subtitle:
               'Where the data lives and who gets to touch it are decisions we make at the start, not at the end. Your security committee will ask eventually, and we would rather have the answer before the meeting.',
             bullets: [
-              { title: 'The model does not write queries', body: 'It fills a closed form and the code runs it.' },
+              { title: 'The model does not write queries', body: 'It fills in a fixed form and the code runs it.' },
               { title: 'It only talks to what you approve', body: 'Contained by permissions, not filters.' },
               { title: 'GDPR', body: 'Real deletion and legal retention periods met.' },
             ],
@@ -4282,11 +4282,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 heading: 'The model chooses, the code executes',
-                body: 'Our data assistant, and most of the ones we build, are built the other way around. The model does not write the query. It fills in a closed form (a JSON contract) with the fields we defined and a program reads that form and builds the query that reaches the database. That program only knows how to build the queries we taught it, so no other one can come out of there. The plant assistant we built for an industrial company works the same way with documents. The model picks a label from a closed list and the code retrieves the official text attached to it. <u class="text-fg">A malicious message can, at most, pick the wrong option from a list we have already reviewed.</u>',
+                body: 'Our data assistant, and most of the ones we build, are built the other way around. The model does not write the query. It fills in a fixed form (a JSON contract) with the fields we defined and a program reads that form and builds the query that reaches the database. That program only knows how to build the queries we taught it, so no other one can come out of there. The plant assistant we built for an industrial company works the same way with documents. The model picks a label from a closed list and the code retrieves the official text attached to it. <u class="text-fg">A malicious message can, at most, pick the wrong option from a list we have already reviewed.</u>',
               },
               {
                 heading: 'Never more permissions than the person',
-                body: 'The assistant has no all-powerful credential of its own. Queries to internal systems are fired by the user with their usual permissions, the same ones they already have across the rest of the company’s applications. And when in doubt it blocks. If the permission list arrives empty, the answer is a flat no instead of default access.',
+                body: 'The assistant has no all-powerful credential of its own. Queries to internal systems are fired by the user with their usual permissions, the same ones they already have across the rest of the company’s applications. And when in doubt it blocks. If the permission list comes back empty, the answer is a flat no instead of default access.',
               },
               {
                 heading: 'Some limits are not technical',
@@ -4350,7 +4350,7 @@ export const content: Record<Lang, SiteContent> = {
           title: 'Optimize',
           body: 'We measure how it behaves week after week. We tune it, extend it and absorb new models when they ship.',
           outputs: [
-            'Weekly measurement with the result in plain sight',
+            'Weekly measurement with the results out in the open',
             'The incident catalog, which says how each fault is recognized',
             'Every change goes through the tests before reaching your users',
           ],
@@ -4397,7 +4397,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           q: 'What if what we need does not involve AI?',
-          a: 'We tell you. If your process runs on clear rules over data that always arrives the same way, automation without a model solves it cheaper and faster, with nothing to watch afterwards. We build that too. An agent pays off when something in the middle of the process has to read, interpret or decide over inputs that change.',
+          a: 'We tell you. If your process runs on clear rules over data that always arrives the same way, automation without a model solves it cheaper and faster, with nothing to watch afterwards. We build that too. An agent pays off when something in the middle of the process has to read, interpret or decide on inputs that change.',
         },
         {
           q: 'Do you work as an AI automation consultant?',
@@ -4542,7 +4542,7 @@ export const content: Record<Lang, SiteContent> = {
         },
       ],
       legend:
-        'Each layer holds even if the one above it fails. The first decides what the model gets to see and the other three are ordinary code that behaves the same way every time. The last one distrusts even the three above it. If the permission list arrives empty, the query matches no rows. It fails closed.',
+        'Each layer holds even if the one above it fails. The first decides what the model gets to see and the other three are ordinary code that behaves the same way every time. The last one distrusts even the three above it. If the permission list comes back empty, the query matches no rows. It fails closed.',
     },
     gateDiagram: {
       title: 'What happens to a change before it ships',
