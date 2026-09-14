@@ -6921,25 +6921,25 @@ export const content: Record<Lang, SiteContent> = {
       },
       caseStanton: {
         tocHeading: 'What this page covers',
-        metaTitle: 'Stanton: invoices that stopped being typed, Ideasforge',
+        metaTitle: 'Stanton: bills that stopped being typed, Ideasforge',
         metaDescription:
-          'How we automated utility invoice entry for Stanton, with 98% going through untouched. And the day one supplier redesigned its invoice without telling anyone.',
+          'How we automated utility bill entry for Stanton, with 98% going through untouched. And the day one supplier redesigned its bill without telling anyone.',
         hero: {
           eyebrow: 'Live in production',
-          title: 'Stanton: we assumed invoices do not change. Invoices change',
+          title: 'Stanton: we assumed bills do not change. Bills change',
           subtitle:
-            'Stanton is a property manager that used to key in every tenant’s electricity, gas and water invoices by hand, at a minute of typing per document. Today 98% go through without anyone touching them. This page explains how it works, why it comes in through a Telegram chat and what we had to add after one utility company redesigned its invoice without telling anyone.',
+            'Stanton is a property management company that used to key in every tenant’s electricity, gas and water bills by hand, at a minute of typing per document. Today 98% go through without anyone touching them. This page explains how it works, why it comes in through a Telegram chat and what we had to add after one utility company redesigned its bill without telling anyone.',
           cta: 'Start with the problem',
           ctaHref: '#problem',
         },
         sections: [
           {
-            heading: 'A minute of typing per invoice',
+            heading: 'A minute of typing per bill',
             id: 'problem',
             part: 'The problem',
             paragraphs: [
-              'Stanton manages properties. Every tenant brings their own electricity, gas and water invoices along with them. Every utility company issues them its own way, with the total wherever each one felt like putting it and the line items written in different words.',
-              'Somebody turned those into data, document by document. <strong>A minute of typing per invoice, every month.</strong>',
+              'Stanton manages properties. Every tenant brings their own electricity, gas and water bills along with them. Every utility company issues them its own way, with the total wherever each one felt like putting it and the line items written in different words.',
+              'Somebody turned those into data, document by document. <strong>A minute of typing per bill, every month.</strong>',
               'None of this is a volume problem, it is a trust problem. As long as somebody has to check the row against the paper, the work has not gone away, it has only moved.',
             ],
           },
@@ -6947,19 +6947,19 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Why it comes in through a Telegram chat',
             part: 'How it comes in',
             paragraphs: [
-              'The team forwards the invoices to a Telegram chat, which acts as the inbox. There is no new tool to learn and no extra screen to open every morning.',
+              'The team forwards the bills to a Telegram chat, which acts as the inbox. There is no new tool to learn and no extra screen to open every morning.',
               'The choice has a part worth saying out loud. <strong>Telegram is not the channel people are used to.</strong> That is the reason almost nobody uses it for this.',
-              'We picked it anyway because for this job it is the most workable option there is. Its programming interface is simple and free, so the inbox gets built in hours rather than weeks and it does not add a monthly fee to the project before anyone has shown that it works.',
-              'And the part the team does care about holds. Forwarding a document to a chat is something anybody knows how to do from a phone, wherever they are.',
+              'We picked it anyway because for this job it is the most workable option there is. Its API is simple and free, so the inbox gets built in hours rather than weeks and it does not add a monthly fee to the project before anyone has shown that it works.',
+              'And the part the team does care about is covered. Forwarding a document to a chat is something anybody knows how to do from a phone, wherever they are.',
             ],
           },
           {
             heading: 'We assumed the format does not change',
             part: 'What we learned',
             paragraphs: [
-              'The first version read each invoice, pulled out the fields and dropped them into the spreadsheet the team already worked with. It worked. That was not the problem.',
-              'So what got past us? An assumption we had never written down anywhere. We took it for granted that a utility company always issues its invoices the same way.',
-              'It does not. A utility company redesigns its invoice whenever it suits, without telling anyone and certainly without telling the property manager receiving them. The day that happens, the system keeps reading, keeps extracting and keeps writing rows. <strong>Only some of them no longer say what they appear to say.</strong>',
+              'The first version read each bill, pulled out the fields and dropped them into the spreadsheet the team already worked with. It worked. That was not the problem.',
+              'So what got past us? An assumption we had never written down anywhere. We took it for granted that a utility company always issues its bills the same way.',
+              'It does not. A utility company redesigns its bill whenever it suits, without telling anyone and certainly without telling the property management company receiving them. The day that happens, the system keeps reading, keeps extracting and keeps writing rows. <strong>Except that some of them no longer say what they appear to say.</strong>',
               'That is the expensive failure in this class of system. Not the one that breaks loudly, but the one that keeps running and fills a spreadsheet with data nobody is going to check again.',
             ],
           },
@@ -6967,9 +6967,9 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'That is why the flow checks the format before going on',
             part: 'What we learned',
             paragraphs: [
-              '<strong>What we added was not more intelligence, it was a check.</strong> Before accepting the reading, the flow verifies that the invoice has the shape it is expected to have.',
+              '<strong>What we added was not more intelligence, it was a check.</strong> Before accepting the reading, the flow verifies that the bill has the shape it is expected to have.',
               'When that check fails, the flow does not carry on. It does not try to guess where the total has moved to, it does not approximate it and it does not write a row with whatever it managed to pull. It stops and tells a person, with the document in front of them so they can decide.',
-              'The invoice that arrives different stops being a silent data point and becomes a warning. It is more work on the day it happens and much less work in the months that follow, when nobody has to audit a spreadsheet backwards looking for the point where the figures stopped adding up.',
+              'The bill that arrives in a different format stops being a silent data point and becomes a warning. It is more work on the day it happens and much less work in the months that follow, when nobody has to audit a spreadsheet backwards looking for the point where the figures stopped adding up.',
             ],
           },
           {
@@ -6977,7 +6977,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'What we learned',
             paragraphs: [
               'The format check is one of three. The other two are just as dull and do the same job.',
-              'That every field is there, because a missing field cannot sit empty in the spreadsheet as if the number did not exist. That they add up between them, because a total that does not match its line items is a total you cannot rely on. And that the format is the expected one, which is the one we learned the hard way.',
+              'That every field is there, because a missing field cannot sit empty in the spreadsheet as if the number did not exist. That they add up, because a total that does not match its line items is a total you cannot rely on. And that the format is the expected one, which is the one we learned the hard way.',
               '<strong>All three run in the middle of the flow, before anything reaches the spreadsheet.</strong> Validating at the end, once the data is written, turns every error into a correction somebody has to trace.',
             ],
             link: { label: 'Why validation is the real product', href: '/en/blog/invoice-automation-ocr-ai' },
@@ -6986,20 +6986,20 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'The 98% that goes through and the 2% that does not',
             part: 'What you see from outside',
             paragraphs: [
-              'Today 98% of the invoices become rows without anyone touching them. The team no longer types amounts or dates.',
-              '<strong>The remaining 2% does not disappear, it escalates.</strong> It comes out of the flow with the document beside it and the reason flagged, so whoever reviews it sees where it got stuck instead of having to hunt for it.',
+              'Today 98% of the bills become rows without anyone touching them. The team no longer types amounts or dates.',
+              '<strong>The remaining 2% does not disappear, it gets escalated.</strong> It comes out of the flow with the document beside it and the reason flagged, so whoever reviews it sees where it got stuck instead of having to hunt for it.',
               'And why not aim for a hundred percent? Because that split is what makes the number worth anything. A system that passed everything would be making things up in the 2% it did not understand. That 2% would land in the spreadsheet looking exactly like the rest.',
             ],
           },
           {
-            heading: 'It started with one process and carried on with the rest',
+            heading: 'It started with one process and kept going',
             part: 'What you see from outside',
             paragraphs: [
               'These are two agents in production, not a platform. And the word agent is deliberate, because underneath each one there are flows, which are sequences of steps that run the same way every time.',
               '<strong>The agent is the one deciding which flow to trigger with whatever just arrived.</strong> It is the usual split, the model picks the path and the code walks it, with the difference that here the path is a whole flow rather than a query.',
-              'They started with utility invoices, which was the process eating the most hours. Since then the client has been extending the automation to other back-office processes.',
+              'They started with utility bills, which was the process eating the most hours. Since then the client has been extending the automation to other back-office processes.',
               'That is the pattern we recommend and the one we see survive. The first process pays for the plumbing, the connection, the logging and the checks. The ones after it reuse all of that and get decided with the numbers from the one already running.',
-              'On how long the first one takes, the straight answer depends on what is there at the start. With the data available, the access granted and the task clearly defined, a pilot in two weeks is realistic.',
+              'As for how long the first one takes, the straight answer is that it depends on what is there at the start. With the data available, the access granted and the task clearly defined, a pilot in two weeks is realistic.',
             ],
             link: { label: 'How we approach process automation', href: '/en/services/ai-workflow-automation' },
           },
