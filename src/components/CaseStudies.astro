@@ -118,6 +118,14 @@ const t = content[lang].caseStudies;
               <div class="absolute inset-0 overflow-hidden sm:relative sm:min-h-[280px] sm:border-t sm:border-border-soft lg:min-h-full lg:border-l lg:border-t-0">
                 {item.image ? (
                   /*
+                    `pictureAttributes` con `contents`: <Picture> mete un
+                    elemento entre el contenedor y la imagen, y ese elemento es
+                    inline, así que el `h-full` de la imagen pasaría a
+                    resolverse contra otra caja y el contexto de línea añadiría
+                    unos píxeles por debajo. Con `contents` el <picture>
+                    desaparece a efectos de maquetación y la imagen queda donde
+                    estaba antes de migrar a `astro:assets`.
+
                     `sizes` describe el hueco REAL, no el fichero: a partir de
                     1024 px la ficha parte en dos columnas dentro de un
                     contenedor de 1280, así que la foto ocupa unos 600 px; por
@@ -126,6 +134,7 @@ const t = content[lang].caseStudies;
                     que es justo lo que se venía a arreglar.
                   */
                   <Picture
+                    pictureAttributes={{ class: 'contents' }}
                     src={foto(item.image)}
                     alt={item.title}
                     formats={['avif', 'webp']}

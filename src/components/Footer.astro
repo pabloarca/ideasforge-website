@@ -30,7 +30,17 @@ const menu: Array<{ label: string; href: string; icon: IconName }> = [
 import { EMPRESA } from '../lib/empresa';
 
 /* Misma variable que gobierna el aviso de cookies, ver CookieConsent.astro. */
-const hayMedicion = Boolean(import.meta.env.PUBLIC_GA_ID);
+/*
+  Los TRES identificadores, no solo GA (14 sep 2026). Con solo `PUBLIC_GA_ID`
+  aquí, activar únicamente Google Ads o el píxel de Meta sacaba el aviso de
+  cookies y dejaba el pie sin el enlace para volver a decidir: consentimiento
+  que se puede dar y no retirar, que es justo lo que la norma no permite.
+*/
+const hayMedicion = Boolean(
+  import.meta.env.PUBLIC_GA_ID?.trim() ||
+    import.meta.env.PUBLIC_ADS_ID?.trim() ||
+    import.meta.env.PUBLIC_META_PIXEL_ID?.trim()
+);
 
 const legal = [
   { label: t.footer.privacy, href: routeMap.privacy[lang] },

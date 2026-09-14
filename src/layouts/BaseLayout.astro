@@ -402,6 +402,15 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
   </head>
 
   <body class="min-h-screen antialiased">
+    {/*
+      Lo PRIMERO del cuerpo. Define `window.forge`, y cualquier script de una
+      página lo da por existente: el acuse de los formularios mide ahí su
+      conversión. Estuvo un rato al final, junto al aviso de cookies, y con eso
+      el evento de `/gracias` no se disparaba nunca porque su script corría
+      antes. No carga nada de nadie hasta que hay consentimiento.
+    */}
+    <Analitica />
+
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
@@ -418,8 +427,6 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
     </main>
 
     <Footer lang={lang} />
-    {/* Antes del aviso: define `window.forge`, que el aviso usa al decidir. */}
-    <Analitica />
     <CookieConsent lang={lang} />
   </body>
 </html>

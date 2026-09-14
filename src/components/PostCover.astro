@@ -16,6 +16,11 @@
   verdad era que dos COMPILACIONES seguidas no difirieran, y eso se mantiene:
   misma lista, mismo resultado.
 
+  `pictureAttributes` con `contents`: <Picture> mete un elemento entre el
+  contenedor y la imagen, y ese elemento es inline, así que sin eso el
+  `h-full` de la imagen se resolvería contra otra caja. La nota larga, con el
+  porqué entero, está en CaseStudies.astro.
+
   El dibujo de la cuadrícula sí sigue saliendo del título, así que cada entrada
   conserva su textura propia aunque le cambie el color.
 */
@@ -57,6 +62,7 @@ const family = coverFamilies[(index ?? seed) % coverFamilies.length];
 {
   image ? (
     <Picture
+      pictureAttributes={{ class: 'contents' }}
       src={foto(image)}
       alt=""
       formats={['avif', 'webp']}

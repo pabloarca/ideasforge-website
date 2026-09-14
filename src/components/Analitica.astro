@@ -125,9 +125,21 @@ const PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID?.trim();
       /** La llama el aviso de cookies. 'granted' carga y vacía la cola. */
       consentir: function (estado) {
         if (estado !== 'granted') {
+          concedido = false;
           cola = [];
+          /*
+            Revocar a mitad de visita. Lo ya descargado no se puede devolver,
+            pero sí se le puede callar: este interruptor lo lee la propia
+            biblioteca de Google y deja de enviar, incluidos sus eventos
+            automáticos. Sin él, decir que no seguía midiendo hasta recargar,
+            y quien revoca espera que surta efecto al pulsar.
+          */
+          if (GA_ID) window['ga-disable-' + GA_ID] = true;
+          if (ADS_ID) window['ga-disable-' + ADS_ID] = true;
           return;
         }
+        if (GA_ID) window['ga-disable-' + GA_ID] = false;
+        if (ADS_ID) window['ga-disable-' + ADS_ID] = false;
         concedido = true;
         cargaTerceros();
         for (var i = 0; i < cola.length; i++) envia(cola[i][0], cola[i][1]);
