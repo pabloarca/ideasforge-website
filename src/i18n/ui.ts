@@ -4035,7 +4035,7 @@ export const content: Record<Lang, SiteContent> = {
           client: 'Savian',
           clientLogo: '/logos/savian.png',
           href: '/en/cases/savian',
-          hrefLabel: 'How it is built and what we took away from the model',
+          hrefLabel: 'How it is built and what we stopped letting the model do',
           image: '/case-studies/harvest.jpg',
           title: 'Anyone on the team, asking their own data',
           body: 'Finding out yesterday’s output meant waiting until you were in front of a computer. We built a WhatsApp assistant that understands the question in natural language and returns the figure by querying the database. The split is always the same: judgment lives in the code, interpretation of language lives in the model, and knowledge lives in the data.',
@@ -5638,7 +5638,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'The model interprets, the code decides',
             part: 'The guarantees',
             paragraphs: [
-              '<strong>The model (LLM, AI, or whatever you want to call it) never gets to touch your systems.</strong> It interprets the question and hands over a fixed-field form, what we call a contract. From there the code decides, and code does behave the same way every time. The worst a malicious message can achieve is a bad pick from a list we already reviewed. A system built this way, with everything we had to take away from the model along the road, is on <a class="link-inline" href="/en/cases/savian">the Savian page</a>.',
+              '<strong>The model (LLM, AI, or whatever you want to call it) never gets to touch your systems.</strong> It interprets the question and hands over a fixed-field form, what we call a contract. From there the code decides, and code does behave the same way every time. The worst a malicious message can achieve is a bad pick from a list we already reviewed. A system built this way, with everything we stopped letting the model do along the way, is on <a class="link-inline" href="/en/cases/savian">the Savian page</a>.',
             ],
           },
           {
@@ -6803,7 +6803,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Live in production',
           title: 'Savian: the data was on a dashboard and the person who needed it was in a van',
           subtitle:
-            'Savian is an agricultural company whose managers need production and attendance data to decide. The data was there and there was a dashboard to look it up, but the person who needs it is out in the field or in a van, with no computer in front of them. Today they ask the way they would ask a colleague, by message or by voice note, and the answer comes back in seconds. This page explains how it is built and the two things we had to take away from the model along the way.',
+            'Savian is an agricultural company whose managers need production and attendance data to make decisions. The data was there and there was a dashboard to look it up, but the person who needs it is out in the field or in a van, with no computer in front of them. Today they ask the way they would ask a colleague, by message or by voice note, and the answer comes back in seconds. This page explains how it is built and the two things we stopped letting the model do along the way.',
           cta: 'Start with the problem',
           ctaHref: '#problem',
         },
@@ -6813,11 +6813,11 @@ export const content: Record<Lang, SiteContent> = {
             id: 'problem',
             part: 'The problem',
             paragraphs: [
-              'Savian works in agriculture. The owners and the managers of its growing estates need production and attendance data every day, for decisions that cannot wait.',
+              'Savian works in agriculture. The owners and the managers of its crop farms need production and attendance data every day, for decisions that cannot wait.',
               'It is worth saying up front what the problem was not. That data was not lost and it was not hidden. Savian already had a dashboard where you can look up the same information the agent answers today, built and running before the agent existed.',
-              'The problem was the last mile, which is the one almost nobody tells. <strong>A dashboard is a desk tool. It is designed for somebody sitting down</strong>, with the whole screen in front of them and time to pick filters and read a table.',
+              'The problem was the last mile, which is the one almost nobody talks about. <strong>A dashboard is a desk tool. It is designed for somebody sitting down</strong>, with the whole screen in front of them and time to pick filters and read a table.',
               'And where is the person who needs the number? Not in that chair. They are in a van first thing in the morning or in the middle of an estate, with the phone in a pocket and their hands busy. Getting fluent with a dashboard is a job in itself, and it is not the job of somebody working in the field.',
-              'So the question waited. It got looked up back at the office, once there was a computer in front of them and the day in the field was over. A number that arrives at the end of the day stops being useful for deciding. It becomes useful for explaining what already happened.',
+              'So the question waited. It got looked up back at the office, once there was a computer in front of them and the day in the field was over. A number that arrives at the end of the day stops being useful for making decisions. It becomes useful for explaining what already happened.',
             ],
           },
           {
@@ -6844,9 +6844,9 @@ export const content: Record<Lang, SiteContent> = {
             part: 'What we removed',
             paragraphs: [
               'That was not the only thing we had to take out of there. Work sites and estates have long names that nobody types the same way twice, so the agent corrects what the person writes and matches it to the real name. That correction exists so that nobody has to remember an exact label.',
-              'At first the model did that matching too. We handed it the list of work sites and estates that person has access to and asked it which one they meant.',
+              'At first the model did that matching too. We handed it the list of work sites and farms that person has access to and asked it which one they meant.',
               'It failed often. And when it did not fail outright it did something worse, matching to the closest name on the list, which is not always the right one. <strong>A name that looks alike is not a name that matches.</strong> The model does not tell those two things apart well.',
-              'Today an approximate matching algorithm does the comparison, what in English is called fuzzy matching. It measures how close two pieces of text are and returns a score, so you can set a floor and discard anything below it. Accuracy went up as soon as it stopped being an opinion.',
+              'Today a fuzzy matching algorithm does the comparison. It measures how close two pieces of text are and returns a score, so you can set a floor and discard anything below it. Accuracy went up as soon as it stopped being an opinion.',
               'The shape of the fix is the same as with the query. A task that looked like language turned out to be comparison. And comparing is one of those things code does the same way every time.',
             ],
           },
@@ -6854,7 +6854,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'The model proposes, the code builds',
             part: 'How it works today',
             paragraphs: [
-              'Today the model writes no query at all. It reads the question and returns a form with fixed fields that we defined in advance: the period, the scope, the filters, the metric and the groupings. Nothing else.',
+              'Today the model writes no query at all. It reads the question and returns a fixed set of fields that we defined in advance: the period, the scope, the filters, the metric and the groupings. Nothing else.',
               'The code takes that form, checks that every field carries an allowed value and builds the query itself, with the values passed as parameters and the column names taken from a closed list. <strong>No identifier is assembled from text the model wrote.</strong>',
               'And that is where the guarantee comes from. A form with five known fields can be checked in full before anything runs. A query written in free text cannot.',
             ],
@@ -6865,9 +6865,9 @@ export const content: Record<Lang, SiteContent> = {
             part: 'How it works today',
             paragraphs: [
               'The agent answers managers from several companies in the same group, each one about their own, so keeping them apart is the guarantee that holds the whole system up. <strong>Separation is enforced in four places. The model is none of the four.</strong>',
-              'The information the model can read while it answers contains only the companies of whoever is asking, so the rest do not exist for it and it cannot filter out what it never had.',
+              'The information the model can read while it answers contains only the companies of whoever is asking, so the rest do not exist for it and it cannot leak what it never had.',
               'The name correction we just described searches only inside those same companies. Somebody who writes a name half finished or with a letter out of place lands on the site they meant, if that site is theirs. If it is not, they land nowhere.',
-              'After that, the code validates the request against a closed list of allowed values before building anything. And the final query carries an unconditional filter that, if the permission list ever arrived empty, resolves into a condition no row can match. When something fails, the system closes rather than opening.',
+              'After that, the code validates the request against a closed list of allowed values before building anything. And the final query carries an unconditional filter that, if the permission list ever arrived empty, resolves into a condition no row can match. When something fails, the system fails closed, not open.',
             ],
           },
           {
@@ -6882,7 +6882,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'A voice note from the field',
             part: 'Voice',
             paragraphs: [
-              'With your hands busy and the phone in your pocket, typing is not always comfortable either. The natural way to ask something in the field is to send a voice note, so the agent understands them.',
+              'With your hands busy and the phone in your pocket, typing is not always comfortable either. The natural way to ask something in the field is a voice note, so that is what the agent understands.',
               '<strong>Behind a voice note there are three models and each one does a single thing.</strong> The first transcribes the audio into text. The second reads that text, works out what is being asked and composes the answer, with the usual split, because the code still fetches the data. The third turns the answer into speech.',
               'It is the same idea that holds up the rest of the system, splitting the work into pieces that each do one thing and can be checked separately.',
             ],
@@ -6893,7 +6893,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'That chain taught us something that shows up in no demo. The model composing the answer has to write figures and dates out in words, because the one reading them aloud reads what is written.',
               'And what happens when it does not? A text that says “12,539 kilos” does not sound like twelve thousand five hundred and thirty-nine kilos when a synthesizer reads it. Spelled out in words, it does. The same goes for dates, which spoken and written look nothing alike.',
-              'It looks like a finishing detail and it decides whether the system gets used or abandoned. <strong>An answer that sounds odd does not get questioned, it stops being listened to.</strong>',
+              'It looks like a cosmetic detail and it decides whether the system gets used or abandoned. <strong>An answer that sounds odd does not get questioned, it stops being listened to.</strong>',
             ],
           },
           {
@@ -7049,7 +7049,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'The conversation stopped being the model’s business',
             part: 'How it works today',
             paragraphs: [
-              'What we did was take away from the model the decision about where the conversation stands. That decision moved to a separate mechanism, written in code, that keeps track of where each chat has got to.',
+              'What we did was take the decision about where the conversation stands away from the model. That decision moved to a separate mechanism, written in code, that keeps track of where each chat has got to.',
               'It runs on two things. Which pieces of information have already been collected, because knowing the budget and not the paperwork is not the same as the other way around. And which stage of questions the conversation is in, because there is an order and the questions do not all get asked at once.',
               'With those two, the mechanism always knows the exact situation. And that is where the model comes back in, doing what it is good at: reading what the person just wrote and deciding which tool fits that particular state.',
               'The split is the usual one and that is why it works. <strong>The code keeps count and the model interprets.</strong> Neither one does the other’s job, so there is no longer any point where remembering something depends on a model’s goodwill.',
