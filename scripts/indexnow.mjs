@@ -6,6 +6,14 @@
  *   npm run indexnow -- --todo          envía el sitemap entero
  *   npm run indexnow -- /blog/una-url   envía solo esas
  *
+ * EN WINDOWS, ojo con las rutas sueltas. Git Bash convierte cualquier argumento
+ * que empiece por `/` en una ruta de disco, así que `/en/smb` le llega al script
+ * como `C:/Program Files/Git/en/smb` y no avisa de nada. Se desactiva delante:
+ *
+ *   MSYS_NO_PATHCONV=1 npm run indexnow -- /en/smb
+ *
+ * No afecta a las otras formas de llamarlo, que no llevan rutas.
+ *
  * QUÉ ES Y QUÉ NO
  *
  * Un aviso, no una petición de indexación. Lo leen Bing, Yandex, Seznam y
