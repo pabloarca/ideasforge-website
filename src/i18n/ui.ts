@@ -4439,7 +4439,7 @@ export const content: Record<Lang, SiteContent> = {
       messageHint: 'Describe it the way you would to a colleague. You do not need to know which technology solves it.',
       privacyPre: 'I have read the ',
       privacyLink: 'Privacy Policy',
-      privacyPost: ' and I know you will only use my data to reply to me.',
+      privacyPost: ' and I understand you will only use my data to reply to me.',
       submit: 'Send',
       startPre: 'If you already know you want to start, ',
       startLink: 'the exploration form',
@@ -4565,7 +4565,7 @@ export const content: Record<Lang, SiteContent> = {
       eyebrow: 'Step 1 · Explore',
       title: 'Let’s start with your case',
       subtitle:
-        'These are the same questions we would ask in a first meeting. Answering them in writing saves that meeting for both of us and lets us start working sooner.',
+        'These are the same questions we would ask in a first meeting. Answering them in writing means neither of us needs that meeting and lets us start working sooner.',
       getHeading: 'What you get',
       get: [
         'A reply within one business day, written by a person who has read your case.',
@@ -4574,7 +4574,7 @@ export const content: Record<Lang, SiteContent> = {
       notHeading: 'What you do not get',
       not: [
         'We will not drop you into an automated email sequence.',
-        'There are no sales intermediaries, the person who answers is the one who will work on your case.',
+        'You will not be handed off to a salesperson, the person who answers is the one who will work on your case.',
         'We do not quote a price before understanding the problem.',
       ],
       form: {
@@ -4593,8 +4593,8 @@ export const content: Record<Lang, SiteContent> = {
           ],
         },
         problem: {
-          label: 'Which process do you want to solve',
-          hint: 'The more detail you give us, the better we can understand the case and come back with a grounded proposal.',
+          label: 'Which process do you want to fix',
+          hint: 'The more detail you give us, the better we can understand the case and come back with a concrete proposal.',
         },
         dataHome: {
           label: 'Where does the data for that process live today',
@@ -4603,7 +4603,7 @@ export const content: Record<Lang, SiteContent> = {
             'In an ERP',
             'In our own database',
             'In spreadsheets',
-            'In loose documents',
+            'In standalone files',
             'In several places at once',
             'I do not know yet',
           ],
@@ -4613,12 +4613,12 @@ export const content: Record<Lang, SiteContent> = {
           options: [
             'Select an option',
             'Yes, no problem',
-            'No, it has to stay inside',
+            'No, it has to stay in-house',
             'We would have to check with security',
           ],
         },
         timeline: {
-          label: 'When do you need it',
+          label: 'When do you need it done',
           options: [
             'Select an option',
             'No date, we are exploring',
@@ -4636,16 +4636,16 @@ export const content: Record<Lang, SiteContent> = {
       metaDescription:
         'Your message reached us. We reply within one business day, and the person who replies is the one who would work on your case.',
       eyebrow: 'Received',
-      title: 'We have it',
+      title: 'We have your message',
       body: [
-        'We reply within one business day. The reply comes from a person who has read your whole case, the same one who would work on it if we go ahead.',
-        'You will not get a confirmation email and we have not added you to any list. The next email you get from us will be the answer to what you told us.',
+        'We reply within one business day. The reply comes from a person who has read your whole case, the same person who would work on it if we end up working together.',
+        'You will not get a confirmation email and we have not added you to any list. The next email you get from us will be our reply to what you sent us.',
       ],
-      extraPre: 'If something got left out, write to ',
+      extraPre: 'If you left something out, write to ',
       extraPost: ' and we will add it to the same thread.',
       blogPre: 'While you wait, ',
-      blogLink: 'the blog',
-      blogPost: ' covers how we build these systems and what went wrong along the way.',
+      blogLink: 'our blog',
+      blogPost: ' covers how we build these systems and what we got wrong along the way.',
     },
     footer: {
       tagline: 'Generative AI development in production for businesses. Measured every week.',
@@ -5102,7 +5102,7 @@ export const content: Record<Lang, SiteContent> = {
           title: 'Your clients’ invoices, read and checked without typing',
           subtitle:
             'A system that reads every document coming in, checks the data adds up before treating it as valid and only escalates to a person what needs judgment.',
-          cta: 'Tell us about your situation',
+          cta: 'Tell us about your case',
         },
         stats: [
           {
