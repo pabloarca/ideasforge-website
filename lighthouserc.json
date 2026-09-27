@@ -8,6 +8,11 @@
     "una familia se rompe, se rompe en todas sus páginas, así que medir las 57",
     "solo gastaría minutos para decir lo mismo cuatro veces.",
     "",
+    "Las rutas siguen a `build.format: 'file'` (astro.config.mjs): el compilado",
+    "es `pagina.html`, no `pagina/index.html`. Cuando el build cambió de formato",
+    "nadie tocó esta lista y Lighthouse estuvo semanas midiendo 404. Si el",
+    "formato vuelve a cambiar, esta lista cambia con él.",
+    "",
     "`assert` arranca con `preset: lighthouse:no-pwa` y todo en aviso. Cuando",
     "haya varias ejecuciones y se sepa qué da este sitio en el runner de",
     "GitHub, se cambian los `warn` que importen por `error` y se quita el",
@@ -19,9 +24,9 @@
       "staticDistDir": "./dist",
       "url": [
         "http://localhost/index.html",
-        "http://localhost/agentes-de-ia/index.html",
-        "http://localhost/blog/automatizacion-facturas-ocr-ia/index.html",
-        "http://localhost/gestorias/index.html"
+        "http://localhost/agentes-de-ia.html",
+        "http://localhost/blog/automatizacion-facturas-ocr-ia.html",
+        "http://localhost/gestorias.html"
       ],
       "numberOfRuns": 3,
       "settings": {
