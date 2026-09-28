@@ -34,6 +34,18 @@ if (!CLAVE_WEB3FORMS) {
       '\n     Pide la clave gratis en https://web3forms.com y ponla en .env' +
       '\n     (hay una plantilla en .env.example).\n'
   );
+} else if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(CLAVE_WEB3FORMS)) {
+  /*
+    La clave de Web3Forms es un UUID. Una cadena que no tiene esa forma es una
+    clave mal pegada (recortada, con algo pegado que el trim no quita, o el
+    valor de otra variable), y compilaría un formulario publicado y mudo: el
+    mismo fallo silencioso del 2 sep 2026, por otra puerta.
+  */
+  console.warn(
+    '\n  ⚠  PUBLIC_WEB3FORMS_KEY no tiene forma de clave de Web3Forms (UUID).' +
+      '\n     Valor recibido: «' + CLAVE_WEB3FORMS.slice(0, 8) + '…» (' + CLAVE_WEB3FORMS.length + ' caracteres).' +
+      '\n     Con una clave inválida el formulario se publica pero NO envía nada.\n'
+  );
 }
 
 /**

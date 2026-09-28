@@ -57,6 +57,16 @@ const PRESUPUESTO = {
    * vídeo sin comprimir o una carpeta entera colada en `public/`.
    */
   sitioMB: 20,            // dist/ entero
+  /*
+   * Presupuesto propio para fotografías (28 sep 2026, cierra un pendiente del
+   * 2 sep). El de 600 KB por fichero está calibrado para el vídeo del héroe y
+   * no muerde a ninguna foto, así que una imagen podía engordar hasta 599 KB
+   * sin que nadie lo viera. Es AVISO y no error: al estrenarlo ya lo superan
+   * cuatro ficheros (og-default.png con 280 KB y tres derivados de la foto
+   * industrial), y una regla nueva no llega rompiendo la CI por lo que ya
+   * estaba ahí, llega enseñándolo.
+   */
+  imagenKB: 200,         // jpg, png y webp sueltos
   htmlKB: 400,           // una página compilada
   tituloMax: 62,         // con el sufijo «, Ideasforge»
   descMin: 70,
@@ -398,6 +408,8 @@ for (const f of ficheros) {
   if (r === '/llms-full.txt') continue;
   if (kb > PRESUPUESTO.ficheroKB) {
     error('peso', `${r} pesa ${Math.round(kb)} KB`, `el presupuesto por fichero son ${PRESUPUESTO.ficheroKB} KB`);
+  } else if (/\.(jpe?g|png|webp)$/i.test(r) && kb > PRESUPUESTO.imagenKB) {
+    aviso('peso', `${r} pesa ${Math.round(kb)} KB`, `el presupuesto por imagen son ${PRESUPUESTO.imagenKB} KB`);
   }
 }
 for (const p of paginas) {
