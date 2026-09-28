@@ -1,6 +1,6 @@
 ---
 title: 'Digitalización de facturas con OCR e IA, desde un caso en producción'
-metaTitle: 'Digitalización de facturas con OCR e IA'
+metaTitle: 'Automatización de facturas con OCR e IA'
 description: 'Qué cambia cuando el OCR se combina con un modelo de lenguaje, cómo se ve con facturas de suministros reales y por qué la validación es el verdadero producto.'
 lang: 'es'
 pubDate: 2025-07-03
