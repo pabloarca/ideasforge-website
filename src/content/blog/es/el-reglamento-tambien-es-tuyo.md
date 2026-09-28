@@ -22,7 +22,7 @@ El primero es la **alfabetización en IA**, el artículo 4. Obliga desde el 2 de
 
 Proporcional es la palabra que abre el margen. No exige un máster, exige que quien aprueba una respuesta generada sepa qué puede salir mal en ella.
 
-El segundo es la **transparencia del artículo 50**, que aplica desde el 2 de agosto de 2026. Si una persona habla con una máquina, se le dice. Si publicas una ultrasuplantación o un texto generado sobre asuntos de interés público, se avisa.
+El segundo es la **transparencia del artículo 50**, que aplica desde el 2 de agosto de 2026. Si una persona habla con una máquina, se le dice. Si publicas una ultrasuplantación (un deepfake) o un texto generado sobre asuntos de interés público, se avisa.
 
 Ninguno de los dos depende de que tu sistema sea de alto riesgo. Ninguno de los dos se ha aplazado.
 
