@@ -10,7 +10,7 @@ tags: ['Observabilidad', 'Mantenimiento', 'Agentes']
 
 Cuando un sistema falla, casi todos los equipos documentan lo mismo, qué se rompió y cómo se arregló. Nosotros documentamos otra cosa primero. Cómo se reconoce ese fallo desde fuera, antes de saber qué lo causa. Lo llamamos la firma del síntoma y es uno de los activos menos visibles y más útiles que mantenemos en nuestros sistemas.
 
-La razón es simple. **El arreglo se aplica una vez. La firma se reutiliza cada vez que el sistema vuelve a comportarse raro** y con componentes no deterministas eso pasa más de lo que nos gustaría admitir.
+La razón es simple. **El arreglo se aplica una vez. La firma se reutiliza cada vez que el sistema vuelve a comportarse raro** y con componentes no deterministas, los que no responden siempre igual a lo mismo, eso pasa más de lo que nos gustaría admitir.
 
 ## No es la base de errores conocidos de toda la vida
 
