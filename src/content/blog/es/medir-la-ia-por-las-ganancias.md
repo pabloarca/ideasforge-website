@@ -31,7 +31,7 @@ La lectura fácil de esas cifras es que la IA no funciona. No es la nuestra y ta
 
 Lo que los dos describen es adopción masiva sin integración ni medida, pilotos que se quedan en demostración y capacidades construidas sin un resultado que perseguir. Exactamente el proyecto difuso del principio, el que se justifica con productividad genérica porque nadie definió qué debía mover. **El 95 % no dice que la tecnología falle. Dice que sin una ganancia definida no hay manera de demostrar que funcionó.**
 
-El pequeño grupo que sí extrae valor comparte patrón según ese mismo informe, procesos concretos, integración con los sistemas que ya existen y resultados definidos antes de construir. La vara incómoda, con otro nombre.
+El pequeño grupo que sí extrae valor comparte patrón, según ese mismo informe: procesos concretos, integración con los sistemas que ya existen y resultados definidos antes de construir. La vara incómoda, con otro nombre.
 
 ## Cómo se compra IA con esta vara
 
