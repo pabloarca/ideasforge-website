@@ -46,7 +46,7 @@ Desde entonces la regla de la casa es que **el error silencioso es el enemigo**,
 
 Si llevas una gestoría o una administración sabrás que este terreno se mueve. VeriFactu, el sistema de la Agencia Tributaria para los programas de facturación, arranca el 1 de enero de 2027 para las sociedades y el 1 de julio de 2027 para el resto, tras el aplazamiento aprobado en diciembre de 2025.
 
-Y el reglamento de la factura electrónica entre empresas, el Real Decreto 238/2026, se publicó en marzo de 2026, con plazos que empiezan a contar desde una orden ministerial que todavía no tiene fecha, un año para quien factura más de ocho millones y dos años para los demás.
+Y el reglamento de la factura electrónica entre empresas, el Real Decreto 238/2026, se publicó en marzo de 2026. Sus plazos empiezan a contar desde una orden ministerial que todavía no tiene fecha: un año para quien factura más de ocho millones de euros y dos para los demás.
 
 ¿Significa eso que leer facturas con IA caduca? Para una parte del papel, a medio plazo, sí. Quien te diga lo contrario te está vendiendo algo. La factura entre dos empresas españolas acabará llegando estructurada de origen y ahí no habrá nada que leer.
 
@@ -64,4 +64,4 @@ Tres preguntas separan una demostración bonita de un sistema que aguanta. Qué 
 
 La vara de medir sigue siendo la misma. *¿Puedes fiarte de lo leído sin mirar el papel?* El día que la respuesta sea sí, ese proceso habrá desaparecido de tu lista.
 
-Si tu papeleo se parece a esto, mira cómo lo trabajamos en [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia) o directamente el página para [gestorías y asesorías](/gestorias). Y si quieres entender por qué empezamos siempre por ordenar los datos, está contado en [antes que el prompt, los datos](/blog/antes-que-el-prompt-los-datos).
+Si tu papeleo se parece a esto, mira cómo lo trabajamos en [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia) o directamente la página para [gestorías y asesorías](/gestorias). Y si quieres entender por qué empezamos siempre por ordenar los datos, está contado en [antes que el prompt, los datos](/blog/antes-que-el-prompt-los-datos).
