@@ -40,9 +40,9 @@ We learned this the expensive way. In one of our systems, a double timezone conv
 
 If you run an accounting practice or a property management company you already know the ground is shifting. VeriFactu, the Spanish tax agency's system for invoicing software, starts on 1 January 2027 for companies and 1 July 2027 for everyone else, after the postponement approved in December 2025.
 
-And the regulation for business-to-business electronic invoicing, Royal Decree 238/2026, was published in March 2026, with deadlines that start counting from a ministerial order that still has no date, one year for anyone invoicing over eight million and two years for the rest.
+And the regulation for business-to-business electronic invoicing, Royal Decree 238/2026, was published in March 2026. Its deadlines start counting from a ministerial order that still has no date: one year for anyone invoicing over eight million euros and two for the rest.
 
-Does that make invoice reading with AI obsolete? For part of the paper, in the medium term, yes. Anyone telling you otherwise is selling you something. An invoice between two Spanish companies will end up arriving structured at source, and there will be nothing left to read.
+Does that make invoice reading with AI obsolete? For part of the paperwork, in the medium term, yes. Anyone telling you otherwise is selling you something. An invoice between two Spanish companies will end up arriving structured at source, and there will be nothing left to read.
 
 Now look at which invoices the case above processes. Electricity, gas and water for tenants, invoices issued to individuals. The new obligation covers invoices between businesses and professionals, so those fall outside it. And there remain the receipts, the delivery notes, the foreign supplier and the transition years when both worlds will live side by side.
 

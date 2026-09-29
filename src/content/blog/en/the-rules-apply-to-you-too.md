@@ -32,7 +32,7 @@ In July 2026 the Digital Omnibus was published, Regulation (EU) 2026/1744. The r
 
 What it actually delayed were the high-risk obligations: Annex III moves to 2 December 2027 and Annex I to 2 August 2028.
 
-**What it did not delay, which is the part aimed at you**, are the prohibited practices, the Article 4 literacy duty, the general-purpose model rules and the Article 50 transparency duty.
+**What it did not delay, which is the part aimed at you**, are the prohibited practices, the Article 4 literacy duty and the Article 50 transparency duty. The general-purpose model rules were not delayed either, but those sit with whoever puts the models on the market, not with you.
 
 Put another way, the part affecting few was pushed back and the part affecting everyone was left exactly where it was. Anyone who filed the subject away in July filed away the opposite of what they thought.
 
@@ -46,7 +46,7 @@ Before your stomach drops: **Annex III is eight named domains**, among them biom
 
 When we put Article 26 next to our own systems we expected to find paperwork. We found something else.
 
-**Almost every one of those duties is an engineering property, not a document.** Keeping logs for six months is an architecture decision you make on day one or never. Whether a person can stop the system is an architecture decision. Whether the input data is relevant gets checked in the pipeline, not in a meeting.
+**Almost every one of those duties is an engineering property, not a document.** Keeping logs for six months is an architecture decision you make on day one or never. Whether a person can stop the system is an architecture decision. Whether the input data is relevant gets checked in the code, not in a meeting.
 
 A system built that way **produces the record as a by-product**. One that is not forces you to assemble it by hand every time somebody asks.
 

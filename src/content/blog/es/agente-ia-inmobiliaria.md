@@ -60,4 +60,4 @@ La señal de que un sistema funciona es lo que pasa después. La agencia está a
 
 La cuenta que hicimos aquí puedes hacerla tú esta tarde. *¿Cuántos minutos cuesta cada consulta que entra y cuántas entran al día?* Multiplica. Ese número ya lo estás pagando, solo que sin factura.
 
-Si tu agencia se parece a esto, el página de [IA para inmobiliarias](/inmobiliarias) explica el sistema completo con un caso ya funcionando en producción. Y si lo tuyo es otro sector con el mismo cuello de botella, la conversación empieza igual, contándonos dónde se van las horas.
+Si tu agencia se parece a esto, la página de [IA para inmobiliarias](/inmobiliarias) explica el sistema completo con un caso ya funcionando en producción. Y si lo tuyo es otro sector con el mismo cuello de botella, la conversación empieza igual, contándonos dónde se van las horas.

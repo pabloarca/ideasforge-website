@@ -12,7 +12,7 @@ heroImage: '/blog/keeping-ai-alive.jpg'
 
 Starting flashy AI projects is easy. The demo goes well, the video circulates, everyone applauds. What is nearly impossible is keeping that project alive for six months. Profitable AI projects are easy to start and cheap to sustain, because the cost of maintaining them was paid before the first line of code. That asymmetry, what it costs to launch against what it costs to stay alive, is the filter we use to decide what to build.
 
-It is not a fringe view. [Gartner estimates](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) that over 40% of agentic AI projects will be canceled by the end of 2027. **Projects do not die at launch. They die in month six.**
+It is not a fringe view. [Gartner estimates](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) that over 40% of agentic AI projects, the kind that acts on its own, will be canceled by the end of 2027. **Projects do not die at launch. They die in month six.**
 
 ## What kills projects is not the model
 
@@ -36,7 +36,7 @@ A decade on, with generative AI, the debt is the same and the interest has gone 
 
 The difference between the flashy project and the profitable one is not talent or model choice. It is that the profitable one was designed to be maintained. In practice, that means concrete pieces:
 
-**A test battery that runs before every change.** With non-deterministic components, any tweak can break what worked yesterday without anything visibly failing. If quality drops, the change does not ship.
+**A test battery that runs before every change.** With non-deterministic components, the ones that do not always answer the same input the same way, any tweak can break what worked yesterday without anything visibly failing. If quality drops, the change does not ship.
 
 **A record that lets you reconstruct every decision.** When the complaint arrives, the useful question is not "which line failed" but "what input, context and rules produced that answer". Without the record, that question has no answer.
 

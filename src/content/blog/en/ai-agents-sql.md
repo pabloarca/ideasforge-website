@@ -10,7 +10,7 @@ tags: ['Data', 'Agents', 'Security']
 heroImage: '/blog/portada-sql.jpg'
 ---
 
-Text-to-SQL is one of the sector's most repeated promises. You ask in natural language, *"how many orders did we close last month?"*, and a model writes the query, runs it and hands you the figure. We built that experience for Savian, an agent through which owners and managers query their production data without waiting on the analytics team. And the central design decision was the opposite of what the pattern's name suggests. **Our model does not write SQL.**
+Text-to-SQL is one of the sector's most repeated promises. You ask in natural language, *"how many orders did we close last month?"*, and a model writes the query, runs it and hands you the figure. We built that experience for Savian, an agent through which owners and managers query their production data without waiting to get back to the office. And the central design decision was the opposite of what the pattern's name suggests. **Our model does not write SQL.**
 
 ## Why we do not let it
 
@@ -22,11 +22,11 @@ Since ours is the uncomfortable position, it is worth looking at the numbers on 
 
 The reference exam is called Spider 2.0, an academic piece from late 2024 that gathered 632 real query tasks over enterprise databases, with their thousands of columns and their dialects. The same models that were scoring around 90% on earlier academic exams dropped to between 10 and 21% there. The distance between the demo and your data warehouse, measured.
 
-Specialized systems have been climbing that leaderboard since then, and the best now pass 90% on part of the test. It looked like an accuracy problem, and accuracy improves every quarter.
+Specialized systems have been climbing that leaderboard since then, and the best now pass 90% in one of its variants. It looked like an accuracy problem, and accuracy improves every quarter.
 
 Does that change our decision? No, because the objection was never aim. An accuracy exam measures whether the query returns the right figure, and it does not measure what the wrong query does. **The query that fails also runs.** With data from several companies in the same warehouse, the price of that failure looks nothing like a badly worded answer.
 
-There is also something no accuracy exam measures, security. OWASP, the sector's reference on application security, gives a whole category of its list for language-model applications to improper output handling, which means passing what the model generates to another system without validating it.
+There is also something no accuracy exam measures, security. OWASP, the sector's reference on application security, devotes a whole category of its list for language-model applications to improper output handling, which means passing what the model generates to another system without validating it.
 
 Its textbook example is exactly this one, the generated query that reaches the database with nobody scrutinizing it. **Our closed contract is not a stylistic preference, it is the design answer to that category.**
 
@@ -38,7 +38,7 @@ The practical difference fits in one sentence. **A contract with five known fiel
 
 ## What that decision buys
 
-It buys demonstrable security, because permissions apply to the validated contract and the final query carries a mandatory tenant filter that is always applied, the last of the four layers that keep each company's data apart from the one next door. And it buys the business result that justifies the project, waiting for a figure went from hours to seconds, without leaving ajar the door the naive pattern never quite closes.
+It buys demonstrable security, because permissions apply to the validated contract. The final query also carries a company filter that is always applied, the last of the four layers that keep each company's data apart from the one next door. And it buys the business result that justifies the project. The wait for a figure went from hours to seconds, without leaving ajar the door the naive pattern never quite closes.
 
 ## Saying what is missing is designed too
 

@@ -25,7 +25,7 @@ It is worth asking why the industry builds this way, because the answer is not l
 
 ## A guarantee and a polite request
 
-We once inherited a system that entrusted a security filter to the prompt. The instruction read, literally, *"under no circumstances omit the filter"*. It sounded firm. **Put to the test, it was not a guarantee, it was a polite request to a system that signs no contracts.** We marked it for removal, moved the filter into code that always runs, and and that gave us the phrase we have used ever since to explain our approach, that you have to learn to tell a guarantee from a polite request.
+We once inherited a system that entrusted a security filter to the prompt. The instruction read, literally, *"under no circumstances omit the filter"*. It sounded firm. **Put to the test, it was not a guarantee, it was a polite request to a system that signs no contracts.** We marked it for removal, moved the filter into code that always runs, and that gave us the phrase we have used ever since to explain our approach, that you have to learn to tell a guarantee from a polite request.
 
 The striking part is that nobody had done anything wrong in the classic sense. The filter existed, the instruction was clear and the system behaved well most days. What failed ran deeper. A text generator had been asked to act as a barrier. Barriers are not requested, they are built.
 
@@ -33,7 +33,7 @@ If you have a system like this running in your company, there is a test you can 
 
 ## The arithmetic is against it
 
-Grant the perfect prompt that the model never ignores. There is still a problem that no amount of better instructions can fix, because it is not in the instructions. It is in the multiplication.
+Assume a perfect prompt that the model never ignores. There is still a problem that no amount of better instructions can fix, because it is not in the instructions. It is in the multiplication.
 
 ### Errors do not add up, they multiply
 
@@ -41,7 +41,7 @@ An agent chains steps and every step can go wrong. Intuition says a system that 
 
 The way out is not to give up on agents, it is to shorten them. That is why ours split the job into short stretches, each verifiable on its own, with rollback points and a person confirming before anything irreversible. There is also a detail almost nobody mentions, that cost grows with length, because every step drags along the full context of the previous ones and long conversations get expensive at a rate the demos never show.
 
-Here is the trick behind the demos, almost all of them have fewer than five steps. With five steps at 95% per step, the whole thing works three times out of four and the video gets recorded on the second take. Your company's real processes rarely fit in five steps.
+Here is the trick behind the demos. Almost all of them have fewer than five steps. With five steps at 95% per step, the whole thing works three times out of four and the video gets recorded on the second take. Your company's real processes rarely fit in five steps.
 
 ### What comes out when someone measures without selling anything
 
@@ -61,7 +61,7 @@ A language model receives the instructions you give it and the text that reaches
 
 Think about what that means for architectures. If the front door cannot be fully closed, the only serious defense is to shrink what sits behind the door. It is not about fine-tuning what you tell the model, it is about cutting down what the model can do once it is fooled.
 
-Now go back to the typical agentic architecture and count ingredients. The agent has access to private data. It reads text that comes from outside. And it holds tools to act on your systems. Each one apart is harmless. Together they open the door for a malicious text to end up moving data it never should have, which is exactly the risk that tops the OWASP list. The first two are usually the reason the system exists. The third is the one to cut down.
+Now go back to the typical agentic architecture and count ingredients. The agent has access to private data. It reads text that comes from outside. And it holds tools to act on your systems. Each one on its own is harmless. Together they open the door for a malicious text to end up moving data it never should have, which is exactly the risk that tops the OWASP list. The first two are usually the reason the system exists. The third is the one to cut down.
 
 The extreme case is the setup where the model is plugged straight into the database through a connector that lets it write the queries itself (MCP connectors). From that moment it can write any query the language allows, and the only thing stopping it is a sentence in its prompt, along the lines of "do not query the payroll table". We have already seen which family that sentence belongs to. It is a polite request.
 
@@ -125,4 +125,4 @@ Because "AI agent" is how the market names this category, and arguing with your 
 
 **An agent like that is less spectacular on day one. It holds up better for the next three years.**
 
-If you are still placing the concept, start with our [AI agents guide](/en/ai-agents). And if you want to see what this looks like from the inside, we cover it in [AI agent development](/en/services/ai-agent-development).
+If you are still working out the concept, start with our [AI agents guide](/en/ai-agents). And if you want to see what this looks like from the inside, we cover it in [AI agent development](/en/services/ai-agent-development).

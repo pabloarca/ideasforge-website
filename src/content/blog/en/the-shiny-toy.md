@@ -36,8 +36,8 @@ Two of our automation projects started exactly like that. At Barceloneta Premium
 
 ## The cost that never shows on the invoice
 
-A toy does not just burn its own budget. It burns the credibility of the next project, because the committee that buried one looks at everything that follows through a magnifying glass. **The first dead toy makes every following project more expensive.** That is why discarding early is not pessimism, it is protecting the budget and the committee’s patience for the case that does pay off. We do it as standard, if a case has no owned pain and no numbered gain, we say so before charging.
+A toy does not just burn its own budget. It burns the credibility of the next project, because the committee that buried one looks at everything that follows through a magnifying glass. **The first dead toy makes every following project more expensive.** That is why discarding early is not pessimism, it is protecting the budget and the committee’s patience for the case that does pay off. We do it as standard. If a case has no owned pain and no numbered gain, we say so before charging.
 
 The test fits in the next demo you get shown. Let it finish, applaud if you must and ask one question. *What pain of ours does this fix?* If the room takes too long to answer, you have your diagnosis. The shine belongs to the vendor. The pain has to be yours.
 
-If you already have the map of pains and a candidate with its math, this is how we work in [AI workflow automation](/en/services/ai-workflow-automation). And if you are still building the judgment, the [AI agents guide](/en/ai-agents) walks the cases that pay off and the ones that do not.
+If you already have the map of pains and a candidate with its math, this is how we work in [AI workflow automation](/en/services/ai-workflow-automation). And if you are still building the judgment, the [AI agents guide](/en/ai-agents) walks through the cases that pay off and the ones that do not.

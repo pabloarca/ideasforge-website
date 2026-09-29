@@ -10,7 +10,7 @@ tags: ['Observability', 'Maintenance', 'Agents']
 
 When a system fails, almost every team documents the same two things, what broke and how it was fixed. We document something else first. How that failure is recognized from the outside, before anyone knows what causes it. We call it the symptom signature, and it is one of the least visible, most useful assets we maintain in our systems.
 
-The reason is simple. **The fix gets applied once. The signature gets reused every time the system acts strange again**, and with non-deterministic components that happens more often than anyone likes to admit.
+The reason is simple. **The fix gets applied once. The signature gets reused every time the system acts strange again**, and with non-deterministic components, the ones that do not always answer the same input the same way, that happens more often than anyone likes to admit.
 
 ## It is not the old known-error database
 
@@ -28,7 +28,7 @@ These three come from the catalog of one of our production assistants, an orches
 
 **The assistant stops finding anything, whatever it is asked.** The first impulse blames the model or its instructions. The signature says otherwise. Someone added new documents and nobody put them through the indexing job that makes them searchable, so as far as the search is concerned they do not exist. A procedure came out of that scare. After every addition, run that process and check that none is left pending before touching anything else.
 
-**The assistant goes mute on everything except the messages that carry a conversation forward.** Those are the only path that never goes through the model. If they are alive and everything else is not, the diagnosis is immediate. The problem is the connection to the model, not what we wrote for it. That time the system was calling a model endpoint that no longer existed after a manual config change. Twenty minutes of diagnosis turned into two.
+**The assistant goes mute on everything except the messages that carry a conversation forward.** Those are the only messages that never go through the model. If they are alive and everything else is not, the diagnosis is immediate. The problem is the connection to the model, not what we wrote for it. That time the system was calling a model endpoint that no longer existed after a manual config change. Twenty minutes of diagnosis turned into two.
 
 **It works in production and fails in the test bench, or the other way around.** The most uncomfortable signature, because nobody wants to look at it. The user’s text was stored in one place and the code was looking for it in another. It was not a test-environment defect, it was a time bomb. The day the upstream system moved it, production would break the same way. A person reading carefully caught it, not an alarm. That is data too. Some signatures still have no automated detector.
 

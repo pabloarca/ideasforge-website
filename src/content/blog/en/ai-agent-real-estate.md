@@ -18,7 +18,7 @@ Barceloneta Premium, a Barcelona agency, received dozens of WhatsApp messages a 
 
 The agent receives each message and holds the conversation needed to extract three things, the reason for the inquiry, the budget and the documentation available. It does not push a form at people. It asks the way a team member would ask, in the language of the person writing.
 
-With the information complete, the agent does not decide, and it does not drop the inquiry either. It sends the team an email summary with a verdict, suitable or not suitable, and a paragraph justifying why. The person at the agency opens the email, reads three lines and decides whether to schedule the visit. The judgment stays theirs. **What disappears is the ten minutes of checking it used to take to reach that judgment.**
+With the information complete, the agent does not decide on its own, and it does not drop the inquiry either. It sends the team an email summary with a verdict, suitable or not suitable, and a paragraph justifying why. The person at the agency opens the email, reads three lines and decides whether to schedule the visit. The judgment stays theirs. **What disappears is the ten minutes of checking it used to take to reach that judgment.**
 
 ## The result, in hours rather than promises
 
@@ -56,4 +56,4 @@ The signal that a system works is what happens next. The agency is extending the
 
 You can do this math this afternoon. *How many minutes does each incoming inquiry cost, and how many arrive per day?* Multiply. You are already paying that number, just without an invoice.
 
-If your agency looks like this, the [AI for real estate](/en/real-estate) vertical explains the full system with its proof in production. And if you are in another sector with the same bottleneck, the conversation starts the same way, telling us where the hours go.
+If your agency looks like this, the [AI for real estate](/en/real-estate) page explains the full system with its proof in production. And if you are in another sector with the same bottleneck, the conversation starts the same way, telling us where the hours go.
