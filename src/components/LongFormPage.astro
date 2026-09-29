@@ -97,6 +97,9 @@ const hasNav = page.nav ?? page.sections.length >= 4;
       <p class="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
         {page.hero.subtitle}
       </p>
+      {page.updated && (
+        <p class="mt-5 font-mono text-xs uppercase tracking-[0.16em] text-faint">{page.updated}</p>
+      )}
       {/* El botón es opcional: una guía puede no querer llamada a la acción
           en el héroe, para no pedir nada antes de haber explicado nada. */}
       {page.hero.cta && (
@@ -226,6 +229,30 @@ const hasNav = page.nav ?? page.sections.length >= 4;
                   ))}
                 </div>
               </div>
+              {/* Tabla de datos. Texto plano en celdas; la primera columna es
+                  la descripción y va alineada a la izquierda como el resto. */}
+              {section.table && (
+                <div class="mt-7 overflow-x-auto">
+                  <table class="w-full border border-border text-left text-[15px] leading-relaxed">
+                    <thead>
+                      <tr class="border-b border-border">
+                        {section.table.headers.map((h) => (
+                          <th scope="col" class="bg-border/30 px-4 py-3 font-bold text-fg">{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {section.table.rows.map((row) => (
+                        <tr class="border-b border-border-soft last:border-b-0">
+                          {row.map((cell, c) => (
+                            <td class={`px-4 py-3 ${c === 0 ? 'text-muted' : 'font-semibold text-fg'}`}>{cell}</td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
               {section.diagram && <FlowDiagram lang={lang} />}
               {section.chatDiagram && <ChatVsAgentDiagram lang={lang} />}
               {section.formasDiagram && <FormasDiagram lang={lang} />}
