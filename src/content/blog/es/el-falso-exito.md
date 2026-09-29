@@ -20,13 +20,13 @@ Cuando decimos que un modelo alucina pensamos en un dato inventado, una fecha qu
 
 Hay una segunda alucinación, propia de los sistemas que actúan, bastante peor que la primera. El sistema afirma que la tarea está terminada mientras el estado real es otro. Tiene nombre desde este año. Se llama **falso éxito** y se lo puso Laksh Advani en un trabajo presentado en un taller del congreso ICML de 2026.
 
-Lo midió sobre 11.755 conversaciones de dos bancos de pruebas públicos, con doce familias de modelos distintas. **Entre el 45 % y el 48 % de los fallos son falsos éxitos**, según el dominio, en los dominios donde nadie confirma la operación. En los agentes de programación que se autoevalúan y declaran explícitamente haber terminado, el 75,8 % de sus fallos son falsos éxitos.
+Lo midió sobre 11.755 conversaciones de dos bancos de pruebas públicos, con doce familias de modelos distintas. **Entre el 45 % y el 48 % de los fallos son falsos éxitos** en los dominios donde nadie confirma la operación. En los agentes de programación que se autoevalúan y declaran explícitamente haber terminado, el 75,8 % de sus fallos son falsos éxitos.
 
 No es un hallazgo aislado. Hongliu Cao, Ilias Driouich y Eoin Thomas publicaron en marzo de 2026 una revisión que no mira solo el resultado sino cómo se llegó a él. Encuentra que **entre el 27 % y el 78 % de los éxitos que estas pruebas dan por buenos esconden alguna irregularidad por el camino**, desde saltarse una autorización hasta fabricar una confirmación.
 
 La horquilla es tan ancha porque depende del modelo. Cada uno tiene su manera propia de fallar.
 
-Un tercer trabajo, de Vikas Reddy y su equipo, mide el mismo fenómeno por otro lado en el dominio de aerolíneas, el de los fallos que no dejan rastro de error y lo presentó en un taller del congreso KDD en agosto de 2026. En uno de los agentes que probaron, el 78 % de los fallos observados dejan un estado equivocado sin que ninguna herramienta devuelva un solo error.
+Un tercer trabajo, de Vikas Reddy y su equipo, presentado en un taller del congreso KDD en agosto de 2026, mide el mismo fenómeno por otro lado, los fallos que no dejan rastro de error, en el dominio de aerolíneas. En uno de los agentes que probaron, el 78 % de los fallos observados dejan un estado equivocado sin que ninguna herramienta devuelva un solo error.
 
 Llévalo a tu producto y verás por qué esto no se parece a un dato erróneo. Un dato erróneo la persona lo puede contrastar. Aquí el asistente dice «listo, tu cita queda cambiada al martes», la cita sigue donde estaba, la persona se va tranquila y tú te enteras el jueves cuando no aparece.
 
@@ -34,7 +34,7 @@ Nosotros lo hemos vivido. La primera versión del agente que hoy filtra solicitu
 
 ## Poner otra IA a vigilar no funciona
 
-La reacción de manual es poner un supervisor, un segundo modelo que lea lo que pasó y juzgue si el sistema hizo lo que dice. El mismo estudio lo midió.
+La reacción de manual es poner un supervisor, un segundo modelo que lea lo que pasó y juzgue si el sistema hizo lo que dice. El estudio de Advani lo midió.
 
 Para leer el dato hace falta la escala que usan, el AUROC. **0,5 es tirar una moneda al aire y 1 es un detector perfecto.**
 
