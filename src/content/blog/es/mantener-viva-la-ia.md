@@ -12,11 +12,11 @@ heroImage: '/blog/keeping-ai-alive.jpg'
 
 Es fácil iniciar proyectos de IA vistosos. La demostración sale bien, el vídeo circula, todo el mundo aplaude. Lo que es casi imposible es mantener ese proyecto con vida seis meses. Los proyectos de IA rentables son fáciles de empezar y baratos de sostener, porque el coste de mantenerlos se pagó antes de la primera línea de código. Esa asimetría, lo que cuesta arrancar frente a lo que cuesta seguir vivo, es el filtro con el que decidimos qué construir.
 
-No es una impresión nuestra. [Gartner estima](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) que más del 40 % de los proyectos de IA agéntica se cancelarán antes de que acabe 2027. **El riesgo no está en el arranque, está en el mes seis.**
+No es una impresión nuestra. [Gartner estima](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) que más del 40 % de los proyectos de IA agéntica, la que actúa por su cuenta, se cancelarán antes de que acabe 2027. **El riesgo no está en el arranque, está en el mes seis.**
 
 ## Lo que mata a los proyectos no es el modelo
 
-Operamos [nuestro propio producto](/casos/wazzy), un asistente de citas por WhatsApp que trata datos de salud y eso nos ha enseñado dónde muere de verdad un sistema. **Nunca es el gran fallo cinematográfico, es la degradación que nadie mira.** Nuestro peor incidente lo ilustra bien. Una alerta mal calibrada empezó a disparar sobre un estado que no era un fallo real. En pocos días emitió 5.667 eventos y agotó la cuota mensual del sistema de avisos. El sistema no dejó de ver, dejó de poder avisar.
+Operamos [nuestro propio producto](/casos/wazzy), un asistente de citas por WhatsApp que trata datos de salud y eso nos ha enseñado dónde muere de verdad un sistema. **Nunca es el gran fallo cinematográfico, es la degradación que nadie mira.** Nuestro peor incidente lo ilustra bien. Una alerta mal calibrada empezó a disparar sobre un estado que no era un fallo real. En pocos días emitió 5.667 eventos y agotó el límite mensual del sistema de avisos. El sistema no dejó de ver, dejó de poder avisar.
 
 Seis días después fallaron trece recordatorios reales de una clínica y la alarma correspondiente disparó trece veces sin que ninguna saliera de la máquina. Nos lo contó la clínica, no el sistema.
 
@@ -34,7 +34,7 @@ Una década después, con la IA generativa, la deuda es la misma y los intereses
 
 La diferencia entre el proyecto vistoso y el rentable no es el talento ni el modelo. Es que el rentable se diseñó para ser mantenido. En la práctica, eso son piezas concretas:
 
-**Una batería de pruebas que se ejecuta antes de cada cambio.** Con componentes no deterministas, cualquier retoque puede romper lo que ayer funcionaba sin que nada «falle». Si la calidad baja, el cambio no se publica.
+**Una batería de pruebas que se ejecuta antes de cada cambio.** Con componentes no deterministas, los que no responden siempre igual a lo mismo, cualquier retoque puede romper lo que ayer funcionaba sin que nada «falle». Si la calidad baja, el cambio no se publica.
 
 **Un registro que permite reconstruir cada decisión.** Cuando llega la queja, la pregunta útil no es «qué línea falló» sino «por qué el sistema creyó que eso era lo correcto». Sin registro, esa pregunta no tiene respuesta.
 
