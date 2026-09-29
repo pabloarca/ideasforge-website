@@ -25,7 +25,7 @@ La segunda capa protege el caso más humano que existe, el nombre escrito a medi
 
 ## Una lista blanca tiene la última palabra
 
-Antes de construir ninguna consulta, un código valida la petición contra una lista blanca, una lista cerrada con los valores permitidos para ese usuario. El modelo puede haber entendido lo que quiera. Si un identificador no está en la lista de esa persona, la consulta no llega a existir. La interpretación queda en manos del modelo, que es lo suyo. La decisión queda en manos de un código que se ejecuta siempre igual.
+Antes de construir ninguna consulta, un código valida la petición contra una lista blanca, una lista cerrada con los valores permitidos para ese usuario. El modelo puede haber entendido lo que quiera. **Si un identificador no está en la lista de esa persona, la consulta no llega a existir.** La interpretación queda en manos del modelo, que es lo suyo. La decisión queda en manos de un código que se ejecuta siempre igual.
 
 ## Si la lista llega vacía, la respuesta es nada
 
@@ -43,7 +43,7 @@ Las cuatro capas protegen un diseño en el que los datos de todas las empresas c
 
 **Sumar dos empresas en una misma cifra dejó de ser un fallo que las capas debían atrapar y pasó a ser una consulta que no se puede escribir.**
 
-El efecto se notó en la lista de preocupaciones. Una comparación poco estricta de nombres que nos había tenido en vilo dejó de importar el mismo día, porque ya no quedaba valla que un parecido pudiera saltar. **Arreglar la arquitectura mata la clase entera de fallos, no un caso suelto.** Desde entonces esa es la vara con la que medimos cualquier protección nueva, cuántos fallos vuelve imposibles en lugar de cuántos promete atrapar.
+El efecto se notó en la lista de preocupaciones. Una comparación poco estricta de nombres que nos había tenido en vilo dejó de importar el mismo día, porque ya no quedaba valla que un parecido pudiera saltar. **Arreglar la arquitectura mata la clase entera de fallos, no un caso suelto.** Desde entonces ese es el criterio con el que medimos cualquier protección nueva, cuántos fallos vuelve imposibles en lugar de cuántos promete atrapar.
 
 Si estás evaluando un asistente que va a tocar datos de verdad, hay una sola pregunta que lo destapa. *¿Qué pasa cuando la lista de permisos llega vacía?* Quien construyó bien contesta en una frase, la puerta se cierra. Quien no, empieza a hablarte del prompt.
 

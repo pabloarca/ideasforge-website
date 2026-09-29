@@ -38,12 +38,12 @@ La diferencia entre el proyecto vistoso y el rentable no es el talento ni el mod
 
 **Un registro que permite reconstruir cada decisión.** Cuando llega la queja, la pregunta útil no es «qué línea falló» sino «por qué el sistema creyó que eso era lo correcto». Sin registro, esa pregunta no tiene respuesta.
 
-**Alarmas que se prueban provocando el fallo.** Una defensa que nunca has visto saltar no es una defensa. Cada centinela se verifica rompiendo a propósito lo que vigila.
+**Alarmas que se prueban provocando el fallo.** Una defensa que nunca has visto saltar no es una defensa. Cada una se comprueba rompiendo a propósito lo que vigila.
 
 **Y una prueba de fuego real, periódica.** En nuestro producto, una prueba semanal crea una cita de verdad, envía un mensaje de verdad y lo limpia todo después. Descubre lo que ningún simulacro descubre.
 
 ## La pregunta incómoda para tu proveedor
 
-Si estás evaluando un proyecto de IA, la pregunta que más información te dará no es sobre el modelo ni sobre la demostración. *¿Qué pasa el día 180?* ¿Quién mira las alarmas, quién ejecuta las pruebas, quién se entera si el sistema empeora en silencio? Un proyecto vistoso no sabe responder. Uno rentable responde con nombres. Cómo se ve eso por dentro, con los números y la cicatriz de un sistema propio, está en [la página de Wazzy](/casos/wazzy).
+Si estás evaluando un proyecto de IA, la pregunta que más información te dará no es sobre el modelo ni sobre la demostración. *¿Qué pasa el día 180?* ¿Quién mira las alarmas, quién ejecuta las pruebas, quién se entera si el sistema empeora en silencio? **Un proyecto vistoso no sabe responder. Uno rentable responde con nombres.** Cómo se ve eso por dentro, con los números y los errores de un sistema propio, está en [la página de Wazzy](/casos/wazzy).
 
 Nosotros respondemos con lo que llamamos observabilidad por defecto y está en el centro de cómo hacemos [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia). Si prefieres empezar por el mapa general, está en la [guía de agentes](/agentes-de-ia). Mantener también tiene precio y lo que mueve esa cuota mensual está desglosado en la [guía de coste](/cuanto-cuesta-un-agente-de-ia).

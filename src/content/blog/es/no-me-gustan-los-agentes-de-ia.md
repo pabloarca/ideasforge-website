@@ -9,7 +9,7 @@ translationId: 'dont-like-agents'
 tags: ['Agentes', 'Arquitectura', 'Seguridad']
 ---
 
-Sí, es lo que vendemos. Está en nuestra portada. Y aun así, no me gustan las arquitecturas agénticas. Conviene afinar la confesión antes de que suene a otra cosa. **No me estorba la categoría, me estorba la forma de construirlos que domina el mercado.** Un agente de IA puede ser una pieza seria de ingeniería. Lo que casi nunca me gusta es dónde ha decidido el sector que vivan las reglas.
+Sí, es lo que vendemos. Está en nuestra portada. Y aun así, no me gustan las arquitecturas agénticas. Me explico, porque dicho así suena a otra cosa. **No tengo nada contra los agentes, lo que no me gusta es cómo los construye casi todo el mercado.** Un agente de IA puede ser una pieza seria de ingeniería. Lo que casi nunca me gusta es dónde ha decidido el sector que vivan las reglas.
 
 Este artículo existe porque la conversación se repite. Un cliente llega pidiendo un agente, nosotros lo construimos y en algún punto del proyecto alguien pregunta por qué nuestra versión se parece tan poco a la de los vídeos de demostración. La respuesta corta es que a la de los vídeos no le confiaríamos nada que comprometa a tu empresa. La larga es este artículo.
 
@@ -17,11 +17,11 @@ Este artículo existe porque la conversación se repite. Un cliente llega pidien
 
 Un agente de IA, tal como lo entiende el mercado, es un modelo de lenguaje metido en un bucle. Lee la situación, decide el siguiente paso, lo ejecuta con las herramientas que le han conectado y vuelve a mirar dónde está, así hasta dar la tarea por terminada. Las herramientas pueden ser un buscador, un calendario, el correo o el acceso a una base de datos. La palabra importante del párrafo no es «modelo» ni «herramientas». Es «decide».
 
-¿Y dónde viven las reglas que gobiernan esa decisión? En el prompt, el texto de instrucciones que se le entrega al modelo antes de empezar. Ahí suele estar escrito qué puede hacer, qué tiene prohibido y cómo debe comportarse cuando dude. El problema es que un modelo de lenguaje no ejecuta instrucciones como las ejecuta un programa. Las lee, las pondera y las sigue casi siempre. Ese «casi» es la grieta por la que entra todo lo que viene a continuación.
+¿Y dónde viven las reglas que gobiernan esa decisión? En el prompt, el texto de instrucciones que se le entrega al modelo antes de empezar. Ahí suele estar escrito qué puede hacer, qué tiene prohibido y cómo debe comportarse cuando dude. El problema es que un modelo de lenguaje no ejecuta instrucciones como las ejecuta un programa. Las lee, las interpreta y las sigue casi siempre. Ese «casi» es la grieta por la que entra todo lo que viene a continuación.
 
 Los modelos no son deterministas. La misma pregunta no devuelve siempre la misma respuesta. Una instrucción que hoy se respeta puede ignorarse mañana sin que nada haya cambiado en tu sistema, sin mensaje de error y sin que nadie se entere. **Construir reglas de negocio sobre esa base es construir sobre arena.**
 
-Merece la pena preguntarse por qué el sector construye así, porque la respuesta no es pereza. Los marcos de trabajo de moda hacen que montar el bucle cueste una tarde. Las demostraciones salen deslumbrantes, el dinero de los inversores va hacia lo que lleva la etiqueta de agéntico y añadir una frase al prompt es infinitamente más barato que programar una validación. Todos los incentivos empujan en la misma dirección y ninguno de ellos apunta hacia lo que pasa en producción dos años después.
+Merece la pena preguntarse por qué el sector construye así, porque la respuesta no es pereza. Los marcos de trabajo de moda hacen que montar el bucle cueste una tarde. Las demostraciones salen espectaculares, el dinero de los inversores va hacia lo que lleva la etiqueta de agéntico y añadir una frase al prompt es infinitamente más barato que programar una validación. Todos los incentivos empujan en la misma dirección y ninguno de ellos apunta hacia lo que pasa en producción dos años después.
 
 ## Una garantía y una petición educada
 
@@ -49,7 +49,7 @@ A finales de 2024 un equipo de Carnegie Mellon montó [una empresa simulada](htt
 
 Otro examen del mismo año midió la dimensión que más importa en una empresa, que no es acertar una vez sino acertar siempre. [Tau-bench](https://arxiv.org/abs/2406.12045) ponía a los agentes a resolver gestiones de clientes de una aerolínea y una tienda, con herramientas y reglas delante. Y añadía una métrica con trampa, repetir la misma tarea ocho veces y contar solo lo resuelto las ocho. El mejor agente del momento rondaba el 61 % a la primera en el escenario de tienda. Contando solo lo que resolvía las ocho veces, caía al 25 %.
 
-Los modelos de hoy puntúan más alto a la primera. La distancia entre la primera vez y la octava es de otra naturaleza, porque no mide puntería, mide cuánto varía el resultado de una vez a otra. Y variar es lo que un modelo de lenguaje hace por diseño. **A quien atiende clientes no le sirve el sistema que acierta a veces. Ningún vídeo de demostración enseña la octava repetición.**
+Los modelos de hoy puntúan más alto a la primera. La distancia entre la primera vez y la octava es de otra naturaleza, porque no mide acierto, mide cuánto varía el resultado de una vez a otra. Y variar es lo que un modelo de lenguaje hace por diseño. **A quien atiende clientes no le sirve el sistema que acierta a veces. Ningún vídeo de demostración enseña la octava repetición.**
 
 Y Gartner, la consultora a la que esas mismas empresas piden consejo, [estima](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027) que más del 40 % de los proyectos de IA agéntica se cancelarán antes de acabar 2027, por costes que se disparan, por valor que no aparece o por controles de riesgo insuficientes. Ninguna de las tres causas es un misterio si has leído hasta aquí.
 
@@ -57,11 +57,11 @@ Y Gartner, la consultora a la que esas mismas empresas piden consejo, [estima](h
 
 Hay un segundo frente y es más incómodo que la aritmética, porque no se arregla ni con modelos mejores.
 
-Un modelo de lenguaje recibe por el mismo canal las instrucciones que le das y el texto que le llega de fuera. Nada las separa, así que cualquiera que pueda hacerle llegar texto puede intentar colarle una orden disfrazada de contenido. La seguridad clásica resuelve este problema separando datos de instrucciones. Aquí esa separación no existe.
+**Un modelo de lenguaje recibe por el mismo canal las instrucciones que le das y el texto que le llega de fuera.** Nada las separa, así que cualquiera que pueda hacerle llegar texto puede intentar colarle una orden disfrazada de contenido. La seguridad clásica resuelve este problema separando datos de instrucciones. Aquí esa separación no existe.
 
 Por eso la inyección de instrucciones encabeza por segunda edición consecutiva la [lista de riesgos de OWASP](https://owasp.org/www-project-top-10-for-large-language-model-applications/) para aplicaciones con modelos de lenguaje. En diciembre de 2025 el [centro nacional de ciberseguridad británico](https://www.ncsc.gov.uk/news/mistaking-ai-vulnerability-could-lead-to-large-scale-breaches) fue más allá y avisó de que probablemente nunca tenga una solución definitiva. Su recomendación oficial es dejar de esperar el parche y diseñar los sistemas para que el daño posible sea pequeño.
 
-Piensa en lo que eso significa para la arquitectura que tengas montada. Si la puerta de entrada no se puede cerrar del todo, la única defensa seria es reducir lo que hay detrás de la puerta. No consiste en afinar lo que se le dice al modelo, consiste en recortar lo que el modelo puede hacer cuando lo engañen.
+Piensa en lo que eso significa para la arquitectura que tengas montada. **Si la puerta de entrada no se puede cerrar del todo, la única defensa seria es reducir lo que hay detrás de la puerta.** No consiste en pulir lo que se le dice al modelo, consiste en recortar lo que el modelo puede hacer cuando lo engañen.
 
 Ahora vuelve a la arquitectura agéntica típica y cuenta ingredientes. El agente tiene acceso a datos privados. Lee texto que viene de fuera. Y dispone de herramientas para actuar sobre tus sistemas. Cada uno por separado es manejable. Juntos abren la puerta a que un texto malicioso acabe moviendo datos que no debía, que es exactamente el riesgo que encabeza la lista de OWASP. Los dos primeros suelen ser la razón de que el sistema exista. El tercero es el que hay que recortar.
 
@@ -69,59 +69,59 @@ El caso extremo es el montaje donde el modelo se enchufa directamente a la base 
 
 ## Cómo lo construimos nosotros
 
-Nuestro reparto es siempre el mismo: el juicio vive en el código, la interpretación del lenguaje vive en el modelo y el conocimiento vive en los datos. El juicio es todo lo que decide qué está permitido y qué no. La interpretación es entender qué quiere decir una persona cuando escribe como escriben las personas. El conocimiento es lo que el sistema sabe de tu negocio, versionado y consultable. Suena abstracto hasta que se baja a un sistema concreto, así que bajemos.
+Nuestro reparto es siempre el mismo: **el juicio vive en el código, la interpretación del lenguaje vive en el modelo y el conocimiento vive en los datos.** El juicio es todo lo que decide qué está permitido y qué no. La interpretación es entender qué quiere decir una persona cuando escribe como escriben las personas. El conocimiento es lo que el sistema sabe de tu negocio, versionado y consultable. Suena abstracto hasta que se baja a un sistema concreto, así que bajemos.
 
 ### El modelo elige, el código ejecuta
 
 En nuestro asistente de datos el modelo no escribe consultas contra la base de datos. Entiende la pregunta y rellena un formulario cerrado (un contrato JSON) con los campos que hemos definido nosotros, el periodo, el ámbito, los filtros y la métrica. Un programa lee ese formulario, comprueba que la petición es legítima y construye la consulta que llega de verdad a la base de datos. Ese programa solo sabe construir las consultas que hemos programado, así que ninguna otra puede salir de ahí, se lo pida quien se lo pida.
 
-En el asistente de planta que construimos para una empresa industrial pasa lo mismo con los documentos. El modelo elige una etiqueta de una lista cerrada y el código recupera el texto oficial asociado a esa etiqueta. La política vive en datos versionados, no en la salida de un generador. Un mensaje malicioso puede, como mucho, equivocarse de opción dentro de una lista que ya hemos revisado. No puede inventarse una política ni saltarse un filtro, porque el filtro no está a su alcance.
+En el asistente de planta que construimos para una empresa industrial pasa lo mismo con los documentos. El modelo elige una etiqueta de una lista cerrada y el código recupera el texto oficial asociado a esa etiqueta. La política vive en datos versionados, no en la salida de un generador. **Un mensaje malicioso puede, como mucho, equivocarse de opción dentro de una lista que ya hemos revisado.** No puede inventarse una política ni saltarse un filtro, porque el filtro no está a su alcance.
 
 ### Nunca más permisos que la persona
 
-El agente no tiene una credencial todopoderosa propia. Las consultas a los sistemas internos las lanza el usuario con sus permisos de siempre, los mismos que tiene en el resto de aplicaciones de su empresa. Y ante la duda, el sistema bloquea. Si la lista de permisos de alguien llega vacía, la respuesta es un no rotundo en lugar de un acceso por defecto.
+El agente no tiene una credencial propia que lo abra todo. **Las consultas a los sistemas internos las lanza el usuario con sus permisos de siempre**, los mismos que tiene en el resto de aplicaciones de su empresa. Y ante la duda, el sistema bloquea. Si la lista de permisos de alguien llega vacía, la respuesta es un no rotundo en lugar de un acceso por defecto.
 
 ### La pieza que decide no caduca con el modelo
 
-Hay una consecuencia de este reparto que se nota el día que toca cambiar de modelo. Ese día llega siempre, porque los proveedores retiran modelos con regularidad y con fecha. Cuando el modelo no es la autoridad, sustituirlo es un cambio acotado que se puede medir.
+Hay una consecuencia de este reparto que se nota el día que toca cambiar de modelo. Ese día llega siempre, porque los proveedores retiran modelos con regularidad y con fecha. **Cuando el modelo no es la autoridad, sustituirlo es un cambio controlado que se puede medir.**
 
 Al valorar si cambiábamos el modelo de uno de nuestros sistemas por otro más barato, pasamos las dos versiones por la misma batería de pruebas, los casos reales con su respuesta correcta anotada. El barato perdía diez puntos de acierto y en las preguntas donde había que elegir entre dos opciones parecidas caía del 89 % al 44 %, así que lo descartamos, con los números delante. Si las reglas hubieran vivido en el prompt, esa comparación no habría existido, porque no habría habido contra qué comparar.
 
 ### La decisión se puede guardar
 
-Queda el beneficio menos visible, que con los años es el que más importa. Si la decisión vive dentro del modelo, cuando algo sale raro no queda nada que examinar, solo la respuesta que salió. En nuestro reparto la decisión queda entera fuera del modelo, así que se puede registrar qué entendió, qué pidió, qué descartó el validador y por qué lo descartó. Cuando seis meses después alguien pregunta por qué el sistema respondió lo que respondió, hay algo que enseñar. Sobre esa base se monta la batería de pruebas que cada cambio tiene que pasar antes de publicarse y la medición semanal que vigila que nada se degrade en silencio.
+Queda el beneficio menos visible, que con los años es el que más importa. Si la decisión vive dentro del modelo, cuando algo sale raro no queda nada que examinar, solo la respuesta que salió. En nuestro reparto la decisión queda entera fuera del modelo, así que se puede registrar qué entendió, qué pidió, qué descartó el validador y por qué lo descartó. **Cuando seis meses después alguien pregunta por qué el sistema respondió lo que respondió, hay algo que enseñar.** Sobre esa base se monta la batería de pruebas que cada cambio tiene que pasar antes de publicarse y la medición semanal que vigila que nada se degrade en silencio.
 
 ### Lo que este reparto cuesta
 
-Para ser justos, esta forma de construir también tiene factura. Exige entender el proceso antes de programarlo, así que el arranque es más lento que pegar un modelo a una base de datos. Cada capacidad nueva es trabajo de ingeniería y no una frase más en el prompt. Y el sistema no te sorprenderá con habilidades que nadie le pidió, porque está diseñado justo para eso. Son costes reales y los pagamos a cambio de algo concreto, que el sistema se comporte igual el día de la demostración y el día mil.
+Para ser justos, esta forma de construir también tiene factura. Exige entender el proceso antes de programarlo, así que el arranque es más lento que pegar un modelo a una base de datos. Cada capacidad nueva es trabajo de ingeniería y no una frase más en el prompt. Y el sistema no te sorprenderá con habilidades que nadie le pidió, porque está diseñado justo para eso. **Son costes reales y los pagamos a cambio de algo concreto, que el sistema se comporte igual el día de la demostración y el día mil.**
 
 ## No somos los únicos que hemos llegado aquí
 
 Lo revelador de esta postura es quién más la sostiene. No es un escéptico de la IA. Es el fabricante de uno de los modelos que usamos.
 
-[Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents), la guía de Anthropic, el fabricante de Claude, recomienda empezar por flujos orquestados por código y reservar la autonomía del agente para los problemas que de verdad la necesitan. Cuanta más estructura conoces del problema, menos decisiones deberías delegarle al modelo.
+[Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents), la guía de Anthropic, el fabricante de Claude, recomienda empezar por flujos orquestados por código y reservar la autonomía del agente para los problemas que de verdad la necesitan. **Cuanta más estructura conoces del problema, menos decisiones deberías delegarle al modelo.**
 
 Nosotros mantenemos en producción un sistema con media docena de agentes especializados, así que esto lo decimos con conocimiento de causa. Repartir una tarea entre varios agentes que se coordinan solos fragmenta el contexto y hace que las decisiones de unos choquen con las de otros. Funciona cuando los cambios los ejecuta uno solo y los demás aportan criterio en lugar de acciones.
 
 De ahí salen tres reglas que aplicamos siempre. El bucle de control es nuestro y no de un marco de moda. Los prompts se versionan y se prueban como cualquier otro código. Y cada agente se mantiene pequeño y centrado en tareas de pocos pasos.
 
-La autonomía del modelo no es un objetivo de diseño, es un coste que solo se paga cuando compra algo a cambio.
+**La autonomía del modelo no es un objetivo de diseño, es un coste que solo se paga cuando compra algo a cambio.**
 
 ## Cuándo sí tiene sentido soltarle la mano al modelo
 
-Sería cómodo terminar aquí y dejar el cuadro en blanco y negro, pero faltaría la otra mitad. Hay problemas donde la autonomía compensa. Son justo aquellos cuya estructura no conoces de antemano. Explorar una base de código desconocida, investigar una pregunta abierta, preparar un borrador que una persona va a revisar con calma antes de que pase nada. En esos casos no puedes escribir el flujo por adelantado porque no sabes qué pasos harán falta. Y el coste de un paso en falso es bajo, se tira el borrador y no ha pasado nada.
+Sería cómodo terminar aquí y dejar el cuadro en blanco y negro, pero faltaría la otra mitad. **Hay problemas donde la autonomía compensa.** Son justo aquellos en los que no sabes cómo es el problema hasta que estás dentro. Explorar una base de código desconocida, investigar una pregunta abierta, preparar un borrador que una persona va a revisar con calma antes de que pase nada. En esos casos no puedes escribir el flujo por adelantado porque no sabes qué pasos harán falta. Y el coste de un paso en falso es bajo, se tira el borrador y no ha pasado nada.
 
 Fíjate en que los dos criterios van juntos. Estructura desconocida y coste del error bajo. Los agentes de programación funcionan porque cumplen los dos, el terreno cambia con cada tarea y hay una persona revisando antes de que nada llegue a producción. Un agente con permiso de escritura sobre tu facturación no cumple ninguno.
 
-Nuestra regla es que la autonomía se gana. Todo empieza como un flujo orquestado por código y el modelo recibe margen solo en los tramos donde lo necesita, con el resultado medido antes y después de cada ampliación. Lo que no hacemos es empezar por la autonomía y añadir control cuando algo se rompe, porque para entonces el sistema ya está delante de tus usuarios y el control llega tarde.
+**Nuestra regla es que la autonomía se gana.** Todo empieza como un flujo orquestado por código y el modelo recibe margen solo en los tramos donde lo necesita, con el resultado medido antes y después de cada ampliación. Lo que no hacemos es empezar por la autonomía y añadir control cuando algo se rompe, porque para entonces el sistema ya está delante de tus usuarios y el control llega tarde.
 
 ## Tres preguntas para la próxima reunión
 
-Si estás evaluando comprar un agente, del proveedor que sea, hay tres preguntas que separan las arquitecturas en dos montones.
+Si estás evaluando comprar un agente, del proveedor que sea, **hay tres preguntas que separan las arquitecturas en dos montones.**
 
 Primera, *¿dónde viven las reglas que el sistema no puede saltarse?* Si la respuesta menciona el prompt, ya sabes en qué montón estás. Segunda, *¿qué pasa exactamente si el modelo ignora una instrucción?* La respuesta buena describe un mecanismo que lo para. La mala te asegura que eso no ocurre. Tercera, *¿qué queda registrado de cada decisión?* Si la respuesta es la conversación entera y nada más, no habrá forma de explicar un fallo cuando llegue, ni de demostrar que se ha corregido.
 
-Ninguna de las tres exige saber programar. Las tres se contestan en un minuto cuando la arquitectura está bien hecha.
+**Ninguna de las tres exige saber programar.** Las tres se contestan en un minuto cuando la arquitectura está bien hecha.
 
 ## Entonces, ¿por qué lo vendemos?
 

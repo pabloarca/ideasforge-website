@@ -17,17 +17,17 @@ El patrón text-to-SQL es una de las promesas más repetidas del sector. Pregunt
 
 ## ¿Y si el modelo ya acierta casi siempre?
 
-Como la nuestra es la postura incómoda, conviene mirar los números de la contraria.
+Como la nuestra es la postura incómoda, toca mirar los números de la contraria.
 
 El examen de referencia se llama Spider 2.0, un trabajo académico de finales de 2024 que reunió 632 tareas reales de consulta sobre bases de datos de empresa, con sus miles de columnas y sus dialectos. Los mismos modelos que rondaban el 90 % en los exámenes académicos anteriores se quedaron entre el 10 y el 21 % ahí. La distancia entre la demo y tu almacén de datos, medida.
 
-Desde entonces los sistemas especializados han ido escalando esa clasificación y los mejores superan hoy el 90 % en una de sus variantes. El problema parecía de puntería y la puntería mejora cada trimestre.
+Desde entonces los sistemas especializados han ido escalando esa clasificación y los mejores superan hoy el 90 % en una de sus variantes. El problema parecía de acierto y el acierto mejora cada trimestre.
 
-¿Cambia eso nuestra decisión? No, porque la objeción nunca fue la puntería. Un examen de acierto mide si la consulta devuelve la cifra correcta y no mide qué hace la consulta equivocada. **La consulta que falla también se ejecuta.** Con datos de varias empresas en el mismo almacén, el precio de ese fallo no se parece en nada al de una respuesta mal redactada.
+¿Cambia eso nuestra decisión? No, porque la objeción nunca fue el acierto. Un examen de acierto mide si la consulta devuelve la cifra correcta y no mide qué hace la consulta equivocada. **La consulta que falla también se ejecuta.** Con datos de varias empresas en el mismo almacén, el precio de ese fallo no se parece en nada al de una respuesta mal redactada.
 
 Hay además algo que ningún examen de acierto mide, la seguridad. OWASP, la referencia del sector en seguridad de aplicaciones, dedica una categoría entera de su lista para aplicaciones con modelos de lenguaje al manejo indebido de la salida, que consiste en pasar lo que el modelo genera a otro sistema sin validarlo.
 
-Su ejemplo de manual es exactamente este, la consulta generada que llega a la base de datos sin que nadie la escrute. **Nuestro contrato cerrado no es una manía de la casa, es la respuesta de diseño a esa categoría.**
+Su ejemplo de manual es exactamente este, la consulta generada que llega a la base de datos sin que nadie la revise. **Nuestro contrato cerrado no es una manía de la casa, es la respuesta de diseño a esa categoría.**
 
 ## Lo que entrega en su lugar
 
@@ -37,7 +37,7 @@ La diferencia práctica cabe en una frase. **Un contrato con cinco campos conoci
 
 ## Lo que esa decisión compra
 
-Compra seguridad demostrable, porque los permisos se aplican sobre el contrato validado. La consulta final lleva además un filtro por empresa que se aplica siempre, la última de las cuatro capas que separan los datos de cada empresa de los de la de al lado. Y compra el resultado de negocio que justifica el proyecto, la espera por una cifra pasó de horas a segundos, sin abrir la puerta que el patrón ingenuo deja entornada. Cómo quedó montado por dentro, con lo que hubo que quitarle al modelo por el camino, está en [la página del caso](/casos/savian).
+Compra seguridad demostrable, porque los permisos se aplican sobre el contrato validado. La consulta final lleva además un filtro por empresa que se aplica siempre, la última de las cuatro capas que separan los datos de cada empresa de los de la de al lado. Y compra el resultado de negocio que justifica el proyecto, **la espera por una cifra pasó de horas a segundos**, sin la puerta que el patrón ingenuo deja abierta. Cómo quedó montado por dentro, con lo que hubo que quitarle al modelo por el camino, está en [la página del caso](/casos/savian).
 
 ## Decir lo que falta también se diseña
 

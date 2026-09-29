@@ -52,7 +52,7 @@ Un sistema construido de esa manera **genera el expediente de cumplimiento como 
 
 Y esa diferencia se nota mucho antes de que aparezca un inspector. Los mismos registros que pide el reglamento son los que te dicen por qué tu asistente contestó una barbaridad un martes por la tarde. Es la misma disciplina que ya defendemos por razones que no tienen nada que ver con la ley. La contamos en [medir la IA por las ganancias](/blog/medir-la-ia-por-las-ganancias).
 
-## La pregunta que conviene hacerle a tu proveedor
+## La pregunta que tienes que hacerle a tu proveedor
 
 Si te vas con una sola cosa de aquí, que sea esta.
 

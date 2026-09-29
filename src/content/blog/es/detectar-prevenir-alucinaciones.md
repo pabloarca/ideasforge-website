@@ -18,21 +18,21 @@ Las alucinaciones que vemos en producción tienen casi siempre uno de dos oríge
 
 No es un defecto raro que el sector no consigue cazar. Es el comportamiento premiado.
 
-El trabajo que mejor lo explica lo publicó OpenAI con Georgia Tech en septiembre de 2025 y su argumento cabe en una imagen de examen. A un modelo se le entrena y se le evalúa como a un estudiante ante una pregunta difícil, el «no lo sé» puntúa cero y la respuesta segura puntúa a veces, aunque sea inventada. Con esas reglas, adivinar con aplomo es la estrategia que gana.
+El trabajo que mejor lo explica lo publicó OpenAI con Georgia Tech en septiembre de 2025 y su argumento cabe en una imagen de examen. A un modelo se le entrena y se le evalúa como a un estudiante ante una pregunta difícil, el «no lo sé» puntúa cero y la respuesta segura puntúa a veces, aunque sea inventada. Con esas reglas, adivinar con seguridad es la estrategia que gana.
 
-La conclusión de ese trabajo es la que nosotros veníamos aplicando por las malas. Mientras las pruebas premien el aplomo, el modelo rellenará huecos, así que la corrección no consiste en pedirle sinceridad. Consiste en cambiar las reglas del juego que lo rodea, que es exactamente el trabajo de los cuatro mecanismos de abajo.
+La conclusión de ese trabajo es la que nosotros veníamos aplicando por las malas. Mientras las pruebas premien responder con seguridad, el modelo rellenará huecos, así que la corrección no consiste en pedirle sinceridad. Consiste en cambiar las reglas del juego que lo rodea, que es exactamente el trabajo de los cuatro mecanismos de abajo.
 
-¿Y cuánto daño hace esto fuera de las demos? Un investigador de HEC París mantiene un registro de resoluciones judiciales en las que el tribunal encontró material inventado por IA, con un criterio de entrada estricto. A mediados de 2026 pasaba de 1.600 casos y la curva se empina en lugar de aplanarse. **Más de 650 son de abogados en ejercicio**, gente cuyo oficio es precisamente comprobar citas.
+¿Y cuánto daño hace esto fuera de las demos? Un investigador de HEC París mantiene un registro de resoluciones judiciales en las que el tribunal encontró material inventado por IA, con un criterio de entrada estricto. A mediados de 2026 pasaba de 1.600 casos y la curva se empina en lugar de aplanarse. **Más de 650 son de abogados en ejercicio**, gente que se gana la vida precisamente comprobando citas.
 
 ## El contexto manda
 
-Un modelo solo es tan bueno como lo que puede leer mientras responde. Si la búsqueda que lo alimenta devuelve fragmentos irrelevantes o viejos, el modelo completará con probabilidad lo que debería salir de un documento. Por eso, antes de pulir una sola instrucción, ordenamos los datos y las herramientas. Lo contamos en [antes que el prompt, los datos](/blog/antes-que-el-prompt-los-datos). Es la parte del trabajo que casi nadie ve porque no sale en la demostración.
+**Un modelo solo es tan bueno como lo que puede leer mientras responde.** Si la búsqueda que lo alimenta devuelve fragmentos irrelevantes o viejos, el modelo completará con probabilidad lo que debería salir de un documento. Por eso, antes de pulir una sola instrucción, ordenamos los datos y las herramientas. Lo contamos en [antes que el prompt, los datos](/blog/antes-que-el-prompt-los-datos). Es la parte del trabajo que casi nadie ve porque no sale en la demostración.
 
 ## Cada cifra, de una consulta fresca
 
 En el agente que construimos para Savian, un segundo modelo actúa de auditor y desconfía por oficio. No acepta ninguna cifra que venga del contexto conversacional, aunque esté a tres mensajes de distancia. Y fuerza una consulta nueva a la base de datos para cada número que se entrega. La ventana de memoria es corta a propósito. **Recordar menos es alucinar menos, porque la materia prima del error ni siquiera está disponible.** El auditor tiene [su propio artículo](/blog/el-auditor-que-no-se-fia), con el detalle de cómo se le quita a un modelo la tentación de responder de memoria.
 
-## La métrica que delata la memoria
+## La métrica que detecta las respuestas de memoria
 
 Detectar es tan importante como prevenir. Nuestra métrica favorita para esto compara dos cosas que deberían coincidir siempre, la herramienta que la conversación pedía usar y la herramienta que el modelo usó de verdad. Cuando divergen, el modelo respondió de memoria en lugar de consultar. Esa divergencia es medible turno a turno, deja rastro en los registros y convierte *«creo que a veces se lo inventa»* en una cifra que se vigila cada semana. **Lo que no se mide se discute. Lo que se mide se arregla.**
 
@@ -42,10 +42,10 @@ En nuestro asistente de planta dimos un paso más. Para las respuestas que tiene
 
 ## Cuando el «no lo sé» también alucina
 
-Hay una alucinación de la que casi nadie habla, la del sistema que dice *«no tengo esa información»* sin haber buscado bien. O la del que responde con seguridad algo que su documentación no respalda. En una de nuestras primeras baterías, cinco de seis casos «fuera de documentación» pasaban desapercibidos para el umbral de similitud. La salida no fue ajustar el umbral, fue escuchar otra señal y auditar cada reetiquetado. Esa historia, con los dos tipos de «no» que un asistente serio debe distinguir, está en [dos «no» que no son el mismo](/blog/dos-noes-que-no-son-el-mismo).
+**Hay una alucinación de la que casi nadie habla, la del sistema que dice *«no tengo esa información»* sin haber buscado bien.** O la del que responde con seguridad algo que su documentación no respalda. En una de nuestras primeras baterías, cinco de seis casos «fuera de documentación» pasaban desapercibidos para el umbral de similitud. La salida no fue ajustar el umbral, fue escuchar otra señal y auditar cada reetiquetado. Esa historia, con los dos tipos de «no» que un asistente serio debe distinguir, está en [dos «no» que no son el mismo](/blog/dos-noes-que-no-son-el-mismo).
 
 ## Qué preguntar si estás comprando
 
-Si evalúas un asistente y te preocupan las respuestas inventadas, tres preguntas separan el folleto de la ingeniería. De dónde sale cada cifra que muestra, de una consulta fresca o de la memoria de la conversación. Qué métrica delata al modelo cuando responde sin consultar y quién la mira. Y qué pasa cuando la documentación no tiene la respuesta, un «no» claro con rastro o un relleno con buena redacción.
+Si evalúas un asistente y te preocupan las respuestas inventadas, tres preguntas separan el folleto de la ingeniería. De dónde sale cada cifra que muestra, de una consulta fresca o de la memoria de la conversación. Qué métrica avisa cuando el modelo responde sin consultar y quién la mira. Y qué pasa cuando la documentación no tiene la respuesta, un «no» claro con rastro o un relleno con buena redacción.
 
 Reducir alucinaciones no es suerte ni magia. **Es contexto bien construido, verificación que no se fía y contenido crítico fuera del alcance del modelo, todo medido en producción.** La próxima respuesta impecable que veas, recíbela con la primera pregunta de esta casa. *¿De dónde salió esta cifra?* Así lo hacemos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia). Si estás situando el concepto desde el principio, empieza por la [guía de agentes de IA](/agentes-de-ia).

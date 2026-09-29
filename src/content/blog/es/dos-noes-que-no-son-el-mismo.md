@@ -19,19 +19,19 @@ El segundo es **«eso no está documentado»**. Es una ausencia de evidencia, el
 
 **Porque cada «no» apunta a una cola de trabajo distinta, con un dueño distinto.** El primero alimenta las decisiones de producto, qué funcionalidades faltan y cuáles no compensan. El segundo alimenta el trabajo de contenido, qué páginas de documentación hay que escribir.
 
-Confundirlos es el error clásico de los asistentes documentales. El equipo ve muchos «no», concluye que falta documentación y se pone a escribir páginas para resolver lo que en realidad es una limitación funcional. O al revés, descarta como «fuera de alcance» preguntas perfectamente cubiertas cuya única falta era una página de wiki. Meses de esfuerzo en la dirección equivocada, con la sensación de estar mejorando algo.
+Confundirlos es el error clásico de los asistentes documentales. El equipo ve muchos «no», concluye que falta documentación y se pone a escribir páginas para resolver lo que en realidad es una limitación funcional. O al revés, descarta como «fuera de alcance» preguntas perfectamente cubiertas a las que solo les faltaba una página de wiki. Meses de esfuerzo en la dirección equivocada, con la sensación de estar mejorando algo.
 
 ## Cada «no» en su capa
 
 En el asistente de planta que mantenemos para una empresa industrial, los dos noes viven en capas distintas del sistema, a propósito.
 
-El límite de producto se responde sin buscar nada, con un texto oficial que sale de un catálogo versionado. El modelo identifica el caso, pero el texto no lo redacta él. Así la política del producto es consistente, auditable y no depende del humor de un generador.
+**El límite de producto se responde sin buscar nada, con un texto oficial que sale de un catálogo versionado.** El modelo identifica el caso, pero el texto no lo redacta él. Así la política del producto es consistente, auditable y no depende del humor de un generador.
 
-La falta de documentación, en cambio, solo se puede pronunciar después de haber buscado. Y deja rastro. Cada turno registra una etiqueta corta de necesidad no satisfecha, con un vocabulario controlado en lugar de texto libre. Esas etiquetas convierten los noes en datos y los datos en dos colas de trabajo separadas.
+**La falta de documentación, en cambio, solo se puede pronunciar después de haber buscado.** Y deja rastro. Cada turno registra una etiqueta corta de necesidad no satisfecha, con un vocabulario controlado en lugar de texto libre. Esas etiquetas convierten los noes en datos y los datos en dos colas de trabajo separadas.
 
 ## Decir «no» va contra el entrenamiento
 
-Hay una razón de fondo para que los buenos noes escaseen. Los modelos aprenden con exámenes donde el «no lo sé» puntúa cero y la respuesta segura puntúa a veces, así que reconocer un hueco es exactamente lo que su entrenamiento castiga. Lo explicó OpenAI en un trabajo de septiembre de 2025 y lo contamos con calma [al hablar de alucinaciones](/blog/detectar-prevenir-alucinaciones).
+Hay una razón de fondo para que los buenos noes escaseen. Los modelos aprenden con exámenes donde el «no lo sé» puntúa cero y la respuesta segura puntúa a veces, así que **reconocer un hueco es exactamente lo que su entrenamiento castiga**. Lo explicó OpenAI en un trabajo de septiembre de 2025 y lo contamos con calma [al hablar de alucinaciones](/blog/detectar-prevenir-alucinaciones).
 
 Un asistente que pronuncia bien sus dos noes está nadando contra esa corriente. Eso no se consigue pidiéndolo por favor en las instrucciones. Se consigue con las dos capas de arriba, el catálogo versionado que responde el límite sin buscar y la señal de «sin coincidencia» que se escucha en lugar de taparse.
 

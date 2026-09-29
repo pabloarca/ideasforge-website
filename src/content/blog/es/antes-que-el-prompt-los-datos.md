@@ -17,7 +17,7 @@ La lógica es sencilla. Un modelo de lenguaje trabaja con lo que le das. Si los 
 
 En uno de nuestros asistentes documentales, la primera batería de pruebas dejó un hallazgo incómodo. Cinco de seis preguntas «fuera de la documentación» no se detectaban como tales. La búsqueda siempre encontraba algún fragmento parecido, porque en un corpus amplio casi cualquier frase supera el umbral de similitud, el parecido mínimo que la búsqueda exige para dar un texto por relevante.
 
-La tentación clásica habría sido pedirle al modelo, con más énfasis, que reconociera cuándo no había evidencia. Lo que funcionó fue trabajar la capa de datos y la de código: escuchar el veredicto de «sin coincidencia» del propio agente, rediseñar el despachador, la pieza que reparte cada pregunta, para que lo aceptara y dejar auditado cada reetiquetado. El prompt apenas cambió.
+La tentación clásica habría sido pedirle al modelo, con más énfasis, que reconociera cuándo no había evidencia. **Lo que funcionó fue trabajar la capa de datos y la de código**: escuchar el veredicto de «sin coincidencia» del propio agente, rediseñar el despachador, la pieza que reparte cada pregunta, para que lo aceptara y dejar auditado cada reetiquetado. El prompt apenas cambió.
 
 ## El aislamiento que dejó de depender de que alguien se acordara
 
@@ -29,13 +29,13 @@ Ese es el patrón que se repite. **La solución sólida casi nunca vive en el te
 
 El título de un estudio de Google Research de 2021 lo dice sin anestesia. Todo el mundo quiere hacer el trabajo del modelo y nadie quiere hacer el de los datos.
 
-El estudio entrevistó a 53 profesionales que aplican IA en dominios donde equivocarse cuesta caro, salud, crédito, conservación. Y le puso nombre a lo que pasa cuando los datos se tratan como un trámite, cascadas de datos. Problemas que nacen pequeños, no tienen un indicador que los delate y se van encadenando hasta exigir rehacer el sistema o erosionar la confianza de quien lo usa. Algunos tardan años en aflorar y casi siempre lo hacen en producción.
+El estudio entrevistó a 53 profesionales que aplican IA en dominios donde equivocarse cuesta caro, salud, crédito, conservación. Y le puso nombre a lo que pasa cuando los datos se tratan como un trámite, cascadas de datos. Problemas que nacen pequeños, no tienen un indicador que avise y se van encadenando hasta exigir rehacer el sistema o hacer perder la confianza de quien lo usa. Algunos tardan años en salir a la luz y casi siempre lo hacen en producción.
 
 Los dos ejemplos anteriores son cascadas cazadas a tiempo. El umbral que no detectaba nada era un problema de datos disfrazado de problema de modelo. El filtro que alguien podía olvidar era un problema de datos disfrazado de falta de disciplina. **En los dos casos el arreglo llegó antes que la factura porque buscamos en la capa correcta.**
 
 ## Qué significa esto si vas a comprar IA
 
-Que la pregunta de calidad para un proveedor no es *«¿qué modelo usáis?»* ni *«¿cómo escribís los prompts?»*. Es *«¿qué vais a hacer con mis datos para que el modelo trabaje bien?»*. Limpiar catálogos, unificar identificadores, decidir qué se indexa y cómo se trocea, definir qué campos existen y cuáles no se exponen. Es trabajo menos vistoso que un prompt ingenioso y es donde se decide si el sistema aguanta en producción.
+Que la pregunta de calidad para un proveedor no es *«¿qué modelo usáis?»* ni *«¿cómo escribís los prompts?»*. Es *«¿qué vais a hacer con mis datos para que el modelo trabaje bien?»*. Limpiar catálogos, unificar identificadores, decidir qué se indexa y cómo se trocea, definir qué campos existen y cuáles no se exponen. Es trabajo menos llamativo que un prompt ingenioso y es donde se decide si el sistema aguanta en producción.
 
 Nuestro lema interno lo resume: **el juicio vive en el código, la interpretación del lenguaje vive en el modelo y el conocimiento vive en los datos.** Cada pieza en su sitio.
 

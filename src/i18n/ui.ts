@@ -727,7 +727,7 @@ export const content: Record<Lang, SiteContent> = {
             title: 'Soporte y mantenimiento',
             icon: 'soporte',
             description:
-              'No te dejamos un sistema y nos vamos. Lo operamos contigo, lo afinamos y nos encargamos de los modelos nuevos cuando salen.',
+              'No te dejamos un sistema y nos vamos. Lo operamos contigo, lo ajustamos y nos encargamos de los modelos nuevos cuando salen.',
             proof: '103 controles en producción',
             pageLabel: 'IA para pymes',
             href: '/pymes',
@@ -766,7 +766,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 heading: 'El suelo se mueve solo',
-                body: 'Lo desconcertante es que el nombre del modelo no cambia mientras lo que hay detrás sí. Investigadores de Stanford y Berkeley lo midieron en 2023. Pasaron las mismas preguntas al mismo modelo comercial en marzo y en junio, llamándolo igual desde la misma conexión. En una de las tareas, el acierto cayó del 97,6 % al 2,4 %. Nadie del lado del cliente tocó nada. El proveedor había actualizado el modelo por debajo. Por eso medir no es una manía nuestra, es la única forma de saber que lo que funcionaba en marzo sigue funcionando en junio.',
+                body: 'Lo raro es que el nombre del modelo no cambia mientras lo que hay detrás sí. Investigadores de Stanford y Berkeley lo midieron en 2023. Pasaron las mismas preguntas al mismo modelo comercial en marzo y en junio, llamándolo igual desde la misma conexión. En una de las tareas, el acierto cayó del 97,6 % al 2,4 %. Nadie del lado del cliente tocó nada. El proveedor había actualizado el modelo por debajo. Por eso medir no es una manía nuestra, es la única forma de saber que lo que funcionaba en marzo sigue funcionando en junio.',
               },
               {
                 heading: 'Por qué podemos guardar la decisión',
@@ -867,7 +867,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 heading: 'Nunca más permisos que la persona',
-                body: 'El asistente no tiene una credencial todopoderosa propia. Las consultas a los sistemas internos las lanza el usuario con sus permisos de siempre, los mismos que ya tiene en el resto de aplicaciones de la casa. Y ante la duda bloquea. Si la lista de permisos llega vacía, la respuesta es un no rotundo en lugar de un acceso por defecto.',
+                body: 'El asistente no tiene una credencial propia que lo abra todo. Las consultas a los sistemas internos las lanza el usuario con sus permisos de siempre, los mismos que ya tiene en el resto de aplicaciones de la casa. Y ante la duda bloquea. Si la lista de permisos llega vacía, la respuesta es un no rotundo en lugar de un acceso por defecto.',
               },
               {
                 heading: 'Hay límites que no son técnicos',
@@ -916,7 +916,7 @@ export const content: Record<Lang, SiteContent> = {
           outputs: [
             'Los casos ordenados por lo que aportan',
             'Lo que descartamos, con el motivo escrito',
-            'Un primer caso acotado con el que empezar',
+            'Un primer caso pequeño con el que empezar',
           ],
         },
         {
@@ -930,7 +930,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           title: 'Optimizar',
-          body: 'Medimos su comportamiento semana a semana. Lo afinamos, ampliamos su alcance y absorbemos los nuevos modelos cuando salen.',
+          body: 'Medimos su comportamiento semana a semana. Lo ajustamos, ampliamos su alcance y absorbemos los nuevos modelos cuando salen.',
           outputs: [
             'Medición semanal con el resultado a la vista',
             'El catálogo de incidencias, que dice cómo se reconoce cada fallo',
@@ -971,7 +971,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           q: '¿Cuánto se tarda en tener algo funcionando?',
-          a: 'Con los datos disponibles, los accesos concedidos y la tarea bien acotada, un piloto en dos semanas es realista. Cuando falta alguna de esas condiciones lo que se alarga es la preparación y no la construcción. El piloto se paga y su precio entra dentro del proyecto final.',
+          a: 'Con los datos disponibles, los accesos concedidos y la tarea bien definida, un piloto en dos semanas es realista. Cuando falta alguna de esas condiciones lo que se alarga es la preparación y no la construcción. El piloto se paga y su precio entra dentro del proyecto final.',
         },
         {
           q: '¿Hay permanencia en la cuota mensual?',
@@ -1418,11 +1418,11 @@ export const content: Record<Lang, SiteContent> = {
       smb: {
         metaTitle: 'IA para pymes en paquetes cerrados por resultado, Ideasforge',
         metaDescription:
-          'IA para pymes en cuatro paquetes acotados, con el precio dicho antes de empezar y la prueba medida en empresas pequeñas que ya los tienen funcionando.',
+          'IA para pymes en cuatro paquetes cerrados, con el precio dicho antes de empezar y la prueba medida en empresas pequeñas que ya los tienen funcionando.',
         hero: {
           title: 'IA para tu pyme, un resultado cada vez',
           subtitle:
-            'Cuatro paquetes acotados, construidos con la misma ingeniería que los proyectos grandes, con precio cerrado antes de empezar y una cifra que cumplir después.',
+            'Cuatro paquetes concretos, construidos con la misma ingeniería que los proyectos grandes, con precio cerrado antes de empezar y una cifra que cumplir después.',
           cta: 'Cuéntanos tu reto',
         },
         stats: [
@@ -1436,7 +1436,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             value: '2.500 €',
-            label: 'es donde arranca un proyecto acotado, con los rangos completos en la guía de coste',
+            label: 'es donde arranca un proyecto pequeño, con los rangos completos en la guía de coste',
           },
         ],
         sections: [
@@ -1455,7 +1455,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Si en tu empresa alguien redacta correos o resume documentos con una herramienta de chat, ya estás dentro de esa estadística. Eso es usar IA y funciona para lo que sirve.',
               'Una suscripción responde cuando alguien le pregunta. En un equipo de cinco personas nadie tiene por oficio pasarse el día preguntando, así que esa ayuda llega hasta donde llega la atención de quien la tiene abierta.',
-              'Un sistema es otra compra. Vigila el canal por donde entra el trabajo, hace la tarea, comprueba su propio resultado y deja un registro que puedes auditar. <strong>Un sistema no espera a que le pregunten y se mide contra un número pactado antes de construirlo.</strong>',
+              'Un sistema es otra compra. Vigila el canal por donde entra el trabajo, hace la tarea, comprueba su propio resultado y deja un registro que puedes auditar. <strong>Un sistema no espera a que le pregunten y se mide contra un número acordado antes de construirlo.</strong>',
               'Ahí está la distancia que enseñan las estadísticas europeas. En la Unión, el 17 % de las empresas pequeñas usó IA en 2025 frente al 55 % de las grandes. Eurostat atribuye esa brecha al coste y a la complejidad de implantar estos sistemas.',
               'Una empresa grande se paga la ingeniería que hace falta para que la IA deje de ser una suscripción y pase a ser una pieza de su operación. <strong>Eso es lo que empaquetamos, un proceso cada vez y con el precio dicho antes.</strong>',
             ],
@@ -1463,7 +1463,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Cuatro paquetes, un resultado cada uno',
             paragraphs: [
-              'Cada paquete se acota a un resultado concreto y se presupuesta con precio cerrado antes de empezar. Estos son los cuatro.',
+              'Cada paquete se limita a un resultado concreto y se presupuesta con precio cerrado antes de empezar. Estos son los cuatro.',
             ],
             kind: 'lattice',
             bullets: [
@@ -1485,7 +1485,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Cuándo te decimos que no compres',
             paragraphs: [
-              'Hay proyectos que nacen de un dolor y proyectos que nacen de una demostración. Al segundo lo llamamos el juguete brillante, el que nadie echa de menos cuando no está, cuya ganancia nunca tuvo un número y donde la IA aparece en el titular en vez de en el resultado.',
+              'Hay proyectos que nacen de un dolor y proyectos que nacen de una demostración. Al segundo lo llamamos el juguete brillante, el que nadie echa de menos cuando no está. Su ganancia nunca tuvo un número y la IA aparece en el titular en vez de en el resultado.',
               'Y está el caso en el que la respuesta buena es más sencilla que un agente. Si tu proceso sigue reglas claras y no hay nada que interpretar dentro de él, una automatización clásica sin modelo lo resuelve por menos dinero y sin un modelo al que vigilar. <strong>Eso también lo construimos nosotros</strong> y te lo decimos cuando es la compra que te conviene.',
             ],
             link: {
@@ -1496,7 +1496,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'El precio, antes de que preguntes',
             paragraphs: [
-              'Un proyecto acotado se mueve entre 2.500 y 10.000 € de construcción. Mantenerlo vigilado y al día cuesta entre 150 y 500 € al mes. Son los mismos rangos que publicamos para cualquier proyecto, desglosados en la guía de coste.',
+              'Un proyecto bien definido se mueve entre 2.500 y 10.000 € de construcción. Mantenerlo vigilado y al día cuesta entre 150 y 500 € al mes. Son los mismos rangos que publicamos para cualquier proyecto, desglosados en la guía de coste.',
               'Lo que consume el modelo y lo que cuesta la infraestructura no están dentro de esa cuota. Los dos van en cuentas abiertas a nombre de tu empresa, así que esas facturas te llegan a ti y no pasan por nosotros.',
               '<strong>La cuota no tiene permanencia.</strong> Pagas el mes que recibes y dejas de pagarlo cuando lo decidas. Lo construido no se apaga ese día, porque el repositorio y la infraestructura están a tu nombre desde el primero.',
             ],
@@ -1508,8 +1508,8 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Cómo arranca un proyecto',
             paragraphs: [
-              'Con un proceso y un número. Antes de construir nada pactamos qué debería ahorrar el sistema y cómo lo vamos a medir, de forma que la decisión de ampliarlo se apoye en una cifra y no en las ganas que le tenga cada uno.',
-              'El primer paso es un piloto pequeño, que se paga y cuyo precio cuenta dentro del proyecto final si sigues adelante. Con los datos, los accesos y la tarea bien definida, dos semanas para ese piloto es un plazo realista.',
+              'Con un proceso y un número. Antes de construir nada acordamos qué debería ahorrar el sistema y cómo lo vamos a medir, de forma que la decisión de ampliarlo se apoye en una cifra y no en las ganas que le tenga cada uno.',
+              'El primer paso es un piloto pequeño, que se paga y cuenta dentro del precio del proyecto final si sigues adelante. Con los datos, los accesos y la tarea bien definida, dos semanas para ese piloto es un plazo realista.',
               'Cuando falta alguna de esas tres cosas te decimos cuál es y qué hace falta para tenerla, en vez de prometerte una fecha que no controlamos.',
             ],
           },
@@ -1649,7 +1649,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Por dónde se empieza',
             paragraphs: [
-              'Por el de los dos cuellos de botella que más te esté costando este mes. Cuenta los minutos que se lleva una consulta y multiplica por cuántas entran al día. O cuenta los documentos que alguien reteclea en una semana. Ese número es a la vez el techo del presupuesto y la vara de medir.',
+              'Por el de los dos cuellos de botella que más te esté costando este mes. Cuenta los minutos que se lleva una consulta y multiplica por cuántas entran al día. O cuenta los documentos que alguien reteclea en una semana. Ese número es a la vez el techo del presupuesto y la cifra con la que se mide el resultado.',
               'Con los datos, los accesos y la tarea definida, dos semanas para un piloto es un plazo realista. El piloto se paga y su precio cuenta dentro del proyecto si sigues adelante, así que lo que compras ahí es una decisión apoyada en tus propios números.',
             ],
           },
@@ -1726,7 +1726,7 @@ export const content: Record<Lang, SiteContent> = {
               'Cualquier proveedor te enseñará una factura leída sin un fallo. Y saldrá bien de verdad, porque la factura de la demostración suele ser un PDF nativo, limpio, generado por un programa.',
               'Las tuyas no siempre lo son. Llegan escaneadas de un original doblado, fotografiadas con el móvil de un inquilino en un portal mal iluminado, reenviadas tres veces y comprimidas por el camino.',
               'Esa distancia se ha medido. <strong>PureDocBench</strong>, un banco de pruebas publicado en mayo de 2026 por investigadores del Instituto de Automatización de la Academia China de Ciencias, tomó 1.475 páginas anotadas de diez ámbitos y presentó cada una en tres versiones, desde la limpia hasta la degradada como llega en la vida real.',
-              'Sobre las degradadas de verdad, los sistemas especializados en documentos perdían más de catorce puntos respecto a su nota en limpio. Y el titular del estudio conviene retenerlo. <strong>El mejor sistema medido saca un 74 sobre 100.</strong> Sus autores concluyen que evaluar solo con documentos limpios engaña a la hora de decidir si algo se puede poner en producción.',
+              'Sobre las degradadas de verdad, los sistemas especializados en documentos perdían más de catorce puntos respecto a su nota en limpio. Y quédate con el titular del estudio. <strong>El mejor sistema medido saca un 74 sobre 100.</strong> Sus autores concluyen que evaluar solo con documentos limpios engaña a la hora de decidir si algo se puede poner en producción.',
               'No lo contamos para desanimar a nadie. Lo contamos porque señala dónde está el trabajo de verdad, que no es la lectura sino lo que el sistema hace cuando la lectura sale regular.',
             ],
           },
@@ -1841,11 +1841,11 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Esto sustituye a nuestro software de facturación o nos vale para VeriFactu?',
-            a: 'No. Conviene decirlo claro. Lo que construimos lee los documentos que entran y deja sus datos comprobados en tus sistemas. Emitir facturas conforme a la normativa es trabajo de tu programa de facturación. Esto ni lo sustituye ni lo certifica.',
+            a: 'No. Lo que construimos lee los documentos que entran y deja sus datos comprobados en tus sistemas. Emitir facturas conforme a la normativa es trabajo de tu programa de facturación. Esto ni lo sustituye ni lo certifica.',
           },
           {
             q: '¿Cuánto tarda en estar funcionando?',
-            a: 'Dos semanas para un piloto es realista cuando el proceso está acotado y los accesos preparados. Un piloto no es una demostración, es el proceso real con documentos reales y su medición al lado, para poder decidir con un número si se amplía.',
+            a: 'Dos semanas para un piloto es realista cuando el proceso está bien definido y los accesos preparados. Un piloto no es una demostración, es el proceso real con documentos reales y su medición al lado, para poder decidir con un número si se amplía.',
           },
           {
             q: '¿Y si al final no compensa?',
@@ -1927,7 +1927,7 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>No todos los agentes deciden igual y ahí está buena parte de la diferencia de precio</strong>, tanto lo que cuesta construir uno como, sobre todo, lo que cuesta mantenerlo. Con tres categorías sitúas casi todo lo que te van a ofrecer.',
             ],
             bullets: [
-              'Que reacciona. Responde siempre igual ante la misma situación, siguiendo reglas fijas. Un termostato que enciende la calefacción cuando baja la temperatura. Barato y predecible, aunque solo sirve para lo que alguien previó de antemano.',
+              'Que reacciona. Responde siempre igual ante la misma situación, siguiendo reglas fijas. Un termostato que enciende la calefacción cuando baja la temperatura. Barato y predecible, aunque solo sirve para lo que alguien previó.',
               'Que planifica. Recibe un objetivo y monta él mismo los pasos para llegar, rehaciéndolos si algo se tuerce. Le pides un presupuesto y consulta el catálogo, mira existencias y avisa si falta una pieza. Es lo que hoy se vende como agente de IA, el nuestro incluido.',
               'Que aprende. Mejoraría solo, con su propia experiencia y sin que nadie vuelva a tocarlo. Es el que más sale en las promesas y el que menos en producción.',
             ],
@@ -1937,7 +1937,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Tipos y usos',
             paragraphs: [
               'El tipo de agente de inteligencia artificial que «aprende» merece un aviso aparte, porque «aprende de tus datos» es de las frases más repetidas del sector y casi nunca significa lo que parece. <strong>Un agente en producción no mejora por sí solo.</strong> Mejora cuando una persona cambia sus instrucciones, ordena mejor los datos o añade casos a la batería de pruebas. Ese cambio lo ejecuta siempre alguien.',
-              'Si te dicen que aprende solo, te conviene hacerte estas tres preguntas: qué cambia exactamente, quién lo ejecuta y cómo se comprueba que no ha empeorado otra cosa. Sirven tanto para hacérselas al proveedor que te vaya a construir la solución como para hacértelas tú mismo y entender mejor lo que se está construyendo.',
+              'Si te dicen que aprende solo, hazte estas tres preguntas: qué cambia exactamente, quién lo ejecuta y cómo se comprueba que no ha empeorado otra cosa. Sirven tanto para hacérselas al proveedor que te vaya a construir la solución como para hacértelas tú mismo y entender mejor lo que se está construyendo.',
             ],
           },
           {
@@ -1947,7 +1947,7 @@ export const content: Record<Lang, SiteContent> = {
             kind: 'checklist',
             formasDiagram: true,
             paragraphs: [
-              '<strong>Casi cualquier propuesta que recibas encaja en una de estas cinco formas.</strong> Conviene saber cuál te están vendiendo, porque lo que de verdad marca el coste de probarlo, de vigilarlo y de arreglarlo cuando falla es la forma, más que el tipo de agente que lleve dentro. <strong>Las dos primeras no llevan ningún agente.</strong> Las tres últimas son las que el mercado llama IA agéntica.',
+              '<strong>Casi cualquier propuesta que recibas encaja en una de estas cinco formas.</strong> Pregunta cuál te están vendiendo, porque lo que de verdad marca el coste de probarlo, de vigilarlo y de arreglarlo cuando falla es la forma, más que el tipo de agente que lleve dentro. <strong>Las dos primeras no llevan ningún agente.</strong> Las tres últimas son las que el mercado llama IA agéntica.',
             ],
             bullets: [
               'Un flujo fijo sin modelo. Los pasos corren en un orden establecido y unas reglas deciden las bifurcaciones. Tu ERP y tu plataforma de integración ya hacen esto y es lo más barato que funciona.',
@@ -2012,9 +2012,9 @@ export const content: Record<Lang, SiteContent> = {
               'Nuestro método tiene cuatro pasos con nombre y cada uno entrega algo que puedes tener en la mano.',
             ],
             bullets: [
-              '<strong>Explorar.</strong> Entendemos el proceso y los datos y te decimos con franqueza si vemos retorno. Lo que sale de aquí es un sí o un no.',
-              '<strong>Priorizar.</strong> Elegimos el primer caso por dolor y por cifra en vez de por vistosidad. Sale ese caso, con su cifra al lado.',
-              '<strong>Implementar.</strong> Construimos ese caso acotado y lo llevamos a producción. Sale un sistema funcionando con su batería de pruebas puesta.',
+              '<strong>Explorar.</strong> Entendemos el proceso y los datos y te decimos claro si vemos retorno. Lo que sale de aquí es un sí o un no.',
+              '<strong>Priorizar.</strong> Elegimos el primer caso por dolor y por cifra en vez de por lo que luce. Sale ese caso, con su cifra al lado.',
+              '<strong>Implementar.</strong> Construimos ese caso y lo llevamos a producción. Sale un sistema funcionando con su batería de pruebas puesta.',
               '<strong>Optimizar.</strong> Medimos lo que hace con usuarios reales, para que la decisión sobre el paso siguiente salga de datos y no de opiniones.',
             ],
           },
@@ -2029,7 +2029,7 @@ export const content: Record<Lang, SiteContent> = {
               'Existe una tarea que exige criterio. Si es puro trámite sin decisiones, la automatización de siempre es más barata. Si cada caso exige entender algo, leer un documento, interpretar una petición, ahí vive el agente.',
               'La información que necesita existe y es alcanzable. Un agente sin acceso a datos fiables responde con lo que le parece más probable, que es justo lo que se llama alucinar. A veces el primer trabajo real es ordenar las fuentes.',
               'Hay una cifra de negocio que debería moverse, horas, solicitudes atendidas, plazos. Si nadie sabe qué número mejoraría, no habrá manera de saber si ha funcionado ni de defenderlo cuando toque renovarlo.',
-              'Alguien dentro será su dueño. Un agente en producción necesita una persona que mire las métricas y decida pequeñas cosas cada mes. Sin dueño interno, el mejor sistema se queda huérfano.',
+              'Alguien dentro será su dueño. Un agente en producción necesita una persona que mire las métricas y decida pequeñas cosas cada mes. Sin dueño interno, hasta el mejor sistema acaba abandonado.',
               'Ocurre a menudo. Un flujo que corre tres veces al mes no llega a pagar la vigilancia que exige, por bien construido que esté. Por debajo de esa frecuencia la respuesta casi siempre es que no.',
             ],
           },
@@ -2039,7 +2039,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Con un proceso candidato en la cabeza, tres preguntas separan el proyecto que compensa del que solo da titulares. Las dos primeras ya las contestaste en la criba de arriba y aquí se dicen en voz alta.',
               'Antes de las tres, una comprobación. Si el proceso te vino a la cabeza por lo bien que quedaría en una demostración y no por lo que te está costando, hay una trampa esperándote y tiene nombre, el juguete brillante.',
-              'La primera es de números. Cuántas veces al día ocurre y cuánto se tarda cada vez. Multiplica las dos cifras y tendrás los minutos al día que ese proyecto puede llegar a ahorrarte como mucho, que conviene saber antes de encargar nada.',
+              'La primera es de números. Cuántas veces al día ocurre y cuánto se tarda cada vez. Multiplica las dos cifras y tendrás, antes de encargar nada, los minutos al día que ese proyecto puede llegar a ahorrarte como mucho.',
               'La segunda es sobre el tipo de trabajo. Qué hace exactamente la persona que hoy lo resuelve, mirar o decidir. Si solo comprueba que un campo está donde tiene que estar, tu problema es de reglas y el modelo te sobra. Si tiene que leer, entender y elegir entre opciones que no siempre son las mismas, ahí empieza el terreno del agente.',
               'La tercera es la que casi nadie hace y la que más dinero ahorra. Qué pasa si el sistema se equivoca una vez de cada veinte. Si la respuesta es que se corrige en un minuto, puedes automatizar con validación ligera y avanzar rápido. Si la respuesta es una factura mal emitida, un cliente perdido o una multa, el proyecto sigue siendo viable pero cambia de forma, con más validación por código, más casos escalados a una persona y un presupuesto mayor.',
               '<strong>La tolerancia al error no decide si se hace, decide cuánto cuesta hacerlo bien.</strong>',
@@ -2065,10 +2065,10 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>Casi ningún proyecto muere por la tecnología. Muere por decisiones de las primeras semanas que nadie revisó.</strong> Estas son las que más nos encontramos.',
             ],
             bullets: [
-              'Empezar por el caso vistoso en lugar del doloroso, que es el juguete brillante del apartado anterior. La demostración espectacular consigue aplausos y el proceso aburrido que quema horas consigue presupuesto renovado.',
+              'Empezar por el caso llamativo en lugar del que duele, que es el juguete brillante del apartado anterior. La demostración espectacular consigue aplausos y el proceso aburrido que quema horas consigue presupuesto renovado.',
               'Comprar la plataforma antes que el caso. Primero un proceso en producción con su cifra, después la conversación sobre plataformas, si es que sigue haciendo falta.',
               'Dejar la medición para el final. La batería de pruebas se construye con el sistema, no después del susto. Añadirla después cuesta el doble y llega tarde.',
-              'No nombrar un dueño interno. Un agente sin dueño se queda huérfano en tres meses, con métricas que nadie mira y pequeñas decisiones que nadie toma.',
+              'No nombrar un dueño interno. Un agente sin dueño queda abandonado en tres meses, con métricas que nadie mira y pequeñas decisiones que nadie toma.',
               'Esperar datos perfectos para arrancar. Con que sean alcanzables, basta. Ordenarlos suele ser la primera fase del proyecto y rinde más que cualquier ajuste de instrucciones.',
               'Prometer al comité que el agente funcionará solo desde el primer día. Es la promesa que mejor suena en una reunión y la que más caro se paga después, porque la autonomía se suelta poco a poco, según lo que las pruebas vayan demostrando.',
             ],
@@ -2117,7 +2117,7 @@ export const content: Record<Lang, SiteContent> = {
               'Herramienta. Cada acción concreta que un agente puede ejecutar: consultar una base de datos, reservar una cita, enviar un correo.',
               'Contrato estructurado. El formato fijo con el que el modelo entrega lo que entendió, para que un código lo valide antes de actuar. En las propuestas lo verás como salida estructurada o function calling.',
               'Batería de pruebas. Casos reales, con su respuesta correcta escrita al lado, que todo cambio debe superar antes de publicarse. En inglés lo verás como evals.',
-              'Telemetría. Las mediciones que el propio sistema publica sobre cómo está funcionando. Bien diseñada, solo recoge campos aprobados de antemano, para que no viajen datos personales.',
+              'Telemetría. Las mediciones que el propio sistema publica sobre cómo está funcionando. Bien diseñada, solo recoge los campos que se han aprobado, para que no viajen datos personales.',
               'RPA. Automatización que imita clics y teclas sobre las pantallas de siempre. Funciona muy bien mientras nada cambie y se rompe cuando la pantalla cambia. Un agente ataca el mismo problema entendiendo el contenido, así que en muchas empresas conviven, cada uno en lo suyo.',
               'Alucinación. Respuesta falsa con apariencia impecable. Se combate con arquitectura, no con ruegos al modelo.',
               'Identidad del usuario. La credencial que viaja con cada acción, para que el agente actúe con los permisos de esa persona y no con los de una cuenta que lo puede todo.',
@@ -2156,7 +2156,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Cuánto se tarda en poner uno en producción?',
-            a: 'Depende del alcance. Desconfía de quien te dé un plazo sin haber visto tus sistemas. Lo que sí es constante es la forma, un primer proceso acotado que entra en producción y se mide, con crecimiento desde ahí. Los proyectos que empiezan por la plataforma total y dejan la medición para el final engordan la estadística de cancelaciones.',
+            a: 'Depende del alcance. Desconfía de quien te dé un plazo sin haber visto tus sistemas. Lo que sí es constante es la forma, un primer proceso acotado que entra en producción y se mide, con crecimiento desde ahí. Los proyectos que empiezan por la plataforma total y dejan la medición para el final inflan la estadística de cancelaciones.',
           },
           {
             q: '¿Los datos de mi empresa se usan para entrenar modelos?',
@@ -2271,7 +2271,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Las garantías',
             paragraphs: [
               'Un agente en producción necesita un responsable en tu equipo que responda por él. La persona que hoy lee cada solicitud entera pasa a revisar la bandeja de dudas, donde cada caso llega con los datos extraídos y el motivo de la duda señalado. Decide de un vistazo lo que antes le llevaba un rato.',
-              '<strong>Lo que el agente no resuelve solo no desaparece, se entrega.</strong> Antes de arrancar queda pactado qué casos escala, a qué bandeja llegan y quién los atiende.',
+              '<strong>Lo que el agente no resuelve solo no desaparece, se entrega.</strong> Antes de arrancar queda acordado qué casos escala, a qué bandeja llegan y quién los atiende.',
             ],
           },
           {
@@ -2282,7 +2282,7 @@ export const content: Record<Lang, SiteContent> = {
               '¿Cómo se encuentra un problema así?',
               'La primera fase se hace con quien sufre el proceso, no solo con quien compra la tecnología. Mapeamos el proceso paso a paso con sus actores, sus sistemas y sus tiempos. Después separamos los problemas que duelen hoy, los que ya cuestan horas o clientes, de los cuellos de botella que aguantarán solo hasta que el volumen crezca.',
               'Cada candidato se traduce a su ganancia esperada partiendo de una línea base medida, cuánto cuesta hoy en horas, en errores o en espera.',
-              'De esa lista, la mayoría se descarta. Con lo que sobrevive no arrancamos un despliegue grande sino un piloto acotado: una parte del problema, un grupo reducido de usuarios y una métrica pactada de antemano. Estrecho y profundo antes que ancho y superficial, porque un piloto barato que falla es información y un despliegue caro que falla es un agujero.',
+              'De esa lista, la mayoría se descarta. Con lo que sobrevive no arrancamos un despliegue grande sino un piloto pequeño: una parte del problema, un grupo reducido de usuarios y una métrica acordada antes de empezar. Estrecho y profundo antes que ancho y superficial, porque un piloto barato que falla es información y un despliegue caro que falla es un agujero.',
             ],
           },
           {
@@ -2302,7 +2302,7 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>Decírtelo es parte de nuestro servicio en Ideasforge.</strong> Si las reglas de tu proceso son claras y estables, una automatización a medida lo resuelve más barato, más rápido y sin la vigilancia que exige un modelo. Eso también lo construimos nosotros. Un agente compensa cuando en medio del proceso hay que leer, interpretar o decidir sobre entradas que cambian, un correo redactado de cualquier manera, un documento escaneado torcido, una pregunta con tres formas de entenderse.',
               'Dos pruebas rápidas lo destapan. Si el proceso se deja escribir como una lista de comprobación, llega el archivo, se vuelca, se confirma, siempre con el mismo formato, lo tuyo son reglas y te sobra el modelo. Y si llevas meses apilando condiciones para cada manera nueva en que la gente escribe una dirección, el problema ya no es de reglas, es de lectura. Ahí empieza el terreno del agente.',
               'Tampoco compensa cuando nadie puede señalar la ganancia con el dedo, ni cuando los datos que el agente necesita no existen o el equipo que debería usarlo no quiere. En esos casos lo sensato es empezar por ordenar los datos o por el proceso, no por el agente.',
-              'El mercado está pagando cara esa lección. Gartner calcula que antes de que acabe 2027 se habrá cancelado más del 40 % de los proyectos de IA agéntica. Nuestra manera de no engrosar esa cifra es descartar pronto y con números.',
+              'El mercado está pagando cara esa lección. Gartner calcula que antes de que acabe 2027 se habrá cancelado más del 40 % de los proyectos de IA agéntica. Nuestra manera de no sumarnos a esa cifra es descartar pronto y con números.',
               'Descartar el agente no es quedarse sin nada. Un proceso de reglas claras se automatiza igual y sale más barato de construir y de operar. Esa es la otra mitad de lo que hacemos.',
             ],
             link: {
@@ -2323,7 +2323,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué cuesta',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Un agente a medida se mueve entre 2.500 y 10.000 € de construcción, según integraciones y exigencia de validación, más entre 150 y 500 € al mes de operación, que cubre la vigilancia y el mantenimiento del sistema. El modelo y la infraestructura van en cuentas a nombre de tu empresa, así que esas facturas son tuyas y no entran en la cuota. <strong>La cuota se pacta antes de arrancar y los consumos se vigilan con límites, no es un contador abierto que descubres a fin de mes.</strong>',
+              'Un agente a medida se mueve entre 2.500 y 10.000 € de construcción, según integraciones y exigencia de validación, más entre 150 y 500 € al mes de operación, que cubre la vigilancia y el mantenimiento del sistema. El modelo y la infraestructura van en cuentas a nombre de tu empresa, así que esas facturas son tuyas y no entran en la cuota. <strong>La cuota se acuerda antes de arrancar y los consumos se vigilan con límites, no es un contador abierto que descubres a fin de mes.</strong>',
               'Los sistemas con orquestador y varios agentes se presupuestan por proyecto. El desglose entero, qué encarece la construcción y a qué se va la cuota, está en la guía de coste.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
@@ -2357,7 +2357,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Qué pasa si el proveedor del modelo sube el precio o lo retira?',
-            a: 'El modelo va detrás de una capa de abstracción, así que cambiarlo es un cambio acotado que pasa la batería de pruebas antes de salir. A veces obliga además a tocar el sistema, porque modelos distintos se comportan distinto. Lo hemos probado. Descartamos un modelo más barato porque las pruebas mostraron que perdía diez puntos de acierto.',
+            a: 'El modelo va detrás de una capa de abstracción, así que cambiarlo es un cambio controlado que pasa la batería de pruebas antes de salir. A veces obliga además a tocar el sistema, porque modelos distintos se comportan distinto. Lo hemos probado. Descartamos un modelo más barato porque las pruebas mostraron que perdía diez puntos de acierto.',
           },
           {
             q: '¿Qué pasa si concluís que nuestro caso no compensa?',
@@ -2430,7 +2430,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo lo construimos',
             paragraphs: [
               'Nuestros flujos son una cadena de pasos que siempre corre igual, con paradas de modelo donde hace falta interpretar. <strong>El código mueve los datos, llama a cada sistema y decide el orden.</strong> El modelo entra solo en esas paradas: leer un documento, entender una petición, clasificar un caso. Y devuelve un resultado con estructura fija que el código puede comprobar.',
-              '¿Por qué no dejar que el modelo lleve el flujo entero? Cada llamada a un modelo en producción cuesta dinero, tarda y puede variar, así que cuantas menos llamadas y más acotadas, más barato de operar y más estable es el flujo.',
+              '¿Por qué no dejar que el modelo lleve el flujo entero? Cada llamada a un modelo en producción cuesta dinero, tarda y puede variar, así que cuantas menos llamadas y más concretas, más barato de operar y más estable es el flujo.',
               'No lo decimos solo nosotros. Anthropic, uno de los grandes laboratorios de modelos, aconseja en <a class="link-inline" href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener noreferrer" target="_blank">Building effective agents</a> empezar con flujos que orquesta el código y guardar la autonomía del agente para los pocos casos que la justifican.',
             ],
           },
@@ -2456,7 +2456,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'La automatización con IA falla cuando se deja al modelo sin vigilancia. Por eso el paso de validación no es opcional ni se deja para el final: cada resultado del modelo se comprueba antes de tocar tus sistemas, con las reglas del paso de validación que acabas de ver y con las que cada proceso añada.',
               'Lo que pasa la validación fluye solo. Lo que no la pasa no se descarta ni se inventa, va a una persona con el caso preparado.',
-              '<strong>Validar al final, cuando el dato ya se registró, convierte cada error en una corrección contable. Validar en el medio lo convierte en un caso escalado, que es más barato y deja menos cicatriz.</strong> Ese reparto concentra la revisión humana donde hace falta criterio y la retira de donde solo hacía falta paciencia.',
+              '<strong>Validar al final, cuando el dato ya se registró, convierte cada error en una corrección contable. Validar en el medio lo convierte en un caso escalado, que es más barato y hace menos daño.</strong> Ese reparto concentra la revisión humana donde hace falta criterio y la retira de donde solo hacía falta paciencia.',
               'El objetivo no es un sistema que jamás pregunte, es uno que pregunte poco y siempre con motivo. Y que tenga medido cuánto resuelve por su cuenta, para que la palabra «automatizado» venga con un número detrás.',
             ],
           },
@@ -2481,7 +2481,7 @@ export const content: Record<Lang, SiteContent> = {
               'Cuando un error real se cuela, el circuito es siempre el mismo: se reproduce la ejecución, se corrige y el caso entra a la batería de pruebas para no volver a colarse callado. Un flujo nuestro envejece aprendiendo de sus propios sustos.',
               'Y si un día falta un dato o una fuente está caída, en las consultas a datos el sistema responde con lo que tiene y dice qué se ha quedado fuera, en lugar de devolver una cifra incompleta que parece completa. En un flujo de documentos es al revés, lo que no cuadra no se registra a medias, escala.',
               'Esa claridad de máquina es la diferencia entre un número que puedes llevar a una reunión con tus socios para defender el proyecto y uno que te deja en evidencia.',
-              'La operación mensual se lee en tres números: cuánto resolvió el flujo por su cuenta, cuánto escaló con sus motivos y qué costó cada ejecución. Con esos tres se decide dónde afinar, qué regla nueva añadir y si la ampliación siguiente compensa.',
+              'La operación mensual se lee en tres números: cuánto resolvió el flujo por su cuenta, cuánto escaló con sus motivos y qué costó cada ejecución. Con esos tres se decide dónde ajustar, qué regla nueva añadir y si la ampliación siguiente compensa.',
               '<strong>Sin esos tres números, «funciona bien» es una opinión.</strong> Cada flujo hereda además las alarmas de la casa, así que si un servicio externo se cae o una cuota se agota, lo sabemos nosotros antes de que lo sufra tu equipo.',
             ],
           },
@@ -2499,7 +2499,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo lo construimos',
             paragraphs: [
               'Un flujo de estos lee facturas de tus inquilinos, solicitudes con la documentación de un candidato o consultas con nombres y apellidos dentro. Eso es tratamiento de datos personales. A veces incluso de los que el reglamento europeo protege de forma reforzada, como los de salud.',
-              'El reparto legal conviene decirlo claro y de entrada. <strong>Tu empresa es la responsable del tratamiento y nosotros el encargado.</strong> Lo que entregamos es lo que exige el artículo 28 del reglamento, un contrato de encargo con sus finalidades, sus plazos y sus obligaciones. Y lo que pide el artículo 32, medidas técnicas escritas y comprobables en vez de una declaración de intenciones.',
+              'Primero, el reparto legal. <strong>Tu empresa es la responsable del tratamiento y nosotros el encargado.</strong> Lo que entregamos es lo que exige el artículo 28 del reglamento, un contrato de encargo con sus finalidades, sus plazos y sus obligaciones. Y lo que pide el artículo 32, medidas técnicas escritas y comprobables en vez de una declaración de intenciones.',
               'En la práctica eso significa infraestructura montada en una cuenta en la nube, a tu nombre, cada acción viajando con los permisos de quien la pide, los datos sensibles cifrados, los plazos de conservación pactados por escrito y las llamadas al modelo bajo acuerdos que excluyen entrenar con tu contenido. Es la misma disciplina que aplicamos donde más procede, en un sistema que trata datos de salud a diario.',
             ],
           },
@@ -2516,7 +2516,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               '<strong>No hace falta un plan de transformación para empezar, hace falta elegir bien un proceso.</strong> El bueno suele cumplir tres condiciones: duele de forma medible, se repite con volumen y tiene a alguien que lo sufre y quiere quitárselo de encima.',
               'Con ese proceso delante, lo mapeamos paso a paso con quien lo ejecuta cada día, qué llega, quién lo toca, por qué sistemas pasa y dónde se atasca. Después medimos lo que cuesta hoy. Ese punto de partida medido es lo que luego permite decir cuánto mejoró, con números y no con sensaciones.',
-              '¿Cuánto hay que construir antes de saber si funciona? Se arranca con un piloto que cubre solo una parte del volumen, con la cifra que debería moverse pactada de antemano. A veces incluso lo validamos en modo mixto, una persona apoyada por la herramienta a medio construir, porque confirma la ganancia antes de construir el resto.',
+              '¿Cuánto hay que construir antes de saber si funciona? Se arranca con un piloto que cubre solo una parte del volumen, con la cifra que debería moverse acordada antes de empezar. A veces incluso lo validamos en modo mixto, una persona apoyada por la herramienta a medio construir, porque confirma la ganancia antes de construir el resto.',
               'El mapeo, además, cambia decisiones antes de escribir una línea de código. Con la automatización para la agencia de alquiler aprendimos que el tiempo no se iba en contestar mensajes sino en comprobar a cada interesado, así que el flujo se diseñó alrededor de esa comprobación y no del buzón. Sin ese mapa habríamos automatizado la parte equivocada del proceso.',
               'Si el piloto cumple, se amplía por fases. Si no cumple, se ha perdido poco y se ha aprendido dónde estaba el error.',
             ],
@@ -2526,7 +2526,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Decidir con criterio',
             paragraphs: [
               'Hay pasos que dejamos con confirmación humana a propósito: los que mueven dinero de verdad, los irreversibles y los que deciden sobre personas. <strong>El flujo prepara el caso, la persona aprieta el botón.</strong> No es una limitación técnica sino una elección de diseño, porque un error barato de corregir puede automatizarse y uno caro no debe.',
-              'Tampoco automatizamos procesos sin volumen, porque un flujo que corre tres veces al mes no paga su mantenimiento, ni procesos que conviene rediseñar antes que acelerar. Si tu caso está en alguno de esos grupos, te lo decimos antes de arrancar y te ahorras el proyecto entero.',
+              'Tampoco automatizamos procesos sin volumen, porque un flujo que corre tres veces al mes no paga su mantenimiento, ni procesos que hay que rediseñar antes de acelerarlos. Si tu caso está en alguno de esos grupos, te lo decimos antes de arrancar y te ahorras el proyecto entero.',
             ],
           },
           {
@@ -2567,7 +2567,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Funciona con escaneos malos o fotos de móvil?',
-            a: 'Los legibles pasan y los dudosos escalan a una persona con la imagen al lado, en vez de registrarse a medias. Qué porcentaje cae de cada lado no te lo prometemos de antemano, se mide en tu piloto con tus documentos reales.',
+            a: 'Los legibles pasan y los dudosos escalan a una persona con la imagen al lado, en vez de registrarse a medias. Qué porcentaje cae de cada lado no te lo prometemos por adelantado, se mide en tu piloto con tus documentos reales.',
           },
           {
             q: '¿El flujo solo lee o también escribe en nuestros sistemas?',
@@ -2624,7 +2624,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'El encargo',
             paragraphs: [
               'Casi todo el mundo ha sufrido uno: el bot que da vueltas en su guion, no entiende la segunda pregunta y esconde el camino hacia una persona. Y cuando por fin llega la persona, hay que contárselo todo otra vez.',
-              'Esa experiencia tuvo dos causas y conviene separarlas. La primera es tecnológica y está resuelta, aquellos menús se rompían en cuanto alguien escribía como escriben las personas. La segunda sigue viva y es una manera de medir. A muchos bots se les pide que retengan el mayor número de conversaciones sin pasarlas al equipo humano, en lugar de que resuelvan el mayor número posible.',
+              'Esa experiencia tuvo dos causas distintas. La primera es tecnológica y está resuelta, aquellos menús se rompían en cuanto alguien escribía como escriben las personas. La segunda sigue viva y es una manera de medir. A muchos bots se les pide que retengan el mayor número de conversaciones sin pasarlas al equipo humano, en lugar de que resuelvan el mayor número posible.',
               'Nosotros medimos otra cosa. <strong>Una conversación cuenta cuando la tarea quedó hecha o cuando llegó a la persona adecuada con todo el contexto.</strong> Por eso la salida a persona nunca se esconde y el traspaso lleva el historial completo, para que nadie repita lo que ya escribió.',
               'Un cliente que pidió hablar con alguien y lo consiguió rápido vuelve. Uno que peleó diez minutos contra un guion no vuelve. Y tampoco te recomienda.',
             ],
@@ -2642,7 +2642,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'El encargo',
             paragraphs: [
               'El error clásico del sector es el bot que sabe de todo y no cierra nada. <strong>Nosotros preferimos el contrario, un agente que hace pocas gestiones y las termina, con cada categoría medida por separado.</strong> Si el ochenta por ciento de tus conversaciones son tres trámites, el agente que hace esos tres de principio a fin vale más que el que responde regular a cien preguntas.',
-              '¿Significa eso que responde a poco? Conviene separar dos cosas que se confunden. Las acciones que el agente ejecuta son pocas y cerradas. Las preguntas que responde apoyándose en tu documentación pueden ser muchas. Las dos se miden por separado, pero no se amplían igual.',
+              '¿Significa eso que responde a poco? No, porque aquí se mezclan dos cosas. Las acciones que el agente ejecuta son pocas y cerradas. Las preguntas que responde apoyándose en tu documentación pueden ser muchas. Las dos se miden por separado, pero no se amplían igual.',
               'En la práctica cada gestión es una categoría con nombre, sus casos de prueba y su número. «Cambiar una cita» se mide por separado, así que si su acierto baja se ve en su propia fila y no escondido en un promedio general. Las categorías se amplían cuando los números lo piden, no cuando la demo lo sugiere.',
             ],
           },
@@ -2708,14 +2708,14 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
               '<strong>Los sistemas conversacionales se degradan en silencio.</strong> Una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Por eso fijamos la versión del modelo, de modo que actualizarla es una decisión nuestra y no una sorpresa del proveedor. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
-              'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría afinar y cuál añadir. Cómo se leen esos números en un sistema propio, con sus fallos y lo que costó corregirlos, está en <a class="link-inline" href="/casos/wazzy">la página de Wazzy</a>.',
+              'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría mejorar y cuál añadir. Cómo se leen esos números en un sistema propio, con sus fallos y lo que costó corregirlos, está en <a class="link-inline" href="/casos/wazzy">la página de Wazzy</a>.',
             ],
           },
           {
             heading: 'Cómo se arranca',
             part: 'Decidir con criterio',
             paragraphs: [
-              '<strong>Un agente conversacional no se lanza al mundo entero el primer día.</strong> Se estrena acotado, lo que llamamos el piloto, en un canal, en un horario o en un grupo de clientes, con sus categorías medidas desde la primera conversación. Los textos delicados salen aprobados por ti antes de que nadie los lea y tu equipo sabe cómo llega un escalado y qué hacer con él.',
+              '<strong>Un agente conversacional no se lanza al mundo entero el primer día.</strong> Se estrena en pequeño, lo que llamamos el piloto, en un canal, en un horario o en un grupo de clientes, con sus categorías medidas desde la primera conversación. Los textos delicados salen aprobados por ti antes de que nadie los lea y tu equipo sabe cómo llega un escalado y qué hacer con él.',
               'A las pocas semanas podemos valorar si el piloto está listo para ampliarse: qué se termina dentro de la conversación, qué escala con qué motivos y qué pregunta la gente que no habíamos previsto. Con eso se decide la ampliación, categoría a categoría. Es la manera de crecer sin ampliar nada que no se haya probado antes.',
             ],
           },
@@ -2810,7 +2810,7 @@ export const content: Record<Lang, SiteContent> = {
               headers: ['Qué necesitas', 'Construcción', 'Operación al mes'],
               rows: [
                 [
-                  'Un agente de un solo trabajo: un canal, un sistema al que conectarse y una tarea acotada',
+                  'Un agente de un solo trabajo: un canal, un sistema al que conectarse y una tarea concreta',
                   'desde 2.500 €',
                   'en torno a 150 €',
                 ],
@@ -2827,7 +2827,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'La tercera cifra, la que no está en la tabla',
             id: 'tercera-cifra',
             paragraphs: [
-              '<strong>El modelo que usa el agente y la nube donde corre van en cuentas a nombre de tu empresa</strong>, así que sus facturas son tuyas y no están dentro de la cuota mensual. Conviene tener esa tercera cifra clara desde el principio, porque es la que sube o baja con el uso.',
+              '<strong>El modelo que usa el agente y la nube donde corre van en cuentas a nombre de tu empresa</strong>, así que sus facturas son tuyas y no están dentro de la cuota mensual. Ten esa tercera cifra clara desde el principio, porque es la que sube o baja con el uso.',
             ],
           },
           {
@@ -2845,7 +2845,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'La cuenta de si compensa',
             id: 'retorno',
             paragraphs: [
-              'Antes de pedir presupuesto conviene hacer una cuenta que solo necesita dos números tuyos: cuántos minutos cuesta hoy la operación que quieres quitarte de encima y cuántas veces se repite al mes.',
+              'Antes de pedir presupuesto, haz una cuenta que solo necesita dos números tuyos: cuántos minutos cuesta hoy la operación que quieres quitarte de encima y cuántas veces se repite al mes.',
               'Así se ve en dos de nuestros sistemas. En una gestora inmobiliaria, cada factura de suministros costaba un minuto de teclado y hoy el 98 % pasa sin que nadie la toque. En una agencia de alquiler, cada consulta de WhatsApp llevaba entre cinco y diez minutos de comprobación manual y el equipo recupera más de tres horas al día.',
               'Multiplica tus dos números y tendrás las horas que ese trabajo se come cada mes. Puestas al lado de la fila de la tabla que te toca, la cuenta sale o no sale. <strong>Si no sale, esa también es una respuesta</strong>, porque hay procesos que no pagan su automatización y saberlo antes de construir cuesta una multiplicación.',
             ],
@@ -2858,7 +2858,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Los dos gastos de un agente en marcha',
             id: 'operacion',
             paragraphs: [
-              '<strong>Tener un agente funcionando genera dos gastos distintos y conviene no mezclarlos.</strong> Uno es lo que el sistema consume para funcionar, el modelo y la infraestructura, que va en cuentas a nombre de tu empresa. El otro es nuestra cuota, que paga el trabajo de vigilarlo.',
+              '<strong>Tener un agente funcionando genera dos gastos distintos que no hay que mezclar.</strong> Uno es lo que el sistema consume para funcionar, el modelo y la infraestructura, que va en cuentas a nombre de tu empresa. El otro es nuestra cuota, que paga el trabajo de vigilarlo.',
               'Cada mensaje que entra dispara llamadas al proveedor del modelo. Ese es el coste bruto de tener el agente en marcha, lo paga tu empresa y sube o baja con el uso, así que no lo escondemos dentro de nuestra cuota. La infraestructura funciona igual. La cuenta en la nube está a tu nombre, así que su factura también.',
               'Que vaya aparte tiene una consecuencia buena para ti. Lo ves, así que puedes bajarlo. <strong>Conocer el reparto del gasto es lo que permite recortarlo midiendo, en lugar de a ciegas.</strong> En Wazzy lo medimos por capas: leer y estructurar el mensaje que entra se lleva entre el 52 y el 57 % del gasto de modelo, decidir qué hacer a continuación entre el 24 y el 31 % y escribir la respuesta entre el 16 y el 19 %.',
               'Con ese mapa delante se decide con datos. En uno de nuestros sistemas probamos un modelo más barato y la batería de pruebas lo descartó, porque la calidad general bajaba diez puntos. El ahorro era real. No compensaba.',
@@ -2973,7 +2973,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               '<strong>La infraestructura corre en una cuenta en la nube que es tuya, no nuestra.</strong> El repositorio está a tu nombre desde el primer día. No alojamos tu asistente de nuestro lado para darte luego un usuario. Es poco habitual en el sector y es a propósito, porque quita de golpe toda una familia de preguntas que tu DPD tendría que ir persiguiendo.',
               'No hay una base de datos nuestra con una copia de tus registros ni una negociación de salida si dejamos de trabajar juntos. El sistema se queda donde siempre estuvo, con su documentación y su historia.',
-              'Y hay algo más que conviene decir, porque casi ningún proveedor lo dice de sí mismo. <strong>Nosotros también somos encargados del tratamiento.</strong> Operamos el sistema, así que accedemos a datos personales, lo que significa que hace falta un contrato de encargo con nosotros igual que con cualquier otro proveedor de la cadena.',
+              'Y hay algo que casi ningún proveedor dice de sí mismo. <strong>Nosotros también somos encargados del tratamiento.</strong> Operamos el sistema, así que accedemos a datos personales, lo que significa que hace falta un contrato de encargo con nosotros igual que con cualquier otro proveedor de la cadena.',
               'De la cuenta salen dos caminos y los dos hay que tenerlos dibujados. El primero es la llamada al proveedor del modelo, la empresa que ejecuta el modelo de lenguaje. Tú apruebas qué proveedor, bajo qué contrato y con qué configuración. Apruebas qué puede viajar dentro de esas llamadas. El segundo aparece cuando el asistente vive en un canal de mensajería.',
               'Si la conversación entra por WhatsApp o por Telegram, ese canal recibe el contenido íntegro y es un tercero más de la cadena, con su propio contrato y su propia valoración de transferencias. Un asistente web o interno no tiene esa segunda salida. Los proveedores de modelos firman contratos de encargo del tratamiento, que obligan a un proveedor a tratar datos solo según tus instrucciones.',
               'Los serios ofrecen regiones de procesamiento europeas. Si una configuración concreta satisface las reglas de transferencias internacionales es una valoración de tus abogados. Lo nuestro es entregarles el dibujo completo de qué va a dónde, para que esa valoración lleve días en vez de meses.',
@@ -3013,8 +3013,8 @@ export const content: Record<Lang, SiteContent> = {
             id: 'soberania',
             part: 'Dónde van tus datos',
             paragraphs: [
-              'La soberanía del dato se usa como palabra de marketing, así que conviene concretarla. Significa que la ubicación de tus datos, las claves que los abren y el sistema de identidad que dice quién es quién responden ante ti. La jurisdicción es otra cosa y esto no la resuelve. Una cuenta propia dentro de una nube estadounidense sigue teniendo detrás a una empresa estadounidense, con las leyes de su país.',
-              'Por eso la palabra soberanía se usa con más alegría de la que aguanta. La ubicación sola no te lleva ahí. Un sistema cuyos datos están en Frankfurt pero cuyas claves de acceso, cuentas de administración y registros pertenecen a un proveedor es soberano en el folleto y en ningún otro sitio.',
+              'La soberanía del dato se usa como palabra de marketing, así que vamos a lo concreto. Significa que la ubicación de tus datos, las claves que los abren y el sistema de identidad que dice quién es quién responden ante ti. La jurisdicción es otra cosa y esto no la resuelve. Una cuenta propia dentro de una nube estadounidense sigue teniendo detrás a una empresa estadounidense, con las leyes de su país.',
+              'Por eso la palabra soberanía se usa con más alegría de la que aguanta. La ubicación sola no te lleva ahí. Un sistema con los datos en Frankfurt pero con las claves de acceso, las cuentas de administración y los registros en manos de un proveedor es soberano en el folleto y en ningún otro sitio.',
               '¿Entonces es soberano o no lo es? No es una pregunta de sí o no. Hay un abanico y contarlo entero vale más que un eslogan.',
               'En un extremo está el software compartido, donde tus datos viven dentro del producto de otro bajo sus condiciones. Después viene correr en una región europea de una nube grande, luego una cuenta propia dentro de esa nube y por último tus propios servidores en tu propio edificio. Cada escalón compra control y cuesta comodidad.',
               'Nosotros construimos por defecto en el tercero, tu propia cuenta en la nube, porque da el control que importa, la propiedad del dato y el control de las claves y de la identidad, sin pedirle a tu equipo que administre máquinas físicas.',
@@ -3059,7 +3059,7 @@ export const content: Record<Lang, SiteContent> = {
             diagram: true,
             paragraphs: [
               'Nuestros sistemas comparten una regla de diseño. <strong>El juicio vive en el código, la interpretación del lenguaje vive en el modelo y el conocimiento vive en los datos.</strong>',
-              'El modelo lee la pregunta de una persona y entrega un formulario estructurado, un contrato en formato fijo cuyos campos definimos de antemano. El código valida ese formulario, comprueba los permisos de quien pregunta y decide qué ocurre de verdad.',
+              'El modelo lee la pregunta de una persona y entrega un formulario estructurado, un contrato en formato fijo con los campos que definimos nosotros. El código valida ese formulario, comprueba los permisos de quien pregunta y decide qué ocurre de verdad.',
               'Las consultas que tocan tus datos las construye el código a partir del formulario validado, con los valores pasados como parámetros y los nombres de columna sacados de una lista cerrada, nunca ensamblados con texto que escribió el modelo.',
               'Donde los registros importan más damos un paso adicional. En uno de nuestros asistentes el modelo ni siquiera devuelve el texto que acaba delante del usuario. Devuelve una clave, un identificador. El código busca el texto aprobado al que esa clave apunta. Lo que la persona lee es con seguridad lo que se aprobó, palabra por palabra, sin importar lo que el modelo generase alrededor.',
               'La identidad sigue la misma regla. Cuando un asistente consulta un sistema interno en nombre de alguien, lleva la credencial de esa persona, la misma que tus sistemas ya usan para saber quién pregunta. Cada llamada posterior corre con los permisos del humano, no con los permisos amplios de una cuenta de robot. Si la persona no puede abrir un registro a mano, el asistente no puede abrírselo.',
@@ -3076,14 +3076,14 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo se ve en la práctica',
             paragraphs: [
               'Wazzy, nuestro propio producto de citas, funciona en clínicas dentales, de fisioterapia y de estética. Una nota de cita que dice quién visita qué clínica y por qué es un dato de salud, que el RGPD mete en las categorías especiales de su artículo 9, sin jerarquía entre ellas y con los datos penales del artículo 10 todavía más restringidos.',
-              'Quien trata esos datos al amparo del artículo 9.2.h, el que cubre la prestación de asistencia sanitaria, es la clínica, que es la responsable. Nosotros tratamos por cuenta suya, como encargados.',
+              'Quien trata esos datos es la clínica, que es la responsable. Se apoya en el artículo 9.2.h, el que cubre la prestación de asistencia sanitaria. Nosotros tratamos por cuenta suya, como encargados.',
               'No elegimos la categoría más difícil para presumir. El producto la necesitaba. El resultado es que nuestras prácticas quedaron moldeadas por el caso más estricto desde el principio.',
               'Cada campo sensible va cifrado por su cuenta, con AES-256-GCM, en vez de confiar en que el disco esté cifrado por debajo. La diferencia importa en la práctica.',
               'El cifrado de disco te protege si alguien se lleva el hardware, mientras que el cifrado por campo protege el dato de quien toca la base de datos sin pasar por la aplicación, que es el caso de una copia robada o de quien la administra.',
               'La aplicación tiene la clave, así que quien la opera sí ve el dato. Por eso los permisos y los registros importan tanto como el cifrado.',
               '<strong>Y el borrado está diseñado alrededor de lo que la ley exige, no alrededor de lo que parezca razonable</strong>. Wazzy retiene lo que la ley obliga a retener, ni más ni menos. Ese plazo no lo fijamos nosotros.',
               'Lo fija la clínica, que es la responsable del tratamiento, con la ley de autonomía del paciente delante, la 41/2002, que marca un mínimo de cinco años para la historia clínica y más en algunas comunidades. Una cita en un chat no es la historia clínica, que vive en el sistema de la clínica, pero la lógica es la misma.',
-              'Una petición de supresión tiene que honrar al paciente sin incumplir en silencio una obligación legal de conservación, así que el sistema separa lo que se borra ahora de lo que se retiene por obligación y puede enseñar cuál es cuál.',
+              'Una petición de supresión tiene que respetar al paciente sin incumplir en silencio una obligación legal de conservación, así que el sistema separa lo que se borra ahora de lo que se retiene por obligación y puede enseñar cuál es cuál.',
               'Todo eso lo construimos porque no había alternativa. Es la razón de que esta página pueda hablar desde la experiencia y no desde una lista de comprobación. Y es el nivel que hereda el resto de nuestro trabajo con clientes.',
             ],
           },
@@ -3189,7 +3189,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Puede correr entero en nuestros propios servidores?',
-            a: 'Lo que construimos nosotros corre en tu infraestructura. El modelo es la parte que conviene decir con claridad. Llamamos a modelos como servicio a proveedores que tú apruebas. Correr un modelo abierto en tus máquinas es otro proyecto, con otros costes y otro equilibrio de calidad. Plantea el requisito antes de que se presupueste nada y te diremos con claridad lo que costaría.',
+            a: 'Lo que construimos nosotros corre en tu infraestructura. Con el modelo es distinto. Llamamos a modelos como servicio a proveedores que tú apruebas. Correr un modelo abierto en tus máquinas es otro proyecto, con otros costes y otro equilibrio de calidad. Plantea el requisito antes de que se presupueste nada y te diremos con claridad lo que costaría.',
           },
           {
             q: '¿Necesitamos una evaluación de impacto para un asistente de IA?',
@@ -3259,7 +3259,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'La respuesta corta',
             paragraphs: [
               'Esta página es para quien dentro de una empresa ha recibido la pregunta de si cumplís el reglamento europeo de IA y necesita dar una respuesta con estructura. Recorre la norma desde el punto de vista de quien la usa, que en el texto legal se llama responsable del despliegue.',
-              '<strong>La mayoría de las empresas no fabrican inteligencia artificial, la usan.</strong> Esa distinción decide casi todos tus deberes, así que conviene fijarla antes que ninguna otra cosa.',
+              '<strong>La mayoría de las empresas no fabrican inteligencia artificial, la usan.</strong> Esa distinción decide casi todos tus deberes, así que es lo primero que tienes que tener claro.',
               'La escriben ingenieros. Construimos agentes de IA que funcionan dentro de empresas sujetas a estas normas, así que somos los que respondemos el cuestionario de cumplimiento, no los que lo mandan. Y la escribimos desde España, donde la autoridad que vigila es la AESIA.',
               'Esto no es asesoramiento jurídico. No clasificamos tu riesgo. Las decisiones que necesitan un abogado van señaladas como tales a lo largo de toda la página.',
             ],
@@ -3308,7 +3308,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'El mapa de la ley',
             kind: 'checklist',
             paragraphs: [
-              'El reglamento entró en vigor en agosto de 2024 y se ha ido encendiendo por fases. <strong>Todas las fechas de abajo están en el pasado o ya tienen día fijado</strong>, que conviene dejar reposar, porque un número sorprendente de empresas sigue archivando el asunto entero en la carpeta de «más adelante».',
+              'El reglamento entró en vigor en agosto de 2024 y se ha ido encendiendo por fases. <strong>Todas las fechas de abajo están en el pasado o ya tienen día fijado</strong>. Aun así, un número sorprendente de empresas sigue archivando el asunto entero en la carpeta de «más adelante».',
             ],
             bullets: [
               'Desde el 2 de febrero de 2025. Las prácticas prohibidas pasaron a ser ilegales y el artículo 4 empezó a exigir alfabetización en materia de IA, es decir que quien trabaja con estos sistemas tenga formación proporcional a su puesto. Esto aplica a todo sistema de IA, sea de alto riesgo o no.',
@@ -3332,10 +3332,10 @@ export const content: Record<Lang, SiteContent> = {
             heading: '¿Es siquiera un sistema de IA a ojos del reglamento?',
             part: 'En qué casilla estás',
             paragraphs: [
-              'Los comités pierden tiempo de verdad en esta pregunta, así que conviene cerrarla pronto. La Comisión desglosa la definición de sistema de IA en siete elementos y <strong>el que carga con el peso es la inferencia</strong>: un sistema basado en una máquina, con cierta autonomía, que deduce de lo que recibe cómo generar resultados como predicciones, recomendaciones o decisiones.',
+              'Los comités pierden tiempo de verdad en esta pregunta, así que mejor cerrarla pronto. La Comisión desglosa la definición de sistema de IA en siete elementos y <strong>el que carga con el peso es la inferencia</strong>: un sistema basado en una máquina, con cierta autonomía, que deduce de lo que recibe cómo generar resultados como predicciones, recomendaciones o decisiones.',
               'La Comisión Europea publicó unas directrices sobre esta definición exacta en febrero de 2025, precisamente porque todas las empresas hacían la misma pregunta.',
               'La lectura práctica es más estrecha que el pánico. Una calculadora, una fórmula fija de hoja de cálculo o un motor de reglas que aplica siempre la misma lógica escrita no infiere y por lo general queda fuera. Un sistema que aprende patrones, ordena candidatos, puntúa riesgo o genera texto sí infiere y está dentro.',
-              'Los casos de frontera existen, pertenecen a tus abogados y el razonamiento conviene dejarlo por escrito caiga del lado que caiga. Para cualquier cosa construida sobre un modelo de lenguaje la pregunta se responde sola, porque un modelo infiere, es su trabajo entero.',
+              'Los casos de frontera existen, pertenecen a tus abogados y el razonamiento hay que dejarlo por escrito caiga del lado que caiga. Para cualquier cosa construida sobre un modelo de lenguaje la pregunta se responde sola, porque un modelo infiere, es su trabajo entero.',
             ],
           },
           {
@@ -3356,7 +3356,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Los papeles no son etiquetas permanentes. El reglamento sienta a quien despliega en la silla del proveedor cuando le pone su nombre o su marca a un sistema de alto riesgo, cuando lo modifica de forma sustancial o cuando cambia la finalidad prevista del sistema hacia terreno de alto riesgo.',
               '<strong>La tercera es la trampa silenciosa</strong>, porque «finalidad prevista» suena a lenguaje de marketing y es en realidad el concepto sobre el que descansa el reglamento entero.',
-              'Concretando. Una empresa que licencia un asistente documental general y lo convierte en una herramienta que criba candidaturas de empleo ha cambiado la finalidad hacia un dominio del anexo III y con ella, quizá, su propio papel. Una empresa que rebautiza el sistema de un fabricante como producto propio se ha metido en deberes de proveedor por la vía de la marca.',
+              'Concretando. Una empresa que licencia un asistente documental general y lo convierte en una herramienta que criba candidaturas de empleo ha cambiado la finalidad hacia un dominio del anexo III y con ella, quizá, su propio papel. Una empresa que vende con su nombre el sistema de un fabricante se ha metido en deberes de proveedor por la vía de la marca.',
               'Nada de esto prohíbe personalizar, le pone precio. Y ese precio es documentación y deberes que alguien tiene que aceptar a conciencia. Si una modificación concreta es «sustancial» es un juicio jurídico.',
               'Nuestra aportación es más estrecha y llega antes. Un sistema construido con una finalidad prevista escrita, un registro de qué cambió y unos registros de lo que el sistema hace de verdad le dan a tus abogados la materia prima para emitir ese juicio en una tarde en vez de en una auditoría. Un sistema montado de manera informal no les da nada. Un abogado prudente sin nada con lo que trabajar siempre te dará la respuesta cara.',
             ],
@@ -3416,7 +3416,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'El artículo 27 añade un deber más que no es para todos. <strong>Solo obliga a un grupo definido.</strong> Son los organismos públicos, las empresas privadas que prestan servicios públicos y quienes usan sistemas de alto riesgo para puntuación crediticia o para riesgo y precio en seguros de vida y salud.',
               'Esos tienen que hacer una evaluación de impacto sobre los derechos fundamentales antes del primer uso. Es lo que suena, una mirada estructurada a qué derechos podría tocar el sistema, quién queda expuesto y qué pasa cuando sale mal.',
-              'El reglamento permite apoyarse en trabajo ya hecho. Quien despliega puede basarse en una evaluación que hiciera el proveedor o en una evaluación de impacto existente que cubra el terreno, lo que en la práctica significa que el ejercicio se solapa mucho con la evaluación de impacto que tu delegado de protección de datos ya sabe hacer. La misma disciplina, con la lente más ancha.',
+              'El reglamento permite apoyarse en trabajo ya hecho. Quien despliega puede basarse en una evaluación que hiciera el proveedor o en una evaluación de impacto existente que cubra el terreno, lo que en la práctica significa que el ejercicio se solapa mucho con la evaluación de impacto que tu delegado de protección de datos ya sabe hacer. La misma disciplina, aplicada a más derechos.',
               'Nuestro papel ahí sigue siendo el mismo que en el resto de la página. La evaluación es tuya, la haces y la firmas tú. La descripción del sistema que necesita, qué hace, qué entra en él, quién lo supervisa y qué queda registrado, es el expediente que nuestros sistemas producen como efecto secundario de estar construidos así.',
             ],
           },
@@ -3503,12 +3503,12 @@ export const content: Record<Lang, SiteContent> = {
         faq: [
           {
             q: 'No estamos en la Unión Europea. ¿Nos alcanza el reglamento?',
-            a: 'Puede. El reglamento aplica por mercado y cubre a proveedores y responsables del despliegue de fuera de la Unión siempre que el sistema se ponga en el mercado europeo o su resultado se use en la Unión. Una empresa estadounidense cuya IA sirve a clientes europeos está dentro, tenga la sede donde la tenga. Si tu montaje concreto cruza esa línea es una pregunta para tus abogados, de las que se contestan rápido.',
+            a: 'Puede. El reglamento aplica por mercado y cubre a proveedores y responsables del despliegue de fuera de la Unión siempre que el sistema se ponga en el mercado europeo o su resultado se use en la Unión. Una empresa estadounidense con una IA que sirve a clientes europeos está dentro, tenga la sede donde la tenga. Si tu montaje concreto cruza esa línea es una pregunta para tus abogados, de las que se contestan rápido.',
           },
           {
             q: 'Solo usamos ChatGPT y la IA que viene dentro de Microsoft 365. ¿Somos proveedores?',
             a: [
-              'En el caso normal sois responsables del despliegue de esos sistemas. Los deberes de proveedor se quedan en las empresas que los construyen. El papel puede cambiar si rebautizáis un sistema como producto propio o lo modificáis de forma sustancial. Dónde está esa línea es una decisión jurídica.',
+              'En el caso normal sois responsables del despliegue de esos sistemas. Los deberes de proveedor se quedan en las empresas que los construyen. El papel puede cambiar si ponéis vuestro nombre a un sistema ajeno o lo modificáis de forma sustancial. Dónde está esa línea es una decisión jurídica.',
               'Lo que sí conserváis en cualquier caso son las costumbres del lado de quien despliega: formación para vuestra gente, claridad con las personas expuestas al resultado y saber cuáles de vuestros usos podrían tocar dominios del anexo III.',
             ],
           },
@@ -3562,7 +3562,7 @@ export const content: Record<Lang, SiteContent> = {
           eyebrow: 'Caso en producción',
           title: 'Savian: el dato estaba en un panel y quien lo necesitaba, en una furgoneta',
           subtitle:
-            'Savian es una empresa agrícola cuyos responsables necesitan datos de producción y de asistencia para decidir. Los datos estaban y había un panel para consultarlos, pero quien los necesita está en el campo o en una furgoneta, sin un ordenador delante. Hoy pregunta como le preguntaría a un compañero, por mensaje o por nota de voz. La respuesta llega en segundos. Esta página cuenta cómo está construido y las dos cosas que tuvimos que sacarle al modelo por el camino.',
+            'En Savian, una empresa agrícola, los responsables necesitan datos de producción y de asistencia para decidir. Los datos estaban y había un panel para consultarlos, pero quien los necesita está en el campo o en una furgoneta, sin un ordenador delante. Hoy pregunta como le preguntaría a un compañero, por mensaje o por nota de voz. La respuesta llega en segundos. Esta página cuenta cómo está construido y las dos cosas que tuvimos que sacarle al modelo por el camino.',
           cta: 'Empezar por el problema',
           ctaHref: '#problema',
         },
@@ -3573,7 +3573,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'El problema',
             paragraphs: [
               'Savian trabaja en el sector agrícola. Los dueños y los responsables de sus fincas de cultivo necesitan a diario datos de producción y de asistencia para tomar decisiones que no pueden esperar.',
-              'Conviene decir de entrada lo que no era el problema. Esos datos no estaban perdidos ni escondidos. Savian ya tenía un panel donde se consulta la misma información que hoy contesta el agente, montado y funcionando desde antes que él.',
+              'Empecemos por lo que no era el problema. Esos datos no estaban perdidos ni escondidos. Savian ya tenía un panel donde se consulta la misma información que hoy contesta el agente, montado y funcionando desde antes que él.',
               'El problema era de última milla, que es el que casi nunca se cuenta. <strong>Un panel es una herramienta de escritorio. Está pensada para alguien sentado</strong>, con la pantalla entera delante y tiempo para elegir filtros y leer una tabla.',
               '¿Y dónde está quien necesita el dato? No en esa silla. Está en una furgoneta a primera hora o en mitad de una finca, con el móvil en el bolsillo y las manos ocupadas. Y manejar un panel con soltura se aprende, que es un trabajo en sí mismo y no es el trabajo de quien está en el campo.',
               'Así que la consulta esperaba. Se miraba al llegar a la oficina, cuando ya había un ordenador delante y la jornada en el campo había terminado. Un dato que llega al final del día deja de servir para decidir. Sirve para explicar después lo que ya pasó.',
@@ -3585,7 +3585,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'La primera versión hacía lo que parece obvio cuando se tiene un modelo de lenguaje delante. Recibía la pregunta en castellano, escribía con ella una consulta SQL y la ejecutaba. SQL es el lenguaje con el que se le piden datos a una base de datos.',
               'Funcionaba. <strong>En una demostración funcionaba muy bien, que es precisamente el problema de dejarle escribir la consulta.</strong>',
-              '¿Por qué retirar algo que funciona? Por dos motivos distintos que conviene separar, porque uno se ve enseguida y el otro no.',
+              '¿Por qué retirar algo que funciona? Por dos motivos distintos, uno que se ve enseguida y otro que no.',
             ],
           },
           {
@@ -3613,7 +3613,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'El modelo propone, el código construye',
             part: 'Cómo funciona hoy',
             paragraphs: [
-              'Hoy el modelo no escribe ninguna consulta. Lee la pregunta y devuelve un formulario de campos fijos que definimos de antemano: el periodo, el ámbito, los filtros, la métrica y las agrupaciones. Nada más.',
+              'Hoy el modelo no escribe ninguna consulta. Lee la pregunta y devuelve un formulario de campos fijos que definimos nosotros: el periodo, el ámbito, los filtros, la métrica y las agrupaciones. Nada más.',
               'El código recibe ese formulario, comprueba que cada campo trae un valor permitido y construye él la consulta, con los valores pasados como parámetros y los nombres de columna sacados de una lista cerrada. <strong>Ningún identificador se arma con texto que haya escrito el modelo.</strong>',
               'Y de ahí sale la garantía. Un formulario de cinco campos conocidos se puede comprobar entero antes de ejecutar nada. Una consulta escrita en texto libre, no.',
             ],
@@ -3659,7 +3659,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué se mide cada semana',
             part: 'Lo que se vigila',
             paragraphs: [
-              'La medida más útil de este sistema compara dos cosas que deberían coincidir siempre: la herramienta que la conversación pedía usar y la que el modelo usó de verdad. <strong>Cuando la herramienta pedida y la usada no coinciden, casi siempre significa que respondió de memoria en lugar de consultar</strong>, que es el fallo que ningún error de sistema delata.',
+              'La medida más útil de este sistema compara dos cosas que deberían coincidir siempre: la herramienta que la conversación pedía usar y la que el modelo usó de verdad. <strong>Cuando la herramienta pedida y la usada no coinciden, casi siempre significa que respondió de memoria en lugar de consultar</strong>, que es un fallo que no salta en ningún error de sistema.',
               'Los huecos también se clasifican, uno a uno. Una pregunta que queda fuera de lo que el agente cubre, una que sí cubre pero para la que no hay datos y una que no ha entendido son tres problemas distintos, con tres arreglos distintos y tres dueños distintos. Contarlas juntas es no resolver ninguna.',
             ],
           },
@@ -3707,7 +3707,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Por dónde entra',
             paragraphs: [
               'El equipo reenvía las facturas a un chat de Telegram, que hace de buzón. No hay ninguna herramienta nueva que aprender, ni una pantalla más en la que entrar cada mañana.',
-              'La elección tiene una parte que conviene decir en voz alta. <strong>Telegram no es el canal al que la gente está acostumbrada.</strong> Esa es la razón por la que casi nadie lo usa para esto.',
+              'La elección tiene una pega que no escondemos. <strong>Telegram no es el canal al que la gente está acostumbrada.</strong> Esa es la razón por la que casi nadie lo usa para esto.',
               'Lo elegimos igualmente porque para este trabajo es el más factible de todos. Su interfaz de programación es sencilla y gratuita, así que el buzón se monta en horas en lugar de en semanas y no añade una cuota mensual al proyecto antes de que nadie haya demostrado que funciona.',
               'Y la parte que sí importa al equipo se cumple. Reenviar un documento a un chat es algo que cualquiera sabe hacer desde el móvil, esté donde esté.',
             ],
@@ -3719,7 +3719,7 @@ export const content: Record<Lang, SiteContent> = {
               'La primera versión leía cada factura, extraía los campos y los dejaba en la hoja de cálculo con la que el equipo ya trabajaba. Funcionaba. Ese no era el problema.',
               '¿Qué se nos escapó, entonces? Una suposición que no habíamos escrito en ninguna parte. Dábamos por hecho que una comercializadora emite siempre sus facturas igual.',
               'No es así. Una comercializadora rediseña su factura cuando le conviene, sin avisar a nadie y desde luego sin avisar a la gestora que las recibe. El día que eso pasa, el sistema sigue leyendo, sigue extrayendo y sigue escribiendo filas. <strong>Solo que algunas ya no dicen lo que parecen decir.</strong>',
-              'Ese es el fallo caro de esta clase de sistemas. No el que se rompe con estrépito, sino el que sigue funcionando y va llenando una hoja de cálculo de datos que nadie va a volver a comprobar.',
+              'Ese es el fallo caro de esta clase de sistemas. No el que se rompe a la vista, sino el que sigue funcionando y va llenando una hoja de cálculo de datos que nadie va a volver a comprobar.',
             ],
           },
           {
@@ -3758,7 +3758,7 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>El agente es quien decide qué flujo activar con lo que acaba de llegar.</strong> Es el mismo reparto de siempre, el modelo elige el camino y el código lo recorre, con la diferencia de que aquí el camino es un flujo entero en vez de una consulta.',
               'Empezaron por las facturas de suministros, que era el proceso que más horas se llevaba. Desde entonces el cliente ha ido ampliando la automatización a otros procesos administrativos.',
               'Ese es el patrón que recomendamos y el que vemos sobrevivir. El primer proceso paga el montaje, la conexión, el registro y las comprobaciones. Los siguientes lo reutilizan y se deciden con los números del que ya está funcionando.',
-              'Sobre cuánto tarda el primero, la respuesta honrada depende de lo que haya al empezar. Con los datos disponibles, los accesos concedidos y la tarea bien definida, un piloto en dos semanas es realista.',
+              'Sobre cuánto tarda el primero, la respuesta depende de lo que haya al empezar. Con los datos disponibles, los accesos concedidos y la tarea bien definida, un piloto en dos semanas es realista.',
             ],
             link: { label: 'Cómo trabajamos la automatización de procesos', href: '/servicios/automatizacion-de-procesos-con-ia' },
           },
@@ -3819,7 +3819,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo funciona hoy',
             paragraphs: [
               'El agente no rellena un formulario ni lo manda. Pregunta como preguntaría alguien del equipo, reuniendo a lo largo de la conversación lo que la agencia necesita saber: la solvencia, si hay mascotas, si se fuma en la vivienda y algunas cosas más que la agencia define.',
-              'Con esos datos se clasifica la solicitud como apta o no apta. Los criterios están fijados de antemano, así que la clasificación es siempre la misma para los mismos datos y no depende de con qué palabras se contestó.',
+              'Con esos datos se clasifica la solicitud como apta o no apta. Los criterios están fijados desde el principio, así que la clasificación es siempre la misma para los mismos datos y no depende de con qué palabras se contestó.',
               '¿Y dónde viven esos criterios? La respuesta es la parte que más suele sorprender. En una tabla de hoja de cálculo, en el Drive de la agencia, que ellos abren y editan cuando quieren. Si mañana cambian de idea sobre un requisito, lo cambian ahí.',
               'No hay que avisarnos, no hay que esperar a una publicación nuestra y no hay ningún sitio del sistema donde ese criterio esté escrito por duplicado. <strong>Quien pone las reglas es quien responde de ellas. Por eso viven donde esa persona puede llegar.</strong>',
             ],
@@ -3841,7 +3841,7 @@ export const content: Record<Lang, SiteContent> = {
               'El resumen llega por correo, que a primera vista parece la opción perezosa cuando la agencia tiene un CRM. La razón es más aburrida y más común de lo que parece.',
               'El CRM de la agencia deja consultar sus datos desde fuera, pero no deja escribir en él. Tiene puntos de consulta y no una interfaz completa, así que ningún sistema externo puede dejarle nada dentro.',
               'Se puede pelear con eso o se puede aceptar. Nosotros construimos para lo que hay, así que el veredicto sale por el canal que sí funciona y llega igual de rápido a la persona que tiene que decidir.',
-              'Es el tipo de detalle que no aparece en una demostración y decide el diseño entero. <strong>Antes de prometerle a nadie que el resultado aterriza en su sistema conviene mirar si su sistema deja que aterrice algo.</strong>',
+              'Es el tipo de detalle que no aparece en una demostración y decide el diseño entero. <strong>Antes de prometerle a nadie que el resultado aterriza en su sistema hay que mirar si su sistema deja que aterrice algo.</strong>',
             ],
           },
           {
@@ -3979,7 +3979,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Una cita en una clínica es un dato de salud',
             part: 'Datos de salud',
             paragraphs: [
-              'Eso cambia las reglas antes de escribir una línea. El reglamento europeo aparta los datos de salud en su artículo 9, entre las categorías que no se pueden tratar sin un motivo tasado. El que ampara a una clínica es el 9.2.h, el de la asistencia sanitaria.',
+              'Eso cambia las reglas antes de escribir una línea. El reglamento europeo aparta los datos de salud en su artículo 9, entre las categorías que no se pueden tratar sin un motivo tasado. El que cubre a una clínica es el 9.2.h, el de la asistencia sanitaria.',
               '<strong>Sí guardamos datos personales.</strong> Decir lo contrario sería más cómodo y sería falso. Lo que hacemos es guardarlos cifrados campo a campo en vez de cifrar el almacén entero de una pieza, de modo que lo que se descifra es el dato que hace falta en ese momento.',
               'La ley marca cuánto tiempo hay que conservar una historia clínica, pero esa obligación es de la clínica y no nuestra. Wazzy borra a petición todo lo que no tenga un plazo legal por encima. Lo que sí lo tiene se conserva mientras ese plazo dure.',
               '<strong>Y el modelo no habla con la base de datos.</strong> Las dos cosas que un asistente puede hacer mal aquí, inventarse un dato o sacar el de otra persona, no dependen de que el modelo se porte bien.',
@@ -3988,7 +3988,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             heading: 'El emoji que cerró una confirmación',
-            part: 'La cicatriz',
+            part: 'Nuestro error',
             paragraphs: [
               'Ningún sistema en producción está libre de haber hecho algo tonto. Este es el nuestro y lo contamos porque de él salió una regla que usamos desde entonces en todo lo que construimos.',
               'El asistente había pedido confirmar la asistencia a una cita y esa pregunta se quedaba abierta veinticuatro horas. Dos horas y media después, la persona contestó con dos emojis. El asistente los leyó como lo que eran, algo que no iba de la cita, pero al marcarlos así dio por cerrada la confirmación.',

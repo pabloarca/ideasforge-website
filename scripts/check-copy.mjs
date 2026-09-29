@@ -103,6 +103,34 @@ const LEXICO_VETADO = [
   // como que ningún cliente reservó una segunda vez, lo contrario de lo que dice
   // el dato (DOUBLE_BOOKING_DETECTED = 0). El término idiomático es el de la fuente.
   [/booked twice/g, 'double-booked («booked twice» se lee como que nadie repite reserva)'],
+  // 29 sep 2026: registro rebuscado. El propietario señaló «estorba» y
+  // «confesión» («yo no uso esas palabras») y aprobó vetar la lista entera del
+  // inventario del español publicado. La regla vive en §7 del árbitro: la
+  // palabra que dirías en una reunión, no la que escribirías en un ensayo.
+  [/estorb/gi, 'molestar, frenar o sobrar, según la frase'],
+  [/confesi[óo]n/gi, 'quitarla: la frase suele sobrar'],
+  [/\baplomo/gi, 'seguridad, tono seguro'],
+  [/antídoto/gi, 'remedio'],
+  [/bautiz/gi, 'llamar, poner nombre, cambiar el nombre'],
+  [/centinela/gi, 'alarma, comprobación'],
+  [/estrépito/gi, 'a la vista, haciendo ruido'],
+  [/entornad/gi, 'abierta'],
+  [/\bescrut/gi, 'revisar'],
+  [/franqueza/gi, 'claro («te decimos claro»)'],
+  [/\bhonr(ar|ad)/gi, 'respetar, sincero, o quitarlo'],
+  [/todopoderos/gi, '«que lo abre todo»'],
+  [/\bengord|\bengros/gi, 'inflar, sumarse a'],
+  [/\baflor/gi, 'aparecer, salir a la luz'],
+  [/\berosion/gi, 'desgastar, hacer perder'],
+  [/\bresient|\bresentir/gi, 'caer, perderse'],
+  [/puntería/gi, 'acierto'],
+  [/desconcertante/gi, 'raro'],
+  [/glamur/gi, 'llamativo'],
+  [/\bponder/gi, 'valorar, interpretar'],
+  [/\blentes?\b/gi, 'mirada, alcance'],
+  [/\breposar/gi, 'dejar para luego, o quitarlo'],
+  [/\bvaras?\b/gi, 'criterio, métrica, prueba'],
+  [/\bampar[oa]\b/gi, 'base legal, cubrir'],
 ];
 
 /*
@@ -209,6 +237,31 @@ function revisaComunes(t, fallos) {
  */
 const TERMINOS_LEGALES = [/derechos fundamentales/gi, /servicios esenciales/gi];
 
+/*
+ * Negrita por sección en los posts (§12.C del árbitro): «una o dos
+ * frases-tesis por sección», y leídas solas deben contar el argumento. El
+ * barrido del 23 ago 2026 lo comprobó con un script que no quedó aquí, y el
+ * 29 sep había 17 secciones sin negrita en cada idioma, cinco de ellas en el
+ * mismo post. Cuenta como sección la entradilla y cada H2; las H3 van dentro
+ * de su H2. Las tablas y las imágenes no son párrafos.
+ */
+function seccionesSinNegrita(textoBruto) {
+  const partes = textoBruto.split(/^---\s*$/m);
+  if (partes.length < 3) return [];
+  const sin = [];
+  partes.slice(2).join('---').split(/^## /m).forEach((s, i) => {
+    const titulo = i === 0 ? '(entradilla)' : s.split('\n')[0].trim();
+    const resto = i === 0 ? s : s.split('\n').slice(1).join('\n');
+    const parrafos = resto
+      .split(/\n\s*\n/)
+      .map((p) => p.trim())
+      .filter((p) => p && !p.startsWith('|') && !p.startsWith('!['));
+    if (parrafos.length && !parrafos.some((p) => p.includes('**'))) sin.push(titulo);
+  });
+  return sin;
+}
+const SIN_NEGRITA = 'sección de post sin negrita (§12.C: una o dos frases-tesis por sección)';
+
 function revisa(nombre, textoBruto) {
   let t = soloProsa(textoBruto);
   for (const re of TERMINOS_LEGALES) t = t.replace(re, ' ');
@@ -279,6 +332,10 @@ function revisa(nombre, textoBruto) {
     }
   }
 
+
+  if (nombre.endsWith('.md')) {
+    for (const s of seccionesSinNegrita(textoBruto)) fallos.push([SIN_NEGRITA, s]);
+  }
 
   revisaComunes(textoBruto, fallos);
 
@@ -439,6 +496,11 @@ function revisaIngles(nombre, textoBruto) {
     if (primera.trim().split(/\s+/).length < 5) continue;
     if (CONTRASTE.test(primera)) continue;
     avisos.push(['posible comma splice: en inglés se parte en dos con un punto', contexto(t, m.index)]);
+  }
+  // Aviso y no error hasta la pasada de negritas del inglés: el español se
+  // cerró el 29 sep 2026 y un idioma por pasada es regla del contrato.
+  if (nombre.endsWith('.md')) {
+    for (const s of seccionesSinNegrita(textoBruto)) avisos.push([SIN_NEGRITA, s]);
   }
   revisaComunes(textoBruto, fallos);
   return { nombre, fallos, avisos };

@@ -12,17 +12,17 @@ heroImage: '/blog/tool-goes-down.jpg'
 
 Un asistente conversacional no se basta a sí mismo. Consulta bases de datos, sistemas internos y servicios de terceros. Cada una de esas piezas puede caerse y se caerá. **La pregunta que define la calidad del asistente no es si sus herramientas fallan. Es qué ve el usuario cuando fallan.**
 
-La respuesta perezosa es una traza técnica, un mensaje en inglés con un número de error dentro, de esos que solo significan algo para quien programó el sistema. Para quien está al otro lado de la pantalla, eso significa *«esto no funciona»* y la confianza en el sistema entero se resiente por el fallo de una sola pieza.
+La respuesta perezosa es una traza técnica, un mensaje en inglés con un número de error dentro, de esos que solo significan algo para quien programó el sistema. Para quien está al otro lado de la pantalla, eso significa *«esto no funciona»* y la confianza en el sistema entero cae por el fallo de una sola pieza.
 
 ## El disyuntor
 
-El patrón se llama disyuntor y en su nombre original circuit breaker. Lleva casi dos décadas de servicio. Lo bautizó Michael Nygard en 2007 en «Release It!», el libro de referencia sobre software en producción, tomando la imagen del disyuntor eléctrico que corta la corriente antes de que el fallo se propague.
+El patrón se llama disyuntor y en su nombre original circuit breaker. Lleva casi dos décadas de servicio. Le puso nombre Michael Nygard en 2007 en «Release It!», el libro de referencia sobre software en producción, tomando la imagen del disyuntor eléctrico que corta la corriente antes de que el fallo se propague.
 
 Los grandes sistemas distribuidos lo llevan de serie desde entonces. Lo que casi nadie ha hecho todavía es aplicárselo a las herramientas de un asistente con IA, que fallan igual que cualquier servicio y encima fallan delante de una persona en mitad de una frase.
 
-En nuestro asistente de planta, cada herramienta tiene una ficha de estado: un contador de fallos, el último error y su fecha. Un vigilante automático revisa lo que devuelve cada herramienta y reconoce las señales típicas de que algo se ha roto, desde una respuesta vacía hasta un error de conexión o un flujo que se ha quedado parado. Si una herramienta encadena fallos dentro de una ventana de tiempo, el sistema la desactiva.
+En nuestro asistente de planta, cada herramienta tiene una ficha de estado: un contador de fallos, el último error y su fecha. Un vigilante automático revisa lo que devuelve cada herramienta y reconoce las señales típicas de que algo se ha roto, desde una respuesta vacía hasta un error de conexión o un flujo que se ha quedado parado. **Si una herramienta encadena fallos dentro de una ventana de tiempo, el sistema la desactiva.**
 
-Lo que ve el usuario entonces no es un error técnico. Es un mensaje de degradación amable y específico. Esa funcionalidad concreta no está disponible, el resto del asistente sigue en pie. La avería de una pieza deja de contaminar el conjunto y de paso ninguna traza interna, con sus nombres de servidor y sus rutas, viaja a la pantalla de nadie.
+Lo que ve el usuario entonces no es un error técnico. Es un mensaje de degradación amable y específico. Esa funcionalidad concreta no está disponible, el resto del asistente sigue en pie. **La avería de una pieza deja de contaminar el conjunto** y de paso ninguna traza interna, con sus nombres de servidor y sus rutas, viaja a la pantalla de nadie.
 
 ## Tres lecciones que nos dio producción
 

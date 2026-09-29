@@ -19,11 +19,11 @@ Cuando un proyecto solo puede justificarse con productividad genérica suele ser
 
 La diferencia se ve en nuestros propios casos. En la inmobiliaria con la que trabajamos, la medida no es *«el equipo va más rápido»*. Son más de tres horas al día que dejaron de gastarse en cribar solicitudes. Cada consulta costaba antes entre cinco y diez minutos de comprobación manual. En la gestora de fincas, la medida es que las facturas dejaron de teclearse. Cifras pequeñas y concretas. Se pueden comprobar y por eso valen.
 
-## El sector entero acaba de medirse con esta vara
+## El sector entero acaba de medirse con esta métrica
 
 Y el resultado explica por qué insistimos.
 
-En agosto de 2025, un informe del MIT titulado «The GenAI Divide» recorrió más de trescientas iniciativas de IA en empresas, con entrevistas y encuestas a directivos. Su titular dio la vuelta al mundo, el 95 % de las organizaciones no llegaba a ningún impacto medible en la cuenta de resultados. El método recibió críticas, así que conviene cruzarlo con algo más grande.
+En agosto de 2025, un informe del MIT titulado «The GenAI Divide» recorrió más de trescientas iniciativas de IA en empresas, con entrevistas y encuestas a directivos. Su titular dio la vuelta al mundo, el 95 % de las organizaciones no llegaba a ningún impacto medible en la cuenta de resultados. El método recibió críticas, así que lo cruzamos con algo más grande.
 
 La encuesta global de McKinsey sobre el estado de la IA, publicada unos meses después con casi dos mil directivos de más de cien países, midió lo mismo desde otro ángulo. Más de ocho de cada diez organizaciones no ven un impacto tangible de la IA generativa en su resultado de explotación. Y eso con casi nueve de cada diez usando ya IA en alguna función.
 
@@ -31,9 +31,9 @@ La lectura fácil de esas cifras es que la IA no funciona. No es la nuestra y ta
 
 Lo que los dos describen es adopción masiva sin integración ni medida, pilotos que se quedan en demostración y capacidades construidas sin un resultado que perseguir. Exactamente el proyecto difuso del principio, el que se justifica con productividad genérica porque nadie definió qué debía mover. **El 95 % no dice que la tecnología falle. Dice que sin una ganancia definida no hay manera de demostrar que funcionó.**
 
-El pequeño grupo que sí extrae valor comparte patrón, según ese mismo informe: procesos concretos, integración con los sistemas que ya existen y resultados definidos antes de construir. La vara incómoda, con otro nombre.
+El pequeño grupo que sí extrae valor comparte patrón, según ese mismo informe: procesos concretos, integración con los sistemas que ya existen y resultados definidos antes de construir. La métrica incómoda, con otro nombre.
 
-## Cómo se compra IA con esta vara
+## Cómo se compra IA con esta métrica
 
 Nuestro método empieza por esa pregunta y a veces incomoda. La primera fase no es elegir tecnología, es mapear dónde duele y traducir cada caso posible a su ganancia esperada. La segunda es descartar. De todos los casos que la IA «podría» resolver, casi siempre sobra la mayoría. O la ganancia es difusa o el caso no es viable todavía.
 

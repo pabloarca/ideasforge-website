@@ -10,7 +10,7 @@ heroImage: '/blog/false-success.jpg'
 draft: false
 ---
 
-Todos hemos trabajado con alguien así. Dice que lo ha hecho y no lo ha hecho. No miente con mala intención. Unas veces cree de verdad que lo ha hecho y otras le sale la frase de cierre sin pensarla.
+Todos hemos trabajado con alguien así. **Dice que lo ha hecho y no lo ha hecho.** No miente con mala intención. Unas veces cree de verdad que lo ha hecho y otras le sale la frase de cierre sin pensarla.
 
 Los sistemas de IA que ejecutan tareas hacen exactamente eso. Ahora hay números que lo miden.
 
@@ -40,7 +40,7 @@ Para leer el dato hace falta la escala que usan, el AUROC. **0,5 es tirar una mo
 
 Probaron cinco supervisores distintos, cinco formas de darles instrucciones y les entregaron la descripción completa de la tarea. Ninguna combinación pasó de 0,65. Y cuando en vez de un mensaje de cierre bien redactado solo tenían el registro técnico de las llamadas, los mismos supervisores bajaron a 0,54, que es la moneda al aire después de pagar por el análisis.
 
-El motivo importa más que el número. Los supervisores no comprobaban si el estado había cambiado, se fijaban en señales de superficie: el tono seguro del cierre en un caso y la cantidad bruta de acciones en el otro. **Al supervisor lo convence exactamente el mismo aplomo que causó el problema.**
+El motivo importa más que el número. Los supervisores no comprobaban si el estado había cambiado, se fijaban en señales de superficie: el tono seguro del cierre en un caso y la cantidad bruta de acciones en el otro. **Al supervisor lo convence exactamente el mismo tono seguro que causó el problema.**
 
 Lo que sí caza los falsos éxitos es más tonto y funciona mejor. Un clasificador clásico que cuenta palabras y secuencias, de los que ya se usaban antes de que existieran los modelos de lenguaje, llega a 0,83 en uno de los dos bancos de pruebas y a 0,95 en el otro. Encuentra de cuatro a ocho veces más falsos éxitos que el mejor de los jueces.
 
@@ -72,9 +72,9 @@ Y el problema es más sutil que impedirle al modelo decir «hecho». Nuestro cla
 
 Queda el dato más útil del estudio de Advani. En su dominio de control doble, donde la operación pasa por un segundo actor capaz de contradecir al asistente, el falso éxito se quedaba en el 3 %. Probablemente sea esa la razón. Confirmar con la persona antes de cerrar una operación irreversible pone un testigo en la sala y sale barato.
 
-## El formulario estorba si le pides pensar y ayuda si le pides elegir
+## El formulario frena si le pides pensar y ayuda si le pides elegir
 
-Contra esta forma de construir hay una objeción técnica buena. Conviene contarla entera, porque su segunda mitad casi nadie la cuenta.
+Contra esta forma de construir hay una objeción técnica buena. La contamos entera, porque su segunda mitad casi nadie la cuenta.
 
 Se sabe desde 2024 que obligar a un modelo a responder dentro de un formato rígido le empeora el razonamiento. Lo midieron Zhi Rui Tam y su equipo. El desplome es serio: en un examen de problemas matemáticos un modelo pasó del 76,6 % de aciertos escribiendo libre al 49,3 % obligado a rellenar un formato fijo.
 
@@ -86,7 +86,7 @@ Léelo otra vez, porque es el eje de todo lo demás. El formulario es malo si le
 
 Y elegir es lo único que le pedimos. No le pedimos que planifique, ni que decida el orden de las operaciones, ni que calcule un descuento. Le pedimos que mire un mensaje ambiguo, con faltas y con contexto implícito, para decidir a cuál de las opciones que existen se parece.
 
-Es en lo que estos modelos son extraordinarios. Y da la casualidad de que es también la tarea donde el formato cerrado ayuda en vez de estorbar.
+Es en lo que estos modelos son extraordinarios. Y da la casualidad de que es también la tarea donde el formato cerrado ayuda en vez de frenar.
 
 ## Lo que esto no arregla
 
@@ -100,7 +100,7 @@ Hay además un daño que nos hacemos solos, al diseñar el esquema de datos. Pie
 
 Con un modelo pasa igual, porque un campo obligatorio que el mensaje no puede rellenar le obliga a poner algo. Y lo que pone se lo inventa. Por eso casi ningún campo debería ser obligatorio, porque un hueco vacío es información y un dato inventado es ruido con cara de dato.
 
-Conviene además distinguir «vacío» de «no preguntado». No es lo mismo que la persona no tenga fecha nueva a que nadie se la haya pedido. Esa diferencia separa «no lo sabemos» de «no lo hemos preguntado», que llevan a dos siguientes pasos distintos.
+Hay que distinguir además «vacío» de «no preguntado». No es lo mismo que la persona no tenga fecha nueva a que nadie se la haya pedido. Esa diferencia separa «no lo sabemos» de «no lo hemos preguntado», que llevan a dos siguientes pasos distintos.
 
 Contra eso solo hay una defensa, que es medir con el mismo examen tantas veces como haga falta. En el asistente de planta que mantenemos, la primera medición del enrutado sobre 118 consultas reales dio un 72,8 % de acierto. Algo más de una de cada cuatro preguntas acababa en el agente equivocado. Dos rondas de correcciones después, con esas mismas 118 consultas, quedó en 91,5 %.
 

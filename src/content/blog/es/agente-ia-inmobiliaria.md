@@ -34,7 +34,7 @@ El estudio clásico sobre la vida de un contacto entrante lo publicó Harvard Bu
 
 ¿Y cuántas empresas contestan a esa velocidad? El mismo artículo auditó a otras 2.241 empresas con una consulta de prueba. El 37 % respondió dentro de la primera hora. El 23 % no respondió nunca.
 
-El estudio tiene sus años y medía llamadas de teléfono, así que conviene no estirarlo. Lo que no ha caducado es el mecanismo. Quien busca piso no te escribe solo a ti, escribe a la vez a todos los anuncios que le encajan. **La conversación se la queda el primero que contesta con algo útil.** Un agente contesta con algo útil a medianoche de un domingo.
+El estudio tiene sus años y medía llamadas de teléfono, así que no lo estiramos más de la cuenta. Lo que no ha caducado es el mecanismo. Quien busca piso no te escribe solo a ti, escribe a la vez a todos los anuncios que le encajan. **La conversación se la queda el primero que contesta con algo útil.** Un agente contesta con algo útil a medianoche de un domingo.
 
 El canal tampoco lo elegimos nosotros. Según el Panel de Hogares de la CNMC, con datos del cuarto trimestre de 2025, el 94,6 % de los internautas españoles usa WhatsApp habitualmente. La segunda aplicación de mensajería es Instagram y se queda en el 27,6 %. La conversación ocurre donde la gente ya está. Nadie tiene que instalarse nada para escribirte.
 

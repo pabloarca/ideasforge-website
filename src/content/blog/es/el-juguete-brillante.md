@@ -1,7 +1,7 @@
 ---
 title: 'El juguete brillante'
-metaTitle: 'El juguete brillante: IA que deslumbra y no sirve'
-description: 'El proyecto de IA que deslumbra en la demo y muere en el cajón tiene nombre y tiene antídoto. Un test de tres señales para distinguir la herramienta del juguete.'
+metaTitle: 'El juguete brillante: IA que impresiona y no sirve'
+description: 'El proyecto de IA que impresiona en la demo y muere en el cajón tiene nombre y tiene remedio. Un test de tres señales para distinguir la herramienta del juguete.'
 lang: 'es'
 pubDate: 2026-08-23
 updatedDate: 2026-08-31
@@ -28,9 +28,9 @@ La escala del problema no es anecdótica. [Gartner calculó en junio de 2025](ht
 
 **Tercera señal, la IA va en el titular.** Quita las siglas del nombre del proyecto y mira si a alguien le sigue interesando. Si la respuesta es no, lo que se estaba comprando era el titular. **Una herramienta se compra por lo que quita. Un juguete, por lo que enseña.**
 
-## El antídoto es un mapa de dolores
+## El remedio es un mapa de dolores
 
-Lo que hacemos antes de proponer nada es mapear qué duele, con quien lo sufre delante. Y separamos dos familias que piden urgencias distintas. Los problemas críticos ya cuestan dinero cada semana. Los cuellos de botella todavía no duelen, pero frenarán el crecimiento en cuanto el volumen suba. Se ataca primero lo que arde y se vigila lo que humea. Cada candidato entra en la lista con su cuenta hecha, nunca con su demo.
+Lo que hacemos antes de proponer nada es mapear qué duele, con quien lo sufre delante. Y separamos dos familias que piden urgencias distintas. Los problemas críticos ya cuestan dinero cada semana. Los cuellos de botella todavía no duelen, pero frenarán el crecimiento en cuanto el volumen suba. Se ataca primero lo que arde y se vigila lo que humea. **Cada candidato entra en la lista con su cuenta hecha, nunca con su demo.**
 
 Dos de nuestros proyectos de automatización empezaron exactamente así. En [Barceloneta Premium](/casos/barceloneta), una agencia inmobiliaria de Barcelona, el dolor eran decenas de consultas diarias con entre cinco y diez minutos de comprobación cada una, un incendio con número. En [Stanton](/casos/stanton), una gestora de fincas, el papeleo de suministros que alguien metía a mano factura a factura. Ninguno de los dos empezó con una demo. Los dos empezaron con alguien harto y una cifra delante.
 
