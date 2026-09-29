@@ -15,9 +15,9 @@ La lógica es sencilla. Un modelo de lenguaje trabaja con lo que le das. Si los 
 
 ## El caso del umbral que no detectaba nada
 
-En uno de nuestros asistentes documentales, la primera batería de pruebas dejó un hallazgo incómodo. Cinco de seis preguntas «fuera de la documentación» no se detectaban como tales. La búsqueda siempre encontraba algún fragmento parecido, porque en un corpus amplio casi cualquier frase supera el umbral de similitud.
+En uno de nuestros asistentes documentales, la primera batería de pruebas dejó un hallazgo incómodo. Cinco de seis preguntas «fuera de la documentación» no se detectaban como tales. La búsqueda siempre encontraba algún fragmento parecido, porque en un corpus amplio casi cualquier frase supera el umbral de similitud, el parecido mínimo que la búsqueda exige para dar un texto por relevante.
 
-La tentación clásica habría sido pedirle al modelo, con más énfasis, que reconociera cuándo no había evidencia. Lo que funcionó fue trabajar la capa de datos y la de código: escuchar el veredicto de «sin coincidencia» del propio agente, rediseñar el despachador para aceptarlo y dejar auditado cada reetiquetado. El prompt apenas cambió.
+La tentación clásica habría sido pedirle al modelo, con más énfasis, que reconociera cuándo no había evidencia. Lo que funcionó fue trabajar la capa de datos y la de código: escuchar el veredicto de «sin coincidencia» del propio agente, rediseñar el despachador, la pieza que reparte cada pregunta, para que lo aceptara y dejar auditado cada reetiquetado. El prompt apenas cambió.
 
 ## El aislamiento que dejó de depender de que alguien se acordara
 
