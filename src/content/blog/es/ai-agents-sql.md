@@ -21,7 +21,7 @@ Como la nuestra es la postura incómoda, conviene mirar los números de la contr
 
 El examen de referencia se llama Spider 2.0, un trabajo académico de finales de 2024 que reunió 632 tareas reales de consulta sobre bases de datos de empresa, con sus miles de columnas y sus dialectos. Los mismos modelos que rondaban el 90 % en los exámenes académicos anteriores se quedaron entre el 10 y el 21 % ahí. La distancia entre la demo y tu almacén de datos, medida.
 
-Desde entonces los sistemas especializados han ido escalando esa clasificación y los mejores superan hoy el 90 % en parte de la prueba. El problema parecía de puntería y la puntería mejora cada trimestre.
+Desde entonces los sistemas especializados han ido escalando esa clasificación y los mejores superan hoy el 90 % en una de sus variantes. El problema parecía de puntería y la puntería mejora cada trimestre.
 
 ¿Cambia eso nuestra decisión? No, porque la objeción nunca fue la puntería. Un examen de acierto mide si la consulta devuelve la cifra correcta y no mide qué hace la consulta equivocada. **La consulta que falla también se ejecuta.** Con datos de varias empresas en el mismo almacén, el precio de ese fallo no se parece en nada al de una respuesta mal redactada.
 
@@ -37,13 +37,13 @@ La diferencia práctica cabe en una frase. **Un contrato con cinco campos conoci
 
 ## Lo que esa decisión compra
 
-Compra seguridad demostrable, porque los permisos se aplican sobre el contrato validado y la consulta final lleva su filtro por empresa que se aplica siempre, la última de las cuatro capas que separan los datos de cada empresa de los de la de al lado. Y compra el resultado de negocio que justifica el proyecto, la espera por una cifra pasó de horas a segundos, sin abrir la puerta que el patrón ingenuo deja entornada. Cómo quedó montado por dentro, con lo que hubo que quitarle al modelo por el camino, está en [la página del caso](/casos/savian).
+Compra seguridad demostrable, porque los permisos se aplican sobre el contrato validado. La consulta final lleva además un filtro por empresa que se aplica siempre, la última de las cuatro capas que separan los datos de cada empresa de los de la de al lado. Y compra el resultado de negocio que justifica el proyecto, la espera por una cifra pasó de horas a segundos, sin abrir la puerta que el patrón ingenuo deja entornada. Cómo quedó montado por dentro, con lo que hubo que quitarle al modelo por el camino, está en [la página del caso](/casos/savian).
 
 ## Decir lo que falta también se diseña
 
 Dos detalles del agente de Savian enseñan el resto del criterio. Cada respuesta abre declarando el periodo que se ha consultado, para que nadie tome una cifra de marzo por una de abril. Y cuando el sistema trabaja en modo degradado, con alguna fuente caída, lo dice y avisa de qué datos pueden faltar, en lugar de entregar **un total incompleto con cara de completo**.
 
-Las cifras, además, nunca salen de la memoria de la conversación. Una comprobación previa a cada respuesta fuerza una consulta fresca para cada número que se entrega.
+Las cifras, además, nunca se toman de la memoria de la conversación. Una comprobación previa a cada respuesta, el auditor, fuerza una consulta fresca para cada número que se entrega.
 
 En tu próxima demo de este patrón, pregunta una sola cosa. *¿Quién escribe la consulta que toca mis datos?* Si la respuesta es el modelo, ya conoces el margen de error. Si es un código que valida un contrato cerrado, tienes delante algo que aguanta.
 
