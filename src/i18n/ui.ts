@@ -513,6 +513,10 @@ export interface LongFormSection {
   capasDiagram?: boolean;
   /** Cómo se dibuja. Por defecto `prose`. */
   kind?: LongFormKind;
+  /** Tabla opcional tras los párrafos. Nació para la guía de coste: los
+   *  rangos en tabla son lo que Google recorta como respuesta destacada y
+   *  la prosa sola no lo consigue. Solo celdas de texto plano. */
+  table?: { headers: string[]; rows: string[][] };
   /** Nombre de la parte a la que pertenece. Cuando cambia respecto a la
    *  sección anterior, el renderizador abre una parte nueva con su portada y
    *  la añade al índice. Las páginas cortas no lo usan. */
@@ -537,6 +541,11 @@ export interface LongFormPageContent {
    * it at an in-page section so they don't ask for the sale on first contact.
    */
   hero: { eyebrow?: string; title: string; subtitle: string; cta?: string; ctaHref?: string };
+  /** Línea de fecha visible bajo el subtítulo del héroe («Actualizado el …»).
+   *  Las páginas que compiten por consultas de precio la llevan porque toda
+   *  su SERP la lleva; el resto puede ignorarla. Se escribe entera, con el
+   *  rótulo incluido, para no montar fechas por idioma en el renderizador. */
+  updated?: string;
   sections: LongFormSection[];
   /** Hard numbers, rendered right after the hero. Only real ones: two beat three padded. */
   stats?: WhyUsStat[];
@@ -1988,7 +1997,7 @@ export const content: Record<Lang, SiteContent> = {
               '<a class="link-inline" href="https://arxiv.org/abs/2307.09009" rel="noopener noreferrer" target="_blank">Chen, Zaharia y Zou</a>, de Stanford y Berkeley, lo midieron sobre el mismo modelo comercial en marzo y en junio de 2023. Su comportamiento cambió tanto que en una tarea el acierto pasó del 97,6 % al 2,4 %, sin que nadie del lado del cliente tocara nada.',
               'Gartner calculó en junio de 2025 que más del 40 % de los proyectos de IA agéntica se cancelará antes de acabar 2027. Por nuestra experiencia esa mortalidad vive en el mantenimiento y no en el estreno.',
               '¿Cómo se vigila algo que empeora en silencio? Los modelos no son deterministas, no siempre devuelven lo mismo, así que comprobar una respuesta un día no garantiza nada. La única disciplina que funciona ahí es estadística y aburrida. Antes de publicar cualquier cambio, una batería de casos anotados y anonimizados tiene que pasar. Si la calidad baja, el cambio no sale.',
-              'Después del estreno, la vigilancia no se apaga. Una vez por semana reproducimos de principio a fin una conversación de prueba anonimizada contra el sistema vivo. En el asistente de planta, la calibración del enrutado se midió sobre casos reales y pasó del 72 % al 91 % de acierto.',
+              'Después del estreno, la vigilancia no se apaga. Una vez por semana reproducimos de principio a fin una conversación de prueba anonimizada contra el sistema vivo. En el asistente de planta, la calibración del enrutado, el reparto de cada consulta a su agente, se midió sobre casos reales y pasó del 72 % al 91 % de acierto.',
               'También supimos parar a tiempo. Buscar el cien por cien acaba llevándote a ajustar las pruebas para que aprueben, en vez de a mejorar el sistema. En Wazzy, por ejemplo, empezamos con una arquitectura de agentes con herramientas a su disposición y la hemos cambiado tres veces hasta dar con la correcta, la que de verdad subió el porcentaje de conversaciones que acaban bien.',
               'Ninguna de estas cifras aparece sola. Existen porque el sistema se construyó desde el principio para medirse, con su batería y su vigilancia dentro del presupuesto. <strong>Cuando evalúes a cualquier proveedor, nosotros incluidos, pide sus cifras.</strong> Lo que hace falta para que un sistema pase de su sexto mes tiene artículo propio.',
             ],
@@ -2085,8 +2094,8 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Para tu empresa',
             paragraphs: [
               'Si despliegas en Europa, dos reglamentos enmarcan el trabajo. El RGPD gobierna los datos personales que hay dentro del sistema y el <a class="link-inline" href="/reglamento-europeo-de-ia">reglamento europeo de IA</a> ordena los sistemas por el riesgo de su uso.',
-              'Sus deberes de transparencia se aplican desde agosto de 2026, mientras que el Ómnibus Digital de julio de 2026 empujó las obligaciones pesadas de alto riesgo a diciembre de 2027 y más allá. <strong>Ninguno de los dos prohíbe lo que esta guía describe. Los dos premian la misma arquitectura, con registros, supervisión y contención diseñados desde el principio.</strong>',
-              'Mantenemos una página completa sobre cada uno, escritas para quien tiene que defender el proyecto delante del departamento legal.',
+              'Los deberes de transparencia del reglamento de IA se aplican desde agosto de 2026, mientras que el Ómnibus Digital de julio de 2026 empujó las obligaciones pesadas de alto riesgo a diciembre de 2027 y más allá. <strong>Ninguno de los dos prohíbe lo que esta guía describe. Los dos premian la misma arquitectura, con registros, supervisión y contención diseñados desde el principio.</strong>',
+              'Mantenemos una página completa sobre cada uno, las dos escritas para quien tiene que defender el proyecto delante del departamento legal.',
             ],
             link: {
               label: 'IA conforme al RGPD, en una cuenta que controlas',
@@ -2789,15 +2798,36 @@ export const content: Record<Lang, SiteContent> = {
           subtitle:
             'Un agente de IA a medida construido por Ideasforge cuesta entre 2.500 y 10.000 € de construcción, más 150 a 500 € al mes por operarlo y medirlo. El modelo y la nube se facturan aparte, a tu empresa. Esta página explica qué mueve esa cifra, con datos de coste reales de nuestros sistemas en producción.',
         },
+        updated: 'Actualizado el 29 de septiembre de 2026',
         sections: [
           {
             heading: 'La respuesta corta',
             id: 'respuesta',
             paragraphs: [
-              'Un agente de un solo trabajo se queda en la parte baja del rango. Un canal, un sistema al que conectarse y una tarea acotada, como leer las facturas que llegan a un chat y convertir cada una en una fila de datos lista para usar. <strong>Construirlo arranca en torno a 2.500 €. Operarlo, en torno a 150 € al mes.</strong>',
-              'La parte alta es para agentes que tocan varios sistemas y necesitan más validación antes de salir, como un asistente que responde desde tu documentación y además consulta datos vivos. Esas construcciones se acercan a los 10.000 € y su operación se sitúa en la parte alta del rango mensual.',
-              'Los sistemas multiagente más grandes se presupuestan por proyecto.',
-              '<strong>Y hay una tercera cifra que conviene tener clara desde el principio.</strong> El modelo que usa el agente y la nube donde corre van en cuentas a nombre de tu empresa, así que sus facturas son tuyas y no están dentro de la cuota mensual.',
+              'Un agente de un solo trabajo se queda en la parte baja del rango, como el que lee las facturas que llegan a un chat y convierte cada una en una fila de datos lista para usar. La parte alta es para agentes que tocan varios sistemas y necesitan más validación antes de salir, como un asistente que responde desde tu documentación y además consulta datos vivos.',
+            ],
+            table: {
+              headers: ['Qué necesitas', 'Construcción', 'Operación al mes'],
+              rows: [
+                [
+                  'Un agente de un solo trabajo: un canal, un sistema al que conectarse y una tarea acotada',
+                  'desde 2.500 €',
+                  'en torno a 150 €',
+                ],
+                [
+                  'Un agente que toca varios sistemas y necesita más validación antes de salir',
+                  'hasta 10.000 €',
+                  'hasta 500 €',
+                ],
+                ['Un sistema grande con varios agentes', 'presupuesto por proyecto', 'presupuesto por proyecto'],
+              ],
+            },
+          },
+          {
+            heading: 'La tercera cifra, la que no está en la tabla',
+            id: 'tercera-cifra',
+            paragraphs: [
+              '<strong>El modelo que usa el agente y la nube donde corre van en cuentas a nombre de tu empresa</strong>, así que sus facturas son tuyas y no están dentro de la cuota mensual. Conviene tener esa tercera cifra clara desde el principio, porque es la que sube o baja con el uso.',
             ],
           },
           {
@@ -2808,8 +2838,21 @@ export const content: Record<Lang, SiteContent> = {
               'A cuántos sistemas se conecta. Un agente que solo responde preguntas es más barato que uno que además escribe en tu calendario, en tu CRM o en tu base de datos, porque cada sistema conectado necesita sus propios permisos y sus propias pruebas.',
               'El estado de tus datos. Si el conocimiento que el agente necesita vive en fuentes limpias y legibles, el modelo rinde mejor y la construcción se acorta. Se avanza más ordenando los datos y las herramientas que puliendo instrucciones.',
               'Cuántas pruebas necesitas antes de salir. Nuestro asistente de citas Wazzy no publica un cambio hasta que pasa una batería de conversaciones anotadas de una en una. No todos los proyectos necesitan esa profundidad. Elegirla forma parte de la conversación del precio.',
-              'Quién lo opera después. La cuota mensual cubre vigilar el sistema en producción. La siguiente sección explica en qué se gasta.',
+              'Quién lo opera después. La cuota mensual cubre vigilar el sistema en producción. Más abajo se explica en qué se gasta.',
             ],
+          },
+          {
+            heading: 'La cuenta de si compensa',
+            id: 'retorno',
+            paragraphs: [
+              'Antes de pedir presupuesto conviene hacer una cuenta que solo necesita dos números tuyos: cuántos minutos cuesta hoy la operación que quieres quitarte de encima y cuántas veces se repite al mes.',
+              'Así se ve en dos de nuestros sistemas. En una gestora inmobiliaria, cada factura de suministros costaba un minuto de teclado y hoy el 98 % pasa sin que nadie la toque. En una agencia de alquiler, cada consulta de WhatsApp llevaba entre cinco y diez minutos de comprobación manual y el equipo recupera más de tres horas al día.',
+              'Multiplica tus dos números y tendrás las horas que ese trabajo se come cada mes. Puestas al lado de la fila de la tabla que te toca, la cuenta sale o no sale. <strong>Si no sale, esa también es una respuesta</strong>, porque hay procesos que no pagan su automatización y saberlo antes de construir cuesta una multiplicación.',
+            ],
+            link: {
+              label: 'Los dos procesos, contados enteros',
+              href: '/servicios/automatizacion-de-procesos-con-ia',
+            },
           },
           {
             heading: 'Los dos gastos de un agente en marcha',
