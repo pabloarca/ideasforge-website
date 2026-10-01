@@ -1391,7 +1391,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Cómo se mantiene al día cuando la documentación cambia?',
-            a: 'Los documentos se vuelven a procesar cuando cambian y la calidad se vigila de dos maneras, una batería de casos reales antes de cada cambio nuestro y una prueba semanal sobre el sistema en marcha. Cuando algo deja de encontrarse o de entenderse bien, lo vemos en las métricas antes de que se convierta en queja.',
+            a: 'Los documentos se vuelven a procesar cuando cambian y la calidad se vigila de dos maneras, una batería de casos reales antes de cada cambio nuestro y una tanda semanal de conversaciones de prueba sobre el sistema en marcha. Cuando algo deja de encontrarse o de entenderse bien, lo vemos en las métricas antes de que se convierta en queja.',
           },
           {
             q: '¿Funciona con nuestro vocabulario y en varios idiomas?',
@@ -1997,7 +1997,7 @@ export const content: Record<Lang, SiteContent> = {
               '<a class="link-inline" href="https://arxiv.org/abs/2307.09009" rel="noopener noreferrer" target="_blank">Chen, Zaharia y Zou</a>, de Stanford y Berkeley, lo midieron sobre el mismo modelo comercial en marzo y en junio de 2023. Su comportamiento cambió tanto que en una tarea el acierto pasó del 97,6 % al 2,4 %, sin que nadie del lado del cliente tocara nada.',
               'Gartner calculó en junio de 2025 que más del 40 % de los proyectos de IA agéntica se cancelará antes de acabar 2027. Por nuestra experiencia esa mortalidad vive en el mantenimiento y no en el estreno.',
               '¿Cómo se vigila algo que empeora en silencio? Los modelos no son deterministas, no siempre devuelven lo mismo, así que comprobar una respuesta un día no garantiza nada. La única disciplina que funciona ahí es estadística y aburrida. Antes de publicar cualquier cambio, una batería de casos anotados y anonimizados tiene que pasar. Si la calidad baja, el cambio no sale.',
-              'Después del estreno, la vigilancia no se apaga. Una vez por semana reproducimos de principio a fin una conversación de prueba anonimizada contra el sistema vivo. En el asistente de planta, la calibración del enrutado, el reparto de cada consulta a su agente, se midió sobre casos reales y pasó del 72 % al 91 % de acierto.',
+              'Después del estreno, la vigilancia no se apaga. Cada semana lanzamos contra el sistema vivo una tanda de conversaciones de prueba anonimizadas, de principio a fin. En el asistente de planta, la calibración del enrutado, el reparto de cada consulta a su agente, se midió sobre casos reales y pasó del 72 % al 91 % de acierto.',
               'También supimos parar a tiempo. Buscar el cien por cien acaba llevándote a ajustar las pruebas para que aprueben, en vez de a mejorar el sistema. En Wazzy, por ejemplo, empezamos con una arquitectura de agentes con herramientas a su disposición y la hemos cambiado tres veces hasta dar con la correcta, la que de verdad subió el porcentaje de conversaciones que acaban bien.',
               'Ninguna de estas cifras aparece sola. Existen porque el sistema se construyó desde el principio para medirse, con su batería y su vigilancia dentro del presupuesto. <strong>Cuando evalúes a cualquier proveedor, nosotros incluidos, pide sus cifras.</strong> Lo que hace falta para que un sistema pase de su sexto mes tiene artículo propio.',
             ],
@@ -2862,7 +2862,7 @@ export const content: Record<Lang, SiteContent> = {
               'Cada mensaje que entra dispara llamadas al proveedor del modelo. Ese es el coste bruto de tener el agente en marcha, lo paga tu empresa y sube o baja con el uso, así que no lo escondemos dentro de nuestra cuota. La infraestructura funciona igual. La cuenta en la nube está a tu nombre, así que su factura también.',
               'Que vaya aparte tiene una consecuencia buena para ti. Lo ves, así que puedes bajarlo. <strong>Conocer el reparto del gasto es lo que permite recortarlo midiendo, en lugar de a ciegas.</strong> En Wazzy lo medimos por capas: leer y estructurar el mensaje que entra se lleva entre el 52 y el 57 % del gasto de modelo, decidir qué hacer a continuación entre el 24 y el 31 % y escribir la respuesta entre el 16 y el 19 %.',
               'Con ese mapa delante se decide con datos. En uno de nuestros sistemas probamos un modelo más barato y la batería de pruebas lo descartó, porque la calidad general bajaba diez puntos. El ahorro era real. No compensaba.',
-              '<strong>Nuestra cuota paga otra cosa, que es el trabajo de vigilar.</strong> Una vez por semana lanzamos una conversación de prueba anonimizada contra el sistema vivo de principio a fin. Y antes de publicar cualquier cambio tiene que pasar la batería de pruebas. Son dos cosas distintas y separadas a propósito. <strong>La batería frena los cambios, la prueba semanal vigila lo que ya está funcionando.</strong>',
+              '<strong>Nuestra cuota paga otra cosa, que es el trabajo de vigilar.</strong> Cada semana lanzamos contra el sistema vivo una tanda de conversaciones de prueba anonimizadas, de principio a fin. Y antes de publicar cualquier cambio tiene que pasar la batería de pruebas. Son dos cosas distintas y separadas a propósito. <strong>La batería frena los cambios, la tanda semanal vigila lo que ya está funcionando.</strong>',
             ],
             link: { label: 'Por qué mantener viva la IA es lo difícil', href: '/blog/mantener-viva-la-ia' },
           },
@@ -2884,7 +2884,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             q: '¿Por qué hay una cuota mensual?',
             a: [
-                'Porque el modelo sobre el que corre tu agente cambia por debajo. Los proveedores actualizan modelos sin cambiarles el nombre. Un sistema que ayer respondía bien puede empezar a fallar en silencio. La cuota paga la medición y la prueba semanal que lo detectan antes que tus usuarios.',
+                'Porque el modelo sobre el que corre tu agente cambia por debajo. Los proveedores actualizan modelos sin cambiarles el nombre. Un sistema que ayer respondía bien puede empezar a fallar en silencio. La cuota paga la medición y las pruebas semanales que lo detectan antes que tus usuarios.',
                 'Y la cuenta sale porque lo caro, construir la batería de casos con sus respuestas anotadas, ya quedó pagado en la construcción. Pasarla antes de cada cambio y vigilar cada semana es trabajo de máquina.',
               ],
           },
@@ -3132,7 +3132,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Qué te llevas y qué preguntar',
             paragraphs: [
               '<strong>Un cumplimiento que era cierto el día del estreno y no se volvió a medir es un cuento</strong>. Estos sistemas cambian por debajo. Los proveedores actualizan modelos sin cambiarles el nombre, tu documentación crece y tus datos se mueven con el tiempo. Por eso hacemos dos cosas distintas.',
-              'Antes de publicar cualquier cambio, una batería de pruebas, un banco de casos anotados y anonimizados que el sistema debe responder bien, frena la publicación si la calidad baja. Y una vez por semana, sobre el sistema vivo, reproducimos una conversación de prueba anonimizada de principio a fin y comprobamos qué pasó de verdad.',
+              'Antes de publicar cualquier cambio, una batería de pruebas, un banco de casos anotados y anonimizados que el sistema debe responder bien, frena la publicación si la calidad baja. Y cada semana, sobre el sistema vivo, lanzamos una tanda de conversaciones de prueba anonimizadas de principio a fin y comprobamos qué pasó de verdad en cada una.',
               'Es la misma disciplina que caza a un modelo empeorando en silencio, aplicada a las promesas de esta página. El aislamiento, los registros y las negativas se prueban como funcionalidades, porque eso es lo que son.',
               'Cuando tu DPD pregunte en marzo si las garantías de la revisión de septiembre siguen en pie, la respuesta que vale es un resultado de pruebas, no un encogimiento de hombros.',
             ],
@@ -3451,7 +3451,7 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>Ninguna de las tres se puede añadir de forma convincente después. Las tres salen baratas cuando son decisiones de diseño.</strong>',
               'Aquí es donde nuestra manera de trabajar coincide con el reglamento. Y no porque construyéramos pensando en él, sino porque operar sistemas en producción nos llevó antes a las mismas conclusiones. Nuestros sistemas escriben cada decisión según ocurre, en un registro al que se puede añadir pero que nunca se edita. El propio sistema nunca vuelve a leerlo, así que documenta el comportamiento sin influir en él.',
               'La supervisión no es un nombre en un archivo. Las personas que hay detrás de nuestros asistentes reciben bandejas de casos reales con su rastro. Cada acción que un sistema hace por alguien corre con los permisos de esa persona, así que la pregunta de quién pudo hacer esto siempre tiene una respuesta que tu sistema de identidad ya conoce.',
-              'La vigilancia es el deber que suena más vago y el que mejor podemos demostrar. Antes de publicar un cambio tiene que pasar una batería de casos anotados y anonimizados. Después de publicar, una prueba semanal recorre de principio a fin una conversación de prueba anonimizada contra el sistema vivo.',
+              'La vigilancia es el deber que suena más vago y el que mejor podemos demostrar. Antes de publicar un cambio tiene que pasar una batería de casos anotados y anonimizados. Después de publicar, cada semana una tanda de conversaciones de prueba anonimizadas recorre de principio a fin el sistema vivo.',
               'Dos comprobaciones separadas a propósito. Juntas son exactamente la prueba de «vigilar el funcionamiento del sistema» que el artículo 26 le pide a quien despliega.',
             ],
             link: { label: 'El diseño de registros, aislamiento e identidad, en detalle', href: '/ia-y-rgpd' },
@@ -3468,7 +3468,7 @@ export const content: Record<Lang, SiteContent> = {
               'La descripción técnica de qué hace, qué datos entran y qué llamadas salen, caso de uso por caso de uso.',
               'El diseño de la supervisión: qué personas pueden inspeccionar, intervenir y parar qué, con qué interfaz.',
               'El registro de decisiones y cómo se consulta, con la conservación ajustada a tus obligaciones y seis meses como suelo para el alto riesgo.',
-              'Las pruebas de evaluación, que son la batería de casos que frena cada publicación y la prueba semanal que vigila el sistema vivo.',
+              'Las pruebas de evaluación, que son la batería de casos que frena cada publicación y la tanda semanal de conversaciones que vigila el sistema vivo.',
               'La cadena de proveedores por debajo del sistema, empezando por el proveedor de modelo que aprobaste y las condiciones que lo obligan.',
             ],
           },
@@ -3972,7 +3972,7 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>La primera versión de Wazzy era un agente con herramientas a su disposición y la dejamos atrás.</strong> La que está hoy en producción reparte el trabajo de otra manera, con mucho más peso del lado del código y bastante menos del lado del modelo. Cómo está montada por dentro no lo vamos a contar aquí, entre otras cosas porque no es información que le debamos a la competencia. Lo que sí se puede enseñar es lo que esa decisión produce.',
               'Ninguna cita se ha reservado dos veces en toda la historia del producto. Ni una. Es un fallo que no se arregla pidiendo perdón, porque cuando ocurre hay dos personas en la puerta a la misma hora y una se tiene que ir a casa.',
               '<strong>Nada sale a producción sin pasar antes una batería de casos reales con su respuesta correcta anotada.</strong> Eso incluye lo que edita la propia clínica desde su panel, que no cambia lo que el asistente responde hasta que la batería lo aprueba. Y la versión del modelo la fijamos nosotros, así que una actualización del proveedor no aparece sola en producción un martes por la mañana.',
-              'Sobre el sistema en marcha hay 103 controles vigilando, atados a 91 reglas con nombre que el sistema tiene que cumplir. Y una vez por semana una prueba recorre el sistema entero de punta a punta, pidiendo cita como lo haría una persona.',
+              'Sobre el sistema en marcha hay 103 controles vigilando, atados a 91 reglas con nombre que el sistema tiene que cumplir. Y cada semana una tanda de pruebas recorre el sistema entero de punta a punta, pidiendo citas como lo haría una persona.',
             ],
           },
           {
@@ -4847,7 +4847,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'How does it stay current when documentation changes?',
-            a: 'Documents are processed again whenever they change, and quality is watched in two ways, a battery of real cases before every change we ship and a weekly probe on the live system. When something stops being found or understood, it shows in the metrics before it becomes a complaint.',
+            a: 'Documents are processed again whenever they change, and quality is watched in two ways, a battery of real cases before every change we ship and a weekly batch of test conversations on the live system. When something stops being found or understood, it shows in the metrics before it becomes a complaint.',
           },
           {
             q: 'Does it handle our in-house vocabulary, and several languages?',
@@ -5436,7 +5436,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'There is a risk almost nobody budgets for. <strong>A system with AI in it can get worse on its own, without anyone touching it.</strong> The provider updates the model without changing its name, your documentation grows and your data drifts. <a class="link-inline" href="https://arxiv.org/abs/2307.09009" rel="noopener noreferrer" target="_blank">Chen, Zaharia and Zou</a>, at Stanford and Berkeley, measured this on the same commercial model in March and in June of 2023. Its behavior changed so much that on one task accuracy went from 97.6% to 2.4%, with nothing touched on the customer side. Gartner forecast in June 2025 that more than 40% of agentic AI projects will be canceled before the end of 2027. In our experience those cancellations happen in the upkeep, not at launch, not in the launch.',
               'Models are not deterministic, they do not always return the same thing, so checking one answer on one day guarantees nothing. The only discipline that works there is statistical and dull. Before any change ships, a suite of annotated, anonymized cases has to pass. If quality drops, the change does not go out.',
-              'After launch the watching does not stop. Once a week we replay a scripted end-to-end test conversation end to end against the live system. In the plant assistant, routing accuracy was measured on real cases and went from 72% to 91%. We also knew when to stop. Chasing a hundred percent ends with you tuning the tests until they pass rather than improving the system. In Wazzy, for instance, we started with an architecture of agents with tools at their disposal and have rebuilt it three times before landing on the one that genuinely raised the share of conversations that end well.',
+              'After launch the watching does not stop. Every week we run a batch of scripted test conversations end to end against the live system. In the plant assistant, routing accuracy was measured on real cases and went from 72% to 91%. We also knew when to stop. Chasing a hundred percent ends with you tuning the tests until they pass rather than improving the system. In Wazzy, for instance, we started with an architecture of agents with tools at their disposal and have rebuilt it three times before landing on the one that genuinely raised the share of conversations that end well.',
               'Numbers like these do not appear on their own. They exist because the system was built from the start to measure itself, with its test suite and its weekly watch inside the budget. <strong>When you evaluate any provider, ours included, ask for theirs.</strong> What it takes for a system to get past its sixth month has an article of its own.',
             ],
             link: {
@@ -5607,7 +5607,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'What if the provider changes the model underneath?',
-            a: 'It happens, unannounced. It is documented that the same commercial model can perform very differently months apart without changing its name. That is exactly why every system carries its test battery and its weekly probe, which catch the change before your users do. And switching models is not always a configuration tweak, sometimes it means touching the system, so anyone promising otherwise is selling you a fantasy.',
+            a: 'It happens, unannounced. It is documented that the same commercial model can perform very differently months apart without changing its name. That is exactly why every system carries its test battery and its weekly batch of test conversations, which catch the change before your users do. And switching models is not always a configuration tweak, sometimes it means touching the system, so anyone promising otherwise is selling you a fantasy.',
           },
           {
             q: 'How long until production?',
@@ -6249,7 +6249,7 @@ export const content: Record<Lang, SiteContent> = {
               'Every message that comes in triggers calls to the model provider. That is the raw running cost of having the agent live, your company pays it, and it goes up and down with usage, so we do not bury it inside our fee. Infrastructure works the same way. The cloud account is in your name, so its bill is too.',
               'Keeping it separate has an upside for you. You can see it, so you can bring it down. <strong>Knowing how the spend splits is what lets you cut it by measuring instead of guessing.</strong> In Wazzy we meter it per layer: reading and structuring the incoming message takes 52 to 57 percent of the model spend, deciding what to do next takes 24 to 31 percent and writing the reply takes 16 to 19 percent.',
               'With that map in front of you, the decision comes from data. In one of our systems we tried a cheaper model and the test battery rejected it, because overall quality fell ten points. The saving was real. It just was not worth what it cost in quality.',
-              '<strong>Our fee pays for something else, which is the work of watching it.</strong> Once a week we run an anonymized test conversation against the live system from end to end. And before any change ships, the test battery has to pass. Two different things, kept separate on purpose. <strong>The battery gates changes, and the weekly test watches what is already running.</strong>',
+              '<strong>Our fee pays for something else, which is the work of watching it.</strong> Every week we run a batch of anonymized test conversations against the live system from end to end. And before any change ships, the test battery has to pass. Two different things, kept separate on purpose. <strong>The battery gates changes, and the weekly batch watches what is already running.</strong>',
             ],
             link: { label: 'Why keeping AI alive is the hard part', href: '/en/blog/keeping-ai-alive' },
           },
@@ -6271,7 +6271,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             q: 'Why is there a monthly fee at all?',
             a: [
-              'Because the model your agent runs on changes underneath it. Providers update models without changing their name, and a system that answered well yesterday can start failing quietly. The fee pays for the metering and the weekly test that catch it before your users do.',
+              'Because the model your agent runs on changes underneath it. Providers update models without changing their name, and a system that answered well yesterday can start failing quietly. The fee pays for the metering and the weekly test runs that catch it before your users do.',
               'And the arithmetic works because the expensive part, building the battery of cases with their annotated answers, was already paid for during the build. Running it before every change and watching every week is machine work.',
             ],
           },
@@ -6458,7 +6458,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'How we keep it true after launch',
             paragraphs: [
-              'A compliance story that was true at launch and unmeasured afterwards is a story, and these systems change underneath you. Model providers update models without changing their names, your documentation grows and your data shifts over time. So we do two separate things. Before any change ships, a test battery, a bank of annotated, anonymized cases the system must answer correctly, blocks the release if quality drops. And once a week, on the live system, we run a scripted end-to-end test conversation from end to end and check what actually happened.',
+              'A compliance story that was true at launch and unmeasured afterwards is a story, and these systems change underneath you. Model providers update models without changing their names, your documentation grows and your data shifts over time. So we do two separate things. Before any change ships, a test battery, a bank of annotated, anonymized cases the system must answer correctly, blocks the release if quality drops. And every week, on the live system, we run a batch of scripted test conversations from end to end and check what actually happened in each one.',
               'This is the same discipline that catches a model quietly getting worse, applied to the promises on this page. The isolation, the records and the refusal behaviors are tested like features, because that is what they are. When your DPO asks in March whether the guarantees from the September review still hold, the answer that counts is a test result, not a shrug.',
             ],
             link: { label: 'Why keeping AI alive is the hard part', href: '/en/blog/keeping-ai-alive' },
@@ -6733,7 +6733,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Read the duty list again with an engineer’s eye and it breaks down into three properties of the system. Things the system must produce about itself, logs and records. Things a human must be able to do to it, inspect, intervene and override. And things it must never silently change, its purpose and its inputs. None of the three can be added convincingly after the fact, all three are cheap when they are design decisions.',
               'This is where our practice happens to line up with the regulation, not because we built for the Act but because production forced the same conclusions earlier. Our systems write down each decision as it happens, in a record that can be added to but never edited, and the system itself never reads that record back, so it documents behavior without influencing it. Oversight is not a name in a file. The people behind our assistants get real queues with real trails, and every action a system takes on someone’s behalf runs under that person’s own permissions, so the question "who could have done this" always has an answer your identity system already knew.',
-              'Monitoring, the duty that sounds vaguest, is the one we can show most concretely. Before any change ships, a battery of annotated, anonymized cases must pass, and one of our systems carries 118 of them. After shipping, a weekly probe runs a scripted end-to-end test conversation against the live system end to end. Two separate checks, kept apart on purpose, and together they are precisely the "monitor the operation of the system" evidence Article 26 asks a deployer to have.',
+              'Monitoring, the duty that sounds vaguest, is the one we can show most concretely. Before any change ships, a battery of annotated, anonymized cases must pass, and one of our systems carries 118 of them. After shipping, a weekly batch of scripted test conversations runs against the live system end to end. Two separate checks, kept apart on purpose, and together they are precisely the "monitor the operation of the system" evidence Article 26 asks a deployer to have.',
             ],
             link: { label: 'The records, isolation and identity design in full', href: '/en/gdpr-compliant-ai' },
           },
@@ -6749,7 +6749,7 @@ export const content: Record<Lang, SiteContent> = {
               'The technical description of what it does, which data enters it and which calls leave it, per use case.',
               'The oversight design: which humans can inspect, intervene and stop what, and through which interface.',
               'The decision log and how to consult it, with retention configured to your obligations, six months being the floor for high-risk deployers.',
-              'The evaluation evidence, meaning the battery of cases that gates each release and the weekly probe that watches the live system.',
+              'The evaluation evidence, meaning the battery of cases that gates each release and the weekly batch of test conversations that watches the live system.',
               'The supplier chain under the system, starting with the model provider you approved and the terms that bind them.',
             ],
           },
@@ -7256,7 +7256,7 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>The first version of Wazzy was an agent with tools at its disposal and we left it behind.</strong> The one in production today splits the work differently, with much more weight on the code side and considerably less on the model side. How it is put together inside is not something we are going to spell out here, among other reasons because it is not information we owe the competition. What we can show is what that decision produces.',
               'No appointment has ever been double-booked in the whole history of the product. Not one. It is a failure you cannot fix with an apology, because when it happens there are two people at the door at the same time and one of them has to go home.',
               '<strong>Nothing reaches production without first passing a battery of real cases with their correct answers written down.</strong> That includes what the clinic itself edits from its own panel, which does not change what the assistant answers until it passes the battery. And we pin the model version, so a provider update does not turn up on its own in production on a Tuesday morning.',
-              'On the running system there are 103 checks watching, tied to 91 named rules the system has to satisfy. And once a week a test walks the whole system end to end, booking an appointment the way a person would.',
+              'On the running system there are 103 checks watching, tied to 91 named rules the system has to satisfy. And every week a batch of tests walks the whole system end to end, booking appointments the way a person would.',
             ],
           },
           {

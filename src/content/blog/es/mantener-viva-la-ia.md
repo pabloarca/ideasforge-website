@@ -40,7 +40,7 @@ La diferencia entre el proyecto vistoso y el rentable no es el talento ni el mod
 
 **Alarmas que se prueban provocando el fallo.** Una defensa que nunca has visto saltar no es una defensa. Cada una se comprueba rompiendo a propósito lo que vigila.
 
-**Y una prueba de fuego real, periódica.** En nuestro producto, una prueba semanal crea una cita de verdad, envía un mensaje de verdad y lo limpia todo después. Descubre lo que ningún simulacro descubre.
+**Y una prueba de fuego real, periódica.** En nuestro producto, cada semana una tanda de pruebas crea citas de verdad, envía mensajes de verdad y lo limpia todo después. Descubre lo que ningún simulacro descubre.
 
 ## La pregunta incómoda para tu proveedor
 

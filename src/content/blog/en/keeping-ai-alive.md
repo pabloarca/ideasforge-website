@@ -42,7 +42,7 @@ The difference between the flashy project and the profitable one is not talent o
 
 **Alarms that get tested by forcing the failure.** A defense you have never seen go off is not a defense. Every alert gets verified by deliberately breaking what it watches.
 
-**A real fire drill, on a schedule.** In our product, a weekly test creates a real appointment, sends a real message, and cleans everything up afterwards. It finds what no simulation finds.
+**A real fire drill, on a schedule.** In our product, a weekly batch of tests creates real appointments, sends real messages, and cleans everything up afterwards. It finds what no simulation finds.
 
 ## The uncomfortable question for your vendor
 

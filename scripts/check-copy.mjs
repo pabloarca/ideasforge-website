@@ -196,6 +196,14 @@ const HECHOS_RETIRADOS = [
   ['telemetría, las mediciones técnicas', 'el párrafo de la telemetría con lista blanca, retirado'],
   ['allow-listed telemetry', 'el mismo hecho retirado, en inglés'],
   ['health telemetry, which travels', 'la telemetría como camino de salida, retirada'],
+  // La vigilancia semanal no es UNA conversación de prueba: es una tanda de
+  // muchas, cada semana y en todos los sistemas (propietario, 1 oct 2026). La
+  // forma singular estaba en nueve sitios entre los dos idiomas.
+  ['una conversación de prueba anonimizada', 'la vigilancia semanal es una tanda de conversaciones (1 oct 2026)'],
+  ['una prueba semanal', 'la vigilancia semanal es una tanda de conversaciones (1 oct 2026)'],
+  ['an anonymized test conversation', 'the weekly check is a batch of test conversations (1 oct 2026)'],
+  ['a scripted end-to-end test conversation', 'the weekly check is a batch of test conversations (1 oct 2026)'],
+  ['weekly probe', 'the weekly check is a batch of test conversations (1 oct 2026)'],
 ];
 
 /* Daños típicos de una edición quirúrgica: nunca son intencionados. */
