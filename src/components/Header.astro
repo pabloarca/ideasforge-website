@@ -42,7 +42,7 @@ const grupos: Grupo[] = t.footer.navGroups
   .map((g, i) => ({
     heading: g.heading,
     href: i === 0 ? localizedPath('/#servicios', lang) : undefined,
-    icon: (['rejilla', 'documento'] as IconName[])[i] ?? 'rejilla',
+    icon: (['rejilla', 'guia'] as IconName[])[i] ?? 'rejilla',
     links: g.links as Enlace[],
   }));
 

@@ -136,6 +136,12 @@ export const ICONS = {
     evenodd: true,
     paths: ['M4 2 H13 L19 5 V22 H4 Z M7 11 H16 V12.6 H7 Z M7 15 H16 V16.6 H7 Z'],
   },
+  // Libro abierto, para el grupo «Guías» (1 oct 2026). Hasta entonces el grupo
+  // heredaba `documento` por posición y salía igual que «Blog». Dos páginas en
+  // V a 1:2, con el lomo como corte: se dice con masas rectas, sin curva.
+  guia: {
+    paths: ['M2 4 L11.2 8.6 V21.6 L2 17 Z', 'M22 4 L12.8 8.6 V21.6 L22 17 Z'],
+  },
 
   // ---------- Servicios · grandes empresas ----------
   documentacion: {
