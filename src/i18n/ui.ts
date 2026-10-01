@@ -2831,6 +2831,17 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
+            heading: 'Suscripción o a medida',
+            id: 'suscripcion',
+            paragraphs: [
+              'Si buscas este precio verás cifras que van de unos pocos euros al mes a decenas de miles. No se contradicen, hablan de dos compras distintas.',
+              '<strong>Una suscripción de IA para empresas cuesta unos 20 euros por persona y mes.</strong> Es lo que cobran Microsoft 365 Copilot, ChatGPT Business, Claude Team y Google Workspace con Gemini en sus tarifas oficiales de octubre de 2026, entre 14 y 25 euros o dólares según el plan y la forma de pago. Te da un asistente que ayuda a cada persona mientras trabaja. Lo que produce lo revisa quien lo pidió.',
+              'Para ese trabajo suele bastar y no te vamos a vender otra cosa. Donde tu proceso es estándar, un producto probado gana a un desarrollo a medida en tiempo y en precio.',
+              '<strong>Un agente a medida es otra compra. Es un sistema que produce el resultado él solo, con tus datos y con tus permisos.</strong> Convierte cada factura que llega en una fila de datos lista para usar. O atiende a un cliente por mensaje y le reserva la cita en tu agenda. Ahí la suscripción que parecía barata se llena de apaños, porque nadie está revisando cada salida.',
+              '¿Y cuando una suscripción no basta y necesitas algo más completo? Lo decide una pregunta, si alguien va a revisar cada resultado o si el sistema tiene que producirlo solo. Si es lo segundo, así es como lo hacemos en nuestro <a class="link-inline" href="/servicios/desarrollo-de-agentes-de-ia">desarrollo de agentes de IA a medida</a>.',
+            ],
+          },
+          {
             heading: 'Qué mueve el precio',
             id: 'factores',
             paragraphs: ['<strong>Cuatro cosas explican casi cualquier presupuesto que enviamos.</strong>'],
