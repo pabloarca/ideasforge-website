@@ -1,0 +1,123 @@
+---
+/*
+  Una ficha de papel pegada a la pizarra con un imán. Va dentro de un <svg>:
+  es un grupo, no un elemento HTML. Coordenadas en las unidades del viewBox
+  del gráfico que la contiene.
+
+  Dos disposiciones:
+  - `vertical` (por defecto): icono arriba, título y, si la hay, una línea
+    pequeña debajo. Para las fichas protagonistas.
+  - `horizontal`: icono a la izquierda y texto a la derecha. Para las fichas
+    compactas de una lista o de un móvil.
+
+  La ficha puede ir un poco torcida (`giro`, en grados), que es lo que la hace
+  parecer pegada a mano. Más de 3° ya parece descuido.
+*/
+import { ICONOS_PIZARRA, type NombreIconoPizarra } from './iconos';
+import { GRIS, COLOR_TONO, PAPEL_TONO, type Tono } from './colores';
+
+const IMANES = {
+  rojo: '#e5484d',
+  amarillo: '#f2b705',
+  verde: '#2f8f5b',
+  azul: '#002dfd',
+  negro: '#2b303b',
+  gris: '#9aa1ad',
+} as const;
+
+interface Props {
+  /** Prefijo de las definiciones del SVG que la contiene (ver PizarraDefs). */
+  pre: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  icono: NombreIconoPizarra;
+  titulo: string;
+  sub?: string;
+  giro?: number;
+  iman?: keyof typeof IMANES;
+  /** Dónde va el imán a lo ancho, de 0 a 1. En una ficha baja de una sola
+      línea, a la derecha (0.88) para que no tape el texto. */
+  imanX?: number;
+  /** `azul` para lo que hace el modelo y `rojo` para el fallo. */
+  tono?: Tono;
+  disposicion?: 'vertical' | 'horizontal';
+  /** Tamaño del icono en unidades del viewBox. */
+  tamIcono?: number;
+  tamTitulo?: number;
+  tamSub?: number;
+}
+const {
+  pre,
+  x,
+  y,
+  w,
+  h,
+  icono,
+  titulo,
+  sub,
+  giro = 0,
+  iman = 'rojo',
+  imanX = 0.5,
+  tono = 'tinta',
+  disposicion = 'vertical',
+  tamTitulo = 17,
+  tamSub = 14.5,
+} = Astro.props;
+const tamIcono = Astro.props.tamIcono ?? (disposicion === 'horizontal' ? 28 : 34);
+
+const ic = ICONOS_PIZARRA[icono];
+const color = COLOR_TONO[tono];
+const papel = PAPEL_TONO[tono];
+
+// Vertical: con línea secundaria, el bloque de texto sube para dejarle sitio.
+const yTitulo = sub ? h - 30 : h - 20;
+const yIcono = Math.max(16, (sub ? h - 52 : h - 42) - tamIcono);
+
+// Horizontal: icono a la izquierda centrado en alto, texto alineado a su derecha.
+const xIconoH = 14;
+const xTextoH = xIconoH + tamIcono + 11;
+const yTituloH = sub ? h / 2 - 2 : h / 2 + tamTitulo * 0.36;
+const ySubH = h / 2 + tamSub + 3;
+---
+
+<g transform={`translate(${x} ${y}) rotate(${giro} ${w / 2} ${h / 2})`}>
+  <rect width={w} height={h} rx="7" fill={papel.fondo} stroke={papel.borde} stroke-width="1.2" filter={`url(#${pre}-sombra)`} />
+  {
+    disposicion === 'vertical' ? (
+      <>
+        <svg x={(w - tamIcono) / 2} y={yIcono} width={tamIcono} height={tamIcono} viewBox={ic.viewBox} aria-hidden="true">
+          <path d={ic.d} fill={color} />
+        </svg>
+        <text x={w / 2} y={yTitulo} text-anchor="middle" font-size={tamTitulo} font-weight="600" fill={color}>
+          {titulo}
+        </text>
+        {sub && (
+          <text x={w / 2} y={h - 11} text-anchor="middle" font-size={tamSub} font-weight="500" fill={GRIS}>
+            {sub}
+          </text>
+        )}
+      </>
+    ) : (
+      <>
+        <svg x={xIconoH} y={(h - tamIcono) / 2} width={tamIcono} height={tamIcono} viewBox={ic.viewBox} aria-hidden="true">
+          <path d={ic.d} fill={color} />
+        </svg>
+        <text x={xTextoH} y={yTituloH} font-size={tamTitulo} font-weight="600" fill={color}>
+          {titulo}
+        </text>
+        {sub && (
+          <text x={xTextoH} y={ySubH} font-size={tamSub} font-weight="500" fill={GRIS}>
+            {sub}
+          </text>
+        )}
+      </>
+    )
+  }
+  {/* El imán, en el borde de arriba, con su sombra y su brillo. */}
+  <g filter={`url(#${pre}-sombra-iman)`}>
+    <circle cx={w * imanX} cy="1" r="9" fill={IMANES[iman]} />
+    <circle cx={w * imanX} cy="1" r="9" fill={`url(#${pre}-brillo)`} />
+  </g>
+</g>

@@ -1,0 +1,95 @@
+---
+/*
+  De guion a acciones. En «De responder con opciones a ejecutar gestiones»,
+  en la página de agentes conversacionales, debajo de la frase que lo resume.
+
+  Dos filas. Arriba, el chatbot de antes: el cliente escribe como escribe la
+  gente, el menú de botones no lo entiende y vuelve al principio (en rojo).
+  Abajo, el de ahora: el modelo entiende el texto libre (en azul) y elige
+  entre cuatro acciones cerradas, las que nombra la página, y el código
+  ejecuta la elegida y comprueba el resultado.
+
+  Escritorio 800 × 426, móvil 360 × 686.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.guion;
+
+// Un icono para cada acción cerrada: reservar, consultar, cambiar y escalar.
+const ICONOS_ACCIONES = ['calendario', 'pregunta', 'reproduce', 'persona'] as const;
+
+// Las cuatro acciones, apiladas con hueco para que cada imán quede libre.
+const AY = 236;
+const APASO = 46;
+const AH = 30;
+const AFIN = AY + 3 * APASO + AH;
+
+// Corchete de rotulador que agrupa las acciones: el modelo elige una de ellas.
+const corchete = (x: number, lado: 1 | -1) => `M${x + 7 * lado},${AY + 2} L${x},${AY + 4} L${x},${AFIN - 4} L${x + 7 * lado},${AFIN - 2}`;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 426" aria-hidden="true">
+    <PizarraDefs pre="pga" />
+
+    <Nota x={2} y={24} texto={d.antes.titulo} tam={19} peso={700} />
+    <Nota x={2} y={46} texto={d.antes.sub} tono="gris" tam={15} peso={500} />
+    <Trazo desde={[226, 108]} hasta={[284, 108]} />
+    <Trazo desde={[476, 108]} hasta={[534, 108]} tono="rojo" />
+    <Ficha pre="pga" disposicion="horizontal" x={0} y={66} w={220} h={84} icono="chat" titulo={d.mensaje.t} sub={d.mensaje.s} iman="amarillo" giro={-1.5} tamIcono={28} tamTitulo={15} tamSub={14} />
+    <Ficha pre="pga" disposicion="horizontal" x={290} y={66} w={180} h={84} icono="menuBotones" titulo={d.menu.t} sub={d.menu.s} iman="gris" tamIcono={28} tamTitulo={16} tamSub={13.5} />
+    <Ficha pre="pga" disposicion="horizontal" x={540} y={66} w={220} h={84} icono="error" titulo={d.perdido.t} sub={d.perdido.s} tono="rojo" iman="rojo" giro={1.5} tamIcono={28} tamTitulo={16} tamSub={13.5} />
+
+    <Nota x={2} y={206} texto={d.ahora.titulo} tam={19} peso={700} />
+    <Nota x={2} y={227} texto={d.ahora.sub} tono="gris" tam={15} peso={500} />
+    <Trazo desde={[224, 320]} hasta={[252, 320]} />
+    <Trazo desde={[400, 320]} hasta={[428, 320]} tono="azul" />
+    <Trazo desde={[612, 320]} hasta={[634, 320]} />
+    <path d={corchete(436, 1)} fill="none" stroke={TINTA} stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+    <path d={corchete(604, -1)} fill="none" stroke={TINTA} stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+    <Ficha pre="pga" disposicion="horizontal" x={0} y={278} w={220} h={84} icono="chat" titulo={d.mensaje.t} sub={d.mensaje.s} iman="amarillo" giro={1} tamIcono={28} tamTitulo={15} tamSub={14} />
+    <Ficha pre="pga" x={258} y={278} w={136} h={84} icono="ia" titulo={d.entiende.t} sub={d.entiende.s} tono="azul" iman="azul" tamIcono={26} tamTitulo={16} tamSub={13} />
+    {
+      d.acciones.map((a, i) => (
+        <Ficha pre="pga" disposicion="horizontal" x={446} y={AY + i * APASO} w={148} h={AH} icono={ICONOS_ACCIONES[i]} titulo={a} iman="negro" imanX={0.88} tamIcono={18} tamTitulo={14} />
+      ))
+    }
+    <Ficha pre="pga" x={640} y={278} w={156} h={84} icono="validacion" titulo={d.codigo.t} sub={d.codigo.s} iman="verde" giro={-1} tamIcono={26} tamTitulo={16} tamSub={13} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 686" aria-hidden="true">
+    <PizarraDefs pre="pge" />
+
+    <Nota x={0} y={18} texto={d.antes.titulo} tam={15} peso={700} />
+    <Nota x={0} y={36} texto={d.antes.sub} tono="gris" tam={12.5} peso={500} />
+    <Trazo desde={[180, 113]} hasta={[180, 128]} />
+    <Trazo desde={[180, 189]} hasta={[180, 204]} tono="rojo" />
+    <Ficha pre="pge" disposicion="horizontal" x={30} y={52} w={300} h={56} icono="chat" titulo={d.mensaje.t} sub={d.mensaje.s} iman="amarillo" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="pge" disposicion="horizontal" x={30} y={134} w={300} h={50} icono="menuBotones" titulo={d.menu.t} sub={d.menu.s} iman="gris" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="pge" disposicion="horizontal" x={30} y={210} w={300} h={56} icono="error" titulo={d.perdido.t} sub={d.perdido.s} tono="rojo" iman="rojo" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+
+    <Nota x={0} y={300} texto={d.ahora.titulo} tam={15} peso={700} />
+    <Nota x={0} y={318} texto={d.ahora.sub} tono="gris" tam={12.5} peso={500} />
+    <Trazo desde={[180, 395]} hasta={[180, 410]} tono="azul" />
+    <Trazo desde={[180, 473]} hasta={[180, 488]} tono="azul" />
+    <Trazo desde={[180, 596]} hasta={[180, 612]} />
+    <Ficha pre="pge" disposicion="horizontal" x={30} y={334} w={300} h={56} icono="chat" titulo={d.mensaje.t} sub={d.mensaje.s} iman="amarillo" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="pge" disposicion="horizontal" x={30} y={416} w={300} h={52} icono="ia" titulo={d.entiende.t} sub={d.entiende.s} tono="azul" iman="azul" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    {
+      d.acciones.map((a, i) => (
+        <Ficha pre="pge" disposicion="horizontal" x={30 + (i % 2) * 155} y={494 + Math.floor(i / 2) * 58} w={145} h={38} icono={ICONOS_ACCIONES[i]} titulo={a} iman="negro" imanX={0.88} tamIcono={20} tamTitulo={14} />
+      ))
+    }
+    <Ficha pre="pge" disposicion="horizontal" x={30} y={618} w={300} h={56} icono="validacion" titulo={d.codigo.t} sub={d.codigo.s} iman="verde" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+  </svg>
+</Pizarra>

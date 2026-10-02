@@ -1,0 +1,143 @@
+---
+/*
+  El montaje se paga una vez. En «Del primer proceso a los siguientes».
+
+  Abajo, los cimientos: conexión, registro, batería de pruebas y operación,
+  con una raya debajo y la nota de quién los paga. Encima, tres procesos
+  apilados como pisos, cada uno más estrecho que el anterior y con su coste
+  al lado (€€€, €€, €): el primero carga con el montaje y los siguientes lo
+  reutilizan. No hay cifras, solo el orden, que es lo que dice la página.
+
+  Escritorio 800 × 412, móvil 360 × 428.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.montaje;
+
+const ICONOS_CIMIENTOS = ['conexion', 'registro', 'bateria', 'operacion'] as const;
+const ICONOS_PISOS = ['uno', 'dos', 'tres'] as const;
+const IMANES = ['rojo', 'amarillo', 'verde'] as const;
+
+// Escritorio: los pisos se estrechan hacia arriba, centrados en x = 400.
+const PISOS_A = [
+  { w: 420, y: 186 },
+  { w: 340, y: 98 },
+  { w: 260, y: 10 },
+];
+// Móvil: lo mismo en 360 de ancho; el coste va dentro de la línea pequeña.
+const PISOS_E = [
+  { w: 320, y: 176 },
+  { w: 270, y: 98 },
+  { w: 220, y: 20 },
+];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 412" aria-hidden="true">
+    <PizarraDefs pre="pma" />
+
+    {
+      d.pisos.map((p, i) => (
+        <>
+          <Ficha
+            pre="pma"
+            disposicion="horizontal"
+            x={400 - PISOS_A[i].w / 2}
+            y={PISOS_A[i].y}
+            w={PISOS_A[i].w}
+            h={72}
+            icono={ICONOS_PISOS[i]}
+            titulo={p.t}
+            sub={p.s}
+            iman={IMANES[i]}
+            giro={i === 1 ? 1 : i === 2 ? -1.2 : 0}
+            tamIcono={34}
+            tamTitulo={21}
+            tamSub={15}
+          />
+          <Nota x={400 + PISOS_A[i].w / 2 + 22} y={PISOS_A[i].y + 46} texto={d.costes[i]} tam={28} peso={700} />
+        </>
+      ))
+    }
+
+    {
+      d.cimientos.map((c, i) => (
+        <Ficha
+          pre="pma"
+          disposicion="horizontal"
+          x={4 + i * 199}
+          y={294}
+          w={185}
+          h={68}
+          icono={ICONOS_CIMIENTOS[i]}
+          titulo={c.t}
+          sub={c.s}
+          iman="gris"
+          tamIcono={30}
+          tamTitulo={17.5}
+          tamSub={14}
+        />
+      ))
+    }
+
+    {/* La raya bajo los cimientos y quién los paga. */}
+    <path d="M6,374 L6,380 L790,380 L790,374" fill="none" stroke="#1f2430" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+    <Nota x={400} y={402} texto={d.cimientosNota} tam={17} alinea="middle" />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 428" aria-hidden="true">
+    <PizarraDefs pre="pme" />
+
+    {
+      d.pisos.map((p, i) => (
+        <Ficha
+          pre="pme"
+          disposicion="horizontal"
+          x={180 - PISOS_E[i].w / 2}
+          y={PISOS_E[i].y}
+          w={PISOS_E[i].w}
+          h={58}
+          icono={ICONOS_PISOS[i]}
+          titulo={p.t}
+          sub={`${p.s} · ${d.costes[i]}`}
+          iman={IMANES[i]}
+          giro={i === 1 ? 1 : i === 2 ? -1.2 : 0}
+          tamIcono={28}
+          tamTitulo={16}
+          tamSub={13}
+        />
+      ))
+    }
+
+    {
+      d.cimientos.map((c, i) => (
+        <Ficha
+          pre="pme"
+          disposicion="horizontal"
+          x={(i % 2) * 190}
+          y={256 + Math.floor(i / 2) * 74}
+          w={170}
+          h={56}
+          icono={ICONOS_CIMIENTOS[i]}
+          titulo={c.t}
+          sub={c.s}
+          iman="gris"
+          tamIcono={24}
+          tamTitulo={14.5}
+          tamSub={12}
+        />
+      ))
+    }
+
+    <path d="M2,394 L2,400 L358,400 L358,394" fill="none" stroke="#1f2430" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+    <Nota x={180} y={420} texto={d.cimientosNota} tam={14} alinea="middle" />
+  </svg>
+</Pizarra>

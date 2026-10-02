@@ -1,0 +1,86 @@
+---
+/*
+  Las tres condiciones del primer proceso. En «El proceso por el que
+  empezar», debajo del párrafo que las enumera.
+
+  Tres círculos dibujados a rotulador que se cruzan: duele de forma medible,
+  se repite con volumen y hay alguien que quiere quitárselo. Cada uno lleva
+  el color de un imán de la pizarra, sin significado propio, y el centro,
+  donde se cruzan los tres, tiene su ficha: tu candidato.
+
+  Escritorio 800 × 430, móvil 360 × 350.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Circulo from './Circulo.astro';
+import Nota from './Nota.astro';
+import { ICONOS_PIZARRA } from './iconos';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.condiciones;
+
+const ROJO = '#e5484d';
+const AMARILLO = '#d99a00';
+const VERDE = '#2f8f5b';
+
+// Cada etiqueta: un icono del color de su círculo y dos líneas de texto debajo.
+const ETIQUETAS_A = [
+  { x: 252, y: 126, icono: ICONOS_PIZARRA.dinero, color: ROJO, texto: d.medible },
+  { x: 548, y: 126, icono: ICONOS_PIZARRA.repite, color: AMARILLO, texto: d.volumen },
+  { x: 400, y: 352, icono: ICONOS_PIZARRA.mano, color: VERDE, texto: d.alguien },
+];
+const ETIQUETAS_E = [
+  { x: 98, y: 96, icono: ICONOS_PIZARRA.dinero, color: ROJO, texto: d.medible },
+  { x: 262, y: 96, icono: ICONOS_PIZARRA.repite, color: AMARILLO, texto: d.volumen },
+  { x: 180, y: 268, icono: ICONOS_PIZARRA.mano, color: VERDE, texto: d.alguien },
+];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 430" aria-hidden="true">
+    <PizarraDefs pre="poa" />
+
+    <Circulo cx={300} cy={160} r={128} color={ROJO} />
+    <Circulo cx={500} cy={160} r={128} color={AMARILLO} velo={0.12} />
+    <Circulo cx={400} cy={292} r={128} color={VERDE} />
+
+    {
+      ETIQUETAS_A.map((e) => (
+        <>
+          <svg x={e.x - 16} y={e.y - 40} width="32" height="32" viewBox={e.icono.viewBox} aria-hidden="true">
+            <path d={e.icono.d} fill={e.color} />
+          </svg>
+          <Nota x={e.x} y={e.y + 12} texto={e.texto} tam={17} alinea="middle" />
+        </>
+      ))
+    }
+
+    <Ficha pre="poa" disposicion="horizontal" x={322} y={182} w={156} h={56} icono="diana" titulo={d.centro} iman="negro" tamIcono={26} tamTitulo={16} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 350" aria-hidden="true">
+    <PizarraDefs pre="poe" />
+
+    <Circulo cx={126} cy={122} r={98} color={ROJO} />
+    <Circulo cx={234} cy={122} r={98} color={AMARILLO} velo={0.12} />
+    <Circulo cx={180} cy={220} r={98} color={VERDE} />
+
+    {
+      ETIQUETAS_E.map((e) => (
+        <>
+          <svg x={e.x - 13} y={e.y - 32} width="26" height="26" viewBox={e.icono.viewBox} aria-hidden="true">
+            <path d={e.icono.d} fill={e.color} />
+          </svg>
+          <Nota x={e.x} y={e.y + 10} texto={e.texto} tam={13.5} alinea="middle" />
+        </>
+      ))
+    }
+
+    <Ficha pre="poe" disposicion="horizontal" x={113} y={142} w={134} h={46} icono="diana" titulo={d.centro} iman="negro" tamIcono={20} tamTitulo={13.5} />
+  </svg>
+</Pizarra>

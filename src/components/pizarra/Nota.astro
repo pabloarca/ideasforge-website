@@ -1,0 +1,49 @@
+---
+/*
+  Texto escrito a rotulador directamente sobre la pizarra, sin ficha: el
+  rótulo de una fila, una conclusión, una aclaración al margen. Va dentro de
+  un <svg>. Acepta varias líneas (un array) y un giro leve, que es lo que
+  distingue una anotación a mano de un rótulo impreso.
+*/
+import { GRIS, COLOR_TONO, type Tono } from './colores';
+
+interface Props {
+  x: number;
+  y: number;
+  /** Una línea o varias. */
+  texto: string | string[];
+  tono?: Tono | 'gris';
+  tam?: number;
+  peso?: number;
+  alinea?: 'start' | 'middle' | 'end';
+  giro?: number;
+  /** Separación entre líneas, en múltiplos del tamaño. */
+  interlineado?: number;
+}
+const {
+  x,
+  y,
+  texto,
+  tono = 'tinta',
+  tam = 17,
+  peso = 600,
+  alinea = 'start',
+  giro = 0,
+  interlineado = 1.25,
+} = Astro.props;
+
+const lineas = Array.isArray(texto) ? texto : [texto];
+const color = tono === 'gris' ? GRIS : COLOR_TONO[tono];
+---
+
+<text
+  x={x}
+  y={y}
+  font-size={tam}
+  font-weight={peso}
+  fill={color}
+  text-anchor={alinea}
+  transform={giro ? `rotate(${giro} ${x} ${y})` : undefined}
+>
+  {lineas.map((l, i) => <tspan x={x} dy={i === 0 ? 0 : tam * interlineado}>{l}</tspan>)}
+</text>

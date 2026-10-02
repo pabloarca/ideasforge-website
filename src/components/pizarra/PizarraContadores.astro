@@ -1,0 +1,61 @@
+---
+/*
+  Los dos contadores del coste en WhatsApp. En «Qué cuesta» de la página de
+  agentes conversacionales, debajo de la frase que los presenta.
+
+  Una conversación por WhatsApp alimenta dos contadores distintos: las
+  llamadas al modelo (en azul, lo que gasta el modelo) y las plantillas que
+  Meta cobra aparte, como un recordatorio de cita. A la derecha, la promesa de la
+  página, junto a la llave que abarca los dos: van desglosados.
+
+  Escritorio 800 × 280, móvil 360 × 335.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.contadores;
+
+// Llave de rotulador que abarca los dos contadores, con el pico a la derecha.
+const llave = (x: number, y1: number, y2: number, a = 12) => {
+  const m = (y1 + y2) / 2;
+  return `M${x},${y1} Q${x + a},${y1} ${x + a},${y1 + 16} L${x + a},${m - 16} Q${x + a},${m} ${x + 2 * a},${m} Q${x + a},${m} ${x + a},${m + 16} L${x + a},${y2 - 16} Q${x + a},${y2} ${x},${y2}`;
+};
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 280" aria-hidden="true">
+    <PizarraDefs pre="pka" />
+
+    <Trazo desde={[218, 120]} hasta={[338, 64]} curva={12} tono="azul" />
+    <Trazo desde={[218, 160]} hasta={[338, 216]} curva={-12} />
+    <path d={llave(656, 26, 254)} fill="none" stroke={TINTA} stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+
+    <Ficha pre="pka" x={10} y={88} w={200} h={104} icono="chat" titulo={d.conversacion.t} sub={d.conversacion.s} iman="verde" giro={-1.5} tamIcono={32} tamTitulo={18} tamSub={14} />
+    <Ficha pre="pka" disposicion="horizontal" x={346} y={20} w={300} h={88} icono="contador" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" giro={1} tamIcono={32} tamTitulo={20} tamSub={14} />
+    <Ficha pre="pka" disposicion="horizontal" x={346} y={172} w={300} h={88} icono="contador" titulo={d.meta.t} sub={d.meta.s} iman="gris" giro={-1} tamIcono={32} tamTitulo={20} tamSub={14} />
+
+    <Nota x={692} y={134} texto={d.nota} tam={16} peso={700} giro={-3} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 335" aria-hidden="true">
+    <PizarraDefs pre="pke" />
+
+    <Trazo desde={[180, 76]} hasta={[180, 104]} tono="azul" />
+    <Trazo desde={[76, 46]} hasta={[44, 238]} curva={22} />
+
+    <Ficha pre="pke" disposicion="horizontal" x={80} y={14} w={200} h={58} icono="chat" titulo={d.conversacion.t} sub={d.conversacion.s} iman="verde" tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="pke" disposicion="horizontal" x={50} y={110} w={310} h={72} icono="contador" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" tamIcono={28} tamTitulo={17} tamSub={13} />
+    <Ficha pre="pke" disposicion="horizontal" x={50} y={210} w={310} h={72} icono="contador" titulo={d.meta.t} sub={d.meta.s} iman="gris" tamIcono={28} tamTitulo={17} tamSub={13} />
+
+    <Nota x={205} y={318} texto={d.nota.join(' ')} tam={15} peso={700} alinea="middle" giro={-2} />
+  </svg>
+</Pizarra>

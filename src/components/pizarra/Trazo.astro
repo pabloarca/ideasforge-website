@@ -1,0 +1,66 @@
+---
+/*
+  Una flecha dibujada con rotulador de pizarra. Va dentro de un <svg>.
+
+  Es una curva suave de `desde` a `hasta`: `curva` desplaza el punto de
+  control en perpendicular al segmento (positivo, a la izquierda según se
+  avanza). La punta no es un triángulo relleno, son dos trazos cortos, que es
+  como se dibuja una flecha a mano. Un segundo trazo fino y casi transparente,
+  ligeramente desplazado, imita la textura del rotulador.
+*/
+import { COLOR_TONO, type Tono } from './colores';
+
+interface Props {
+  desde: [number, number];
+  hasta: [number, number];
+  curva?: number;
+  tono?: Tono;
+  /** Texto escrito junto a la flecha («sí», «no»). */
+  etiqueta?: string;
+  /** Posición de la etiqueta. Por defecto, junto al centro de la curva. */
+  etiquetaEn?: [number, number];
+  tamEtiqueta?: number;
+}
+const { desde, hasta, curva = 0, tono = 'tinta', etiqueta, etiquetaEn, tamEtiqueta = 16 } = Astro.props;
+
+const [x0, y0] = desde;
+const [x1, y1] = hasta;
+const dx = x1 - x0;
+const dy = y1 - y0;
+const largo = Math.hypot(dx, dy) || 1;
+// Perpendicular unitaria, a la izquierda de la dirección de avance.
+const px = -dy / largo;
+const py = dx / largo;
+const cx = (x0 + x1) / 2 + px * curva;
+const cy = (y0 + y1) / 2 + py * curva;
+
+// La punta sigue la tangente al final de la curva, que va del control al destino.
+const ang = Math.atan2(y1 - cy, x1 - cx);
+const PUNTA = 13;
+const ABRE = 0.5; // radianes, unos 29°
+const p1 = [x1 - PUNTA * Math.cos(ang - ABRE), y1 - PUNTA * Math.sin(ang - ABRE)];
+const p2 = [x1 - PUNTA * Math.cos(ang + ABRE), y1 - PUNTA * Math.sin(ang + ABRE)];
+
+const r = (n: number) => Math.round(n * 10) / 10;
+const d = `M${r(x0)},${r(y0)} Q${r(cx)},${r(cy)} ${r(x1)},${r(y1)}`;
+const dPunta = `M${r(p1[0])},${r(p1[1])} L${r(x1)},${r(y1)} L${r(p2[0])},${r(p2[1])}`;
+
+const color = COLOR_TONO[tono];
+// Punto medio de la curva (t = 0,5), para colocar la etiqueta.
+const mx = 0.25 * x0 + 0.5 * cx + 0.25 * x1;
+const my = 0.25 * y0 + 0.5 * cy + 0.25 * y1;
+const [lx, ly] = etiquetaEn ?? [mx + px * 16, my + py * 16];
+---
+
+<g fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round">
+  <path d={d} stroke-width="3.1" />
+  <path d={d} stroke-width="1.2" opacity="0.35" transform="translate(0.8 0.6)" />
+  <path d={dPunta} stroke-width="3.1" />
+</g>
+{
+  etiqueta && (
+    <text x={r(lx)} y={r(ly)} text-anchor="middle" font-size={tamEtiqueta} font-weight="600" fill={color}>
+      {etiqueta}
+    </text>
+  )
+}

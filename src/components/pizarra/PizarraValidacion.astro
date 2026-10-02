@@ -1,0 +1,107 @@
+---
+/*
+  Dónde se caza el error. En «Validación en el medio, no confianza al final»,
+  debajo de la frase que lo resume.
+
+  Dos recorridos de la misma factura. Arriba se valida al final: el dato ya
+  está en tu ERP cuando aparece el error y toca una corrección contable, en
+  rojo, que es el único sitio del kit donde se usa. Abajo se valida justo
+  después de leer: lo que cuadra sigue a tu ERP y lo que no se desvía a una
+  persona con el motivo.
+
+  Escritorio, dos filas en 800 × 460. Móvil, dos columnas en 360 × 540.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.validacion;
+
+// Escritorio: cinco fichas por fila, de 128 de ancho con 40 de hueco.
+const W = 128;
+const H = 92;
+const X = [0, 168, 336, 504, 672];
+const F1 = 60; // fila de arriba
+const F2 = 244; // fila de abajo
+// En la fila de abajo, tu ERP y la persona se separan más de la validación
+// para que quepan las etiquetas «cuadra» y «no cuadra».
+const X2B = 560;
+const flechas = (y: number, desde: number[]) =>
+  desde.map((x) => ({ desde: [x + W + 6, y + H / 2] as [number, number], hasta: [x + W + 34, y + H / 2] as [number, number] }));
+
+// Móvil: dos columnas de fichas horizontales.
+const MW = 150;
+const MH = 54;
+const C1 = 0;
+const C2 = 190;
+const MY = [70, 160, 250, 340, 430];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 460" aria-hidden="true">
+    <PizarraDefs pre="pva" />
+
+    <Nota x={2} y={24} texto={d.final.titulo} tam={19} peso={700} />
+    <Nota x={2} y={46} texto={d.final.sub.join(' ')} tono="gris" tam={15} peso={500} />
+    <Nota x={2} y={208} texto={d.medio.titulo} tam={19} peso={700} />
+    <Nota x={2} y={230} texto={d.medio.sub.join(' ')} tono="gris" tam={15} peso={500} />
+
+    {flechas(F1, [X[0], X[1], X[2], X[3]]).map((f, i) => <Trazo desde={f.desde} hasta={f.hasta} tono={i === 3 ? 'rojo' : 'tinta'} />)}
+    {flechas(F2, [X[0], X[1]]).map((f) => <Trazo desde={f.desde} hasta={f.hasta} />)}
+    <Trazo desde={[X[2] + W + 6, F2 + H / 2]} hasta={[X2B - 6, F2 + H / 2]} etiqueta={d.si} etiquetaEn={[(X[2] + W + X2B) / 2, F2 + H / 2 - 12]} tamEtiqueta={15} />
+    <Trazo desde={[X[2] + W - 10, F2 + H + 6]} hasta={[X2B - 6, F2 + H + 58]} curva={-14} etiqueta={d.no} etiquetaEn={[X[2] + W + 4, F2 + H + 60]} tamEtiqueta={15} />
+
+    <Ficha pre="pva" x={X[0]} y={F1} w={W} h={H} icono="factura" titulo={d.factura} iman="rojo" giro={-2} tamTitulo={16} />
+    <Ficha pre="pva" x={X[1]} y={F1} w={W} h={H} icono="ia" titulo={d.lee.t} sub={d.lee.s} tono="azul" iman="azul" tamIcono={28} tamTitulo={16} tamSub={13} />
+    <Ficha pre="pva" x={X[2]} y={F1} w={W} h={H} icono="erp" titulo={d.erp} iman="gris" giro={1.5} tamTitulo={16} />
+    <Ficha pre="pva" x={X[3]} y={F1} w={W} h={H} icono="validacion" titulo={d.valida} iman="negro" tamTitulo={16} />
+    <Ficha pre="pva" x={X[4]} y={F1} w={W} h={H} icono="error" titulo={d.correccion.t} sub={d.correccion.s} tono="rojo" iman="rojo" giro={2} tamIcono={28} tamTitulo={16} tamSub={13} />
+
+    <Ficha pre="pva" x={X[0]} y={F2} w={W} h={H} icono="factura" titulo={d.factura} iman="amarillo" giro={1.5} tamTitulo={16} />
+    <Ficha pre="pva" x={X[1]} y={F2} w={W} h={H} icono="ia" titulo={d.lee.t} sub={d.lee.s} tono="azul" iman="azul" tamIcono={28} tamTitulo={16} tamSub={13} />
+    <Ficha pre="pva" x={X[2]} y={F2} w={W} h={H} icono="validacion" titulo={d.valida} iman="negro" giro={-1.5} tamTitulo={16} />
+    <Ficha pre="pva" x={X2B} y={F2} w={W} h={H} icono="erp" titulo={d.erp} iman="verde" tamTitulo={16} />
+    <Ficha pre="pva" x={X2B} y={F2 + H + 22} w={W} h={H} icono="persona" titulo={d.persona.t} sub={d.persona.s} iman="amarillo" giro={-1.5} tamIcono={28} tamTitulo={16} tamSub={13} />
+
+    <Nota x={20} y={F2 + 150} texto={d.conclusion} tam={17} peso={700} giro={-3} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 540" aria-hidden="true">
+    <PizarraDefs pre="pve" />
+
+    <Nota x={C1} y={18} texto={d.final.titulo} tam={15} peso={700} />
+    <Nota x={C1} y={36} texto={d.final.sub} tono="gris" tam={12.5} peso={500} />
+    <Nota x={C2} y={18} texto={d.medio.titulo} tam={15} peso={700} />
+    <Nota x={C2} y={36} texto={d.medio.sub} tono="gris" tam={12.5} peso={500} />
+
+    {[0, 1, 2, 3].map((i) => (
+      <Trazo desde={[C1 + MW / 2, MY[i] + MH + 4]} hasta={[C1 + MW / 2, MY[i + 1] - 5]} tono={i === 3 ? 'rojo' : 'tinta'} />
+    ))}
+    {[0, 1].map((i) => (
+      <Trazo desde={[C2 + MW / 2, MY[i] + MH + 4]} hasta={[C2 + MW / 2, MY[i + 1] - 5]} />
+    ))}
+    <Trazo desde={[C2 + MW / 2, MY[2] + MH + 4]} hasta={[C2 + MW / 2, MY[3] - 5]} etiqueta={d.si} etiquetaEn={[C2 + MW / 2 + 40, MY[3] - 12]} tamEtiqueta={13} />
+    <Trazo desde={[C2 + MW + 2, MY[2] + MH / 2]} hasta={[C2 + MW + 2, MY[4] + MH / 2]} curva={-26} etiqueta={d.no} etiquetaEn={[C2 + MW - 26, MY[4] - 14]} tamEtiqueta={13} />
+
+    <Ficha pre="pve" disposicion="horizontal" x={C1} y={MY[0]} w={MW} h={MH} icono="factura" titulo={d.factura} iman="rojo" tamIcono={24} tamTitulo={15} />
+    <Ficha pre="pve" disposicion="horizontal" x={C1} y={MY[1]} w={MW} h={MH} icono="ia" titulo={d.lee.t} sub={d.lee.s} tono="azul" iman="azul" tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="pve" disposicion="horizontal" x={C1} y={MY[2]} w={MW} h={MH} icono="erp" titulo={d.erp} iman="gris" tamIcono={24} tamTitulo={15} />
+    <Ficha pre="pve" disposicion="horizontal" x={C1} y={MY[3]} w={MW} h={MH} icono="validacion" titulo={d.valida} iman="negro" tamIcono={24} tamTitulo={15} />
+    <Ficha pre="pve" disposicion="horizontal" x={C1} y={MY[4]} w={MW} h={MH} icono="error" titulo={d.correccion.t} sub={d.correccion.s} tono="rojo" iman="rojo" tamIcono={24} tamTitulo={15} tamSub={12.5} />
+
+    <Ficha pre="pve" disposicion="horizontal" x={C2} y={MY[0]} w={MW} h={MH} icono="factura" titulo={d.factura} iman="amarillo" tamIcono={24} tamTitulo={15} />
+    <Ficha pre="pve" disposicion="horizontal" x={C2} y={MY[1]} w={MW} h={MH} icono="ia" titulo={d.lee.t} sub={d.lee.s} tono="azul" iman="azul" tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="pve" disposicion="horizontal" x={C2} y={MY[2]} w={MW} h={MH} icono="validacion" titulo={d.valida} iman="negro" tamIcono={24} tamTitulo={15} />
+    <Ficha pre="pve" disposicion="horizontal" x={C2} y={MY[3]} w={MW} h={MH} icono="erp" titulo={d.erp} iman="verde" tamIcono={24} tamTitulo={15} />
+    <Ficha pre="pve" disposicion="horizontal" x={C2} y={MY[4]} w={MW} h={MH} icono="persona" titulo={d.persona.t} sub={d.persona.s} iman="amarillo" tamIcono={24} tamTitulo={15} tamSub={12.5} />
+
+    <Nota x={C2 + MW / 2} y={MY[4] + MH + 26} texto={d.conclusion} tam={14} peso={700} alinea="middle" giro={-2} />
+  </svg>
+</Pizarra>

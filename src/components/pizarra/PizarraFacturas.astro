@@ -1,0 +1,91 @@
+---
+/*
+  El recorrido de una factura, en «Un flujo de facturas, paso a paso».
+  Sustituye (2 oct 2026) al diagrama técnico que estaba aquí: mismo
+  contenido, en pizarra.
+
+  Cinco fichas en fila: llega, se clasifica, se lee (en azul, lo único que
+  hace el modelo), ¿cuadra? y tu ERP. Si no cuadra, la factura baja a una
+  persona con el motivo. Encima, una banda punteada con el sexto paso, que no
+  es una casilla más: cada paso deja escrito qué se leyó y qué se decidió.
+  Debajo, la leyenda de siempre, en HTML.
+
+  Escritorio 800 × 360. Móvil, la fila en vertical, 360 × 555.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { ICONOS_PIZARRA } from './iconos';
+import { GRIS } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.facturas;
+const reg = ICONOS_PIZARRA.registro;
+
+// Escritorio: cinco fichas de 128 con 36 de hueco.
+const W = 128;
+const H = 96;
+const X = [0, 164, 328, 492, 656];
+const FY = 104;
+const MEDIO = FY + H / 2;
+
+// Móvil: la banda no cabe en una línea, se parte por la palabra del medio.
+const palabras = d.registro.split(' ');
+const corte = Math.ceil(palabras.length / 2);
+const registroDos = [palabras.slice(0, corte).join(' '), palabras.slice(corte).join(' ')];
+const MY = [84, 172, 260, 348];
+const MW = 210;
+const MH = 52;
+const MX = (360 - MW) / 2;
+---
+
+<Pizarra label={d.label} caption={d.leyenda}>
+  <svg slot="ancho" viewBox="0 0 800 360" aria-hidden="true">
+    <PizarraDefs pre="pfca" />
+
+    {/* La banda del registro: corre por encima de todos los pasos. */}
+    <rect x="2" y="6" width="796" height="46" rx="10" fill="none" stroke={GRIS} stroke-width="2" stroke-dasharray="8 7" stroke-linecap="round" />
+    <svg x="18" y="17" width="24" height="24" viewBox={reg.viewBox} aria-hidden="true"><path d={reg.d} fill={GRIS} /></svg>
+    <Nota x={52} y={35} texto={d.registro} tono="gris" tam={16} />
+
+    {[0, 1, 2].map((i) => <Trazo desde={[X[i] + W + 6, MEDIO]} hasta={[X[i + 1] - 6, MEDIO]} />)}
+    <Trazo desde={[X[3] + W + 6, MEDIO]} hasta={[X[4] - 6, MEDIO]} etiqueta={d.si} etiquetaEn={[(X[3] + W + X[4]) / 2, MEDIO - 12]} tamEtiqueta={15} />
+    <Trazo desde={[X[3] + W / 2, FY + H + 6]} hasta={[X[3] + W / 2, FY + H + 42]} etiqueta={d.no} etiquetaEn={[X[3] + W / 2 + 20, FY + H + 30]} tamEtiqueta={15} />
+
+    <Ficha pre="pfca" x={X[0]} y={FY} w={W} h={H} icono="factura" titulo={d.llega} iman="rojo" giro={-2} tamTitulo={17} />
+    <Ficha pre="pfca" x={X[1]} y={FY} w={W} h={H} icono="clasifica" titulo={d.clasifica} iman="amarillo" giro={1.5} tamTitulo={16} />
+    <Ficha pre="pfca" x={X[2]} y={FY} w={W} h={H} icono="ia" titulo={d.lee.t} sub={d.lee.s} tono="azul" iman="azul" tamIcono={30} tamTitulo={17} tamSub={13} />
+    <Ficha pre="pfca" x={X[3]} y={FY} w={W} h={H} icono="validacion" titulo={d.cuadra} iman="negro" giro={-1.5} tamTitulo={17} />
+    <Ficha pre="pfca" x={X[4]} y={FY} w={W} h={H} icono="erp" titulo={d.erp.t} sub={d.erp.s} iman="verde" giro={1.5} tamIcono={30} tamTitulo={17} tamSub={13} />
+    <Ficha pre="pfca" x={X[3]} y={FY + H + 50} w={W} h={H} icono="persona" titulo={d.persona.t} sub={d.persona.s} iman="amarillo" giro={1} tamIcono={30} tamTitulo={16} tamSub={13} />
+
+    <Nota x={2} y={FY + H + 104} texto={d.clave} tono="azul" tam={16} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 555" aria-hidden="true">
+    <PizarraDefs pre="pfce" />
+
+    <rect x="2" y="4" width="356" height="56" rx="10" fill="none" stroke={GRIS} stroke-width="2" stroke-dasharray="7 6" stroke-linecap="round" />
+    <svg x="12" y="20" width="22" height="22" viewBox={reg.viewBox} aria-hidden="true"><path d={reg.d} fill={GRIS} /></svg>
+    <Nota x={42} y={28} texto={registroDos} tono="gris" tam={13.5} />
+
+    {[0, 1, 2].map((i) => <Trazo desde={[180, MY[i] + MH + 5]} hasta={[180, MY[i + 1] - 6]} />)}
+    <Trazo desde={[166, MY[3] + MH + 6]} hasta={[90, 452]} curva={10} etiqueta={d.si} etiquetaEn={[112, 428]} tamEtiqueta={13} />
+    <Trazo desde={[194, MY[3] + MH + 6]} hasta={[270, 452]} curva={-10} etiqueta={d.no} etiquetaEn={[248, 428]} tamEtiqueta={13} />
+
+    <Ficha pre="pfce" disposicion="horizontal" x={MX} y={MY[0]} w={MW} h={MH} icono="factura" titulo={d.llega} iman="rojo" tamIcono={24} tamTitulo={15} />
+    <Ficha pre="pfce" disposicion="horizontal" x={MX} y={MY[1]} w={MW} h={MH} icono="clasifica" titulo={d.clasifica} iman="amarillo" tamIcono={24} tamTitulo={15} />
+    <Ficha pre="pfce" disposicion="horizontal" x={MX} y={MY[2]} w={MW} h={MH} icono="ia" titulo={d.lee.t} sub={d.lee.s} tono="azul" iman="azul" tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="pfce" disposicion="horizontal" x={MX} y={MY[3]} w={MW} h={MH} icono="validacion" titulo={d.cuadra} iman="negro" tamIcono={24} tamTitulo={15} />
+    <Ficha pre="pfce" disposicion="horizontal" x={0} y={458} w={170} h={56} icono="erp" titulo={d.erp.t} sub={d.erp.s} iman="verde" tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="pfce" disposicion="horizontal" x={190} y={458} w={170} h={56} icono="persona" titulo={d.persona.t} sub={d.persona.s} iman="amarillo" tamIcono={24} tamTitulo={15} tamSub={12.5} />
+
+    <Nota x={180} y={546} texto={d.clave} tono="azul" tam={13.5} alinea="middle" />
+  </svg>
+</Pizarra>

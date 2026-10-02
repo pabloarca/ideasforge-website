@@ -206,6 +206,140 @@ export interface Faq {
   oculta?: boolean;
 }
 
+/** Título y línea pequeña de una ficha de pizarra. */
+export interface FichaTexto {
+  t: string;
+  s: string;
+}
+
+/** Textos de los gráficos pizarra, uno por gráfico. */
+export interface PizarrasContent {
+  /** Tres facturas, una pregunta y dos salidas (reglas o modelo). */
+  frontera: {
+    label: string;
+    facturas: [string, string, string];
+    pregunta: string;
+    si: string;
+    no: string;
+    reglas: FichaTexto;
+    llm: FichaTexto;
+  };
+  /** Validar al final frente a validar en el medio. */
+  validacion: {
+    label: string;
+    final: { titulo: string; sub: string[] };
+    medio: { titulo: string; sub: string[] };
+    factura: string;
+    lee: FichaTexto;
+    erp: string;
+    valida: string;
+    correccion: FichaTexto;
+    persona: FichaTexto;
+    si: string;
+    no: string;
+    conclusion: string[];
+  };
+  /** Los cimientos que paga el primer proceso y los pisos que se apoyan encima. */
+  montaje: {
+    label: string;
+    cimientos: [FichaTexto, FichaTexto, FichaTexto, FichaTexto];
+    cimientosNota: string;
+    pisos: [FichaTexto, FichaTexto, FichaTexto];
+    costes: [string, string, string];
+  };
+  /** El circuito del susto: error, reproducción, corrección y batería. */
+  circuito: {
+    label: string;
+    pasos: [FichaTexto, FichaTexto, FichaTexto, FichaTexto];
+    centro: FichaTexto;
+  };
+  /** Antes y después de dos casos, con sus cifras. */
+  cifras: {
+    label: string;
+    hoy: string;
+    casos: Array<{ nombre: string; que: string; antes: FichaTexto; despues: FichaTexto }>;
+  };
+  /** Las tres condiciones del primer proceso, como tres conjuntos. */
+  condiciones: {
+    label: string;
+    medible: string[];
+    volumen: string[];
+    alguien: string[];
+    centro: string;
+  };
+  /** Los canales que ya usa el equipo, el flujo y los sistemas que ya tiene. */
+  sistemas: {
+    label: string;
+    canalesNota: string;
+    canales: [string, string, string];
+    flujo: FichaTexto;
+    sistemasNota: string;
+    sistemas: [string, string, string, string];
+    nota: string;
+  };
+  /** El recorrido de una factura: cinco pasos, la pregunta y dos salidas. */
+  facturas: {
+    label: string;
+    registro: string;
+    llega: string;
+    clasifica: string;
+    lee: FichaTexto;
+    cuadra: string;
+    erp: FichaTexto;
+    persona: FichaTexto;
+    si: string;
+    no: string;
+    clave: string;
+    leyenda: string;
+  };
+  /** Antes un menú de botones; ahora texto libre y acciones cerradas. */
+  guion: {
+    label: string;
+    antes: { titulo: string; sub: string };
+    ahora: { titulo: string; sub: string };
+    mensaje: FichaTexto;
+    menu: FichaTexto;
+    perdido: FichaTexto;
+    entiende: FichaTexto;
+    acciones: [string, string, string, string];
+    codigo: FichaTexto;
+  };
+  /** El agente y sus conexiones, cuando una se cae. */
+  dependencias: {
+    label: string;
+    agente: FichaTexto;
+    agenda: string;
+    crm: string;
+    datos: string;
+    /** La nota de la caída, en dos líneas. */
+    caido: [string, string];
+    aviso: FichaTexto;
+    alarma: FichaTexto;
+  };
+  /** El modelo elige una salida; lo que no encaja va a una persona. */
+  respuestas: {
+    label: string;
+    pregunta: FichaTexto;
+    elige: FichaTexto;
+    encaja: string;
+    codigo: FichaTexto;
+    respuesta: FichaTexto;
+    persona: FichaTexto;
+    si: string;
+    no: string;
+    nota: string;
+  };
+  /** Los dos contadores del coste en WhatsApp. */
+  contadores: {
+    label: string;
+    conversacion: FichaTexto;
+    modelo: FichaTexto;
+    meta: FichaTexto;
+    /** Junto a la llave que abarca los dos contadores, en dos líneas. */
+    nota: [string, string];
+  };
+}
+
 export interface SiteContent {
   meta: {
     homeTitle: string;
@@ -402,23 +536,9 @@ export interface SiteContent {
   };
   /** Diagrama del examen previo a publicar, en el modal de observabilidad. */
   gateDiagram: GateDiagramContent;
-  /** Recorrido de una factura en la página de procesos: cinco pasos en fila,
-   *  la bifurcación de la validación y el registro que corre debajo de todos. */
-  facturasDiagram: {
-    title: string;
-    nodes: {
-      llega: string;
-      clasifica: string;
-      lee: string;
-      valida: string;
-      registra: string;
-      persona: string;
-      registro: string;
-    };
-    edges: { si: string; no: string };
-    key: { codigo: string; modelo: string };
-    legend: string;
-  };
+  /** Textos de los gráficos pizarra (`src/components/pizarra/`). Cada uno
+   *  lleva un `label`, lo que lee un lector de pantalla en lugar del dibujo. */
+  pizarras: PizarrasContent;
   footer: {
     tagline: string;
     menu: string;
@@ -528,8 +648,9 @@ export interface LongFormSection {
   entradasDiagram?: boolean;
   /** Renders the four-layer isolation diagram after the paragraphs. */
   capasDiagram?: boolean;
-  /** Pinta el recorrido de una factura tras los párrafos. */
-  facturasDiagram?: boolean;
+  /** Gráfico pizarra intercalado entre los párrafos: va justo después del
+   *  párrafo número `tras` (contando desde 0). */
+  pizarra?: { grafico: keyof PizarrasContent; tras: number };
   /** Cómo se dibuja. Por defecto `prose`. */
   kind?: LongFormKind;
   /** Tabla opcional tras los párrafos. Nació para la guía de coste: los
@@ -1158,21 +1279,157 @@ export const content: Record<Lang, SiteContent> = {
       legend:
         'Las preguntas de siempre no se retiran cuando entra un cambio, se le suman las nuevas. Por eso una mejora en un sitio no puede estropear otro sin que nos enteremos antes de publicar, que es cuando todavía sale barato.',
     },
-    facturasDiagram: {
-      title: 'Una factura, de la llegada al archivo',
-      nodes: {
+    pizarras: {
+      frontera: {
+        label:
+          'Tres facturas de tres proveedores llegan a la misma pregunta, si traen el mismo formato. Si la respuesta es sí, bastan unas reglas escritas en código. Si es no, hace falta un modelo de lenguaje.',
+        facturas: ['Proveedor A', 'Proveedor B', 'Proveedor C'],
+        pregunta: '¿Mismo formato?',
+        si: 'sí',
+        no: 'no',
+        reglas: { t: 'Reglas', s: '(código)' },
+        llm: { t: 'LLM', s: '(IA)' },
+      },
+      validacion: {
+        label:
+          'Dos maneras de comprobar lo que lee el modelo. Si se valida al final, el error ya está en tu ERP cuando aparece y toca una corrección contable. Si se valida justo después de leer, la factura que no cuadra se para y llega a una persona con el motivo. A tu ERP solo llega lo que cuadra.',
+        final: { titulo: 'Validar al final', sub: ['el error llega', 'a tus sistemas'] },
+        medio: { titulo: 'Validar en el medio', sub: ['el error se para', 'antes'] },
+        factura: 'Factura',
+        lee: { t: 'Se lee', s: '(IA)' },
+        erp: 'Tu ERP',
+        valida: 'Validación',
+        correccion: { t: 'Corrección', s: 'contable' },
+        persona: { t: 'Una persona', s: 'con el motivo' },
+        si: 'cuadra',
+        no: 'no cuadra',
+        conclusion: ['Más barato', 'y hace menos daño'],
+      },
+      montaje: {
+        label:
+          'El primer proceso paga los cimientos, que son la conexión con tus sistemas, el registro, la batería de pruebas y la operación. El segundo y el tercero se apoyan encima y cada uno cuesta menos que el anterior.',
+        cimientos: [
+          { t: 'Conexión', s: 'con tus sistemas' },
+          { t: 'Registro', s: 'de cada paso' },
+          { t: 'Batería', s: 'de pruebas' },
+          { t: 'Operación', s: 'y vigilancia' },
+        ],
+        cimientosNota: 'lo paga el primer proceso',
+        pisos: [
+          { t: 'Proceso 1', s: 'paga el montaje' },
+          { t: 'Proceso 2', s: 'lo reutiliza' },
+          { t: 'Proceso 3', s: 'lo reutiliza' },
+        ],
+        costes: ['€€€', '€€', '€'],
+      },
+      circuito: {
+        label:
+          'Cuando un error real se cuela, el circuito es siempre el mismo: se reproduce la ejecución exacta, se corrige y el caso entra en la batería de pruebas. Así no vuelve a colarse en silencio.',
+        pasos: [
+          { t: 'Un error real', s: 'se cuela' },
+          { t: 'Se reproduce', s: 'la ejecución exacta' },
+          { t: 'Se corrige', s: 'el fallo' },
+          { t: 'Entra en la batería', s: 'de pruebas' },
+        ],
+        centro: { t: 'No vuelve', s: 'a colarse' },
+      },
+      cifras: {
+        label:
+          'Stanton pasó de un minuto de teclado por factura a que el 98 % de las facturas pase sin que nadie las toque. Barceloneta Premium pasó de entre cinco y diez minutos de comprobación por consulta a recuperar más de tres horas al día.',
+        hoy: 'hoy',
+        casos: [
+          {
+            nombre: 'Stanton',
+            que: 'facturas de suministros',
+            antes: { t: '1 minuto', s: 'de teclado por factura' },
+            despues: { t: '98 %', s: 'pasa sin que nadie la toque' },
+          },
+          {
+            nombre: 'Barceloneta Premium',
+            que: 'consultas de alquiler',
+            antes: { t: '5–10 min', s: 'de comprobación por consulta' },
+            despues: { t: '+3 h al día', s: 'que recupera el equipo' },
+          },
+        ],
+      },
+      condiciones: {
+        label:
+          'El proceso por el que empezar cumple tres condiciones a la vez. Duele de forma medible, se repite con volumen y hay alguien que lo sufre y quiere quitárselo de encima. Donde se cruzan las tres está tu candidato.',
+        medible: ['Duele de forma', 'medible'],
+        volumen: ['Se repite', 'con volumen'],
+        alguien: ['Alguien quiere', 'quitárselo'],
+        centro: 'Tu candidato',
+      },
+      sistemas: {
+        label:
+          'La entrada es el canal que tu equipo ya usa, Telegram, WhatsApp o el correo. El flujo la procesa y el resultado aterriza en los sistemas que ya tienes, el ERP, el CRM, la hoja de cálculo o la base de datos. Nadie tiene que aprender una herramienta nueva.',
+        canalesNota: 'lo que tu equipo ya usa',
+        canales: ['Telegram', 'WhatsApp', 'Correo'],
+        flujo: { t: 'El flujo', s: 'lee y comprueba' },
+        sistemasNota: 'lo que ya tienes',
+        sistemas: ['ERP', 'CRM', 'Excel', 'Base de datos'],
+        nota: 'nada nuevo que aprender',
+      },
+      facturas: {
+        label:
+          'El recorrido de una factura. Llega, se clasifica y el modelo la lee, que es lo único que hace el modelo. Después el código comprueba si cuadra. Si cuadra, se registra en tu ERP o tu Excel. Si no, pasa a una persona con el motivo. Cada paso deja escrito qué se leyó y qué se decidió.',
+        registro: 'Cada paso deja escrito qué se leyó y qué se decidió',
         llega: 'Llega',
         clasifica: 'Se clasifica',
-        lee: 'Se lee',
-        valida: '¿Cuadra?',
-        registra: 'Tu ERP o tu Excel',
-        persona: 'Una persona, con el motivo',
-        registro: 'Cada paso deja escrito qué se leyó y qué se decidió',
+        lee: { t: 'Se lee', s: '(IA)' },
+        cuadra: '¿Cuadra?',
+        erp: { t: 'Tu ERP', s: 'o tu Excel' },
+        persona: { t: 'Una persona', s: 'con el motivo' },
+        si: 'sí',
+        no: 'no',
+        clave: 'En azul, lo único que hace el modelo',
+        leyenda:
+          'El único paso que hace el modelo es leer la factura y extraer sus datos. El resto lo mueve el código, que se comporta igual siempre y se puede probar entero antes de publicarlo. La comprobación ocurre justo después de extraer los datos, antes de registrarlos en tus sistemas. Si algo no cuadra, pasa a una persona con el motivo al lado.',
       },
-      edges: { si: 'sí', no: 'no' },
-      key: { codigo: 'Lo hace el código', modelo: 'Lo hace el modelo' },
-      legend:
-        'Lo azul es la parada del modelo, leer la factura. El resto lo mueve el código, que se comporta igual siempre y se puede probar entero antes de publicarlo. La comprobación va justo después de leer y no al final, así que una factura que no cuadra no llega a tus sistemas. Llega a una persona con el motivo al lado.',
+      guion: {
+        label:
+          'Antes, un chatbot tradicional era un menú de botones: si el cliente escribía «¿hueco el jueves? ¿y cuánto cuesta?», el menú no lo entendía y volvía al principio. Ahora el modelo entiende la petición y elige entre las acciones que definimos contigo: reservar, consultar, cambiar o escalar. El código ejecuta la elegida y comprueba el resultado.',
+        antes: { titulo: 'Antes, un menú de botones', sub: 'se rompe en cuanto escribes como una persona' },
+        ahora: { titulo: 'Ahora, texto libre y acciones cerradas', sub: 'entiende lo que pides y solo hace lo permitido' },
+        mensaje: { t: '«¿Hueco el jueves?»', s: '«¿y cuánto cuesta?»' },
+        menu: { t: 'Pulse 1, 2 o 3', s: 'el árbol del guion' },
+        perdido: { t: 'No te he entendido', s: 'vuelta al principio' },
+        entiende: { t: 'Entiende', s: 'qué se pide' },
+        acciones: ['Reservar', 'Consultar', 'Cambiar', 'Escalar'],
+        codigo: { t: 'El código', s: 'ejecuta y comprueba' },
+      },
+      dependencias: {
+        label:
+          'El agente consulta la agenda, apunta en el CRM y saca respuestas de la base de datos. Si uno de esos sistemas deja de estar disponible, el agente no inventa una respuesta ni intenta completar la gestión. Avisa al cliente de que esa gestión no está disponible ahora mismo, sigue con las demás y tu equipo se entera por una alarma.',
+        agente: { t: 'El agente', s: 'conversa y actúa' },
+        agenda: 'Agenda',
+        crm: 'CRM',
+        datos: 'Base de datos',
+        caido: ['deja de estar', 'disponible'],
+        aviso: { t: 'Aviso al cliente', s: 'esa gestión, ahora no' },
+        alarma: { t: 'Alarma', s: 'a tu equipo' },
+      },
+      respuestas: {
+        label:
+          'El modelo no redacta la respuesta. Lee la petición e identifica cuál de las opciones permitidas corresponde. Si alguna corresponde, el código consulta el dato real y construye la respuesta, con los textos sensibles ya aprobados por ti. Si no corresponde ninguna, no hay nada que inventar y la conversación pasa a una persona.',
+        pregunta: { t: 'La pregunta', s: 'del cliente' },
+        elige: { t: 'Elige salida', s: '(IA)' },
+        encaja: '¿Encaja?',
+        codigo: { t: 'El código', s: 'consulta el dato real' },
+        respuesta: { t: 'Respuesta', s: 'con texto aprobado' },
+        persona: { t: 'Una persona', s: 'con el historial' },
+        si: 'sí',
+        no: 'no',
+        nota: 'nada que inventar',
+      },
+      contadores: {
+        label:
+          'En WhatsApp hay dos costes variables. Cada conversación gasta sus llamadas al modelo y Meta cobra aparte cada plantilla que envía, como un recordatorio de cita. Los dos van desglosados.',
+        conversacion: { t: 'Una conversación', s: 'por WhatsApp' },
+        modelo: { t: 'Llamadas al modelo', s: 'las que gasta cada conversación' },
+        meta: { t: 'Plantillas de Meta', s: 'cada aviso, como un recordatorio' },
+        nota: ['los dos,', 'desglosados'],
+      },
     },
     start: {
       metaTitle: 'Empezar la exploración, Ideasforge',
@@ -2412,69 +2669,70 @@ export const content: Record<Lang, SiteContent> = {
           'Automatización de procesos empresariales con IA: documentos, solicitudes y consultas de datos resueltos de principio a fin, con validación por código.',
         hero: {
           eyebrow: 'Automatización de procesos con IA',
-          title: 'Los procesos que la automatización clásica no cerraba',
+          title: 'Automatización de procesos con IA, de principio a fin',
           subtitle:
-            'Automatización de procesos empresariales con IA. Los flujos de trabajo que llevan documentos, conversaciones o decisiones de por medio, resueltos de principio a fin sobre tus sistemas.',
+            'Hasta dónde llega la automatización con IA, qué procesos permite abordar ahora y cómo se construyen para que funcionen de verdad. Veremos dónde aporta la IA, dónde seguimos necesitando código y cómo decidir qué merece la pena automatizar.',
           cta: 'Cuéntanos tu reto',
         },
         sections: [
           {
             heading: 'Qué resuelve la automatización de procesos con IA',
             part: 'Lo que se abre ahora',
+            pizarra: { grafico: 'frontera', tras: 1 },
             paragraphs: [
               'Los procesos que las herramientas clásicas no pudieron automatizar comparten un rasgo. En algún punto, una persona tiene que leer y decidir. Llega una factura y alguien la teclea. Llega una solicitud y alguien la cualifica. Llega una pregunta y alguien busca la respuesta.',
               '<strong>Ese paso, leer algo que no viene en un formato fijo y decidir qué hacer con ello, era la frontera de la automatización.</strong> Los modelos de lenguaje absorben exactamente ese paso y con él se abre la familia entera de procesos que lo contenían.',
               'Estos procesos rara vez tienen nombre en el organigrama. Viven en una bandeja de correo que alguien vacía cada mañana, en el Excel puente entre dos sistemas que no se hablan, en el copiar y pegar de cada alta nueva. Si tu equipo tiene uno de esos rituales diarios, tienes un candidato.',
-              'Cuatro encargos concentran casi todo lo que nos piden. El quinto punto no es un encargo, es la salida que llevan todos.',
+              'Casi todo lo que nos piden encaja en cuatro tipos de proceso. El quinto punto no es un tipo de proceso, sino lo que ocurre cuando un caso necesita que intervenga una persona.',
             ],
             kind: 'lattice',
             bullets: [
               'Entrada de documentos. Facturas, tickets y formularios escaneados que se leen, se validan y se registran en tus sistemas sin que nadie los teclee.',
-              'Gestión de solicitudes. Consultas entrantes cualificadas y dirigidas a quien corresponde, a cualquier hora, con lo que hace falta para decidir ya extraído.',
+              'Gestión de solicitudes. Consultas entrantes que se clasifican, se cualifican y se envían a la persona adecuada, con los datos necesarios para decidir ya extraídos.',
               'Consultas a datos. Preguntas de negocio que se convierten en consultas seguras a la base de datos y vuelven con la respuesta en segundos.',
-              'Redacción a partir de datos. Correos, resúmenes y avisos que el flujo escribe con lo que ya averiguó. Los que van a una persona de tu equipo pueden salir solos. Los que van a un cliente salen de una plantilla que tú apruebas, rellena con datos ya validados.',
-              'Escalado con contexto. Los casos que piden criterio llegan a tu equipo con todo lo que el sistema ya averiguó, para decidir sin rebuscar.',
+              'Redacción a partir de datos. Correos, resúmenes y avisos que el flujo redacta usando los datos que ya ha obtenido y validado. Los que van a una persona de tu equipo pueden salir solos. Los que van a un cliente salen de una plantilla que tú apruebas, rellena con datos ya validados.',
+              'Escalado con contexto. Los casos que necesitan una decisión humana llegan a tu equipo con los datos, documentos y comprobaciones que el sistema ya ha hecho.',
             ],
           },
           {
-            heading: 'La frontera con la automatización clásica',
+            heading: 'Qué cambia frente a la automatización clásica',
             part: 'Lo que se abre ahora',
             paragraphs: [
-              'La automatización clásica, la de reglas y la robotización de pantallas, funciona muy bien mientras la entrada no cambia. Su debilidad la conoce cualquiera que la haya mantenido. La regla que leía la factura del proveedor A no entiende la del proveedor B y el robot que rellenaba un formulario se pierde cuando el programa cambia de versión.',
+              'La automatización clásica, basada en reglas y automatización de pantallas, funciona muy bien cuando los datos de entrada siguen siempre el mismo formato. Su debilidad la conoce cualquiera que la haya mantenido. Una regla diseñada para leer la factura del proveedor A puede fallar con la del proveedor B, y un robot que rellena un formulario puede dejar de funcionar cuando cambia la aplicación.',
               'Cada variación nueva es una regla nueva que escribir y la lista no termina nunca.',
-              'La IA cambia dónde está el esfuerzo. El modelo interpreta la entrada aunque venga con otro formato, otra redacción u otro orden, así que la variación deja de romper el flujo. A cambio exige validación y medición, porque interpretar puede fallar.',
-              '¿De qué lado cae el tuyo? Hay una prueba rápida que hacemos en la primera llamada, pedir tres ejemplos reales de la entrada y de tres orígenes distintos, porque tres facturas del mismo proveedor se parecen siempre y no prueban nada. Si los tres se parecen entre sí, tu problema es de reglas. Si cada uno viene de una manera distinta, ahí hace falta el modelo (LLM, llamada a la IA o como prefieras llamarlo).',
-              'La misma frontera también se dibuja al revés. <strong>Si tu proceso tiene reglas claras sobre datos que siempre llegan igual, la automatización clásica lo resuelve más barato y más rápido, sin modelo que vigilar.</strong> Eso también lo construimos nosotros. Te lo diremos en la primera conversación, porque meter IA donde no hace falta es pagar vigilancia a cambio de nada.',
+              'Con IA, el sistema puede interpretar entradas que no siguen siempre el mismo formato, pero hay que dedicar más trabajo a comprobar que esa interpretación es correcta. El modelo interpreta la entrada aunque venga con otro formato, otra redacción u otro orden, por lo que pequeñas diferencias en el formato ya no obligan a crear una regla nueva para cada caso. A cambio exige validación y medición, porque interpretar puede fallar.',
+              '¿Tu proceso necesita reglas o interpretación? Hay una prueba rápida que hacemos en la primera llamada, pedir tres ejemplos reales de la entrada y de tres orígenes distintos, porque tres facturas del mismo proveedor se parecen siempre y no prueban nada. Si los tres se parecen entre sí, tu problema es de reglas. Si cada uno viene de una manera distinta, ahí hace falta el modelo (LLM, llamada a la IA o como prefieras llamarlo).',
+              'También ocurre lo contrario: hay procesos en los que la IA no aporta nada. <strong>Si tu proceso tiene reglas claras sobre datos que siempre llegan igual, la automatización clásica lo resuelve más barato y más rápido, sin modelo que vigilar.</strong> Eso también lo construimos nosotros. Te lo diremos en la primera conversación, porque meter IA donde no hace falta añade coste y supervisión sin aportar una mejora real.',
               'Y cuando ya tienes automatización clásica funcionando, no la tiramos. Conviven bien, con las reglas moviendo lo estable y el modelo leyendo lo variable, cada pieza en el papel que le toca.',
             ],
           },
           {
-            heading: 'Automatizar pasos no es mover una cifra',
+            heading: 'Automatizar un paso no sirve si el resultado no cambia nada',
             part: 'Lo que se abre ahora',
             paragraphs: [
-              'Un sistema puede producir resúmenes, borradores y registros a docenas sin que el negocio note nada. <strong>Producir cosas no es mover una cifra.</strong> Por eso la unidad de trabajo aquí no es la tarea suelta sino el proceso entero, de la entrada al resultado, con su métrica delante: las horas que se dejan de pagar por teclear, los errores que dejan de producirse, la espera que deja de existir.',
+              'Un sistema puede producir resúmenes, borradores y registros durante todo el día sin generar ningún ahorro real. <strong>Lo importante no es cuánto produce, sino qué trabajo o coste elimina.</strong> Por eso la unidad de trabajo aquí no es la tarea suelta sino el proceso entero, de la entrada al resultado, con su métrica delante: las horas que se dejan de pagar por teclear, los errores que dejan de producirse, la espera que deja de existir.',
               'Se ve mejor con un ejemplo. Un sistema que redacta resúmenes de cada reunión produce salidas a diario. Si nadie decide nada distinto con ellos, la ganancia es cero y el coste no. Un flujo que deja cada factura registrada sin que nadie la toque convierte su resultado en horas que puedes contar.',
-              'La diferencia no está en la tecnología. Está en si el resultado cambia algo que el negocio mide.',
-              'Ese criterio cambia decisiones de diseño. A veces el paso que más ahorra no se acelera, se elimina, porque reorganizar el proceso hace innecesario lo que íbamos a automatizar. Y un flujo que resuelve la mayor parte del volumen con una fracción del esfuerzo gana a la ambición de cubrirlo todo, que es la que convierte los proyectos en obras interminables.',
+              'La tecnología importa menos que el efecto sobre el proceso: menos horas de trabajo, menos errores o menos tiempo de espera.',
+              'Ese criterio cambia decisiones de diseño. A veces el paso que más ahorra no se acelera, se elimina, porque reorganizar el proceso hace innecesario lo que íbamos a automatizar. Un flujo que resuelve la mayor parte de los casos con poco esfuerzo suele ser más útil que intentar automatizar desde el principio todos los casos posibles.',
               'En el blog contamos cómo medimos esa ganancia y por qué no la llamamos productividad.',
             ],
             link: { label: 'Medir la IA por las ganancias, no por la productividad', href: '/blog/medir-la-ia-por-las-ganancias' },
           },
           {
-            heading: 'El flujo lo lleva el código, la interpretación el modelo',
+            heading: 'El código ejecuta el proceso y el modelo interpreta lo que las reglas no pueden',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'Nuestros flujos son una cadena de pasos que siempre corre igual, con paradas de modelo donde hace falta interpretar. <strong>El código mueve los datos, llama a cada sistema y decide el orden.</strong> El modelo entra solo en esas paradas: leer un documento, entender una petición, clasificar un caso. Y devuelve un resultado con estructura fija que el código puede comprobar.',
-              '¿Por qué no dejar que el modelo lleve el flujo entero? Cada llamada a un modelo en producción cuesta dinero, tarda y puede variar, así que cuantas menos llamadas y más concretas, más barato de operar y más estable es el flujo.',
+              'Nuestros flujos siguen siempre los mismos pasos y recurren al modelo solo cuando hay que interpretar información que no puede resolverse con una regla. <strong>El código mueve los datos entre sistemas, ejecuta las acciones y controla en qué orden ocurre cada paso.</strong> El modelo entra solo en esas paradas: leer un documento, entender una petición, clasificar un caso. Y devuelve un resultado con estructura fija que el código puede comprobar.',
+              '¿Por qué no dejar que la IA controle todo el proceso? Cada llamada a un modelo en producción cuesta dinero, tarda y puede variar, así que cuantas menos llamadas y más concretas, más barato de operar y más estable es el flujo.',
               'No lo decimos solo nosotros. Anthropic, uno de los grandes laboratorios de modelos, aconseja en <a class="link-inline" href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener noreferrer" target="_blank">Building effective agents</a> empezar con flujos que orquesta el código y guardar la autonomía del agente para los pocos casos que la justifican.',
             ],
           },
           {
             heading: 'Un flujo de facturas, paso a paso',
             part: 'Cómo lo construimos',
-            facturasDiagram: true,
+            pizarra: { grafico: 'facturas', tras: 0 },
             paragraphs: [
-              'Para que nada de esto quede abstracto, así recorre el sistema una factura desde que llega hasta que queda archivada. Son seis pasos. <strong>Lo que no pasa la validación del cuarto paso no sigue adelante, sale hacia una persona con el caso preparado y el motivo señalado.</strong>',
+              'Para que nada de esto quede abstracto, así recorre el sistema una factura desde que llega hasta que queda archivada. Son seis pasos. <strong>Si una factura no supera la validación del cuarto paso, no se registra: pasa a una persona con el caso preparado y el motivo del rechazo.</strong>',
             ],
             kind: 'checklist',
             bullets: [
@@ -2487,21 +2745,23 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
-            heading: 'Validación en el medio, no confianza al final',
+            heading: 'Validar cada resultado antes de que llegue a tus sistemas',
             part: 'Cómo lo construimos',
+            pizarra: { grafico: 'validacion', tras: 2 },
             paragraphs: [
-              'La automatización con IA falla cuando se deja al modelo sin vigilancia. Por eso el paso de validación no es opcional ni se deja para el final: cada resultado del modelo se comprueba antes de tocar tus sistemas, con las reglas del paso de validación que acabas de ver y con las que cada proceso añada.',
+              'Un modelo puede equivocarse, por lo que sus resultados deben comprobarse antes de que el proceso continúe. Por eso el paso de validación no es opcional ni se deja para el final: cada resultado del modelo se comprueba antes de tocar tus sistemas, con las reglas del paso de validación que acabas de ver y con las que cada proceso añada.',
               'Lo que pasa la validación fluye solo. Lo que no la pasa no se descarta ni se inventa, va a una persona con el caso preparado.',
-              '<strong>Validar al final, cuando el dato ya se registró, convierte cada error en una corrección contable. Validar en el medio lo convierte en un caso escalado, que es más barato y hace menos daño.</strong> Ese reparto concentra la revisión humana donde hace falta criterio y la retira de donde solo hacía falta paciencia.',
-              'El objetivo no es un sistema que jamás pregunte, es uno que pregunte poco y siempre con motivo. Y que tenga medido cuánto resuelve por su cuenta, para que la palabra «automatizado» venga con un número detrás.',
+              '<strong>Validar al final, cuando el dato ya se registró, convierte cada error en una corrección contable. Validar antes de registrar el dato convierte el error en un caso para revisar, en lugar de obligar a corregir después un dato que ya ha entrado en el sistema.</strong> Así, las personas intervienen cuando hace falta tomar una decisión y dejan de intervenir en tareas repetitivas que el sistema puede resolver solo.',
+              'El objetivo no es un sistema que jamás pregunte, es uno que pregunte poco y siempre con motivo. Y debe quedar medido qué porcentaje de casos resuelve sin intervención humana, para saber realmente cuánto se ha automatizado.',
             ],
           },
           {
             heading: 'Dos procesos reales en producción',
             part: 'Cómo lo construimos',
+            pizarra: { grafico: 'cifras', tras: 3 },
             paragraphs: [
               'En Stanton, una gestora de fincas, las facturas de luz, agua y gas de cada inquilino se metían a mano. Hoy el equipo las reenvía por Telegram, un modelo lee la factura y extrae los datos y el resultado aterriza como filas normalizadas en el Excel con el que ya trabajaban.',
-              '<strong>Cada factura costaba un minuto de teclado. Hoy el 98 % pasa sin que nadie la toque</strong> y el resto escala con el documento al lado. Son dos agentes en producción, sin ninguna herramienta nueva que aprender. El cliente ya nos ha encargado más procesos administrativos, que es la señal de éxito que más nos importa. El caso entero, con lo que tuvimos que añadirle después, tiene <a class="link-inline" href="/casos/stanton">su propia página</a> que puedes visitar.',
+              '<strong>Cada factura costaba un minuto de teclado. Hoy el 98 % pasa sin que nadie la toque</strong> y el resto escala con el documento al lado. Son dos procesos automatizados que funcionan sobre las herramientas que el equipo ya utilizaba, sin introducir una nueva aplicación. El cliente ya nos ha encargado más procesos administrativos, que es la señal de éxito que más nos importa. El caso entero, con lo que tuvimos que añadirle después, tiene <a class="link-inline" href="/casos/stanton">su propia página</a> que puedes visitar.',
               'En Barceloneta Premium, una agencia inmobiliaria de Barcelona, el equipo recibe cada día decenas de consultas por WhatsApp de gente que busca alquiler. Cada consulta se llevaba entre cinco y diez minutos de comprobación a mano.',
               'Ahora el flujo extrae de cada conversación el motivo, el presupuesto y la documentación. Al equipo le llega un correo que dice si cumple o no los requisitos que la agencia fijó, con el porqué al lado. Quien decide sigue siendo una persona, con ese correo delante. La agencia cifra en más de tres horas al día lo que recupera para el trabajo que sí necesita personas.',
               'Los dos casos se parecen en dos cosas: entraron por un canal que el equipo ya usaba y tenían una cifra medible antes y después. Eso es lo que buscamos en cada proceso nuevo.',
@@ -2511,21 +2771,23 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Medida como el software que es',
             part: 'Cómo lo construimos',
+            pizarra: { grafico: 'circuito', tras: 2 },
             paragraphs: [
               'Un flujo que lleva un modelo dentro puede degradarse sin lanzar un solo error, porque el modelo cambia o los documentos cambian. Por eso fijamos la versión del modelo, de modo que actualizarla es una decisión nuestra y no una sorpresa del proveedor.',
               'Cada modificación pasa por una batería de pruebas con casos reales antes de publicarse y cada ejecución deja registro de qué se leyó, qué se decidió y qué se registró. Cuando algo no cuadra semanas después, se reconstruye la ejecución exacta en lugar de discutir de memoria.',
               'Cuando un error real se cuela, el circuito es siempre el mismo: se reproduce la ejecución, se corrige y el caso entra a la batería de pruebas para no volver a colarse callado. Un flujo nuestro envejece aprendiendo de sus propios sustos.',
               'Y si un día falta un dato o una fuente está caída, en las consultas a datos el sistema responde con lo que tiene y dice qué se ha quedado fuera, en lugar de devolver una cifra incompleta que parece completa. En un flujo de documentos es al revés, lo que no cuadra no se registra a medias, escala.',
-              'Esa claridad de máquina es la diferencia entre un número que puedes llevar a una reunión con tus socios para defender el proyecto y uno que te deja en evidencia.',
+              'Tener estos datos permite explicar con cifras cuánto aporta el proceso automatizado y detectar cuándo deja de funcionar como debería.',
               'La operación mensual se lee en tres números: cuánto resolvió el flujo por su cuenta, cuánto escaló con sus motivos y qué costó cada ejecución. Con esos tres se decide dónde ajustar, qué regla nueva añadir y si la ampliación siguiente compensa.',
-              '<strong>Sin esos tres números, «funciona bien» es una opinión.</strong> Cada flujo hereda además las alarmas de la casa, así que si un servicio externo se cae o una cuota se agota, lo sabemos nosotros antes de que lo sufra tu equipo.',
+              '<strong>Sin esos tres números, no puedes saber si el flujo está funcionando bien ni si merece la pena seguir ampliándolo.</strong> Cada flujo incorpora también nuestras alertas de operación, así que si un servicio externo se cae o una cuota se agota, lo sabemos nosotros antes de que lo sufra tu equipo.',
             ],
           },
           {
             heading: 'Tus sistemas se quedan donde están',
             part: 'Cómo lo construimos',
+            pizarra: { grafico: 'sistemas', tras: 0 },
             paragraphs: [
-              '<strong>La automatización se conecta a lo que ya usas</strong>: ERP, CRM, bases de datos, correo, mensajería y, sí, también ese Excel que gobierna medio departamento. La entrada puede ser el canal que tu equipo ya tiene en el bolsillo, un chat de Telegram o de WhatsApp o un buzón de correo, porque la mejor herramienta nueva es la que nadie tiene que aprender.',
+              '<strong>La automatización se conecta a lo que ya usas</strong>: ERP, CRM, bases de datos, correo, mensajería y, sí, también ese Excel que gobierna medio departamento. La entrada puede ser el canal que tu equipo ya tiene en el bolsillo, un chat de Telegram o de WhatsApp o un buzón de correo. Por eso preferimos integrar el proceso en las herramientas que tu equipo ya utiliza, en lugar de obligarlo a aprender otra aplicación.',
               'Y el repositorio es tuyo desde el primer día, con su documentación y sus manuales de operación. Si un día quieres operarlo con tu equipo o con otro proveedor, te llevas el flujo entero con su documentación y sus pruebas, no una suscripción. Lo que sí es servicio mientras trabajemos juntos es la operación, la vigilancia semanal y las alarmas de la casa. Eso queda dicho en el presupuesto.',
             ],
             link: { label: 'Automatización documental para gestorías', href: '/gestorias' },
@@ -2534,34 +2796,36 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Dónde viven tus datos',
             part: 'Cómo lo construimos',
             paragraphs: [
-              'Un flujo de estos lee facturas de tus inquilinos, solicitudes con la documentación de un candidato o consultas con nombres y apellidos dentro. Eso es tratamiento de datos personales. A veces incluso de los que el reglamento europeo protege de forma reforzada, como los de salud.',
-              'Primero, el reparto legal. <strong>Tu empresa es la responsable del tratamiento y nosotros el encargado.</strong> Lo que entregamos es lo que exige el artículo 28 del reglamento, un contrato de encargo con sus finalidades, sus plazos y sus obligaciones. Y lo que pide el artículo 32, medidas técnicas escritas y comprobables en vez de una declaración de intenciones.',
-              'En la práctica eso significa infraestructura montada en una cuenta en la nube, a tu nombre, cada acción viajando con los permisos de quien la pide, los datos sensibles cifrados, los plazos de conservación pactados por escrito y las llamadas al modelo bajo acuerdos que excluyen entrenar con tu contenido. Es la misma disciplina que aplicamos donde más procede, en un sistema que trata datos de salud a diario.',
+              'Un flujo de estos lee facturas de tus inquilinos, solicitudes con la documentación de un candidato o consultas con nombres y apellidos dentro. En todos esos casos estamos tratando datos personales y, según el proceso, pueden incluirse también datos especialmente protegidos.',
+              'Primero, el reparto legal. <strong>Tu empresa es la responsable del tratamiento y nosotros el encargado.</strong> Lo que entregamos es lo que exige el artículo 28 del reglamento, un contrato de encargo con sus finalidades, sus plazos y sus obligaciones. Y documentamos las medidas técnicas y organizativas necesarias para cumplir con las obligaciones de seguridad del artículo 32.',
+              'En la práctica eso significa infraestructura montada en una cuenta en la nube, a tu nombre, cada acción viajando con los permisos de quien la pide, los datos sensibles cifrados, los plazos de conservación pactados por escrito y las llamadas al modelo bajo acuerdos que excluyen entrenar con tu contenido. Aplicamos estos mismos controles en procesos que tratan datos especialmente sensibles, como los datos de salud.',
             ],
           },
           {
             heading: 'Del primer proceso a los siguientes',
             part: 'Cómo lo construimos',
+            pizarra: { grafico: 'montaje', tras: 0 },
             paragraphs: [
-              '<strong>El primer proceso paga el montaje</strong>: la conexión con tus sistemas, el registro, la batería de pruebas, la operación. Los siguientes lo reutilizan, así que cada ampliación cuesta menos que la anterior y se decide con los números del flujo que ya está funcionando. Así creció Stanton, un flujo primero y los siguientes sobre el mismo montaje, cada uno aprobado por lo que el anterior demostró.',
+              '<strong>El primer proceso asume buena parte del trabajo inicial de integración y puesta en marcha</strong>: la conexión con tus sistemas, el registro, la batería de pruebas, la operación. Los siguientes lo reutilizan, así que cada ampliación cuesta menos que la anterior y se decide con los números del flujo que ya está funcionando. Así creció Stanton: primero automatizamos un proceso y después añadimos otros reutilizando las mismas conexiones, pruebas y sistemas de operación.',
             ],
           },
           {
             heading: 'El proceso por el que empezar',
             part: 'Decidir con criterio',
+            pizarra: { grafico: 'condiciones', tras: 0 },
             paragraphs: [
-              '<strong>No hace falta un plan de transformación para empezar, hace falta elegir bien un proceso.</strong> El bueno suele cumplir tres condiciones: duele de forma medible, se repite con volumen y tiene a alguien que lo sufre y quiere quitárselo de encima.',
-              'Con ese proceso delante, lo mapeamos paso a paso con quien lo ejecuta cada día, qué llega, quién lo toca, por qué sistemas pasa y dónde se atasca. Después medimos lo que cuesta hoy. Ese punto de partida medido es lo que luego permite decir cuánto mejoró, con números y no con sensaciones.',
-              '¿Cuánto hay que construir antes de saber si funciona? Se arranca con un piloto que cubre solo una parte del volumen, con la cifra que debería moverse acordada antes de empezar. A veces incluso lo validamos en modo mixto, una persona apoyada por la herramienta a medio construir, porque confirma la ganancia antes de construir el resto.',
+              '<strong>No hace falta empezar con un proyecto grande. Lo primero es elegir un proceso concreto que merezca la pena automatizar.</strong> El proceso adecuado suele cumplir tres condiciones: genera un coste que puedes medir, se repite con suficiente volumen y tiene una persona o equipo que quiere dejar de hacerlo manualmente.',
+              'Con ese proceso delante, lo mapeamos paso a paso con quien lo ejecuta cada día, qué llega, quién lo toca, por qué sistemas pasa y dónde se atasca. Después medimos lo que cuesta hoy. Medir ese punto de partida permite comparar después el resultado con datos, no con percepciones.',
+              '¿Cuánto hay que construir antes de saber si el proceso merece la pena? Se arranca con un piloto que cubre solo una parte del volumen, con la cifra que debería moverse acordada antes de empezar. A veces incluso lo validamos en modo mixto, una persona apoyada por la herramienta a medio construir, porque confirma la ganancia antes de construir el resto.',
               'El mapeo, además, cambia decisiones antes de escribir una línea de código. Con la automatización para la agencia de alquiler aprendimos que el tiempo no se iba en contestar mensajes sino en comprobar a cada interesado, así que el flujo se diseñó alrededor de esa comprobación y no del buzón. Sin ese mapa habríamos automatizado la parte equivocada del proceso.',
-              'Si el piloto cumple, se amplía por fases. Si no cumple, se ha perdido poco y se ha aprendido dónde estaba el error.',
+              'Si el piloto cumple, se amplía por fases. Si no cumple, se detiene el proyecto con una inversión limitada y con información concreta sobre qué no funcionó.',
             ],
           },
           {
-            heading: 'Lo que no automatizamos',
+            heading: 'Qué dejamos bajo control humano',
             part: 'Decidir con criterio',
             paragraphs: [
-              'Hay pasos que dejamos con confirmación humana a propósito: los que mueven dinero de verdad, los irreversibles y los que deciden sobre personas. <strong>El flujo prepara el caso, la persona aprieta el botón.</strong> No es una limitación técnica sino una elección de diseño, porque un error barato de corregir puede automatizarse y uno caro no debe.',
+              'Hay pasos que dejamos con confirmación humana a propósito: los que mueven dinero de verdad, los irreversibles y los que deciden sobre personas. <strong>El sistema prepara toda la información y una persona confirma la acción antes de ejecutarla.</strong> No es una limitación técnica sino una elección de diseño, porque automatizar una acción reversible no tiene el mismo riesgo que automatizar una acción difícil de deshacer.',
               'Tampoco automatizamos procesos sin volumen, porque un flujo que corre tres veces al mes no paga su mantenimiento, ni procesos que hay que rediseñar antes de acelerarlos. Si tu caso está en alguno de esos grupos, te lo decimos antes de arrancar y te ahorras el proyecto entero.',
             ],
           },
@@ -2570,7 +2834,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Decidir con criterio',
             paragraphs: [
               'Un flujo de un solo proceso arranca en torno a los 2.500 € de construcción, los que tocan varios de tus sistemas se acercan a los 10.000 € y la operación mensual va entre 150 y 500 €, que cubren la vigilancia y el mantenimiento. El modelo y la infraestructura van en cuentas a nombre de tu empresa, así que esas facturas son tuyas y no entran en la cuota. Lo que mueve esas cifras aquí es concreto: cuántos sistemas hay que conectar, cuánta validación exige el proceso y cuánto volumen corre por él.',
-              '<strong>La regla sana es que el coste medido del proceso hoy ponga el techo del presupuesto y que el piloto lo confirme, no al revés.</strong> El desglose entero está en la guía de coste.',
+              '<strong>El coste actual del proceso debería marcar cuánto tiene sentido invertir, y el piloto debería confirmar que el ahorro esperado es real antes de ampliar el proyecto.</strong> El desglose entero está en la guía de coste.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
@@ -2628,12 +2892,12 @@ export const content: Record<Lang, SiteContent> = {
         tocHeading: 'Qué verás en esta página',
         metaTitle: 'Chatbot con IA y agentes conversacionales, Ideasforge',
         metaDescription:
-          'Chatbot con IA y agentes conversacionales que atienden, cualifican y actúan: citas reservadas, solicitudes filtradas y dudas resueltas sobre tus sistemas.',
+          'Chatbot con IA y agentes conversacionales que responden, cualifican solicitudes y hacen gestiones dentro del chat, conectados a los sistemas que ya usas.',
         hero: {
           eyebrow: 'Agentes conversacionales',
-          title: 'Chatbots con IA que terminan la tarea',
+          title: 'Chatbots con IA que hacen la gestión completa',
           subtitle:
-            'Agentes conversacionales que atienden, cualifican y actúan. Citas reservadas, solicitudes filtradas y dudas resueltas, todo sobre los sistemas que ya usas.',
+            'Agentes conversacionales que responden, cualifican solicitudes y realizan gestiones dentro del chat. Reservan citas, filtran consultas y consultan tus datos conectándose a los sistemas que ya usas.',
           cta: 'Cuéntanos tu reto',
         },
         sections: [
@@ -2641,135 +2905,139 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Qué construimos',
             part: 'El encargo',
             paragraphs: [
-              'Chatbots con inteligencia artificial para los canales donde ya están tus clientes o tu equipo, WhatsApp con la API oficial de Meta, la web y herramientas internas. El agente entiende lenguaje natural, consulta tus sistemas reales (agenda, CRM, base de datos) y termina la tarea dentro de la conversación.',
-              '<strong>Terminar es la palabra importante.</strong> Lo habitual es que un chatbot de guion explique el procedimiento y te deje a ti el trabajo. Estos lo hacen dentro de la conversación, sea reservar una cita, devolver una cifra o dejar una solicitud cualificada.',
-              'Esto es lo que puede hacer. Los cuatro primeros son los encargos que más nos piden y el último va incluido en todos.',
+              'Chatbots con inteligencia artificial para los canales donde ya están tus clientes o tu equipo: WhatsApp con la API oficial de Meta, la web y herramientas internas. El agente entiende lenguaje natural, consulta tus sistemas reales (agenda, CRM, base de datos) y realiza la gestión sin sacar al usuario de la conversación.',
+              '<strong>La diferencia está en lo que ocurre después de responder.</strong> Un chatbot tradicional puede explicarte cómo reservar una cita, pero deja que seas tú quien haga la reserva. Estos agentes hacen la gestión dentro de la conversación: reservan una cita, consultan un dato o dejan una solicitud preparada para el equipo.',
+              'Estas son las gestiones que más nos piden. Las cuatro primeras son tipos de trabajo concretos; la última forma parte de todos los agentes.',
             ],
             kind: 'lattice',
             bullets: [
-              'Atención que resuelve. Respuestas apoyadas en tus datos y tu documentación, con su referencia, a cualquier hora.',
+              'Atención al cliente. Respuestas basadas en tus datos y documentación, con la fuente correspondiente, a cualquier hora.',
               'Gestiones completas. Reservar, cambiar, cancelar o consultar, con la agenda y la ficha actualizadas en el momento.',
               'Filtro de conversaciones. Las que tienen recorrido comercial pasan a tu equipo ya cualificadas y el resto queda atendido sin robarle tiempo a nadie.',
               'Consultas internas. La misma ingeniería hacia dentro, con empleados que preguntan a sus datos o a su documentación.',
-              'Salida a persona. Cuando la conversación necesita a alguien del equipo, llega a alguien del equipo, con el historial entero.',
+              'Escalado a una persona. Cuando una conversación necesita intervención humana, llega al miembro del equipo correspondiente con todo el historial.',
             ],
             link: { label: 'Asistente sobre tu documentación interna', href: '/servicios/conocimiento-corporativo' },
           },
           {
-            heading: 'Por qué los chatbots de guion tienen mala fama',
+            heading: 'Por qué los chatbots tradicionales fallan en conversaciones reales',
             part: 'El encargo',
             paragraphs: [
               'Casi todo el mundo ha sufrido uno: el bot que da vueltas en su guion, no entiende la segunda pregunta y esconde el camino hacia una persona. Y cuando por fin llega la persona, hay que contárselo todo otra vez.',
-              'Esa experiencia tuvo dos causas distintas. La primera es tecnológica y está resuelta, aquellos menús se rompían en cuanto alguien escribía como escriben las personas. La segunda sigue viva y es una manera de medir. A muchos bots se les pide que retengan el mayor número de conversaciones sin pasarlas al equipo humano, en lugar de que resuelvan el mayor número posible.',
-              'Nosotros medimos otra cosa. <strong>Una conversación cuenta cuando la tarea quedó hecha o cuando llegó a la persona adecuada con todo el contexto.</strong> Por eso la salida a persona nunca se esconde y el traspaso lleva el historial completo, para que nadie repita lo que ya escribió.',
+              'Esa experiencia tiene dos problemas distintos. El primero era tecnológico: aquellos menús fallaban cuando el usuario escribía una pregunta o una petición que no estaba prevista. El segundo sigue existiendo: medir el éxito del bot por cuántas conversaciones evita que lleguen a una persona. A muchos bots se les mide por cuántas conversaciones mantienen sin pasarlas al equipo humano, en lugar de medir cuántas gestiones consiguen resolver.',
+              'Nosotros medimos otra cosa. <strong>Una conversación cuenta como resuelta cuando la gestión se ha completado o cuando se ha transferido a la persona adecuada con toda la información necesaria.</strong> Por eso la salida a persona nunca se esconde y el traspaso lleva el historial completo, para que nadie repita lo que ya escribió.',
               'Un cliente que pidió hablar con alguien y lo consiguió rápido vuelve. Uno que peleó diez minutos contra un guion no vuelve. Y tampoco te recomienda.',
             ],
           },
           {
-            heading: 'De guion a acciones',
+            heading: 'De responder con opciones a ejecutar gestiones',
             part: 'El encargo',
+            pizarra: { grafico: 'guion', tras: 1 },
             paragraphs: [
               'Los chatbots de hace unos años eran menús de botones. Funcionaban hasta que el cliente escribía como escriben las personas, dando contexto, metiendo dos preguntas en una o pidiendo la opción que el menú no tenía.',
-              '<strong>La generación actual no sigue un árbol rígido. Entiende texto libre, pero solo hace lo que le hemos permitido.</strong> El modelo interpreta la intención y elige entre un conjunto cerrado de acciones que definimos contigo, reservar, consultar, cambiar, escalar. El código ejecuta la acción elegida y valida el resultado antes de responder.',
+              '<strong>Estos agentes ya no dependen de un árbol de opciones cerrado. Pueden entender una petición escrita de muchas formas, pero solo pueden ejecutar las acciones que hemos definido previamente.</strong> El modelo interpreta la petición y elige entre las acciones que definimos contigo: reservar, consultar, cambiar o escalar. El código ejecuta la acción elegida y valida el resultado antes de responder.',
             ],
           },
           {
-            heading: 'Pocas gestiones, cerradas de verdad',
+            heading: 'Pocas gestiones, pero completas',
             part: 'El encargo',
             paragraphs: [
-              'El error clásico del sector es el bot que sabe de todo y no cierra nada. <strong>Nosotros preferimos el contrario, un agente que hace pocas gestiones y las termina, con cada categoría medida por separado.</strong> Si el ochenta por ciento de tus conversaciones son tres trámites, el agente que hace esos tres de principio a fin vale más que el que responde regular a cien preguntas.',
+              'Un problema habitual es intentar que el bot responda sobre cualquier tema sin conseguir completar ninguna gestión. <strong>Nosotros preferimos lo contrario, un agente que hace pocas gestiones y las termina, con cada categoría medida por separado.</strong> Si el ochenta por ciento de tus conversaciones son tres trámites, un agente que completa esos tres procesos de principio a fin puede aportar más que uno que responde de forma mediocre a cien tipos de preguntas.',
               '¿Significa eso que responde a poco? No, porque aquí se mezclan dos cosas. Las acciones que el agente ejecuta son pocas y cerradas. Las preguntas que responde apoyándose en tu documentación pueden ser muchas. Las dos se miden por separado, pero no se amplían igual.',
-              'En la práctica cada gestión es una categoría con nombre, sus casos de prueba y su número. «Cambiar una cita» se mide por separado, así que si su acierto baja se ve en su propia fila y no escondido en un promedio general. Las categorías se amplían cuando los números lo piden, no cuando la demo lo sugiere.',
+              'En la práctica cada gestión es una categoría con nombre, sus casos de prueba y su número. «Cambiar una cita» se mide por separado, así que si su acierto baja se ve en su propia fila y no escondido en un promedio general. Añadimos nuevas categorías cuando los datos muestran que merece la pena, no simplemente porque funcionen bien en una demostración.',
             ],
           },
           {
             heading: 'Atención al cliente con IA',
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
-              'La atención al cliente es donde un agente conversacional se rentabiliza antes. Responde lo habitual, cualifica el resto y escala lo que necesita criterio, así que las colas de espera se convierten en respuesta inmediata.',
+              'La atención al cliente suele ser uno de los casos donde antes se puede medir el ahorro de un agente conversacional. Responde lo habitual, cualifica el resto y escala lo que necesita criterio, así que las consultas sencillas pueden recibir respuesta inmediata y las demás llegan al equipo ya preparadas.',
               'La agencia inmobiliaria con la que trabajamos recibe decenas de consultas de alquiler al día por WhatsApp. Cada una le llevaba antes entre cinco y diez minutos de comprobación y hoy cifra en más de tres horas al día lo que se ahorra. Su equipo ya solo concierta visitas. Ese caso está contado entero en <a class="link-inline" href="/casos/barceloneta">su propia página</a>.',
-              'Ahí se atiende y se cualifica en el mismo mensaje, porque filtrar bien es lo que deja al equipo el trabajo que produce ingresos.',
-              '<strong>Buena parte del valor está en la hora a la que se contesta.</strong> Las consultas no llegan solo en horario de oficina, llegan también cuando el cliente tiene el móvil en la mano. Cuanto más tarda la respuesta, menos ganas le quedan de volver a escribir. Un agente que contesta al minuto uno convierte ese goteo nocturno en citas.',
+              'Ahí la consulta se atiende y se cualifica en la misma conversación, de modo que el equipo recibe solo los casos que cumplen los criterios de la agencia.',
+              '<strong>Buena parte del valor está en la hora a la que se contesta.</strong> Las consultas no llegan solo en horario de oficina, llegan también cuando el cliente tiene el móvil en la mano. Cuanto más tarda la respuesta, menos ganas le quedan de volver a escribir. Un agente que contesta al minuto uno permite atender también esas consultas y convertir las que cumplen los criterios en oportunidades para concertar una visita.',
             ],
             link: { label: 'El caso de la inmobiliaria', href: '/inmobiliarias' },
           },
           {
-            heading: 'Una reserva, mensaje a mensaje',
+            heading: 'Cómo se reserva una cita dentro del chat',
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
-              'Son seis pasos. <strong>En cualquiera de ellos la conversación puede saltar a una persona, con el historial delante y con el mismo registro que cualquier otra conversación.</strong>',
+              'Son seis pasos. <strong>En cualquiera de ellos la conversación puede pasar a una persona, que recibe el historial completo y puede ver qué ha hecho el agente.</strong>',
             ],
             kind: 'checklist',
             bullets: [
-              'Escribe el cliente. «¿Tenéis hueco el jueves por la tarde?», con sus palabras y sus prisas.',
+              'Escribe el cliente. «¿Tenéis hueco el jueves por la tarde?», tal como lo preguntaría normalmente.',
               'El agente entiende. Detecta qué gestión pide, para quién y con qué condiciones, aunque venga todo en una frase.',
               'Consulta la agenda real. La disponibilidad sale del calendario en ese momento, no de una copia de ayer.',
-              'Propone y encaja. Ofrece huecos concretos y absorbe los cambios, el jueves no, mejor el viernes a primera hora.',
+              'Propone horarios y ajusta la cita. Ofrece huecos concretos y absorbe los cambios, el jueves no, mejor el viernes a primera hora.',
               'Confirma y registra. La cita queda en la agenda y en la ficha, con su confirmación dentro del chat.',
               'Queda registrado. La conversación y lo que el agente hizo se pueden reconstruir después, paso a paso.',
             ],
           },
           {
-            heading: 'Un chatbot útil depende de otros sistemas',
+            heading: 'Un chatbot útil necesita conectarse a tus sistemas',
             part: 'Cómo funciona y por qué fiarse',
+            pizarra: { grafico: 'dependencias', tras: 1 },
             paragraphs: [
-              'Un agente que solo conversa sirve de poco. El valor está en las conexiones: la agenda que consulta antes de ofrecer hora, el CRM donde apunta, la base de datos de la que saca la respuesta. Y cada conexión nueva es una cosa más que puede fallar, porque <strong>cualquier sistema externo puede caerse un martes a las once</strong>.',
-              '<strong>Cuando eso pasa, el agente no finge ni se rompe.</strong> Avisa de que esa gestión concreta no está disponible ahora mismo, sigue con las demás y tu equipo se entera por una alarma, no por las quejas. Cómo se construye eso, con un mecanismo que aparta automáticamente la pieza que falla, lo contamos en detalle en el blog.',
+              'Un agente que solo responde mensajes tiene un alcance limitado. El valor está en las conexiones: la agenda que consulta antes de ofrecer hora, el CRM donde apunta, la base de datos de la que saca la respuesta. Cada conexión también introduce un posible punto de fallo: <strong>cualquier sistema externo puede dejar de estar disponible</strong>.',
+              '<strong>Cuando eso ocurre, el agente no inventa una respuesta ni intenta completar una gestión que ya no puede comprobar.</strong> Avisa de que esa gestión concreta no está disponible ahora mismo, sigue con las demás y tu equipo se entera por una alarma, no por las quejas. Cómo se construye eso, con un mecanismo que aparta automáticamente la pieza que falla, lo contamos en detalle en el blog.',
             ],
-            link: { label: 'Qué hace tu asistente cuando una herramienta se cae', href: '/blog/cuando-una-herramienta-se-cae' },
+            link: { label: 'Qué ocurre cuando un sistema conectado deja de funcionar', href: '/blog/cuando-una-herramienta-se-cae' },
           },
           {
-            heading: 'Lo que responde y lo que no se inventa',
+            heading: 'Qué puede responder el agente y cuándo debe pasar la conversación a una persona',
             part: 'Cómo funciona y por qué fiarse',
+            pizarra: { grafico: 'respuestas', tras: 4 },
             paragraphs: [
-              'El miedo razonable de cualquier responsable es un bot improvisando delante de un cliente. Eso no se evita con promesas y tampoco se elimina del todo. Se reduce con la manera de construirlo. Lo que no se elimina se mide.',
-              'Las respuestas de conocimiento salen de tus datos y tu documentación, con la fuente al lado. Las frases delicadas, una política de devoluciones, una condición legal, un precio, no las redacta el modelo. Son textos aprobados por ti que el sistema entrega tal cual. Los editas sin tocar código y ninguna edición llega a producción sin pasar su comprobación.',
-              'En las partes donde un dato inventado se paga caro damos un paso más y le cambiamos el papel al modelo. Un modelo de lenguaje está construido para responderte, así que cuando le falta un dato rellena el hueco con algo que suena bien.',
-              '¿Cómo se le quita esa costumbre? Ahí el modelo no redacta la respuesta. Lee lo que se le pide, decide con cuál de las salidas que le hemos dado encaja y entrega esa decisión en un formato fijo. A partir de ahí trabaja el código, que consulta el dato real y compone la respuesta.',
+              'El miedo razonable de cualquier responsable es un bot improvisando delante de un cliente. No se puede garantizar que un modelo nunca se equivoque. El riesgo se reduce limitando lo que el modelo puede hacer, validando sus resultados y midiendo los errores que se producen.',
+              'Las respuestas de conocimiento salen de tus datos y tu documentación, con la fuente al lado. Los textos sensibles, como una política de devoluciones, una condición legal o un precio, no los redacta el modelo. Son textos aprobados por ti que el sistema entrega tal cual. Los editas sin tocar código y ninguna edición llega a producción sin pasar su comprobación.',
+              'Cuando un dato incorrecto puede tener consecuencias importantes, reducimos todavía más lo que puede hacer el modelo. Un modelo de lenguaje puede generar una respuesta aunque no tenga el dato necesario. Por eso no dejamos que invente directamente determinados datos o respuestas.',
+              '¿Cómo evitamos que ocurra? Ahí el modelo no redacta la respuesta. Lee la petición, identifica cuál de las opciones permitidas corresponde y devuelve esa decisión en un formato fijo. A partir de ahí, el código consulta el dato real y construye la respuesta que recibe el usuario.',
               '<strong>Si lo que le piden no encaja con ninguna salida, no hay nada que inventar, el sistema se detiene y la conversación pasa a una persona.</strong>',
-              'Y cuando no hay dato para responder, el agente lo dice y ofrece el camino a una persona. Un «no lo sé» a tiempo conserva clientes. Una respuesta inventada los pierde sin que te enteres, que es la peor manera de perderlos. Por eso las respuestas se miden por categoría, para que un fallo aparezca en su propia fila en vez de perderse en un promedio.',
+              'Y cuando no hay dato para responder, el agente lo dice y ofrece el camino a una persona. Es preferible reconocer que falta un dato y ofrecer atención humana antes que dar una respuesta incorrecta que el cliente pueda tomar como válida. Por eso las respuestas se miden por categoría, para que un fallo aparezca en su propia fila en vez de perderse en un promedio.',
             ],
           },
           {
-            heading: 'Cuando la conversación toca datos sensibles',
+            heading: 'Cuando el chatbot trata datos sensibles',
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
-              'Hay conversaciones que llevan dentro cosas que el reglamento europeo trata aparte. Los datos de salud son el ejemplo más claro y están en el mismo grupo que la ideología, los datos biométricos o la orientación sexual, lo que la norma llama categorías especiales y protege de forma reforzada. Si tu negocio las toca, montar un asistente deja de ser solo una cuestión de producto.',
-              '<strong>Lo que ponemos ahí no es una promesa, es una lista.</strong> Cifrado campo a campo, que significa que cada dato sensible va cifrado por su cuenta dentro de la base de datos y no en bloque con todo lo demás. Plazos de conservación acordados por escrito y borrado a petición de todo lo que no esté sujeto a un plazo legal. Y el reparto de responsabilidades dicho desde el principio, tu empresa responde del tratamiento y nosotros somos el encargado, con su contrato.',
-              'No es teoría. Wazzy, el asistente de citas que operamos nosotros, trabaja a diario con datos de salud y lleva esa disciplina puesta desde el primer día, así que cuando aparece un sector con requisitos de cumplimiento no empezamos de cero.',
+              'Algunas conversaciones contienen categorías especiales de datos personales que el RGPD somete a requisitos específicos. Los datos de salud son el ejemplo más claro y están en el mismo grupo que la ideología, los datos biométricos o la orientación sexual. Si tu negocio las toca, montar un asistente deja de ser solo una cuestión de producto.',
+              '<strong>En estos casos aplicamos medidas concretas de seguridad y protección de datos.</strong> Cifrado campo a campo, que significa que cada dato sensible va cifrado por su cuenta dentro de la base de datos y no en bloque con todo lo demás. Plazos de conservación acordados por escrito y borrado a petición de todo lo que no esté sujeto a un plazo legal. Y el reparto de responsabilidades dicho desde el principio, tu empresa responde del tratamiento y nosotros somos el encargado, con su contrato.',
+              'No es teoría. Wazzy, el asistente de citas que operamos nosotros, trabaja a diario con datos de salud y lleva estos controles desde el primer día, así que cuando aparece un sector con requisitos de cumplimiento no empezamos de cero.',
             ],
           },
           {
-            heading: 'Medido, no supuesto',
+            heading: 'Medir el funcionamiento, no darlo por hecho',
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
-              '<strong>Los sistemas conversacionales se degradan en silencio.</strong> Una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Por eso fijamos la versión del modelo, de modo que actualizarla es una decisión nuestra y no una sorpresa del proveedor. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
-              'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría mejorar y cuál añadir. Cómo se leen esos números en un sistema propio, con sus fallos y lo que costó corregirlos, está en <a class="link-inline" href="/casos/wazzy">la página de Wazzy</a>.',
+              '<strong>Un chatbot puede empezar a responder peor sin mostrar un error técnico.</strong> Una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Por eso fijamos la versión del modelo, de modo que actualizarla es una decisión nuestra y no una sorpresa del proveedor. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
+              'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría mejorar y cuál añadir. Cómo se leen esos números en un sistema propio, con sus errores y las correcciones que fue necesario hacer, está en <a class="link-inline" href="/casos/wazzy">la página de Wazzy</a>.',
             ],
           },
           {
-            heading: 'Cómo se arranca',
+            heading: 'Cómo empezamos un agente conversacional',
             part: 'Decidir con criterio',
             paragraphs: [
-              '<strong>Un agente conversacional no se lanza al mundo entero el primer día.</strong> Se estrena en pequeño, lo que llamamos el piloto, en un canal, en un horario o en un grupo de clientes, con sus categorías medidas desde la primera conversación. Los textos delicados salen aprobados por ti antes de que nadie los lea y tu equipo sabe cómo llega un escalado y qué hacer con él.',
-              'A las pocas semanas podemos valorar si el piloto está listo para ampliarse: qué se termina dentro de la conversación, qué escala con qué motivos y qué pregunta la gente que no habíamos previsto. Con eso se decide la ampliación, categoría a categoría. Es la manera de crecer sin ampliar nada que no se haya probado antes.',
+              '<strong>No lo ponemos a atender todas las conversaciones desde el primer día.</strong> Se estrena en pequeño, lo que llamamos el piloto, en un canal, en un horario o en un grupo de clientes, con sus categorías medidas desde la primera conversación. Los textos delicados salen aprobados por ti antes de que nadie los lea y tu equipo sabe cómo llega un escalado y qué hacer con él.',
+              'A las pocas semanas podemos valorar si el piloto está listo para ampliarse: qué se termina dentro de la conversación, qué escala con qué motivos y qué pregunta la gente que no habíamos previsto. Con eso se decide la ampliación, categoría a categoría. Así ampliamos solo las funciones que ya han demostrado que funcionan en producción.',
             ],
           },
           {
             heading: 'Cuándo un agente conversacional no compensa',
             part: 'Decidir con criterio',
             paragraphs: [
-              '<strong>Decírtelo también es el servicio.</strong> Si te llegan un puñado de conversaciones al día, una página de preguntas bien escrita y una persona que contesta rápido te sale más barato. Si las respuestas que necesitas no están en ningún sistema, el trabajo previo es ordenar ese conocimiento, no montar el bot. Y si por el motivo que sea tu cliente necesita hablar con una persona, lo que toca es que llegue a ella antes, no poner una máquina en medio.',
+              '<strong>También forma parte del trabajo decirte cuándo no compensa.</strong> Si te llegan un puñado de conversaciones al día, una página de preguntas bien escrita y una persona que contesta rápido te sale más barato. Si la información que necesita el agente no está documentada ni disponible en ningún sistema, primero hay que organizarla y hacerla accesible. Y si por el motivo que sea tu cliente necesita hablar con una persona, lo adecuado es facilitar el acceso directo a una persona, no añadir un chatbot como paso intermedio.',
               '¿Y cuándo sí? Un agente conversacional compensa cuando hay volumen, cuando la información existe y cuando una parte real de las gestiones puede terminarse dentro de la conversación. Filtrar y cualificar cuentan como gestión terminada, aunque el cierre lo haga después una persona. Si tu caso no cumple alguna de las tres, te lo decimos en la primera llamada.',
             ],
           },
           {
             heading: 'Qué cuesta',
             part: 'Decidir con criterio',
+            pizarra: { grafico: 'contadores', tras: 1 },
             paragraphs: [
-              'Los rangos publicados para cualquier agente nuestro valen aquí, entre 2.500 y 10.000 € de construcción y entre 150 y 500 € al mes de operación. El factor propio de lo conversacional es el volumen.',
-              '<strong>En WhatsApp el coste tiene dos contadores en vez de uno.</strong> Cada conversación gasta sus llamadas al modelo. Meta cobra aparte cada plantilla que entrega. Un recordatorio de cita es una plantilla, así que cada aviso tiene su propio coste. Los dos van desglosados.',
-              'Antes de encargar nada tendrás una estimación, hecha con lo que ya tenemos medido en sistemas parecidos y aplicada a tu volumen. El piloto la convierte en medida con tus propias conversaciones. El desglose entero está en la guía de coste.',
+              'Los precios de construcción y operación son los mismos que para el resto de nuestros agentes, entre 2.500 y 10.000 € de construcción y entre 150 y 500 € al mes de operación. En los agentes conversacionales, el volumen de conversaciones tiene un impacto directo en el coste.',
+              '<strong>En WhatsApp hay dos costes variables que hay que tener en cuenta.</strong> Cada conversación gasta sus llamadas al modelo. Meta cobra aparte cada plantilla que envía, según su política de precios. Un recordatorio de cita es una plantilla, así que cada aviso tiene su propio coste. Los dos van desglosados.',
+              'Antes de encargar nada tendrás una estimación, hecha con lo que ya tenemos medido en sistemas parecidos y aplicada a tu volumen. El piloto permite comprobar esa estimación con conversaciones reales de tu negocio. El desglose entero está en la guía de coste.',
             ],
             link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
@@ -4648,21 +4916,157 @@ export const content: Record<Lang, SiteContent> = {
       legend:
         'The usual questions are not retired when a change arrives, the new ones are added to them. That is why an improvement in one place cannot break another without us finding out before it ships, which is while it is still cheap.',
     },
-    facturasDiagram: {
-      title: 'One invoice, from arrival to archive',
-      nodes: {
+    pizarras: {
+      frontera: {
+        label:
+          "Three invoices from three suppliers reach the same question, whether they share the same format. If the answer is yes, rules written in code are enough. If it's no, you need a language model.",
+        facturas: ['Supplier A', 'Supplier B', 'Supplier C'],
+        pregunta: 'Same format?',
+        si: 'yes',
+        no: 'no',
+        reglas: { t: 'Rules', s: '(script)' },
+        llm: { t: 'LLM', s: '(AI)' },
+      },
+      validacion: {
+        label:
+          "Two ways of checking what the model reads. Validate at the end and the error is already in your ERP when it shows up, so it takes an accounting correction. Validate right after reading and an invoice that doesn't add up stops and reaches a person with the reason, while only what adds up reaches your ERP.",
+        final: { titulo: 'Validate at the end', sub: ['the error reaches', 'your systems'] },
+        medio: { titulo: 'Validate in the middle', sub: ['the error stops', 'before that'] },
+        factura: 'Invoice',
+        lee: { t: 'Gets read', s: '(AI)' },
+        erp: 'Your ERP',
+        valida: 'Validation',
+        correccion: { t: 'Correction', s: 'in the books' },
+        persona: { t: 'A person', s: 'with the reason' },
+        si: 'adds up',
+        no: "doesn't",
+        conclusion: ['Cheaper', 'and less damage'],
+      },
+      montaje: {
+        label:
+          'The first process pays for the foundations, which are the connection to your systems, the log, the test battery and the operation. The second and the third sit on top, and each one costs less than the one before.',
+        cimientos: [
+          { t: 'Connection', s: 'to your systems' },
+          { t: 'Log', s: 'of every step' },
+          { t: 'Test', s: 'battery' },
+          { t: 'Operation', s: 'and monitoring' },
+        ],
+        cimientosNota: 'paid for by the first process',
+        pisos: [
+          { t: 'Process 1', s: 'pays for the setup' },
+          { t: 'Process 2', s: 'reuses it' },
+          { t: 'Process 3', s: 'reuses it' },
+        ],
+        costes: ['€€€', '€€', '€'],
+      },
+      circuito: {
+        label:
+          'When a real error slips through, the loop is always the same: the exact run is replayed, the fault is fixed and the case joins the test battery. That way it never slips through quietly again.',
+        pasos: [
+          { t: 'A real error', s: 'slips through' },
+          { t: 'Replayed', s: 'the exact run' },
+          { t: 'Fixed', s: 'the fault' },
+          { t: 'Joins the battery', s: 'of tests' },
+        ],
+        centro: { t: "Won't slip", s: 'through again' },
+      },
+      cifras: {
+        label:
+          'Stanton went from a minute of typing per bill to 98% of bills going through untouched. Barceloneta Premium went from five to ten minutes of checking per inquiry to getting back more than three hours a day.',
+        hoy: 'today',
+        casos: [
+          {
+            nombre: 'Stanton',
+            que: 'utility bills',
+            antes: { t: '1 minute', s: 'of typing per bill' },
+            despues: { t: '98%', s: 'goes through untouched' },
+          },
+          {
+            nombre: 'Barceloneta Premium',
+            que: 'rental inquiries',
+            antes: { t: '5–10 min', s: 'of checking per inquiry' },
+            despues: { t: '+3 h a day', s: 'the team gets back' },
+          },
+        ],
+      },
+      condiciones: {
+        label:
+          'The process to start with meets three conditions at once. It hurts in a way you can measure, it repeats at volume and someone suffers it and wants it gone. Where the three overlap is your candidate.',
+        medible: ['Hurts in a way', 'you can measure'],
+        volumen: ['Repeats', 'at volume'],
+        alguien: ['Someone wants', 'it gone'],
+        centro: 'Your candidate',
+      },
+      sistemas: {
+        label:
+          'The input is the channel your team already uses, Telegram, WhatsApp or email. The workflow processes it and the result lands in the systems you already have, the ERP, the CRM, the spreadsheet or the database. Nobody has to learn a new tool.',
+        canalesNota: 'what your team already uses',
+        canales: ['Telegram', 'WhatsApp', 'Email'],
+        flujo: { t: 'The workflow', s: 'reads and checks' },
+        sistemasNota: 'what you already have',
+        sistemas: ['ERP', 'CRM', 'Excel', 'Database'],
+        nota: 'nothing new to learn',
+      },
+      facturas: {
+        label:
+          "An invoice's journey. It arrives, gets classified and the model reads it, which is the only thing the model does. Then code checks whether it adds up. If it does, it is recorded in your ERP or spreadsheet. If it doesn't, it goes to a person with the reason. Every step records what was read and what was decided.",
+        registro: 'Every step records what was read and what was decided',
         llega: 'Arrives',
         clasifica: 'Gets classified',
-        lee: 'Gets read',
-        valida: 'Adds up?',
-        registra: 'Your ERP or spreadsheet',
-        persona: 'A person, with the reason',
-        registro: 'Every step records what was read and what was decided',
+        lee: { t: 'Gets read', s: '(AI)' },
+        cuadra: 'Adds up?',
+        erp: { t: 'Your ERP', s: 'or spreadsheet' },
+        persona: { t: 'A person', s: 'with the reason' },
+        si: 'yes',
+        no: 'no',
+        clave: 'In blue, the only thing the model does',
+        leyenda:
+          "The only step the model does is read the invoice and extract its data. Code moves everything else, and code behaves the same every time and can be tested in full before it ships. The check happens right after the data is extracted, before it is recorded in your systems. If something doesn't add up, it goes to a person with the reason next to it.",
       },
-      edges: { si: 'yes', no: 'no' },
-      key: { codigo: 'Done by code', modelo: 'Done by the model' },
-      legend:
-        "The blue step is where the model comes in, reading the invoice. Code moves everything else, and code behaves the same every time and can be tested in full before it ships. The check sits right after reading, not at the end, so an invoice that doesn't add up never reaches your systems. It reaches a person, with the reason next to it.",
+      guion: {
+        label:
+          'A traditional chatbot used to be a button menu: if the customer wrote "any slot on Thursday? and how much is it?", the menu did not understand and went back to the start. Now the model understands the request and picks from the actions we define with you: book, look up, change or escalate. Code carries out the chosen one and checks the result.',
+        antes: { titulo: 'Before, a button menu', sub: 'it breaks as soon as you write like a person' },
+        ahora: { titulo: 'Now, free text and closed actions', sub: 'it understands what you ask and only does what is allowed' },
+        mensaje: { t: '"Any slot Thursday?"', s: '"and how much is it?"' },
+        menu: { t: 'Press 1, 2 or 3', s: 'the script tree' },
+        perdido: { t: "I didn't understand", s: 'back to the start' },
+        entiende: { t: 'Understands', s: 'what is asked' },
+        acciones: ['Book', 'Look up', 'Change', 'Escalate'],
+        codigo: { t: 'The code', s: 'acts and checks' },
+      },
+      dependencias: {
+        label:
+          'The agent checks the calendar, writes to the CRM and pulls answers from the database. If one of those systems becomes unavailable, the agent doesn’t make up an answer or try to complete the transaction. It tells the customer that particular transaction is not available right now, carries on with the rest and your team finds out through an alert.',
+        agente: { t: 'The agent', s: 'talks and acts' },
+        agenda: 'Calendar',
+        crm: 'CRM',
+        datos: 'Database',
+        caido: ['becomes', 'unavailable'],
+        aviso: { t: 'Tells the customer', s: 'not that one, not now' },
+        alarma: { t: 'Alert', s: 'to your team' },
+      },
+      respuestas: {
+        label:
+          'The model does not write the answer. It reads the request and identifies which of the allowed options applies. If one applies, code looks up the real data and builds the answer, with the sensitive wording already approved by you. If none applies, there is nothing to make up and the conversation goes to a person.',
+        pregunta: { t: 'The question', s: 'from the customer' },
+        elige: { t: 'Picks an exit', s: '(AI)' },
+        encaja: 'Does it fit?',
+        codigo: { t: 'The code', s: 'gets the real data' },
+        respuesta: { t: 'Answer', s: 'in approved wording' },
+        persona: { t: 'A person', s: 'with the history' },
+        si: 'yes',
+        no: 'no',
+        nota: 'nothing to make up',
+      },
+      contadores: {
+        label:
+          'On WhatsApp there are two variable costs. Each conversation spends its model calls, and Meta charges separately for every template it sends, such as an appointment reminder. Both are broken down.',
+        conversacion: { t: 'One conversation', s: 'on WhatsApp' },
+        modelo: { t: 'Model calls', s: 'what each conversation spends' },
+        meta: { t: 'Meta templates', s: 'every notice, such as a reminder' },
+        nota: ['both,', 'broken down'],
+      },
     },
     start: {
       metaTitle: 'Start the exploration, Ideasforge',
@@ -5866,45 +6270,46 @@ export const content: Record<Lang, SiteContent> = {
           'AI workflow automation for the processes classic tools could never close: documents, requests and decisions, carried end to end on the systems you already run.',
         hero: {
           eyebrow: 'AI workflow automation',
-          title: 'The processes classic automation could never close',
+          title: 'AI workflow automation, from start to finish',
           subtitle:
-            'AI business process automation. The workflows with documents, conversations or decisions in the middle, carried end to end on your own systems.',
+            'How far AI business process automation goes, which processes it can take on now and how to build them so they actually work. We look at where AI adds value, where code is still needed and how to decide what is worth automating.',
           cta: 'Tell us what you’re up against',
         },
         sections: [
           {
             heading: 'What AI workflow automation actually solves',
             part: 'What opens up now',
+            pizarra: { grafico: 'frontera', tras: 0 },
             kind: 'lattice',
             paragraphs: [
               'The processes classic tools could never automate share one trait. At some point, a person has to read and decide. An invoice arrives and somebody keys it in. A request arrives and somebody qualifies it. A question arrives and somebody goes looking for the answer. <strong>That step, reading something that does not come in a fixed format and deciding what to do with it, was the frontier of automation.</strong> Language models absorb exactly that step, and with it the whole family of processes built around it opens up.',
               'These processes rarely have a name on the org chart. They live in an inbox somebody empties every morning, in the spreadsheet bridging two systems that do not talk to each other, in the copy and paste of every new account. If your team has one of those daily rituals, you have a candidate.',
-              'Four jobs account for almost everything we get asked for. The fifth item is not a job, it is the exit route all of them carry.',
+              'Almost everything we get asked for fits into four types of process. The fifth item is not a type of process, it is what happens when a case needs a person to step in.',
             ],
             bullets: [
               'Document intake. Invoices, receipts and scanned forms that get read, validated and filed in your systems without anyone typing them.',
-              'Request handling. Incoming inquiries qualified and routed to the right person at any hour, with whatever it takes to decide already pulled out.',
+              'Request handling. Incoming inquiries that get classified, qualified and sent to the right person, with the data needed to decide already extracted.',
               'Questions to your data. Business questions turned into safe database queries and answered in seconds.',
-              'Writing from data. Emails, summaries and notices the flow writes from what it already found out. The ones going to someone on your team can go out on their own. The ones going to a customer come from a template you approved, filled with data already validated.',
-              'Escalation with context. The cases that need judgment reach your team with everything the system already gathered, so nobody has to go digging.',
+              'Writing from data. Emails, summaries and notices the flow drafts using the data it has already gathered and validated. The ones going to someone on your team can go out on their own. The ones going to a customer come from a template you approved, filled with data already validated.',
+              'Escalation with context. Cases that need a human decision reach your team with the data, documents and checks the system has already done.',
             ],
           },
           {
-            heading: 'The line with classic automation',
+            heading: 'What changes compared with classic automation',
             part: 'What opens up now',
             paragraphs: [
-              'Classic automation, the kind built on rules and screen robots, works very well as long as the input does not change. Anyone who has maintained it knows the weakness. The rule that read supplier A’s invoice does not understand supplier B’s, and the robot that filled in a form gets lost when the program changes version. Every new variation is another rule to write and the list never ends.',
-              'AI changes the split. The model reads the input even when it arrives in another format, another wording or another order, so variation stops breaking the flow. There is a quick test we run on the first call, asking for three real examples of the input and from three different sources, because three invoices from the same supplier always look alike and prove nothing. If the three look the same, yours is a rules problem. If each one arrives its own way, that is where the model earns its place (the LLM, the AI call, or whatever you prefer to call it). In exchange it demands what this whole page describes, validation and measurement, because interpreting is not infallible.',
-              'The same line works the other way too. <strong>If your process has clear rules over data that always arrives the same, classic automation solves it cheaper and faster, with no model to watch.</strong> We build that too. We will tell you on the first call, because putting AI where it is not needed means paying for supervision and getting nothing back. And when you already have classic automation running, we do not throw it out. They coexist well, rules moving what is stable and the model reading what varies, each piece in its own role.',
+              'Classic automation, based on rules and screen automation, works very well when the input always follows the same format. Anyone who has maintained it knows the weakness. A rule designed to read supplier A’s invoice can fail on supplier B’s, and a robot that fills in a form can stop working when the application changes. Every new variation is another rule to write and the list never ends.',
+              'With AI, the system can interpret inputs that do not always follow the same format, but more work has to go into checking that the interpretation is correct. The model reads the input even when it arrives in another format, another wording or another order, so small differences in format no longer force a new rule for every case. Does your process need rules or interpretation? There is a quick test we run on the first call, asking for three real examples of the input and from three different sources, because three invoices from the same supplier always look alike and prove nothing. If the three look the same, yours is a rules problem. If each one arrives its own way, that is where the model earns its place (the LLM, the AI call, or whatever you prefer to call it). In exchange it demands what this whole page describes, validation and measurement, because interpreting is not infallible.',
+              'The opposite also happens: there are processes where AI adds nothing. <strong>If your process has clear rules over data that always arrives the same, classic automation solves it cheaper and faster, with no model to watch.</strong> We build that too. We will tell you on the first call, because putting AI where it is not needed adds cost and supervision without any real improvement. And when you already have classic automation running, we do not throw it out. They coexist well, rules moving what is stable and the model reading what varies, each piece in its own role.',
             ],
           },
           {
-            heading: 'Automating steps is not moving the needle',
+            heading: 'Automating a step is pointless if the outcome does not change',
             part: 'What opens up now',
             paragraphs: [
-              'A system can turn out summaries, drafts and records by the dozen without the business noticing a thing. <strong>Producing output is not moving the needle.</strong> That is why the unit of work here is not the individual task but the whole process but the whole process, from input to outcome, with its metric in front: the hours you stop paying for typing, the errors that stop needing correction, the delay that disappears.',
-              'An example makes it clearer. A system that writes up every meeting produces output daily. If nobody decides anything differently because of it, the gain is zero and the cost is not. A flow that leaves every invoice filed without anyone touching it turns its output into hours you can count. The difference is not in the technology. It is in whether the outcome changes something the business measures.',
-              'That criterion changes design decisions. Sometimes the step that saves the most does not get faster, it disappears, because reorganizing the process makes the thing we were about to automate unnecessary. And a flow that resolves most of the volume with a fraction of the effort beats the ambition of covering everything, which is what turns projects into work that never ends. On the blog we explain how we measure that gain and why we do not call it productivity.',
+              'A system can produce summaries, drafts and records all day long without generating any real saving. <strong>What matters is not how much it produces, but what work or cost it removes.</strong> That is why the unit of work here is not the individual task but the whole process, from input to outcome, with its metric in front: the hours you stop paying for typing, the errors that stop needing correction, the delay that disappears.',
+              'An example makes it clearer. A system that writes up every meeting produces output daily. If nobody decides anything differently because of it, the gain is zero and the cost is not. A flow that leaves every invoice filed without anyone touching it turns its output into hours you can count. The technology matters less than the effect on the process: fewer hours of work, fewer errors or less waiting time.',
+              'That criterion changes design decisions. Sometimes the step that saves the most does not get faster, it disappears, because reorganizing the process makes the thing we were about to automate unnecessary. A flow that resolves most cases with little effort is usually more useful than trying to automate every possible case from the start. On the blog we explain how we measure that gain and why we do not call it productivity.',
             ],
             link: {
               label: 'Measure AI by the gains, not by productivity',
@@ -5912,19 +6317,20 @@ export const content: Record<Lang, SiteContent> = {
             },
           },
           {
-            heading: 'Code runs the flow, the model does the reading',
+            heading: 'Code runs the process and the model interprets what rules cannot',
             part: 'How we build it',
             paragraphs: [
-              'Our flows are a chain of steps that always runs the same way, with model calls at the points that require interpretation. <strong>The code moves the data, calls each system and decides the order.</strong> The model only comes in at those stops: reading a document, understanding a request, classifying a case. And it returns a result in a fixed shape the code can check. This is not an engineering whim. Every model call in production costs money, takes time and can vary, so the fewer and the more bounded the calls, the cheaper the flow is to run and the more stable it is.',
+              'Our flows always follow the same steps and only turn to the model when information has to be interpreted and no rule can resolve it. <strong>The code moves the data between systems, carries out the actions and controls the order in which each step happens.</strong> The model only comes in at those stops: reading a document, understanding a request, classifying a case. And it returns a result in a fixed shape the code can check. Why not let AI control the whole process? Every model call in production costs money, takes time and can vary, so the fewer and the more bounded the calls, the cheaper the flow is to run and the more stable it is.',
               'We are not the only ones saying it. Anthropic, one of the leading model developers, recommends in <a class="link-inline" href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener noreferrer" target="_blank">Building effective agents</a> starting with flows the code orchestrates and saving agent autonomy for the few cases that justify it.',
             ],
           },
           {
             heading: 'An invoice flow, step by step',
             part: 'How we build it',
+            pizarra: { grafico: 'facturas', tras: 0 },
             kind: 'checklist',
             paragraphs: [
-              'So none of this stays abstract. Here is how an invoice travels through the system from arrival to filing. Six steps. <strong>Anything that fails validation at step four stops there, it heads to a person with the case prepared and the reason flagged.</strong>',
+              'So none of this stays abstract. Here is how an invoice travels through the system from arrival to filing. Six steps. <strong>If an invoice fails validation at step four, it is not filed: it goes to a person with the case prepared and the reason for the rejection.</strong>',
             ],
             bullets: [
               'It arrives. The invoice comes in through the channel the team already uses, a forwarded email or a chat. It is filed exactly as it arrived.',
@@ -5936,18 +6342,20 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
-            heading: 'Validation in the middle, not trust at the end',
+            heading: 'Validating every result before it reaches your systems',
             part: 'How we build it',
+            pizarra: { grafico: 'validacion', tras: 1 },
             paragraphs: [
-              'AI automation fails when the model is left unwatched. That is why the validation step is neither optional nor left until the end: every model result is checked before it touches your systems, with the rules of the validation step you just saw and with whatever each process adds. What passes flows on its own. What does not pass is neither discarded nor invented, it goes to a person with the case prepared.',
-              '<strong>Validating at the end, once the data is already filed, turns every error into an accounting correction. Validating in the middle turns it into an escalated case, which is cheaper and leaves less of a scar.</strong> That split concentrates human review where judgment is needed and takes it away from where only patience was. The goal is not a system that never asks, it is one that asks rarely and always with a reason. And that has measured how much it resolves on its own, so the word automated comes with a number behind it.',
+              'A model can get things wrong, so its results have to be checked before the process moves on. That is why the validation step is neither optional nor left until the end: every model result is checked before it touches your systems, with the rules of the validation step you just saw and with whatever each process adds. What passes flows on its own. What does not pass is neither discarded nor invented, it goes to a person with the case prepared.',
+              '<strong>Validating at the end, once the data is already filed, turns every error into an accounting correction. Validating before the data is filed turns the error into a case to review, instead of forcing a correction later to data that has already entered the system.</strong> That way, people step in when a decision needs to be made and stop stepping in on repetitive tasks the system can handle on its own. The goal is not a system that never asks, it is one that asks rarely and always with a reason. And the share of cases it resolves without human intervention has to be measured, to know how much has really been automated.',
             ],
           },
           {
             heading: 'Two real processes in production',
             part: 'How we build it',
+            pizarra: { grafico: 'cifras', tras: 1 },
             paragraphs: [
-              'At Stanton, a property management firm, the electricity, water and gas bills for every tenant used to be keyed in by hand. Today the team forwards them over Telegram, an AI step reads and extracts the data and the result lands as normalized rows in the same spreadsheet they already worked with. Each invoice cost a minute of typing. <strong>Today 98% goes through without anyone touching it</strong> and the rest escalates with the document alongside. Two agents in production, with no new tool to learn. The client has already commissioned more administrative processes, which is the success signal that matters most to us. The whole case, with what we had to add to it afterwards, has <a class="link-inline" href="/en/cases/stanton">its own page</a>.',
+              'At Stanton, a property management firm, the electricity, water and gas bills for every tenant used to be keyed in by hand. Today the team forwards them over Telegram, an AI step reads and extracts the data and the result lands as normalized rows in the same spreadsheet they already worked with. Each invoice cost a minute of typing. <strong>Today 98% goes through without anyone touching it</strong> and the rest escalates with the document alongside. Two automated processes running on the tools the team already used, without introducing a new application. The client has already commissioned more administrative processes, which is the success signal that matters most to us. The whole case, with what we had to add to it afterwards, has <a class="link-inline" href="/en/cases/stanton">its own page</a>.',
               'At Barceloneta Premium, a real estate agency in Barcelona, the team gets dozens of WhatsApp inquiries a day from people looking to rent. Each inquiry took five to ten minutes to check by hand. Now the flow pulls the reason, the budget and the paperwork out of every conversation. What reaches the team is an email saying whether the requirements the agency set are met, budget and paperwork, with the why beside it. The decision is still a person’s, with that email in front of them. The agency estimates it wins back over three hours a day for the work that does need people.',
               'The two cases are alike in two ways: they came in through a channel the team already used, and their gain could be measured before and after. That is what we look for in every new process.',
             ],
@@ -5959,17 +6367,19 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Measured like the software it is',
             part: 'How we build it',
+            pizarra: { grafico: 'circuito', tras: 0 },
             paragraphs: [
               'A flow with a model inside can degrade without throwing a single error, because the model changes or the documents change. That is why we pin the model version, so updating it is our decision rather than a surprise from the provider. Every change goes through a suite of real test cases before it ships, and every run records what was read, what was decided and what was filed. When something does not add up weeks later, we reconstruct the exact run instead of arguing from memory. And when a real error does slip through, the circuit is always the same: reproduce the run, fix it, and the case joins the test suite so it never slips through quietly again. Our flows age by learning from their own near misses.',
-              'And if one day a figure is missing or a source is down, in the questions-to-your-data case the system answers with what it has and says what got left out, rather than returning an incomplete number that looks complete. In a document flow it is the other way around, what does not add up is not half filed, it escalates. That machine clarity is the difference between a number you can take into a meeting with your partners to defend the project and one that leaves you exposed.',
-              'The monthly operation comes down to three numbers: how much the flow resolved on its own, how much it escalated and for which reasons, and what each run cost. Those three decide where to sharpen, which new rule to add and whether the next expansion pays. <strong>Without them, working well is an opinion.</strong> Every flow also inherits the house alarms, so if an external service goes down or a quota runs out, we know before your team suffers it.',
+              'And if one day a figure is missing or a source is down, in the questions-to-your-data case the system answers with what it has and says what got left out, rather than returning an incomplete number that looks complete. In a document flow it is the other way around, what does not add up is not half filed, it escalates. Having this data lets you explain in figures how much the automated process contributes and spot when it stops working as it should.',
+              'The monthly operation comes down to three numbers: how much the flow resolved on its own, how much it escalated and for which reasons, and what each run cost. Those three decide where to sharpen, which new rule to add and whether the next expansion pays. <strong>Without those three numbers, you cannot know whether the flow is working well or whether it is worth expanding.</strong> Every flow also includes our operational alerts, so if an external service goes down or a quota runs out, we know before your team suffers it.',
             ],
           },
           {
             heading: 'Your systems stay where they are',
             part: 'How we build it',
+            pizarra: { grafico: 'sistemas', tras: 0 },
             paragraphs: [
-              '<strong>The automation connects to what you already use</strong>: ERP, CRM, databases, email, messaging and, yes, that spreadsheet that governs half a department. The entry point can be the channel your team already has in its pocket, a Telegram or WhatsApp chat or an email inbox, because the best new tool is the one nobody has to learn.',
+              '<strong>The automation connects to what you already use</strong>: ERP, CRM, databases, email, messaging and, yes, that spreadsheet that governs half a department. The entry point can be the channel your team already has in its pocket, a Telegram or WhatsApp chat or an email inbox. That is why we prefer to build the process into the tools your team already uses, instead of making it learn another application.',
               'And the repository is yours from day one, with its documentation and its operating manuals. If one day you want to run it with your own team or another provider, you take the whole flow with its documentation and its tests, not a subscription. What is a service while we work together is the operation, the weekly check and our standard alerting. That is stated in the quote.',
             ],
             link: {
@@ -5981,32 +6391,34 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Where your data lives',
             part: 'How we build it',
             paragraphs: [
-              'A flow like these reads your tenants’ invoices, requests carrying a candidate’s paperwork, or questions with names inside them. That is processing of personal data. Sometimes even the kind the European regulation protects more strictly, health data for instance.',
-              'The legal split is worth saying plainly and up front. <strong>Your company is the controller and we are the processor.</strong> What we hand over is what Article 28 of the regulation requires, a processing agreement with its purposes, its terms and its obligations. And what Article 32 asks for, technical measures written down and verifiable rather than a statement of intent.',
-              'In practice that means infrastructure built in a cloud account in your name, every action traveling with the permissions of whoever asked, sensitive data encrypted, retention periods agreed in writing, and model calls running under agreements that exclude training on your content. It is the same discipline we apply where it matters most, in a system that handles health data every day.',
+              'A flow like these reads your tenants’ invoices, requests carrying a candidate’s paperwork, or questions with names inside them. In all those cases we are processing personal data and, depending on the process, that can include specially protected data too.',
+              'The legal split is worth saying plainly and up front. <strong>Your company is the controller and we are the processor.</strong> What we hand over is what Article 28 of the regulation requires, a processing agreement with its purposes, its terms and its obligations. And we document the technical and organizational measures needed to meet the security obligations of Article 32.',
+              'In practice that means infrastructure built in a cloud account in your name, every action traveling with the permissions of whoever asked, sensitive data encrypted, retention periods agreed in writing, and model calls running under agreements that exclude training on your content. We apply these same controls in processes that handle especially sensitive data, such as health data.',
             ],
           },
           {
             heading: 'From the first process to the next ones',
             part: 'How we build it',
+            pizarra: { grafico: 'montaje', tras: 0 },
             paragraphs: [
-              '<strong>The first process pays for the setup</strong>: the connection to your systems, the logging, the test suite, the operation. The ones after reuse it, so each expansion costs less than the last and gets decided with the numbers of the flow already running. That is how Stanton grew, one flow first and the rest on the same setup, each one approved by what the previous one proved.',
+              '<strong>The first process takes on a good share of the initial integration and setup work</strong>: the connection to your systems, the logging, the test suite, the operation. The ones after reuse it, so each expansion costs less than the last and gets decided with the numbers of the flow already running. That is how Stanton grew: we automated one process first and then added others, reusing the same connections, tests and operations tooling.',
             ],
           },
           {
             heading: 'The process to start with',
             part: 'Deciding with judgment',
+            pizarra: { grafico: 'condiciones', tras: 0 },
             paragraphs: [
-              '<strong>You do not need a transformation plan to start, you need to pick one process well.</strong> A good one usually meets three conditions: it hurts measurably, it repeats with volume, and it has someone who suffers it and wants it gone. With that process in front of us, we map it step by step with whoever runs it every day, what arrives, who touches it, which systems it passes through and where it jams. Then we measure what it costs today. That measured starting point is what later lets you say how much it improved, with numbers rather than impressions.',
-              'It starts with a pilot covering only part of the volume, with the figure that should move agreed in advance. Sometimes we even validate it in mixed mode, a person supported by the half-built tool, because that confirms the gain before building the rest. The mapping also changes decisions before a line of code gets written. Automating for the rental agency taught us the time was not going on answering messages but on checking each applicant, so the flow was designed around that check rather than around the inbox. Without that map we would have automated the wrong part of the process.',
-              'If the pilot delivers, it grows in phases. If it does not, little has been lost and we have learned where the mistake was.',
+              '<strong>You do not need to start with a big project. The first step is to choose a specific process worth automating.</strong> The right process usually meets three conditions: it generates a cost you can measure, it repeats with enough volume, and there is a person or team who wants to stop doing it by hand. With that process in front of us, we map it step by step with whoever runs it every day, what arrives, who touches it, which systems it passes through and where it jams. Then we measure what it costs today. Measuring that starting point lets you compare the result later with data, not perceptions.',
+              'How much has to be built before you know whether the process is worth it? It starts with a pilot covering only part of the volume, with the figure that should move agreed in advance. Sometimes we even validate it in mixed mode, a person supported by the half-built tool, because that confirms the gain before building the rest. The mapping also changes decisions before a line of code gets written. Automating for the rental agency taught us the time was not going on answering messages but on checking each applicant, so the flow was designed around that check rather than around the inbox. Without that map we would have automated the wrong part of the process.',
+              'If the pilot delivers, it grows in phases. If it does not, the project stops with a limited investment and concrete information about what did not work.',
             ],
           },
           {
-            heading: 'What we do not automate',
+            heading: 'What we keep under human control',
             part: 'Deciding with judgment',
             paragraphs: [
-              'There are steps we deliberately leave with human confirmation: the ones that move real money, the irreversible ones and the ones that decide about people. <strong>The flow prepares the case, the person presses the button.</strong> It is not a technical limitation but a design choice, because an error that is cheap to correct can be automated and an expensive one should not be.',
+              'There are steps we deliberately leave with human confirmation: the ones that move real money, the irreversible ones and the ones that decide about people. <strong>The system prepares all the information and a person confirms the action before it runs.</strong> It is not a technical limitation but a design choice, because automating a reversible action does not carry the same risk as automating one that is hard to undo.',
               'We also do not automate processes without volume, because a flow that runs three times a month does not pay for its upkeep, nor processes better redesigned than accelerated. If your case falls into one of those groups, we tell you before we start and you save yourself the entire project.',
             ],
           },
@@ -6014,7 +6426,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'What it costs',
             part: 'Deciding with judgment',
             paragraphs: [
-              'A single-process flow starts around €2,500 to build, the ones touching several of your systems approach €10,000, and monthly operation runs between €150 and €500, covering monitoring and maintenance. Model usage and infrastructure run in accounts under your company’s name, so those bills are yours and are not part of the fee. What moves those figures here is concrete: how many systems have to be connected, how much validation the process demands and how much volume runs through it. <strong>The sensible rule is that the measured cost of the process today sets the ceiling for the budget and the pilot confirms it, not the other way around.</strong> The full breakdown is in the cost guide.',
+              'A single-process flow starts around €2,500 to build, the ones touching several of your systems approach €10,000, and monthly operation runs between €150 and €500, covering monitoring and maintenance. Model usage and infrastructure run in accounts under your company’s name, so those bills are yours and are not part of the fee. What moves those figures here is concrete: how many systems have to be connected, how much validation the process demands and how much volume runs through it. <strong>The current cost of the process should set how much it makes sense to invest, and the pilot should confirm the expected saving is real before the project grows.</strong> The full breakdown is in the cost guide.',
             ],
             link: {
               label: 'How much does an AI agent cost, broken down',
@@ -6075,12 +6487,12 @@ export const content: Record<Lang, SiteContent> = {
         tocHeading: 'What you will see on this page',
         metaTitle: 'AI Chatbot Development Services for Business, Ideasforge',
         metaDescription:
-          'Conversational AI agents that answer, qualify and act on the systems you already run. What we build, what it costs and when it is the wrong answer.',
+          'Conversational AI agents that answer, qualify requests and carry out transactions inside the chat, connected to the systems you already use.',
         hero: {
           eyebrow: 'Conversational agents',
-          title: 'AI chatbots that finish the job',
+          title: 'AI chatbots that complete the whole transaction',
           subtitle:
-            'Conversational agents that answer, qualify and act. Appointments booked, requests filtered and questions resolved, running on top of the systems you already use.',
+            'Conversational agents that answer, qualify requests and carry out transactions inside the chat. They book appointments, filter inquiries and look up your data by connecting to the systems you already use.',
           cta: 'Tell us what you’re up against',
         },
         sections: [
@@ -6089,15 +6501,15 @@ export const content: Record<Lang, SiteContent> = {
             part: 'The brief',
             kind: 'lattice',
             paragraphs: [
-              'AI chatbots for the channels where your customers or your team already are, WhatsApp on the official Meta API, the web and internal tools. The agent understands plain language, queries your real systems (calendar, CRM, database) and finishes the task inside the conversation. <strong>Finishing is the word that matters.</strong> The usual script chatbot explains the procedure and leaves the work to you. These do it in the conversation, whether that is booking an appointment, returning a figure or handing over a qualified request.',
-              'This is what they can do. The first four are the jobs we get asked for most and the fifth is included in every build.',
+              'AI chatbots for the channels where your customers or your team already are: WhatsApp on the official Meta API, the web and internal tools. The agent understands plain language, queries your real systems (calendar, CRM, database) and carries out the transaction without taking the user out of the conversation. <strong>The difference is in what happens after the answer.</strong> A traditional chatbot can explain how to book an appointment, but it leaves the booking to you. These agents handle it inside the conversation: they book an appointment, look up a piece of data or leave a request ready for the team.',
+              'These are the transactions we get asked for most. The first four are specific types of work and the last one is part of every agent.',
             ],
             bullets: [
-              'Support that resolves. Answers grounded in your data and your documentation, with the source beside them, at any hour.',
+              'Customer service. Answers based on your data and documentation, with the matching source, at any hour.',
               'Complete transactions. Book, change, cancel or check, with the calendar and the record updated on the spot.',
               'Conversation filter. The ones worth it reach your team already qualified and the rest get handled without stealing anyone’s time.',
               'Internal queries. The same agent, pointed at your team instead of your customers, with staff asking their own data or their own documentation.',
-              'Handover to a person. When a conversation needs someone from the team, it reaches someone from the team, with the whole history attached.',
+              'Escalation to a person. When a conversation needs human intervention, it reaches the right team member with the whole history.',
             ],
             link: {
               label: 'An assistant over your internal documentation',
@@ -6105,34 +6517,35 @@ export const content: Record<Lang, SiteContent> = {
             },
           },
           {
-            heading: 'Why script chatbots have a bad name',
+            heading: 'Why traditional chatbots fail in real conversations',
             part: 'How it works and why to trust it',
             paragraphs: [
-              'Almost everyone has suffered one: the bot that goes around its script, does not understand the second question and hides the way out to a human. And when the human finally arrives, you have to tell the whole story again. That experience had two causes and it is worth separating them. The first is technical and it is solved, those menus broke the moment somebody wrote the way people write. The second is still with us and it is a way of measuring. Plenty of bots are asked to hold on to as many conversations as possible without passing them to the team, rather than to resolve as many as possible.',
-              'We measure it the other way around. <strong>A conversation counts when the task got done or when it reached the right person with all the context.</strong> That is why the way out is never hidden and the handover carries the full history, so nobody repeats what they already typed. A customer who asked for a human and got one quickly comes back. One who fought a script for ten minutes does not. And does not recommend you either.',
+              'Almost everyone has suffered one: the bot that goes around its script, does not understand the second question and hides the way out to a human. And when the human finally arrives, you have to tell the whole story again. That experience has two distinct problems. The first was technical: those menus failed when the user wrote a question or a request nobody had anticipated. The second is still around: measuring the bot’s success by how many conversations it keeps from reaching a person. Plenty of bots are measured by how many conversations they hold on to without passing them to the team, rather than by how many transactions they manage to resolve.',
+              'We measure it the other way around. <strong>A conversation counts as resolved when the transaction is complete or when it has been handed to the right person with all the information they need.</strong> That is why the way out is never hidden and the handover carries the full history, so nobody repeats what they already typed. A customer who asked for a human and got one quickly comes back. One who fought a script for ten minutes does not. And does not recommend you either.',
             ],
           },
           {
-            heading: 'From script to actions',
+            heading: 'From offering options to carrying out transactions',
+            pizarra: { grafico: 'guion', tras: 0 },
             part: 'How it works and why to trust it',
             paragraphs: [
-              'The chatbots of a few years ago were button menus. They worked until the customer wrote the way people write, adding context, packing two questions into one or asking for the option the menu did not have. This generation does not follow a rigid tree. <strong>It understands free text, but it only does what we have allowed it to do.</strong> The model reads the intent and picks from a closed set of actions we define with you, book, check, change, escalate. The code runs the chosen action and validates the result before answering.',
+              'The chatbots of a few years ago were button menus. They worked until the customer wrote the way people write, adding context, packing two questions into one or asking for the option the menu did not have. <strong>These agents no longer depend on a closed tree of options. They can understand a request written in many different ways, but they can only carry out the actions we’ve defined beforehand.</strong> The model reads the request and picks from the actions we define with you: book, check, change or escalate. The code runs the chosen action and validates the result before answering.',
             ],
           },
           {
-            heading: 'Few transactions, actually finished',
+            heading: 'Few transactions, but complete ones',
             part: 'How it works and why to trust it',
             paragraphs: [
-              'The classic mistake in this business is the bot that knows about everything and closes nothing. <strong>We prefer the opposite, an agent that handles few transactions and finishes them, with every category measured on its own.</strong> If eighty percent of your conversations are three procedures, the agent that does those three end to end is worth more than the one that answers a hundred questions passably. Two things get confused here and it is worth pulling them apart. The actions an agent executes are few and closed. The questions it answers from your documentation can be many. Both get measured, but they do not grow the same way.',
-              'In practice each transaction is a named category with its test cases and its number. “Change an appointment” is measured separately, so if its accuracy drops it shows up in its own row rather than buried in a general average. Categories grow when the numbers ask for it, not when the demo suggests it.',
+              'A common problem is trying to make the bot answer on any topic without managing to complete a single transaction. <strong>We prefer the opposite, an agent that handles few transactions and finishes them, with every category measured on its own.</strong> If eighty percent of your conversations are three procedures, an agent that completes those three processes end to end can deliver more than one that gives mediocre answers to a hundred kinds of question. Two things get confused here and it is worth pulling them apart. The actions an agent executes are few and closed. The questions it answers from your documentation can be many. Both get measured, but they do not grow the same way.',
+              'In practice each transaction is a named category with its test cases and its number. “Change an appointment” is measured separately, so if its accuracy drops it shows up in its own row rather than buried in a general average. We add new categories when the data shows they’re worth it, not simply because they work well in a demo.',
             ],
           },
           {
             heading: 'AI customer service',
             part: 'How it works and why to trust it',
             paragraphs: [
-              'Customer service is where a conversational agent turns a profit soonest. It answers the routine, qualifies the rest and escalates what needs judgment, so waiting queues turn into immediate replies. The real estate agency we work with takes in dozens of rental inquiries a day over WhatsApp. Each one used to take five to ten minutes to check by hand, and today the agency puts the saving at over three hours a day. Their team now spends its time on viewings instead of filtering. There, answering and qualifying are the same conversation, because filtering well is what leaves the team the work that brings in revenue. That case is told in full on <a class="link-inline" href="/en/cases/barceloneta">its own page</a>.',
-              '<strong>A good part of the value is in the hour you reply.</strong> Inquiries do not arrive only in office hours, they also arrive when the customer has the phone in their hand. The longer the reply takes, the less inclined they are to write again. An agent that answers within the first minute turns that overnight trickle into appointments.',
+              'Customer service is usually one of the areas where the savings from a conversational agent can be measured soonest. It answers the routine, qualifies the rest and escalates what needs judgment, so simple inquiries can get an immediate reply and the others reach the team already prepared. The real estate agency we work with takes in dozens of rental inquiries a day over WhatsApp. Each one used to take five to ten minutes to check by hand, and today the agency puts the saving at over three hours a day. Their team now spends its time on viewings instead of filtering. There the inquiry is answered and qualified in the same conversation, so the team only receives the cases that meet the agency’s criteria. That case is told in full on <a class="link-inline" href="/en/cases/barceloneta">its own page</a>.',
+              '<strong>A good part of the value is in the hour you reply.</strong> Inquiries do not arrive only in office hours, they also arrive when the customer has the phone in their hand. The longer the reply takes, the less inclined they are to write again. An agent that answers within the first minute makes it possible to handle those inquiries too and turn the ones that meet the criteria into opportunities to arrange a viewing.',
             ],
             link: {
               label: 'The real estate agency case',
@@ -6140,81 +6553,84 @@ export const content: Record<Lang, SiteContent> = {
             },
           },
           {
-            heading: 'One booking, message by message',
+            heading: 'How an appointment gets booked inside the chat',
             part: 'How it works and why to trust it',
             kind: 'checklist',
             paragraphs: [
-              'Six steps. <strong>At any of them the conversation can jump to a person, with the history in front of them and leaving the same trail.</strong>',
+              'Six steps. <strong>At any of them the conversation can pass to a person, who receives the full history and can see what the agent has done.</strong>',
             ],
             bullets: [
-              'The customer writes. “Any slot on Thursday afternoon?”, in their own words and in their own hurry.',
+              'The customer writes. “Any slot on Thursday afternoon?”, just as they’d normally ask it.',
               'The agent understands. It works out which transaction is being asked for, for whom and under what conditions, even when it all arrives in one sentence.',
               'It checks the real calendar. Availability comes from the calendar right then, not from yesterday’s copy.',
-              'It offers and adjusts. Concrete slots, and it absorbs the changes, not Thursday, better Friday first thing.',
+              'It offers times and adjusts the appointment. Concrete slots, and it absorbs the changes, not Thursday, better Friday first thing.',
               'It confirms and writes. The appointment lands in the calendar and in the record, with its confirmation inside the chat.',
               'It leaves a trail. The conversation and what the agent did can be reconstructed afterwards, step by step.',
             ],
           },
           {
             heading: 'WhatsApp Business API integration, and what it has to connect to',
+            pizarra: { grafico: 'dependencias', tras: 1 },
             part: 'How it works and why to trust it',
             paragraphs: [
-              'An agent that only talks is worth little. The value is in the connections: the calendar it checks before offering a time, the CRM where it writes, the database the answer comes from. And every new connection is one more thing that can fail, because any external system can go down on a Tuesday at eleven.',
-              '<strong>When that happens the agent neither pretends nor breaks.</strong> It says that particular transaction is unavailable right now, carries on with the rest, and your team hears it from an alarm rather than from complaints. How that is built, with a mechanism that automatically sets aside the failing piece, we tell in full on the blog.',
+              'An agent that only answers messages has limited reach. The value is in the connections: the calendar it checks before offering a time, the CRM where it writes, the database the answer comes from. Each connection also introduces a possible point of failure: <strong>any external system can become unavailable</strong>.',
+              '<strong>When that happens, the agent doesn’t make up an answer or try to complete a transaction it can no longer verify.</strong> It says that particular transaction is unavailable right now, carries on with the rest, and your team hears it from an alarm rather than from complaints. How that is built, with a mechanism that automatically sets aside the failing piece, we tell in full on the blog.',
               'Integration is where a WhatsApp project stops being a chatbot and becomes software. The official Meta API is the easy half. The hard half is on the other side, and it depends on what you already run. In our own appointment assistant the agent writes to the calendar and to the patient record. At the rental agency the CRM only allows reading, so the qualified summary reaches the team by email and a person decides. Neither case is a limit of the model. Both are decisions about what you already have in place.',
             ],
             link: {
-              label: 'What your assistant does when a tool goes down',
+              label: 'What happens when a connected system stops working',
               href: '/en/blog/when-a-tool-goes-down',
             },
           },
           {
-            heading: 'What it answers and what it does not make up',
+            heading: 'What the agent can answer and when it should hand the conversation to a person',
+            pizarra: { grafico: 'respuestas', tras: 1 },
             part: 'How it works and why to trust it',
             paragraphs: [
-              'The reasonable fear of anyone in charge is a bot improvising in front of a customer. That is not avoided with promises and it is not eliminated either. It is reduced by how the thing is built. What is not eliminated gets measured. Knowledge answers come from your data and your documentation, with the source beside them. The delicate lines, a returns policy, a legal condition, a price, are not written by the model. They are texts you approved that the system delivers as they are. You edit them without touching code, and no edit reaches production without passing its check.',
-              'Where an invented figure is expensive we go a step further and change the model’s job. A language model is built to answer you, so when it is missing a fact it tends to fill the gap with something that sounds right. That is why it does not write the answer there. It reads what is being asked, decides which of the outputs we gave it fits, and hands that decision over in a fixed format. From there the code takes over, looks up the real data and composes the reply. <strong>If what they asked for fits none of the outputs, there is nothing to invent, there is a stop.</strong>',
-              'And when there is no data to answer with, the agent says so and offers the way to a person. An “I do not know” in time keeps customers. A made-up answer loses them without you finding out, which is the worst way to lose them. That is why answers are measured by category, so a failure shows up in its own row instead of getting lost in an average.',
+              'The reasonable fear of anyone in charge is a bot improvising in front of a customer. Nobody can guarantee that a model will never get it wrong. The risk is reduced by limiting what the model can do, validating its results and measuring the errors that occur. Knowledge answers come from your data and your documentation, with the source beside them. Sensitive texts, such as a returns policy, a legal condition or a price, are not written by the model. They are texts you approved that the system delivers as they are. You edit them without touching code, and no edit reaches production without passing its check.',
+              'When a wrong piece of data can have serious consequences, we limit what the model can do even further. A language model can produce an answer even when it doesn’t have the data it needs. That’s why we don’t let it make up certain data or answers directly. How do we prevent that? There, the model doesn’t write the answer. It reads the request, identifies which of the allowed options applies and returns that decision in a fixed format. From there, the code looks up the real data and builds the reply the user receives. <strong>If what they asked for fits none of the outputs, there is nothing to invent, there is a stop.</strong>',
+              'And when there is no data to answer with, the agent says so and offers the way to a person. It’s better to admit that a piece of data is missing and offer human help than to give a wrong answer the customer might take as valid. That is why answers are measured by category, so a failure shows up in its own row instead of getting lost in an average.',
             ],
           },
           {
-            heading: 'When the conversation touches sensitive data',
+            heading: 'When the chatbot handles sensitive data',
             part: 'How it works and why to trust it',
             paragraphs: [
-              'Some conversations carry things the European regulation treats separately. Health data is the clearest example and it sits in the same group as political views, biometrics and sexual orientation, what the law calls special categories and protects more strictly. If your business touches them, building an assistant stops being only a product question.',
-              '<strong>What we put there is not a promise, it is a list.</strong> Field-by-field encryption, meaning each sensitive value is encrypted on its own inside the database rather than in one block with everything else. Retention periods agreed in writing and deletion on request of anything not held by a legal retention duty. And the split of responsibilities said from the start, your company answers for the processing and we are the processor, with the contract that goes with it.',
-              'This is not theory. Wazzy, the appointment assistant we run ourselves, works with health data every day and carries that discipline, so when a sector with compliance requirements turns up we are not starting from zero.',
+              'Some conversations contain special categories of personal data, which the GDPR subjects to specific requirements. Health data is the clearest example and it sits in the same group as political views, biometrics and sexual orientation. If your business touches them, building an assistant stops being only a product question.',
+              '<strong>In these cases we apply specific security and data protection measures.</strong> Field-by-field encryption, meaning each sensitive value is encrypted on its own inside the database rather than in one block with everything else. Retention periods agreed in writing and deletion on request of anything not held by a legal retention duty. And the split of responsibilities said from the start, your company answers for the processing and we are the processor, with the contract that goes with it.',
+              'This is not theory. Wazzy, the appointment assistant we run ourselves, works with health data every day and has had these controls since day one, so when a sector with compliance requirements turns up we are not starting from zero.',
             ],
           },
           {
-            heading: 'Measured, not assumed',
+            heading: 'Measuring how it works, not taking it for granted',
             part: 'How it works and why to trust it',
             paragraphs: [
-              '<strong>Conversational systems degrade quietly.</strong> A model update or a new document changes answers without a single visible error. That is why we pin the model version, so updating it is our decision rather than a surprise from the provider. Every change goes through a test suite before it ships and every conversation leaves a record that can be reconstructed.',
-              'The operation has its numbers too: what share ends in the task done, what share escalates and for which reasons, what each conversation costs. Those are what decide which category to sharpen and which to add. How those numbers get read on a system of our own, with its failures and what they cost to correct, is on <a class="link-inline" href="/en/cases/wazzy">the Wazzy page</a>.',
+              '<strong>A chatbot can start answering worse without showing any technical error.</strong> A model update or a new document changes answers without a single visible error. That is why we pin the model version, so updating it is our decision rather than a surprise from the provider. Every change goes through a test suite before it ships and every conversation leaves a record that can be reconstructed.',
+              'The operation has its numbers too: what share ends in the task done, what share escalates and for which reasons, what each conversation costs. Those are what decide which category to sharpen and which to add. How those numbers get read on a system of our own, with its errors and the fixes they required, is on <a class="link-inline" href="/en/cases/wazzy">the Wazzy page</a>.',
             ],
           },
           {
-            heading: 'How it starts',
+            heading: 'How we start a conversational agent',
             part: 'Deciding with judgment',
             paragraphs: [
-              '<strong>A conversational agent does not go out to the whole world on day one.</strong> It launches bounded, what we call the pilot, on one channel, in one time slot or with one group of customers, with its categories measured from the first conversation. The delicate texts come approved by you before anyone reads them, and your team knows how an escalation arrives and what to do with it.',
-              'A few weeks in we can judge whether the pilot is ready to expand: what finishes inside the conversation, what escalates and why, and what people ask that we had not anticipated. That is what decides the expansion, category by category. It is how you grow without extending anything that has not been tested first.',
+              '<strong>We don’t have it handle every conversation from day one.</strong> It launches bounded, what we call the pilot, on one channel, in one time slot or with one group of customers, with its categories measured from the first conversation. The delicate texts come approved by you before anyone reads them, and your team knows how an escalation arrives and what to do with it.',
+              'A few weeks in we can judge whether the pilot is ready to expand: what finishes inside the conversation, what escalates and why, and what people ask that we had not anticipated. That is what decides the expansion, category by category. That way we only expand the functions that have already proven they work in production.',
             ],
           },
           {
             heading: 'When a conversational agent does not pay off',
             part: 'Deciding with judgment',
             paragraphs: [
-              '<strong>Telling you so is part of the service too.</strong> If you get a handful of conversations a day, a well-written questions page and one person answering quickly come out cheaper. If the answers you need are not in any system, the work that comes first is ordering that knowledge, not building the bot. And if for whatever reason your customer needs to talk to a person, what you want is for them to get there sooner, not to put a machine in the way.',
+              '<strong>Telling you when it doesn’t pay off is also part of the job.</strong> If you get a handful of conversations a day, a well-written questions page and one person answering quickly come out cheaper. If the information the agent needs isn’t documented or available in any system, it first has to be organized and made accessible. And if for whatever reason your customer needs to talk to a person, the right thing is to make direct access to a person easier, not to add a chatbot as a middle step.',
               'A conversational agent pays off when there is volume, when the information exists and when a real share of the transactions can be finished inside the conversation. Filtering and qualifying count as finished, even when a person closes the deal afterwards. If your case fails any of the three, we say so on the first call.',
             ],
           },
           {
             heading: 'What it costs',
+            pizarra: { grafico: 'contadores', tras: 0 },
             part: 'Deciding with judgment',
             paragraphs: [
-              'The published ranges for any agent of ours hold here, between €2,500 and €10,000 to build and between €150 and €500 a month to run. The factor particular to conversational work is volume. <strong>On WhatsApp that comes with two meters rather than one.</strong> Each conversation spends its model calls. Meta charges separately for every template it delivers. An appointment reminder is a template, so every notice carries its own cost. Both arrive itemized. Before you commission anything you will have an estimate, built from what we already measure on comparable systems and applied to your volume. The pilot turns it into a measurement with your own conversations. The full breakdown is in the cost guide.',
+              'Build and running prices are the same as for the rest of our agents, between €2,500 and €10,000 to build and between €150 and €500 a month to run. With conversational agents, the volume of conversations has a direct impact on cost. <strong>On WhatsApp there are two variable costs to keep in mind.</strong> Each conversation spends its model calls. Meta charges separately for every template it sends, according to its pricing policy. An appointment reminder is a template, so every notice carries its own cost. Both arrive itemized. Before you commission anything you will have an estimate, built from what we already measure on comparable systems and applied to your volume. The pilot lets you check that estimate against real conversations from your business. The full breakdown is in the cost guide.',
             ],
             link: {
               label: 'How much does an AI agent cost, broken down',

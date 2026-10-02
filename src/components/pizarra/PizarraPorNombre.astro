@@ -1,0 +1,46 @@
+---
+/*
+  Elige el gráfico pizarra por su nombre. Las páginas largas lo piden desde
+  `ui.ts` con `pizarra: { grafico: '<nombre>', tras: N }` y `LongFormPage` lo
+  pinta aquí, debajo del párrafo N. Un gráfico nuevo es una entrada más en
+  este mapa y un bloque más en `content[lang].pizarras`.
+*/
+import type { Lang, PizarrasContent } from '../../i18n/ui';
+import PizarraFrontera from './PizarraFrontera.astro';
+import PizarraValidacion from './PizarraValidacion.astro';
+import PizarraMontaje from './PizarraMontaje.astro';
+import PizarraCircuito from './PizarraCircuito.astro';
+import PizarraCifras from './PizarraCifras.astro';
+import PizarraCondiciones from './PizarraCondiciones.astro';
+import PizarraSistemas from './PizarraSistemas.astro';
+import PizarraFacturas from './PizarraFacturas.astro';
+import PizarraGuion from './PizarraGuion.astro';
+import PizarraDependencias from './PizarraDependencias.astro';
+import PizarraRespuestas from './PizarraRespuestas.astro';
+import PizarraContadores from './PizarraContadores.astro';
+
+interface Props {
+  grafico: keyof PizarrasContent;
+  lang: Lang;
+}
+const { grafico, lang } = Astro.props;
+
+const GRAFICOS = {
+  frontera: PizarraFrontera,
+  validacion: PizarraValidacion,
+  montaje: PizarraMontaje,
+  circuito: PizarraCircuito,
+  cifras: PizarraCifras,
+  condiciones: PizarraCondiciones,
+  sistemas: PizarraSistemas,
+  facturas: PizarraFacturas,
+  guion: PizarraGuion,
+  dependencias: PizarraDependencias,
+  respuestas: PizarraRespuestas,
+  contadores: PizarraContadores,
+} satisfies Record<keyof PizarrasContent, unknown>;
+
+const Grafico = GRAFICOS[grafico];
+---
+
+<Grafico lang={lang} />

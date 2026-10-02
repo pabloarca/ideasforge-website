@@ -1,0 +1,76 @@
+---
+/*
+  El agente depende de sus conexiones. En «Un chatbot útil necesita
+  conectarse a tus sistemas», debajo de «el agente no inventa una respuesta».
+
+  Arriba, los tres sistemas que nombra la página: la agenda, el CRM y la base
+  de datos. Uno se cae (en rojo, con su aspa y su nota, «deja de estar
+  disponible»). Abajo, lo que hace el agente entonces: avisa al cliente de que
+  esa gestión no está disponible ahora y tu equipo se entera por una alarma.
+
+  Escritorio 800 × 380, móvil 360 × 436. En el móvil la nota de la caída va
+  encima del CRM, en una línea, porque entre las flechas no cabe.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { ROJO } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.dependencias;
+
+// Aspa de rotulador rojo sobre la conexión que se cae.
+const aspa = (x: number, y: number, r = 9) => `M${x - r},${y - r} L${x + r},${y + r} M${x + r},${y - r} L${x - r},${y + r}`;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 380" aria-hidden="true">
+    <PizarraDefs pre="pda" />
+
+    <Trazo desde={[312, 196]} hasta={[110, 90]} curva={-16} />
+    <Trazo desde={[400, 146]} hasta={[400, 88]} tono="rojo" />
+    <Trazo desde={[488, 196]} hasta={[690, 90]} curva={16} />
+    <path d={aspa(400, 117)} fill="none" stroke={ROJO} stroke-width="3.4" stroke-linecap="round" />
+    <Nota x={418} y={112} texto={d.caido} tono="rojo" tam={15} />
+
+    <Trazo desde={[372, 254]} hasta={[262, 300]} curva={10} />
+    <Trazo desde={[428, 254]} hasta={[538, 300]} curva={-10} />
+
+    <Ficha pre="pda" disposicion="horizontal" x={10} y={24} w={190} h={58} icono="calendario" titulo={d.agenda} iman="verde" giro={-1.5} tamIcono={26} tamTitulo={17} />
+    <Ficha pre="pda" disposicion="horizontal" x={305} y={24} w={190} h={58} icono="contactos" titulo={d.crm} tono="rojo" iman="rojo" giro={1.5} tamIcono={26} tamTitulo={17} />
+    <Ficha pre="pda" disposicion="horizontal" x={600} y={24} w={190} h={58} icono="erp" titulo={d.datos} iman="gris" giro={-1} tamIcono={26} tamTitulo={17} />
+
+    <Ficha pre="pda" x={320} y={152} w={160} h={100} icono="chat" titulo={d.agente.t} sub={d.agente.s} iman="negro" tamIcono={32} tamTitulo={19} />
+
+    <Ficha pre="pda" disposicion="horizontal" x={140} y={304} w={220} h={64} icono="chat" titulo={d.aviso.t} sub={d.aviso.s} iman="amarillo" giro={1} tamIcono={26} tamTitulo={16} tamSub={13.5} />
+    <Ficha pre="pda" disposicion="horizontal" x={440} y={304} w={220} h={64} icono="alarma" titulo={d.alarma.t} sub={d.alarma.s} iman="rojo" giro={-1} tamIcono={26} tamTitulo={16} tamSub={13.5} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 436" aria-hidden="true">
+    <PizarraDefs pre="pde" />
+
+    <Nota x={180} y={20} texto={d.caido.join(' ')} tono="rojo" tam={13.5} alinea="middle" />
+    <Trazo desde={[160, 190]} hasta={[58, 126]} curva={-8} />
+    <Trazo desde={[180, 186]} hasta={[180, 126]} tono="rojo" />
+    <Trazo desde={[200, 190]} hasta={[302, 126]} curva={8} />
+    <path d={aspa(180, 156, 8)} fill="none" stroke={ROJO} stroke-width="3" stroke-linecap="round" />
+
+    <Trazo desde={[150, 286]} hasta={[92, 332]} curva={6} />
+    <Trazo desde={[210, 286]} hasta={[268, 332]} curva={-6} />
+
+    <Ficha pre="pde" x={4} y={42} w={104} h={80} icono="calendario" titulo={d.agenda} iman="verde" giro={-1.5} tamIcono={26} tamTitulo={14} />
+    <Ficha pre="pde" x={128} y={42} w={104} h={80} icono="contactos" titulo={d.crm} tono="rojo" iman="rojo" giro={1.5} tamIcono={26} tamTitulo={14} />
+    <Ficha pre="pde" x={252} y={42} w={104} h={80} icono="erp" titulo={d.datos} iman="gris" giro={-1} tamIcono={26} tamTitulo={13} />
+
+    <Ficha pre="pde" x={95} y={192} w={170} h={92} icono="chat" titulo={d.agente.t} sub={d.agente.s} iman="negro" tamIcono={28} tamTitulo={17} tamSub={13} />
+
+    <Ficha pre="pde" x={2} y={338} w={172} h={86} icono="chat" titulo={d.aviso.t} sub={d.aviso.s} iman="amarillo" imanX={0.82} tamIcono={24} tamTitulo={14.5} tamSub={12.5} />
+    <Ficha pre="pde" x={186} y={338} w={172} h={86} icono="alarma" titulo={d.alarma.t} sub={d.alarma.s} iman="rojo" imanX={0.82} tamIcono={24} tamTitulo={14.5} tamSub={12.5} />
+  </svg>
+</Pizarra>

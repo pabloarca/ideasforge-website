@@ -48,6 +48,19 @@ const EXCEPCIONES_DOS_PUNTOS = [
   'Te cuento un secreto: no me gustan',
 ];
 
+// Excepciones declaradas: comas antes de «y» que el propietario escribió y
+// decidió conservar en su revisión manual de /servicios/automatizacion-de-
+// procesos-con-ia (2 oct 2026), donde pidió expresamente no aplicar las
+// reglas de la casa a sus frases. La regla sigue valiendo para todo lo demás.
+const EXCEPCIONES_COMA = [
+  'con la del proveedor B, y un robot',
+  'cuánto tiene sentido invertir, y el piloto',
+];
+
+// Lo mismo con el punto y coma, en su revisión manual de
+// /servicios/agentes-conversacionales (2 oct 2026).
+const EXCEPCIONES_PUNTO_Y_COMA = ['tipos de trabajo concretos; la última'];
+
 /*
  * Patrones de rótulo, donde los dos puntos separan una etiqueta de su texto
  * y no anuncian una enumeración. Mismo criterio que la excepción declarada
@@ -278,10 +291,14 @@ function revisa(nombre, textoBruto) {
 
   const coma = [...t.matchAll(/,\s+(y|e|o|u)\s/g)];
   for (const m of coma) {
+    const alrededor = t.slice(Math.max(0, m.index - 60), m.index + 60);
+    if (EXCEPCIONES_COMA.some((e) => alrededor.includes(e))) continue;
     fallos.push(['coma antes de conjunción', contexto(t, m.index)]);
   }
 
   for (const m of [...t.matchAll(/;/g)]) {
+    const alrededor = t.slice(Math.max(0, m.index - 60), m.index + 60);
+    if (EXCEPCIONES_PUNTO_Y_COMA.some((e) => alrededor.includes(e))) continue;
     fallos.push(['punto y coma', contexto(t, m.index)]);
   }
 

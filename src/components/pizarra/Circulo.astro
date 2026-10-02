@@ -1,0 +1,36 @@
+---
+/*
+  Un círculo dibujado a rotulador, con un velo de color dentro. Va dentro de
+  un <svg>. Pensado para diagramas de conjuntos: varios círculos que se
+  cruzan dejan ver la zona común porque el velo es translúcido.
+
+  El trazo no es un círculo perfecto: el cierre se pasa un poco de largo,
+  como cuando se dibuja a mano y el rotulador no acaba donde empezó. Poco:
+  con 12° de más y 4 de radio, el remate se leía como una raya suelta.
+*/
+interface Props {
+  cx: number;
+  cy: number;
+  r: number;
+  /** Color del rotulador. El velo usa el mismo, muy aclarado. */
+  color: string;
+  velo?: number;
+}
+const { cx, cy, r, color, velo = 0.1 } = Astro.props;
+
+// Arco de 366°: empieza un poco antes de las doce y se pasa del cierre.
+const a0 = -100 * (Math.PI / 180);
+const a1 = a0 + 366 * (Math.PI / 180);
+const punto = (a: number, rr: number) => [cx + rr * Math.cos(a), cy + rr * Math.sin(a)];
+const pasos = 48;
+const puntos = Array.from({ length: pasos + 1 }, (_, i) => {
+  const a = a0 + ((a1 - a0) * i) / pasos;
+  // El radio crece un poco al final, para que el remate no pise el inicio.
+  const rr = r + (i / pasos) * 2;
+  return punto(a, rr);
+});
+const d = 'M' + puntos.map(([px, py]) => `${px.toFixed(1)},${py.toFixed(1)}`).join(' L');
+---
+
+<circle cx={cx} cy={cy} r={r} fill={color} fill-opacity={velo} />
+<path d={d} fill="none" stroke={color} stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />

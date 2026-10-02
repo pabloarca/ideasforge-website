@@ -1,0 +1,129 @@
+---
+/*
+  Antes y después, con las cifras. En «Dos procesos reales en producción»,
+  después de contar los dos casos y antes de lo que tienen en común.
+
+  Dos columnas, una por caso: el nombre y qué procesa, la ficha de antes con
+  el coste de hacerlo a mano y, bajando con una flecha marcada «hoy», la
+  ficha de después. Las cifras son las del banco de hechos y las de la propia
+  página: un minuto de teclado y el 98 % en Stanton, de cinco a diez minutos
+  y más de tres horas al día en Barceloneta.
+
+  Escritorio 800 × 350. Móvil, los dos casos uno encima del otro, 360 × 560.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.cifras;
+
+const ICONOS = [
+  { antes: 'teclado', despues: 'hecho' },
+  { antes: 'reloj', despues: 'tiempoGanado' },
+] as const;
+const COL = [24, 424];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 350" aria-hidden="true">
+    <PizarraDefs pre="pfa" />
+
+    {
+      d.casos.map((c, i) => (
+        <>
+          <Nota x={COL[i]} y={26} texto={c.nombre} tam={20} peso={700} />
+          <Nota x={COL[i]} y={48} texto={c.que} tono="gris" tam={15} peso={500} />
+          <Ficha
+            pre="pfa"
+            disposicion="horizontal"
+            x={COL[i]}
+            y={70}
+            w={352}
+            h={96}
+            icono={ICONOS[i].antes}
+            titulo={c.antes.t}
+            sub={c.antes.s}
+            iman="gris"
+            giro={i === 0 ? -1.2 : 1}
+            tamIcono={36}
+            tamTitulo={28}
+            tamSub={15}
+          />
+          <Trazo desde={[COL[i] + 176, 178]} hasta={[COL[i] + 176, 222]} curva={6} etiqueta={d.hoy} etiquetaEn={[COL[i] + 210, 206]} tamEtiqueta={16} />
+          <Ficha
+            pre="pfa"
+            disposicion="horizontal"
+            x={COL[i]}
+            y={232}
+            w={352}
+            h={96}
+            icono={ICONOS[i].despues}
+            titulo={c.despues.t}
+            sub={c.despues.s}
+            iman="verde"
+            giro={i === 0 ? 1 : -1.2}
+            tamIcono={36}
+            tamTitulo={28}
+            tamSub={15}
+          />
+        </>
+      ))
+    }
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 560" aria-hidden="true">
+    <PizarraDefs pre="pfe" />
+
+    {
+      d.casos.map((c, i) => {
+        const y0 = i * 290;
+        return (
+          <>
+            <Nota x={4} y={y0 + 20} texto={c.nombre} tam={17} peso={700} />
+            <Nota x={4} y={y0 + 38} texto={c.que} tono="gris" tam={13} peso={500} />
+            <Ficha
+              pre="pfe"
+              disposicion="horizontal"
+              x={0}
+              y={y0 + 52}
+              w={356}
+              h={80}
+              icono={ICONOS[i].antes}
+              titulo={c.antes.t}
+              sub={c.antes.s}
+              iman="gris"
+              giro={i === 0 ? -1 : 1}
+              tamIcono={30}
+              tamTitulo={23}
+              tamSub={13.5}
+            />
+            <Trazo desde={[178, y0 + 142]} hasta={[178, y0 + 176]} curva={5} etiqueta={d.hoy} etiquetaEn={[208, y0 + 164]} tamEtiqueta={14} />
+            <Ficha
+              pre="pfe"
+              disposicion="horizontal"
+              x={0}
+              y={y0 + 184}
+              w={356}
+              h={80}
+              icono={ICONOS[i].despues}
+              titulo={c.despues.t}
+              sub={c.despues.s}
+              iman="verde"
+              giro={i === 0 ? 1 : -1}
+              tamIcono={30}
+              tamTitulo={23}
+              tamSub={13.5}
+            />
+          </>
+        );
+      })
+    }
+  </svg>
+</Pizarra>

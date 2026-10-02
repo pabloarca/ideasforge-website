@@ -1,0 +1,61 @@
+---
+/*
+  El circuito del susto. En «Medida como el software que es», debajo del
+  párrafo que lo cuenta.
+
+  Cuatro fichas en círculo, unidas por flechas en el sentido de las agujas
+  del reloj: un error real se cuela, se reproduce la ejecución, se corrige y
+  el caso entra en la batería. En el centro, lo que se gana: no vuelve a
+  colarse. El error, en rojo; lo demás, tinta.
+
+  Escritorio 800 × 430. En el móvil no cabe nada en el centro del círculo,
+  así que la conclusión baja debajo del circuito: 360 × 580.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.circuito;
+const [error, reproduce, corrige, bateria] = d.pasos;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 430" aria-hidden="true">
+    <PizarraDefs pre="pca" />
+
+    {/* Las flechas bordean el círculo por fuera, en el sentido del reloj. */}
+    <Trazo desde={[500, 56]} hasta={[690, 152]} curva={-40} tono="rojo" />
+    <Trazo desde={[700, 264]} hasta={[502, 352]} curva={-40} />
+    <Trazo desde={[298, 356]} hasta={[104, 266]} curva={-40} />
+    <Trazo desde={[100, 152]} hasta={[298, 58]} curva={-40} />
+
+    <Ficha pre="pca" x={305} y={12} w={190} h={96} icono="fallo" titulo={error.t} sub={error.s} tono="rojo" iman="rojo" giro={-1.5} tamTitulo={18} />
+    <Ficha pre="pca" x={600} y={160} w={190} h={96} icono="reproduce" titulo={reproduce.t} sub={reproduce.s} iman="amarillo" giro={1.5} tamTitulo={18} />
+    <Ficha pre="pca" x={305} y={310} w={190} h={96} icono="corrige" titulo={corrige.t} sub={corrige.s} iman="gris" giro={-1} tamTitulo={18} />
+    <Ficha pre="pca" x={10} y={160} w={190} h={96} icono="entraBateria" titulo={bateria.t} sub={bateria.s} iman="negro" giro={1.5} tamTitulo={17} />
+
+    <Ficha pre="pca" x={320} y={164} w={160} h={88} icono="blindado" titulo={d.centro.t} sub={d.centro.s} iman="verde" tamIcono={30} tamTitulo={18} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 580" aria-hidden="true">
+    <PizarraDefs pre="pce" />
+
+    <Trazo desde={[262, 70]} hasta={[300, 190]} curva={-22} tono="rojo" />
+    <Trazo desde={[300, 296]} hasta={[262, 412]} curva={-22} />
+    <Trazo desde={[98, 412]} hasta={[60, 296]} curva={-22} />
+    <Trazo desde={[60, 190]} hasta={[98, 70]} curva={-22} />
+
+    <Ficha pre="pce" x={95} y={12} w={170} h={92} icono="fallo" titulo={error.t} sub={error.s} tono="rojo" iman="rojo" giro={-1.5} tamTitulo={16} tamSub={13} />
+    <Ficha pre="pce" x={190} y={196} w={170} h={92} icono="reproduce" titulo={reproduce.t} sub={reproduce.s} iman="amarillo" giro={1.5} tamTitulo={16} tamSub={13} />
+    <Ficha pre="pce" x={95} y={380} w={170} h={92} icono="corrige" titulo={corrige.t} sub={corrige.s} iman="gris" giro={-1} tamTitulo={16} tamSub={13} />
+    <Ficha pre="pce" x={0} y={196} w={170} h={92} icono="entraBateria" titulo={bateria.t} sub={bateria.s} iman="negro" giro={1.5} tamTitulo={15} tamSub={13} />
+
+    <Ficha pre="pce" disposicion="horizontal" x={70} y={516} w={220} h={56} icono="blindado" titulo={d.centro.t} sub={d.centro.s} iman="verde" tamIcono={26} tamTitulo={16} tamSub={13} />
+  </svg>
+</Pizarra>

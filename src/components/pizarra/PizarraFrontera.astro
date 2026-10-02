@@ -1,0 +1,94 @@
+---
+/*
+  Primer gráfico pizarra (2 oct 2026), en «Qué resuelve la automatización de
+  procesos con IA». Va justo debajo del párrafo de la frontera: tres facturas
+  de tres proveedores llegan a una sola pregunta, si traen el mismo formato.
+  Si sí, bastan unas reglas escritas en código. Si no, hace falta un modelo de
+  lenguaje, en azul como todo lo que hace el modelo en la casa.
+
+  Texto en `content[lang].pizarras.frontera`. Dos dibujos: 800 × 350 para
+  escritorio (en la columna de texto se reduce al ~84 %, la letra queda en
+  15-18 px) y 360 × 580 para el móvil, que apenas se reduce.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.frontera;
+
+const IMANES_FACTURAS = ['rojo', 'amarillo', 'verde'] as const;
+const GIROS = [-3, 2, -2];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 350" aria-hidden="true">
+    <PizarraDefs pre="pza" />
+
+    {/* Las tres facturas convergen en la pregunta. */}
+    <Trazo desde={[166, 62]} hasta={[300, 160]} curva={14} />
+    <Trazo desde={[166, 180]} hasta={[300, 180]} curva={4} />
+    <Trazo desde={[166, 296]} hasta={[300, 200]} curva={-14} />
+
+    {/* La pregunta reparte: reglas o modelo. */}
+    <Trazo desde={[510, 160]} hasta={[600, 100]} curva={10} etiqueta={d.si} tamEtiqueta={18} />
+    <Trazo desde={[510, 200]} hasta={[600, 260]} curva={-10} tono="azul" etiqueta={d.no} tamEtiqueta={18} />
+
+    {
+      d.facturas.map((f, i) => (
+        <Ficha
+          pre="pza"
+          x={16}
+          y={16 + i * 118}
+          w={142}
+          h={92}
+          icono="factura"
+          titulo={f}
+          giro={GIROS[i]}
+          iman={IMANES_FACTURAS[i]}
+          tamTitulo={18}
+        />
+      ))
+    }
+    <Ficha pre="pza" x={310} y={128} w={192} h={104} icono="pregunta" titulo={d.pregunta} iman="negro" tamTitulo={20} />
+    <Ficha pre="pza" x={612} y={28} w={172} h={114} icono="reglas" titulo={d.reglas.t} sub={d.reglas.s} iman="gris" giro={1.5} tamIcono={38} tamTitulo={22} />
+    <Ficha pre="pza" x={612} y={216} w={172} h={114} icono="ia" titulo={d.llm.t} sub={d.llm.s} iman="azul" tono="azul" giro={-1.5} tamIcono={38} tamTitulo={22} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 580" aria-hidden="true">
+    <PizarraDefs pre="pze" />
+
+    <Trazo desde={[58, 142]} hasta={[150, 220]} curva={-10} />
+    <Trazo desde={[180, 142]} hasta={[180, 220]} curva={6} />
+    <Trazo desde={[302, 142]} hasta={[210, 220]} curva={10} />
+
+    <Trazo desde={[150, 336]} hasta={[96, 430]} curva={10} etiqueta={d.si} />
+    <Trazo desde={[210, 336]} hasta={[264, 430]} curva={-10} tono="azul" etiqueta={d.no} />
+
+    {
+      d.facturas.map((f, i) => (
+        <Ficha
+          pre="pze"
+          x={8 + i * 122}
+          y={24}
+          w={100}
+          h={108}
+          icono="factura"
+          titulo={f}
+          giro={GIROS[i]}
+          iman={IMANES_FACTURAS[i]}
+          tamIcono={30}
+          tamTitulo={14}
+        />
+      ))
+    }
+    <Ficha pre="pze" x={80} y={228} w={200} h={100} icono="pregunta" titulo={d.pregunta} iman="negro" tamTitulo={18} />
+    <Ficha pre="pze" x={12} y={440} w={150} h={112} icono="reglas" titulo={d.reglas.t} sub={d.reglas.s} iman="gris" giro={1.5} tamTitulo={18} />
+    <Ficha pre="pze" x={198} y={440} w={150} h={112} icono="ia" titulo={d.llm.t} sub={d.llm.s} iman="azul" tono="azul" giro={-1.5} tamTitulo={18} />
+  </svg>
+</Pizarra>

@@ -1,0 +1,88 @@
+---
+/*
+  Encima de lo que ya tienes. En «Tus sistemas se quedan donde están».
+
+  A la izquierda, los canales que el equipo ya usa (Telegram, WhatsApp y el
+  correo). En el centro, el flujo. A la derecha, los sistemas que ya tienes
+  (ERP, CRM, la hoja de cálculo y la base de datos). Debajo del flujo, la
+  idea que importa: nada nuevo que aprender.
+
+  Escritorio 800 × 330. Móvil, de arriba abajo, 360 × 510.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.sistemas;
+
+const ICONOS_CANALES = ['enviar', 'chat', 'correo'] as const;
+const ICONOS_SISTEMAS = ['almacen', 'contactos', 'tabla', 'erp'] as const;
+const IMANES = ['rojo', 'verde', 'amarillo', 'gris'] as const;
+
+const CANAL_Y = [46, 142, 238];
+const SIS_Y = [40, 110, 180, 250];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 330" aria-hidden="true">
+    <PizarraDefs pre="psa" />
+
+    <Nota x={95} y={22} texto={d.canalesNota} tono="gris" tam={15} peso={500} alinea="middle" />
+    <Nota x={705} y={22} texto={d.sistemasNota} tono="gris" tam={15} peso={500} alinea="middle" />
+
+    {CANAL_Y.map((y, i) => (
+      <Trazo desde={[188, y + 29]} hasta={[306, 150 + i * 19]} curva={i === 0 ? 10 : i === 2 ? -10 : 0} />
+    ))}
+    {SIS_Y.map((y, i) => (
+      <Trazo desde={[494, 146 + i * 14]} hasta={[612, y + 26]} curva={[10, 4, -4, -10][i]} />
+    ))}
+
+    {
+      d.canales.map((c, i) => (
+        <Ficha pre="psa" disposicion="horizontal" x={10} y={CANAL_Y[i]} w={170} h={58} icono={ICONOS_CANALES[i]} titulo={c} iman={IMANES[i]} giro={[-1.5, 1, -1][i]} tamIcono={28} tamTitulo={17} />
+      ))
+    }
+    <Ficha pre="psa" x={316} y={112} w={168} h={118} icono="flujo" titulo={d.flujo.t} sub={d.flujo.s} iman="negro" tamIcono={38} tamTitulo={20} />
+    {
+      d.sistemas.map((s, i) => (
+        <Ficha pre="psa" disposicion="horizontal" x={620} y={SIS_Y[i]} w={172} h={52} icono={ICONOS_SISTEMAS[i]} titulo={s} iman="gris" giro={[1, -1, 1.5, -1][i]} tamIcono={26} tamTitulo={16} />
+      ))
+    }
+
+    <Nota x={400} y={266} texto={d.nota} tam={17} peso={700} alinea="middle" giro={-2} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 510" aria-hidden="true">
+    <PizarraDefs pre="pse" />
+
+    <Nota x={180} y={16} texto={d.canalesNota} tono="gris" tam={13} peso={500} alinea="middle" />
+
+    {[56, 180, 304].map((x, i) => (
+      <Trazo desde={[x, 124]} hasta={[160 + i * 20, 168]} curva={i === 0 ? -8 : i === 2 ? 8 : 0} />
+    ))}
+
+    {
+      d.canales.map((c, i) => (
+        <Ficha pre="pse" x={4 + i * 124} y={30} w={104} h={84} icono={ICONOS_CANALES[i]} titulo={c} iman={IMANES[i]} giro={[-1.5, 1, -1][i]} tamIcono={28} tamTitulo={14} />
+      ))
+    }
+    <Ficha pre="pse" x={95} y={176} w={170} h={98} icono="flujo" titulo={d.flujo.t} sub={d.flujo.s} iman="negro" tamIcono={32} tamTitulo={17} tamSub={13} />
+
+    <Trazo desde={[180, 284]} hasta={[180, 314]} />
+    <Nota x={180} y={334} texto={d.sistemasNota} tono="gris" tam={13} peso={500} alinea="middle" />
+    {
+      d.sistemas.map((s, i) => (
+        <Ficha pre="pse" disposicion="horizontal" x={(i % 2) * 190} y={350 + Math.floor(i / 2) * 64} w={170} h={50} icono={ICONOS_SISTEMAS[i]} titulo={s} iman="gris" giro={[1, -1, 1.5, -1][i]} tamIcono={22} tamTitulo={14.5} />
+      ))
+    }
+
+    <Nota x={180} y={500} texto={d.nota} tam={15} peso={700} alinea="middle" giro={-2} />
+  </svg>
+</Pizarra>

@@ -1,0 +1,71 @@
+---
+/*
+  Lo que no encaja no se inventa. En «Qué puede responder el agente y cuándo
+  debe pasar la conversación a una persona», debajo de la frase que lo cierra.
+
+  La pregunta llega, el modelo elige con cuál de las salidas permitidas
+  encaja (en azul: no redacta nada) y la pregunta decide. Si encaja, el
+  código consulta el dato real y la respuesta sale con los textos aprobados.
+  Si no encaja con ninguna, baja a una persona: no hay nada que inventar.
+
+  Escritorio 800 × 300, móvil 360 × 424.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.respuestas;
+
+const W = 128;
+const H = 96;
+const X = [0, 164, 328, 492, 656];
+const FY = 26;
+const MEDIO = FY + H / 2;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 300" aria-hidden="true">
+    <PizarraDefs pre="pra" />
+
+    <Trazo desde={[X[0] + W + 6, MEDIO]} hasta={[X[1] - 6, MEDIO]} />
+    <Trazo desde={[X[1] + W + 6, MEDIO]} hasta={[X[2] - 6, MEDIO]} tono="azul" />
+    <Trazo desde={[X[2] + W + 6, MEDIO]} hasta={[X[3] - 6, MEDIO]} etiqueta={d.si} etiquetaEn={[(X[2] + W + X[3]) / 2, MEDIO - 12]} tamEtiqueta={15} />
+    <Trazo desde={[X[3] + W + 6, MEDIO]} hasta={[X[4] - 6, MEDIO]} />
+    <Trazo desde={[X[2] + W / 2, FY + H + 6]} hasta={[X[2] + W / 2, FY + H + 42]} etiqueta={d.no} etiquetaEn={[X[2] + W / 2 + 20, FY + H + 30]} tamEtiqueta={15} />
+
+    <Ficha pre="pra" x={X[0]} y={FY} w={W} h={H} icono="chat" titulo={d.pregunta.t} sub={d.pregunta.s} iman="amarillo" giro={-2} tamIcono={30} tamTitulo={16} tamSub={13} />
+    <Ficha pre="pra" x={X[1]} y={FY} w={W} h={H} icono="ia" titulo={d.elige.t} sub={d.elige.s} tono="azul" iman="azul" tamIcono={30} tamTitulo={16} tamSub={13} />
+    <Ficha pre="pra" x={X[2]} y={FY} w={W} h={H} icono="pregunta" titulo={d.encaja} iman="negro" giro={1.5} tamTitulo={17} />
+    <Ficha pre="pra" x={X[3]} y={FY} w={W} h={H} icono="erp" titulo={d.codigo.t} sub={d.codigo.s} iman="gris" tamIcono={30} tamTitulo={16} tamSub={12} />
+    <Ficha pre="pra" x={X[4]} y={FY} w={W} h={H} icono="blindado" titulo={d.respuesta.t} sub={d.respuesta.s} iman="verde" giro={-1.5} tamIcono={30} tamTitulo={16} tamSub={12} />
+    <Ficha pre="pra" x={X[2]} y={FY + H + 50} w={W} h={H} icono="persona" titulo={d.persona.t} sub={d.persona.s} iman="rojo" giro={1} tamIcono={30} tamTitulo={16} tamSub={13} />
+
+    <Nota x={X[2] - 22} y={FY + H + 50 + H / 2 + 6} texto={d.nota} tam={18} peso={700} alinea="end" giro={-3} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 424" aria-hidden="true">
+    <PizarraDefs pre="pre" />
+
+    <Trazo desde={[180, 67]} hasta={[180, 84]} />
+    <Trazo desde={[180, 147]} hasta={[180, 164]} tono="azul" />
+    <Trazo desde={[150, 228]} hasta={[100, 268]} curva={6} etiqueta={d.si} etiquetaEn={[114, 238]} tamEtiqueta={13} />
+    <Trazo desde={[232, 228]} hasta={[284, 268]} curva={-6} etiqueta={d.no} etiquetaEn={[268, 238]} tamEtiqueta={13} />
+    <Trazo desde={[100, 333]} hasta={[100, 350]} />
+
+    <Ficha pre="pre" disposicion="horizontal" x={75} y={10} w={210} h={52} icono="chat" titulo={d.pregunta.t} sub={d.pregunta.s} iman="amarillo" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="pre" disposicion="horizontal" x={75} y={90} w={210} h={52} icono="ia" titulo={d.elige.t} sub={d.elige.s} tono="azul" iman="azul" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="pre" disposicion="horizontal" x={75} y={170} w={210} h={52} icono="pregunta" titulo={d.encaja} iman="negro" imanX={0.86} tamIcono={24} tamTitulo={15} />
+    <Ficha pre="pre" disposicion="horizontal" x={0} y={274} w={208} h={54} icono="erp" titulo={d.codigo.t} sub={d.codigo.s} iman="gris" imanX={0.86} tamIcono={22} tamTitulo={14} tamSub={12.5} />
+    <Ficha pre="pre" disposicion="horizontal" x={0} y={356} w={208} h={54} icono="blindado" titulo={d.respuesta.t} sub={d.respuesta.s} iman="verde" imanX={0.86} tamIcono={22} tamTitulo={14} tamSub={12.5} />
+    <Ficha pre="pre" x={222} y={274} w={136} h={86} icono="persona" titulo={d.persona.t} sub={d.persona.s} iman="rojo" imanX={0.82} tamIcono={24} tamTitulo={14} tamSub={12.5} />
+
+    <Nota x={356} y={392} texto={d.nota} tam={13} peso={700} alinea="end" giro={-2} />
+  </svg>
+</Pizarra>
