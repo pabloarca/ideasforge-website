@@ -28,6 +28,35 @@ const e = d.edges;
 ---
 
 <figure class="my-10">
+  {/*
+    Versión de móvil: el mismo recorrido de arriba abajo, en un lienzo de 340
+    de ancho que apenas se reduce. El horizontal de 1100 se quedaba en un
+    tercio y su letra en 5 px.
+  */}
+  <div class="lg:hidden">
+    <GrainFrame height="auto" title={d.title} pad="20px">
+      <DiagramCanvas width={340} height={500}>
+        <path slot="edges" d="M170,46 L170,74" marker-end="url(#dg-arrow)" />
+        <path slot="edges" d="M170,126 L170,160" marker-end="url(#dg-arrow)" />
+        <path slot="edges" d="M232,230 L250,230" marker-end="url(#dg-arrow)" />
+        <path slot="edges" d="M170,298 L170,328" marker-end="url(#dg-arrow)" />
+        <path slot="edges" d="M170,380 L170,410" marker-end="url(#dg-arrow)" />
+
+        <DiagramNode x={45} y={0} w={250}>{n.question}</DiagramNode>
+        <DiagramNode x={95} y={80} w={150}>{n.model}</DiagramNode>
+        <DiagramNode x={126} y={186} w={88} shape="rombo">{n.validator}</DiagramNode>
+        <DiagramNode x={254} y={207} w={86}>{n.blocked}</DiagramNode>
+        <DiagramNode x={45} y={334} w={250}>{n.query}</DiagramNode>
+        <DiagramNode x={95} y={416} w={150} h={82} shape="cilindro">{n.database}</DiagramNode>
+
+        <EdgeLabel x={236} y={136}>{e.contract}</EdgeLabel>
+        <EdgeLabel x={297} y={188}>{e.rejects}</EdgeLabel>
+        <EdgeLabel x={208} y={306}>{e.accepts}</EdgeLabel>
+      </DiagramCanvas>
+    </GrainFrame>
+  </div>
+
+  <div class="hidden lg:block">
   <GrainFrame height="560px" title={d.title}>
     {/* Sin `offsetTop`: ahora el propio marco reserva el sitio del título. */}
     <DiagramCanvas width={1100} height={300}>
@@ -49,6 +78,7 @@ const e = d.edges;
       <EdgeLabel x={610} y={209}>{e.accepts}</EdgeLabel>
     </DiagramCanvas>
   </GrainFrame>
+  </div>
 
   {
     !bare && (

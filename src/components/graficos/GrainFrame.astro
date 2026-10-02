@@ -3,7 +3,10 @@ import GridBackdrop from './GridBackdrop.astro';
 import { fondos, TINTAS, type FondoName } from './gradients';
 
 export interface Props {
-  /** Altura del gráfico (CSS length) */
+  /** Altura del gráfico (CSS length). Con `auto` el marco crece con su
+   *  contenido: título y cuerpo dejan de ir en posición absoluta. Es el modo
+   *  de las versiones de móvil, donde un título de dos líneas y un dibujo
+   *  vertical no caben en una altura calculada a mano. */
   height?: string;
   /** Radio de esquina exterior */
   radius?: string;
@@ -70,7 +73,7 @@ const inkCss = TINTAS[tono];
     Astro la descarta sin avisar. El resultado era un marco sin altura ni fondo.
   */}
   <div
-    class="gf"
+    class:list={['gf', height === 'auto' && 'gf-auto']}
     style={[
       `--gfHeight:${height}`,
       `--gfRadius:${radius}`,
@@ -194,6 +197,28 @@ const inkCss = TINTAS[tono];
   }
   .gf-body.has-title {
     top: calc(var(--gfInset) + var(--gfPad) + 46px);
+  }
+
+  /* Altura automática: título y cuerpo vuelven al flujo normal y el marco
+     mide lo que mida su contenido. El relleno reproduce la misma distancia a
+     la línea del marco que en el modo de altura fija. */
+  .gf-auto .gf-head,
+  .gf-auto .gf-body {
+    position: relative;
+    inset: auto;
+    left: auto;
+    top: auto;
+  }
+  .gf-auto .gf-head {
+    padding: calc(var(--gfInset) + var(--gfPad)) calc(var(--gfInset) + var(--gfPad)) 0;
+  }
+  .gf-auto .gf-body {
+    display: block;
+    padding: calc(var(--gfInset) + var(--gfPad));
+  }
+  .gf-auto .gf-body.has-title {
+    top: auto;
+    padding-top: 22px;
   }
 
   /* Numeración fuera del marco: va sobre el fondo de la página, así que toma

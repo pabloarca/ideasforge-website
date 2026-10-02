@@ -38,6 +38,29 @@ const ALTO = 46;
 ---
 
 <figure class="my-10">
+  {/* Versión de móvil: las dos columnas, una debajo de la otra. */}
+  <div class="lg:hidden">
+    <GrainFrame height="auto" title={d.title} fondo="hielo" pad="20px">
+      {
+        [
+          { col: d.izq, modelo: false },
+          { col: d.der, modelo: true },
+        ].map(({ col, modelo }) => (
+          <div class="em-col">
+            <p class:list={['em-head', modelo && 'ed-modelo']}>{col.name}</p>
+            <ul class="em-items">
+              {col.items.map((texto) => (
+                <li class:list={['em-item', modelo && 'ed-modelo']}>{texto}</li>
+              ))}
+            </ul>
+            <p class:list={['em-foot', modelo && 'ed-modelo']}>{col.foot}</p>
+          </div>
+        ))
+      }
+    </GrainFrame>
+  </div>
+
+  <div class="hidden lg:block">
   <GrainFrame height="500px" title={d.title} fondo="hielo">
     <DiagramCanvas width={1100} height={330}>
       {/* Cabeceras de columna */}
@@ -78,6 +101,7 @@ const ALTO = 46;
       </div>
     </DiagramCanvas>
   </GrainFrame>
+  </div>
 
   <figcaption class="mt-6 border-l-2 border-accent pl-4 text-[15px] leading-relaxed text-fg">
     {d.legend}
@@ -127,8 +151,55 @@ const ALTO = 46;
     color: var(--color-accent);
     opacity: 1;
   }
-  .ed-item.ed-modelo {
+  .ed-item.ed-modelo,
+  .em-item.ed-modelo {
     border-color: color-mix(in oklab, var(--color-accent) 70%, transparent);
     background: color-mix(in oklab, var(--color-accent) 12%, transparent);
+  }
+
+  /* ---- Versión de móvil: columnas apiladas, sin coordenadas ---- */
+  .em-col + .em-col {
+    margin-top: 22px;
+  }
+  .em-head,
+  .em-item,
+  .em-foot {
+    font-family: var(--font-sans, 'Space Grotesk', sans-serif);
+    text-align: center;
+  }
+  .em-head {
+    margin: 0 0 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .em-head.ed-modelo,
+  .em-foot.ed-modelo {
+    opacity: 1;
+  }
+  .em-items {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .em-item {
+    padding: 10px 12px;
+    border: 1.3px solid color-mix(in oklab, currentColor 40%, transparent);
+    border-radius: 7px;
+    background: color-mix(in oklab, currentColor 6%, transparent);
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+  .em-foot {
+    margin: 8px 0 0;
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.3;
+    opacity: 0.8;
   }
 </style>

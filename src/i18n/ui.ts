@@ -402,6 +402,23 @@ export interface SiteContent {
   };
   /** Diagrama del examen previo a publicar, en el modal de observabilidad. */
   gateDiagram: GateDiagramContent;
+  /** Recorrido de una factura en la página de procesos: cinco pasos en fila,
+   *  la bifurcación de la validación y el registro que corre debajo de todos. */
+  facturasDiagram: {
+    title: string;
+    nodes: {
+      llega: string;
+      clasifica: string;
+      lee: string;
+      valida: string;
+      registra: string;
+      persona: string;
+      registro: string;
+    };
+    edges: { si: string; no: string };
+    key: { codigo: string; modelo: string };
+    legend: string;
+  };
   footer: {
     tagline: string;
     menu: string;
@@ -511,6 +528,8 @@ export interface LongFormSection {
   entradasDiagram?: boolean;
   /** Renders the four-layer isolation diagram after the paragraphs. */
   capasDiagram?: boolean;
+  /** Pinta el recorrido de una factura tras los párrafos. */
+  facturasDiagram?: boolean;
   /** Cómo se dibuja. Por defecto `prose`. */
   kind?: LongFormKind;
   /** Tabla opcional tras los párrafos. Nació para la guía de coste: los
@@ -1138,6 +1157,22 @@ export const content: Record<Lang, SiteContent> = {
       edges: { fails: 'falla', passes: 'no falla' },
       legend:
         'Las preguntas de siempre no se retiran cuando entra un cambio, se le suman las nuevas. Por eso una mejora en un sitio no puede estropear otro sin que nos enteremos antes de publicar, que es cuando todavía sale barato.',
+    },
+    facturasDiagram: {
+      title: 'Una factura, de la llegada al archivo',
+      nodes: {
+        llega: 'Llega',
+        clasifica: 'Se clasifica',
+        lee: 'Se lee',
+        valida: '¿Cuadra?',
+        registra: 'Tu ERP o tu Excel',
+        persona: 'Una persona, con el motivo',
+        registro: 'Cada paso deja escrito qué se leyó y qué se decidió',
+      },
+      edges: { si: 'sí', no: 'no' },
+      key: { codigo: 'Lo hace el código', modelo: 'Lo hace el modelo' },
+      legend:
+        'Lo azul es la parada del modelo, leer la factura. El resto lo mueve el código, que se comporta igual siempre y se puede probar entero antes de publicarlo. La comprobación va justo después de leer y no al final, así que una factura que no cuadra no llega a tus sistemas. Llega a una persona con el motivo al lado.',
     },
     start: {
       metaTitle: 'Empezar la exploración, Ideasforge',
@@ -2437,6 +2472,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             heading: 'Un flujo de facturas, paso a paso',
             part: 'Cómo lo construimos',
+            facturasDiagram: true,
             paragraphs: [
               'Para que nada de esto quede abstracto, así recorre el sistema una factura desde que llega hasta que queda archivada. Son seis pasos. <strong>Lo que no pasa la validación del cuarto paso no sigue adelante, sale hacia una persona con el caso preparado y el motivo señalado.</strong>',
             ],
@@ -4611,6 +4647,22 @@ export const content: Record<Lang, SiteContent> = {
       edges: { fails: 'fails', passes: 'passes' },
       legend:
         'The usual questions are not retired when a change arrives, the new ones are added to them. That is why an improvement in one place cannot break another without us finding out before it ships, which is while it is still cheap.',
+    },
+    facturasDiagram: {
+      title: 'One invoice, from arrival to archive',
+      nodes: {
+        llega: 'Arrives',
+        clasifica: 'Gets classified',
+        lee: 'Gets read',
+        valida: 'Adds up?',
+        registra: 'Your ERP or spreadsheet',
+        persona: 'A person, with the reason',
+        registro: 'Every step records what was read and what was decided',
+      },
+      edges: { si: 'yes', no: 'no' },
+      key: { codigo: 'Done by code', modelo: 'Done by the model' },
+      legend:
+        "The blue step is where the model comes in, reading the invoice. Code moves everything else, and code behaves the same every time and can be tested in full before it ships. The check sits right after reading, not at the end, so an invoice that doesn't add up never reaches your systems. It reaches a person, with the reason next to it.",
     },
     start: {
       metaTitle: 'Start the exploration, Ideasforge',

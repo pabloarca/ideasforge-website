@@ -59,6 +59,45 @@ const FIN = FILA0 + SALTO * (CARRILES.length - 1) + ALTO;
 ---
 
 <figure class="my-10">
+  {/*
+    Versión de móvil: sin lienzo de coordenadas. Cada carril es su nombre y,
+    debajo, su banda a todo el ancho, con los tramos repartidos en la misma
+    proporción que en el dibujo grande. Así el texto se queda a tamaño de
+    lectura y la banda sigue diciendo cuánto decide el modelo.
+  */}
+  <div class="lg:hidden">
+    <GrainFrame height="auto" title={d.title} fondo="hielo" pad="20px">
+      <p class="fm-eje">{d.axis} →</p>
+      <ol class="fm-carriles">
+        {
+          CARRILES.map((carril, i) => {
+            const lane = d.lanes[carril.clave];
+            return (
+              <li>
+                <p class="fm-name">
+                  <span class="fm-num">{String(i + 1).padStart(2, '0')}</span>
+                  {lane.name}
+                </p>
+                <div class="fm-banda">
+                  {carril.tramos.map((t, k) => (
+                    <span class:list={['fm-seg', t.m && 'fd-modelo']} style={`flex:${t.w} 1 0`}>
+                      {lane.segs[k]}
+                    </span>
+                  ))}
+                </div>
+              </li>
+            );
+          })
+        }
+      </ol>
+      <p class="fm-clave">
+        <span class="fm-swatch"></span>{d.key.codigo}
+        <span class="fm-swatch fd-modelo"></span>{d.key.modelo}
+      </p>
+    </GrainFrame>
+  </div>
+
+  <div class="hidden lg:block">
   <GrainFrame height="560px" title={d.title} fondo="hielo">
     <DiagramCanvas width={1100} height={FIN + 46}>
       {/* Flecha del eje: sin ella la banda se lee como barra de progreso. */}
@@ -101,6 +140,7 @@ const FIN = FILA0 + SALTO * (CARRILES.length - 1) + ALTO;
       </div>
     </DiagramCanvas>
   </GrainFrame>
+  </div>
 
   <figcaption class="mt-6 border-l-2 border-accent pl-4 text-[15px] leading-relaxed text-fg">
     {d.legend}
@@ -183,5 +223,82 @@ const FIN = FILA0 + SALTO * (CARRILES.length - 1) + ALTO;
   .fd-clave .fd-swatch + .fd-swatch,
   .fd-clave .fd-swatch.fd-modelo {
     margin-left: 18px;
+  }
+
+  /* ---- Versión de móvil: maqueta apilada, sin coordenadas ---- */
+  .fm-eje,
+  .fm-name,
+  .fm-seg,
+  .fm-clave {
+    font-family: var(--font-sans, 'Space Grotesk', sans-serif);
+  }
+  .fm-eje {
+    margin: 0 0 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .fm-carriles {
+    display: grid;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .fm-name {
+    display: flex;
+    gap: 10px;
+    margin: 0 0 6px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+  .fm-num {
+    flex: none;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.45;
+  }
+  .fm-banda {
+    display: flex;
+    gap: 4px;
+  }
+  .fm-seg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 40px;
+    padding: 6px 6px;
+    border: 1.3px solid color-mix(in oklab, currentColor 40%, transparent);
+    border-radius: 7px;
+    background: color-mix(in oklab, currentColor 6%, transparent);
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+  }
+  .fm-clave {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 0;
+    font-size: 12.5px;
+    font-weight: 500;
+    opacity: 0.8;
+  }
+  .fm-swatch {
+    display: inline-block;
+    width: 22px;
+    height: 12px;
+    border-radius: 3px;
+    border: 1.3px solid color-mix(in oklab, currentColor 40%, transparent);
+    background: color-mix(in oklab, currentColor 6%, transparent);
+  }
+  .fm-swatch.fd-modelo {
+    margin-left: 12px;
   }
 </style>

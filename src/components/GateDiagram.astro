@@ -34,6 +34,36 @@ const e = d.edges;
 ---
 
 <figure class="my-10">
+  {/*
+    Versión de móvil: el cambio baja, se reparte en las dos tandas, se juntan
+    en el examen y salen por los dos lados. 340 de ancho, que apenas se reduce.
+  */}
+  <div class="lg:hidden">
+    <GrainFrame fondo="papel" height="auto" title={d.title} pad="20px">
+      <DiagramCanvas width={340} height={386}>
+        <path slot="edges" d="M170,46 V56 Q170,64 162,64 H88 Q80,64 80,72 V80" marker-end="url(#dg-arrow)" />
+        <path slot="edges" d="M170,46 V56 Q170,64 178,64 H252 Q260,64 260,72 V80" marker-end="url(#dg-arrow)" />
+
+        <path slot="edges" d="M80,150 V160 Q80,168 88,168 H252 Q260,168 260,160 V150" />
+        <path slot="edges" d="M170,168 L170,180" marker-end="url(#dg-arrow)" />
+
+        <path slot="edges" d="M108,250 H85 Q75,250 75,260 V330" marker-end="url(#dg-arrow)" />
+        <path slot="edges" d="M232,250 H255 Q265,250 265,260 V330" marker-end="url(#dg-arrow)" />
+
+        <DiagramNode x={70} y={0} w={200}>{n.change}</DiagramNode>
+        <DiagramNode x={0} y={86} w={160} h={64}>{n.known}</DiagramNode>
+        <DiagramNode x={180} y={86} w={160} h={64}>{n.fresh}</DiagramNode>
+        <DiagramNode x={126} y={206} w={88} shape="rombo">{n.gate}</DiagramNode>
+        <DiagramNode x={0} y={336} w={150}>{n.review}</DiagramNode>
+        <DiagramNode x={190} y={336} w={150}>{n.production}</DiagramNode>
+
+        <EdgeLabel x={44} y={282}>{e.fails}</EdgeLabel>
+        <EdgeLabel x={306} y={282}>{e.passes}</EdgeLabel>
+      </DiagramCanvas>
+    </GrainFrame>
+  </div>
+
+  <div class="hidden lg:block">
   <GrainFrame fondo="papel" height="560px" title={d.title}>
     <DiagramCanvas width={1100} height={300}>
       {/* El cambio se reparte hacia las dos tandas de preguntas. */}
@@ -58,6 +88,7 @@ const e = d.edges;
       <EdgeLabel x={630} y={196}>{e.passes}</EdgeLabel>
     </DiagramCanvas>
   </GrainFrame>
+  </div>
 
   {
     !bare && (

@@ -1,0 +1,163 @@
+---
+/*
+  El recorrido de una factura en la página de automatización de procesos.
+
+  Existe porque «Un flujo de facturas, paso a paso» cuenta seis pasos en una
+  lista, y en una lista no se ve lo que la sección quiere enseñar: que el
+  modelo solo entra en uno, que la comprobación va justo detrás de él y no al
+  final, y que lo que no cuadra se desvía a una persona en vez de llegar a tus
+  sistemas. El sexto paso, el registro, no es una casilla más de la fila: corre
+  por debajo de todos, y por eso va como banda.
+
+  Mismo código de color que `FormasDiagram` y `CapasDiagram`: acento para lo
+  que hace el modelo, tinta neutra para lo que hace el código, sobre fondo
+  `hielo` para que el acento se vea.
+
+  Layout aquí, texto en `content[lang].facturasDiagram`. El lienzo mide
+  1100 × 340 en píxeles absolutos y se escala para caber.
+*/
+import { type Lang, content } from '../i18n/ui';
+import GrainFrame from './graficos/GrainFrame.astro';
+import DiagramCanvas from './graficos/DiagramCanvas.astro';
+import DiagramNode from './graficos/DiagramNode.astro';
+import EdgeLabel from './graficos/EdgeLabel.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].facturasDiagram;
+const n = d.nodes;
+
+const FILA = 175; // eje horizontal de la fila de pasos
+const ALTO = 50;
+const top = FILA - ALTO / 2;
+
+// El rombo es un cuadrado girado: sus puntas quedan a w·√2/2 del centro.
+const ROMBO_X = 625;
+const ROMBO_W = 96;
+const rc = ROMBO_X + ROMBO_W / 2;
+const punta = Math.round((ROMBO_W * Math.SQRT2) / 2);
+---
+
+<figure class="my-10">
+  {/*
+    Dos dibujos del mismo recorrido. El horizontal, de 1100 de ancho, en un
+    teléfono se escala hasta un tercio y la letra se queda en 5 px, así que por
+    debajo de `lg` (1024 px, que cubre también las tabletas) se cambia por uno vertical de 340 de ancho, que apenas se
+    reduce. Mismos textos y misma clave de color en los dos.
+  */}
+  <div class="lg:hidden">
+    <GrainFrame height="auto" title={d.title} fondo="hielo" pad="20px">
+      <DiagramCanvas width={340} height={650}>
+        <path slot="edges" d="M105,136 L105,162" marker-end="url(#dg-arrow)" />
+        <path slot="edges" d="M105,216 L105,242" marker-end="url(#dg-arrow)" />
+        <path slot="edges" d={`M105,296 L105,${390 - punta - 8}`} marker-end="url(#dg-arrow)" />
+        <path slot="edges" d={`M${105 + punta + 6},390 L196,390`} marker-end="url(#dg-arrow)" />
+        <path slot="edges" d={`M105,${390 + punta + 6} L105,494`} marker-end="url(#dg-arrow)" />
+
+        <div class="fd-registro" style="left:0;top:0;width:340px;height:56px;padding:0 14px">{n.registro}</div>
+
+        <DiagramNode x={10} y={86} w={190} h={ALTO}>{n.llega}</DiagramNode>
+        <DiagramNode x={10} y={166} w={190} h={ALTO}>{n.clasifica}</DiagramNode>
+        <div class="fd-modelo">
+          <DiagramNode x={10} y={246} w={190} h={ALTO}>{n.lee}</DiagramNode>
+        </div>
+        <DiagramNode x={105 - ROMBO_W / 2} y={390 - ROMBO_W / 2} w={ROMBO_W} shape="rombo">{n.valida}</DiagramNode>
+        <DiagramNode x={200} y={358} w={140} h={64}>{n.persona}</DiagramNode>
+        <DiagramNode x={5} y={498} w={200} h={80} shape="cilindro">{n.registra}</DiagramNode>
+
+        <EdgeLabel x={186} y={366}>{d.edges.no}</EdgeLabel>
+        <EdgeLabel x={124} y={470}>{d.edges.si}</EdgeLabel>
+
+        <div class="fd-clave" style="left:0;top:600px">
+          <span class="fd-muestra"></span>{d.key.codigo}
+        </div>
+        <div class="fd-clave fd-modelo" style="left:0;top:626px">
+          <span class="fd-muestra"></span>{d.key.modelo}
+        </div>
+      </DiagramCanvas>
+    </GrainFrame>
+  </div>
+
+  <div class="hidden lg:block">
+  <GrainFrame height="420px" title={d.title} fondo="hielo">
+    <DiagramCanvas width={1100} height={340}>
+      <path slot="edges" d={`M140,${FILA} L181,${FILA}`} marker-end="url(#dg-arrow)" />
+      <path slot="edges" d={`M355,${FILA} L396,${FILA}`} marker-end="url(#dg-arrow)" />
+      <path slot="edges" d={`M550,${FILA} L${rc - punta - 8},${FILA}`} marker-end="url(#dg-arrow)" />
+      <path slot="edges" d={`M${rc + punta + 6},${FILA} L804,${FILA}`} marker-end="url(#dg-arrow)" />
+      <path slot="edges" d={`M${rc},${FILA + punta + 6} L${rc},${282}`} marker-end="url(#dg-arrow)" />
+
+      {/* Banda del registro: corre por encima de los cinco pasos, no es uno más. */}
+      <div class="fd-registro" style={`left:0;top:40px;width:1050px`}>{n.registro}</div>
+
+      <DiagramNode x={0} y={top} w={140} h={ALTO}>{n.llega}</DiagramNode>
+      <DiagramNode x={185} y={top} w={170} h={ALTO}>{n.clasifica}</DiagramNode>
+      <div class="fd-modelo">
+        <DiagramNode x={400} y={top} w={150} h={ALTO}>{n.lee}</DiagramNode>
+      </div>
+      <DiagramNode x={ROMBO_X} y={FILA - ROMBO_W / 2} w={ROMBO_W} shape="rombo">{n.valida}</DiagramNode>
+      <DiagramNode x={810} y={FILA - 40} w={240} h={80} shape="cilindro">{n.registra}</DiagramNode>
+      <DiagramNode x={rc - 115} y={288} w={230} h={ALTO}>{n.persona}</DiagramNode>
+
+      <EdgeLabel x={(rc + punta + 804) / 2} y={FILA - 22}>{d.edges.si}</EdgeLabel>
+      <EdgeLabel x={rc + 62} y={FILA + punta + 16}>{d.edges.no}</EdgeLabel>
+
+      {/* Clave de color, abajo a la izquierda. */}
+      <div class="fd-clave" style="left:0;top:300px">
+        <span class="fd-muestra"></span>{d.key.codigo}
+      </div>
+      <div class="fd-clave fd-modelo" style="left:200px;top:300px">
+        <span class="fd-muestra"></span>{d.key.modelo}
+      </div>
+    </DiagramCanvas>
+  </GrainFrame>
+  </div>
+
+  <figcaption class="mt-6 border-l-2 border-accent pl-4 text-[15px] leading-relaxed text-fg">
+    {d.legend}
+  </figcaption>
+</figure>
+
+<style>
+  /* Lo que hace el modelo, con el acento de la casa. DiagramNode pinta borde y
+     fondo con currentColor, así que basta con cambiar el color heredado. */
+  .fd-modelo {
+    color: var(--color-accent);
+  }
+  .fd-registro {
+    position: absolute;
+    box-sizing: border-box;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.3px dashed color-mix(in oklab, currentColor 55%, transparent);
+    border-radius: 7px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    opacity: 0.85;
+  }
+  .fd-clave {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .fd-clave:not(.fd-modelo) {
+    opacity: 0.7;
+  }
+  .fd-muestra {
+    width: 14px;
+    height: 14px;
+    border: 1.3px solid currentColor;
+    border-radius: 3px;
+    background: color-mix(in oklab, currentColor 12%, transparent);
+  }
+</style>

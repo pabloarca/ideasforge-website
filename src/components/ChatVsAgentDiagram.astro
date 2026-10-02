@@ -33,6 +33,27 @@ const n = d.nodes;
 ---
 
 <figure class="my-10">
+  {/* Versión de móvil: los dos carriles uno encima del otro, en 340 de ancho. */}
+  <div class="lg:hidden">
+    <GrainFrame height="auto" title={d.title} pad="20px">
+      <DiagramCanvas width={340} height={452}>
+        <path slot="edges" d="M170,86 L170,110" marker-end="url(#dg-arrow)" />
+        <path slot="edges" d="M170,280 L170,304" marker-end="url(#dg-arrow)" />
+        <path slot="edges" d="M170,374 L170,398" marker-end="url(#dg-arrow)" />
+
+        <EdgeLabel x={170} y={0}>{d.lanes.bot}</EdgeLabel>
+        <DiagramNode x={20} y={22} w={300} h={64}>{n.botUsuario}</DiagramNode>
+        <DiagramNode x={20} y={116} w={300} h={64}>{n.botRespuesta}</DiagramNode>
+
+        <EdgeLabel x={170} y={210}>{d.lanes.agente}</EdgeLabel>
+        <DiagramNode x={20} y={232} w={300}>{n.agenteUsuario}</DiagramNode>
+        <DiagramNode x={20} y={310} w={300} h={64}>{n.agenteElige}</DiagramNode>
+        <DiagramNode x={20} y={404} w={300}>{n.agenteResponde}</DiagramNode>
+      </DiagramCanvas>
+    </GrainFrame>
+  </div>
+
+  <div class="hidden lg:block">
   <GrainFrame height="520px" title={d.title}>
     <DiagramCanvas width={1100} height={250}>
       {/* Carril del bot: dos cajas y una sola vía. */}
@@ -52,6 +73,7 @@ const n = d.nodes;
       <DiagramNode x={728} y={165} w={250}>{n.agenteResponde}</DiagramNode>
     </DiagramCanvas>
   </GrainFrame>
+  </div>
 
   <figcaption class="mt-6 border-l-2 border-accent pl-4 text-[15px] leading-relaxed text-fg">
     {d.legend}
