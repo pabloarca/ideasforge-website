@@ -768,6 +768,8 @@ export interface PizarrasContent {
     falla: string;
     noSale: FichaTexto;
     noResponde: string;
+    /** Rótulo del paso de las pruebas a la copia, solo en la versión para redes. */
+    pasan: string;
     vuelve: FichaTexto;
     movilFalla: string;
     movilNoResponde: string;
@@ -2454,6 +2456,7 @@ export const content: Record<Lang, SiteContent> = {
         falla: 'falla una',
         noSale: { t: 'No se aplica', s: 'no llega a producción' },
         noResponde: 'no responde',
+        pasan: 'pasan todas',
         vuelve: { t: 'Versión anterior', s: 'vuelve automáticamente' },
         movilFalla: 'si falla una, no se aplica',
         movilNoResponde: 'si no responde',
@@ -6748,6 +6751,7 @@ export const content: Record<Lang, SiteContent> = {
         falla: 'one fails',
         noSale: { t: 'Not applied', s: 'never reaches production' },
         noResponde: 'no response',
+        pasan: 'all pass',
         vuelve: { t: 'Previous version', s: 'restored automatically' },
         movilFalla: 'if one fails, it is not applied',
         movilNoResponde: 'if there is no response',
