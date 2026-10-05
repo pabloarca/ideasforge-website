@@ -30,7 +30,7 @@ faq:
   - q: '¿Qué pasa cuando el proveedor saca un modelo nuevo?'
     a: 'La versión del modelo está fijada, así que una versión nueva no llega sola a producción. Antes de cambiar, el modelo nuevo pasa el mismo golden dataset y comparamos las dos versiones caso a caso. Si acierta menos, no se cambia, aunque sea más barato.'
   - q: '¿Cómo se evita que un cambio rompa lo que ya funcionaba?'
-    a: 'Ningún cambio llega a producción si no pasa la batería de pruebas. En nuestro asistente de citas son ya casi 5.000 pruebas automáticas. Antes de aplicar el cambio se hace una copia de la base de datos y, si después el servicio no responde, el sistema vuelve automáticamente a la versión anterior.'
+    a: 'Ningún cambio llega a producción si no pasa la batería de pruebas. Antes de aplicarlo se hace una copia de la base de datos y, si después el servicio no responde, el sistema vuelve automáticamente a la versión anterior. Lo hacemos así en todos los proyectos.'
   - q: '¿Cuánto cuesta el mantenimiento y hay permanencia?'
     a:
       - 'Va en una cuota mensual que paga la vigilancia y el mantenimiento, sin permanencia. Los precios están en nuestra guía de cuánto cuesta un agente de IA.'
@@ -45,23 +45,23 @@ La duda de quien lo contrata casi siempre es la misma: ¿y si se equivoca delant
 
 Para saber si un chatbot sigue funcionando bien hace falta una referencia. **Esa referencia es un golden dataset (batería de pruebas): conversaciones reales de tu negocio, cada una con la respuesta correcta anotada y revisada por una persona.** Lo ideal es que esa persona sea alguien de tu equipo que conozca el negocio.
 
-Los casos que valen salen de conversaciones reales. Lo aprendimos con nuestro propio producto, un asistente de citas para clínicas. Los primeros casos de prueba los escribimos a mano y no sirvieron, porque nunca llegaron a validarse contra el sistema real.
+Los casos que valen salen de conversaciones reales. Lo aprendimos con nuestro propio producto. Los primeros casos de prueba los escribimos a mano y no sirvieron, porque nunca llegaron a validarse contra el sistema real.
 
-También hace falta un listón claro. En ese asistente, el chatbot tiene que entender bien qué pide el paciente en al menos el 85 % del total de casos y en el 70 % de cada tipo de petición.
+También hace falta un listón claro: qué parte de los casos tiene que acertar el chatbot en total y en cada tipo de petición. En nuestro asistente de citas, por ejemplo, tiene que entender bien qué pide el paciente en al menos el 85 % del total de casos y en el 70 % de cada tipo.
 
 ## Cómo vemos lo que hace el chatbot cada día
 
-**Cada vez que el chatbot trabaja queda una traza en Arize Phoenix: qué le llegó, qué hizo paso a paso, cuánto costó, cuánto tardó y qué modelo respondió de verdad.** Phoenix es una herramienta de la empresa Arize para ver por dentro lo que hace un agente de IA. La usamos en los chatbots y agentes que mantenemos, también en nuestro asistente de citas.
+**Cada vez que el chatbot trabaja queda una traza en Arize Phoenix: qué le llegó, qué hizo paso a paso, cuánto costó, cuánto tardó y qué modelo respondió de verdad.** Phoenix es una herramienta de la empresa Arize para ver por dentro lo que hace un agente de IA. La usamos en los chatbots y agentes que mantenemos.
 
 Las trazas no salen a la nube de un tercero. En los proyectos a medida, Phoenix va instalado en tu propio servidor, como contamos en la [guía de IA y RGPD](/ia-y-rgpd).
 
-Con las trazas se ve qué cuesta el chatbot y si algo se está ralentizando. También se ve si el proveedor ha contestado con un modelo de respaldo sin avisar. En el asistente de citas, un control revisa este punto y no ha encontrado ningún modelo de respaldo en 29.041 llamadas.
+Con las trazas se ve qué cuesta el chatbot y si algo se está ralentizando. También se ve si el proveedor ha contestado con un modelo de respaldo sin avisar. En uno de nuestros chatbots, un control revisa este punto y no ha encontrado ningún modelo de respaldo en 29.041 llamadas.
 
 ## Pruebas antes de cada cambio y revisión semanal
 
 **El chatbot vuelve a pasar sus pruebas en dos momentos: antes de cada cambio y una vez por semana.** Cada cambio es un riesgo, aunque parezca pequeño.
 
-En el asistente de citas, ningún cambio llega a producción si no pasa las pruebas automáticas, que ya son casi 5.000. Antes de aplicar el cambio se hace una copia de la base de datos y, si después el servicio no responde, el sistema vuelve automáticamente a la versión anterior.
+En todos los proyectos, ningún cambio llega a producción si no pasa la batería de pruebas. Antes de aplicar el cambio se hace una copia de la base de datos y, si después el servicio no responde, el sistema vuelve automáticamente a la versión anterior. La batería crece con el tiempo. En nuestro asistente de citas ya son casi 5.000 pruebas automáticas.
 
 <div data-pizarra="cambioSeguro"></div>
 
@@ -73,13 +73,11 @@ Además, una vez por semana el golden dataset se ejecuta contra el modelo real. 
 
 <div data-pizarra="cicloDespues"></div>
 
-Lo mismo pasa con los errores. Si alguien pedía cita «el 11 de enero» en pleno junio, el asistente lo entendía como un enero ya pasado. Desde que lo detectamos, el año lo calcula el código y no el modelo, y ese caso se vuelve a comprobar en cada cambio.
-
-Y las personas tienen la última palabra. Las clínicas pueden marcar una conversación como problemática, y esos reportes los revisamos uno a uno. Es una señal que ninguna prueba automática puede sustituir.
+Lo mismo pasa con los errores. En nuestro asistente de citas, si alguien pedía cita «el 11 de enero» en pleno junio, el chatbot lo entendía como un enero ya pasado. Desde que lo detectamos, el año lo calcula el código y no el modelo, y ese caso se vuelve a comprobar en cada cambio.
 
 ## Alarmas para los fallos que nadie ve
 
-**También vigilamos que las alarmas funcionen, porque un fallo sin aviso puede pasar días sin que nadie lo vea.** En el asistente de citas hay un centenar de comprobaciones dentro del propio código que avisan en cuanto algo se sale de lo esperado. Una de ellas nos avisó de que las citas creadas a mano desde el panel no actualizaban la ficha del cliente, y dejamos una prueba que lo cubre.
+**También vigilamos que las alarmas funcionen, porque un fallo sin aviso puede pasar días sin que nadie lo vea.** En nuestro asistente de citas, por ejemplo, hay un centenar de comprobaciones dentro del propio código que avisan en cuanto algo se sale de lo esperado. Una de ellas nos avisó de que las citas creadas a mano desde el panel no actualizaban la ficha del cliente, y dejamos una prueba que lo cubre.
 
 Las alarmas también fallan. Una vez, una alarma que saltaba demasiadas veces agotó la cuota del servicio de avisos, y 13 recordatorios de citas se perdieron sin ningún aviso. Nos lo dijo la clínica. Desde entonces cada alarma tiene un tope diario, y una prueba comprueba que ese tope se respeta.
 

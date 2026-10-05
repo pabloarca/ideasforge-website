@@ -30,7 +30,7 @@ faq:
   - q: 'What happens when the provider releases a new model?'
     a: 'The model version is pinned, so a new version doesn''t reach production on its own. Before switching, the new model runs the same golden dataset and we compare the two versions case by case. If it gets fewer right, we don''t switch, even if it''s cheaper.'
   - q: 'How do you stop a change from breaking what already worked?'
-    a: 'No change reaches production unless it passes the test suite. Our appointment assistant has nearly 5,000 automated tests by now. The database is backed up before the change is applied and, if the service stops responding afterwards, the system goes back to the previous version automatically.'
+    a: 'No change reaches production unless it passes the test suite. The database is backed up before the change is applied and, if the service stops responding afterwards, the system goes back to the previous version automatically. We do it this way on every project.'
   - q: 'How much does maintenance cost, and is there a minimum term?'
     a:
       - 'It''s a monthly fee that pays for watching and maintaining the chatbot, with no minimum term. The prices are in our guide to how much an AI agent costs.'
@@ -45,23 +45,23 @@ The question from whoever is buying is almost always the same: what if it gets s
 
 To know whether a chatbot is still working well, you need a reference. **That reference is a golden dataset: real conversations from your business, each one with the correct answer written down and checked by a person.** Ideally that person is someone on your team who knows the business.
 
-The cases that work come from real conversations. We learned that with our own product, an appointment assistant for clinics. We wrote the first test cases by hand and they were useless, because they were never checked against the real system.
+The cases that work come from real conversations. We learned that with our own product. We wrote the first test cases by hand and they were useless, because they were never checked against the real system.
 
-You also need a clear bar. In that assistant, the chatbot has to understand what the patient is asking for in at least 85% of all cases and in 70% of each type of request.
+You also need a clear bar: how many of the cases the chatbot has to get right overall and for each type of request. In our appointment assistant, for example, it has to understand what the patient is asking for in at least 85% of all cases and in 70% of each type.
 
 ## How we see what the chatbot does every day
 
-**Every time the chatbot works it leaves a trace in Arize Phoenix: what came in, what it did step by step, what it cost, how long it took and which model actually answered.** Phoenix is a tool from Arize for seeing inside what an AI agent does. We use it on the chatbots and agents we maintain, including our appointment assistant.
+**Every time the chatbot works it leaves a trace in Arize Phoenix: what came in, what it did step by step, what it cost, how long it took and which model actually answered.** Phoenix is a tool from Arize for seeing inside what an AI agent does. We use it on the chatbots and agents we maintain.
 
 The traces don't leave for a third party's cloud. On custom projects, Phoenix is installed on your own server, as we explain in our [guide to GDPR-compliant AI](/en/gdpr-compliant-ai).
 
-The traces show what the chatbot costs and whether something is slowing down. They also show whether the provider answered with a fallback model without telling anyone. In the appointment assistant, a check looks for exactly that and hasn't found a single fallback model in 29,041 calls.
+The traces show what the chatbot costs and whether something is slowing down. They also show whether the provider answered with a fallback model without telling anyone. In one of our chatbots, a check looks for exactly that and hasn't found a single fallback model in 29,041 calls.
 
 ## Tests before every change and a weekly review
 
 **The chatbot runs its tests again at two moments: before every change and once a week.** Every change is a risk, however small it looks.
 
-In the appointment assistant, no change reaches production unless it passes the automated tests, which now number nearly 5,000. The database is backed up before the change is applied and, if the service stops responding afterwards, the system goes back to the previous version automatically.
+On every project, no change reaches production unless it passes the test suite. The database is backed up before the change is applied and, if the service stops responding afterwards, the system goes back to the previous version automatically. The suite grows over time. Our appointment assistant has nearly 5,000 automated tests by now.
 
 <div data-pizarra="cambioSeguro"></div>
 
@@ -73,13 +73,11 @@ On top of that, once a week the golden dataset runs against the real model. Thos
 
 <div data-pizarra="cicloDespues"></div>
 
-Mistakes go the same way. If someone asked for an appointment on "January 11" in the middle of June, the assistant read it as a January that had already passed. Since we caught it, the year is worked out by the code and not by the model, and that case is checked again with every change.
-
-And people have the last word. Clinics can flag a conversation as a problem, and we review those reports one by one. It's a signal no automated test can replace.
+Mistakes go the same way. In our appointment assistant, if someone asked for an appointment on "January 11" in the middle of June, the chatbot read it as a January that had already passed. Since we caught it, the year is worked out by the code and not by the model, and that case is checked again with every change.
 
 ## Alerts for the failures nobody sees
 
-**We also check that the alerts themselves work, because a failure that raises no alarm can go days without anyone noticing.** The appointment assistant has around a hundred checks inside its own code that fire as soon as something goes off script. One of them told us that appointments created by hand from the dashboard weren't updating the customer record, and we added a test that covers it.
+**We also check that the alerts themselves work, because a failure that raises no alarm can go days without anyone noticing.** Our appointment assistant, for example, has around a hundred checks inside its own code that fire as soon as something goes off script. One of them told us that appointments created by hand from the dashboard weren't updating the customer record, and we added a test that covers it.
 
 Alerts fail too. Once, an alert that fired too often used up the notification service's quota, and 13 appointment reminders were lost without any warning. The clinic told us. Since then every alert has a daily cap, and a test checks that the cap holds.
 
