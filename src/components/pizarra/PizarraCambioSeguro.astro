@@ -1,0 +1,77 @@
+---
+/*
+  El camino de un cambio hasta producción. En el post «Qué pasa después de
+  entregar un chatbot o agente de IA», sección «Pruebas antes de cada cambio y
+  revisión semanal», tras el párrafo de las casi 5.000 pruebas.
+
+  Cuatro pasos en fila: el cambio, la batería de pruebas, la copia de
+  seguridad y producción. Explica la idea, no el caso: las casi 5.000 pruebas
+  del asistente de citas se quedan en el texto del post (propietario, 5 oct
+  2026), para que la pizarra valga para cualquier chatbot. Dos salidas hacia abajo, con la flecha en rojo porque es donde
+  algo falla: si falla una prueba, el cambio no se aplica, y si producción no
+  responde, vuelve la versión anterior. Las fichas de esas salidas van en
+  gris, porque no son el fallo, son la garantía.
+
+  Escritorio 800 × 318, móvil 360 × 462 y cuadrada (solo para redes) 560 × 540.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.cambioSeguro;
+const ICONOS = ['corrige', 'bateria', 'almacen', 'publica'] as const;
+const IMANES = ['amarillo', 'negro', 'gris', 'verde'] as const;
+const X = [0, 210, 420, 630];
+const W = 170;
+const H = 92;
+const Y = 24;
+const YB = 192; // fila de las salidas
+// Móvil: una columna.
+const MY = [10, 100, 190, 280];
+// Cuadrada, solo para exportar a redes: los pasos en columna y las salidas a la derecha.
+const CW = 230;
+const CX2 = 330;
+const CY = [10, 140, 270, 400];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 318" aria-hidden="true">
+    <PizarraDefs pre="pcsa" />
+    {[0, 1, 2].map((i) => <Trazo desde={[X[i] + W + 6, Y + H / 2]} hasta={[X[i + 1] - 6, Y + H / 2]} />)}
+    {d.pasos.map((p, i) => <Ficha pre="pcsa" x={X[i]} y={Y} w={W} h={H} icono={ICONOS[i]} titulo={p.t} sub={p.s} iman={IMANES[i]} giro={i === 0 ? -1.5 : 0} tamIcono={28} tamTitulo={16} tamSub={13} />)}
+    <Trazo desde={[X[1] + W / 2, Y + H + 8]} hasta={[X[1] + W / 2, YB - 8]} tono="rojo" etiqueta={d.falla} etiquetaEn={[X[1] + W / 2 - 50, (Y + H + YB) / 2 + 5]} tamEtiqueta={15} />
+    <Trazo desde={[X[3] + W / 2, Y + H + 8]} hasta={[X[3] + W / 2, YB - 8]} tono="rojo" etiqueta={d.noResponde} etiquetaEn={[X[3] + W / 2 - 60, (Y + H + YB) / 2 + 5]} tamEtiqueta={15} />
+    <Ficha pre="pcsa" x={X[1]} y={YB} w={W} h={H} icono="blindado" titulo={d.noSale.t} sub={d.noSale.s} tono="gris" iman="gris" giro={1.5} tamIcono={28} tamTitulo={16} tamSub={13} />
+    <Ficha pre="pcsa" x={X[3]} y={YB} w={W} h={H} icono="repite" titulo={d.vuelve.t} sub={d.vuelve.s} tono="gris" iman="gris" giro={-1.5} tamIcono={28} tamTitulo={16} tamSub={13} />
+    <Nota x={0} y={310} texto={d.nota} tono="gris" tam={14} peso={600} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 462" aria-hidden="true">
+    <PizarraDefs pre="pcse" />
+    {d.pasos.map((p, i) => <Ficha pre="pcse" disposicion="horizontal" x={0} y={MY[i]} w={360} h={54} icono={ICONOS[i]} titulo={p.t} sub={p.s} iman={IMANES[i]} imanX={0.92} tamIcono={22} tamTitulo={14} tamSub={12.5} />)}
+    {[0, 1, 2].map((i) => <Trazo desde={[40, MY[i] + 58]} hasta={[40, MY[i + 1] - 6]} />)}
+    <Nota x={64} y={MY[1] + 76} texto={d.movilFalla} tono="rojo" tam={13} peso={700} />
+    <Trazo desde={[40, MY[3] + 58]} hasta={[40, 366]} tono="rojo" />
+    <Nota x={64} y={354} texto={d.movilNoResponde} tono="rojo" tam={13} peso={700} />
+    <Ficha pre="pcse" disposicion="horizontal" x={0} y={372} w={360} h={54} icono="repite" titulo={d.vuelve.t} sub={d.vuelve.s} tono="gris" iman="gris" imanX={0.92} tamIcono={22} tamTitulo={14} tamSub={12.5} />
+    <Nota x={0} y={454} texto={d.nota} tono="gris" tam={13} peso={600} />
+  </svg>
+
+  <svg slot="cuadrado" viewBox="0 0 560 540" aria-hidden="true">
+    <PizarraDefs pre="pcsc" />
+    {[0, 1, 2].map((i) => <Trazo desde={[CW / 2, CY[i] + H + 6]} hasta={[CW / 2, CY[i + 1] - 6]} />)}
+    {d.pasos.map((p, i) => <Ficha pre="pcsc" x={0} y={CY[i]} w={CW} h={H} icono={ICONOS[i]} titulo={p.t} sub={p.s} iman={IMANES[i]} imanX={0.86} giro={i === 0 ? -1.5 : 0} tamIcono={30} tamTitulo={17} tamSub={13.5} />)}
+    <Trazo desde={[CW + 6, CY[1] + H / 2]} hasta={[CX2 - 6, CY[1] + H / 2]} tono="rojo" etiqueta={d.falla} etiquetaEn={[(CW + CX2) / 2, CY[1] + H / 2 - 12]} tamEtiqueta={15} />
+    <Trazo desde={[CW + 6, CY[3] + H / 2]} hasta={[CX2 - 6, CY[3] + H / 2]} tono="rojo" etiqueta={d.noResponde} etiquetaEn={[(CW + CX2) / 2, CY[3] + H / 2 - 12]} tamEtiqueta={15} />
+    <Ficha pre="pcsc" x={CX2} y={CY[1]} w={CW} h={H} icono="blindado" titulo={d.noSale.t} sub={d.noSale.s} tono="gris" iman="gris" giro={1.5} tamIcono={30} tamTitulo={17} tamSub={13.5} />
+    <Ficha pre="pcsc" x={CX2} y={CY[3]} w={CW} h={H} icono="repite" titulo={d.vuelve.t} sub={d.vuelve.s} tono="gris" iman="gris" giro={-1.5} tamIcono={30} tamTitulo={17} tamSub={13.5} />
+    <Nota x={0} y={530} texto={d.nota} tono="gris" tam={16} peso={600} />
+  </svg>
+</Pizarra>

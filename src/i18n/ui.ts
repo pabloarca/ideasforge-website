@@ -761,6 +761,24 @@ export interface PizarrasContent {
     noExiste: string;
     nota: string;
   };
+  /** Blog, después de entregar un agente: el camino de un cambio hasta producción. */
+  cambioSeguro: {
+    label: string;
+    pasos: [FichaTexto, FichaTexto, FichaTexto, FichaTexto];
+    falla: string;
+    noSale: FichaTexto;
+    noResponde: string;
+    vuelve: FichaTexto;
+    movilFalla: string;
+    movilNoResponde: string;
+    nota: string;
+  };
+  /** Blog, después de entregar un agente: el ciclo semanal de medir, ver y ajustar. */
+  cicloDespues: {
+    label: string;
+    pasos: [FichaTexto, FichaTexto, FichaTexto, FichaTexto];
+    vuelta: string;
+  };
 }
 
 export interface SiteContent {
@@ -844,6 +862,8 @@ export interface SiteContent {
     /** Rótulo del índice lateral de una entrada. Mismo texto que las páginas
      *  largas: el índice es el mismo componente y hace el mismo trabajo. */
     tocHeading: string;
+    /** Encabezado de las preguntas frecuentes de una entrada, cuando las lleva. */
+    faqHeading: string;
     /** Encabezado del bloque de entradas relacionadas en las páginas pilar. */
     clusterHeading: string;
     heading: string;
@@ -1469,6 +1489,7 @@ export const content: Record<Lang, SiteContent> = {
     blog: {
       eyebrow: 'Blog',
       tocHeading: 'Qué verás en esta página',
+      faqHeading: 'Preguntas frecuentes',
       clusterHeading: 'Lo contamos en detalle',
       heading: 'Blog',
       subtitle: 'Lo que vamos descubriendo construyendo IA en producción con nuestros clientes.',
@@ -2420,6 +2441,34 @@ export const content: Record<Lang, SiteContent> = {
         estados: ['Saludar', 'Por qué piso', 'Presupuesto', 'Documentación', 'Veredicto'],
         noExiste: 'la transición que no existe',
         nota: 'la máquina decide a qué estado se pasa',
+      },
+      cambioSeguro: {
+        label:
+          'Cada cambio pasa por la batería de pruebas, con casos reales del negocio, antes de llegar a producción. Si falla una prueba, el cambio no se aplica. Antes de aplicarlo se hace una copia de seguridad de la base de datos, y si después el servicio no responde, el sistema vuelve automáticamente a la versión anterior.',
+        pasos: [
+          { t: 'Un cambio', s: 'reglas, prompt o modelo' },
+          { t: 'Batería de pruebas', s: 'con casos reales' },
+          { t: 'Copia de seguridad', s: 'de la base de datos' },
+          { t: 'Producción', s: 'llega a tus clientes' },
+        ],
+        falla: 'falla una',
+        noSale: { t: 'No se aplica', s: 'no llega a producción' },
+        noResponde: 'no responde',
+        vuelve: { t: 'Versión anterior', s: 'vuelve automáticamente' },
+        movilFalla: 'si falla una, no se aplica',
+        movilNoResponde: 'si no responde',
+        nota: 'cada cambio vuelve a pasar las pruebas',
+      },
+      cicloDespues: {
+        label:
+          'Después de la entrega, el trabajo es un ciclo. Cada semana el golden dataset se ejecuta contra el modelo real y los resultados quedan en el panel de Phoenix. De ahí salen las preguntas que el agente no supo contestar, que se resuelven con el glosario, el prompt o el diseño. Cada pregunta resuelta entra en el golden dataset.',
+        pasos: [
+          { t: 'Golden dataset', s: 'se ejecuta cada semana' },
+          { t: 'Panel de Phoenix', s: 'trazas, gasto y versiones' },
+          { t: 'Sin respuesta', s: 'lo que no supo contestar' },
+          { t: 'Ajuste', s: 'glosario, prompt o diseño' },
+        ],
+        vuelta: 'cada pregunta resuelta entra en el golden dataset',
       },
     },
     start: {
@@ -5733,6 +5782,7 @@ export const content: Record<Lang, SiteContent> = {
     blog: {
       eyebrow: 'Blog',
       tocHeading: 'What this page covers',
+      faqHeading: 'Frequently asked questions',
       clusterHeading: 'We cover this in detail',
       heading: 'Blog',
       subtitle: 'What we discover while building AI in production with our clients.',
@@ -6685,6 +6735,34 @@ export const content: Record<Lang, SiteContent> = {
         estados: ['Greeting', 'Which flat', 'Budget', 'Documents', 'Verdict'],
         noExiste: 'the transition that does not exist',
         nota: 'the machine decides the next state',
+      },
+      cambioSeguro: {
+        label:
+          'Every change goes through the test suite, built from real business cases, before it reaches production. If a test fails, the change is not applied. Before it is applied the database is backed up, and if the service then stops responding, the system automatically goes back to the previous version.',
+        pasos: [
+          { t: 'A change', s: 'rules, prompt or model' },
+          { t: 'Test suite', s: 'built from real cases' },
+          { t: 'Backup', s: 'of the database' },
+          { t: 'Production', s: 'reaches your customers' },
+        ],
+        falla: 'one fails',
+        noSale: { t: 'Not applied', s: 'never reaches production' },
+        noResponde: 'no response',
+        vuelve: { t: 'Previous version', s: 'restored automatically' },
+        movilFalla: 'if one fails, it is not applied',
+        movilNoResponde: 'if there is no response',
+        nota: 'every change runs the tests again',
+      },
+      cicloDespues: {
+        label:
+          'After delivery, the work is a cycle. Every week the golden dataset runs against the real model and the results land in the Phoenix dashboard. That is where the questions the agent could not answer show up, and they are solved through the glossary, the prompt or the design. Every solved question joins the golden dataset.',
+        pasos: [
+          { t: 'Golden dataset', s: 'runs every week' },
+          { t: 'Phoenix dashboard', s: 'traces, spend, versions' },
+          { t: 'Unanswered', s: 'what it could not answer' },
+          { t: 'Adjustment', s: 'glossary, prompt or design' },
+        ],
+        vuelta: 'every solved question joins the golden dataset',
       },
     },
     start: {

@@ -212,6 +212,8 @@ const METAFORAS_RETIRADAS = [
  * Cuando se retire un hecho nuevo, su huella entra AQUÍ en el mismo cambio.
  */
 const HECHOS_RETIRADOS = [
+  ['19 % más barato', 'hecho retirado por el propietario (5 oct 2026): el modelo no decide, así que no pudo ofrecer lo que el asistente no hace'],
+  ['19% cheaper', 'fact withdrawn by the owner (5 Oct 2026): the model does not decide'],
   ['24 horas laborables', 'pasó a «un día laborable» (27 ago 2026)'],
   ['24 business hours', 'pasó a «one business day» (27 ago 2026)'],
   ['pueden recibir datos personales', 'hecho retirado por el propietario (20 ago 2026)'],

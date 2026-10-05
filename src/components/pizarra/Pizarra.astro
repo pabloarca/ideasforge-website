@@ -11,6 +11,12 @@
   apaisado en un teléfono se encoge hasta no leerse (pasó con todos los
   diagramas de la casa hasta el 2 oct 2026).
 
+  Una tercera versión, opcional y casi cuadrada (slot `cuadrado`), existe solo
+  para sacar la pizarra como imagen para redes (5 oct 2026): en LinkedIn la
+  apaisada se ve diminuta. Va dentro de un <template>, que el navegador no
+  pinta y un buscador no lee como texto visible, y la saca el script de
+  exportación cambiándola por el contenido del tablero.
+
   La letra es Inter, instalada en el proyecto y servida desde el propio sitio.
 */
 import '@fontsource-variable/inter';
@@ -29,6 +35,7 @@ const { label, caption } = Astro.props;
     <div class="pz-tablero">
       <div class="lg:hidden"><slot name="estrecho" /></div>
       <div class="hidden lg:block"><slot name="ancho" /></div>
+      {Astro.slots.has('cuadrado') && <template class="pz-cuadrado"><slot name="cuadrado" /></template>}
     </div>
     {/* Bandeja de rotuladores: decoración, nada que leer. */}
     <div class="pz-bandeja" aria-hidden="true">

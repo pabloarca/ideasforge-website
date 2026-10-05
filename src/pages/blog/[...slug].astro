@@ -4,6 +4,7 @@ import { foto } from '../../lib/fotos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import PageNav from '../../components/PageNav.astro';
+import FaqList from '../../components/FaqList.astro';
 import CuerpoDePost from '../../components/pizarra/CuerpoDePost.astro';
 import { getCollection, render } from 'astro:content';
 import { content } from '../../i18n/ui';
@@ -35,8 +36,11 @@ const { Content, headings } = await render(post);
 const navItems = headings
   .filter((h) => h.depth === 2)
   .map((h) => ({ heading: h.text, anchor: h.slug }));
-const hasNav = navItems.length >= 3;
 const t = content[lang];
+// Las preguntas frecuentes van fuera del markdown, así que entran a mano en el índice.
+const faq = post.data.faq ?? [];
+if (faq.length) navItems.push({ heading: t.blog.faqHeading, anchor: 'faq' });
+const hasNav = navItems.length >= 3;
 
 // Link to the English translation (same translationId), if it exists.
 const all = await getCollection('blog');
@@ -159,6 +163,14 @@ const articleJsonLd = JSON.stringify({
           el markdown marca con <div data-pizarra="…"></div>. */}
       {post.rendered ? <CuerpoDePost html={post.rendered.html} lang={lang} /> : <Content />}
     </div>
+
+    {/* Misma pieza que la FAQ de las guías y los servicios: acordeón y FAQPage. */}
+    {faq.length > 0 && (
+      <section id="faq" class="mt-14 scroll-mt-24 border-t border-border-soft pt-12">
+        <h2 class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">{t.blog.faqHeading}</h2>
+        <FaqList items={faq} group="faq-post" class="mt-7" />
+      </section>
+    )}
   </article>
   </div>
   </div>

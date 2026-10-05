@@ -1,0 +1,52 @@
+---
+/*
+  El ciclo de después de la entrega. En el post «Qué pasa después de entregar
+  un chatbot o agente de IA», sección «Qué hacemos con las preguntas que no
+  sabe contestar».
+
+  Cuatro pasos en fila: el golden dataset de cada semana, el panel de
+  Phoenix, las preguntas sin respuesta y el ajuste. Una flecha vuelve por
+  debajo del último al primero, porque cada pregunta resuelta entra en el
+  golden dataset. No hay azul: nada de esto lo hace el modelo.
+
+  Escritorio 800 × 196, móvil 360 × 352.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.cicloDespues;
+const ICONOS = ['bateria', 'metricas', 'pregunta', 'corrige'] as const;
+const IMANES = ['negro', 'gris', 'amarillo', 'verde'] as const;
+const X = [0, 207, 414, 620];
+const W = 180;
+const H = 92;
+const Y = 20;
+// Móvil: una columna.
+const MY = [10, 92, 174, 256];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 196" aria-hidden="true">
+    <PizarraDefs pre="pcda" />
+    {[0, 1, 2].map((i) => <Trazo desde={[X[i] + W + 5, Y + H / 2]} hasta={[X[i + 1] - 5, Y + H / 2]} />)}
+    {d.pasos.map((p, i) => <Ficha pre="pcda" x={X[i]} y={Y} w={W} h={H} icono={ICONOS[i]} titulo={p.t} sub={p.s} iman={IMANES[i]} giro={i === 2 ? 1.5 : 0} tamIcono={28} tamTitulo={16} tamSub={13} />)}
+    <Trazo desde={[X[3] + W / 2, Y + H + 8]} hasta={[X[0] + W / 2, Y + H + 8]} curva={-70} />
+    <Nota x={400} y={Y + H + 66} texto={d.vuelta} tono="gris" tam={14} peso={700} alinea="middle" />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 352" aria-hidden="true">
+    <PizarraDefs pre="pcde" />
+    {d.pasos.map((p, i) => <Ficha pre="pcde" disposicion="horizontal" x={0} y={MY[i]} w={290} h={54} icono={ICONOS[i]} titulo={p.t} sub={p.s} iman={IMANES[i]} imanX={0.9} tamIcono={22} tamTitulo={14} tamSub={12.5} />)}
+    {[0, 1, 2].map((i) => <Trazo desde={[40, MY[i] + 58]} hasta={[40, MY[i + 1] - 4]} />)}
+    <Trazo desde={[298, MY[3] + 27]} hasta={[298, MY[0] + 27]} curva={70} />
+    <Nota x={0} y={342} texto={`↺ ${d.vuelta}`} tono="gris" tam={12.5} peso={700} />
+  </svg>
+</Pizarra>
