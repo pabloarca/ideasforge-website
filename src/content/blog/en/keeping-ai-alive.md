@@ -32,6 +32,8 @@ The warning came from an earlier paper by the same authors, which called machine
 
 A decade on, with generative AI, the debt is the same and the interest has gone up. The same input can return a different answer tomorrow, so everything around the model weighs more, not less. **The demo shows the 5%. Day 180 is lived in the other 95.**
 
+<div data-pizarra="icebergDemo"></div>
+
 ## Staying alive is a system, not an intention
 
 The difference between the flashy project and the profitable one is not talent or model choice. It is that the profitable one was designed to be maintained. In practice, that means concrete pieces:

@@ -1,0 +1,76 @@
+---
+/*
+  Casi todo el artículo 26 es ingeniería. En «Casi todo el artículo 26 es
+  una propiedad de ingeniería» de la guía del reglamento, debajo de
+  «Ninguna de las tres se puede añadir de forma convincente después».
+
+  Los nueve deberes a la izquierda, unidos por flechas a la propiedad del
+  sistema que los cumple: contención, supervisión o registros. Los tres que
+  no son de ingeniería (avisos y evaluación de impacto) van en gris a su
+  propia ficha. En el móvil no hay sitio para flechas, así que los deberes
+  se agrupan debajo de su propiedad.
+
+  Escritorio 800 × 410, móvil 360 × (según los grupos).
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.deberesIngenieria;
+const ICONOS = ['blindado', 'persona', 'registro', 'manual'] as const;
+const IMANES = ['amarillo', 'verde', 'negro', 'gris'] as const;
+
+// Escritorio: deberes a la izquierda, propiedades a la derecha a la altura media de los suyos.
+const DY = (i: number) => 10 + i * 44;
+const DH = 34;
+const centro = (p: number) => {
+  const ys = d.deberes.map((x, i) => ({ x, i })).filter((o) => o.x.p === p).map((o) => DY(o.i) + DH / 2);
+  return ys.reduce((a, b) => a + b, 0) / ys.length;
+};
+const PH = 62;
+const PY = d.propiedades.map((_, p) => centro(p) - PH / 2);
+// Con aire entre fichas: la de arriba sube si la siguiente la pisaría.
+for (let p = PY.length - 2; p >= 0; p--) PY[p] = Math.min(PY[p], PY[p + 1] - PH - 16);
+
+// Móvil: un grupo por propiedad.
+let my = 6;
+const grupos = d.propiedades.map((pr, p) => {
+  const deberes = d.deberes.filter((x) => x.p === p);
+  const g = { pr, p, y: my, deberes };
+  my += 40 + deberes.length * 44 + 14;
+  return g;
+});
+const MALTO = my;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 410" aria-hidden="true">
+    <PizarraDefs pre="pdia" />
+
+    {d.deberes.map((x, i) => <Trazo desde={[304, DY(i) + DH / 2]} hasta={[494, PY[x.p] + PH / 2]} tono={x.p === 3 ? 'gris' : 'tinta'} curva={0} />)}
+    {d.deberes.map((x, i) => <Ficha pre="pdia" disposicion="horizontal" x={0} y={DY(i)} w={298} h={DH} icono={ICONOS[x.p]} titulo={x.t} tono={x.p === 3 ? 'gris' : 'tinta'} iman={IMANES[x.p]} imanX={0.95} tamIcono={18} tamTitulo={14} />)}
+    {d.propiedades.map((pr, p) => <Ficha pre="pdia" disposicion="horizontal" x={500} y={PY[p]} w={300} h={PH} icono={ICONOS[p]} titulo={pr.t} sub={pr.s} tono={p === 3 ? 'gris' : 'tinta'} iman={IMANES[p]} imanX={0.92} giro={[-1, 1, -1, 1][p]} tamIcono={26} tamTitulo={17} tamSub={13} />)}
+  </svg>
+
+  <svg slot="estrecho" viewBox={`0 0 360 ${MALTO}`} aria-hidden="true">
+    <PizarraDefs pre="pdie" />
+    {
+      grupos.map((g) => (
+        <>
+          <Nota x={0} y={g.y + 16} texto={g.pr.t} tam={15} peso={700} tono={g.p === 3 ? 'gris' : 'tinta'} />
+          <Nota x={0} y={g.y + 33} texto={g.pr.s} tam={12.5} peso={500} tono="gris" />
+          {g.deberes.map((x, k) => (
+            <Ficha pre="pdie" disposicion="horizontal" x={0} y={g.y + 44 + k * 44} w={360} h={34} icono={ICONOS[g.p]} titulo={x.t} tono={g.p === 3 ? 'gris' : 'tinta'} iman={IMANES[g.p]} imanX={0.95} tamIcono={18} tamTitulo={13.5} />
+          ))}
+        </>
+      ))
+    }
+  </svg>
+</Pizarra>

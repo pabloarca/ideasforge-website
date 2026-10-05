@@ -17,6 +17,8 @@ La lógica es sencilla. Un modelo de lenguaje trabaja con lo que le das. Si los 
 
 En uno de nuestros asistentes documentales, la primera batería de pruebas dejó un hallazgo incómodo. Cinco de seis preguntas «fuera de la documentación» no se detectaban como tales. La búsqueda siempre encontraba algún fragmento parecido, porque en un corpus amplio casi cualquier frase supera el umbral de similitud, el parecido mínimo que la búsqueda exige para dar un texto por relevante.
 
+<div data-pizarra="seisPreguntas"></div>
+
 La tentación clásica habría sido pedirle al modelo, con más énfasis, que reconociera cuándo no había evidencia. **Lo que funcionó fue trabajar la capa de datos y la de código**: escuchar el veredicto de «sin coincidencia» del propio agente, rediseñar el despachador, la pieza que reparte cada pregunta, para que lo aceptara y dejar auditado cada reetiquetado. El prompt apenas cambió.
 
 ## El aislamiento que dejó de depender de que alguien se acordara
@@ -36,6 +38,8 @@ Los dos ejemplos anteriores son cascadas cazadas a tiempo. El umbral que no dete
 ## Qué significa esto si vas a comprar IA
 
 Que la pregunta de calidad para un proveedor no es *«¿qué modelo usáis?»* ni *«¿cómo escribís los prompts?»*. Es *«¿qué vais a hacer con mis datos para que el modelo trabaje bien?»*. Limpiar catálogos, unificar identificadores, decidir qué se indexa y cómo se trocea, definir qué campos existen y cuáles no se exponen. Es trabajo menos llamativo que un prompt ingenioso y es donde se decide si el sistema aguanta en producción.
+
+<div data-pizarra="icebergPrompt"></div>
 
 Nuestro lema interno lo resume: **el juicio vive en el código, la interpretación del lenguaje vive en el modelo y el conocimiento vive en los datos.** Cada pieza en su sitio.
 

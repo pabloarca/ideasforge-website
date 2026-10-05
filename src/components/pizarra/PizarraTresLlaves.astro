@@ -1,0 +1,54 @@
+---
+/*
+  Las tres llaves de la soberanía. En «Soberanía del dato, sin el eslogan»
+  de la guía de RGPD, debajo del párrafo que la define.
+
+  Tres fichas, ubicación, claves e identidad, recogidas por una llave de
+  rotulador con la conclusión: las tres responden ante ti. Debajo, en gris y
+  aparte, la jurisdicción, que es otra cosa y esto no la resuelve.
+
+  Escritorio 800 × 284, móvil 360 × 306.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.tresLlaves;
+const ICONOS = ['lugar', 'llave', 'identidad'] as const;
+const IMANES = ['rojo', 'amarillo', 'verde'] as const;
+const X = [20, 295, 570];
+
+/** Llave horizontal, con el pico hacia abajo en el centro. */
+const llave = (x1: number, x2: number, y: number, a = 12) => {
+  const m = (x1 + x2) / 2;
+  return `M${x1},${y} Q${x1},${y + a} ${x1 + 16},${y + a} L${m - 16},${y + a} Q${m},${y + a} ${m},${y + 2 * a} Q${m},${y + a} ${m + 16},${y + a} L${x2 - 16},${y + a} Q${x2},${y + a} ${x2},${y}`;
+};
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 284" aria-hidden="true">
+    <PizarraDefs pre="ptla" />
+
+    {d.llaves.map((k, i) => <Ficha pre="ptla" x={X[i]} y={30} w={210} h={108} icono={ICONOS[i]} titulo={k.t} sub={k.s} iman={IMANES[i]} giro={[-1.5, 1, -1][i]} tamIcono={30} tamTitulo={18} tamSub={13.5} />)}
+    <path d={llave(30, 770, 150)} fill="none" stroke={TINTA} stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+    <Nota x={400} y={202} texto={d.ante} tam={18} peso={700} alinea="middle" />
+    <Ficha pre="ptla" disposicion="horizontal" x={230} y={222} w={340} h={54} icono="juridico" titulo={d.jurisdiccion.t} sub={d.jurisdiccion.s} tono="gris" iman="gris" imanX={0.92} giro={1} tamIcono={24} tamTitulo={15} tamSub={13} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 306" aria-hidden="true">
+    <PizarraDefs pre="ptle" />
+
+    {d.llaves.map((k, i) => <Ficha pre="ptle" disposicion="horizontal" x={0} y={8 + i * 64} w={360} h={50} icono={ICONOS[i]} titulo={k.t} sub={k.s} iman={IMANES[i]} imanX={0.92} tamIcono={24} tamTitulo={15} tamSub={12.5} />)}
+    <Trazo desde={[180, 192]} hasta={[180, 210]} />
+    <Nota x={180} y={232} texto={d.ante} tam={15} peso={700} alinea="middle" />
+    <Ficha pre="ptle" disposicion="horizontal" x={0} y={246} w={360} h={52} icono="juridico" titulo={d.jurisdiccion.t} sub={d.jurisdiccion.s} tono="gris" iman="gris" imanX={0.92} tamIcono={22} tamTitulo={14} tamSub={12.5} />
+  </svg>
+</Pizarra>

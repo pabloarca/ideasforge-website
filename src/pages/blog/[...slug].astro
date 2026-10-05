@@ -4,6 +4,7 @@ import { foto } from '../../lib/fotos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import PageNav from '../../components/PageNav.astro';
+import CuerpoDePost from '../../components/pizarra/CuerpoDePost.astro';
 import { getCollection, render } from 'astro:content';
 import { content } from '../../i18n/ui';
 import { localizedPath } from '../../i18n/utils';
@@ -154,7 +155,9 @@ const articleJsonLd = JSON.stringify({
     <div
       class="prose mt-10 max-w-none prose-headings:tracking-tight prose-headings:text-fg prose-a:text-accent prose-strong:text-fg"
     >
-      <Content />
+      {/* Con el HTML ya renderizado, para poder intercalar las pizarras que
+          el markdown marca con <div data-pizarra="…"></div>. */}
+      {post.rendered ? <CuerpoDePost html={post.rendered.html} lang={lang} /> : <Content />}
     </div>
   </article>
   </div>

@@ -1,0 +1,76 @@
+---
+/*
+  Dónde acaban tus datos. En «Dónde acaban tus datos de verdad» de la guía
+  de RGPD, debajo del párrafo del canal de mensajería.
+
+  Un recuadro, tu cuenta en la nube, con lo que corre dentro: la aplicación,
+  la base de datos y los registros. De ahí salen dos flechas, que son los dos
+  caminos que la página pide tener dibujados: la llamada al proveedor del
+  modelo y, solo si el asistente vive en un canal, WhatsApp o Telegram, que
+  recibe la conversación entera. A propósito no dice que los datos «no
+  salen», que es un hecho retirado del banco.
+
+  Escritorio 800 × 290, móvil 360 × 440.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.mapaDatos;
+const PIEZAS = ['flujo', 'erp', 'registro'] as const;
+const IMANES = ['amarillo', 'negro', 'verde'] as const;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 290" aria-hidden="true">
+    <PizarraDefs pre="pmda" />
+
+    <rect x="2" y="14" width="328" height="266" rx="14" fill="#fafbfc" stroke={TINTA} stroke-width="2.2" />
+    <Nota x={20} y={44} texto={d.cuenta.t} tam={18} peso={700} />
+    <Nota x={20} y={64} texto={d.cuenta.s} tono="gris" tam={14} peso={500} />
+    {d.piezas.map((p, i) => <Ficha pre="pmda" disposicion="horizontal" x={20} y={84 + i * 56} w={292} h={44} icono={PIEZAS[i]} titulo={p} iman={IMANES[i]} imanX={0.93} tamIcono={22} tamTitulo={15} />)}
+
+    <Trazo desde={[336, 100]} hasta={[474, 78]} curva={-10} />
+    <Nota x={344} y={128} texto={d.salida1} tam={14} peso={600} />
+    <Trazo desde={[336, 230]} hasta={[474, 222]} curva={10} />
+    <Nota x={344} y={274} texto={d.salida2} tam={14} peso={600} />
+
+    <Ficha pre="pmda" disposicion="horizontal" x={480} y={40} w={320} h={70} icono="ia" titulo={d.proveedor.t} sub={d.proveedor.s} iman="azul" imanX={0.92} giro={1} tamIcono={28} tamTitulo={17} tamSub={13.5} />
+    <Ficha pre="pmda" disposicion="horizontal" x={480} y={184} w={320} h={70} icono="chat" titulo={d.canal.t} sub={d.canal.s} iman="rojo" imanX={0.92} giro={-1} tamIcono={28} tamTitulo={17} tamSub={13.5} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 440" aria-hidden="true">
+    <PizarraDefs pre="pmde" />
+
+    <rect x="1" y="8" width="358" height="232" rx="12" fill="#fafbfc" stroke={TINTA} stroke-width="2" />
+    <Nota x={16} y={36} texto={d.cuenta.t} tam={15} peso={700} />
+    <Nota x={16} y={54} texto={d.cuenta.s} tono="gris" tam={12.5} peso={500} />
+    {d.piezas.map((p, i) => <Ficha pre="pmde" disposicion="horizontal" x={16} y={66 + i * 52} w={328} h={42} icono={PIEZAS[i]} titulo={p} iman={IMANES[i]} imanX={0.93} tamIcono={20} tamTitulo={14} />)}
+
+    <Trazo desde={[86, 246]} hasta={[86, 284]} />
+    <Trazo desde={[274, 246]} hasta={[274, 284]} />
+    <Ficha pre="pmde" x={0} y={290} w={172} h={92} icono="ia" titulo={d.proveedor.t} sub={d.proveedor.s} iman="azul" imanX={0.86} tamIcono={24} tamTitulo={13.5} tamSub={12} />
+    <Ficha pre="pmde" x={188} y={290} w={172} h={92} icono="chat" titulo={d.canal.t} sub={d.canal.s} iman="rojo" imanX={0.86} tamIcono={24} tamTitulo={13.5} tamSub={12} />
+    <Nota x={86} y={404} texto={parte(d.salida1, 18)} tam={12} peso={600} alinea="middle" interlineado={1.15} />
+    <Nota x={274} y={404} texto={parte(d.salida2, 18)} tam={12} peso={600} alinea="middle" interlineado={1.15} />
+  </svg>
+</Pizarra>

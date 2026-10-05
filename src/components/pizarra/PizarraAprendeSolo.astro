@@ -1,0 +1,68 @@
+---
+/*
+  Quién mejora el sistema de verdad. En «Cuando te dicen que aprende solo»
+  de la guía, debajo de «Un agente en producción no mejora por sí solo».
+
+  Un círculo de cuatro fichas que siempre pasa por una persona: mira cómo
+  va, cambia algo (instrucciones, datos o pruebas), la batería comprueba que
+  no ha empeorado otra cosa y se publica. Al lado, en gris y tachado en rojo,
+  lo que se suele prometer: que el sistema aprende solo.
+
+  Escritorio 800 × 320, móvil 360 × 404.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import { ROJO } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.aprendeSolo;
+
+// Escritorio: el anillo, en el sentido de las agujas del reloj.
+const W = 210;
+const H = 88;
+const anillo = [
+  { f: d.mira, icono: 'metricas', iman: 'verde', x: 160, y: 6 },
+  { f: d.cambia, icono: 'corrige', iman: 'amarillo', x: 330, y: 116 },
+  { f: d.bateria, icono: 'bateria', iman: 'negro', x: 160, y: 226 },
+  { f: d.publica, icono: 'publica', iman: 'gris', x: 0, y: 116 },
+] as const;
+
+// Raya roja a mano alzada sobre el mito: un poco torcida, como hecha de prisa.
+const raya = (x1: number, x2: number, y: number) => `M${x1},${y + 2} Q${(x1 + x2) / 2},${y - 3} ${x2},${y + 1}`;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 320" aria-hidden="true">
+    <PizarraDefs pre="pasa" />
+
+    <Trazo desde={[376, 52]} hasta={[440, 108]} curva={-14} />
+    <Trazo desde={[440, 212]} hasta={[376, 268]} curva={-14} />
+    <Trazo desde={[154, 268]} hasta={[100, 212]} curva={-14} />
+    <Trazo desde={[100, 108]} hasta={[154, 52]} curva={-14} />
+    {anillo.map((c) => <Ficha pre="pasa" x={c.x} y={c.y} w={W} h={H} icono={c.icono} titulo={c.f.t} sub={c.f.s} iman={c.iman} tamIcono={26} tamTitulo={16} tamSub={13} />)}
+
+    <Ficha pre="pasa" x={566} y={112} w={228} h={96} icono="ia" titulo={d.mito.t} sub={d.mito.s} tono="gris" iman="gris" giro={2} tamIcono={28} tamTitulo={14.5} tamSub={13} />
+    <path d={raya(574, 788, 171)} fill="none" stroke={ROJO} stroke-width="3.2" stroke-linecap="round" transform="rotate(2 680 160)" />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 404" aria-hidden="true">
+    <PizarraDefs pre="pase" />
+
+    {[0, 1, 2].map((i) => <Trazo desde={[135, 8 + i * 78 + 58]} hasta={[135, 8 + (i + 1) * 78 - 4]} />)}
+    <Trazo desde={[274, 270]} hasta={[274, 36]} curva={46} />
+    {
+      anillo.map((c, i) => (
+        <Ficha pre="pase" disposicion="horizontal" x={0} y={8 + i * 78} w={270} h={56} icono={c.icono} titulo={c.f.t} sub={c.f.s} iman={c.iman} imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+      ))
+    }
+
+    <Ficha pre="pase" disposicion="horizontal" x={30} y={334} w={300} h={60} icono="ia" titulo={d.mito.t} sub={d.mito.s} tono="gris" iman="gris" giro={-1} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <path d={raya(74, 292, 355)} fill="none" stroke={ROJO} stroke-width="3" stroke-linecap="round" transform="rotate(-1 180 364)" />
+  </svg>
+</Pizarra>

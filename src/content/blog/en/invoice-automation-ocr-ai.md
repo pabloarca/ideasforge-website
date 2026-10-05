@@ -16,6 +16,8 @@ Invoice digitization with AI means a scanned document comes out the other end as
 
 OCR, optical character recognition, turns an image into text. That solves the easy half. A supplier invoice can arrive in a hundred layouts, with the total wherever each issuer chose to put it and line items that are never worded the same way from one issuer to the next. That is where the language model comes in, interpreting the text the way an experienced clerk would. It finds the total wherever the issuer decided to put it, understands that two differently worded concepts are the same charge and lands every field in its column. **OCR reads. The model understands what was read.**
 
+<div data-pizarra="ocrModelo"></div>
+
 ## How it looks in production
 
 For Stanton, a property management company, the tenants' electricity, gas and water invoices used to be processed by hand. Each document arrived in its utility company's own layout and someone turned it into usable data, invoice by invoice. Today those invoices arrive through a Telegram chat that acts as the inbox, OCR reads them, the model structures them and each one lands as a normalized row in the spreadsheet the team already uses. Two AI agents in production. And the client keeps extending the automation to more back-office processes, which is the signal that the first piece worked.

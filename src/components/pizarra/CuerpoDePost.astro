@@ -1,0 +1,46 @@
+---
+/*
+  El cuerpo de un post con sus pizarras intercaladas. Los posts son markdown
+  y el markdown no sabe pintar un componente, así que la pizarra se marca en
+  el `.md` con una línea vacía de HTML, justo donde va:
+
+    <div data-pizarra="nombre"></div>
+
+  Aquí se parte el HTML ya renderizado por esas marcas y en cada corte se
+  pinta la pizarra con ese nombre. Los textos de la pizarra viven en
+  `content[lang].pizarras`, como los de las páginas largas.
+
+  Sin marcas, el post sale igual que con `<Content />`: los posts no llevan
+  imágenes ni componentes, solo HTML, así que no se pierde nada.
+*/
+import { type Lang, type PizarrasContent, content } from '../../i18n/ui';
+import PizarraPorNombre from './PizarraPorNombre.astro';
+
+interface Props {
+  html: string;
+  lang: Lang;
+}
+const { html, lang } = Astro.props;
+
+// split con un grupo de captura alterna texto, nombre, texto, nombre…
+const trozos = html.split(/<div data-pizarra="([A-Za-z0-9]+)"><\/div>/);
+
+const nombres = trozos.filter((_, i) => i % 2 === 1);
+for (const n of nombres) {
+  if (!(n in content[lang].pizarras)) {
+    throw new Error(`Pizarra desconocida en un post: «${n}». Falta en content.${lang}.pizarras.`);
+  }
+}
+---
+
+{
+  trozos.map((t, i) =>
+    i % 2 === 0 ? (
+      <Fragment set:html={t} />
+    ) : (
+      <div class="not-prose">
+        <PizarraPorNombre grafico={t as keyof PizarrasContent} lang={lang} />
+      </div>
+    ),
+  )
+}

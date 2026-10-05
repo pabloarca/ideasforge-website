@@ -1,0 +1,91 @@
+---
+/*
+  El bucle de un agente. En «Qué es un agente de IA» de la guía, debajo de la
+  definición.
+
+  Tu petición entra, el modelo (en azul) elige qué hacer entre las acciones
+  que alguien le ha autorizado, la acción se ejecuta y la pregunta decide:
+  si está resuelto, responde; si no, otra vuelta al modelo. Es la definición
+  de la guía dibujada, un programa que elige por su cuenta qué hacer.
+
+  Escritorio 800 × 300, móvil 360 × 482.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.bucle;
+const ICONOS = ['calendario', 'manual', 'teclado'] as const;
+
+// Corchete de rotulador que agrupa las acciones autorizadas.
+const corchete = (x: number, y1: number, y2: number, lado: 1 | -1) =>
+  `M${x + 7 * lado},${y1 + 2} L${x},${y1 + 4} L${x},${y2 - 4} L${x + 7 * lado},${y2 - 2}`;
+
+// Escritorio: acciones apiladas entre dos corchetes.
+const AX = 388;
+const AY = 84;
+const APASO = 44;
+const AH = 30;
+const AFIN = AY + 2 * APASO + AH;
+
+// Móvil.
+const MAY = 186;
+const MAFIN = MAY + 2 * APASO + 32;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 300" aria-hidden="true">
+    <PizarraDefs pre="pbua" />
+
+    <Trazo desde={[146, 136]} hasta={[180, 136]} />
+    <Trazo desde={[336, 136]} hasta={[370, 136]} tono="azul" />
+    <Trazo desde={[612, 143]} hasta={[634, 143]} />
+    <Trazo desde={[713, 188]} hasta={[713, 226]} etiqueta={d.si} etiquetaEn={[731, 212]} tamEtiqueta={15} />
+    <Trazo desde={[650, 190]} hasta={[262, 190]} curva={-110} etiqueta={d.otraVuelta} etiquetaEn={[456, 266]} tamEtiqueta={15} />
+    <path d={corchete(AX - 10, AY, AFIN, 1)} fill="none" stroke={TINTA} stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+    <path d={corchete(AX + 220, AY, AFIN, -1)} fill="none" stroke={TINTA} stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+    <Nota x={AX + 105} y={70} texto={d.autorizadas} tono="gris" tam={14} peso={500} alinea="middle" />
+
+    <Ficha pre="pbua" x={0} y={88} w={140} h={96} icono="chat" titulo={d.peticion.t} sub={d.peticion.s} iman="amarillo" giro={-1.5} tamIcono={28} tamTitulo={16} tamSub={13} />
+    <Ficha pre="pbua" x={186} y={88} w={144} h={96} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" tamIcono={28} tamTitulo={16} tamSub={13} />
+    {
+      d.acciones.map((a, i) => (
+        <Ficha pre="pbua" disposicion="horizontal" x={AX} y={AY + i * APASO} w={210} h={AH} icono={ICONOS[i]} titulo={a} iman="negro" imanX={0.94} tamIcono={18} tamTitulo={13.5} />
+      ))
+    }
+    <Ficha pre="pbua" x={640} y={96} w={152} h={86} icono="pregunta" titulo={d.resuelto} iman="negro" giro={1.5} tamIcono={28} tamTitulo={16} />
+    <Ficha pre="pbua" disposicion="horizontal" x={616} y={232} w={184} h={56} icono="hecho" titulo={d.respuesta.t} sub={d.respuesta.s} iman="verde" imanX={0.86} tamIcono={24} tamTitulo={16} tamSub={12.5} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 482" aria-hidden="true">
+    <PizarraDefs pre="pbue" />
+
+    <Trazo desde={[150, 66]} hasta={[150, 86]} />
+    <Trazo desde={[100, 148]} hasta={[100, 180]} tono="azul" />
+    <Nota x={118} y={168} texto={d.autorizadas} tono="gris" tam={12.5} peso={500} />
+    <path d={corchete(26, MAY, MAFIN, 1)} fill="none" stroke={TINTA} stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+    <path d={corchete(274, MAY, MAFIN, -1)} fill="none" stroke={TINTA} stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+    <Trazo desde={[150, 312]} hasta={[150, 334]} />
+    <Trazo desde={[150, 392]} hasta={[150, 414]} etiqueta={d.si} etiquetaEn={[166, 408]} tamEtiqueta={13} />
+    <Trazo desde={[294, 363]} hasta={[294, 117]} curva={44} />
+    <Nota x={336} y={240} texto={d.otraVuelta} tam={12.5} alinea="middle" giro={90} />
+
+    <Ficha pre="pbue" disposicion="horizontal" x={10} y={8} w={280} h={54} icono="chat" titulo={d.peticion.t} sub={d.peticion.s} iman="amarillo" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="pbue" disposicion="horizontal" x={10} y={90} w={280} h={54} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    {
+      d.acciones.map((a, i) => (
+        <Ficha pre="pbue" disposicion="horizontal" x={35} y={MAY + i * APASO} w={230} h={32} icono={ICONOS[i]} titulo={a} iman="negro" imanX={0.94} tamIcono={18} tamTitulo={13.5} />
+      ))
+    }
+    <Ficha pre="pbue" disposicion="horizontal" x={10} y={338} w={280} h={50} icono="pregunta" titulo={d.resuelto} iman="negro" imanX={0.86} tamIcono={24} tamTitulo={15} />
+    <Ficha pre="pbue" disposicion="horizontal" x={10} y={418} w={280} h={54} icono="hecho" titulo={d.respuesta.t} sub={d.respuesta.s} iman="verde" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+  </svg>
+</Pizarra>

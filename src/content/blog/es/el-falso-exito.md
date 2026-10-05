@@ -44,6 +44,8 @@ El motivo importa más que el número. Los supervisores no comprobaban si el est
 
 Lo que sí caza los falsos éxitos es más tonto y funciona mejor. Un clasificador clásico que cuenta palabras y secuencias, de los que ya se usaban antes de que existieran los modelos de lenguaje, llega a 0,83 en uno de los dos bancos de pruebas y a 0,95 en el otro. Encuentra de cuatro a ocho veces más falsos éxitos que el mejor de los jueces.
 
+<div data-pizarra="escalaDetector"></div>
+
 Sus dos señales dicen mucho de dónde está el problema. En las conversaciones, lo que delata el falso éxito es el propio vocabulario del cierre, expresiones como «se ha completado» o «correctamente». En las tareas de programación son secuencias donde el agente **consulta mucho, no escribe nada y acto seguido declara el trabajo hecho**, mientras que cuando el agente sí reconoce el fallo lo que se ve son intentos de escritura repetidos.
 
 Ninguna de las dos señales exige entender la tarea, que es justo lo que los jueces con modelo intentaban hacer.
@@ -55,6 +57,8 @@ Aquí el estudio deja de describir un problema y empieza a señalar dónde está
 La diferencia entre el agente autónomo y la arquitectura que usamos no es de vigilancia, es de permisos. En un agente autónomo, quien dice que el trabajo está hecho es el modelo, en una frase que no está atada a nada.
 
 En la arquitectura que usamos, quien lo dice es el código, después de que la base de datos haya devuelto un número de operación. **El modelo no puede decir «hecho», porque «hecho» no es una de las respuestas que tiene permitidas.** El modelo entiende lo que quiere la persona y elige entre las opciones que existen. El código comprueba, ejecuta e informa del resultado.
+
+<div data-pizarra="quienDiceHecho"></div>
 
 No hemos hecho al modelo más fiable. Le hemos quitado la posibilidad de opinar sobre si el trabajo está hecho.
 
@@ -84,7 +88,7 @@ Ese resultado se cita constantemente como argumento en contra de los formatos es
 
 Léelo otra vez, porque es el eje de todo lo demás. El formulario es malo si le pides pensar y bueno si le pides elegir.
 
-Y elegir es lo único que le pedimos. No le pedimos que planifique, ni que decida el orden de las operaciones, ni que calcule un descuento. Le pedimos que mire un mensaje ambiguo, con faltas y con contexto implícito, para decidir a cuál de las opciones que existen se parece.
+Y elegir es lo único que le pedimos. No le pedimos que planifique ni que decida el orden de las operaciones ni que calcule un descuento. Le pedimos que mire un mensaje ambiguo, con faltas y con contexto implícito, para decidir a cuál de las opciones que existen se parece.
 
 Es en lo que estos modelos son extraordinarios. Y da la casualidad de que es también la tarea donde el formato cerrado ayuda en vez de frenar.
 

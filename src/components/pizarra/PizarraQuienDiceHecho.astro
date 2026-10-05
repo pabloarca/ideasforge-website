@@ -1,0 +1,72 @@
+---
+/*
+  Quién tiene permitido decir «hecho». En el post «El falso éxito», sección
+  del mismo nombre, debajo de «El modelo no puede decir "hecho"».
+
+  Dos filas. Arriba, el agente autónomo: el modelo (azul) suelta un
+  «¡Hecho!» en un bocadillo rojo, una frase atada a nada. Abajo, la
+  arquitectura que usamos: el modelo elige una opción, el código ejecuta, la
+  base de datos devuelve el número de operación y quien dice «hecho» es el
+  código.
+
+  Escritorio 800 × 330, móvil 360 × 540.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { ROJO } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.quienDiceHecho;
+const ICONOS = ['ia', 'flujo', 'erp', 'hecho'] as const;
+const IMANES = ['azul', 'negro', 'gris', 'verde'] as const;
+const X = [0, 210, 420, 630];
+const W = 170;
+
+/** Un bocadillo de cómic, con la cola hacia la izquierda. */
+const bocadillo = (x: number, y: number, w: number, h: number) =>
+  `M${x + 12},${y} L${x + w - 12},${y} Q${x + w},${y} ${x + w},${y + 12} L${x + w},${y + h - 12} Q${x + w},${y + h} ${x + w - 12},${y + h} L${x + 30},${y + h} L${x + 6},${y + h + 16} L${x + 16},${y + h} L${x + 12},${y + h} Q${x},${y + h} ${x},${y + h - 12} L${x},${y + 12} Q${x},${y} ${x + 12},${y} Z`;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 330" aria-hidden="true">
+    <PizarraDefs pre="pqda" />
+
+    <Nota x={0} y={24} texto={d.autonomo.titulo} tam={19} peso={700} />
+    <Nota x={0} y={45} texto={d.autonomo.sub} tono="gris" tam={15} peso={500} />
+    <Ficha pre="pqda" disposicion="horizontal" x={0} y={62} w={196} h={56} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.9} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <path d={bocadillo(220, 56, 170, 52)} fill="#fff5f5" stroke={ROJO} stroke-width="2.2" stroke-linejoin="round" />
+    <Nota x={305} y={89} texto={d.dice} tono="rojo" tam={18} peso={700} alinea="middle" />
+    <Nota x={410} y={89} texto={d.diceNota} tono="rojo" tam={15} peso={600} />
+
+    <Nota x={0} y={178} texto={d.nuestra.titulo} tam={19} peso={700} />
+    <Nota x={0} y={199} texto={d.nuestra.sub} tono="gris" tam={15} peso={500} />
+    {[0, 1, 2].map((i) => <Trazo desde={[X[i] + W + 6, 244]} hasta={[X[i + 1] - 6, 244]} tono={i === 0 ? 'azul' : 'tinta'} />)}
+    {d.pasos.map((p, i) => <Ficha pre="pqda" disposicion="horizontal" x={X[i]} y={216} w={W} h={56} icono={ICONOS[i]} titulo={p.t} sub={p.s} tono={i === 0 ? 'azul' : 'tinta'} iman={IMANES[i]} imanX={0.9} tamIcono={24} tamTitulo={15} tamSub={12.5} />)}
+    <Nota x={0} y={306} texto={d.nota} tono="azul" tam={14} peso={600} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 540" aria-hidden="true">
+    <PizarraDefs pre="pqde" />
+
+    <Nota x={0} y={18} texto={d.autonomo.titulo} tam={15} peso={700} />
+    <Nota x={0} y={36} texto={d.autonomo.sub} tono="gris" tam={12.5} peso={500} />
+    <Ficha pre="pqde" disposicion="horizontal" x={0} y={48} w={200} h={52} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.88} tamIcono={22} tamTitulo={14} tamSub={12} />
+    <path d={bocadillo(214, 40, 140, 44)} fill="#fff5f5" stroke={ROJO} stroke-width="2" stroke-linejoin="round" />
+    <Nota x={284} y={68} texto={d.dice} tono="rojo" tam={15} peso={700} alinea="middle" />
+    <Nota x={356} y={124} texto={d.diceNota} tono="rojo" tam={12.5} peso={600} alinea="end" />
+
+    <path d="M0,146 L360,146" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+    <Nota x={0} y={172} texto={d.nuestra.titulo} tam={15} peso={700} />
+    <Nota x={0} y={190} texto={d.nuestra.sub} tono="gris" tam={12.5} peso={500} />
+    {[0, 1, 2].map((i) => <Trazo desde={[150, 260 + i * 82]} hasta={[150, 282 + i * 82]} tono={i === 0 ? 'azul' : 'tinta'} />)}
+    {d.pasos.map((p, i) => <Ficha pre="pqde" disposicion="horizontal" x={20} y={202 + i * 82} w={280} h={54} icono={ICONOS[i]} titulo={p.t} sub={p.s} tono={i === 0 ? 'azul' : 'tinta'} iman={IMANES[i]} imanX={0.88} tamIcono={22} tamTitulo={14.5} tamSub={12.5} />)}
+    <Nota x={0} y={530} texto={d.nota} tono="azul" tam={12.5} peso={600} />
+  </svg>
+</Pizarra>

@@ -30,6 +30,8 @@ El aviso venía de un artículo anterior de los mismos autores, que llamaba al a
 
 Una década después, con la IA generativa, la deuda es la misma y los intereses han subido. El componente central ya ni siquiera se comporta igual dos veces, así que todo lo que rodea al modelo pesa más, no menos. **La demo enseña el 5 %. El día 180 se vive en el otro 95.**
 
+<div data-pizarra="icebergDemo"></div>
+
 ## Mantener vivo un proyecto es un sistema, no una intención
 
 La diferencia entre el proyecto vistoso y el rentable no es el talento ni el modelo. Es que el rentable se diseñó para ser mantenido. En la práctica, eso son piezas concretas:

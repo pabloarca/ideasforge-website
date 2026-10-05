@@ -34,13 +34,15 @@ Lo que retrasó de verdad son las obligaciones de alto riesgo: el anexo III pasa
 
 **Y lo que no retrasó, que es lo que a ti te toca**, son las prácticas prohibidas, la alfabetización del artículo 4 y la transparencia del artículo 50. Las obligaciones de los modelos de propósito general no entran ahí, porque son de quien los pone en el mercado.
 
+<div data-pizarra="aplazamiento"></div>
+
 Dicho de otra forma: se aplazó la parte que afecta a pocos y se dejó intacta la que afecta a todos. Quien archivó el asunto en julio archivó justo la parte que seguía en vigor.
 
 ## Y si además caes en alto riesgo
 
 Entonces entra el artículo 26, que es la lista de deberes de quien despliega. Usar el sistema según las instrucciones. Poner supervisión humana con competencia **y con autoridad real para detener el sistema**. Vigilar que los datos de entrada sean pertinentes para lo que el sistema hace, en la medida en que tú controles esos datos. Monitorizar cómo se comporta e informar de lo que se tuerza. Conservar los registros al menos seis meses y avisar a los trabajadores a quienes afecte. Y avisar también a la persona sobre la que el sistema decide, cuando se use para tomar una decisión sobre ella o para ayudar a tomarla.
 
-Antes de que se te encoja el estómago: **el anexo III son ocho dominios concretos**, entre ellos biometría, empleo, educación, servicios esenciales como el crédito y los seguros de vida y salud, infraestructura crítica, ámbito policial, migración y justicia. Una empresa que automatiza facturas o responde consultas de clientes no cae ahí por defecto. La que filtra currículos, sí.
+Antes de que se te encoja el estómago, ten en cuenta que **el anexo III son ocho dominios concretos**, entre ellos biometría, empleo, educación, servicios esenciales como el crédito y los seguros de vida y salud, infraestructura crítica, ámbito policial, migración y justicia. Una empresa que automatiza facturas o responde consultas de clientes no cae ahí por defecto. La que filtra currículos, sí.
 
 ## Lo que descubrimos leyendo esa lista
 

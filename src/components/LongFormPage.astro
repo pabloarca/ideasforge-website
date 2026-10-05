@@ -18,11 +18,6 @@ import { type Lang, type LongFormPageContent } from '../i18n/ui';
 import ClusterPosts from './ClusterPosts.astro';
 import FaqList from './FaqList.astro';
 import { pillarFromUrl } from '../lib/cluster';
-import FlowDiagram from './FlowDiagram.astro';
-import ChatVsAgentDiagram from './ChatVsAgentDiagram.astro';
-import FormasDiagram from './FormasDiagram.astro';
-import EntradasDiagram from './EntradasDiagram.astro';
-import CapasDiagram from './CapasDiagram.astro';
 import PizarraPorNombre from './pizarra/PizarraPorNombre.astro';
 import LatticeDots from './LatticeDots.astro';
 import RouteReveal from './RouteReveal.astro';
@@ -261,11 +256,6 @@ const hasNav = page.nav ?? page.sections.length >= 4;
                   </table>
                 </div>
               )}
-              {section.diagram && <FlowDiagram lang={lang} />}
-              {section.chatDiagram && <ChatVsAgentDiagram lang={lang} />}
-              {section.formasDiagram && <FormasDiagram lang={lang} />}
-              {section.entradasDiagram && <EntradasDiagram lang={lang} />}
-              {section.capasDiagram && <CapasDiagram lang={lang} />}
 
               {/* Reticula continua: elementos paralelos, el idioma de «Lo que
                   construimos». Dos columnas y no cuatro porque aqui cada elemento

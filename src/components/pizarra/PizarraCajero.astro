@@ -1,0 +1,56 @@
+---
+/*
+  El cajero automático como máquina de estados. En el post «La transición
+  que no existe», sección «Qué es una máquina de estados», tras el párrafo
+  del cajero.
+
+  Cuatro pantallas en fila, cada una un estado, unidas por las flechas que
+  sí existen. Encima, un salto tachado de la tarjeta al dinero: ese botón no
+  existe. El tachado va en gris y no en rojo, porque no es un fallo, es la
+  garantía. La leyenda enseña las dos palabras del post, estado y
+  transición.
+
+  Escritorio 800 × 210, móvil 360 × 318.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { GRIS } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.cajero;
+const ICONOS = ['banco', 'llave', 'menuBotones', 'dinero'] as const;
+const IMANES = ['amarillo', 'negro', 'verde', 'gris'] as const;
+const X = [0, 210, 420, 630];
+const W = 170;
+/** Una equis de rotulador centrada en (x, y). */
+const equis = (x: number, y: number, r: number) => `M${x - r},${y - r} L${x + r},${y + r} M${x + r},${y - r} L${x - r},${y + r}`;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 210" aria-hidden="true">
+    <PizarraDefs pre="pcja" />
+    <path d="M85,80 C200,10 600,10 715,80" fill="none" stroke={GRIS} stroke-width="2" stroke-dasharray="6 6" stroke-linecap="round" />
+    <path d={equis(400, 28, 9)} stroke={GRIS} stroke-width="3" stroke-linecap="round" />
+    <Nota x={400} y={60} texto={d.noExiste} tono="gris" tam={14} peso={700} alinea="middle" />
+    {[0, 1, 2].map((i) => <Trazo desde={[X[i] + W + 6, 130]} hasta={[X[i + 1] - 6, 130]} />)}
+    {d.pantallas.map((p, i) => <Ficha pre="pcja" x={X[i]} y={84} w={W} h={92} icono={ICONOS[i]} titulo={p} iman={IMANES[i]} imanX={0.85} tamIcono={28} tamTitulo={14.5} />)}
+    <Nota x={400} y={202} texto={d.leyenda} tono="gris" tam={13.5} peso={600} alinea="middle" />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 318" aria-hidden="true">
+    <PizarraDefs pre="pcje" />
+    <path d="M300,34 C352,70 352,198 300,234" fill="none" stroke={GRIS} stroke-width="1.8" stroke-dasharray="6 6" stroke-linecap="round" />
+    <path d={equis(339, 134, 8)} stroke={GRIS} stroke-width="2.6" stroke-linecap="round" />
+    {[0, 1, 2].map((i) => <Trazo desde={[150, 60 + i * 64]} hasta={[150, 74 + i * 64]} />)}
+    {d.pantallas.map((p, i) => <Ficha pre="pcje" disposicion="horizontal" x={20} y={12 + i * 64} w={270} h={46} icono={ICONOS[i]} titulo={p} iman={IMANES[i]} imanX={0.88} tamIcono={20} tamTitulo={14} />)}
+    <Nota x={0} y={284} texto={`✕ ${d.noExiste}`} tono="gris" tam={13} peso={700} />
+    <Nota x={0} y={306} texto={d.leyenda} tono="gris" tam={12} peso={600} />
+  </svg>
+</Pizarra>

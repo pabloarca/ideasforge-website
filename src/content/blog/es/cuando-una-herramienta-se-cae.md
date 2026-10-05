@@ -24,6 +24,8 @@ En nuestro asistente de planta, cada herramienta tiene una ficha de estado: un c
 
 Lo que ve el usuario entonces no es un error técnico. Es un mensaje de degradación amable y específico. Esa funcionalidad concreta no está disponible, el resto del asistente sigue en pie. **La avería de una pieza deja de contaminar el conjunto** y de paso ninguna traza interna, con sus nombres de servidor y sus rutas, viaja a la pantalla de nadie.
 
+<div data-pizarra="disyuntor"></div>
+
 ## Tres lecciones que nos dio producción
 
 **Un contador que solo sube, miente.** Si nadie lo baja con el tiempo, una herramienta perfectamente sana arrastra un contador alto heredado de un incidente de hace meses. Parece enferma y está curada. Toda lectura del contador se cruza ahora con la fecha del último fallo, porque un número sin fecha es un rumor.

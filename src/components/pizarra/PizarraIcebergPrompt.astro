@@ -1,0 +1,16 @@
+---
+/*
+  El iceberg de icebergPrompt. En el post «Antes que el prompt, los datos», sección «Qué significa esto si vas a comprar IA».
+  El dibujo es PizarraIceberg; aquí solo se le pasan los textos.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import PizarraIceberg from './PizarraIceberg.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.icebergPrompt;
+---
+
+<PizarraIceberg label={d.label} arriba={d.arriba} abajoTitulo={d.abajoTitulo} abajo={d.abajo} />

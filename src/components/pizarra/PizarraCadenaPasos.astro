@@ -1,0 +1,90 @@
+---
+/*
+  La fiabilidad que cae al encadenar pasos. En el post «No me gustan los
+  agentes de IA», sección «La aritmética juega en contra», debajo del
+  párrafo de la multiplicación.
+
+  Una gráfica a rotulador: con un 95 % de acierto por paso, la parte de las
+  tareas que salen bien cae paso a paso (0,95 elevado al número de pasos).
+  Tres puntos con los números del post (cinco, diez y veinte pasos) y una
+  franja gris donde viven las demostraciones, que casi nunca pasan de cinco.
+  La etiqueta de los veinte pasos va debajo del punto: encima pisaba la
+  curva.
+
+  Escritorio 800 × 290, móvil 360 × 306.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import Nota from './Nota.astro';
+import { TINTA, ROJO } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.cadenaPasos;
+const pct = (n: number) => Math.pow(0.95, n);
+const porcentaje = (n: number) => (lang === 'es' ? `${n} %` : `${n}%`);
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+
+/** Ejes, curva y puntos para un lienzo dado. */
+const grafica = (x0: number, y0: number, w: number, h: number) => {
+  const gx = (n: number) => x0 + (n / 20) * w;
+  const gy = (v: number) => y0 + h - v * h;
+  const curva = 'M' + Array.from({ length: 41 }, (_, i) => `${gx(i / 2).toFixed(1)},${gy(pct(i / 2)).toFixed(1)}`).join(' L');
+  return { gx, gy, curva };
+};
+const E = grafica(70, 30, 680, 200);
+const M = grafica(44, 30, 296, 200);
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 290" aria-hidden="true">
+    <rect x={E.gx(0)} y={E.gy(1)} width={E.gx(5) - E.gx(0)} height={E.gy(0) - E.gy(1)} fill="#f2f3f5" />
+    <Nota x={(E.gx(0) + E.gx(5)) / 2} y={E.gy(0.06)} texto={d.demos} tono="gris" tam={13} peso={600} alinea="middle" />
+    <path d={`M${E.gx(0)},${E.gy(1) - 10} L${E.gx(0)},${E.gy(0)} L${E.gx(20) + 14},${E.gy(0)}`} fill="none" stroke={TINTA} stroke-width="2.4" stroke-linecap="round" />
+    {[0, 0.5, 1].map((v) => <Nota x={E.gx(0) - 10} y={E.gy(v) + 4} texto={porcentaje(v * 100)} tono="gris" tam={12.5} peso={600} alinea="end" />)}
+    {[1, 5, 10, 15, 20].map((n) => <Nota x={E.gx(n)} y={E.gy(0) + 22} texto={String(n)} tono="gris" tam={12.5} peso={600} alinea="middle" />)}
+    <Nota x={E.gx(20)} y={E.gy(0) + 48} texto={d.ejeX} tono="gris" tam={13.5} peso={600} alinea="end" />
+    <Nota x={E.gx(0) + 12} y={E.gy(1) - 4} texto={d.ejeY} tono="gris" tam={13.5} peso={600} />
+    <path d={E.curva} fill="none" stroke={TINTA} stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    {
+      d.puntos.map((p) => (
+        <>
+          <circle cx={E.gx(p.n)} cy={E.gy(pct(p.n))} r="6" fill={p.n === 20 ? ROJO : TINTA} />
+          <Nota x={E.gx(p.n) + (p.n === 20 ? -10 : 10)} y={E.gy(pct(p.n)) + (p.n === 20 ? 26 : -12)} texto={`${p.n}: ${p.t}`} tam={15} peso={700} alinea={p.n === 20 ? 'end' : 'start'} tono={p.n === 20 ? 'rojo' : 'tinta'} />
+        </>
+      ))
+    }
+    <Nota x={E.gx(20)} y={E.gy(1) + 8} texto={d.supuesto} tam={14} peso={600} alinea="end" />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 306" aria-hidden="true">
+    <rect x={M.gx(0)} y={M.gy(1)} width={M.gx(5) - M.gx(0)} height={M.gy(0) - M.gy(1)} fill="#f2f3f5" />
+    <path d={`M${M.gx(0)},${M.gy(1) - 10} L${M.gx(0)},${M.gy(0)} L${M.gx(20) + 10},${M.gy(0)}`} fill="none" stroke={TINTA} stroke-width="2.2" stroke-linecap="round" />
+    {[0, 1].map((v) => <Nota x={M.gx(0) - 6} y={M.gy(v) + 4} texto={porcentaje(v * 100)} tono="gris" tam={11.5} peso={600} alinea="end" />)}
+    {[1, 5, 10, 20].map((n) => <Nota x={M.gx(n)} y={M.gy(0) + 18} texto={String(n)} tono="gris" tam={11.5} peso={600} alinea="middle" />)}
+    <Nota x={M.gx(20)} y={M.gy(0) + 38} texto={d.ejeX} tono="gris" tam={12} peso={600} alinea="end" />
+    <path d={M.curva} fill="none" stroke={TINTA} stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+    {
+      d.puntos.map((p) => (
+        <>
+          <circle cx={M.gx(p.n)} cy={M.gy(pct(p.n))} r="5" fill={p.n === 20 ? ROJO : TINTA} />
+          <Nota x={M.gx(p.n) + (p.n === 20 ? -8 : 8)} y={M.gy(pct(p.n)) + (p.n === 20 ? 22 : -10)} texto={`${p.n}: ${p.t}`} tam={12.5} peso={700} alinea={p.n === 20 ? 'end' : 'start'} tono={p.n === 20 ? 'rojo' : 'tinta'} />
+        </>
+      ))
+    }
+    <Nota x={M.gx(0)} y={296} texto={d.supuesto} tam={12.5} peso={600} />
+    <Nota x={(M.gx(0) + M.gx(5)) / 2} y={M.gy(0.1)} texto={parte(d.demos, 11)} tono="gris" tam={11} peso={600} alinea="middle" interlineado={1.15} />
+  </svg>
+</Pizarra>

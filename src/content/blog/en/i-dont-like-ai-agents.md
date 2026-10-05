@@ -39,6 +39,8 @@ Assume a perfect prompt that the model never ignores. There is still a problem t
 
 An agent chains steps and every step can go wrong. Intuition says a system that gets it right 95% of the time is a reliable system. Arithmetic says otherwise. For a twenty-step task to end well, all twenty steps have to go well, so the probabilities multiply. A 95% success rate per step leaves the full task at 36%. With ten steps, at almost 60%. **The reliability that impresses in a single step evaporates as soon as steps are chained.**
 
+<div data-pizarra="cadenaPasos"></div>
+
 The way out is not to give up on agents, it is to shorten them. That is why ours split the job into short stretches, each verifiable on its own, with rollback points and a person confirming before anything irreversible. There is also a detail almost nobody mentions, that cost grows with length, because every step drags along the full context of the previous ones and long conversations get expensive at a rate the demos never show.
 
 Here is the trick behind the demos. Almost all of them have fewer than five steps. With five steps at 95% per step, the whole thing works three times out of four and the video gets recorded on the second take. Your company's real processes rarely fit in five steps.
@@ -62,6 +64,8 @@ A language model receives the instructions you give it and the text that reaches
 Think about what that means for architectures. If the front door cannot be fully closed, the only serious defense is to shrink what sits behind the door. It is not about fine-tuning what you tell the model, it is about cutting down what the model can do once it is fooled.
 
 Now go back to the typical agentic architecture and count ingredients. The agent has access to private data. It reads text that comes from outside. And it holds tools to act on your systems. Each one on its own is harmless. Together they open the door for a malicious text to end up moving data it never should have, which is exactly the risk that tops the OWASP list. The first two are usually the reason the system exists. The third is the one to cut down.
+
+<div data-pizarra="tresIngredientes"></div>
 
 The extreme case is the setup where the model is plugged straight into the database through a connector that lets it write the queries itself (MCP connectors). From that moment it can write any query the language allows, and the only thing stopping it is a sentence in its prompt, along the lines of "do not query the payroll table". We have already seen which family that sentence belongs to. It is a polite request.
 
@@ -110,6 +114,8 @@ It would be comfortable to stop here and leave the picture in black and white, b
 Notice that the two criteria go together. Unknown structure and low cost of error. Coding agents work because they meet both, the terrain changes with every task and a person reviews before anything reaches production. An agent with write access to your invoicing meets neither.
 
 Our rule is that autonomy is earned. Everything starts as a code-orchestrated flow, and the model gets room only in the stretches where it needs it, with the result measured before and after each extension. What we do not do is start with autonomy and add control when something breaks, because by then the system is already in front of your users and the control arrives late.
+
+<div data-pizarra="escalera"></div>
 
 ## Three questions for your next meeting
 

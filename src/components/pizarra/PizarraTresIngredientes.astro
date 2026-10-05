@@ -1,0 +1,54 @@
+---
+/*
+  Los tres ingredientes del riesgo. En el post «No me gustan los agentes de
+  IA», sección «La seguridad tampoco acompaña», debajo del párrafo que los
+  cuenta.
+
+  Datos privados más texto de fuera más herramientas es igual al riesgo (en
+  rojo). La tercera ficha va tachada, con la nota del post: es la que se
+  recorta, porque las dos primeras suelen ser la razón de que el sistema
+  exista.
+
+  Escritorio 800 × 194, móvil 360 × 366.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Nota from './Nota.astro';
+import { ROJO } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.tresIngredientes;
+const ICONOS = ['erp', 'correo', 'conexion'] as const;
+const IMANES = ['amarillo', 'verde', 'negro'] as const;
+const X = [0, 184, 368];
+const W = 170;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 194" aria-hidden="true">
+    <PizarraDefs pre="ptia" />
+    {d.ingredientes.map((g, i) => <Ficha pre="ptia" x={X[i]} y={40} w={W} h={104} icono={ICONOS[i]} titulo={g.t} sub={g.s} iman={IMANES[i]} giro={[-1.5, 1, -1][i]} tamIcono={30} tamTitulo={16} tamSub={11.5} />)}
+    <Nota x={177} y={100} texto="+" tam={30} peso={700} alinea="middle" />
+    <Nota x={361} y={100} texto="+" tam={30} peso={700} alinea="middle" />
+    <Nota x={558} y={100} texto="=" tam={30} peso={700} alinea="middle" />
+    <path d={`M${X[2] + 6},48 L${X[2] + W - 6},138 M${X[2] + W - 6},48 L${X[2] + 6},138`} stroke={ROJO} stroke-width="3" stroke-linecap="round" opacity="0.85" />
+    <Nota x={X[2] + W / 2} y={176} texto={d.recorta} tono="rojo" tam={15} peso={700} alinea="middle" />
+    <Ficha pre="ptia" x={580} y={40} w={216} h={104} icono="error" titulo={d.riesgo.t} sub={d.riesgo.s} tono="rojo" iman="rojo" giro={1.5} tamIcono={32} tamTitulo={18} tamSub={13} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 366" aria-hidden="true">
+    <PizarraDefs pre="ptie" />
+    {d.ingredientes.map((g, i) => <Ficha pre="ptie" disposicion="horizontal" x={30} y={8 + i * 82} w={300} h={56} icono={ICONOS[i]} titulo={g.t} sub={g.s} iman={IMANES[i]} imanX={0.9} tamIcono={24} tamTitulo={15} tamSub={12.5} />)}
+    <Nota x={180} y={84} texto="+" tam={22} peso={700} alinea="middle" />
+    <Nota x={180} y={166} texto="+" tam={22} peso={700} alinea="middle" />
+    <path d="M40,182 L320,214" stroke={ROJO} stroke-width="2.8" stroke-linecap="round" opacity="0.85" />
+    <Nota x={180} y={244} texto={d.recorta} tono="rojo" tam={13.5} peso={700} alinea="middle" />
+    <Nota x={180} y={280} texto="=" tam={24} peso={700} alinea="middle" />
+    <Ficha pre="ptie" disposicion="horizontal" x={30} y={296} w={300} h={60} icono="error" titulo={d.riesgo.t} sub={d.riesgo.s} tono="rojo" iman="rojo" imanX={0.9} tamIcono={26} tamTitulo={16} tamSub={12.5} />
+  </svg>
+</Pizarra>

@@ -1,0 +1,66 @@
+---
+/*
+  El disyuntor, con reactivación manual. En el post «Qué hace tu asistente
+  cuando una herramienta se cae», sección «El disyuntor», al final.
+
+  Tres estados en ciclo. Activa, mientras la herramienta responde. Si
+  encadena fallos en una ventana de tiempo, pasa a desactivada (en rojo) y el
+  usuario ve un aviso amable en vez de un error técnico. Volver a activarla
+  lo decide una persona y queda escrito: a propósito no hay estado
+  «semiabierto» que se rearme solo, porque nuestro sistema no lo tiene (el
+  post lo cuenta en «Tres lecciones que nos dio producción»).
+
+  Escritorio 800 × 276, móvil 360 × 400.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.disyuntor;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 276" aria-hidden="true">
+    <PizarraDefs pre="pdya" />
+    <Trazo desde={[236, 62]} hasta={[536, 62]} curva={-24} tono="rojo" />
+    <Nota x={386} y={36} texto={d.fallos} tono="rojo" tam={14.5} peso={600} alinea="middle" />
+    <Trazo desde={[668, 112]} hasta={[520, 212]} curva={-14} />
+    <Trazo desde={[276, 214]} hasta={[120, 112]} curva={-14} />
+    <Nota x={182} y={202} texto={d.vuelta} tam={14} peso={600} alinea="end" />
+
+    <Ficha pre="pdya" disposicion="horizontal" x={0} y={30} w={230} h={74} icono="hecho" titulo={d.activa.t} sub={d.activa.s} iman="verde" imanX={0.9} giro={-1} tamIcono={30} tamTitulo={19} tamSub={13.5} />
+    <Ficha pre="pdya" disposicion="horizontal" x={542} y={30} w={258} h={74} icono="error" titulo={d.desactivada.t} sub={d.desactivada.s} tono="rojo" iman="rojo" imanX={0.9} giro={1} tamIcono={30} tamTitulo={19} tamSub={13.5} />
+    <Ficha pre="pdya" disposicion="horizontal" x={282} y={190} w={232} h={74} icono="persona" titulo={d.manual.t} sub={d.manual.s} iman="amarillo" imanX={0.9} tamIcono={30} tamTitulo={16} tamSub={13.5} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 400" aria-hidden="true">
+    <PizarraDefs pre="pdye" />
+    <Trazo desde={[150, 74]} hasta={[150, 160]} tono="rojo" />
+    <Nota x={166} y={110} texto={parte(d.fallos, 22)} tono="rojo" tam={12.5} peso={600} interlineado={1.2} />
+    <Trazo desde={[150, 238]} hasta={[150, 320]} />
+    <Trazo desde={[296, 356]} hasta={[296, 44]} curva={40} />
+    <Nota x={342} y={210} texto={d.vuelta} tam={12.5} peso={600} alinea="middle" giro={90} />
+
+    <Ficha pre="pdye" disposicion="horizontal" x={0} y={8} w={290} h={62} icono="hecho" titulo={d.activa.t} sub={d.activa.s} iman="verde" imanX={0.9} tamIcono={26} tamTitulo={16} tamSub={12.5} />
+    <Ficha pre="pdye" disposicion="horizontal" x={0} y={168} w={290} h={66} icono="error" titulo={d.desactivada.t} sub={d.desactivada.s} tono="rojo" iman="rojo" imanX={0.9} tamIcono={26} tamTitulo={16} tamSub={12.5} />
+    <Ficha pre="pdye" disposicion="horizontal" x={0} y={326} w={290} h={62} icono="persona" titulo={d.manual.t} sub={d.manual.s} iman="amarillo" imanX={0.9} tamIcono={26} tamTitulo={16} tamSub={12.5} />
+  </svg>
+</Pizarra>

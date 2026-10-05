@@ -104,6 +104,19 @@ dos puntos).
 
 ## Antes de enseñar
 
+- **Claridad literal (§7 del árbitro, 5 oct 2026) mientras se escribe, no
+  después.** Cada frase y cada título pasan los tres tests: se entiende a la
+  primera, dice quién hace qué, no hay versión más literal. Sin metáforas
+  con versión llana, sin remates que no digan el mecanismo, sin títulos
+  ingeniosos, sin términos inventados sin definir, sin «eso» sin referente.
+- **Pasada automática con GPT antes de enseñar nada.** Para un post:
+  `node .private/correcciones-gpt.mjs <slug>` (lee el `.md` de
+  `src/content/blog/es/`). Lleva el criterio de corrección del propietario y
+  las reglas de la casa. **Su salida no se aplica sola**: cada propuesta se
+  aplica, se adapta o se descarta con su motivo (el revisor no ve el banco
+  de hechos ni el mapa de palabras clave), y al propietario le llega el
+  borrador ya filtrado. Existe para que él no tenga que hacer esa pasada a
+  mano en ChatGPT.
 - **Releer la sección RENDERIZADA entera, no el diff.** Ahí viven los
   vecinos rotos: el intro que anuncia cuatro sobre una lista de cinco, el
   subtítulo con la definición vieja. Un volcado a texto de la página local

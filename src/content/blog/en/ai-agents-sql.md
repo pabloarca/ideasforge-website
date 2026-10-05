@@ -26,6 +26,8 @@ Specialized systems have been climbing that leaderboard since then, and the best
 
 Does that change our decision? No, because the objection was never aim. An accuracy exam measures whether the query returns the right figure, and it does not measure what the wrong query does. **The query that fails also runs.** With data from several companies in the same warehouse, the price of that failure looks nothing like a badly worded answer.
 
+<div data-pizarra="diezConsultas"></div>
+
 There is also something no accuracy exam measures, security. OWASP, the sector's reference on application security, devotes a whole category of its list for language-model applications to improper output handling, which means passing what the model generates to another system without validating it.
 
 Its textbook example is exactly this one, the generated query that reaches the database with nobody scrutinizing it. **Our closed contract is not a stylistic preference, it is the design answer to that category.**
@@ -35,6 +37,8 @@ Its textbook example is exactly this one, the generated query that reaches the d
 The model understands the question and delivers a JSON contract with a closed schema, the period, the scope, the filters, the metric and the groupings. Nothing else. Deterministic code validates that contract and builds a parameterized query, its columns drawn from a closed list we defined. No identifier is ever interpolated from model text.
 
 The practical difference fits in one sentence. **A contract with five known fields can be validated in full before anything runs. A free-form query cannot.** **The model does what it is good at, understanding the question, and the code does what demands guarantees, touching the data.**
+
+<div data-pizarra="contrato"></div>
 
 ## What that decision buys
 

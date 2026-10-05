@@ -1,0 +1,81 @@
+---
+/*
+  La consulta que falla también se ejecuta. En el post sobre agentes y SQL,
+  sección «¿Y si el modelo ya acierta casi siempre?».
+
+  Diez casillas de consulta: nueve con su visto y una tachada en rojo. Sin
+  porcentaje a propósito, porque el post no da uno: el dibujo solo dice
+  «casi siempre». De la que falla sale una flecha roja al almacén de datos,
+  que tiene datos de varias empresas: también se ejecuta.
+
+  Escritorio 800 × 250, móvil 360 × 330.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA, ROJO } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.diezConsultas;
+const MAL = 6;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+
+/** Una casilla de consulta con su visto o su aspa. */
+const casilla = (x: number, y: number, l: number, mal: boolean) => ({
+  marco: { x, y, l },
+  marca: mal
+    ? `M${x + l * 0.28},${y + l * 0.28} L${x + l * 0.72},${y + l * 0.72} M${x + l * 0.72},${y + l * 0.28} L${x + l * 0.28},${y + l * 0.72}`
+    : `M${x + l * 0.24},${y + l * 0.52} L${x + l * 0.43},${y + l * 0.7} L${x + l * 0.78},${y + l * 0.3}`,
+  color: mal ? ROJO : TINTA,
+});
+const E = Array.from({ length: 10 }, (_, i) => casilla(20 + i * 76, 30, 52, i === MAL));
+const M = Array.from({ length: 10 }, (_, i) => casilla(14 + (i % 5) * 68, 12 + Math.floor(i / 5) * 66, 50, i === MAL));
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 250" aria-hidden="true">
+    <PizarraDefs pre="pdca" />
+    {
+      E.map((c) => (
+        <>
+          <rect x={c.marco.x} y={c.marco.y} width={c.marco.l} height={c.marco.l} rx="6" fill="#fff" stroke={c.color} stroke-width="2.2" />
+          <path d={c.marca} fill="none" stroke={c.color} stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" />
+        </>
+      ))
+    }
+    <Trazo desde={[E[MAL].marco.x + 26, 90]} hasta={[E[MAL].marco.x + 26, 150]} tono="rojo" etiqueta={d.ejecuta} etiquetaEn={[E[MAL].marco.x + 110, 124]} tamEtiqueta={15} />
+    <Ficha pre="pdca" disposicion="horizontal" x={E[MAL].marco.x - 120} y={156} w={292} h={60} icono="erp" titulo={d.almacen.t} sub={d.almacen.s} tono="rojo" iman="rojo" imanX={0.9} tamIcono={26} tamTitulo={16} tamSub={13} />
+    <Nota x={20} y={240} texto={d.nota} tono="gris" tam={14} peso={500} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 330" aria-hidden="true">
+    <PizarraDefs pre="pdce" />
+    {
+      M.map((c) => (
+        <>
+          <rect x={c.marco.x} y={c.marco.y} width={c.marco.l} height={c.marco.l} rx="6" fill="#fff" stroke={c.color} stroke-width="2" />
+          <path d={c.marca} fill="none" stroke={c.color} stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </>
+      ))
+    }
+    <Trazo desde={[M[MAL].marco.x + 25, 132]} hasta={[M[MAL].marco.x + 25, 176]} tono="rojo" etiqueta={d.ejecuta} etiquetaEn={[M[MAL].marco.x + 100, 160]} tamEtiqueta={13} />
+    <Ficha pre="pdce" disposicion="horizontal" x={0} y={182} w={360} h={56} icono="erp" titulo={d.almacen.t} sub={d.almacen.s} tono="rojo" iman="rojo" imanX={0.9} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Nota x={180} y={272} texto={parte(d.nota, 34)} tono="gris" tam={12.5} peso={500} alinea="middle" interlineado={1.2} />
+  </svg>
+</Pizarra>

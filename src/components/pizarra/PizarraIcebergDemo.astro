@@ -1,0 +1,16 @@
+---
+/*
+  El iceberg de icebergDemo. En el post «Mantener viva la IA», sección «Esto tiene nombre desde hace una década».
+  El dibujo es PizarraIceberg; aquí solo se le pasan los textos.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import PizarraIceberg from './PizarraIceberg.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.icebergDemo;
+---
+
+<PizarraIceberg label={d.label} arriba={d.arriba} abajoTitulo={d.abajoTitulo} abajo={d.abajo} />

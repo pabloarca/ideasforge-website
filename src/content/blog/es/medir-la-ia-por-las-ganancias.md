@@ -19,6 +19,8 @@ Cuando un proyecto solo puede justificarse con productividad genérica suele ser
 
 La diferencia se ve en nuestros propios casos. En la inmobiliaria con la que trabajamos, la medida no es *«el equipo va más rápido»*. Son más de tres horas al día que dejaron de gastarse en cribar solicitudes. Cada consulta costaba antes entre cinco y diez minutos de comprobación manual. En la gestora de fincas, la medida es que las facturas dejaron de teclearse. Cifras pequeñas y concretas. Se pueden comprobar y por eso valen.
 
+<div data-pizarra="nubeNumero"></div>
+
 ## El sector entero acaba de medirse con esta métrica
 
 Y el resultado explica por qué insistimos.
@@ -30,6 +32,8 @@ La encuesta global de McKinsey sobre el estado de la IA, publicada unos meses de
 La lectura fácil de esas cifras es que la IA no funciona. No es la nuestra y tampoco es la de los informes.
 
 Lo que los dos describen es adopción masiva sin integración ni medida, pilotos que se quedan en demostración y capacidades construidas sin un resultado que perseguir. Exactamente el proyecto difuso del principio, el que se justifica con productividad genérica porque nadie definió qué debía mover. **El 95 % no dice que la tecnología falle. Dice que sin una ganancia definida no hay manera de demostrar que funcionó.**
+
+<div data-pizarra="informeMit"></div>
 
 El pequeño grupo que sí extrae valor comparte patrón, según ese mismo informe: procesos concretos, integración con los sistemas que ya existen y resultados definidos antes de construir. La métrica incómoda, con otro nombre.
 

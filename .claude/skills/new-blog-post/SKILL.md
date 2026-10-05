@@ -18,9 +18,15 @@ before showing a draft. Since 24 Aug 2026 the
 redactar contract also rules here: this skill only sets up the skeleton
 (frontmatter, files, hero image); the body is drafted in ONE language,
 substance before form, and the mirror is written only after the owner
-approves the original. Section 12 of the arbiter (named concept, experience
-before theory, one reader decision, callback close, sibling links) is a
-toolbox for the form pass, not a checklist.
+approves the original. Section 12 of the arbiter (experience before theory,
+one reader decision, callback close, sibling links) is a toolbox for the
+form pass, not a checklist. Since 5 Oct 2026 the "literal clarity" rules of
+section 7 override it: no coined concept names (the "concept factory" was
+retired), no mirror aphorisms, no metaphors when a literal phrase exists,
+headings that say what the section explains. Before showing the Spanish
+draft, run `node .private/correcciones-gpt.mjs <slug>` and triage each
+proposal (apply, adapt or discard with a reason), as the `redactar` skill
+describes.
 `.private/PENDIENTES.md` (section 9) holds the
 writing queue, with the verified facts backing each piece and the service page
 it supports; prefer those when the user has no specific topic.

@@ -39,6 +39,8 @@ Demos por bueno un prompt perfecto que el modelo nunca ignora. Aun así queda un
 
 Un agente encadena pasos y cada paso puede salir mal. La intuición dice que un sistema que acierta el 95 % de las veces es un sistema fiable. La aritmética dice otra cosa. Para que una tarea de veinte pasos termine bien tienen que salir bien los veinte, así que las probabilidades se multiplican entre sí. Un 95 % de acierto por paso deja la tarea completa en un 36 %. Con diez pasos se queda en casi un 60 %. **La fiabilidad que impresiona en un paso suelto se evapora en cuanto los pasos se encadenan.**
 
+<div data-pizarra="cadenaPasos"></div>
+
 La salida no es abandonar los agentes, es acortarlos. Por eso los nuestros dividen el trabajo en tramos cortos, cada uno verificable por separado, con la posibilidad de deshacer cada tramo y con confirmación de una persona en los momentos delicados. Hay además un detalle que casi nadie cuenta. El coste crece con la longitud, porque cada paso arrastra todo el contexto de los anteriores y las conversaciones largas se encarecen a un ritmo que las demostraciones nunca enseñan.
 
 Aquí está la trampa de las demostraciones, que casi todas tienen menos de cinco pasos. Con cinco pasos y un 95 % de acierto, el conjunto sale bien tres de cada cuatro veces y el vídeo se graba a la segunda toma. Los procesos reales de tu empresa rara vez caben en cinco pasos.
@@ -64,6 +66,8 @@ Por eso la inyección de instrucciones encabeza por segunda edición consecutiva
 Piensa en lo que eso significa para la arquitectura que tengas montada. **Si la puerta de entrada no se puede cerrar del todo, la única defensa seria es reducir lo que hay detrás de la puerta.** No consiste en pulir lo que se le dice al modelo, consiste en recortar lo que el modelo puede hacer cuando lo engañen.
 
 Ahora vuelve a la arquitectura agéntica típica y cuenta ingredientes. El agente tiene acceso a datos privados. Lee texto que viene de fuera. Y dispone de herramientas para actuar sobre tus sistemas. Cada uno por separado es manejable. Juntos abren la puerta a que un texto malicioso acabe moviendo datos que no debía, que es exactamente el riesgo que encabeza la lista de OWASP. Los dos primeros suelen ser la razón de que el sistema exista. El tercero es el que hay que recortar.
+
+<div data-pizarra="tresIngredientes"></div>
 
 El caso extremo es el montaje donde el modelo se enchufa directamente a la base de datos con un conector que le deja escribir él mismo las consultas (MCP). Desde ese momento puede escribir cualquier consulta que el lenguaje permita y lo único que se lo impide es una frase en su prompt, del tipo *«no consultes la tabla de nóminas»*. Ya hemos visto de qué familia es esa frase. Es una petición educada.
 
@@ -115,11 +119,13 @@ Fíjate en que los dos criterios van juntos. Estructura desconocida y coste del 
 
 **Nuestra regla es que la autonomía se gana.** Todo empieza como un flujo orquestado por código y el modelo recibe margen solo en los tramos donde lo necesita, con el resultado medido antes y después de cada ampliación. Lo que no hacemos es empezar por la autonomía y añadir control cuando algo se rompe, porque para entonces el sistema ya está delante de tus usuarios y el control llega tarde.
 
+<div data-pizarra="escalera"></div>
+
 ## Tres preguntas para la próxima reunión
 
 Si estás evaluando comprar un agente, del proveedor que sea, **hay tres preguntas que separan las arquitecturas en dos montones.**
 
-Primera, *¿dónde viven las reglas que el sistema no puede saltarse?* Si la respuesta menciona el prompt, ya sabes en qué montón estás. Segunda, *¿qué pasa exactamente si el modelo ignora una instrucción?* La respuesta buena describe un mecanismo que lo para. La mala te asegura que eso no ocurre. Tercera, *¿qué queda registrado de cada decisión?* Si la respuesta es la conversación entera y nada más, no habrá forma de explicar un fallo cuando llegue, ni de demostrar que se ha corregido.
+Primera, *¿dónde viven las reglas que el sistema no puede saltarse?* Si la respuesta menciona el prompt, ya sabes en qué montón estás. Segunda, *¿qué pasa exactamente si el modelo ignora una instrucción?* La respuesta buena describe un mecanismo que lo para. La mala te asegura que eso no ocurre. Tercera, *¿qué queda registrado de cada decisión?* Si la respuesta es la conversación entera y nada más, no habrá forma de explicar un fallo cuando llegue ni de demostrar que se ha corregido.
 
 **Ninguna de las tres exige saber programar.** Las tres se contestan en un minuto cuando la arquitectura está bien hecha.
 

@@ -1,0 +1,53 @@
+---
+/*
+  Los dos «no». En conocimiento corporativo, sección «Los dos tipos de
+  respuesta que el asistente debe distinguir».
+
+  A la izquierda, el «no» de fuera del producto: al instante, con texto de
+  catálogo y sin lanzar una búsqueda. A la derecha, el de lo que no está
+  documentado: busca de verdad, lo deja escrito y acaba como tarea en la cola
+  del equipo de documentación. Ninguno en rojo: los dos son el sistema
+  haciendo bien su trabajo.
+
+  Escritorio 800 × 216, móvil 360 × 336.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.dosNoes;
+const DERECHA = [
+  { c: d.busca, icono: 'lupa', iman: 'verde' },
+  { c: d.falta, icono: 'registro', iman: 'amarillo' },
+  { c: d.cola, icono: 'ticket', iman: 'negro' },
+] as const;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 216" aria-hidden="true">
+    <PizarraDefs pre="pdna" />
+    <Nota x={0} y={20} texto={d.titulo} tam={17} peso={700} />
+    <Ficha pre="pdna" disposicion="horizontal" x={0} y={50} w={290} h={58} icono="puerta" titulo={d.fuera.t} sub={d.fuera.s} iman="gris" imanX={0.9} giro={-1} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Nota x={0} y={136} texto={d.fueraNota} tono="gris" tam={13.5} peso={600} />
+    <path d="M318,40 L318,206" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+    {[0, 1].map((i) => <Trazo desde={[380, 78 + i * 66]} hasta={[380, 94 + i * 66]} />)}
+    {DERECHA.map((f, i) => <Ficha pre="pdna" disposicion="horizontal" x={346} y={30 + i * 66} w={360} h={46} icono={f.icono} titulo={f.c.t} sub={f.c.s} iman={f.iman} imanX={0.9} tamIcono={22} tamTitulo={15} tamSub={12.5} />)}
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 336" aria-hidden="true">
+    <PizarraDefs pre="pdne" />
+    <Nota x={0} y={18} texto={d.titulo} tam={15} peso={700} />
+    <Ficha pre="pdne" disposicion="horizontal" x={0} y={32} w={360} h={54} icono="puerta" titulo={d.fuera.t} sub={d.fuera.s} iman="gris" imanX={0.92} tamIcono={22} tamTitulo={14.5} tamSub={12.5} />
+    <Nota x={0} y={108} texto={d.fueraNota} tono="gris" tam={12.5} peso={600} />
+    <path d="M0,124 L360,124" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+    {[0, 1].map((i) => <Trazo desde={[40, 186 + i * 70]} hasta={[40, 206 + i * 70]} />)}
+    {DERECHA.map((f, i) => <Ficha pre="pdne" disposicion="horizontal" x={0} y={138 + i * 70} w={360} h={46} icono={f.icono} titulo={f.c.t} sub={f.c.s} iman={f.iman} imanX={0.92} tamIcono={22} tamTitulo={14.5} tamSub={12.5} />)}
+  </svg>
+</Pizarra>

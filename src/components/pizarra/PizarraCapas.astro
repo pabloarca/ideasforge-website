@@ -1,0 +1,53 @@
+---
+/*
+  Comprar las piezas y construir la capa. En «A medida, de catálogo o las dos
+  cosas» de la guía, debajo de «Compra las piezas estándar».
+
+  Dos filas. Abajo, en gris, lo que se compra: tickets, calendarios y
+  contabilidad. Encima, la capa que falta, la que se construye a medida y
+  conecta esas piezas, con una nota en azul: ahí viven los agentes.
+
+  Escritorio 800 × 280, móvil 360 × 272.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.capas;
+const ICONOS = ['ticket', 'calendario', 'dinero'] as const;
+const X = [160, 380, 600];
+const MX = [0, 124, 248];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 280" aria-hidden="true">
+    <PizarraDefs pre="pcpa" />
+
+    <Nota x={0} y={78} texto={d.construye} tam={18} peso={700} />
+    <Nota x={0} y={226} texto={d.compra} tono="gris" tam={18} peso={700} />
+    <Nota x={790} y={24} texto={d.agentes} tono="azul" tam={15} alinea="end" giro={-1.5} />
+    {X.map((x) => <Trazo desde={[x + 95, 114]} hasta={[x + 95, 174]} />)}
+
+    <Ficha pre="pcpa" disposicion="horizontal" x={160} y={36} w={630} h={72} icono="flujo" titulo={d.capa.t} sub={d.capa.s} iman="azul" imanX={0.08} tamIcono={30} tamTitulo={19} tamSub={14.5} />
+    {d.piezas.map((p, i) => <Ficha pre="pcpa" x={X[i]} y={180} w={190} h={80} icono={ICONOS[i]} titulo={p} tono="gris" iman="gris" imanX={0.82} giro={[-1.5, 1, -1][i]} tamIcono={28} tamTitulo={16} />)}
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 272" aria-hidden="true">
+    <PizarraDefs pre="pcpe" />
+
+    <Nota x={0} y={16} texto={d.construye} tam={14} peso={700} />
+    <Nota x={360} y={16} texto={d.agentes} tono="azul" tam={12.5} alinea="end" />
+    <Nota x={0} y={264} texto={d.compra} tono="gris" tam={14} peso={700} />
+    {MX.map((x) => <Trazo desde={[x + 56, 98]} hasta={[x + 56, 154]} />)}
+
+    <Ficha pre="pcpe" disposicion="horizontal" x={0} y={28} w={360} h={64} icono="flujo" titulo={d.capa.t} sub={d.capa.s} iman="azul" imanX={0.08} tamIcono={24} tamTitulo={16} tamSub={12.5} />
+    {d.piezas.map((p, i) => <Ficha pre="pcpe" x={MX[i]} y={160} w={112} h={80} icono={ICONOS[i]} titulo={p} tono="gris" iman="gris" imanX={0.8} tamIcono={24} tamTitulo={13.5} />)}
+  </svg>
+</Pizarra>

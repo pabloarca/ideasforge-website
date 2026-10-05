@@ -1,0 +1,85 @@
+---
+/*
+  Causa estable o síntoma estable. En el post «La firma del síntoma»,
+  sección «No es la base de errores conocidos de toda la vida».
+
+  Dos dibujos. A la izquierda, el software clásico: una causa estable de la
+  que salen síntomas distintos, por eso se archiva por causa. A la derecha,
+  con un modelo dentro: causas distintas que acaban en el mismo «no
+  responde nada», por eso el catálogo empieza por el síntoma.
+
+  Escritorio 800 × 290, móvil 360 × 560.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.causaSintoma;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 290" aria-hidden="true">
+    <PizarraDefs pre="pcsa" />
+    <path d="M400,10 L400,280" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+
+    <Nota x={0} y={24} texto={d.clasico.titulo} tam={19} peso={700} />
+    <Nota x={0} y={45} texto={d.clasico.sub} tono="gris" tam={15} peso={500} />
+    <Ficha pre="pcsa" disposicion="horizontal" x={0} y={130} w={196} h={50} icono="corrige" titulo={d.clasico.causa} iman="negro" imanX={0.9} tamIcono={22} tamTitulo={14} />
+    {
+      d.clasico.sintomas.map((s, i) => (
+        <>
+          <Trazo desde={[202, 155]} hasta={[236, 92 + i * 64]} curva={i === 0 ? -8 : i === 2 ? 8 : 0} />
+          <Ficha pre="pcsa" disposicion="horizontal" x={242} y={70 + i * 64} w={146} h={44} icono="error" titulo={s} tono="gris" iman="gris" imanX={0.9} tamIcono={20} tamTitulo={14} />
+        </>
+      ))
+    }
+
+    <Nota x={420} y={24} texto={d.nodet.titulo} tam={19} peso={700} />
+    <Nota x={420} y={45} texto={d.nodet.sub} tono="gris" tam={15} peso={500} />
+    {
+      d.nodet.causas.map((c, i) => (
+        <>
+          <Ficha pre="pcsa" disposicion="horizontal" x={420} y={86 + i * 96} w={196} h={48} icono={i ? 'publica' : 'conexion'} titulo={c} tono="gris" iman="gris" imanX={0.9} tamIcono={20} tamTitulo={13.5} />
+          <Trazo desde={[622, 110 + i * 96]} hasta={[640, 156]} curva={i ? -8 : 8} />
+        </>
+      ))
+    }
+    <Ficha pre="pcsa" x={644} y={110} w={156} h={92} icono="error" titulo={d.nodet.sintoma} iman="rojo" giro={1.5} tamIcono={28} tamTitulo={14} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 560" aria-hidden="true">
+    <PizarraDefs pre="pcse" />
+
+    <Nota x={0} y={18} texto={d.clasico.titulo} tam={15} peso={700} />
+    <Nota x={0} y={36} texto={d.clasico.sub} tono="gris" tam={12.5} peso={500} />
+    <Ficha pre="pcse" disposicion="horizontal" x={0} y={110} w={168} h={46} icono="corrige" titulo={d.clasico.causa} iman="negro" imanX={0.88} tamIcono={18} tamTitulo={12.5} />
+    {
+      d.clasico.sintomas.map((s, i) => (
+        <>
+          <Trazo desde={[174, 133]} hasta={[200, 74 + i * 58]} curva={i === 0 ? -6 : i === 2 ? 6 : 0} />
+          <Ficha pre="pcse" disposicion="horizontal" x={206} y={52 + i * 58} w={154} h={42} icono="error" titulo={s} tono="gris" iman="gris" imanX={0.9} tamIcono={18} tamTitulo={13} />
+        </>
+      ))
+    }
+
+    <path d="M0,240 L360,240" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+    <Nota x={0} y={266} texto={d.nodet.titulo} tam={15} peso={700} />
+    <Nota x={0} y={284} texto={d.nodet.sub} tono="gris" tam={12.5} peso={500} />
+    {
+      d.nodet.causas.map((c, i) => (
+        <>
+          <Ficha pre="pcse" disposicion="horizontal" x={i * 184} y={300} w={176} h={46} icono={i ? 'publica' : 'conexion'} titulo={c} tono="gris" iman="gris" imanX={0.9} tamIcono={18} tamTitulo={12} />
+          <Trazo desde={[i * 184 + 88, 352]} hasta={[180, 412]} curva={i ? 6 : -6} />
+        </>
+      ))
+    }
+    <Ficha pre="pcse" disposicion="horizontal" x={70} y={418} w={220} h={56} icono="error" titulo={d.nodet.sintoma} iman="rojo" imanX={0.88} tamIcono={24} tamTitulo={14} />
+  </svg>
+</Pizarra>

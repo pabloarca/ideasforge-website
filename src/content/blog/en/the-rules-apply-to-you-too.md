@@ -34,6 +34,8 @@ What it actually delayed were the high-risk obligations: Annex III moves to 2 De
 
 **What it did not delay, which is the part aimed at you**, are the prohibited practices, the Article 4 literacy duty and the Article 50 transparency duty. The general-purpose model rules were not delayed either, but those sit with whoever puts the models on the market, not with you.
 
+<div data-pizarra="aplazamiento"></div>
+
 Put another way, the part affecting few was pushed back and the part affecting everyone was left exactly where it was. Anyone who filed the subject away in July filed away the opposite of what they thought.
 
 ## And if you do land in high risk

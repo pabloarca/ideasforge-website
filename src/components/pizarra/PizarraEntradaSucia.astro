@@ -1,0 +1,77 @@
+---
+/*
+  Entrada desordenada, salida en campos. En desarrollo de agentes, sección
+  «Lo que antes era difícil de automatizar».
+
+  Los tres pedidos del párrafo (un PDF, un correo y «lo del mes pasado»)
+  entran torcidos al modelo (azul), que los interpreta y devuelve el pedido
+  en los campos fijos que espera el resto del sistema. Los valores van
+  dibujados como trazos de rotulador: lo que importa es la forma, no el dato.
+
+  Escritorio 800 × 222, móvil 360 × 516.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.entradaSucia;
+const ICONOS = ['factura', 'correo', 'chat'] as const;
+const IMANES = ['amarillo', 'verde', 'negro'] as const;
+const GIROS = [-1.5, 1, -1];
+// Largo del trazo que hace de valor en cada campo.
+const LARGOS = [150, 120, 50, 104];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 222" aria-hidden="true">
+    <PizarraDefs pre="pesa" />
+    {d.entradas.map((_, i) => <Trazo desde={[222, 40 + i * 68]} hasta={[286, 110]} curva={i === 0 ? 8 : i === 2 ? -8 : 0} />)}
+    {d.entradas.map((e, i) => <Ficha pre="pesa" disposicion="horizontal" x={0} y={14 + i * 68} w={214} h={52} icono={ICONOS[i]} titulo={e.t} sub={e.s} iman={IMANES[i]} imanX={0.9} giro={GIROS[i]} tamIcono={22} tamTitulo={15} tamSub={12.5} />)}
+    <Ficha pre="pesa" x={292} y={62} w={130} h={96} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" tamIcono={30} tamTitulo={16} tamSub={13} />
+    <Trazo desde={[428, 110]} hasta={[468, 110]} tono="azul" />
+
+    <Nota x={476} y={34} texto={d.camposTitulo} tam={15} peso={700} />
+    <rect x="476" y="46" width="324" height="144" rx="6" fill="#fff" stroke={TINTA} stroke-width="2" />
+    {
+      d.campos.map((c, k) => (
+        <>
+          {k > 0 && <path d={`M476,${46 + k * 36} L800,${46 + k * 36}`} stroke="#d3d7dd" stroke-width="1.2" />}
+          <Nota x={490} y={69 + k * 36} texto={c} tono="gris" tam={14} peso={600} />
+          <path d={`M604,${66 + k * 36} q${LARGOS[k] / 4},-4 ${LARGOS[k] / 2},0 t${LARGOS[k] / 2},0`} fill="none" stroke={TINTA} stroke-width="2.4" stroke-linecap="round" />
+        </>
+      ))
+    }
+    <path d="M592,46 L592,190" stroke="#d3d7dd" stroke-width="1.2" />
+    <Nota x={800} y={214} texto={d.nota} tono="gris" tam={13.5} peso={600} alinea="end" />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 516" aria-hidden="true">
+    <PizarraDefs pre="pese" />
+    {d.entradas.map((e, i) => <Ficha pre="pese" disposicion="horizontal" x={i * 40} y={8 + i * 58} w={270} h={50} icono={ICONOS[i]} titulo={e.t} sub={e.s} iman={IMANES[i]} imanX={0.9} giro={GIROS[i] * 0.7} tamIcono={22} tamTitulo={14.5} tamSub={12.5} />)}
+    <Trazo desde={[180, 184]} hasta={[180, 210]} />
+    <Ficha pre="pese" disposicion="horizontal" x={80} y={214} w={200} h={54} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.88} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Trazo desde={[180, 274]} hasta={[180, 300]} tono="azul" />
+
+    <Nota x={0} y={322} texto={d.camposTitulo} tam={14} peso={700} />
+    <rect x="0" y="332" width="360" height="152" rx="6" fill="#fff" stroke={TINTA} stroke-width="1.8" />
+    {
+      d.campos.map((c, k) => (
+        <>
+          {k > 0 && <path d={`M0,${332 + k * 38} L360,${332 + k * 38}`} stroke="#d3d7dd" stroke-width="1.2" />}
+          <Nota x={14} y={356 + k * 38} texto={c} tono="gris" tam={13} peso={600} />
+          <path d={`M140,${352 + k * 38} q${LARGOS[k] / 4},-4 ${LARGOS[k] / 2},0 t${LARGOS[k] / 2},0`} fill="none" stroke={TINTA} stroke-width="2.2" stroke-linecap="round" />
+        </>
+      ))
+    }
+    <path d="M126,332 L126,484" stroke="#d3d7dd" stroke-width="1.2" />
+    <Nota x={360} y={506} texto={d.nota} tono="gris" tam={12.5} peso={600} alinea="end" />
+  </svg>
+</Pizarra>

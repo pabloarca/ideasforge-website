@@ -1,0 +1,56 @@
+---
+/*
+  Un orquestador y media docena de agentes. En conocimiento corporativo,
+  sección «Media docena de agentes, un solo interlocutor».
+
+  La pregunta llega al orquestador (azul, interpreta), que la envía al agente
+  de su dominio. Los seis agentes van dentro de un marco discontinuo, porque
+  quien pregunta no los ve: recibe una sola respuesta. Los nombres de los
+  dominios son genéricos a propósito. Los reales del caso industrial
+  orientan al sector y el banco prohíbe publicarlos.
+
+  Escritorio 800 × 216, móvil 360 × 430.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.orquestador;
+const ICONOS = ['manual', 'error', 'flujo', 'metricas', 'alarma', 'pregunta'] as const;
+const IMANES = ['amarillo', 'verde', 'negro', 'gris', 'amarillo', 'verde'] as const;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 216" aria-hidden="true">
+    <PizarraDefs pre="pora" />
+    <Ficha pre="pora" disposicion="horizontal" x={0} y={78} w={150} h={56} icono="chat" titulo={d.pregunta.t} sub={d.pregunta.s} iman="verde" imanX={0.88} giro={-1.5} tamIcono={20} tamTitulo={14} tamSub={11.5} />
+    <Trazo desde={[154, 106]} hasta={[172, 106]} />
+    <Ficha pre="pora" x={176} y={60} w={146} h={92} icono="ia" titulo={d.orquestador.t} sub={d.orquestador.s} tono="azul" iman="azul" tamIcono={28} tamTitulo={14.5} tamSub={11.5} />
+    <Trazo desde={[326, 106]} hasta={[340, 106]} tono="azul" />
+    <rect x="344" y="22" width="292" height="164" rx="10" fill="none" stroke="#9aa1ad" stroke-width="1.6" stroke-dasharray="6 5" />
+    {d.agentes.map((a, i) => <Ficha pre="pora" disposicion="horizontal" x={354 + (i % 2) * 142} y={38 + Math.floor(i / 2) * 48} w={138} h={36} icono={ICONOS[i]} titulo={a} iman={IMANES[i]} imanX={0.9} tamIcono={15} tamTitulo={12.5} />)}
+    <Nota x={490} y={208} texto={d.nota} tono="gris" tam={13} peso={600} alinea="middle" />
+    <Trazo desde={[640, 106]} hasta={[656, 106]} />
+    <Ficha pre="pora" x={660} y={60} w={140} h={92} icono="hecho" titulo={d.respuesta.t} sub={d.respuesta.s} iman="negro" giro={1.5} tamIcono={26} tamTitulo={14.5} tamSub={11.5} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 430" aria-hidden="true">
+    <PizarraDefs pre="pore" />
+    <Ficha pre="pore" disposicion="horizontal" x={40} y={8} w={280} h={50} icono="chat" titulo={d.pregunta.t} sub={d.pregunta.s} iman="verde" imanX={0.9} tamIcono={22} tamTitulo={14.5} tamSub={12.5} />
+    <Trazo desde={[180, 62]} hasta={[180, 82]} />
+    <Ficha pre="pore" disposicion="horizontal" x={60} y={86} w={240} h={54} icono="ia" titulo={d.orquestador.t} sub={d.orquestador.s} tono="azul" iman="azul" imanX={0.88} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Trazo desde={[180, 144]} hasta={[180, 164]} tono="azul" />
+    <rect x="1" y="168" width="358" height="160" rx="10" fill="none" stroke="#9aa1ad" stroke-width="1.5" stroke-dasharray="6 5" />
+    {d.agentes.map((a, i) => <Ficha pre="pore" disposicion="horizontal" x={12 + (i % 2) * 172} y={182 + Math.floor(i / 2) * 48} w={164} h={36} icono={ICONOS[i]} titulo={a} iman={IMANES[i]} imanX={0.9} tamIcono={16} tamTitulo={13.5} />)}
+    <Trazo desde={[180, 332]} hasta={[180, 352]} />
+    <Ficha pre="pore" disposicion="horizontal" x={60} y={356} w={240} h={52} icono="hecho" titulo={d.respuesta.t} sub={d.respuesta.s} iman="negro" imanX={0.88} tamIcono={22} tamTitulo={15} tamSub={12.5} />
+    <Nota x={180} y={426} texto={d.nota} tono="gris" tam={12.5} peso={600} alinea="middle" />
+  </svg>
+</Pizarra>

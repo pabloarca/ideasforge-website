@@ -1,0 +1,40 @@
+---
+/*
+  Los ocho dominios del anexo III. En «El anexo III en llano, los ocho
+  dominios» de la guía del reglamento, debajo de su párrafo de entrada.
+
+  Ocho fichas con un icono y dos palabras cada una, para verlos de un
+  vistazo antes de leer la lista. Cuatro por fila en escritorio y dos en el
+  móvil.
+
+  Escritorio 800 × 272, móvil 360 × 446.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.anexoIII;
+const ICONOS = ['huella', 'energia', 'escuela', 'trabajo', 'banco', 'policia', 'mundo', 'balanza'] as const;
+const IMANES = ['rojo', 'amarillo', 'verde', 'negro', 'gris', 'rojo', 'amarillo', 'verde'] as const;
+const X = [0, 205, 410, 615];
+const Y = [20, 152];
+const MX = [0, 188];
+const MY = [12, 122, 232, 342];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 272" aria-hidden="true">
+    <PizarraDefs pre="paxa" />
+    {d.dominios.map((c, i) => <Ficha pre="paxa" x={X[i % 4]} y={Y[Math.floor(i / 4)]} w={184} h={108} icono={ICONOS[i]} titulo={c.t} sub={c.s} iman={IMANES[i]} giro={[-1.5, 1, -1, 1.5, 1, -1.5, 1.5, -1][i]} tamIcono={30} tamTitulo={15} tamSub={12.5} />)}
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 446" aria-hidden="true">
+    <PizarraDefs pre="paxe" />
+    {d.dominios.map((c, i) => <Ficha pre="paxe" x={MX[i % 2]} y={MY[Math.floor(i / 2)]} w={172} h={96} icono={ICONOS[i]} titulo={c.t} sub={c.s} iman={IMANES[i]} tamIcono={26} tamTitulo={13.5} tamSub={12} />)}
+  </svg>
+</Pizarra>

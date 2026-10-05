@@ -25,6 +25,8 @@ Desde entonces los sistemas especializados han ido escalando esa clasificación 
 
 ¿Cambia eso nuestra decisión? No, porque la objeción nunca fue el acierto. Un examen de acierto mide si la consulta devuelve la cifra correcta y no mide qué hace la consulta equivocada. **La consulta que falla también se ejecuta.** Con datos de varias empresas en el mismo almacén, el precio de ese fallo no se parece en nada al de una respuesta mal redactada.
 
+<div data-pizarra="diezConsultas"></div>
+
 Hay además algo que ningún examen de acierto mide, la seguridad. OWASP, la referencia del sector en seguridad de aplicaciones, dedica una categoría entera de su lista para aplicaciones con modelos de lenguaje al manejo indebido de la salida, que consiste en pasar lo que el modelo genera a otro sistema sin validarlo.
 
 Su ejemplo de manual es exactamente este, la consulta generada que llega a la base de datos sin que nadie la revise. **Nuestro contrato cerrado no es una manía de la casa, es la respuesta de diseño a esa categoría.**
@@ -34,6 +36,8 @@ Su ejemplo de manual es exactamente este, la consulta generada que llega a la ba
 El modelo entiende la pregunta y rellena un formulario de campos fijos, lo que llamamos un contrato, con el periodo, el ámbito, los filtros, la métrica y las agrupaciones. Nada más. Un código determinista, que ante el mismo contrato produce siempre la misma consulta, lo valida y construye la consulta, con los valores pasados como parámetros y los nombres de columna sacados de una lista cerrada que definimos nosotros. Ningún nombre de tabla ni de columna se arma con texto que haya escrito el modelo.
 
 La diferencia práctica cabe en una frase. **Un contrato con cinco campos conocidos se puede validar entero antes de ejecutar nada. Una consulta libre, no.** **El modelo hace lo que sabe hacer, entender la pregunta. El código hace lo que exige garantías, tocar los datos.**
+
+<div data-pizarra="contrato"></div>
 
 ## Lo que esa decisión compra
 

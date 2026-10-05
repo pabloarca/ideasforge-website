@@ -17,6 +17,8 @@ The logic is simple. A language model works with what you give it. If the data i
 
 In one of our documentation assistants, the first test round turned up an uncomfortable finding. Five out of six questions that fell "outside the documentation" were not detected as such. Retrieval always found some similar-looking fragment, because in a large corpus almost any sentence clears the similarity threshold, the minimum resemblance the search requires to call a text relevant.
 
+<div data-pizarra="seisPreguntas"></div>
+
 The classic temptation would have been to ask the model, with more emphasis, to recognize when there was no evidence. The fix came from the data and code layers: listening to the documentation agent's own "no match" verdict, redesigning the dispatcher, the piece that routes each question, so it would accept it, and leaving every relabeling audited. The prompt barely changed.
 
 ## Isolation that stopped depending on remembering
@@ -36,6 +38,8 @@ Our two examples are cascades cut short. The threshold that detected nothing was
 ## What this means if you are buying AI
 
 The quality question to ask a vendor is not *"which model do you use?"* or *"how do you write your prompts?"*. It is *"what will you do with my data so the model works well?"*. That means cleaning catalogs, unifying identifiers, deciding what gets indexed and how it is chunked, defining which fields the model can see and which are never exposed. It is less glamorous than a clever prompt, and it is where you decide whether the system holds up.
+
+<div data-pizarra="icebergPrompt"></div>
 
 Our internal motto sums it up: **judgment lives in the code, interpretation of language lives in the model, and knowledge lives in the data.** Each piece where it belongs.
 

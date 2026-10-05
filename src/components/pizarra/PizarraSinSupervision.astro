@@ -1,0 +1,68 @@
+---
+/*
+  Qué puede hacer el agente sin supervisión. En desarrollo de agentes,
+  sección del mismo nombre.
+
+  Un círculo a rotulador con los casos validados dentro (los pedidos
+  nacionales del ejemplo y los acuses de recibo): ahí el agente actúa sin
+  revisión. Fuera, el pedido con aduanas del párrafo, que todavía no está
+  probado: el sistema se detiene y lo pasa a una persona con el motivo.
+
+  Escritorio 800 × 308, móvil 360 × 548.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import Circulo from './Circulo.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.sinSupervision;
+const ICONOS = ['factura', 'correo'] as const;
+const IMANES = ['verde', 'amarillo'] as const;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 308" aria-hidden="true">
+    <PizarraDefs pre="pssa" />
+    <Circulo cx={190} cy={146} r={128} color={TINTA} velo={0.04} />
+    <Nota x={190} y={66} texto={d.dentroTitulo} tam={16} peso={700} alinea="middle" />
+    {d.dentro.map((t, i) => <Ficha pre="pssa" disposicion="horizontal" x={90} y={88 + i * 54} w={200} h={42} icono={ICONOS[i]} titulo={t} iman={IMANES[i]} imanX={0.9} tamIcono={20} tamTitulo={14.5} />)}
+    <Nota x={190} y={222} texto={d.dentroNota} tam={14} peso={600} alinea="middle" />
+
+    <Ficha pre="pssa" disposicion="horizontal" x={380} y={34} w={240} h={56} icono="pregunta" titulo={d.fuera.t} sub={d.fuera.s} tono="gris" iman="gris" imanX={0.9} giro={1.5} tamIcono={22} tamTitulo={15} tamSub={12.5} />
+    <Trazo desde={[520, 98]} hasta={[600, 168]} curva={-10} etiqueta={d.fueraEtiqueta} etiquetaEn={[612, 128]} tamEtiqueta={14} />
+    <Ficha pre="pssa" disposicion="horizontal" x={540} y={174} w={260} h={60} icono="persona" titulo={d.persona.t} sub={d.persona.s} iman="amarillo" imanX={0.9} tamIcono={24} tamTitulo={16} tamSub={12.5} />
+    <Nota x={0} y={298} texto={d.nota} tono="gris" tam={13.5} peso={600} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 548" aria-hidden="true">
+    <PizarraDefs pre="psse" />
+    <Circulo cx={180} cy={148} r={136} color={TINTA} velo={0.04} />
+    <Nota x={180} y={62} texto={d.dentroTitulo} tam={14.5} peso={700} alinea="middle" />
+    {d.dentro.map((t, i) => <Ficha pre="psse" disposicion="horizontal" x={80} y={82 + i * 52} w={200} h={40} icono={ICONOS[i]} titulo={t} iman={IMANES[i]} imanX={0.9} tamIcono={18} tamTitulo={14} />)}
+    <Nota x={180} y={214} texto={d.dentroNota} tam={13} peso={600} alinea="middle" />
+
+    <Ficha pre="psse" disposicion="horizontal" x={50} y={312} w={260} h={54} icono="pregunta" titulo={d.fuera.t} sub={d.fuera.s} tono="gris" iman="gris" imanX={0.9} tamIcono={22} tamTitulo={14.5} tamSub={12.5} />
+    <Trazo desde={[180, 372]} hasta={[180, 412]} etiqueta={d.fueraEtiqueta} etiquetaEn={[240, 398]} tamEtiqueta={13} />
+    <Ficha pre="psse" disposicion="horizontal" x={50} y={416} w={260} h={56} icono="persona" titulo={d.persona.t} sub={d.persona.s} iman="amarillo" imanX={0.9} tamIcono={22} tamTitulo={15} tamSub={12.5} />
+    <Nota x={180} y={504} texto={parte(d.nota, 44)} tono="gris" tam={12.5} peso={600} alinea="middle" interlineado={1.25} />
+  </svg>
+</Pizarra>

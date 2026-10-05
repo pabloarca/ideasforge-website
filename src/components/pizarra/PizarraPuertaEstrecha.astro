@@ -1,0 +1,67 @@
+---
+/*
+  La salida estrecha del artículo 6.3. En «La puerta de salida y la trampa
+  que lleva dentro» de la guía del reglamento, debajo de «Y el perfilado
+  cierra la puerta de golpe».
+
+  Tres fichas, las tres maneras de salir del alto riesgo, llevan a una
+  puerta estrecha y alta. Al otro lado, en rojo, el perfilado de personas,
+  con una flecha que la cierra: si perfila, es siempre alto riesgo.
+
+  Escritorio 800 × 290, móvil 360 × 458.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.puertaEstrecha;
+const ICONOS = ['flujo', 'persona', 'lupa'] as const;
+const IMANES = ['amarillo', 'verde', 'negro'] as const;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 290" aria-hidden="true">
+    <PizarraDefs pre="ppea" />
+
+    <Nota x={0} y={24} texto={d.condicion} tam={15} peso={700} />
+    {
+      d.salidas.map((s, i) => (
+        <>
+          <Ficha pre="ppea" disposicion="horizontal" x={0} y={40 + i * 66} w={320} h={52} icono={ICONOS[i]} titulo={s.t} sub={s.s} iman={IMANES[i]} imanX={0.92} tamIcono={24} tamTitulo={15} tamSub={13} />
+          <Trazo desde={[326, 66 + i * 66]} hasta={[404, 140]} curva={i === 0 ? -10 : i === 2 ? 10 : 0} />
+        </>
+      ))
+    }
+    <rect x="410" y="30" width="60" height="220" rx="5" fill="#fff" stroke={TINTA} stroke-width="2.6" />
+    <rect x="420" y="44" width="40" height="88" rx="2" fill="none" stroke="#c9ced6" stroke-width="1.4" />
+    <rect x="420" y="148" width="40" height="88" rx="2" fill="none" stroke="#c9ced6" stroke-width="1.4" />
+    <circle cx="460" cy="140" r="4" fill={TINTA} />
+    <Nota x={440} y={276} texto={d.puerta} tam={15} peso={700} alinea="middle" />
+
+    <Trazo desde={[556, 140]} hasta={[478, 140]} tono="rojo" etiqueta={d.cierra} etiquetaEn={[517, 126]} tamEtiqueta={14} />
+    <Ficha pre="ppea" disposicion="horizontal" x={562} y={108} w={232} h={64} icono="identidad" titulo={d.perfilado.t} sub={d.perfilado.s} tono="rojo" iman="rojo" imanX={0.9} giro={1.5} tamIcono={26} tamTitulo={16} tamSub={13} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 458" aria-hidden="true">
+    <PizarraDefs pre="ppee" />
+
+    <Nota x={0} y={18} texto={d.condicion} tam={13.5} peso={700} />
+    {d.salidas.map((s, i) => <Ficha pre="ppee" disposicion="horizontal" x={0} y={28 + i * 58} w={360} h={46} icono={ICONOS[i]} titulo={s.t} sub={s.s} iman={IMANES[i]} imanX={0.94} tamIcono={22} tamTitulo={14} tamSub={12} />)}
+    <Trazo desde={[180, 198]} hasta={[180, 218]} />
+    <rect x="152" y="222" width="56" height="124" rx="5" fill="#fff" stroke={TINTA} stroke-width="2.4" />
+    <rect x="161" y="232" width="38" height="48" rx="2" fill="none" stroke="#c9ced6" stroke-width="1.2" />
+    <rect x="161" y="290" width="38" height="48" rx="2" fill="none" stroke="#c9ced6" stroke-width="1.2" />
+    <circle cx="199" cy="284" r="3.5" fill={TINTA} />
+    <Nota x={140} y={290} texto={d.puerta} tam={13} peso={700} alinea="end" />
+    <Trazo desde={[180, 392]} hasta={[180, 352]} tono="rojo" etiqueta={d.cierra} etiquetaEn={[218, 376]} tamEtiqueta={12.5} />
+    <Ficha pre="ppee" disposicion="horizontal" x={60} y={396} w={240} h={54} icono="identidad" titulo={d.perfilado.t} sub={d.perfilado.s} tono="rojo" iman="rojo" imanX={0.9} tamIcono={22} tamTitulo={14} tamSub={12.5} />
+  </svg>
+</Pizarra>

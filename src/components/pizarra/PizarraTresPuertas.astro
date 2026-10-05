@@ -1,0 +1,94 @@
+---
+/*
+  «ChatGPT» son tres puertas. En «Entonces, ¿usar ChatGPT cumple el RGPD?»
+  de la guía de RGPD, debajo de «La pregunta útil es en cuál de las tres
+  entran tus datos y bajo qué contrato».
+
+  Tres puertas dibujadas, iguales y con el mismo icono genérico de chat,
+  porque desde fuera parecen el mismo producto: la pestaña gratuita, la
+  suscripción de empresa y la API con contrato, que es la nuestra. Debajo, la
+  pregunta que importa.
+
+  Escritorio 800 × 320, móvil 360 × 326.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+import { ICONOS_PIZARRA } from './iconos';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.tresPuertas;
+const chat = ICONOS_PIZARRA.chat;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+
+const X = [150, 400, 650];
+const MX = [62, 180, 298];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 320" aria-hidden="true">
+    <Nota x={X[2]} y={24} texto={d.nuestra} tam={15} peso={600} alinea="middle" giro={-1.5} />
+    {
+      X.map((cx, i) => (
+        <g transform={`rotate(${[-1, 0.8, -0.6][i]} ${cx} 120)`}>
+          <rect x={cx - 65} y={38} width="130" height="172" rx="6" fill="#fff" stroke={TINTA} stroke-width="2.4" />
+          <rect x={cx - 50} y={54} width="100" height="64" rx="3" fill="none" stroke="#c9ced6" stroke-width="1.6" />
+          <rect x={cx - 50} y={132} width="100" height="64" rx="3" fill="none" stroke="#c9ced6" stroke-width="1.6" />
+          <circle cx={cx + 46} cy={128} r="5" fill={TINTA} />
+          <svg x={cx - 17} y={69} width="34" height="34" viewBox={chat.viewBox} aria-hidden="true">
+            <path d={chat.d} fill={TINTA} />
+          </svg>
+        </g>
+      ))
+    }
+    {
+      d.puertas.map((p, i) => (
+        <>
+          <Nota x={X[i]} y={238} texto={p.t} tam={16} peso={700} alinea="middle" />
+          <Nota x={X[i]} y={258} texto={p.s} tono="gris" tam={13.5} peso={500} alinea="middle" />
+        </>
+      ))
+    }
+    <Nota x={400} y={302} texto={d.pregunta} tam={17} peso={700} alinea="middle" />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 326" aria-hidden="true">
+    <Nota x={MX[2]} y={14} texto={parte(d.nuestra, 17)} tam={12} peso={600} alinea="middle" interlineado={1.15} />
+    {
+      MX.map((cx) => (
+        <>
+          <rect x={cx - 46} y={38} width="92" height="124" rx="5" fill="#fff" stroke={TINTA} stroke-width="2.2" />
+          <rect x={cx - 35} y={49} width="70" height="46" rx="3" fill="none" stroke="#c9ced6" stroke-width="1.4" />
+          <rect x={cx - 35} y={105} width="70" height="46" rx="3" fill="none" stroke="#c9ced6" stroke-width="1.4" />
+          <circle cx={cx + 33} cy={100} r="4" fill={TINTA} />
+          <svg x={cx - 13} y={59} width="26" height="26" viewBox={chat.viewBox} aria-hidden="true">
+            <path d={chat.d} fill={TINTA} />
+          </svg>
+        </>
+      ))
+    }
+    {
+      d.puertas.map((p, i) => (
+        <>
+          <Nota x={MX[i]} y={186} texto={parte(p.t, 12)} tam={13.5} peso={700} alinea="middle" interlineado={1.15} />
+          <Nota x={MX[i]} y={186 + parte(p.t, 12).length * 15.5 + 4} texto={parte(p.s, 15)} tono="gris" tam={11.5} peso={500} alinea="middle" interlineado={1.15} />
+        </>
+      ))
+    }
+    <Nota x={180} y={290} texto={parte(d.pregunta, 30)} tam={14} peso={700} alinea="middle" />
+  </svg>
+</Pizarra>

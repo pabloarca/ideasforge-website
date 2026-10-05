@@ -1,0 +1,58 @@
+---
+/*
+  Lo que hacemos y lo que no. En «Lo que hacemos y lo que no» de la guía de
+  RGPD, debajo de «Somos ingenieros, no auditores».
+
+  Dos columnas. A la izquierda, en tinta, lo que deja escrito la ingeniería:
+  por dónde fueron los datos, quién pudo verlos y por qué respondió lo que
+  respondió. A la derecha, en gris, lo que es trabajo de tus abogados y de tu
+  DPD y no hacemos: certificar, dictaminar y firmar la clasificación.
+
+  Escritorio 800 × 280, móvil 360 × 452.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.nosotrosNo;
+const IZQ = ['flujo', 'persona', 'registro'] as const;
+const DER = ['blindado', 'juridico', 'clasifica'] as const;
+const IMANES = ['amarillo', 'verde', 'negro'] as const;
+const FY = [62, 118, 174];
+const MY1 = [48, 100, 152];
+const MY2 = [292, 344, 396];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 280" aria-hidden="true">
+    <PizarraDefs pre="pnna" />
+
+    <path d="M400,10 L400,270" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+    <Nota x={0} y={24} texto={d.izq.titulo} tam={19} peso={700} />
+    <Nota x={0} y={45} texto={d.izq.sub} tono="gris" tam={15} peso={500} />
+    <Nota x={420} y={24} texto={d.der.titulo} tono="gris" tam={19} peso={700} />
+    <Nota x={420} y={45} texto={d.der.sub} tono="gris" tam={15} peso={500} />
+    {d.izq.items.map((t, i) => <Ficha pre="pnna" disposicion="horizontal" x={0} y={FY[i]} w={370} h={46} icono={IZQ[i]} titulo={t} iman={IMANES[i]} imanX={0.94} tamIcono={22} tamTitulo={15} />)}
+    {d.der.items.map((t, i) => <Ficha pre="pnna" disposicion="horizontal" x={420} y={FY[i]} w={370} h={46} icono={DER[i]} titulo={t} tono="gris" iman="gris" imanX={0.94} giro={i % 2 ? 1 : -1} tamIcono={22} tamTitulo={15} />)}
+    <Nota x={0} y={258} texto={d.nota} tam={16} peso={700} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 452" aria-hidden="true">
+    <PizarraDefs pre="pnne" />
+
+    <Nota x={0} y={18} texto={d.izq.titulo} tam={15} peso={700} />
+    <Nota x={0} y={36} texto={d.izq.sub} tono="gris" tam={12.5} peso={500} />
+    {d.izq.items.map((t, i) => <Ficha pre="pnne" disposicion="horizontal" x={0} y={MY1[i]} w={360} h={44} icono={IZQ[i]} titulo={t} iman={IMANES[i]} imanX={0.94} tamIcono={20} tamTitulo={14} />)}
+    <Nota x={0} y={222} texto={d.nota} tam={13.5} peso={700} />
+    <path d="M0,242 L360,242" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+    <Nota x={0} y={262} texto={d.der.titulo} tono="gris" tam={15} peso={700} />
+    <Nota x={0} y={280} texto={d.der.sub} tono="gris" tam={12.5} peso={500} />
+    {d.der.items.map((t, i) => <Ficha pre="pnne" disposicion="horizontal" x={0} y={MY2[i]} w={360} h={44} icono={DER[i]} titulo={t} tono="gris" iman="gris" imanX={0.94} tamIcono={20} tamTitulo={14} />)}
+  </svg>
+</Pizarra>

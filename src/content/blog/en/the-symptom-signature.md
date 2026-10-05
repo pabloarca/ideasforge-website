@@ -20,6 +20,8 @@ Our incident catalog looks a lot like it. It differs in one thing, the entry poi
 
 **With non-deterministic components it is the other way around, the symptom repeats and the cause changes.** The same "it answers nothing" can come today from a dropped connection and tomorrow from a change someone shipped, so the valuable thing is not filing yesterday's cause. It is recognizing today's symptom and having the short list of causes that have produced it before.
 
+<div data-pizarra="causaSintoma"></div>
+
 That is why an entry in our catalog starts with how the failure looks from the outside and not with what caused it. The tradition is sound. The order has to be flipped.
 
 ## Three real signatures

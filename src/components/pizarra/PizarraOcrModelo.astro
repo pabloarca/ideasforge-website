@@ -1,0 +1,80 @@
+---
+/*
+  El OCR lee, el modelo entiende. En el post de automatización de facturas,
+  sección «Lo que cambia respecto al OCR de siempre».
+
+  La factura (una imagen) pasa por el OCR, que devuelve texto suelto, y luego
+  por el modelo (azul), que lo entiende y pone cada campo en su columna. El
+  ejemplo es el del post: «suministro eléctrico» y «energía» son lo mismo.
+  El importe es de ejemplo, no de un cliente.
+
+  Escritorio 800 × 186, móvil 360 × 434.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.ocrModelo;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 186" aria-hidden="true">
+    <PizarraDefs pre="poma" />
+
+    <Ficha pre="poma" x={0} y={50} w={120} h={96} icono="factura" titulo={d.factura.t} sub={d.factura.s} iman="amarillo" giro={-2} tamIcono={30} tamTitulo={15} tamSub={13} />
+    <Trazo desde={[126, 98]} hasta={[150, 98]} />
+    <Ficha pre="poma" x={156} y={50} w={110} h={96} icono="lupa" titulo={d.ocr.t} sub={d.ocr.s} iman="gris" tamIcono={28} tamTitulo={15} tamSub={13} />
+    <Trazo desde={[272, 98]} hasta={[296, 98]} />
+    <rect x="302" y="56" width="160" height="84" rx="6" fill="#fff" stroke="#c9ced6" stroke-width="1.8" stroke-dasharray="5 4" />
+    {d.texto.map((t, i) => <Nota x={318} y={88 + i * 26} texto={t} tono="gris" tam={14} peso={500} />)}
+    <Nota x={382} y={166} texto={d.textoNota} tono="gris" tam={13.5} peso={600} alinea="middle" />
+    <Trazo desde={[468, 98]} hasta={[492, 98]} />
+    <Ficha pre="poma" x={498} y={50} w={110} h={96} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" tamIcono={28} tamTitulo={15} tamSub={13} />
+    <Trazo desde={[614, 98]} hasta={[638, 98]} tono="azul" />
+    <rect x="644" y="56" width="156" height="84" rx="6" fill="#fff" stroke={TINTA} stroke-width="2" />
+    <path d="M644,98 L800,98 M724,56 L724,140" stroke="#d3d7dd" stroke-width="1.2" />
+    {
+      d.campos.map((c, i) => (
+        <>
+          <Nota x={654} y={83 + i * 42} texto={c.k} tono="gris" tam={13} peso={600} />
+          <Nota x={734} y={83 + i * 42} texto={c.v} tam={14} peso={700} />
+        </>
+      ))
+    }
+    <Nota x={798} y={166} texto={d.camposNota} tam={13.5} peso={600} alinea="end" />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 434" aria-hidden="true">
+    <PizarraDefs pre="pome" />
+
+    <Ficha pre="pome" disposicion="horizontal" x={0} y={8} w={170} h={54} icono="factura" titulo={d.factura.t} sub={d.factura.s} iman="amarillo" imanX={0.86} tamIcono={24} tamTitulo={14} tamSub={12.5} />
+    <Trazo desde={[174, 35]} hasta={[188, 35]} />
+    <Ficha pre="pome" disposicion="horizontal" x={192} y={8} w={168} h={54} icono="lupa" titulo={d.ocr.t} sub={d.ocr.s} iman="gris" imanX={0.86} tamIcono={24} tamTitulo={14} tamSub={12.5} />
+    <Trazo desde={[276, 66]} hasta={[276, 90]} />
+    <rect x="100" y="96" width="260" height="76" rx="6" fill="#fff" stroke="#c9ced6" stroke-width="1.6" stroke-dasharray="5 4" />
+    {d.texto.map((t, i) => <Nota x={116} y={126 + i * 24} texto={t} tono="gris" tam={13} peso={500} />)}
+    <Nota x={90} y={140} texto={d.textoNota} tono="gris" tam={12.5} peso={600} alinea="end" />
+    <Trazo desde={[230, 176]} hasta={[230, 200]} />
+    <Ficha pre="pome" disposicion="horizontal" x={60} y={206} w={240} h={54} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.88} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Trazo desde={[180, 264]} hasta={[180, 290]} tono="azul" />
+    <rect x="40" y="296" width="280" height="96" rx="6" fill="#fff" stroke={TINTA} stroke-width="1.8" />
+    <path d="M40,344 L320,344 M140,296 L140,392" stroke="#d3d7dd" stroke-width="1.2" />
+    {
+      d.campos.map((c, i) => (
+        <>
+          <Nota x={52} y={326 + i * 48} texto={c.k} tono="gris" tam={13} peso={600} />
+          <Nota x={152} y={326 + i * 48} texto={c.v} tam={14} peso={700} />
+        </>
+      ))
+    }
+    <Nota x={180} y={420} texto={d.camposNota} tam={13} peso={600} alinea="middle" />
+  </svg>
+</Pizarra>

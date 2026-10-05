@@ -1,0 +1,69 @@
+---
+/*
+  El modelo interpreta, el código decide. En «El modelo nunca es la
+  autoridad» de la guía de RGPD, debajo de «El modelo lee la pregunta... El
+  código valida ese formulario». Sustituye en esa página al diagrama de la
+  casa (FlowDiagram), que sigue vivo en las ventanas de la portada.
+
+  La pregunta del usuario llega al modelo (azul), que solo entrega un
+  contrato JSON. El validador, que es código, lo rechaza hacia un bloqueo (en
+  rojo, el fallo) o lo acepta, y entonces el código construye una consulta
+  parametrizada contra la base de datos. Debajo va la leyenda de siempre.
+
+  Escritorio 800 × 284, móvil 360 × 450.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.autoridad;
+const H = 92;
+const Y = 40;
+const M = Y + H / 2;
+---
+
+<Pizarra label={d.label} caption={d.leyenda}>
+  <svg slot="ancho" viewBox="0 0 800 284" aria-hidden="true">
+    <PizarraDefs pre="paua" />
+
+    <Trazo desde={[124, M]} hasta={[152, M]} />
+    <Trazo desde={[284, M]} hasta={[340, M]} tono="azul" />
+    <Nota x={312} y={M - 26} texto={d.contrato} tam={13} peso={600} alinea="middle" tono="azul" interlineado={1.1} />
+    <Trazo desde={[482, M]} hasta={[526, M]} />
+    <Nota x={504} y={M - 12} texto={d.acepta} tam={13} peso={600} alinea="middle" />
+    <Trazo desde={[658, M]} hasta={[684, M]} />
+    <Trazo desde={[411, Y + H + 6]} hasta={[411, 184]} etiqueta={d.rechaza} etiquetaEn={[430, 166]} tamEtiqueta={13} />
+
+    <Ficha pre="paua" x={0} y={Y} w={118} h={H} icono="chat" titulo={d.pregunta.t} sub={d.pregunta.s} iman="amarillo" giro={-1.5} tamIcono={28} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="paua" x={158} y={Y} w={120} h={H} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" tamIcono={28} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="paua" x={346} y={Y} w={130} h={H} icono="validacion" titulo={d.validador.t} sub={d.validador.s} iman="negro" imanX={0.82} giro={1} tamIcono={28} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="paua" x={532} y={Y} w={120} h={H} icono="tabla" titulo={d.consulta.t} sub={d.consulta.s} iman="gris" tamIcono={28} tamTitulo={15} tamSub={12} />
+    <Ficha pre="paua" x={690} y={Y} w={110} h={H} icono="erp" titulo={d.datos.t} sub={d.datos.s} iman="verde" giro={-1} tamIcono={28} tamTitulo={14} tamSub={12} />
+    <Ficha pre="paua" x={346} y={190} w={130} h={84} icono="error" titulo={d.bloqueo.t} sub={d.bloqueo.s} tono="rojo" iman="rojo" imanX={0.82} tamIcono={26} tamTitulo={15} tamSub={12.5} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 450" aria-hidden="true">
+    <PizarraDefs pre="paue" />
+
+    <Trazo desde={[180, 64]} hasta={[180, 84]} />
+    <Trazo desde={[180, 146]} hasta={[180, 180]} tono="azul" />
+    <Nota x={196} y={168} texto={d.contrato.join(' ')} tam={12.5} peso={600} tono="azul" />
+    <Trazo desde={[130, 242]} hasta={[86, 284]} curva={6} etiqueta={d.rechaza} etiquetaEn={[86, 258]} tamEtiqueta={12.5} />
+    <Trazo desde={[230, 242]} hasta={[274, 284]} curva={-6} etiqueta={d.acepta} etiquetaEn={[274, 258]} tamEtiqueta={12.5} />
+    <Trazo desde={[275, 348]} hasta={[275, 378]} />
+
+    <Ficha pre="paue" disposicion="horizontal" x={30} y={8} w={300} h={52} icono="chat" titulo={d.pregunta.t} sub={d.pregunta.s} iman="amarillo" imanX={0.88} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="paue" disposicion="horizontal" x={30} y={88} w={300} h={54} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.88} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="paue" disposicion="horizontal" x={30} y={184} w={300} h={54} icono="validacion" titulo={d.validador.t} sub={d.validador.s} iman="negro" imanX={0.88} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="paue" disposicion="horizontal" x={0} y={290} w={170} h={54} icono="error" titulo={d.bloqueo.t} sub={d.bloqueo.s} tono="rojo" iman="rojo" imanX={0.86} tamIcono={22} tamTitulo={14} tamSub={12.5} />
+    <Ficha pre="paue" disposicion="horizontal" x={190} y={290} w={170} h={54} icono="tabla" titulo={d.consulta.t} sub={d.consulta.s} iman="gris" imanX={0.86} tamIcono={22} tamTitulo={14} tamSub={12.5} />
+    <Ficha pre="paue" disposicion="horizontal" x={190} y={384} w={170} h={54} icono="erp" titulo={d.datos.t} sub={d.datos.s} iman="verde" imanX={0.86} tamIcono={22} tamTitulo={14} tamSub={12.5} />
+  </svg>
+</Pizarra>

@@ -20,6 +20,8 @@ El agente recibe cada mensaje y mantiene la conversación necesaria para extraer
 
 Con la información completa, el agente no decide a solas ni deja la conversación en el aire. Envía al equipo un resumen por correo con un veredicto de apto o no apto y un párrafo que lo justifica. La persona de la agencia abre el correo, lee tres líneas y decide si programa la visita. **El criterio sigue siendo suyo. Lo que desaparece son los diez minutos de comprobaciones para llegar a ese criterio.**
 
+<div data-pizarra="cualifica"></div>
+
 ## El resultado, en horas y no en promesas
 
 Más de tres horas al día ahorradas solo en gestionar solicitudes entrantes. El equipo pasó de hacer triaje a concertar visitas, que es la parte del trabajo que produce ingresos. Y las personas interesadas reciben respuesta inmediata a cualquier hora, incluidos los picos de demanda de alquiler en los que antes se enfriaban esperando.

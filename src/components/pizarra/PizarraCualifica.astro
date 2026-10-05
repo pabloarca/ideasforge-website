@@ -1,0 +1,61 @@
+---
+/*
+  Lo que reúne el agente de la inmobiliaria. En el post del agente para
+  inmobiliarias, sección «Qué hace el agente, paso a paso».
+
+  La conversación de WhatsApp va rellenando tres casillas (en azul, porque
+  las rellena el modelo hablando): motivo, presupuesto y documentación. Con
+  las tres, sale un resumen por correo y una persona decide si hay visita.
+
+  Escritorio 800 × 186, móvil 360 × 436.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.cualifica;
+const ICONOS = ['pregunta', 'dinero', 'factura'] as const;
+const corchete = (x: number, y1: number, y2: number, lado: 1 | -1) => `M${x + 7 * lado},${y1} L${x},${y1 + 3} L${x},${y2 - 3} L${x + 7 * lado},${y2}`;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 186" aria-hidden="true">
+    <PizarraDefs pre="pcua" />
+
+    <Trazo desde={[156, 112]} hasta={[194, 112]} tono="azul" />
+    <Nota x={302} y={42} texto={d.cajasNota} tono="gris" tam={13.5} peso={500} alinea="middle" />
+    <path d={corchete(204, 56, 176, 1)} fill="none" stroke={TINTA} stroke-width="2.4" stroke-linecap="round" />
+    <path d={corchete(400, 56, 176, -1)} fill="none" stroke={TINTA} stroke-width="2.4" stroke-linecap="round" />
+    <Trazo desde={[408, 116]} hasta={[446, 116]} />
+    <Trazo desde={[616, 116]} hasta={[640, 116]} />
+
+    <Ficha pre="pcua" x={0} y={66} w={150} h={96} icono="chat" titulo={d.conversacion.t} sub={d.conversacion.s} iman="verde" giro={-1.5} tamIcono={28} tamTitulo={15} tamSub={13} />
+    {d.cajas.map((c, i) => <Ficha pre="pcua" disposicion="horizontal" x={214} y={60 + i * 40} w={176} h={32} icono={ICONOS[i]} titulo={c} tono="azul" iman="azul" imanX={0.93} tamIcono={18} tamTitulo={14} />)}
+    <Ficha pre="pcua" x={452} y={66} w={160} h={96} icono="correo" titulo={d.resumen.t} sub={d.resumen.s} iman="amarillo" tamIcono={28} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="pcua" x={646} y={66} w={154} h={96} icono="persona" titulo={d.persona.t} sub={d.persona.s} iman="negro" giro={1.5} tamIcono={28} tamTitulo={14.5} tamSub={12} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 436" aria-hidden="true">
+    <PizarraDefs pre="pcue" />
+
+    <Trazo desde={[150, 66]} hasta={[150, 100]} tono="azul" />
+    <Nota x={168} y={88} texto={d.cajasNota} tono="gris" tam={12.5} peso={500} />
+    <path d={corchete(24, 108, 236, 1)} fill="none" stroke={TINTA} stroke-width="2.2" stroke-linecap="round" />
+    <path d={corchete(276, 108, 236, -1)} fill="none" stroke={TINTA} stroke-width="2.2" stroke-linecap="round" />
+    <Trazo desde={[150, 244]} hasta={[150, 272]} />
+    <Trazo desde={[150, 338]} hasta={[150, 366]} />
+
+    <Ficha pre="pcue" disposicion="horizontal" x={10} y={8} w={280} h={54} icono="chat" titulo={d.conversacion.t} sub={d.conversacion.s} iman="verde" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    {d.cajas.map((c, i) => <Ficha pre="pcue" disposicion="horizontal" x={34} y={112 + i * 42} w={232} h={34} icono={ICONOS[i]} titulo={c} tono="azul" iman="azul" imanX={0.93} tamIcono={18} tamTitulo={14} />)}
+    <Ficha pre="pcue" disposicion="horizontal" x={10} y={278} w={280} h={56} icono="correo" titulo={d.resumen.t} sub={d.resumen.s} iman="amarillo" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Ficha pre="pcue" disposicion="horizontal" x={10} y={372} w={280} h={56} icono="persona" titulo={d.persona.t} sub={d.persona.s} iman="negro" imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+  </svg>
+</Pizarra>

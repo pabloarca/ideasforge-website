@@ -1,0 +1,79 @@
+---
+/*
+  Diez documentos frente a una respuesta. En conocimiento corporativo,
+  sección «Un buscador te da diez documentos, este asistente te da la
+  respuesta».
+
+  A la izquierda, diez resultados de buscador dibujados como renglones grises:
+  el trabajo de leer sigue siendo de la persona. A la derecha, la respuesta del
+  asistente (azul, la redacta el modelo) con su fuente debajo. La fuente es de
+  ejemplo y genérica a propósito: esta página es la del caso industrial y nada
+  puede orientar al sector.
+
+  Escritorio 800 × 236, móvil 360 × 412.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import Nota from './Nota.astro';
+import { AZUL, GRIS } from './colores';
+import { ICONOS_PIZARRA } from './iconos';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.diezDocumentos;
+const manual = ICONOS_PIZARRA.manual;
+// Largo del título de cada resultado, para que no parezcan diez iguales.
+const LARGOS = [0.62, 0.48, 0.7, 0.55, 0.4, 0.66, 0.5, 0.58, 0.44, 0.6];
+const RENGLONES = [0.92, 0.78, 0.55];
+const raya = (x: number, y: number, w: number) => `M${x},${y} q${w / 4},-3 ${w / 2},0 t${w / 2},0`;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 236" aria-hidden="true">
+    <Nota x={0} y={20} texto={d.buscadorTitulo} tam={16} peso={700} />
+    {
+      LARGOS.map((l, i) => (
+        <>
+          <rect x="0" y={32 + i * 17} width="320" height="13" rx="3" fill="#f6f7f9" stroke="#dcdfe4" stroke-width="1" />
+          <path d={`M8,${38.5 + i * 17} L${8 + 300 * l},${38.5 + i * 17}`} stroke={GRIS} stroke-width="2.2" stroke-linecap="round" opacity="0.7" />
+        </>
+      ))
+    }
+    <Nota x={0} y={224} texto={d.buscadorNota} tono="gris" tam={13.5} peso={600} />
+
+    <Nota x={420} y={20} texto={d.asistenteTitulo} tam={16} peso={700} />
+    <rect x="420" y="32" width="380" height="140" rx="8" fill="#f4f6ff" stroke={AZUL} stroke-width="2" />
+    <Nota x={438} y={60} texto={d.respuesta} tono="azul" tam={15} peso={700} />
+    {RENGLONES.map((r, i) => <path d={raya(438, 84 + i * 20, 340 * r)} fill="none" stroke={AZUL} stroke-width="2.2" stroke-linecap="round" opacity="0.8" />)}
+    <svg x={438} y={140} width="16" height="16" viewBox={manual.viewBox} aria-hidden="true">
+      <path d={manual.d} fill={GRIS} />
+    </svg>
+    <Nota x={460} y={153} texto={d.fuente} tono="gris" tam={12.5} peso={600} />
+    <Nota x={420} y={200} texto={d.asistenteNota} tam={14} peso={600} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 412" aria-hidden="true">
+    <Nota x={0} y={16} texto={d.buscadorTitulo} tam={14.5} peso={700} />
+    {
+      LARGOS.map((l, i) => (
+        <>
+          <rect x="0" y={26 + i * 15} width="360" height="11" rx="3" fill="#f6f7f9" stroke="#dcdfe4" stroke-width="1" />
+          <path d={`M8,${31.5 + i * 15} L${8 + 340 * l},${31.5 + i * 15}`} stroke={GRIS} stroke-width="2" stroke-linecap="round" opacity="0.7" />
+        </>
+      ))
+    }
+    <Nota x={0} y={196} texto={d.buscadorNota} tono="gris" tam={12.5} peso={600} />
+
+    <Nota x={0} y={236} texto={d.asistenteTitulo} tam={14.5} peso={700} />
+    <rect x="1" y="248" width="358" height="124" rx="8" fill="#f4f6ff" stroke={AZUL} stroke-width="1.8" />
+    <Nota x={16} y={274} texto={d.respuesta} tono="azul" tam={14} peso={700} />
+    {RENGLONES.map((r, i) => <path d={raya(16, 296 + i * 18, 320 * r)} fill="none" stroke={AZUL} stroke-width="2" stroke-linecap="round" opacity="0.8" />)}
+    <svg x={16} y={342} width="15" height="15" viewBox={manual.viewBox} aria-hidden="true">
+      <path d={manual.d} fill={GRIS} />
+    </svg>
+    <Nota x={36} y={354} texto={d.fuente} tono="gris" tam={11.5} peso={600} />
+    <Nota x={0} y={398} texto={d.asistenteNota} tam={13} peso={600} />
+  </svg>
+</Pizarra>

@@ -1,0 +1,64 @@
+---
+/*
+  Las tres cifras y a quién le llega cada factura. En «La tercera cifra, la
+  que no está en la tabla» de la guía de coste, debajo de su párrafo (y en
+  «The short answer» del inglés, debajo de la tercera cifra).
+
+  Tres huchas en fila: construcción, cuota mensual y consumo, cada una con
+  su cifra y con quién la cobra. Los rangos son los publicados (§3 del
+  árbitro, 20 ago 2026); el consumo no lleva cifra porque depende del uso, y
+  por eso es la que no está en la tabla.
+
+  Escritorio 800 × 240, móvil 360 × 362.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.tresHuchas;
+const ICONOS = ['corrige', 'calendario', 'contador'] as const;
+const IMANES = ['amarillo', 'verde', 'rojo'] as const;
+const X = [20, 290, 560];
+const W = 220;
+const MY = [30, 150, 270];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 240" aria-hidden="true">
+    <PizarraDefs pre="ptha" />
+
+    <Nota x={X[2] + W / 2} y={22} texto={d.nota} tam={15} alinea="middle" giro={-1.5} />
+    <Trazo desde={[X[2] + W / 2, 30]} hasta={[X[2] + W / 2, 46]} />
+    {
+      d.huchas.map((h, i) => (
+        <>
+          <Ficha pre="ptha" x={X[i]} y={52} w={W} h={104} icono={ICONOS[i]} titulo={h.t} sub={h.s} iman={IMANES[i]} imanX={i === 2 ? 0.86 : 0.5} giro={[-1, 1, -1.5][i]} tamIcono={30} tamTitulo={18} tamSub={13.5} />
+          <Nota x={X[i] + W / 2} y={190} texto={h.cifra} tam={19} peso={700} alinea="middle" />
+          <Nota x={X[i] + W / 2} y={214} texto={h.quien} tono="gris" tam={14} peso={500} alinea="middle" />
+        </>
+      ))
+    }
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 362" aria-hidden="true">
+    <PizarraDefs pre="pthe" />
+
+    <Nota x={352} y={MY[2] - 14} texto={d.nota} tam={12.5} alinea="end" />
+    {
+      d.huchas.map((h, i) => (
+        <>
+          <Ficha pre="pthe" disposicion="horizontal" x={0} y={MY[i]} w={360} h={54} icono={ICONOS[i]} titulo={h.t} sub={h.s} iman={IMANES[i]} imanX={i === 2 ? 0.1 : 0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+          <Nota x={8} y={MY[i] + 78} texto={h.cifra} tam={15} peso={700} />
+          <Nota x={352} y={MY[i] + 78} texto={h.quien} tono="gris" tam={12.5} peso={500} alinea="end" />
+        </>
+      ))
+    }
+  </svg>
+</Pizarra>

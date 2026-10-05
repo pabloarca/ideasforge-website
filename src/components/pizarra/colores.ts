@@ -11,13 +11,17 @@ export const GRIS = '#6b7280';
 export const AZUL = '#002dfd';
 export const ROJO = '#d1242f';
 
-/** Tono de una pieza: qué color de rotulador lleva. */
-export type Tono = 'tinta' | 'azul' | 'rojo';
+/**
+ * Tono de una pieza: qué color de rotulador lleva. El gris es para lo que
+ * queda fuera del sistema o no se usa: la salida más barata, lo que se compra.
+ */
+export type Tono = 'tinta' | 'azul' | 'rojo' | 'gris';
 
 export const COLOR_TONO: Record<Tono, string> = {
   tinta: TINTA,
   azul: AZUL,
   rojo: ROJO,
+  gris: GRIS,
 };
 
 /** Papel y borde de la ficha según su tono. */
@@ -25,4 +29,5 @@ export const PAPEL_TONO: Record<Tono, { fondo: string; borde: string }> = {
   tinta: { fondo: '#fff', borde: '#e3e6eb' },
   azul: { fondo: '#f4f6ff', borde: '#b3c0fe' },
   rojo: { fondo: '#fff5f5', borde: '#f3b4b8' },
+  gris: { fondo: '#f6f7f9', borde: '#dcdfe4' },
 };

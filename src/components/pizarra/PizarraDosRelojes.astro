@@ -1,0 +1,90 @@
+---
+/*
+  Los dos ritmos de medición. En «Medido antes de cada cambio, vigilado
+  después» de la guía, debajo del párrafo de la vigilancia semanal.
+
+  Dos relojes dibujados a rotulador, separados por una línea discontinua
+  porque son dos ritmos que no se mezclan (decisión de la casa, §3 del
+  árbitro). El de la izquierda marca «antes de cada cambio» y debajo lleva
+  la batería que frena el cambio si la calidad baja. El de la derecha marca
+  «cada semana» y lleva la tanda de conversaciones contra el sistema vivo.
+
+  Escritorio 800 × 300, móvil 360 × 310.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import Circulo from './Circulo.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.dosRelojes;
+
+/** Esfera de reloj: cuatro marcas y dos agujas, a la hora que se le pida. */
+const agujas = (cx: number, cy: number, r: number, horas: number, minutos: number) => {
+  const marca = (a: number) => {
+    const [s, c] = [Math.sin(a), -Math.cos(a)];
+    return `M${cx + s * r * 0.78},${cy + c * r * 0.78} L${cx + s * r * 0.92},${cy + c * r * 0.92}`;
+  };
+  const am = (minutos / 60) * 2 * Math.PI;
+  const ah = ((horas % 12) / 12) * 2 * Math.PI + am / 12;
+  const aguja = (a: number, l: number) => `M${cx},${cy} L${cx + Math.sin(a) * r * l},${cy - Math.cos(a) * r * l}`;
+  return [0, 1, 2, 3].map((k) => marca((k * Math.PI) / 2)).join(' ') + ' ' + aguja(ah, 0.45) + ' ' + aguja(am, 0.68);
+};
+
+const lados = [
+  { r: d.antes, cx: 200, icono: 'bateria', iman: 'negro', h: 10, m: 10 },
+  { r: d.semana, cx: 600, icono: 'repite', iman: 'verde', h: 4, m: 40 },
+] as const;
+const mlados = [
+  { r: d.antes, cx: 90, icono: 'bateria', iman: 'negro', h: 10, m: 10 },
+  { r: d.semana, cx: 270, icono: 'repite', iman: 'verde', h: 4, m: 40 },
+] as const;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 300" aria-hidden="true">
+    <PizarraDefs pre="pdra" />
+
+    <path d="M400,20 L400,250" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+    <Nota x={400} y={286} texto={d.centro} tono="gris" tam={14} peso={500} alinea="middle" />
+    {
+      lados.map((l) => (
+        <>
+          <Nota x={l.cx} y={26} texto={l.r.titulo} tam={19} peso={700} alinea="middle" />
+          <Circulo cx={l.cx} cy={92} r={46} color={TINTA} velo={0.04} />
+          <path d={agujas(l.cx, 92, 46, l.h, l.m)} fill="none" stroke={TINTA} stroke-width="3" stroke-linecap="round" />
+          <circle cx={l.cx} cy={92} r="4" fill={TINTA} />
+          <Trazo desde={[l.cx, 146]} hasta={[l.cx, 168]} />
+          <Ficha pre="pdra" disposicion="horizontal" x={l.cx - 150} y={174} w={300} h={58} icono={l.icono} titulo={l.r.ficha.t} sub={l.r.ficha.s} iman={l.iman} imanX={0.86} tamIcono={26} tamTitulo={16} tamSub={13.5} />
+          <Nota x={l.cx} y={258} texto={l.r.nota.join(' ')} tam={15} alinea="middle" />
+        </>
+      ))
+    }
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 310" aria-hidden="true">
+    <PizarraDefs pre="pdre" />
+
+    <path d="M180,10 L180,300" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+    {
+      mlados.map((l) => (
+        <>
+          <Nota x={l.cx} y={20} texto={l.r.titulo} tam={14} peso={700} alinea="middle" />
+          <Circulo cx={l.cx} cy={74} r={36} color={TINTA} velo={0.04} />
+          <path d={agujas(l.cx, 74, 36, l.h, l.m)} fill="none" stroke={TINTA} stroke-width="2.6" stroke-linecap="round" />
+          <circle cx={l.cx} cy={74} r="3.5" fill={TINTA} />
+          <Trazo desde={[l.cx, 116]} hasta={[l.cx, 136]} />
+          <Ficha pre="pdre" x={l.cx - 84} y={142} w={168} h={92} icono={l.icono} titulo={l.r.ficha.t} sub={l.r.ficha.s} iman={l.iman} imanX={0.84} tamIcono={24} tamTitulo={14.5} tamSub={12} />
+          <Nota x={l.cx} y={258} texto={l.r.nota} tam={12.5} alinea="middle" />
+        </>
+      ))
+    }
+  </svg>
+</Pizarra>

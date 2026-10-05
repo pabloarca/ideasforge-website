@@ -1,0 +1,50 @@
+---
+/*
+  Un iceberg dibujado a rotulador: lo poco que asoma por encima del agua y lo
+  mucho que hay debajo. Lo usan dos pizarras con sus propios textos, la del
+  prompt («Antes que el prompt, los datos») y la del 5 % («Mantener viva la
+  IA»), cada una con su envoltorio: PizarraIcebergPrompt y PizarraIcebergDemo.
+
+  Escritorio 800 × 330, móvil 360 × 380.
+*/
+import Pizarra from './Pizarra.astro';
+import Nota from './Nota.astro';
+import { TINTA, GRIS } from './colores';
+
+interface Props {
+  label: string;
+  arriba: { t: string; s: string };
+  abajoTitulo: string;
+  abajo: string[];
+}
+const { label, arriba, abajoTitulo, abajo } = Astro.props;
+
+/** El agua: una línea ondulada de lado a lado. */
+const agua = (y: number, ancho: number) => {
+  let d = `M0,${y}`;
+  for (let x = 0; x < ancho; x += 40) d += ` q10,-5 20,0 q10,5 20,0`;
+  return d;
+};
+---
+
+<Pizarra label={label}>
+  <svg slot="ancho" viewBox="0 0 800 330" aria-hidden="true">
+    <path d="M330,96 L372,40 L410,28 L446,54 L478,96 Z" fill="#fff" stroke={TINTA} stroke-width="2.4" stroke-linejoin="round" />
+    <path d="M330,96 L232,170 L262,296 L404,322 L566,300 L598,194 L478,96 Z" fill="#f6f7f9" stroke={TINTA} stroke-width="2.4" stroke-linejoin="round" />
+    <path d={agua(96, 800)} fill="none" stroke={GRIS} stroke-width="1.8" opacity="0.7" />
+    <Nota x={404} y={74} texto={arriba.t} tam={16} peso={700} alinea="middle" />
+    <Nota x={500} y={60} texto={arriba.s} tono="gris" tam={14} peso={500} />
+    <Nota x={404} y={156} texto={abajoTitulo} tono="gris" tam={13.5} peso={600} alinea="middle" />
+    {abajo.map((t, i) => <Nota x={415} y={194 + i * 28} texto={t} tam={15} peso={600} alinea="middle" />)}
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 380" aria-hidden="true">
+    <path d="M128,92 L160,38 L192,28 L222,52 L248,92 Z" fill="#fff" stroke={TINTA} stroke-width="2.2" stroke-linejoin="round" />
+    <path d="M128,92 L30,170 L52,350 L190,374 L324,348 L344,190 L248,92 Z" fill="#f6f7f9" stroke={TINTA} stroke-width="2.2" stroke-linejoin="round" />
+    <path d={agua(92, 360)} fill="none" stroke={GRIS} stroke-width="1.6" opacity="0.7" />
+    <Nota x={188} y={72} texto={arriba.t} tam={14} peso={700} alinea="middle" />
+    <Nota x={236} y={40} texto={arriba.s} tono="gris" tam={12.5} peso={500} />
+    <Nota x={180} y={158} texto={abajoTitulo} tono="gris" tam={12} peso={600} alinea="middle" />
+    {abajo.map((t, i) => <Nota x={188} y={198 + i * 38} texto={t} tam={13.5} peso={600} alinea="middle" />)}
+  </svg>
+</Pizarra>

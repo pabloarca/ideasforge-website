@@ -55,11 +55,31 @@ const EXCEPCIONES_DOS_PUNTOS = [
 const EXCEPCIONES_COMA = [
   'con la del proveedor B, y un robot',
   'cuánto tiene sentido invertir, y el piloto',
+  // Su revisión de /servicios/desarrollo-de-agentes-de-ia (2 oct 2026).
+  'interpretara y copiara los datos, o construir',
+  'que un proyecto útil fracase, y puede evitarse',
+  // Su revisión de /servicios/conocimiento-corporativo (2 oct 2026).
+  'a dos o tres personas, y casi siempre',
+  'que no deberían hacerse, y distinguirlos',
+  // Su revisión de /cuanto-cuesta-un-agente-de-ia (5 oct 2026).
+  'coste de automatizarlos, y puedes detectarlo',
+  // Su revisión de /reglamento-europeo-de-ia (5 oct 2026).
+  'intervenga o lo detenga, y mantener',
 ];
 
-// Lo mismo con el punto y coma, en su revisión manual de
-// /servicios/agentes-conversacionales (2 oct 2026).
-const EXCEPCIONES_PUNTO_Y_COMA = ['tipos de trabajo concretos; la última'];
+// Lo mismo con el punto y coma, en sus revisiones manuales de
+// /servicios/agentes-conversacionales, /servicios/desarrollo-de-agentes-de-ia
+// y /servicios/conocimiento-corporativo (2 oct 2026).
+const EXCEPCIONES_PUNTO_Y_COMA = [
+  'tipos de trabajo concretos; la última',
+  'la inversión es limitada; si funciona',
+  'no solo tiene que responder bien; también',
+  // Su revisión de /ia-y-rgpd (5 oct 2026).
+  'no elimina necesariamente su uso; puede',
+  'El modelo interpreta; el código controla',
+  // Su revisión de /reglamento-europeo-de-ia (5 oct 2026).
+  'comercializa el sistema; el responsable',
+];
 
 /*
  * Patrones de rótulo, donde los dos puntos separan una etiqueta de su texto
@@ -144,6 +164,44 @@ const LEXICO_VETADO = [
   [/\breposar/gi, 'dejar para luego, o quitarlo'],
   [/\bvaras?\b/gi, 'criterio, métrica, prueba'],
   [/\bampar[oa]\b/gi, 'base legal, cubrir'],
+];
+
+/*
+ * Metáforas y fórmulas que el propietario ya sustituyó en sus revisiones del
+ * 2 al 5 oct 2026 (unas 350 frases en ocho páginas). Es la regla de
+ * «claridad literal» de §7 del árbitro llevada a la máquina: lo que él ya
+ * corrigió una vez no debe volver a escribirse. Va como AVISO y no como
+ * error porque alguna puede funcionar en su contexto, y porque los posts
+ * publicados aún no han pasado su revisión.
+ */
+const METAFORAS_RETIRADAS = [
+  [/maquinaria pesada/g, 'di qué obligaciones son'],
+  [/ventana (en la que|se está cerrando|se cierra)/g, 'di qué está pasando y desde cuándo'],
+  [/carga(r|n)? con (el|todo el|casi todo el) peso/g, 'di quién asume qué'],
+  [/mercado abajo/g, 'en el resto de la cadena'],
+  [/le pone precio/g, 'di qué obligación o coste aparece'],
+  [/se gana (su|el) puesto/g, 'di cómo se valida'],
+  [/cuello de botella/g, 'el principal obstáculo, y cuál es'],
+  [/la muerte más tonta/g, 'la forma más habitual de fracasar'],
+  [/petición educada/g, 'una instrucción que el modelo puede incumplir'],
+  [/perímetro de confianza/g, 'los casos validados'],
+  [/tercera cifra/g, 'el tercer coste, el modelo y la infraestructura'],
+  [/en el folleto/g, 'di qué es lo que no se cumple'],
+  [/a estas alturas/g, 'di la conclusión directamente'],
+  [/lo que (eso )?arrastra/g, 'di qué obligaciones activa'],
+  [/ese hueco/g, 'nombra el hueco'],
+  [/trampa silenciosa/g, 'di qué caso se pasa por alto'],
+  [/(cierra|abre) la puerta/g, 'di qué se permite o se impide'],
+  [/puerta de salida/g, 'la excepción'],
+  [/se porta bien/g, 'funciona aunque el modelo falle'],
+  [/levanta la mano/g, 'pide más información'],
+  [/estrecho y profundo/g, 'una parte concreta, probada a fondo'],
+  [/(mató|murió) (una|la) clase entera/g, 'eliminó una categoría de fallos'],
+  [/sale caro en las dos direcciones/g, 'di qué falla en cada caso'],
+  [/el lado de ingeniería/g, 'la parte técnica'],
+  [/reglas del juego/g, 'di qué cambia exactamente'],
+  [/no tiene ningún brillo/g, 'es sencillo'],
+  [/juguetes? que se enseña/g, 'demostraciones que no llegan a usarse'],
 ];
 
 /*
@@ -289,17 +347,26 @@ function revisa(nombre, textoBruto) {
   const fallos = [];
   const avisos = [];
 
-  const coma = [...t.matchAll(/,\s+(y|e|o|u)\s/g)];
+  const coma = [...t.matchAll(/,\s+(y|e|o|u|ni)\s/g)];
   for (const m of coma) {
     const alrededor = t.slice(Math.max(0, m.index - 60), m.index + 60);
     if (EXCEPCIONES_COMA.some((e) => alrededor.includes(e))) continue;
-    fallos.push(['coma antes de conjunción', contexto(t, m.index)]);
+    // Aviso y no error desde el 5 oct 2026 (§3): la coma vale cuando la
+    // conjunción abre un inciso o una oración con otro sujeto, y eso no lo
+    // distingue una expresión regular.
+    avisos.push(['coma antes de conjunción (solo vale si abre un inciso o una oración con otro sujeto)', contexto(t, m.index)]);
   }
 
   for (const m of [...t.matchAll(/;/g)]) {
     const alrededor = t.slice(Math.max(0, m.index - 60), m.index + 60);
     if (EXCEPCIONES_PUNTO_Y_COMA.some((e) => alrededor.includes(e))) continue;
     fallos.push(['punto y coma', contexto(t, m.index)]);
+  }
+
+  for (const [re, mejor] of METAFORAS_RETIRADAS) {
+    for (const m of [...t.matchAll(new RegExp(re.source, re.flags))]) {
+      avisos.push([`metáfora ya corregida por el propietario (§7, claridad literal): ${mejor}`, contexto(t, m.index)]);
+    }
   }
 
   for (const m of [...t.matchAll(/—/g)]) {
@@ -353,7 +420,7 @@ function revisa(nombre, textoBruto) {
     const comas = (resto.match(/,/g) || []).length;
     const conjuncion = /\s(y|e|o|u)\s/.test(resto);
     if (comas === 0 && !conjuncion) {
-      avisos.push(['dos puntos que no enumeran', contexto(t, m.index)]);
+      avisos.push(['dos puntos que ni enumeran ni explican lo anterior', contexto(t, m.index)]);
     }
   }
 

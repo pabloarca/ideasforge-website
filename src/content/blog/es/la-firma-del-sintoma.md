@@ -18,6 +18,8 @@ La gestión de servicios de TI lleva décadas manteniendo algo parecido. En ITIL
 
 Nuestro catálogo de incidencias se le parece en casi todo y se diferencia en el orden. Una base de errores conocidos se organiza por causas, porque en el software clásico la causa es estable y el síntoma varía. **Con componentes no deterministas pasa lo contrario, el síntoma se repite y la causa cambia.**
 
+<div data-pizarra="causaSintoma"></div>
+
 El mismo «no responde nada» puede venir hoy de una conexión caída y mañana de un cambio que alguien publicó, así que lo valioso no es archivar la causa de ayer. Es reconocer el síntoma de hoy y tener la lista corta de causas que lo han producido antes.
 
 Por eso la entrada de nuestro catálogo empieza por cómo se ve el fallo desde fuera y no por su causa. La tradición sirve. Al orden hay que darle la vuelta.

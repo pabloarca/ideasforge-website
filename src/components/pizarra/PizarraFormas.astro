@@ -1,0 +1,152 @@
+---
+/*
+  Las cinco formas de automatizar. En «Dónde encaja un agente entre las
+  formas de automatizar» de la guía, debajo del párrafo que las presenta.
+  Sustituye a FormasDiagram (2 oct 2026), con los mismos datos.
+
+  Cada forma es una línea de rotulador: el recorrido de una petición de
+  principio a fin, en tramos. Negro donde decide el código, azul donde decide
+  el modelo. Un corchete a la izquierda separa las dos formas sin agente de
+  las tres que el mercado llama IA agéntica. Debajo, la leyenda de siempre.
+
+  Los tramos se calculan a partir de su ancho relativo, así que el dibujo no
+  se toca para cambiar un texto. En el móvil, los rótulos que no caben en su
+  tramo se parten en líneas.
+
+  Escritorio 800 × 372, móvil 360 × (según los rótulos).
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import Nota from './Nota.astro';
+import { TINTA, AZUL, GRIS } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.formas;
+const color = (q: 'codigo' | 'modelo') => (q === 'modelo' ? AZUL : TINTA);
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+
+/** Los tramos de una línea, con su principio y su fin en x. */
+const tramos = (c: (typeof d.carriles)[number], x0: number, x1: number) => {
+  const HUECO = 6;
+  let x = x0;
+  return c.tramos.map((t) => {
+    const ancho = (x1 - x0) * t.ancho;
+    const r = { ...t, a: x + HUECO / 2, b: x + ancho - HUECO / 2 };
+    x += ancho;
+    return r;
+  });
+};
+
+// Punta de flecha de rotulador al final de cada línea.
+const punta = (x: number, y: number) => `M${x - 11},${y - 7} L${x},${y} L${x - 11},${y + 7}`;
+
+/** Corchete vertical con la abertura hacia la derecha. */
+const corchete = (x: number, y1: number, y2: number) => `M${x + 6},${y1} L${x},${y1 + 3} L${x},${y2 - 3} L${x + 6},${y2}`;
+
+// ---- Escritorio ----
+const EY0 = 44;
+const EPASO = 66;
+const EX0 = 214;
+const EX1 = 786;
+const ecarril = d.carriles.map((c, i) => ({ c, y: EY0 + i * EPASO, ts: tramos(c, EX0, EX1) }));
+const ecorte = EY0 + 2 * EPASO - 6;
+
+// ---- Móvil ----
+const MX0 = 30;
+const MX1 = 352;
+let my = 58;
+const mcarril = d.carriles.map((c) => {
+  const ts = tramos(c, MX0, MX1).map((t) => ({ ...t, lineas: parte(t.texto, Math.max(6, Math.floor((t.b - t.a) / 6.3))) }));
+  const alto = Math.max(...ts.map((t) => t.lineas.length));
+  const r = { c, ts, y: my, alto };
+  my += 22 + alto * 15 + 30;
+  return r;
+});
+const MALTO = my + 4;
+const mcorte = mcarril[2].y - 11;
+---
+
+<Pizarra label={d.label} caption={d.leyenda}>
+  <svg slot="ancho" viewBox="0 0 800 372" aria-hidden="true">
+    {/* Clave y eje. */}
+    <path d="M30,14 L62,14" stroke={TINTA} stroke-width="6" stroke-linecap="round" />
+    <Nota x={72} y={19} texto={d.clave.codigo} tam={14} peso={500} />
+    <path d="M220,14 L252,14" stroke={AZUL} stroke-width="6" stroke-linecap="round" />
+    <Nota x={262} y={19} texto={d.clave.modelo} tam={14} peso={500} tono="azul" />
+    <Nota x={754} y={19} texto={d.eje} tam={13.5} peso={500} tono="gris" alinea="end" />
+    <path d="M762,14 L786,14 M778,9 L786,14 L778,19" fill="none" stroke={GRIS} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+
+    {/* Corchetes: sin agente arriba, IA agéntica abajo. */}
+    <path d={corchete(20, EY0 + 4, ecorte - 6)} fill="none" stroke={GRIS} stroke-width="2" stroke-linecap="round" />
+    <path d={corchete(20, ecorte + 6, EY0 + 5 * EPASO - 10)} fill="none" stroke={GRIS} stroke-width="2" stroke-linecap="round" />
+    <Nota x={15} y={(EY0 + ecorte) / 2} texto={d.sinAgente} tono="gris" tam={12.5} peso={500} alinea="middle" giro={-90} />
+    <Nota x={15} y={(ecorte + EY0 + 5 * EPASO) / 2} texto={d.agentica} tono="gris" tam={12.5} peso={500} alinea="middle" giro={-90} />
+    <path d={`M30,${ecorte} L790,${ecorte}`} stroke="#d3d7dd" stroke-width="1.5" stroke-dasharray="5 6" />
+
+    {
+      ecarril.map(({ c, y, ts }) => (
+        <>
+          <Nota x={30} y={y + (c.nombre.length > 1 ? 20 : 30)} texto={c.nombre} tam={14.5} peso={600} interlineado={1.2} />
+          {ts.map((t) => (
+            <>
+              <Nota x={(t.a + t.b) / 2} y={y + 22} texto={t.texto} tam={13.5} peso={600} alinea="middle" tono={t.quien === 'modelo' ? 'azul' : 'tinta'} />
+              <path d={`M${t.a},${y + 36} L${t.b},${y + 36}`} stroke={color(t.quien)} stroke-width="6" stroke-linecap="round" />
+            </>
+          ))}
+          <path d={punta(ts[ts.length - 1].b + 4, y + 36)} fill="none" stroke={color(ts[ts.length - 1].quien)} stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </>
+      ))
+    }
+  </svg>
+
+  <svg slot="estrecho" viewBox={`0 0 360 ${MALTO}`} aria-hidden="true">
+    <path d="M30,12 L50,12" stroke={TINTA} stroke-width="5" stroke-linecap="round" />
+    <Nota x={58} y={16} texto={d.clave.codigo} tam={12.5} peso={500} />
+    <path d="M196,12 L216,12" stroke={AZUL} stroke-width="5" stroke-linecap="round" />
+    <Nota x={224} y={16} texto={d.clave.modelo} tam={12.5} peso={500} tono="azul" />
+    <Nota x={30} y={38} texto={d.eje} tam={12} peso={500} tono="gris" />
+
+    <path d={corchete(18, mcarril[0].y - 4, mcorte - 6)} fill="none" stroke={GRIS} stroke-width="1.8" stroke-linecap="round" />
+    <path d={corchete(18, mcorte + 6, MALTO - 10)} fill="none" stroke={GRIS} stroke-width="1.8" stroke-linecap="round" />
+    <Nota x={14} y={(mcarril[0].y + mcorte) / 2} texto={d.sinAgente} tono="gris" tam={11.5} peso={500} alinea="middle" giro={-90} />
+    <Nota x={14} y={(mcorte + MALTO) / 2} texto={d.agentica} tono="gris" tam={11.5} peso={500} alinea="middle" giro={-90} />
+    <path d={`M24,${mcorte} L356,${mcorte}`} stroke="#d3d7dd" stroke-width="1.5" stroke-dasharray="5 6" />
+
+    {
+      mcarril.map(({ c, y, ts, alto }) => (
+        <>
+          <Nota x={30} y={y + 12} texto={c.nombre.join(' ')} tam={13.5} peso={700} />
+          {ts.map((t) => (
+            <>
+              <Nota
+                x={(t.a + t.b) / 2}
+                y={y + 30 + (alto - t.lineas.length) * 15}
+                texto={t.lineas}
+                tam={12.5}
+                peso={600}
+                alinea="middle"
+                interlineado={1.2}
+                tono={t.quien === 'modelo' ? 'azul' : 'tinta'}
+              />
+              <path d={`M${t.a},${y + 30 + alto * 15} L${t.b},${y + 30 + alto * 15}`} stroke={color(t.quien)} stroke-width="5" stroke-linecap="round" />
+            </>
+          ))}
+          <path d={punta(ts[ts.length - 1].b + 4, y + 30 + alto * 15)} fill="none" stroke={color(ts[ts.length - 1].quien)} stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+        </>
+      ))
+    }
+  </svg>
+</Pizarra>

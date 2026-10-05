@@ -1,0 +1,75 @@
+---
+/*
+  Cinco de seis sin detectar. En el post «Antes que el prompt, los datos»,
+  sección «El caso del umbral que no detectaba nada».
+
+  Seis fichas de pregunta que estaban fuera de la documentación. Cinco van
+  tachadas en rojo, «no detectada», y una lleva su visto. Debajo, el motivo:
+  la búsqueda siempre encontraba algo parecido.
+
+  Escritorio 800 × 204, móvil 360 × 292.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.seisPreguntas;
+const BIEN = 3;
+const X = Array.from({ length: 6 }, (_, i) => i * 133);
+const MX = [0, 122, 244];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 204" aria-hidden="true">
+    <PizarraDefs pre="pspa" />
+    <Nota x={0} y={24} texto={d.titulo} tam={17} peso={700} />
+    {
+      X.map((x, i) => (
+        <Ficha
+          pre="pspa"
+          x={x}
+          y={44}
+          w={118}
+          h={96}
+          icono={i === BIEN ? 'hecho' : 'error'}
+          titulo={i === BIEN ? d.detectada : d.noDetectada}
+          tono={i === BIEN ? 'tinta' : 'rojo'}
+          iman={i === BIEN ? 'verde' : 'rojo'}
+          giro={[-1.5, 1, -1, 1.5, -1, 1][i]}
+          tamIcono={30}
+          tamTitulo={13.5}
+        />
+      ))
+    }
+    <Nota x={0} y={190} texto={d.nota} tono="gris" tam={15} peso={500} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 292" aria-hidden="true">
+    <PizarraDefs pre="pspe" />
+    <Nota x={0} y={18} texto={d.titulo} tam={14} peso={700} />
+    {
+      X.map((_, i) => (
+        <Ficha
+          pre="pspe"
+          x={MX[i % 3]}
+          y={36 + Math.floor(i / 3) * 112}
+          w={112}
+          h={96}
+          icono={i === BIEN ? 'hecho' : 'error'}
+          titulo={i === BIEN ? d.detectada : d.noDetectada}
+          tono={i === BIEN ? 'tinta' : 'rojo'}
+          iman={i === BIEN ? 'verde' : 'rojo'}
+          tamIcono={26}
+          tamTitulo={13}
+        />
+      ))
+    }
+    <Nota x={0} y={276} texto={d.nota} tono="gris" tam={13} peso={500} />
+  </svg>
+</Pizarra>

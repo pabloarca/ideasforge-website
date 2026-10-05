@@ -1,0 +1,93 @@
+---
+/*
+  Suscripción o a medida. En «Suscripción o a medida» de la guía de coste,
+  debajo de «Un agente a medida es otra compra». Solo en español: la guía
+  inglesa no tiene esa sección (los textos ingleses quedan listos).
+
+  Dos filas de tres fichas. Arriba, la suscripción: una persona con su
+  asistente (en azul) y quien lo pidió revisa cada salida. Abajo, el agente a
+  medida: tus datos y permisos, el agente decide y actúa (en azul) y el
+  resultado sale solo. Debajo, la pregunta que decide entre las dos.
+
+  Escritorio 800 × 380, móvil 360 × 410.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.suscripcion;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+
+const ICONOS = [
+  ['persona', 'ia', 'validacion'],
+  ['erp', 'ia', 'hecho'],
+] as const;
+const IMANES = [
+  ['amarillo', 'azul', 'verde'],
+  ['gris', 'azul', 'verde'],
+] as const;
+const X = [0, 290, 580];
+const W = 220;
+const H = 88;
+const FY = [66, 246];
+const MX = [4, 188];
+const MW = 168;
+const MH = 84;
+const MY = [62, 164, 266];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 380" aria-hidden="true">
+    <PizarraDefs pre="psua" />
+
+    {
+      d.filas.map((f, r) => (
+        <>
+          <Nota x={0} y={FY[r] - 44} texto={f.titulo} tam={19} peso={700} />
+          <Nota x={0} y={FY[r] - 23} texto={f.sub} tono="gris" tam={15} peso={500} />
+          {[0, 1].map((i) => <Trazo desde={[X[i] + W + 6, FY[r] + H / 2]} hasta={[X[i + 1] - 6, FY[r] + H / 2]} tono={i === 0 ? 'tinta' : 'azul'} />)}
+          {f.pasos.map((p, i) => (
+            <Ficha pre="psua" x={X[i]} y={FY[r]} w={W} h={H} icono={ICONOS[r][i]} titulo={p.t} sub={p.s} tono={i === 1 ? 'azul' : 'tinta'} iman={IMANES[r][i]} giro={i === 2 ? (r ? -1.5 : 1.5) : 0} tamIcono={26} tamTitulo={16} tamSub={13.5} />
+          ))}
+        </>
+      ))
+    }
+    <Nota x={400} y={368} texto={d.pregunta} tam={17} peso={700} alinea="middle" />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 410" aria-hidden="true">
+    <PizarraDefs pre="psue" />
+
+    <path d="M180,8 L180,350" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+    {
+      d.filas.map((f, c) => (
+        <>
+          <Nota x={MX[c] + MW / 2} y={20} texto={f.titulo} tam={14.5} peso={700} alinea="middle" />
+          <Nota x={MX[c] + MW / 2} y={37} texto={parte(f.sub, 24)} tono="gris" tam={12} peso={500} alinea="middle" interlineado={1.15} />
+          {[0, 1].map((i) => <Trazo desde={[MX[c] + MW / 2, MY[i] + MH + 4]} hasta={[MX[c] + MW / 2, MY[i + 1] - 4]} tono={i === 0 ? 'tinta' : 'azul'} />)}
+          {f.pasos.map((p, i) => (
+            <Ficha pre="psue" x={MX[c]} y={MY[i]} w={MW} h={MH} icono={ICONOS[c][i]} titulo={p.t} sub={p.s} tono={i === 1 ? 'azul' : 'tinta'} iman={IMANES[c][i]} imanX={0.86} tamIcono={22} tamTitulo={14} tamSub={12} />
+          ))}
+        </>
+      ))
+    }
+    <Nota x={180} y={384} texto={parte(d.pregunta, 30)} tam={14} peso={700} alinea="middle" />
+  </svg>
+</Pizarra>

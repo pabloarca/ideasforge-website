@@ -1,0 +1,72 @@
+---
+/*
+  La cuenta de si compensa. En «La cuenta de si compensa» de la guía de
+  coste (y «The math on whether it pays off» en la inglesa), debajo del
+  párrafo que pide los dos números.
+
+  Dos pasos que se leen solos. Arriba, la multiplicación: minutos por veces
+  al mes igual a horas al mes. Debajo de esas horas, «frente a» y lo que
+  cuesta el agente, construcción y cuota mensual. Al lado, la conclusión
+  escrita entera. Rehecha el 5 oct 2026 porque el propietario no la
+  entendía: decía «tu fila de la tabla» sin decir qué tabla, y el «frente
+  a» era una flecha doble diminuta que no se leía.
+
+  Escritorio 800 × 290, móvil 360 × 392.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.formula;
+const fichas = [
+  { f: d.minutos, icono: 'reloj', iman: 'amarillo' },
+  { f: d.veces, icono: 'repite', iman: 'negro' },
+  { f: d.horas, icono: 'tiempoGanado', iman: 'verde' },
+] as const;
+const X = [20, 290, 560];
+const W = 210;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+const compensaAncho = parte(d.compensa, 44);
+const compensaMovil = parte(d.compensa, 40);
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 290" aria-hidden="true">
+    <PizarraDefs pre="pfoa" />
+    <Nota x={255} y={86} texto="×" tam={32} peso={700} alinea="middle" />
+    <Nota x={525} y={86} texto="=" tam={32} peso={700} alinea="middle" />
+    {fichas.map((c, i) => <Ficha pre="pfoa" x={X[i]} y={24} w={W} h={96} icono={c.icono} titulo={c.f.t} sub={c.f.s} iman={c.iman} giro={[-1.5, 1, -1][i]} tamIcono={30} tamTitulo={16} tamSub={12.5} />)}
+    <path d="M665,130 L665,140 M665,172 L665,182" stroke="#9aa1ad" stroke-width="2" stroke-linecap="round" />
+    <Nota x={665} y={162} texto={d.frente} tono="gris" tam={16} peso={700} alinea="middle" />
+    <Ficha pre="pfoa" x={560} y={190} w={W} h={92} icono="dinero" titulo={d.coste.t} sub={d.coste.s} iman="gris" imanX={0.88} giro={1.5} tamIcono={28} tamTitulo={15} tamSub={12.5} />
+    <Nota x={20} y={204} texto={compensaAncho} tam={17} peso={700} interlineado={1.3} />
+    <Nota x={20} y={204 + compensaAncho.length * 22 + 8} texto={d.noCompensa} tono="gris" tam={15} peso={600} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 392" aria-hidden="true">
+    <PizarraDefs pre="pfoe" />
+    <Nota x={180} y={84} texto="×" tam={24} peso={700} alinea="middle" />
+    <Nota x={180} y={164} texto="=" tam={24} peso={700} alinea="middle" />
+    {fichas.map((c, i) => <Ficha pre="pfoe" disposicion="horizontal" x={30} y={8 + i * 80} w={300} h={54} icono={c.icono} titulo={c.f.t} sub={c.f.s} iman={c.iman} imanX={0.88} tamIcono={24} tamTitulo={15} tamSub={12.5} />)}
+    <Nota x={180} y={240} texto={d.frente} tono="gris" tam={14} peso={700} alinea="middle" />
+    <Ficha pre="pfoe" disposicion="horizontal" x={30} y={254} w={300} h={54} icono="dinero" titulo={d.coste.t} sub={d.coste.s} iman="gris" imanX={0.88} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Nota x={180} y={340} texto={compensaMovil} tam={14} peso={700} alinea="middle" interlineado={1.3} />
+    <Nota x={180} y={340 + compensaMovil.length * 18 + 8} texto={d.noCompensa} tono="gris" tam={13} peso={600} alinea="middle" />
+  </svg>
+</Pizarra>

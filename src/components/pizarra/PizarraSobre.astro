@@ -1,0 +1,85 @@
+---
+/*
+  Qué viaja en una llamada al modelo: el sobre. En «Qué viaja de verdad en
+  una llamada al modelo» de la guía de RGPD, debajo de «El modelo nunca se
+  conecta a tu base de datos».
+
+  Un sobre dibujado a rotulador con las tres cosas que lleva dentro, que
+  llena el código: instrucciones, contexto ya filtrado y la pregunta. Del
+  sobre sale una flecha al modelo (en azul), que solo ve eso. Aparte, en gris
+  y tachado en rojo, lo que se queda fuera: base de datos, sistemas y el
+  resto de documentos.
+
+  Escritorio 800 × 300, móvil 360 × 528.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA, ROJO } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.sobre;
+const DENTRO = ['manual', 'tabla', 'chat'] as const;
+const FUERA = ['erp', 'flujo', 'registro'] as const;
+const IMANES = ['amarillo', 'negro', 'verde'] as const;
+
+/** Un sobre: rectángulo redondeado con la solapa en uve. */
+const sobre = (x: number, y: number, w: number, h: number) =>
+  `M${x + 8},${y} L${x + w - 8},${y} Q${x + w},${y} ${x + w},${y + 8} L${x + w},${y + h - 8} Q${x + w},${y + h} ${x + w - 8},${y + h} L${x + 8},${y + h} Q${x},${y + h} ${x},${y + h - 8} L${x},${y + 8} Q${x},${y} ${x + 8},${y} Z`;
+const uve = (x: number, y: number, w: number, solapa: number) => `M${x + 4},${y + 3} L${x + w / 2},${y + solapa} L${x + w - 4},${y + 3}`;
+
+/** Raya roja que tacha el título de una ficha baja y horizontal. */
+const raya = (x: number, y: number, largo: number) => `M${x},${y + 1} Q${x + largo / 2},${y - 3} ${x + largo},${y}`;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 300" aria-hidden="true">
+    <PizarraDefs pre="psoa" />
+
+    <Nota x={14} y={26} texto={d.llena} tam={15} peso={600} />
+    <path d={sobre(10, 40, 420, 250)} fill="#fffdf8" stroke={TINTA} stroke-width="2.4" stroke-linejoin="round" />
+    <path d={uve(10, 40, 420, 80)} fill="none" stroke={TINTA} stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+    {d.dentro.map((c, i) => <Ficha pre="psoa" disposicion="horizontal" x={40} y={130 + i * 52} w={360} h={44} icono={DENTRO[i]} titulo={c.t} sub={c.s} iman={IMANES[i]} imanX={0.94} tamIcono={22} tamTitulo={15} tamSub={12.5} />)}
+
+    <Trazo desde={[438, 150]} hasta={[484, 84]} curva={-12} />
+    <Ficha pre="psoa" disposicion="horizontal" x={490} y={40} w={300} h={66} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.92} tamIcono={28} tamTitulo={17} tamSub={13.5} />
+
+    <Nota x={490} y={152} texto={d.fueraTitulo} tono="gris" tam={15} peso={600} />
+    {
+      d.fuera.map((t, i) => (
+        <>
+          <Ficha pre="psoa" disposicion="horizontal" x={490} y={164 + i * 44} w={300} h={36} icono={FUERA[i]} titulo={t} tono="gris" iman="gris" imanX={0.94} tamIcono={18} tamTitulo={14} />
+          <path d={raya(530, 164 + i * 44 + 18, 210)} fill="none" stroke={ROJO} stroke-width="2.6" stroke-linecap="round" />
+        </>
+      ))
+    }
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 528" aria-hidden="true">
+    <PizarraDefs pre="psoe" />
+
+    <Nota x={4} y={18} texto={d.llena} tam={13.5} peso={600} />
+    <path d={sobre(4, 28, 352, 230)} fill="#fffdf8" stroke={TINTA} stroke-width="2.2" stroke-linejoin="round" />
+    <path d={uve(4, 28, 352, 68)} fill="none" stroke={TINTA} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    {d.dentro.map((c, i) => <Ficha pre="psoe" disposicion="horizontal" x={20} y={106 + i * 48} w={320} h={42} icono={DENTRO[i]} titulo={c.t} sub={c.s} iman={IMANES[i]} imanX={0.94} tamIcono={20} tamTitulo={14} tamSub={12} />)}
+
+    <Trazo desde={[180, 264]} hasta={[180, 290]} />
+    <Ficha pre="psoe" disposicion="horizontal" x={30} y={296} w={300} h={56} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.9} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+
+    <Nota x={0} y={384} texto={d.fueraTitulo} tono="gris" tam={13.5} peso={600} />
+    {
+      d.fuera.map((t, i) => (
+        <>
+          <Ficha pre="psoe" disposicion="horizontal" x={0} y={394 + i * 44} w={360} h={36} icono={FUERA[i]} titulo={t} tono="gris" iman="gris" imanX={0.94} tamIcono={18} tamTitulo={13.5} />
+          <path d={raya(40, 394 + i * 44 + 18, 200)} fill="none" stroke={ROJO} stroke-width="2.4" stroke-linecap="round" />
+        </>
+      ))
+    }
+  </svg>
+</Pizarra>

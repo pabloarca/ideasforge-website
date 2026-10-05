@@ -1,0 +1,58 @@
+---
+/*
+  Lo que arde y lo que humea. En el post «El juguete brillante», sección
+  «El remedio es un mapa de dolores».
+
+  Dos fichas grandes: lo que arde (ya cuesta dinero cada semana, se ataca
+  primero) y lo que humea (frenará el crecimiento, se vigila). Debajo, la
+  regla de la lista: cada candidato con su cuenta hecha, nunca con su demo.
+
+  Escritorio 800 × 250, móvil 360 × 260.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.ardeHumea;
+const lados = [
+  { c: d.arde, icono: 'fuego', iman: 'rojo', x: 40 },
+  { c: d.humea, icono: 'nube', iman: 'gris', x: 430 },
+] as const;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 250" aria-hidden="true">
+    <PizarraDefs pre="paha" />
+    {
+      lados.map((l, i) => (
+        <>
+          <Ficha pre="paha" x={l.x} y={24} w={330} h={110} icono={l.icono} titulo={l.c.t} sub={l.c.s} iman={l.iman} giro={i ? 1.5 : -1.5} tamIcono={36} tamTitulo={22} tamSub={14.5} />
+          <Trazo desde={[l.x + 165, 142]} hasta={[l.x + 165, 166]} />
+          <Nota x={l.x + 165} y={190} texto={l.c.accion} tam={17} peso={700} alinea="middle" />
+        </>
+      ))
+    }
+    <Nota x={400} y={236} texto={d.nota} tono="gris" tam={14.5} peso={600} alinea="middle" />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 260" aria-hidden="true">
+    <PizarraDefs pre="pahe" />
+    {
+      lados.map((l, i) => (
+        <>
+          <Ficha pre="pahe" x={i * 186} y={12} w={174} h={110} icono={l.icono} titulo={l.c.t} sub={l.c.s} iman={l.iman} tamIcono={30} tamTitulo={18} tamSub={11} />
+          <Trazo desde={[i * 186 + 87, 128]} hasta={[i * 186 + 87, 152]} />
+          <Nota x={i * 186 + 87} y={174} texto={l.c.accion} tam={14} peso={700} alinea="middle" />
+        </>
+      ))
+    }
+    <Nota x={180} y={226} texto={d.nota.split(', ')} tono="gris" tam={12.5} peso={600} alinea="middle" interlineado={1.25} />
+  </svg>
+</Pizarra>

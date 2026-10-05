@@ -1,0 +1,94 @@
+---
+/*
+  Lo que mueve el precio, como una mesa de mezclas. En «Qué mueve el precio»
+  de la guía de coste, debajo de «Cuatro cosas explican casi cualquier
+  presupuesto».
+
+  Cuatro reguladores dibujados: sistemas conectados, estado de los datos,
+  profundidad de las pruebas y quién lo opera. Arriba sube el precio, abajo
+  baja. Las posiciones de los mandos son de dibujo, no un caso real: lo que
+  enseña la pizarra es que son cuatro mandos independientes.
+
+  Escritorio 800 × 270, móvil 360 × 300.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import Nota from './Nota.astro';
+import Trazo from './Trazo.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.reguladores;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+
+// Posición de cada mando, de 0 (abajo) a 1 (arriba).
+const NIVEL = [0.72, 0.35, 0.58, 0.22];
+
+/** Un regulador: carril, marcas y mando, entre y1 (arriba) e y2 (abajo). */
+const regulador = (cx: number, y1: number, y2: number, nivel: number) => {
+  const ky = y2 - (y2 - y1) * nivel;
+  const marcas = Array.from({ length: 7 }, (_, k) => y1 + ((y2 - y1) * k) / 6)
+    .map((y) => `M${cx - 16},${y} L${cx - 10},${y} M${cx + 10},${y} L${cx + 16},${y}`)
+    .join(' ');
+  return { ky, marcas };
+};
+const X = [200, 370, 540, 710];
+const MXS = [80, 162, 244, 318];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 270" aria-hidden="true">
+    <Nota x={96} y={50} texto={d.mas} tono="gris" tam={14} peso={600} alinea="end" />
+    <Nota x={96} y={200} texto={d.menos} tono="gris" tam={14} peso={600} alinea="end" />
+    <Trazo desde={[118, 192]} hasta={[118, 52]} />
+    {
+      d.mandos.map((m, i) => {
+        const r = regulador(X[i], 40, 196, NIVEL[i]);
+        return (
+          <>
+            <rect x={X[i] - 5} y={34} width="10" height="168" rx="5" fill="#eceef2" stroke="#c9ced6" stroke-width="1.2" />
+            <path d={r.marcas} stroke="#b9bfc8" stroke-width="1.5" stroke-linecap="round" />
+            <rect x={X[i] - 25} y={r.ky - 11} width="50" height="22" rx="5" fill={TINTA} />
+            <path d={`M${X[i] - 15},${r.ky} L${X[i] + 15},${r.ky}`} stroke="#fff" stroke-width="2" stroke-linecap="round" />
+            <Nota x={X[i]} y={232} texto={m.t} tam={16} peso={700} alinea="middle" />
+            <Nota x={X[i]} y={252} texto={m.s} tono="gris" tam={13.5} peso={500} alinea="middle" />
+          </>
+        );
+      })
+    }
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 300" aria-hidden="true">
+    <Nota x={14} y={92} texto={d.mas} tono="gris" tam={11.5} peso={600} alinea="middle" giro={-90} />
+    <Nota x={14} y={170} texto={d.menos} tono="gris" tam={11.5} peso={600} alinea="middle" giro={-90} />
+    <Trazo desde={[32, 186]} hasta={[32, 48]} />
+    {
+      d.mandos.map((m, i) => {
+        const r = regulador(MXS[i], 40, 196, NIVEL[i]);
+        return (
+          <>
+            <rect x={MXS[i] - 5} y={34} width="10" height="168" rx="5" fill="#eceef2" stroke="#c9ced6" stroke-width="1.2" />
+            <path d={r.marcas} stroke="#b9bfc8" stroke-width="1.5" stroke-linecap="round" />
+            <rect x={MXS[i] - 20} y={r.ky - 10} width="40" height="20" rx="5" fill={TINTA} />
+            <path d={`M${MXS[i] - 12},${r.ky} L${MXS[i] + 12},${r.ky}`} stroke="#fff" stroke-width="2" stroke-linecap="round" />
+            <Nota x={MXS[i]} y={226} texto={m.t} tam={13.5} peso={700} alinea="middle" />
+            <Nota x={MXS[i]} y={244} texto={parte(m.s, 12)} tono="gris" tam={11.5} peso={500} alinea="middle" interlineado={1.15} />
+          </>
+        );
+      })
+    }
+  </svg>
+</Pizarra>

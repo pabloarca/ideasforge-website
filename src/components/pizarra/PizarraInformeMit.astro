@@ -1,0 +1,60 @@
+---
+/*
+  El 95 % del informe del MIT. En el post «Medir la IA por las ganancias»,
+  sección «El sector entero acaba de medirse con esta métrica», debajo de
+  la frase en negrita que lo lee.
+
+  Una cuadrícula de cien puntos, 95 vacíos y 5 llenos, con la cifra y su
+  fuente al lado. Debajo, la lectura fácil tachada en rojo y la del post:
+  sin una ganancia definida no hay manera de demostrar que funcionó.
+
+  Escritorio 800 × 222, móvil 360 × 406.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import Nota from './Nota.astro';
+import { TINTA, GRIS, ROJO } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.informeMit;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+
+/** Cien puntos en diez filas: los cinco últimos, llenos. */
+const puntos = (x: number, y: number, paso: number) =>
+  Array.from({ length: 100 }, (_, i) => ({ cx: x + (i % 10) * paso, cy: y + Math.floor(i / 10) * paso, lleno: i >= 95 }));
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 222" aria-hidden="true">
+    {puntos(30, 24, 20).map((p) => <circle cx={p.cx} cy={p.cy} r="6" fill={p.lleno ? TINTA : '#fff'} stroke={p.lleno ? TINTA : GRIS} stroke-width="1.6" />)}
+    <Nota x={260} y={72} texto={d.cifra} tam={52} peso={800} />
+    <Nota x={260} y={104} texto={parte(d.que, 30)} tam={16} peso={600} interlineado={1.2} />
+    <Nota x={260} y={156} texto={d.fuente} tono="gris" tam={13.5} peso={500} />
+    <Nota x={500} y={60} texto={d.noDice} tono="gris" tam={16} peso={600} />
+    <path d={`M496,54 L${504 + d.noDice.length * 7.3},52`} stroke={ROJO} stroke-width="2.8" stroke-linecap="round" />
+    <Nota x={500} y={96} texto={parte(d.dice, 30)} tam={16} peso={700} interlineado={1.25} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 406" aria-hidden="true">
+    {puntos(78, 18, 22).map((p) => <circle cx={p.cx} cy={p.cy} r="6.5" fill={p.lleno ? TINTA : '#fff'} stroke={p.lleno ? TINTA : GRIS} stroke-width="1.5" />)}
+    <Nota x={0} y={272} texto={d.cifra} tam={40} peso={800} />
+    <Nota x={110} y={256} texto={parte(d.que, 26)} tam={13.5} peso={600} interlineado={1.2} />
+    <Nota x={0} y={306} texto={d.fuente} tono="gris" tam={12} peso={500} />
+    <Nota x={0} y={346} texto={d.noDice} tono="gris" tam={14} peso={600} />
+    <path d={`M-3,341 L${3 + d.noDice.length * 6.4},339`} stroke={ROJO} stroke-width="2.4" stroke-linecap="round" />
+    <Nota x={0} y={376} texto={parte(d.dice, 40)} tam={14} peso={700} interlineado={1.25} />
+  </svg>
+</Pizarra>

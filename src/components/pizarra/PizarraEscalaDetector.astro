@@ -1,0 +1,95 @@
+---
+/*
+  La escala del detector. En el post «El falso éxito», sección «Poner otra
+  IA a vigilar no funciona», debajo del párrafo del clasificador clásico.
+
+  Una regla de 0,5 (moneda al aire) a 1 (detector perfecto) con las cuatro
+  marcas del estudio de Advani: los supervisores con modelo (en azul,
+  porque juzga un modelo) en 0,54 y 0,65, y el clasificador clásico en 0,83
+  y 0,95. Las cifras están en el banco de hechos.
+
+  Escritorio 800 × 252, móvil 360 × 360.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import Nota from './Nota.astro';
+import { TINTA, AZUL } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.escalaDetector;
+const decimal = (v: number) => (lang === 'es' ? v.toFixed(2).replace('.', ',') : v.toFixed(2));
+const marcaEje = (v: number) => (lang === 'es' ? String(v).replace('.', ',') : String(v));
+
+// Escritorio: eje horizontal de 0,5 a 1.
+const X0 = 70;
+const X1 = 740;
+const EY = 120;
+const ex = (v: number) => X0 + ((v - 0.5) / 0.5) * (X1 - X0);
+
+// Móvil: eje vertical, 0,5 abajo y 1 arriba.
+const MY0 = 320;
+const MY1 = 40;
+const my = (v: number) => MY0 - ((v - 0.5) / 0.5) * (MY0 - MY1);
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 252" aria-hidden="true">
+    <path d={`M${X0},${EY} L${X1},${EY}`} stroke={TINTA} stroke-width="3" stroke-linecap="round" />
+    {
+      [0.5, 0.6, 0.7, 0.8, 0.9, 1].map((v) => (
+        <>
+          <path d={`M${ex(v)},${EY - 8} L${ex(v)},${EY + 8}`} stroke={TINTA} stroke-width="2" />
+          <Nota x={ex(v)} y={EY + 28} texto={marcaEje(v)} tono="gris" tam={13} peso={600} alinea="middle" />
+        </>
+      ))
+    }
+    <Nota x={X0} y={EY + 50} texto={d.moneda} tono="gris" tam={13.5} peso={600} alinea="middle" />
+    <Nota x={X1} y={EY + 50} texto={d.perfecto} tono="gris" tam={13.5} peso={600} alinea="middle" />
+    {
+      d.marcas.map((m, i) => {
+        const x = ex(m.v);
+        const arriba = i % 2 === 0;
+        const color = m.modelo ? AZUL : TINTA;
+        return (
+          <>
+            <circle cx={x} cy={EY} r="8" fill={color} />
+            <path d={`M${x},${arriba ? EY - 12 : EY + 12} L${x},${arriba ? EY - 24 : EY + 60}`} stroke={color} stroke-width="1.6" />
+            <Nota x={x} y={arriba ? EY - 70 : EY + 80} texto={decimal(m.v)} tam={16} peso={700} alinea="middle" tono={m.modelo ? 'azul' : 'tinta'} />
+            <Nota x={x} y={arriba ? EY - 52 : EY + 98} texto={[m.t, m.s]} tam={12.5} peso={500} alinea="middle" tono={m.modelo ? 'azul' : 'gris'} interlineado={1.15} />
+          </>
+        );
+      })
+    }
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 360" aria-hidden="true">
+    <path d={`M60,${MY0} L60,${MY1}`} stroke={TINTA} stroke-width="2.6" stroke-linecap="round" />
+    {
+      [0.5, 0.6, 0.7, 0.8, 0.9, 1].map((v) => (
+        <>
+          <path d={`M54,${my(v)} L66,${my(v)}`} stroke={TINTA} stroke-width="2" />
+          <Nota x={46} y={my(v) + 4} texto={marcaEje(v)} tono="gris" tam={12} peso={600} alinea="end" />
+        </>
+      ))
+    }
+    <Nota x={60} y={MY0 + 26} texto={d.moneda} tono="gris" tam={12} peso={600} alinea="middle" />
+    <Nota x={60} y={MY1 - 16} texto={d.perfecto} tono="gris" tam={12} peso={600} alinea="middle" />
+    {
+      d.marcas.map((m) => {
+        const y = my(m.v);
+        const color = m.modelo ? AZUL : TINTA;
+        return (
+          <>
+            <circle cx={60} cy={y} r="7" fill={color} />
+            <path d={`M70,${y} L96,${y}`} stroke={color} stroke-width="1.6" />
+            <Nota x={104} y={y - 2} texto={`${decimal(m.v)}  ${m.t}`} tam={13} peso={700} tono={m.modelo ? 'azul' : 'tinta'} />
+            <Nota x={104} y={y + 14} texto={m.s} tam={12} peso={500} tono="gris" />
+          </>
+        );
+      })
+    }
+  </svg>
+</Pizarra>

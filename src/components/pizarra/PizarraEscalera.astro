@@ -1,0 +1,79 @@
+---
+/*
+  La autonomía se gana: la escalera. En el post «No me gustan los agentes
+  de IA», sección «Cuándo sí tiene sentido soltarle la mano al modelo»,
+  debajo de «Nuestra regla es que la autonomía se gana».
+
+  Una escalera dibujada de tres peldaños: flujo de código, margen en un
+  tramo y más margen, con una nota a lo largo: medido antes y después de
+  cada escalón. Al lado, las dos condiciones del post para soltarle la mano
+  al modelo, que van juntas.
+
+  Escritorio 800 × 310, móvil 360 × 426.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Nota from './Nota.astro';
+import Trazo from './Trazo.astro';
+import { TINTA } from './colores';
+import { ICONOS_PIZARRA } from './iconos';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.escalera;
+const visto = ICONOS_PIZARRA.hecho;
+const ICONOS = ['flujo', 'ia', 'ia'] as const;
+const IMANES = ['negro', 'azul', 'azul'] as const;
+// Peldaños: x, y de la huella.
+const E = [
+  { x: 0, y: 248 },
+  { x: 170, y: 178 },
+  { x: 340, y: 108 },
+];
+const perfil = 'M0,278 L0,248 L170,248 L170,178 L340,178 L340,108 L510,108 L510,278';
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 310" aria-hidden="true">
+    <PizarraDefs pre="pesca" />
+    <path d={perfil} fill="#f6f7f9" stroke={TINTA} stroke-width="2.4" stroke-linejoin="round" />
+    {d.escalones.map((e, i) => <Ficha pre="pesca" x={E[i].x + 4} y={E[i].y - 94} w={162} h={88} icono={ICONOS[i]} titulo={e.t} sub={e.s} tono={i ? 'azul' : 'tinta'} iman={IMANES[i]} imanX={0.85} tamIcono={22} tamTitulo={14} tamSub={11.5} />)}
+    <Nota x={255} y={300} texto={d.medido} tono="gris" tam={14} peso={600} alinea="middle" />
+
+    <rect x="530" y="86" width="270" height="150" rx="10" fill="#fff" stroke={TINTA} stroke-width="2" stroke-dasharray="6 5" />
+    <Nota x={546} y={118} texto={d.criterios.titulo} tam={16} peso={700} />
+    {
+      d.criterios.items.map((c, i) => (
+        <>
+          <svg x={546} y={139 + i * 40} width="22" height="22" viewBox={visto.viewBox} aria-hidden="true">
+            <path d={visto.d} fill={TINTA} />
+          </svg>
+          <Nota x={576} y={155 + i * 40} texto={c} tam={14} peso={600} />
+        </>
+      ))
+    }
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 426" aria-hidden="true">
+    <PizarraDefs pre="psce" />
+    {[0, 1].map((i) => <Trazo desde={[40 + i * 40, 180 - i * 84]} hasta={[66 + i * 40, 156 - i * 84]} />)}
+    {d.escalones.map((e, i) => <Ficha pre="psce" disposicion="horizontal" x={i * 40} y={184 - i * 84} w={280} h={58} icono={ICONOS[i]} titulo={e.t} sub={e.s} tono={i ? 'azul' : 'tinta'} iman={IMANES[i]} imanX={0.88} tamIcono={24} tamTitulo={15} tamSub={12.5} />)}
+    <Nota x={180} y={284} texto={d.medido} tono="gris" tam={12.5} peso={600} alinea="middle" />
+    <rect x="2" y="300" width="356" height="118" rx="10" fill="#fff" stroke={TINTA} stroke-width="1.8" stroke-dasharray="6 5" />
+    <Nota x={18} y={328} texto={d.criterios.titulo} tam={14} peso={700} />
+    {
+      d.criterios.items.map((c, i) => (
+        <>
+          <svg x={18} y={344 + i * 34} width="20" height="20" viewBox={visto.viewBox} aria-hidden="true">
+            <path d={visto.d} fill={TINTA} />
+          </svg>
+          <Nota x={46} y={359 + i * 34} texto={c} tam={13.5} peso={600} />
+        </>
+      ))
+    }
+  </svg>
+</Pizarra>

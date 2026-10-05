@@ -1,0 +1,99 @@
+---
+/*
+  El contrato de cerca. En desarrollo de agentes, sección «El modelo
+  interpreta la petición y el código controla lo que puede ejecutarse».
+
+  La pregunta de la página llega al modelo (azul), que no toca nada: rellena
+  un formulario de campos fijos, el contrato. El código lo comprueba y, o
+  ejecuta solo lo permitido, o lo rechaza. El rechazo va en gris y no en
+  rojo, porque es el sistema funcionando, no un fallo.
+
+  Escritorio 800 × 236, móvil 360 × 548.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.contratoCerca;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+// La ficha de la pregunta se ajusta a lo que mide en cada idioma.
+const anchoPregunta = Math.min(560, Math.round(62 + d.pregunta.length * 7.6));
+const lineasMovil = parte(d.pregunta, 36);
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 236" aria-hidden="true">
+    <PizarraDefs pre="pcca2" />
+    <Ficha pre="pcca2" disposicion="horizontal" x={0} y={10} w={anchoPregunta} h={46} icono="chat" titulo={d.pregunta} iman="verde" imanX={0.95} tamIcono={22} tamTitulo={15} />
+    <Trazo desde={[60, 62]} hasta={[60, 96]} />
+    <Ficha pre="pcca2" x={0} y={100} w={120} h={92} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.82} tamIcono={28} tamTitulo={15} tamSub={13} />
+    <Trazo desde={[126, 146]} hasta={[160, 146]} tono="azul" />
+
+    <Nota x={166} y={94} texto={d.contratoTitulo} tam={14} peso={700} />
+    <rect x="166" y="102" width="242" height="90" rx="6" fill="#fff" stroke={TINTA} stroke-width="2" />
+    <path d="M252,102 L252,192" stroke="#d3d7dd" stroke-width="1.2" />
+    {
+      d.campos.map((c, k) => (
+        <>
+          {k > 0 && <path d={`M166,${102 + k * 30} L408,${102 + k * 30}`} stroke="#d3d7dd" stroke-width="1.2" />}
+          <Nota x={178} y={122 + k * 30} texto={c.k} tono="gris" tam={13} peso={600} />
+          <Nota x={264} y={122 + k * 30} texto={c.v} tam={14} peso={700} />
+        </>
+      ))
+    }
+    <Nota x={287} y={214} texto={d.contratoNota} tono="gris" tam={13} peso={600} alinea="middle" />
+    <Trazo desde={[414, 146]} hasta={[446, 146]} />
+    <Ficha pre="pcca2" x={452} y={100} w={130} h={92} icono="validacion" titulo={d.codigo.t} sub={d.codigo.s} iman="negro" tamIcono={28} tamTitulo={15} tamSub={13} />
+    <Trazo desde={[588, 128]} hasta={[616, 96]} />
+    <Trazo desde={[588, 164]} hasta={[616, 196]} />
+    <Ficha pre="pcca2" disposicion="horizontal" x={620} y={62} w={180} h={54} icono="hecho" titulo={d.ejecuta.t} sub={d.ejecuta.s} iman="verde" imanX={0.88} tamIcono={22} tamTitulo={15} tamSub={12} />
+    <Ficha pre="pcca2" disposicion="horizontal" x={620} y={170} w={180} h={54} icono="blindado" titulo={d.rechaza.t} sub={d.rechaza.s} tono="gris" iman="gris" imanX={0.88} tamIcono={22} tamTitulo={15} tamSub={12} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 548" aria-hidden="true">
+    <PizarraDefs pre="pcce2" />
+    <rect x="1" y="8" width="358" height={24 + lineasMovil.length * 18} rx="7" fill="#fff" stroke="#dcdfe4" stroke-width="1.2" />
+    <Nota x={16} y={30} texto={lineasMovil} tam={14} peso={600} interlineado={1.28} />
+    <Trazo desde={[180, 72]} hasta={[180, 96]} />
+    <Ficha pre="pcce2" disposicion="horizontal" x={80} y={100} w={200} h={52} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.88} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Trazo desde={[180, 156]} hasta={[180, 180]} tono="azul" />
+
+    <Nota x={0} y={198} texto={d.contratoTitulo} tam={14} peso={700} />
+    <rect x="0" y="206" width="360" height="102" rx="6" fill="#fff" stroke={TINTA} stroke-width="1.8" />
+    <path d="M118,206 L118,308" stroke="#d3d7dd" stroke-width="1.2" />
+    {
+      d.campos.map((c, k) => (
+        <>
+          {k > 0 && <path d={`M0,${206 + k * 34} L360,${206 + k * 34}`} stroke="#d3d7dd" stroke-width="1.2" />}
+          <Nota x={14} y={228 + k * 34} texto={c.k} tono="gris" tam={13} peso={600} />
+          <Nota x={130} y={228 + k * 34} texto={c.v} tam={14} peso={700} />
+        </>
+      ))
+    }
+    <Nota x={180} y={328} texto={d.contratoNota} tono="gris" tam={12.5} peso={600} alinea="middle" />
+    <Trazo desde={[180, 336]} hasta={[180, 358]} />
+    <Ficha pre="pcce2" disposicion="horizontal" x={80} y={362} w={200} h={52} icono="validacion" titulo={d.codigo.t} sub={d.codigo.s} iman="negro" imanX={0.88} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Trazo desde={[140, 420]} hasta={[96, 446]} />
+    <Trazo desde={[220, 420]} hasta={[264, 446]} />
+    <Ficha pre="pcce2" x={0} y={450} w={172} h={90} icono="hecho" titulo={d.ejecuta.t} sub={d.ejecuta.s} iman="verde" imanX={0.86} tamIcono={26} tamTitulo={15} tamSub={12} />
+    <Ficha pre="pcce2" x={188} y={450} w={172} h={90} icono="blindado" titulo={d.rechaza.t} sub={d.rechaza.s} tono="gris" iman="gris" imanX={0.86} tamIcono={26} tamTitulo={15} tamSub={12} />
+  </svg>
+</Pizarra>

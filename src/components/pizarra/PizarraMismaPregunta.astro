@@ -1,0 +1,68 @@
+---
+/*
+  La misma pregunta, dos personas. En conocimiento corporativo, sección
+  «Cada persona solo puede consultar lo que sus permisos permiten».
+
+  Dos personas hacen la misma pregunta y el asistente aplica los permisos de
+  cada una: la que llega a ese documento recibe la respuesta con su fuente,
+  la otra no recibe ese fragmento, porque tampoco podría abrirlo a mano. El
+  segundo resultado va en gris: es el permiso funcionando, no un fallo.
+
+  Escritorio 800 × 204, móvil 360 × 424.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.mismaPregunta;
+const IMANES = ['verde', 'amarillo'] as const;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+const preguntaMovil = parte(d.pregunta, 34);
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 204" aria-hidden="true">
+    <PizarraDefs pre="pmpa" />
+    <Nota x={400} y={18} texto={d.pregunta} tam={15} peso={600} alinea="middle" />
+    {[0, 1].map((i) => <Trazo desde={[256, 74 + i * 90]} hasta={[288, 120]} curva={i ? -6 : 6} />)}
+    {[0, 1].map((i) => <Trazo desde={[500, 120]} hasta={[526, 74 + i * 90]} curva={i ? 6 : -6} />)}
+    {d.personas.map((p, i) => <Ficha pre="pmpa" disposicion="horizontal" x={0} y={46 + i * 90} w={250} h={56} icono="persona" titulo={p.t} sub={p.s} iman={IMANES[i]} imanX={0.9} tamIcono={22} tamTitulo={15} tamSub={12.5} />)}
+    <Ficha pre="pmpa" x={294} y={72} w={200} h={96} icono="llave" titulo={d.centro.t} sub={d.centro.s} iman="negro" tamIcono={28} tamTitulo={15} tamSub={11.5} />
+    {d.resultados.map((r, i) => <Ficha pre="pmpa" disposicion="horizontal" x={530} y={46 + i * 90} w={270} h={56} icono={i ? 'blindado' : 'hecho'} titulo={r.t} sub={r.s} tono={i ? 'gris' : 'tinta'} iman={i ? 'gris' : 'verde'} imanX={0.9} tamIcono={22} tamTitulo={15} tamSub={12.5} />)}
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 424" aria-hidden="true">
+    <PizarraDefs pre="pmpe" />
+    <Nota x={180} y={18} texto={preguntaMovil} tam={14} peso={600} alinea="middle" interlineado={1.25} />
+    <Ficha pre="pmpe" disposicion="horizontal" x={0} y={30 + preguntaMovil.length * 17} w={360} h={52} icono="llave" titulo={d.centro.t} sub={d.centro.s} iman="negro" imanX={0.92} tamIcono={22} tamTitulo={14.5} tamSub={12.5} />
+    {
+      d.personas.map((p, i) => {
+        const y0 = 130 + i * 150;
+        return (
+          <>
+            <Ficha pre="pmpe" disposicion="horizontal" x={0} y={y0} w={360} h={50} icono="persona" titulo={p.t} sub={p.s} iman={IMANES[i]} imanX={0.92} tamIcono={22} tamTitulo={14.5} tamSub={12.5} />
+            <Trazo desde={[40, y0 + 54]} hasta={[40, y0 + 80]} />
+            <Ficha pre="pmpe" disposicion="horizontal" x={30} y={y0 + 84} w={330} h={50} icono={i ? 'blindado' : 'hecho'} titulo={d.resultados[i].t} sub={d.resultados[i].s} tono={i ? 'gris' : 'tinta'} iman={i ? 'gris' : 'verde'} imanX={0.92} tamIcono={22} tamTitulo={14.5} tamSub={12.5} />
+          </>
+        );
+      })
+    }
+  </svg>
+</Pizarra>

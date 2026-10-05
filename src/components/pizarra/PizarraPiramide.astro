@@ -1,0 +1,96 @@
+---
+/*
+  Los cuatro niveles de riesgo, en pirámide. En la guía del reglamento,
+  sección «Cuatro niveles de riesgo y dónde cae una empresa normal».
+
+  A la izquierda, la pirámide con los cuatro niveles nombrados igual
+  (prohibido, alto, limitado, mínimo). A su lado, dos columnas: ejemplos y
+  qué exige cada nivel. Rehecha el 5 oct 2026 por orden del propietario: la
+  anterior mezclaba niveles con obligaciones («Transparencia» en vez de
+  «Riesgo limitado») y decía «la maquinaria pesada» o «casi no lleva nada»
+  sin explicar qué. Los ejemplos salen de la propia página, salvo el filtro
+  de spam, que es el ejemplo de riesgo mínimo de la Comisión Europea. Las
+  dos bandas de abajo van en gris: ahí suele caer un agente de empresa.
+
+  Escritorio 800 × 316, móvil 360 × alto calculado.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import Nota from './Nota.astro';
+import { TINTA, GRIS, ROJO } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.piramide;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+
+/** Las bandas de un trapecio: arriba estrecho, abajo ancho. */
+const bandas = (cx: number, y0: number, alto: number, mitadArriba: number, mitadAbajo: number) => {
+  const total = alto * 4;
+  const mitad = (y: number) => mitadArriba + ((mitadAbajo - mitadArriba) * (y - y0)) / total;
+  return [0, 1, 2, 3].map((i) => {
+    const a = y0 + i * alto;
+    const b = a + alto;
+    return {
+      d: `M${cx - mitad(a)},${a} L${cx + mitad(a)},${a} L${cx + mitad(b)},${b} L${cx - mitad(b)},${b} Z`,
+      medio: (a + b) / 2,
+      derecha: cx + mitad((a + b) / 2),
+    };
+  });
+};
+const ALTO = 64;
+const E = bandas(90, 34, ALTO, 22, 90);
+const relleno = (i: number) => (i === 0 ? '#fff5f5' : i >= 2 ? '#f6f7f9' : '#fff');
+const trazo = (i: number) => (i === 0 ? ROJO : TINTA);
+
+// Móvil: una fila por nivel, con una pirámide estrecha a la izquierda.
+const MALTO = 86;
+const M = bandas(34, 10, MALTO, 10, 34);
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 316" aria-hidden="true">
+    <Nota x={370} y={22} texto={d.cabeceras.ejemplos} tono="gris" tam={13} peso={700} />
+    <Nota x={590} y={22} texto={d.cabeceras.exige} tono="gris" tam={13} peso={700} />
+    {
+      E.map((b, i) => (
+        <>
+          <path d={b.d} fill={relleno(i)} stroke={trazo(i)} stroke-width="2.2" stroke-linejoin="round" />
+          {i > 0 && <path d={`M190,${34 + i * ALTO} L800,${34 + i * ALTO}`} stroke="#e3e6ea" stroke-width="1" />}
+          <path d={`M${b.derecha + 8},${b.medio} L${200},${b.medio}`} stroke={GRIS} stroke-width="1.2" stroke-dasharray="2 4" />
+          <Nota x={208} y={b.medio + 5} texto={d.bandas[i].t} tono={i === 0 ? 'rojo' : 'tinta'} tam={15} peso={700} />
+          <Nota x={370} y={b.medio + (parte(d.bandas[i].ej, 30).length > 1 ? -3 : 5)} texto={parte(d.bandas[i].ej, 30)} tono="gris" tam={13.5} peso={500} interlineado={1.2} />
+          <Nota x={590} y={b.medio + (parte(d.bandas[i].exige, 28).length > 1 ? -3 : 5)} texto={parte(d.bandas[i].exige, 28)} tam={13.5} peso={600} interlineado={1.2} />
+        </>
+      ))
+    }
+    <Nota x={0} y={306} texto={d.normal} tono="gris" tam={13.5} peso={600} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 404" aria-hidden="true">
+    {
+      M.map((b, i) => (
+        <>
+          <path d={b.d} fill={relleno(i)} stroke={trazo(i)} stroke-width="2" stroke-linejoin="round" />
+          {i > 0 && <path d={`M80,${10 + i * MALTO} L360,${10 + i * MALTO}`} stroke="#e3e6ea" stroke-width="1" />}
+          <Nota x={84} y={b.medio - 18} texto={d.bandas[i].t} tono={i === 0 ? 'rojo' : 'tinta'} tam={14} peso={700} />
+          <Nota x={84} y={b.medio + 2} texto={`${d.cabeceras.ejemplos}: ${d.bandas[i].ej}`} tono="gris" tam={12} peso={500} />
+          <Nota x={84} y={b.medio + 20} texto={`${d.cabeceras.exige}: ${d.bandas[i].exige}`} tam={12} peso={600} />
+        </>
+      ))
+    }
+    <Nota x={0} y={378} texto={parte(d.normal, 52)} tono="gris" tam={12} peso={600} interlineado={1.2} />
+  </svg>
+</Pizarra>

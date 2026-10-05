@@ -1,0 +1,55 @@
+---
+/*
+  El método en cuatro pasos. En «Cómo es el proyecto, de la primera reunión
+  a producción» de la guía, debajo de «cada uno entrega algo que puedes tener
+  en la mano».
+
+  Cuatro fichas en fila, cada una con lo que entrega, y una nota bajo la
+  primera: en Explorar puede salir un no, que también es un resultado.
+
+  Escritorio 800 × 214, móvil 360 × 318.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.metodo;
+const ICONOS = ['lupa', 'clasifica', 'flujo', 'metricas'] as const;
+const IMANES = ['rojo', 'amarillo', 'negro', 'verde'] as const;
+const X = [0, 210, 420, 630];
+const W = 170;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 214" aria-hidden="true">
+    <PizarraDefs pre="pmea" />
+
+    {[0, 1, 2].map((i) => <Trazo desde={[X[i] + W + 6, 92]} hasta={[X[i + 1] - 6, 92]} />)}
+    {
+      d.pasos.map((p, i) => (
+        <Ficha pre="pmea" x={X[i]} y={40} w={W} h={104} icono={ICONOS[i]} titulo={p.t} sub={p.s} iman={IMANES[i]} giro={[-1.5, 1, -1, 1.5][i]} tamIcono={30} tamTitulo={18} tamSub={13} />
+      ))
+    }
+    <Trazo desde={[W / 2, 196]} hasta={[W / 2, 156]} />
+    <Nota x={W / 2 + 14} y={196} texto={d.bandera.join(' ')} tam={15} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 318" aria-hidden="true">
+    <PizarraDefs pre="pmee" />
+
+    {[0, 1, 2].map((i) => <Trazo desde={[110, 8 + i * 78 + 58]} hasta={[110, 8 + (i + 1) * 78 - 4]} />)}
+    {
+      d.pasos.map((p, i) => (
+        <Ficha pre="pmee" disposicion="horizontal" x={0} y={8 + i * 78} w={226} h={56} icono={ICONOS[i]} titulo={p.t} sub={p.s} iman={IMANES[i]} imanX={0.86} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+      ))
+    }
+    <Nota x={238} y={30} texto={d.bandera} tam={13.5} />
+  </svg>
+</Pizarra>

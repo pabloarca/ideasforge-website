@@ -1,0 +1,85 @@
+---
+/*
+  La criba como árbol de decisión. En «Cómo saber si tu empresa necesita
+  uno» de la guía, debajo del párrafo que la presenta.
+
+  Las cinco preguntas en el mismo orden que la página. Cada «sí» baja a la
+  siguiente; cada «no» sale a la derecha hacia una ficha gris, que es la
+  salida sin agente que da la propia página para ese caso. Con los cinco
+  «sí», el proceso es candidato a agente.
+
+  Escritorio 800 × 462, móvil 360 × 470.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.criba;
+const ICONOS_NO = ['flujo', 'erp', 'contador', 'persona', 'dinero'] as const;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+
+// Escritorio.
+const QX = 40;
+const QW = 340;
+const NX = 470;
+const NW = 320;
+const H = 54;
+const PASO = 78;
+const fy = (i: number) => 8 + i * PASO;
+
+// Móvil.
+const MQW = 212;
+const MPASO = 80;
+const mfy = (i: number) => 8 + i * MPASO;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 462" aria-hidden="true">
+    <PizarraDefs pre="pcra" />
+
+    {
+      d.preguntas.map((p, i) => (
+        <>
+          <Trazo desde={[QX + QW + 6, fy(i) + H / 2]} hasta={[NX - 6, fy(i) + H / 2]} etiqueta={d.no} etiquetaEn={[(QX + QW + NX) / 2, fy(i) + H / 2 - 10]} tamEtiqueta={14} />
+          <Trazo desde={[QX + 110, fy(i) + H + 4]} hasta={[QX + 110, fy(i + 1) - 4]} etiqueta={d.si} etiquetaEn={[QX + 128, fy(i) + H + 18]} tamEtiqueta={14} />
+          <Ficha pre="pcra" disposicion="horizontal" x={QX} y={fy(i)} w={QW} h={H} icono="pregunta" titulo={p.t} sub={p.s} iman="negro" imanX={0.88} tamIcono={24} tamTitulo={16} tamSub={13} />
+          <Ficha pre="pcra" disposicion="horizontal" x={NX} y={fy(i)} w={NW} h={H} icono={ICONOS_NO[i]} titulo={p.no.t} sub={p.no.s} tono="gris" iman="gris" imanX={0.92} giro={i % 2 ? 1 : -1} tamIcono={24} tamTitulo={15} tamSub={13} />
+        </>
+      ))
+    }
+    <Ficha pre="pcra" disposicion="horizontal" x={QX} y={fy(5)} w={QW} h={56} icono="hecho" titulo={d.final.t} sub={d.final.s} iman="verde" imanX={0.88} tamIcono={26} tamTitulo={17} tamSub={13} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 470" aria-hidden="true">
+    <PizarraDefs pre="pcre" />
+
+    {
+      d.preguntas.map((p, i) => (
+        <>
+          <Trazo desde={[MQW + 4, mfy(i) + H / 2]} hasta={[MQW + 26, mfy(i) + H / 2]} />
+          <Nota x={MQW + 32} y={mfy(i) + 18} texto={parte(`${p.no.t} ${p.no.s}`, 15)} tono="gris" tam={12.5} peso={600} interlineado={1.15} />
+          <Trazo desde={[90, mfy(i) + H + 4]} hasta={[90, mfy(i + 1) - 4]} etiqueta={d.si} etiquetaEn={[106, mfy(i) + H + 18]} tamEtiqueta={12.5} />
+          <Ficha pre="pcre" disposicion="horizontal" x={0} y={mfy(i)} w={MQW} h={H} icono="pregunta" titulo={p.t} sub={p.s} iman="negro" imanX={0.88} tamIcono={18} tamTitulo={13.5} tamSub={12} />
+        </>
+      ))
+    }
+    <Ficha pre="pcre" disposicion="horizontal" x={0} y={mfy(5)} w={MQW} h={56} icono="hecho" titulo={d.final.t} sub={d.final.s} iman="verde" imanX={0.88} tamIcono={20} tamTitulo={14} tamSub={12} />
+  </svg>
+</Pizarra>

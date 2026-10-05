@@ -1,0 +1,48 @@
+---
+/*
+  Dos fuentes para un asistente. En conocimiento corporativo, sección
+  «Cuando la respuesta necesita datos vivos».
+
+  La documentación (lo que se escribe una vez) y los sistemas internos (lo
+  que cambia cada día) entran los dos al asistente (azul), que según la
+  consulta responde, guía paso a paso o ejecuta la acción. Son las tres
+  salidas del párrafo.
+
+  Escritorio 800 × 196, móvil 360 × 372.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.dosFuentes;
+const FUENTES = ['manual', 'erp'] as const;
+const IMANES_F = ['amarillo', 'negro'] as const;
+const SALIDAS = ['chat', 'flujo', 'operacion'] as const;
+const IMANES_S = ['verde', 'amarillo', 'negro'] as const;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 196" aria-hidden="true">
+    <PizarraDefs pre="pdfa" />
+    {[0, 1].map((i) => <Trazo desde={[248, 52 + i * 88]} hasta={[294, 98]} curva={i ? -6 : 6} />)}
+    {d.fuentes.map((f, i) => <Ficha pre="pdfa" disposicion="horizontal" x={0} y={24 + i * 88} w={240} h={56} icono={FUENTES[i]} titulo={f.t} sub={f.s} iman={IMANES_F[i]} imanX={0.9} giro={i ? 1 : -1} tamIcono={24} tamTitulo={15} tamSub={12.5} />)}
+    <Ficha pre="pdfa" x={300} y={50} w={150} h={96} icono="ia" titulo={d.asistente.t} sub={d.asistente.s} tono="azul" iman="azul" tamIcono={30} tamTitulo={15} tamSub={13} />
+    {[0, 1, 2].map((i) => <Trazo desde={[456, 98]} hasta={[514, 40 + i * 60]} curva={i === 0 ? -6 : i === 2 ? 6 : 0} tono="azul" />)}
+    {d.salidas.map((s, i) => <Ficha pre="pdfa" disposicion="horizontal" x={520} y={18 + i * 60} w={280} h={44} icono={SALIDAS[i]} titulo={s} iman={IMANES_S[i]} imanX={0.92} tamIcono={20} tamTitulo={15} />)}
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 372" aria-hidden="true">
+    <PizarraDefs pre="pdfe" />
+    {d.fuentes.map((f, i) => <Ficha pre="pdfe" x={i * 188} y={8} w={172} h={92} icono={FUENTES[i]} titulo={f.t} sub={f.s} iman={IMANES_F[i]} tamIcono={26} tamTitulo={14} tamSub={12} />)}
+    {[0, 1].map((i) => <Trazo desde={[86 + i * 188, 106]} hasta={[160 + i * 40, 126]} curva={i ? 6 : -6} />)}
+    <Ficha pre="pdfe" disposicion="horizontal" x={80} y={130} w={200} h={54} icono="ia" titulo={d.asistente.t} sub={d.asistente.s} tono="azul" iman="azul" imanX={0.88} tamIcono={24} tamTitulo={15} tamSub={12.5} />
+    <Trazo desde={[180, 190]} hasta={[180, 212]} tono="azul" />
+    {d.salidas.map((s, i) => <Ficha pre="pdfe" disposicion="horizontal" x={40} y={218 + i * 50} w={280} h={40} icono={SALIDAS[i]} titulo={s} iman={IMANES_S[i]} imanX={0.92} tamIcono={18} tamTitulo={14} />)}
+  </svg>
+</Pizarra>

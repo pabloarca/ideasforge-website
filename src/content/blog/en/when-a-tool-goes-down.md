@@ -23,6 +23,8 @@ In our plant-floor assistant, every tool has a status record: a failure counter,
 
 What the user sees then is not a technical error. It is a polite, specific degradation message. That particular capability is unavailable, the rest of the assistant still stands. One broken piece stops contaminating the whole, and no internal trace, with its host names and paths, ever reaches anyone's screen.
 
+<div data-pizarra="disyuntor"></div>
+
 ## Three lessons production taught us
 
 **A counter that only goes up lies.** If nobody brings it down over time, a perfectly healthy tool still carries the count from an incident months ago. It looks sick when it is perfectly healthy. Every counter reading now is read alongside the date of the last failure, because a number without a date is a rumor.

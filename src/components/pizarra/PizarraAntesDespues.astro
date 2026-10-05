@@ -1,0 +1,139 @@
+---
+/*
+  Aislamiento por filtro frente a un esquema por empresa. En «Cuando
+  arreglamos la arquitectura, murió una clase entera de fallos» de la guía
+  de RGPD, debajo de «sumar dos empresas en una misma cifra... una consulta
+  que el asistente no puede formular».
+
+  Antes: una tabla compartida, con filas de dos empresas mezcladas, y la
+  consulta pasando por un filtro que tiene que estar siempre. Después: cada
+  empresa en su propio compartimento y la consulta de A que solo llega a A.
+  Sumar las dos deja de ser un fallo que atrapar y pasa a no poder escribirse.
+
+  Escritorio 800 × 300, móvil 360 × 528.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA, GRIS } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.antesDespues;
+
+/** Una tabla dibujada: marco, separadores y una etiqueta por fila. */
+const tabla = (x: number, y: number, w: number, h: number, filas: ('A' | 'B')[]) => {
+  const alto = h / filas.length;
+  return filas.map((f, i) => ({
+    y: y + i * alto,
+    alto,
+    linea: i > 0 ? `M${x},${y + i * alto} L${x + w},${y + i * alto}` : '',
+    texto: f === 'A' ? d.empresaA : d.empresaB,
+    color: f === 'A' ? TINTA : GRIS,
+    barras: `M${x + w * 0.52},${y + i * alto + alto / 2} L${x + w * 0.62},${y + i * alto + alto / 2} M${x + w * 0.68},${y + i * alto + alto / 2} L${x + w * 0.86},${y + i * alto + alto / 2}`,
+  }));
+};
+const mezcla = ['A', 'B', 'A', 'B'] as ('A' | 'B')[];
+const soloA = ['A', 'A', 'A'] as ('A' | 'B')[];
+const soloB = ['B', 'B', 'B'] as ('A' | 'B')[];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 300" aria-hidden="true">
+    <PizarraDefs pre="pada" />
+
+    <path d="M400,10 L400,290" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+
+    {/* Antes */}
+    <Nota x={0} y={24} texto={d.antes.titulo} tam={19} peso={700} />
+    <Nota x={0} y={45} texto={d.antes.sub} tono="gris" tam={15} peso={500} />
+    <Ficha pre="pada" disposicion="horizontal" x={0} y={66} w={150} h={40} icono="registro" titulo={d.consulta} iman="amarillo" imanX={0.9} tamIcono={20} tamTitulo={15} />
+    <Trazo desde={[156, 86]} hasta={[184, 86]} />
+    <rect x="190" y="68" width="180" height="36" rx="18" fill="#fff" stroke={TINTA} stroke-width="2" stroke-dasharray="6 4" />
+    <Nota x={280} y={91} texto={d.filtro} tam={14} peso={600} alinea="middle" />
+    <Trazo desde={[280, 110]} hasta={[280, 140]} />
+    <rect x="110" y="146" width="270" height="104" rx="6" fill="#fff" stroke={TINTA} stroke-width="2" />
+    {
+      tabla(110, 146, 270, 104, mezcla).map((f) => (
+        <>
+          {f.linea && <path d={f.linea} stroke="#d3d7dd" stroke-width="1.2" />}
+          <Nota x={124} y={f.y + f.alto / 2 + 5} texto={f.texto} tam={13.5} peso={600} tono={f.color === TINTA ? 'tinta' : 'gris'} />
+          <path d={f.barras} stroke={f.color} stroke-width="3" stroke-linecap="round" opacity="0.45" />
+        </>
+      ))
+    }
+    <Nota x={0} y={284} texto={d.escapa} tono="rojo" tam={15} peso={600} />
+
+    {/* Después */}
+    <Nota x={420} y={24} texto={d.despues.titulo} tam={19} peso={700} />
+    <Nota x={420} y={45} texto={d.despues.sub} tono="gris" tam={15} peso={500} />
+    <Ficha pre="pada" disposicion="horizontal" x={420} y={66} w={170} h={40} icono="registro" titulo={d.consultaA} iman="amarillo" imanX={0.9} tamIcono={20} tamTitulo={15} />
+    <Trazo desde={[505, 110]} hasta={[505, 140]} />
+    <rect x="420" y="146" width="170" height="104" rx="6" fill="#fff" stroke={TINTA} stroke-width="2" />
+    <rect x="630" y="146" width="170" height="104" rx="6" fill="#f6f7f9" stroke={GRIS} stroke-width="2" />
+    {
+      [
+        { x: 420, filas: soloA },
+        { x: 630, filas: soloB },
+      ].map((t) =>
+        tabla(t.x, 146, 170, 104, t.filas).map((f) => (
+          <>
+            {f.linea && <path d={f.linea} stroke="#d3d7dd" stroke-width="1.2" />}
+            <Nota x={t.x + 12} y={f.y + f.alto / 2 + 5} texto={f.texto} tam={13.5} peso={600} tono={f.color === TINTA ? 'tinta' : 'gris'} />
+          </>
+        )),
+      )
+    }
+    <Nota x={610} y={284} texto={d.noSePuede} tam={15} peso={700} alinea="middle" />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 528" aria-hidden="true">
+    <PizarraDefs pre="pade" />
+
+    <Nota x={0} y={18} texto={d.antes.titulo} tam={15} peso={700} />
+    <Nota x={0} y={36} texto={d.antes.sub} tono="gris" tam={12.5} peso={500} />
+    <Ficha pre="pade" disposicion="horizontal" x={0} y={48} w={140} h={38} icono="registro" titulo={d.consulta} iman="amarillo" imanX={0.9} tamIcono={18} tamTitulo={13.5} />
+    <Trazo desde={[146, 67]} hasta={[170, 67]} />
+    <rect x="176" y="50" width="180" height="34" rx="17" fill="#fff" stroke={TINTA} stroke-width="1.8" stroke-dasharray="6 4" />
+    <Nota x={266} y={72} texto={d.filtro} tam={13} peso={600} alinea="middle" />
+    <Trazo desde={[266, 88]} hasta={[266, 112]} />
+    <rect x="70" y="116" width="290" height="100" rx="6" fill="#fff" stroke={TINTA} stroke-width="1.8" />
+    {
+      tabla(70, 116, 290, 100, mezcla).map((f) => (
+        <>
+          {f.linea && <path d={f.linea} stroke="#d3d7dd" stroke-width="1.2" />}
+          <Nota x={82} y={f.y + f.alto / 2 + 5} texto={f.texto} tam={12.5} peso={600} tono={f.color === TINTA ? 'tinta' : 'gris'} />
+          <path d={f.barras} stroke={f.color} stroke-width="2.6" stroke-linecap="round" opacity="0.45" />
+        </>
+      ))
+    }
+    <Nota x={0} y={242} texto={d.escapa} tono="rojo" tam={13.5} peso={600} />
+
+    <path d="M0,262 L360,262" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+    <Nota x={0} y={288} texto={d.despues.titulo} tam={15} peso={700} />
+    <Nota x={0} y={306} texto={d.despues.sub} tono="gris" tam={12.5} peso={500} />
+    <Ficha pre="pade" disposicion="horizontal" x={0} y={318} w={170} h={38} icono="registro" titulo={d.consultaA} iman="amarillo" imanX={0.9} tamIcono={18} tamTitulo={13.5} />
+    <Trazo desde={[85, 360]} hasta={[85, 384]} />
+    <rect x="0" y="388" width="170" height="96" rx="6" fill="#fff" stroke={TINTA} stroke-width="1.8" />
+    <rect x="190" y="388" width="170" height="96" rx="6" fill="#f6f7f9" stroke={GRIS} stroke-width="1.8" />
+    {
+      [
+        { x: 0, filas: soloA },
+        { x: 190, filas: soloB },
+      ].map((t) =>
+        tabla(t.x, 388, 170, 96, t.filas).map((f) => (
+          <>
+            {f.linea && <path d={f.linea} stroke="#d3d7dd" stroke-width="1.2" />}
+            <Nota x={t.x + 12} y={f.y + f.alto / 2 + 5} texto={f.texto} tam={12.5} peso={600} tono={f.color === TINTA ? 'tinta' : 'gris'} />
+          </>
+        )),
+      )
+    }
+    <Nota x={180} y={512} texto={d.noSePuede} tam={13.5} peso={700} alinea="middle" />
+  </svg>
+</Pizarra>

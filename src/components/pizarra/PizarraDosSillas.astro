@@ -1,0 +1,83 @@
+---
+/*
+  Proveedor o quien despliega: dos sillas. En «Proveedor o responsable del
+  despliegue, la pregunta que decide tus deberes» de la guía del reglamento,
+  debajo de «El proveedor responde del diseño y quien despliega responde del
+  uso».
+
+  Dos sillas dibujadas (el icono de Material, grande), cada una con su
+  papel, de qué responde, sus deberes y el ejemplo de la página: el
+  fabricante del sistema y el banco que lo compra.
+
+  Escritorio 800 × 290, móvil 360 × 290.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+import { ICONOS_PIZARRA } from './iconos';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.dosSillas;
+const silla = ICONOS_PIZARRA.silla;
+const ICONOS = ['trabajo', 'banco'] as const;
+const IMANES = ['amarillo', 'verde'] as const;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+const X = [200, 600];
+const MX = [90, 270];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 290" aria-hidden="true">
+    <PizarraDefs pre="pdsa" />
+
+    <path d="M400,10 L400,280" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+    {
+      d.sillas.map((s, i) => (
+        <>
+          <svg x={X[i] - 48} y={8} width="96" height="96" viewBox={silla.viewBox} aria-hidden="true">
+            <path d={silla.d} fill={TINTA} />
+          </svg>
+          <Nota x={X[i]} y={134} texto={s.t} tam={20} peso={700} alinea="middle" />
+          <Nota x={X[i]} y={156} texto={s.s} tono="gris" tam={15} peso={500} alinea="middle" />
+          <Nota x={X[i]} y={186} texto={s.deberes} tam={14.5} peso={600} alinea="middle" />
+          <Ficha pre="pdsa" disposicion="horizontal" x={X[i] - 130} y={214} w={260} h={50} icono={ICONOS[i]} titulo={s.ejemplo} iman={IMANES[i]} imanX={0.92} giro={i ? 1 : -1} tamIcono={24} tamTitulo={15} />
+        </>
+      ))
+    }
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 290" aria-hidden="true">
+    <PizarraDefs pre="pdse" />
+
+    <path d="M180,8 L180,280" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+    {
+      d.sillas.map((s, i) => (
+        <>
+          <svg x={MX[i] - 32} y={6} width="64" height="64" viewBox={silla.viewBox} aria-hidden="true">
+            <path d={silla.d} fill={TINTA} />
+          </svg>
+          <Nota x={MX[i]} y={92} texto={s.t} tam={15} peso={700} alinea="middle" />
+          <Nota x={MX[i]} y={110} texto={s.s} tono="gris" tam={12.5} peso={500} alinea="middle" />
+          <Nota x={MX[i]} y={136} texto={parte(s.deberes, 20)} tam={12.5} peso={600} alinea="middle" interlineado={1.2} />
+          <Ficha pre="pdse" x={MX[i] - 82} y={190} w={164} h={84} icono={ICONOS[i]} titulo={s.ejemplo} iman={IMANES[i]} imanX={0.86} tamIcono={24} tamTitulo={13} />
+        </>
+      ))
+    }
+  </svg>
+</Pizarra>

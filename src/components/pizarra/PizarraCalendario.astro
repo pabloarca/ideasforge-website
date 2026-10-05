@@ -1,0 +1,102 @@
+---
+/*
+  El calendario del reglamento. En «El calendario ya va por la mitad» de la
+  guía del reglamento, debajo de su párrafo de entrada.
+
+  Una línea de tiempo a escala, de agosto de 2024 a agosto de 2028, con las
+  seis fechas que da la página. Una marca discontinua señala hoy, que se
+  calcula al compilar, así que la pizarra no caduca: cada publicación la
+  mueve a su sitio.
+
+  Escritorio 800 × 226, móvil 360 × 512.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.calendario;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+
+// Meses desde agosto de 2024 hasta hoy, al compilar.
+const ahora = new Date();
+const mesesHoy = Math.min(48, Math.max(0, (ahora.getFullYear() - 2024) * 12 + ahora.getMonth() - 7 + ahora.getDate() / 31));
+
+// Escritorio: eje horizontal.
+const X0 = 30;
+const X1 = 760;
+const EY = 130;
+const ex = (m: number) => X0 + (m / 48) * (X1 - X0);
+// Los extremos se alinean hacia dentro para no salirse del lienzo.
+const hitos = d.hitos.map((h, i) => {
+  const x = ex(h.meses);
+  const alinea = x < 90 ? 'start' : x > 710 ? 'end' : 'middle';
+  const tx = alinea === 'start' ? x - 8 : alinea === 'end' ? x + 8 : x;
+  return { ...h, x, tx, alinea: alinea as 'start' | 'end' | 'middle', arriba: i % 2 === 0 };
+});
+const hoyX = ex(mesesHoy);
+// La etiqueta de hoy va del lado donde no estorba a ningún hito.
+const hoyArriba = !hitos.some((h) => h.arriba && Math.abs(h.x - hoyX) < 80);
+
+// Móvil: eje vertical.
+const MY0 = 30;
+const MY1 = 480;
+const my = (m: number) => MY0 + (m / 48) * (MY1 - MY0);
+const hoyY = my(mesesHoy);
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 226" aria-hidden="true">
+    <path d={`M${X0 - 10},${EY} L${X1 + 24},${EY} M${X1 + 14},${EY - 7} L${X1 + 24},${EY} L${X1 + 14},${EY + 7}`} fill="none" stroke={TINTA} stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    <path d={hoyArriba ? `M${hoyX},${EY - 46} L${hoyX},${EY + 10}` : `M${hoyX},${EY - 10} L${hoyX},${EY + 46}`} stroke={TINTA} stroke-width="2" stroke-dasharray="5 5" />
+    <Nota x={hoyX} y={hoyArriba ? EY - 54 : EY + 66} texto={d.hoy} tam={15} peso={700} alinea="middle" />
+    {
+      hitos.map((h) => (
+        <>
+          <path d={`M${h.x},${EY} L${h.x},${h.arriba ? EY - 20 : EY + 20}`} stroke={TINTA} stroke-width="2" />
+          <circle cx={h.x} cy={EY} r="6" fill="#fff" stroke={TINTA} stroke-width="2.4" />
+          {h.arriba ? (
+            <>
+              <Nota x={h.tx} y={EY - 72} texto={h.fecha} tam={15} peso={700} alinea={h.alinea} />
+              <Nota x={h.tx} y={EY - 54} texto={parte(h.t, 20)} tono="gris" tam={13} peso={500} alinea={h.alinea} interlineado={1.15} />
+            </>
+          ) : (
+            <>
+              <Nota x={h.tx} y={EY + 42} texto={h.fecha} tam={15} peso={700} alinea={h.alinea} />
+              <Nota x={h.tx} y={EY + 60} texto={parte(h.t, 20)} tono="gris" tam={13} peso={500} alinea={h.alinea} interlineado={1.15} />
+            </>
+          )}
+        </>
+      ))
+    }
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 512" aria-hidden="true">
+    <path d={`M60,${MY0 - 12} L60,${MY1 + 22} M53,${MY1 + 12} L60,${MY1 + 22} L67,${MY1 + 12}`} fill="none" stroke={TINTA} stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+    <path d={`M44,${hoyY} L72,${hoyY}`} stroke={TINTA} stroke-width="2" stroke-dasharray="4 4" />
+    <Nota x={2} y={hoyY + 5} texto={d.hoy} tam={13} peso={700} />
+    {
+      d.hitos.map((h) => (
+        <>
+          <circle cx={60} cy={my(h.meses)} r="5.5" fill="#fff" stroke={TINTA} stroke-width="2.2" />
+          <Nota x={80} y={my(h.meses) + 5} texto={h.fecha} tam={14} peso={700} />
+          <Nota x={80} y={my(h.meses) + 22} texto={h.t} tono="gris" tam={12.5} peso={500} />
+        </>
+      ))
+    }
+  </svg>
+</Pizarra>

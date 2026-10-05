@@ -1,0 +1,113 @@
+---
+/*
+  Consulta libre frente a contrato. En el post sobre agentes y SQL, sección
+  «Lo que entrega en su lugar».
+
+  A la izquierda, el modelo (azul) escribe la consulta entera, una caja negra
+  que llega tal cual a la base de datos y no se puede validar. A la derecha,
+  el modelo solo rellena un formulario de cinco campos conocidos; el código
+  lo valida y construye la consulta con parámetros antes de tocar los datos.
+
+  Escritorio 800 × 330, móvil 360 × 602.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+import { ICONOS_PIZARRA } from './iconos';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.contrato;
+const visto = ICONOS_PIZARRA.hecho;
+
+/** La caja negra: rayas de rotulador blancas que imitan una consulta escrita a mano. */
+const rayas = (x: number, y: number, w: number) =>
+  [0.72, 0.5, 0.86, 0.38, 0.64].map((f, i) => `M${x + 14 + (i % 2) * 18},${y + 16 + i * 13} L${x + 14 + (i % 2) * 18 + (w - 46) * f},${y + 16 + i * 13}`).join(' ');
+
+/** El formulario: cinco filas con su casilla marcada. */
+const filas = (x: number, y: number, w: number, alto: number) => d.campos.map((c, i) => ({ c, y: y + i * alto, linea: `M${x},${y + i * alto} L${x + w},${y + i * alto}` }));
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 330" aria-hidden="true">
+    <PizarraDefs pre="pcoa" />
+
+    <path d="M400,10 L400,320" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+
+    <Nota x={0} y={24} texto={d.libre.titulo} tam={19} peso={700} />
+    <Nota x={0} y={45} texto={d.libre.sub} tono="gris" tam={15} peso={500} />
+    <Ficha pre="pcoa" disposicion="horizontal" x={20} y={60} w={240} h={48} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.92} tamIcono={22} tamTitulo={15} tamSub={12.5} />
+    <Trazo desde={[140, 112]} hasta={[140, 128]} tono="azul" />
+    <rect x="20" y="132" width="300" height="82" rx="6" fill="#2a2f3a" />
+    <path d={rayas(20, 132, 300)} stroke="#c9ced6" stroke-width="3" stroke-linecap="round" opacity="0.8" />
+    <Trazo desde={[140, 218]} hasta={[140, 236]} />
+    <Ficha pre="pcoa" disposicion="horizontal" x={20} y={240} w={240} h={48} icono="erp" titulo={d.datos.t} iman="gris" imanX={0.92} tamIcono={22} tamTitulo={15} />
+    <Nota x={20} y={316} texto={d.libreNota} tono="rojo" tam={15} peso={700} />
+
+    <Nota x={420} y={24} texto={d.cerrado.titulo} tam={19} peso={700} />
+    <Nota x={420} y={45} texto={d.cerrado.sub} tono="gris" tam={15} peso={500} />
+    <Ficha pre="pcoa" disposicion="horizontal" x={420} y={60} w={200} h={48} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.92} tamIcono={22} tamTitulo={15} tamSub={12} />
+    <Trazo desde={[520, 112]} hasta={[520, 128]} tono="azul" />
+    <rect x="420" y="132" width="200" height="140" rx="6" fill="#fff" stroke={TINTA} stroke-width="2.2" />
+    {
+      filas(420, 132, 200, 28).map((f, i) => (
+        <>
+          {i > 0 && <path d={f.linea} stroke="#d3d7dd" stroke-width="1.2" />}
+          <Nota x={436} y={f.y + 19} texto={f.c} tam={14} peso={600} />
+          <svg x={590} y={f.y + 6} width="16" height="16" viewBox={visto.viewBox} aria-hidden="true">
+            <path d={visto.d} fill={TINTA} />
+          </svg>
+        </>
+      ))
+    }
+    <Trazo desde={[626, 166]} hasta={[650, 166]} />
+    <Ficha pre="pcoa" x={656} y={120} w={144} h={92} icono="validacion" titulo={d.codigo.t} sub={d.codigo.s} iman="verde" tamIcono={26} tamTitulo={15} tamSub={12} />
+    <Trazo desde={[728, 216]} hasta={[728, 236]} />
+    <Ficha pre="pcoa" x={656} y={240} w={144} h={84} icono="erp" titulo={d.datos.t} sub={d.datos.s} iman="gris" imanX={0.85} tamIcono={24} tamTitulo={14} tamSub={11.5} />
+    <Nota x={420} y={300} texto={d.cerradoNota} tam={15} peso={700} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 602" aria-hidden="true">
+    <PizarraDefs pre="pcoe" />
+
+    <Nota x={0} y={18} texto={d.libre.titulo} tam={15} peso={700} />
+    <Nota x={0} y={36} texto={d.libre.sub} tono="gris" tam={12.5} peso={500} />
+    <Ficha pre="pcoe" disposicion="horizontal" x={0} y={48} w={360} h={46} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.93} tamIcono={22} tamTitulo={14} tamSub={12} />
+    <Trazo desde={[180, 98]} hasta={[180, 112]} tono="azul" />
+    <rect x="0" y="116" width="360" height="70" rx="6" fill="#2a2f3a" />
+    <path d={rayas(0, 110, 360)} stroke="#c9ced6" stroke-width="2.6" stroke-linecap="round" opacity="0.8" />
+    <Trazo desde={[180, 190]} hasta={[180, 204]} />
+    <Ficha pre="pcoe" disposicion="horizontal" x={0} y={208} w={360} h={40} icono="erp" titulo={d.datos.t} iman="gris" imanX={0.93} tamIcono={20} tamTitulo={14} />
+    <Nota x={0} y={272} texto={d.libreNota} tono="rojo" tam={13.5} peso={700} />
+
+    <path d="M0,290 L360,290" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+    <Nota x={0} y={316} texto={d.cerrado.titulo} tam={15} peso={700} />
+    <Nota x={0} y={334} texto={d.cerrado.sub} tono="gris" tam={12.5} peso={500} />
+    <Ficha pre="pcoe" disposicion="horizontal" x={0} y={346} w={360} h={46} icono="ia" titulo={d.modelo.t} sub={d.modelo.s} tono="azul" iman="azul" imanX={0.93} tamIcono={22} tamTitulo={14} tamSub={12} />
+    <Trazo desde={[110, 396]} hasta={[110, 410]} tono="azul" />
+    <rect x="0" y="414" width="220" height="130" rx="6" fill="#fff" stroke={TINTA} stroke-width="2" />
+    {
+      filas(0, 414, 220, 26).map((f, i) => (
+        <>
+          {i > 0 && <path d={f.linea} stroke="#d3d7dd" stroke-width="1.2" />}
+          <Nota x={12} y={f.y + 18} texto={f.c} tam={13} peso={600} />
+          <svg x={194} y={f.y + 5} width="15" height="15" viewBox={visto.viewBox} aria-hidden="true">
+            <path d={visto.d} fill={TINTA} />
+          </svg>
+        </>
+      ))
+    }
+    <Trazo desde={[226, 470]} hasta={[244, 470]} />
+    <Ficha pre="pcoe" x={248} y={414} w={112} h={84} icono="validacion" titulo={d.codigo.t} iman="verde" imanX={0.85} tamIcono={24} tamTitulo={13.5} />
+    <Trazo desde={[304, 502]} hasta={[304, 520]} />
+    <Ficha pre="pcoe" x={248} y={524} w={112} h={70} icono="erp" titulo={d.datos.t} iman="gris" imanX={0.85} tamIcono={22} tamTitulo={12.5} />
+    <Nota x={0} y={576} texto={d.cerradoNota} tam={13.5} peso={700} />
+  </svg>
+</Pizarra>
+

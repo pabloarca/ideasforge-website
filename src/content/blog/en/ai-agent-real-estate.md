@@ -20,6 +20,8 @@ The agent receives each message and holds the conversation needed to extract thr
 
 With the information complete, the agent does not decide on its own, and it does not drop the inquiry either. It sends the team an email summary with a verdict, suitable or not suitable, and a paragraph justifying why. The person at the agency opens the email, reads three lines and decides whether to schedule the visit. The judgment stays theirs. **What disappears is the ten minutes of checking it used to take to reach that judgment.**
 
+<div data-pizarra="cualifica"></div>
+
 ## The result, in hours rather than promises
 
 More than three hours a day saved on handling incoming requests alone. The team went from triaging to scheduling visits, which is the part of the job that leads to revenue. And interested people get an immediate reply at any hour, including the rental-demand peaks where they used to cool off waiting.

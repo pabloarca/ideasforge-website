@@ -1,0 +1,60 @@
+---
+/*
+  La nube y el número. En el post «Medir la IA por las ganancias», sección
+  «La productividad difusa es el síntoma del proyecto difuso».
+
+  A la izquierda, una nube dibujada con lo que se dice de un proyecto
+  difuso, en gris. A la derecha, dos fichas con número de los casos del
+  post: las más de tres horas al día de la inmobiliaria y las facturas que
+  dejaron de teclearse en la gestora de fincas.
+
+  Escritorio 800 × 240, móvil 360 × 406.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Nota from './Nota.astro';
+import { GRIS } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.nubeNumero;
+
+/** Una nube de rotulador: un óvalo hecho de arcos. */
+const nube = (cx: number, cy: number, rx: number, ry: number) => {
+  const n = 11;
+  const pts = Array.from({ length: n }, (_, i) => {
+    const a = (i / n) * Math.PI * 2;
+    return [cx + rx * Math.cos(a), cy + ry * Math.sin(a)];
+  });
+  return `M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)} ` + pts.map((p, i) => {
+    const q = pts[(i + 1) % n];
+    const ra = Math.hypot(q[0] - p[0], q[1] - p[1]) * 0.62;
+    return `A${ra.toFixed(1)},${ra.toFixed(1)} 0 0 1 ${q[0].toFixed(1)},${q[1].toFixed(1)}`;
+  }).join(' ') + ' Z';
+};
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 240" aria-hidden="true">
+    <PizarraDefs pre="pnna2" />
+    <Nota x={180} y={22} texto={d.nubeTitulo} tono="gris" tam={18} peso={700} alinea="middle" />
+    <path d={nube(180, 130, 150, 80)} fill="#f6f7f9" stroke={GRIS} stroke-width="2.2" stroke-linejoin="round" />
+    {d.nube.map((t, i) => <Nota x={180} y={106 + i * 26} texto={t} tono="gris" tam={i === 0 ? 17 : 14} peso={i === 0 ? 700 : 500} alinea="middle" />)}
+
+    <Nota x={430} y={22} texto={d.numerosTitulo} tam={18} peso={700} />
+    {d.numeros.map((n, i) => <Ficha pre="pnna2" disposicion="horizontal" x={430} y={42 + i * 92} w={370} h={74} icono={i ? 'factura' : 'tiempoGanado'} titulo={n.t} sub={n.s} iman={i ? 'amarillo' : 'verde'} imanX={0.92} giro={i ? 1 : -1} tamIcono={30} tamTitulo={20} tamSub={14} />)}
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 406" aria-hidden="true">
+    <PizarraDefs pre="pnne2" />
+    <Nota x={180} y={20} texto={d.nubeTitulo} tono="gris" tam={15} peso={700} alinea="middle" />
+    <path d={nube(180, 120, 160, 66)} fill="#f6f7f9" stroke={GRIS} stroke-width="2" stroke-linejoin="round" />
+    {d.nube.map((t, i) => <Nota x={180} y={98 + i * 24} texto={t} tono="gris" tam={i === 0 ? 15 : 12.5} peso={i === 0 ? 700 : 500} alinea="middle" />)}
+    <Nota x={0} y={232} texto={d.numerosTitulo} tam={15} peso={700} />
+    {d.numeros.map((n, i) => <Ficha pre="pnne2" disposicion="horizontal" x={0} y={248 + i * 84} w={360} h={66} icono={i ? 'factura' : 'tiempoGanado'} titulo={n.t} sub={n.s} iman={i ? 'amarillo' : 'verde'} imanX={0.92} tamIcono={26} tamTitulo={17} tamSub={12.5} />)}
+  </svg>
+</Pizarra>

@@ -1,0 +1,92 @@
+---
+/*
+  Las cuatro capas del aislamiento. En desarrollo de agentes, sección de
+  seguridad. Sustituye el 5 oct 2026 al diagrama técnico de las capas
+  (`CapasDiagram`), y lee sus mismos textos de `content[lang].capasDiagram`:
+  el propietario los revisó allí y no se duplican.
+
+  Cuatro fichas en fila hacia abajo, de la pregunta a «sus datos y ninguno
+  más». La primera en azul, porque es lo único que ve el modelo. Las otras
+  tres, en tinta, las decide el código. La leyenda va de pie de figura.
+
+  Escritorio 800 × 326, móvil 360 × alto calculado.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA, AZUL } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = content[lang].capasDiagram;
+const label = content[lang].pizarras.cuatroCapas.label;
+const ICONOS = ['persona', 'lupa', 'validacion', 'blindado'] as const;
+const IMANES = ['azul', 'amarillo', 'verde', 'negro'] as const;
+
+/** Parte un texto en líneas de como mucho `max` caracteres, por palabras. */
+const parte = (texto: string, max: number) => {
+  const lineas: string[] = [];
+  for (const p of texto.split(' ')) {
+    const ult = lineas[lineas.length - 1];
+    if (ult !== undefined && (ult + ' ' + p).length <= max) lineas[lineas.length - 1] = ult + ' ' + p;
+    else lineas.push(p);
+  }
+  return lineas;
+};
+const corchete = (x: number, y1: number, y2: number) => `M${x},${y1} L${x + 7},${y1 + 3} L${x + 7},${y2 - 3} L${x},${y2}`;
+
+// Móvil: cada capa es una ficha con su nombre y debajo su explicación, que
+// en 360 de ancho no cabe en una línea.
+const MOV_INI = 56;
+const movil = (() => {
+  let y = MOV_INI;
+  return c.capas.map((capa, i) => {
+    const lineas = parte(capa.desc, 50);
+    const etiqueta = i === 0 ? c.llaves.modelo : i === 1 ? c.llaves.codigo : null;
+    if (etiqueta) y += 20;
+    const bloque = { y, lineas, etiqueta, yEtiqueta: y - 8 };
+    y += 42 + lineas.length * 15 + 16;
+    return bloque;
+  });
+})();
+const ultimo = movil[movil.length - 1];
+const finMovil = ultimo.y + 42 + ultimo.lineas.length * 15;
+const altoMovil = finMovil + 50;
+---
+
+<Pizarra label={label} caption={c.legend}>
+  <svg slot="ancho" viewBox="0 0 800 326" aria-hidden="true">
+    <PizarraDefs pre="pcca" />
+    <Nota x={0} y={18} texto={c.entrada} tam={15} peso={700} />
+    <Trazo desde={[30, 26]} hasta={[30, 46]} />
+    {c.capas.map((capa, i) => <Ficha pre="pcca" disposicion="horizontal" x={0} y={50 + i * 62} w={600} h={52} icono={ICONOS[i]} titulo={capa.name} sub={capa.desc} tono={i === 0 ? 'azul' : 'tinta'} iman={IMANES[i]} imanX={0.96} tamIcono={22} tamTitulo={15} tamSub={12} />)}
+    <path d={corchete(612, 50, 102)} fill="none" stroke={AZUL} stroke-width="2.2" stroke-linecap="round" />
+    <Nota x={628} y={81} texto={c.llaves.modelo} tono="azul" tam={13} peso={600} />
+    <path d={corchete(612, 112, 288)} fill="none" stroke={TINTA} stroke-width="2.2" stroke-linecap="round" />
+    <Nota x={628} y={204} texto={c.llaves.codigo} tam={13} peso={600} />
+    <Trazo desde={[30, 294]} hasta={[30, 312]} />
+    <Nota x={46} y={318} texto={c.salida} tam={15} peso={700} />
+  </svg>
+
+  <svg slot="estrecho" viewBox={`0 0 360 ${altoMovil}`} aria-hidden="true">
+    <PizarraDefs pre="pcce" />
+    <Nota x={0} y={16} texto={c.entrada} tam={14} peso={700} />
+    <Trazo desde={[24, 24]} hasta={[24, 46]} />
+    {
+      movil.map((m, i) => (
+        <>
+          {m.etiqueta && <Nota x={0} y={m.yEtiqueta} texto={m.etiqueta} tono={i === 0 ? 'azul' : 'tinta'} tam={12.5} peso={700} />}
+          <Ficha pre="pcce" disposicion="horizontal" x={0} y={m.y} w={360} h={38} icono={ICONOS[i]} titulo={c.capas[i].name} tono={i === 0 ? 'azul' : 'tinta'} iman={IMANES[i]} imanX={0.94} tamIcono={18} tamTitulo={14} />
+          <Nota x={14} y={m.y + 56} texto={m.lineas} tono="gris" tam={12.5} peso={500} interlineado={1.2} />
+        </>
+      ))
+    }
+    <Trazo desde={[24, finMovil + 6]} hasta={[24, finMovil + 26]} />
+    <Nota x={40} y={finMovil + 32} texto={c.salida} tam={14} peso={700} />
+  </svg>
+</Pizarra>

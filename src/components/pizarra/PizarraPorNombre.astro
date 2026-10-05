@@ -18,6 +18,63 @@ import PizarraGuion from './PizarraGuion.astro';
 import PizarraDependencias from './PizarraDependencias.astro';
 import PizarraRespuestas from './PizarraRespuestas.astro';
 import PizarraContadores from './PizarraContadores.astro';
+import PizarraFormas from './PizarraFormas.astro';
+import PizarraBucle from './PizarraBucle.astro';
+import PizarraEscribeActua from './PizarraEscribeActua.astro';
+import PizarraAprendeSolo from './PizarraAprendeSolo.astro';
+import PizarraDosRelojes from './PizarraDosRelojes.astro';
+import PizarraMetodo from './PizarraMetodo.astro';
+import PizarraCriba from './PizarraCriba.astro';
+import PizarraCapas from './PizarraCapas.astro';
+import PizarraTresHuchas from './PizarraTresHuchas.astro';
+import PizarraSuscripcion from './PizarraSuscripcion.astro';
+import PizarraFormula from './PizarraFormula.astro';
+import PizarraReguladores from './PizarraReguladores.astro';
+import PizarraNosotrosNo from './PizarraNosotrosNo.astro';
+import PizarraSobre from './PizarraSobre.astro';
+import PizarraMapaDatos from './PizarraMapaDatos.astro';
+import PizarraTresPuertas from './PizarraTresPuertas.astro';
+import PizarraTresLlaves from './PizarraTresLlaves.astro';
+import PizarraAntesDespues from './PizarraAntesDespues.astro';
+import PizarraAutoridad from './PizarraAutoridad.astro';
+import PizarraPiramide from './PizarraPiramide.astro';
+import PizarraCalendario from './PizarraCalendario.astro';
+import PizarraDosSillas from './PizarraDosSillas.astro';
+import PizarraPuertasProveedor from './PizarraPuertasProveedor.astro';
+import PizarraAnexoIII from './PizarraAnexoIII.astro';
+import PizarraPuertaEstrecha from './PizarraPuertaEstrecha.astro';
+import PizarraDeberesIngenieria from './PizarraDeberesIngenieria.astro';
+import PizarraCualifica from './PizarraCualifica.astro';
+import PizarraContrato from './PizarraContrato.astro';
+import PizarraDiezConsultas from './PizarraDiezConsultas.astro';
+import PizarraSeisPreguntas from './PizarraSeisPreguntas.astro';
+import PizarraIcebergPrompt from './PizarraIcebergPrompt.astro';
+import PizarraIcebergDemo from './PizarraIcebergDemo.astro';
+import PizarraOcrModelo from './PizarraOcrModelo.astro';
+import PizarraEscalaDetector from './PizarraEscalaDetector.astro';
+import PizarraQuienDiceHecho from './PizarraQuienDiceHecho.astro';
+import PizarraTresSenales from './PizarraTresSenales.astro';
+import PizarraArdeHumea from './PizarraArdeHumea.astro';
+import PizarraAplazamiento from './PizarraAplazamiento.astro';
+import PizarraCausaSintoma from './PizarraCausaSintoma.astro';
+import PizarraNubeNumero from './PizarraNubeNumero.astro';
+import PizarraInformeMit from './PizarraInformeMit.astro';
+import PizarraCadenaPasos from './PizarraCadenaPasos.astro';
+import PizarraTresIngredientes from './PizarraTresIngredientes.astro';
+import PizarraEscalera from './PizarraEscalera.astro';
+import PizarraDisyuntor from './PizarraDisyuntor.astro';
+import PizarraEntradaSucia from './PizarraEntradaSucia.astro';
+import PizarraPeldanos from './PizarraPeldanos.astro';
+import PizarraCuatroCapas from './PizarraCuatroCapas.astro';
+import PizarraContratoCerca from './PizarraContratoCerca.astro';
+import PizarraSinSupervision from './PizarraSinSupervision.astro';
+import PizarraDiezDocumentos from './PizarraDiezDocumentos.astro';
+import PizarraDosFuentes from './PizarraDosFuentes.astro';
+import PizarraOrquestador from './PizarraOrquestador.astro';
+import PizarraDosNoes from './PizarraDosNoes.astro';
+import PizarraMismaPregunta from './PizarraMismaPregunta.astro';
+import PizarraCajero from './PizarraCajero.astro';
+import PizarraTransicionNoExiste from './PizarraTransicionNoExiste.astro';
 
 interface Props {
   grafico: keyof PizarrasContent;
@@ -38,6 +95,63 @@ const GRAFICOS = {
   dependencias: PizarraDependencias,
   respuestas: PizarraRespuestas,
   contadores: PizarraContadores,
+  bucle: PizarraBucle,
+  escribeActua: PizarraEscribeActua,
+  aprendeSolo: PizarraAprendeSolo,
+  dosRelojes: PizarraDosRelojes,
+  metodo: PizarraMetodo,
+  criba: PizarraCriba,
+  capas: PizarraCapas,
+  formas: PizarraFormas,
+  tresHuchas: PizarraTresHuchas,
+  suscripcion: PizarraSuscripcion,
+  formula: PizarraFormula,
+  reguladores: PizarraReguladores,
+  nosotrosNo: PizarraNosotrosNo,
+  sobre: PizarraSobre,
+  mapaDatos: PizarraMapaDatos,
+  tresPuertas: PizarraTresPuertas,
+  tresLlaves: PizarraTresLlaves,
+  antesDespues: PizarraAntesDespues,
+  autoridad: PizarraAutoridad,
+  piramide: PizarraPiramide,
+  calendario: PizarraCalendario,
+  dosSillas: PizarraDosSillas,
+  puertasProveedor: PizarraPuertasProveedor,
+  anexoIII: PizarraAnexoIII,
+  puertaEstrecha: PizarraPuertaEstrecha,
+  deberesIngenieria: PizarraDeberesIngenieria,
+  cualifica: PizarraCualifica,
+  contrato: PizarraContrato,
+  diezConsultas: PizarraDiezConsultas,
+  seisPreguntas: PizarraSeisPreguntas,
+  icebergPrompt: PizarraIcebergPrompt,
+  icebergDemo: PizarraIcebergDemo,
+  ocrModelo: PizarraOcrModelo,
+  escalaDetector: PizarraEscalaDetector,
+  quienDiceHecho: PizarraQuienDiceHecho,
+  tresSenales: PizarraTresSenales,
+  ardeHumea: PizarraArdeHumea,
+  aplazamiento: PizarraAplazamiento,
+  causaSintoma: PizarraCausaSintoma,
+  nubeNumero: PizarraNubeNumero,
+  informeMit: PizarraInformeMit,
+  cadenaPasos: PizarraCadenaPasos,
+  tresIngredientes: PizarraTresIngredientes,
+  escalera: PizarraEscalera,
+  disyuntor: PizarraDisyuntor,
+  entradaSucia: PizarraEntradaSucia,
+  peldanos: PizarraPeldanos,
+  cuatroCapas: PizarraCuatroCapas,
+  contratoCerca: PizarraContratoCerca,
+  sinSupervision: PizarraSinSupervision,
+  diezDocumentos: PizarraDiezDocumentos,
+  dosFuentes: PizarraDosFuentes,
+  orquestador: PizarraOrquestador,
+  dosNoes: PizarraDosNoes,
+  mismaPregunta: PizarraMismaPregunta,
+  cajero: PizarraCajero,
+  transicionNoExiste: PizarraTransicionNoExiste,
 } satisfies Record<keyof PizarrasContent, unknown>;
 
 const Grafico = GRAFICOS[grafico];

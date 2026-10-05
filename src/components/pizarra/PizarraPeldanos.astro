@@ -1,0 +1,85 @@
+---
+/*
+  La autonomía se amplía por etapas. En desarrollo de agentes, sección del
+  mismo nombre, tras la regla que no se rompe.
+
+  Tres fichas que suben en diagonal: propone (una persona aprueba cada
+  salida), actúa en lo probado (los acuses de recibo del ejemplo) y amplía
+  sus acciones cuando las pruebas lo demuestran. Al lado, la regla de la
+  página: los sistemas a los que accede y lo que ejecuta sin revisión nunca
+  se amplían a la vez. No es la escalera del post de los agentes, que habla
+  de cuándo soltarle la mano al modelo: esta cuenta el orden de un agente.
+
+  Escritorio 800 × 250, móvil 360 × 368.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { TINTA } from './colores';
+import { ICONOS_PIZARRA } from './iconos';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.peldanos;
+const ICONOS = ['registro', 'enviar', 'operacion'] as const;
+const IMANES = ['amarillo', 'verde', 'negro'] as const;
+const ICONOS_REGLA = [ICONOS_PIZARRA.conexion, ICONOS_PIZARRA.hecho];
+// De abajo arriba: el primer paso es el más bajo.
+const E = [
+  { x: 0, y: 180 },
+  { x: 125, y: 96 },
+  { x: 250, y: 12 },
+];
+const M = [
+  { x: 0, y: 156 },
+  { x: 35, y: 84 },
+  { x: 70, y: 12 },
+];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 250" aria-hidden="true">
+    <PizarraDefs pre="ppla" />
+    {[0, 1].map((i) => <Trazo desde={[E[i].x + 40, E[i].y - 3]} hasta={[E[i + 1].x + 22, E[i + 1].y + 64]} />)}
+    {d.pasos.map((p, i) => <Ficha pre="ppla" disposicion="horizontal" x={E[i].x} y={E[i].y} w={275} h={60} icono={ICONOS[i]} titulo={p.t} sub={p.s} iman={IMANES[i]} imanX={0.9} tamIcono={24} tamTitulo={16} tamSub={12.5} />)}
+
+    <rect x="540" y="40" width="260" height="168" rx="10" fill="#fff" stroke={TINTA} stroke-width="2" />
+    <Nota x={556} y={72} texto={d.regla.titulo} tam={16} peso={700} />
+    {
+      d.regla.items.map((it, i) => (
+        <>
+          <svg x={556} y={90 + i * 36} width="20" height="20" viewBox={ICONOS_REGLA[i].viewBox} aria-hidden="true">
+            <path d={ICONOS_REGLA[i].d} fill={TINTA} />
+          </svg>
+          <Nota x={584} y={105 + i * 36} texto={it} tam={13.5} peso={600} />
+        </>
+      ))
+    }
+    <Nota x={556} y={188} texto={d.regla.nota} tono="gris" tam={13} peso={500} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 368" aria-hidden="true">
+    <PizarraDefs pre="pple" />
+    {[0, 1].map((i) => <Trazo desde={[M[i].x + 30, M[i].y - 2]} hasta={[M[i + 1].x + 14, M[i + 1].y + 58]} />)}
+    {d.pasos.map((p, i) => <Ficha pre="pple" disposicion="horizontal" x={M[i].x} y={M[i].y} w={290} h={56} icono={ICONOS[i]} titulo={p.t} sub={p.s} iman={IMANES[i]} imanX={0.9} tamIcono={22} tamTitulo={15} tamSub={12.5} />)}
+
+    <rect x="1" y="232" width="358" height="128" rx="10" fill="#fff" stroke={TINTA} stroke-width="1.8" />
+    <Nota x={16} y={260} texto={d.regla.titulo} tam={14.5} peso={700} />
+    {
+      d.regla.items.map((it, i) => (
+        <>
+          <svg x={16} y={274 + i * 30} width="18" height="18" viewBox={ICONOS_REGLA[i].viewBox} aria-hidden="true">
+            <path d={ICONOS_REGLA[i].d} fill={TINTA} />
+          </svg>
+          <Nota x={42} y={288 + i * 30} texto={it} tam={13} peso={600} />
+        </>
+      ))
+    }
+    <Nota x={16} y={346} texto={d.regla.nota} tono="gris" tam={12.5} peso={500} />
+  </svg>
+</Pizarra>

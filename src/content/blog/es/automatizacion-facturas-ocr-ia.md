@@ -18,6 +18,8 @@ El OCR, el reconocimiento óptico de caracteres, convierte una imagen en texto. 
 
 Una factura de proveedor puede venir en cien formatos distintos, con el total donde cada emisor quiso ponerlo y conceptos que no coinciden entre compañías. Ahí entra el modelo de lenguaje, que interpreta ese texto como lo haría una persona con oficio. Encuentra el importe aunque cambie de sitio, entiende que «suministro eléctrico» y «energía» son lo mismo y estructura cada campo en su columna. **El OCR lee. El modelo entiende lo leído.**
 
+<div data-pizarra="ocrModelo"></div>
+
 ## Así se ve en producción
 
 En Stanton, una gestora de fincas, las facturas de luz, gas y agua de los inquilinos se procesaban a mano. Cada documento llegaba en el formato de su comercializadora y alguien lo convertía en datos con los que trabajar, factura a factura.

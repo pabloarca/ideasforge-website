@@ -44,6 +44,8 @@ The reason matters more than the number. The supervisors were not checking wheth
 
 What does catch it is dumber and works better. A classic classifier that counts words and word sequences, the kind that predates all of this, reaches 0.83 on one of the two benchmarks and 0.95 on the other. It finds four to eight times more false successes than the best of the judges.
 
+<div data-pizarra="escalaDetector"></div>
+
 Its two signals say a lot about where the problem sits. In conversations, what gives a false success away is the vocabulary of the closing itself, phrases like "has been completed" or "successfully". In coding tasks they are sequences where the agent **reads a great deal, writes nothing, and then declares the work done**, whereas an acknowledged failure looks like trying to write several times over.
 
 Neither signal requires understanding the task, which is precisely what the model-based judges were attempting.
@@ -55,6 +57,8 @@ Here the study stops describing a problem and starts pointing at a design.
 The difference between the two ways of building this is not about oversight, it is about permissions. In an autonomous agent, the one saying the work is done is the model, in a sentence that is not tied to any state.
 
 In the architecture we use, the one saying it is the code, after the database has returned an operation number. **The model cannot say "done", because "done" is not one of the answers it is allowed to give.** The model works out what the person wants and picks from the options that exist. The code checks, executes and reports the result.
+
+<div data-pizarra="quienDiceHecho"></div>
 
 We have not made the model more reliable. We have taken away its ability to hold an opinion on whether the work is finished. Why we split the work this way, with its costs acknowledged, is in [why I do not like agentic architectures](/en/blog/i-dont-like-ai-agents).
 

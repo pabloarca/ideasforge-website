@@ -1,0 +1,56 @@
+---
+/*
+  La transición que no existe. En el post del mismo nombre, sección «La
+  transición que no existe», tras «Es el botón del cajero».
+
+  El mapa de la conversación del agente de la inmobiliaria, con los cinco
+  estados que cuenta el post. Arriba, en azul, el modelo: entiende cada
+  mensaje. Las flechas son de la máquina, que decide a qué estado se pasa.
+  Tachado, el salto del presupuesto al veredicto sin la documentación, que
+  es el ejemplo del post: no está en el mapa, así que no se puede dar.
+
+  Escritorio 800 × 214, móvil 360 × 418.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+import { GRIS } from './colores';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.transicionNoExiste;
+const ICONOS = ['chat', 'lugar', 'dinero', 'factura', 'hecho'] as const;
+const IMANES = ['amarillo', 'verde', 'negro', 'gris', 'verde'] as const;
+const X = [0, 164, 328, 492, 658];
+const W = 142;
+const equis = (x: number, y: number, r: number) => `M${x - r},${y - r} L${x + r},${y + r} M${x + r},${y - r} L${x - r},${y + r}`;
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 214" aria-hidden="true">
+    <PizarraDefs pre="ptna" />
+    <Ficha pre="ptna" disposicion="horizontal" x={0} y={10} w={300} h={40} icono="ia" titulo={d.modelo} tono="azul" iman="azul" imanX={0.93} tamIcono={18} tamTitulo={14} />
+    <path d="M400,116 C460,52 672,52 732,116" fill="none" stroke={GRIS} stroke-width="2" stroke-dasharray="6 6" stroke-linecap="round" />
+    <path d={equis(566, 68, 9)} stroke={GRIS} stroke-width="3" stroke-linecap="round" />
+    <Nota x={566} y={46} texto={d.noExiste} tono="gris" tam={14} peso={700} alinea="middle" />
+    {[0, 1, 2, 3].map((i) => <Trazo desde={[X[i] + W + 4, 145]} hasta={[X[i + 1] - 4, 145]} />)}
+    {d.estados.map((e, i) => <Ficha pre="ptna" disposicion="horizontal" x={X[i]} y={120} w={W} h={50} icono={ICONOS[i]} titulo={e} iman={IMANES[i]} imanX={0.88} tamIcono={15} tamTitulo={12.5} />)}
+    <Nota x={0} y={204} texto={d.nota} tono="gris" tam={13.5} peso={600} />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 418" aria-hidden="true">
+    <PizarraDefs pre="ptne" />
+    <Ficha pre="ptne" disposicion="horizontal" x={0} y={8} w={360} h={40} icono="ia" titulo={d.modelo} tono="azul" iman="azul" imanX={0.94} tamIcono={18} tamTitulo={13.5} />
+    <path d="M250,213 C320,240 320,315 250,342" fill="none" stroke={GRIS} stroke-width="1.8" stroke-dasharray="6 6" stroke-linecap="round" />
+    <path d={equis(303, 278, 8)} stroke={GRIS} stroke-width="2.6" stroke-linecap="round" />
+    {[0, 1, 2, 3].map((i) => <Trazo desde={[120, 112 + i * 64]} hasta={[120, 126 + i * 64]} />)}
+    {d.estados.map((e, i) => <Ficha pre="ptne" disposicion="horizontal" x={0} y={66 + i * 64} w={240} h={44} icono={ICONOS[i]} titulo={e} iman={IMANES[i]} imanX={0.88} tamIcono={18} tamTitulo={14} />)}
+    <Nota x={0} y={382} texto={`✕ ${d.noExiste}`} tono="gris" tam={13} peso={700} />
+    <Nota x={0} y={404} texto={d.nota} tono="gris" tam={12} peso={600} />
+  </svg>
+</Pizarra>

@@ -28,9 +28,13 @@ The scale of the problem is not anecdotal. [Gartner put a number on it in June 2
 
 **Third signal, the AI is in the headline.** Remove the acronym from the project's name and see if anyone is still interested. If the answer is no, what was being bought was the headline. **A tool gets bought for what it removes. A toy, for what it shows.**
 
+<div data-pizarra="tresSenales"></div>
+
 ## The antidote is a map of pains
 
 What we do before proposing anything is map what hurts, with the people who suffer it in the room. And we separate two families that call for different urgencies. Critical problems already cost money every week. Bottlenecks do not hurt yet, but they will cap growth as soon as volume rises. You attack what burns first and you watch what smokes. Every candidate enters the list with its math done, never with its demo.
+
+<div data-pizarra="ardeHumea"></div>
 
 Two of our automation projects started exactly like that. At Barceloneta Premium, a real-estate agency in Barcelona, the pain was dozens of daily inquiries with five to ten minutes of checking behind each one, a fire with a number on it. At Stanton, a property management firm, the utility paperwork someone keyed in invoice by invoice. Neither started with a demo. Both started with somebody fed up and a figure on the table.
 

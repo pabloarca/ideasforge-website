@@ -18,6 +18,8 @@ When a project can only justify itself with generic productivity, that is usuall
 
 The difference shows in our own cases. At the real-estate agency we work with, the measure is not *"the team moves faster"*. It is more than three hours a day that stopped going into screening inquiries, each one previously costing five to ten minutes of manual checking. At the property management company, the measure is that invoices stopped being typed. Small, concrete figures. They can be checked, which is why they count.
 
+<div data-pizarra="nubeNumero"></div>
+
 ## The whole industry has just measured itself with this yardstick
 
 And the result explains why we insist.
@@ -29,6 +31,8 @@ McKinsey's global survey on the state of AI, published a few months later with a
 The easy reading of those figures is that AI does not work. That is not our reading, and it is not the reports' either.
 
 What both describe is mass adoption without integration or measurement, pilots that stay demos, and capabilities built with no outcome to chase. Exactly the project from the section above, the one justified with generic productivity because nobody defined what it should move. **The 95% does not say the technology fails. It says that without a defined gain there is no way to show it worked.**
+
+<div data-pizarra="informeMit"></div>
 
 The small group that does extract value shares a pattern, according to the report itself: concrete processes, integration with the systems that already exist and outcomes defined before building. The uncomfortable yardstick, under another name.
 

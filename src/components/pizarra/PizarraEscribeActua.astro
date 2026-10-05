@@ -1,0 +1,103 @@
+---
+/*
+  Escribe o actúa. En «Dónde acaba la IA generativa y empieza la IA
+  agéntica» de la guía, debajo de la frase en negrita que lo resume.
+
+  El mismo correo en dos filas, con la persona en sitios distintos. Arriba,
+  la generativa: el modelo escribe (azul), una persona lo lee y se envía, así
+  que el error se caza leyendo. Abajo, la agéntica: el modelo escribe, mira
+  la agenda y manda la invitación (las tres en azul) y la persona llega al
+  final, cuando ya ha tocado tus sistemas. Lo que enseña el dibujo es dónde
+  queda la persona.
+
+  Escritorio 800 × 362, móvil 360 × 490.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import Pizarra from './Pizarra.astro';
+import PizarraDefs from './PizarraDefs.astro';
+import Ficha from './Ficha.astro';
+import Trazo from './Trazo.astro';
+import Nota from './Nota.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = content[lang].pizarras.escribeActua;
+
+// Escritorio: cuatro columnas; la fila de arriba usa las tres primeras.
+const CX = [0, 208, 416, 624];
+const CW = 176;
+const CH = 88;
+const F1 = 56;
+const F2 = 240;
+const arriba = [
+  { f: d.escribe, icono: 'correo', tono: 'azul', iman: 'azul' },
+  { f: d.lee, icono: 'persona', tono: 'tinta', iman: 'verde' },
+  { f: d.envia, icono: 'enviar', tono: 'tinta', iman: 'gris' },
+] as const;
+const abajo = [
+  { f: d.escribe, icono: 'correo', tono: 'azul', iman: 'azul' },
+  { f: d.agenda, icono: 'calendario', tono: 'azul', iman: 'azul' },
+  { f: d.invita, icono: 'invitacion', tono: 'azul', iman: 'azul' },
+  { f: d.entera, icono: 'persona', tono: 'tinta', iman: 'rojo' },
+] as const;
+
+// Móvil: dos columnas, una por forma de trabajar.
+const MX = [4, 188];
+const MW = 168;
+const MH = 84;
+const MY = [50, 152, 254, 356];
+---
+
+<Pizarra label={d.label}>
+  <svg slot="ancho" viewBox="0 0 800 362" aria-hidden="true">
+    <PizarraDefs pre="pesa" />
+
+    <Nota x={0} y={22} texto={d.generativa.titulo} tam={19} peso={700} />
+    <Nota x={0} y={43} texto={d.generativa.sub} tono="gris" tam={15} peso={500} />
+    {[0, 1].map((i) => <Trazo desde={[CX[i] + CW + 6, F1 + CH / 2]} hasta={[CX[i + 1] - 6, F1 + CH / 2]} tono={i === 0 ? 'azul' : 'tinta'} />)}
+    {
+      arriba.map((c, i) => (
+        <Ficha pre="pesa" x={CX[i]} y={F1} w={CW} h={CH} icono={c.icono} titulo={c.f.t} sub={c.f.s} tono={c.tono} iman={c.iman} giro={i === 1 ? 1.5 : 0} tamIcono={26} tamTitulo={15} tamSub={13} />
+      ))
+    }
+    <Nota x={CX[1] + CW / 2} y={F1 + CH + 26} texto={d.notaGen.join(' ')} tam={15} alinea="middle" />
+
+    <Nota x={0} y={206} texto={d.agentica.titulo} tam={19} peso={700} />
+    <Nota x={0} y={227} texto={d.agentica.sub} tono="gris" tam={15} peso={500} />
+    {[0, 1, 2].map((i) => <Trazo desde={[CX[i] + CW + 6, F2 + CH / 2]} hasta={[CX[i + 1] - 6, F2 + CH / 2]} tono={i < 2 ? 'azul' : 'tinta'} />)}
+    {
+      abajo.map((c, i) => (
+        <Ficha pre="pesa" x={CX[i]} y={F2} w={CW} h={CH} icono={c.icono} titulo={c.f.t} sub={c.f.s} tono={c.tono} iman={c.iman} giro={i === 3 ? -1.5 : 0} tamIcono={26} tamTitulo={15} tamSub={13} />
+      ))
+    }
+    <Nota x={796} y={F2 + CH + 22} texto={d.notaAg.join(' ')} tam={15} alinea="end" />
+  </svg>
+
+  <svg slot="estrecho" viewBox="0 0 360 490" aria-hidden="true">
+    <PizarraDefs pre="pese" />
+
+    <Nota x={MX[0] + MW / 2} y={20} texto={d.generativa.titulo} tam={15} peso={700} alinea="middle" />
+    <Nota x={MX[0] + MW / 2} y={37} texto={d.generativa.sub} tono="gris" tam={12.5} peso={500} alinea="middle" />
+    <Nota x={MX[1] + MW / 2} y={20} texto={d.agentica.titulo} tam={15} peso={700} alinea="middle" />
+    <Nota x={MX[1] + MW / 2} y={37} texto={d.agentica.sub} tono="gris" tam={12.5} peso={500} alinea="middle" />
+    <path d="M180,10 L180,480" fill="none" stroke="#c9ced6" stroke-width="1.5" stroke-dasharray="5 6" />
+
+    {[0, 1].map((i) => <Trazo desde={[MX[0] + MW / 2, MY[i] + MH + 4]} hasta={[MX[0] + MW / 2, MY[i + 1] - 4]} tono={i === 0 ? 'azul' : 'tinta'} />)}
+    {
+      arriba.map((c, i) => (
+        <Ficha pre="pese" x={MX[0]} y={MY[i]} w={MW} h={MH} icono={c.icono} titulo={c.f.t} sub={c.f.s} tono={c.tono} iman={c.iman} imanX={0.86} tamIcono={22} tamTitulo={14} tamSub={12.5} />
+      ))
+    }
+    <Nota x={MX[0] + MW / 2} y={MY[3] + 22} texto={d.notaGen} tam={13.5} alinea="middle" />
+
+    {[0, 1, 2].map((i) => <Trazo desde={[MX[1] + MW / 2, MY[i] + MH + 4]} hasta={[MX[1] + MW / 2, MY[i + 1] - 4]} tono={i < 2 ? 'azul' : 'tinta'} />)}
+    {
+      abajo.map((c, i) => (
+        <Ficha pre="pese" x={MX[1]} y={MY[i]} w={MW} h={MH} icono={c.icono} titulo={c.f.t} sub={c.f.s} tono={c.tono} iman={c.iman} imanX={0.86} tamIcono={22} tamTitulo={14} tamSub={12.5} />
+      ))
+    }
+    <Nota x={MX[1] + MW / 2} y={MY[3] + MH + 22} texto={d.notaAg} tam={13.5} alinea="middle" />
+  </svg>
+</Pizarra>
