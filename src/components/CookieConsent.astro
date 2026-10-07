@@ -67,14 +67,14 @@ const HAY_MEDICION = !!(
         aria-modal="false"
         aria-labelledby="cookie-consent-title"
         hidden
-        class="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-bg p-5 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.25)] sm:p-6"
+        class="fixed inset-x-0 bottom-0 z-50 border-t-2 border-fg bg-bg py-5 sm:py-6"
       >
-        <div class="mx-auto flex max-w-5xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+        <div class="wrap flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
           <div>
-            <p id="cookie-consent-title" class="text-[15px] font-semibold text-fg">
+            <p id="cookie-consent-title" class="text-[15px] font-medium text-fg">
               {t.heading}
             </p>
-            <p class="mt-1.5 text-sm leading-relaxed text-muted">
+            <p class="mt-1.5 max-w-[70ch] text-sm leading-relaxed text-muted">
               {t.body}{' '}
               <a href={politica} class="link-inline">
                 {t.link}
@@ -82,21 +82,25 @@ const HAY_MEDICION = !!(
             </p>
           </div>
 
-          {/* Los dos botones, mismo tamaño y mismo peso visual. Rechazar va
+          {/* Los dos botones, mismo tamaño y mismo peso visual. Desde el
+              rediseño de octubre de 2026 son además IDÉNTICOS, los dos con
+              borde de tinta: el acento es el color de las llamadas a la
+              acción, y aquí no puede haber una más llamativa que la otra.
+              Rechazar va
               primero en el orden del documento para que el teclado lo alcance
               antes, que es el que más cuesta a quien no usa ratón. */}
           <div class="flex shrink-0 gap-3">
             <button
               type="button"
               data-consent="denied"
-              class="min-w-[7.5rem] rounded-lg border border-border px-5 py-2.5 text-sm font-semibold text-fg transition-colors hover:bg-bg-soft"
+              class="min-w-[7.5rem] cursor-pointer border-2 border-fg px-5 py-2.5 text-left text-sm text-fg transition-colors hover:bg-fg hover:text-bg"
             >
               {t.reject}
             </button>
             <button
               type="button"
               data-consent="granted"
-              class="min-w-[7.5rem] rounded-lg border border-fg bg-fg px-5 py-2.5 text-sm font-semibold text-bg transition-colors hover:bg-primary-hover"
+              class="min-w-[7.5rem] cursor-pointer border-2 border-fg px-5 py-2.5 text-left text-sm text-fg transition-colors hover:bg-fg hover:text-bg"
             >
               {t.accept}
             </button>

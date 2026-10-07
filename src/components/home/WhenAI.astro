@@ -1,0 +1,110 @@
+---
+/*
+  Cuándo usamos IA: el campo azul. Es el único bloque de la portada con fondo
+  de acento y el único sitio donde el azul deja de ser un detalle.
+
+  A la izquierda, la tesis en dos frases: «La IA interpreta. El software
+  ejecuta». A la derecha, las dos listas que la desarrollan.
+
+  La interacción une las dos mitades y es CSS puro, con `:has()`. Al pasar por
+  la palabra «interpreta» o por la lista de la IA, la otra mitad (la palabra
+  «ejecuta» y la lista del software) baja al 40 % de opacidad, y al revés. Al
+  salir, todo vuelve. No hay estado que guardar ni script que cargar.
+
+  El bloque debe caber entero en una pantalla de portátil, y por eso no lleva
+  altura mínima y sus márgenes verticales se miden en `vh`.
+*/
+import { type Lang, content } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.whenAI;
+---
+
+<section class="azul">
+  <div class="azul-reticula">
+    <div>
+      <span class="azul-rotulo mb-5">{t.kicker}</span>
+      <h2 class="t-poster max-w-[14ch]">
+        {t.titlePre}<span class="azul-marca mix-ia">{t.titleIa}</span>.<br />{t.titleMid}<span
+          class="azul-marca mix-auto">{t.titleSoftware}</span
+        >{t.titlePost}
+      </h2>
+      <p class="mt-7 max-w-[44ch] text-base leading-[1.6]">{t.body}</p>
+      <p class="mt-5 max-w-[44ch] text-base font-medium leading-normal">
+        {t.closing}{' '}<span class="border-b-2 border-current">{t.closingMark}</span>
+      </p>
+    </div>
+
+    <div class="grid gap-[clamp(24px,3vh,36px)]">
+      <div class="azul-lista mix-ia">
+        <span class="azul-rotulo mb-4">{t.ia.label}</span>
+        <ul>
+          {t.ia.items.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div class="azul-lista mix-auto">
+        <span class="azul-rotulo mb-4">{t.software.label}</span>
+        <ul>
+          {t.software.items.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* A sangre hasta el borde del contenedor de 1280 px, no de la ventana: en
+     una pantalla muy ancha el campo azul sigue alineado con todo lo demás. */
+  .azul {
+    max-width: 1280px;
+    margin: var(--section-y) auto 0;
+    padding: clamp(40px, 5vh, 64px) var(--page-x);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+  .azul-reticula {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: clamp(32px, 5vw, 96px);
+    align-items: center;
+  }
+  .azul-rotulo {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .azul-marca {
+    display: inline-block;
+    padding-bottom: 0.02em;
+    border-bottom: 3px solid currentColor;
+  }
+  .azul-lista {
+    padding-top: 20px;
+    border-top: 2px solid currentColor;
+  }
+  .azul-lista ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px 20px;
+    font-size: clamp(14px, 1.1vw, 16px);
+    line-height: 1.3;
+  }
+
+  .mix-ia,
+  .mix-auto {
+    transition: opacity 0.35s;
+  }
+  .azul:has(.mix-ia:hover) .mix-auto,
+  .azul:has(.mix-auto:hover) .mix-ia {
+    opacity: 0.4;
+  }
+  /* El texto seleccionado no puede ir en azul claro sobre azul. */
+  .azul ::selection {
+    background: var(--color-fg);
+    color: var(--color-on-accent);
+  }
+</style>

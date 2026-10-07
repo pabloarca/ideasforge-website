@@ -1,0 +1,32 @@
+---
+/*
+  Preguntas frecuentes de la portada: el titular a la izquierda, fijo mientras
+  se recorre la lista, y el acordeón ocupando los dos tercios de la derecha.
+
+  El acordeón es `FaqList`, el mismo de las páginas largas: una sola pieza
+  para todo el sitio, con su `FAQPage` estructurado y un ancla por pregunta.
+  Aquí solo se añade que la primera llegue abierta.
+
+  La retícula es de tres columnas a partir de 1.024 px y de una por debajo. No
+  usa `auto-fit` como otros bloques porque la lista ocupa DOS columnas, y un
+  `span 2` en una retícula que se ha quedado en una crea una columna de más y
+  saca el contenido de la pantalla.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import FaqList from '../FaqList.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.faq;
+---
+
+<section class="wrap section-y">
+  <div class="grid items-start gap-x-[clamp(32px,5vw,96px)] gap-y-8 lg:grid-cols-3">
+    <h2 class="text-[clamp(28px,3vw,40px)] leading-[1.08] tracking-[-0.028em] lg:sticky lg:top-[104px]">
+      {t.title}
+    </h2>
+    <FaqList items={t.items} group="faq-home" openFirst class="lg:col-span-2" />
+  </div>
+</section>

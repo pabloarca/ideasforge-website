@@ -763,7 +763,129 @@ export interface PizarrasContent {
   };
 }
 
+/**
+ * La portada de octubre de 2026. Un bloque por sección, en el orden en que se
+ * pintan. El copy español sale de `content.json` del paquete de diseño; los
+ * componentes viven en `src/components/home/`.
+ *
+ * Las rutas (`href`) van escritas por idioma, como en el resto del fichero:
+ * así cada bloque apunta a la página que existe en su lengua.
+ */
+export interface HomeContent {
+  hero: {
+    kicker: string;
+    title: string;
+    lead: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+  };
+  /** Banda de logotipos. `label` es el nombre accesible de la sección. */
+  logos: { label: string; caption: string };
+  about: {
+    kicker: string;
+    title: string;
+    body: string;
+    statement: string;
+    imageCaption: string;
+  };
+  services: {
+    title: string;
+    lead: string;
+    items: Array<{
+      title: string;
+      /** Título corto: el que se lee en vertical con la columna plegada. */
+      short: string;
+      desc: string;
+      detail: string;
+      cta: string;
+      href: string;
+    }>;
+  };
+  cases: {
+    title: string;
+    lead: string;
+    /** Texto del enlace de cada ficha. `{client}` se sustituye por el cliente. */
+    viewCase: string;
+    prev: string;
+    next: string;
+    items: Array<{
+      client: string;
+      title: string;
+      desc: string;
+      metric: string;
+      /** Ruta de la foto, resuelta por `foto()` contra `src/assets/`. */
+      image: string;
+      href: string;
+    }>;
+  };
+  /** El campo azul. El titular va partido para poder subrayar las dos
+   *  palabras que disparan la interacción. */
+  whenAI: {
+    kicker: string;
+    titlePre: string;
+    titleIa: string;
+    titleMid: string;
+    titleSoftware: string;
+    titlePost: string;
+    body: string;
+    closing: string;
+    closingMark: string;
+    ia: { label: string; items: string[] };
+    software: { label: string; items: string[] };
+  };
+  method: {
+    title: string;
+    lead: string;
+    steps: Array<{ title: string; body: string }>;
+  };
+  security: {
+    kicker: string;
+    title: string;
+    intro: string;
+    listLabel: string;
+    items: string[];
+    outro: string;
+    link: { label: string; href: string };
+    imageCaption: string;
+  };
+  sectors: {
+    title: string;
+    lead: string;
+    items: Array<{ title: string; image: string }>;
+    links: Array<{ label: string; href: string }>;
+  };
+  resources: {
+    title: string;
+    lead: string;
+    tags: { guide: string; blog: string };
+    prev: string;
+    next: string;
+    /** Nombre accesible de cada segmento de la barra: «Artículo 3». */
+    position: string;
+    items: Array<{
+      tag: 'guide' | 'blog';
+      title: string;
+      desc: string;
+      href: string;
+      /** Foto de la tarjeta. Sin ella se pinta el hueco gris del diseño. */
+      image?: string;
+    }>;
+  };
+  faq: { title: string; items: Faq[] };
+  contact: {
+    kicker: string;
+    title: string;
+    p1: string;
+    p2: string;
+    message: string;
+    placeholder: string;
+    submit: string;
+  };
+}
+
 export interface SiteContent {
+  /** Portada. Ver `HomeContent`. */
+  home: HomeContent;
   meta: {
     homeTitle: string;
     homeDescription: string;
@@ -790,13 +912,39 @@ export interface SiteContent {
     home: string;
     /** Etiqueta accesible del `nav` de la miga de pan visible. */
     breadcrumb: string;
-    services: string;
-    projects: string;
+    /** Las cuatro anclas de la portada que lleva la cabecera del diseño de
+     *  octubre de 2026. `solutions` y `cases` nombran además el tramo
+     *  intermedio de la miga de pan de las páginas de servicio y de caso. */
+    solutions: string;
+    cases: string;
+    method: string;
+    guides: string;
+    /** El botón de la cabecera. */
+    cta: string;
+    /** Nombre accesible del menú desplegable en móvil. */
+    menu: string;
     about: string;
     blog: string;
     contact: string;
     switchTo: string;
   };
+  /*
+    SIN USO DESDE EL REDISEÑO DE OCTUBRE DE 2026. Los ocho bloques que siguen
+    (`hero`, `trustedBy`, `caseStudies`, `services`, `whyUs`, `methodology`,
+    `integrations` y `faq`) y los dos diagramas `flowDiagram` y `gateDiagram`
+    eran el texto de la portada anterior. Sus componentes se retiraron y hoy
+    ninguna página los lee: la portada sale entera de `home`.
+
+    Se conservan a propósito, a la espera de que el propietario decida. Aquí
+    viven textos que costaron revisiones suyas, entre ellos los modales de
+    «¿Por qué Ideasforge?», y borrarlos es una decisión de contenido, no de
+    maquetación. Mientras sigan aquí, cuidado con dos cosas: `check-copy` los
+    sigue revisando, y sus `href` a las páginas de caso siguen contando para
+    la regla de las dos entradas por caso aunque ya no pinten ningún enlace.
+
+    `contact` sí se usa, pero solo en parte: las etiquetas de los campos, la
+    casilla de privacidad y la frase que lleva al formulario de exploración.
+  */
   hero: {
     eyebrow: string;
     title: string;
@@ -936,6 +1084,10 @@ export interface SiteContent {
     legal: string;
     privacy: string;
     cookies: string;
+    /** Formas cortas para la columna «Empresa» del pie. Las largas siguen
+     *  titulando las dos páginas legales. */
+    privacyShort: string;
+    cookiesShort: string;
     /** Reabre el aviso de cookies. Obligatorio: retirar el consentimiento
      *  tiene que ser tan fácil como darlo. */
     cookiePrefs: string;
@@ -1099,12 +1251,342 @@ export const content: Record<Lang, SiteContent> = {
     nav: {
       home: 'Inicio',
       breadcrumb: 'Ruta de navegación',
-      services: 'Servicios',
-      projects: 'Proyectos',
+      solutions: 'Soluciones',
+      cases: 'Casos',
+      method: 'Método',
+      guides: 'Guías',
+      cta: 'Cuéntanos qué quieres mejorar',
+      menu: 'Menú',
       about: 'Quiénes somos',
       blog: 'Blog',
       contact: 'Contacto',
       switchTo: 'Cambiar idioma',
+    },
+    /*
+      PORTADA DE OCTUBRE DE 2026. El texto es el de `content.json` del paquete
+      de diseño, con dos diferencias que conviene conocer antes de tocarlo.
+
+      La primera es mecánica. El original traía cinco puntos y coma, que en
+      esta casa están vetados y `check-copy` trata como error. Cuatro pasan a
+      punto y seguido (la entrada de soluciones, la segunda línea de
+      automatización, la cifra de Wazzy y la respuesta sobre el chatbot) y el
+      quinto pasa a coma, en la tarjeta de arquitecturas agénticas.
+
+      La segunda es de contenido. La tarjeta «Qué pasa después de entregar un
+      agente de IA» apuntaba a una entrada del blog que no existe en el sitio.
+      Ocupa su hueco `mantener-viva-la-ia`, que cuenta eso mismo, con su título
+      y su descripción ya publicados.
+
+      Las cifras de Stanton y de Barceloneta son las que ya publicaban sus
+      páginas de caso.
+    */
+    home: {
+      hero: {
+        kicker: 'Inteligencia artificial a medida',
+        title: 'Desarrollo de IA a medida para empresas.',
+        lead: 'Diseñamos agentes de IA, automatizaciones y software inteligente conectado con los datos, herramientas y procesos reales de cada organización.',
+        ctaPrimary: 'Cuéntanos qué quieres mejorar',
+        ctaSecondary: 'Ver proyectos reales',
+      },
+      logos: {
+        label: 'Empresas con las que trabajamos',
+        caption: 'Industria, agricultura, inmobiliaria, salud y servicios profesionales.',
+      },
+      about: {
+        kicker: 'Quiénes somos',
+        title: 'Una empresa de desarrollo de inteligencia artificial a medida para empresas.',
+        body: 'Desde sistemas capaces de consultar bases de datos y documentación interna hasta automatización documental, agentes conversacionales o aplicaciones con inteligencia artificial integradas con ERP, CRM y software propio.',
+        statement:
+          'No construimos IA porque esté de moda. Construimos sistemas cuando existe un problema que merece la pena resolver.',
+        imageCaption: 'Ideasforge, España.',
+      },
+      services: {
+        title: 'Soluciones de inteligencia artificial para empresas.',
+        lead: 'Desarrollamos software con IA para resolver procesos concretos. No partimos de una tecnología determinada: primero analizamos el problema, los datos y los sistemas con los que debe trabajar la solución. Después decidimos qué resuelve la IA, qué parte necesita software convencional y cómo trabajan juntos.',
+        items: [
+          {
+            title: 'Desarrollo de agentes de IA',
+            short: 'Agentes de IA',
+            desc: 'Agentes capaces de consultar información, utilizar herramientas y ejecutar acciones sobre sistemas empresariales como bases de datos, ERP, CRM, APIs o aplicaciones internas.',
+            detail:
+              'Un agente puede interpretar una solicitud, recuperar el contexto necesario y realizar una acción siguiendo los permisos y reglas definidas para el proceso.',
+            cta: 'Desarrollo de agentes de IA',
+            href: '/servicios/desarrollo-de-agentes-de-ia',
+          },
+          {
+            title: 'Automatización de procesos con IA',
+            short: 'Automatización',
+            desc: 'Automatizamos procesos administrativos y operativos combinando inteligencia artificial, integraciones y reglas de negocio.',
+            detail:
+              'La IA interpreta documentos, correos, mensajes o información no estructurada. El software convencional se encarga de las acciones que requieren un comportamiento predecible.',
+            cta: 'Automatización de procesos con IA',
+            href: '/servicios/automatizacion-de-procesos-con-ia',
+          },
+          {
+            title: 'IA para documentación y conocimiento',
+            short: 'Documentación',
+            desc: 'Sistemas que permiten consultar documentación empresarial mediante lenguaje natural. Manuales, procedimientos, normativa, documentación técnica o bases de conocimiento, accesibles para empleados, clientes o aplicaciones internas.',
+            detail:
+              'Cuando el proyecto lo requiere usamos arquitecturas RAG, control de permisos y distintas fuentes de conocimiento para determinar qué puede consultar cada usuario.',
+            cta: 'IA para documentación y conocimiento corporativo',
+            href: '/servicios/conocimiento-corporativo',
+          },
+          {
+            title: 'Agentes conversacionales',
+            short: 'Conversacionales',
+            desc: 'Agentes conversacionales conectados con los sistemas de la empresa.',
+            detail:
+              'Además de responder preguntas, pueden consultar información, recopilar datos y ejecutar acciones como crear una cita, modificar una reserva, registrar información en un CRM o consultar el estado de un proceso.',
+            cta: 'Desarrollo de agentes conversacionales',
+            href: '/servicios/agentes-conversacionales',
+          },
+        ],
+      },
+      cases: {
+        title: 'Sistemas de IA que ya trabajan en producción.',
+        lead: 'Preferimos demostrar lo que puede hacer la inteligencia artificial mediante sistemas reales. Cada proyecto parte de un problema diferente, pero todos comparten algo: la IA forma parte de un proceso empresarial y trabaja con datos, herramientas y reglas reales.',
+        viewCase: 'Ver caso {client}',
+        prev: 'Anterior',
+        next: 'Siguiente',
+        items: [
+          {
+            client: 'Stanton',
+            title: '98 % de las facturas procesadas sin intervención humana',
+            desc: 'Un sistema para automatizar la recepción, interpretación y procesamiento de facturas. Combina inteligencia artificial, validaciones e integraciones con las reglas del proceso administrativo para reducir el trabajo manual.',
+            metric: 'El 98 % de las facturas completan el proceso sin intervención humana.',
+            image: '/case-studies/stanton.jpg',
+            href: '/casos/stanton',
+          },
+          {
+            client: 'Barceloneta Premium',
+            title: 'Más de 3 horas de trabajo administrativo ahorradas cada día',
+            desc: 'Analizamos distintos procesos internos que requerían tareas repetitivas y desarrollamos automatizaciones para eliminar parte de esa carga operativa.',
+            metric:
+              'Más de tres horas de trabajo ahorradas cada día en procesos que antes necesitaban intervención manual.',
+            image: '/case-studies/barceloneta.jpg',
+            href: '/casos/barceloneta',
+          },
+          {
+            client: 'Savian',
+            title: 'Consultar bases de datos utilizando lenguaje natural',
+            desc: 'Un sistema que permite acceder a información empresarial mediante preguntas en lenguaje natural. El usuario no necesita conocer SQL ni recorrer paneles: el sistema interpreta la consulta, identifica qué datos necesita y usa una capa controlada de acceso a la información.',
+            metric: 'El modelo nunca ejecuta consultas arbitrarias directamente sobre la base de datos.',
+            image: '/case-studies/harvest.jpg',
+            href: '/casos/savian',
+          },
+          {
+            client: 'Wazzy',
+            title: 'Un agente de IA capaz de gestionar citas mediante una conversación',
+            desc: 'Gestión de citas directamente desde WhatsApp. El agente comprueba disponibilidad, propone horarios, reserva, modifica o cancela, y trabaja con distintos profesionales, calendarios y reglas de negocio.',
+            metric:
+              'Una conversación sencilla para el usuario. Detrás, una arquitectura que controla qué acciones puede ejecutar el agente y bajo qué condiciones.',
+            image: '/case-studies/dentist.jpg',
+            href: '/casos/wazzy',
+          },
+        ],
+      },
+      whenAI: {
+        kicker: 'Cuándo usamos IA',
+        titlePre: 'La IA ',
+        titleIa: 'interpreta',
+        titleMid: 'El software ',
+        titleSoftware: 'ejecuta',
+        titlePost: '.',
+        body: 'No todos los procesos necesitan inteligencia artificial. Si una tarea se resuelve con reglas claras y predecibles, preferimos software convencional: más sencillo, más controlable y, muchas veces, más económico. La IA aporta valor cuando hay que interpretar información que no siempre llega igual.',
+        closing: 'El objetivo no es añadir IA a un proceso.',
+        closingMark: 'El objetivo es mejorar el proceso.',
+        ia: {
+          label: 'La IA puede encargarse de',
+          items: [
+            'Comprender lenguaje natural',
+            'Interpretar documentos',
+            'Clasificar información',
+            'Recuperar conocimiento',
+            'Analizar contexto',
+            'Trabajar con información no estructurada',
+          ],
+        },
+        software: {
+          label: 'El software convencional puede encargarse de',
+          items: [
+            'Validar reglas',
+            'Actualizar un ERP o CRM',
+            'Registrar operaciones',
+            'Ejecutar integraciones',
+            'Controlar permisos',
+            'Comprobar condiciones',
+            'Lanzar procesos automáticos',
+          ],
+        },
+      },
+      method: {
+        title: 'De un proceso empresarial a un sistema de IA en producción.',
+        lead: 'Un proyecto de inteligencia artificial no empieza eligiendo un modelo. Empieza entendiendo el problema.',
+        steps: [
+          {
+            title: 'Entendemos el proceso',
+            body: 'Cómo funciona hoy, qué personas intervienen, qué herramientas se utilizan, dónde aparecen tareas repetitivas y qué decisiones forman parte del flujo.',
+          },
+          {
+            title: 'Analizamos datos y sistemas',
+            body: 'Las fuentes con las que deberá trabajar la solución: bases de datos, documentación, ERP, CRM, APIs, aplicaciones internas o servicios externos.',
+          },
+          {
+            title: 'Diseñamos la arquitectura',
+            body: 'Qué parte necesita IA y qué parte se resuelve con software convencional. Integraciones, permisos, validaciones, herramientas y límites de actuación.',
+          },
+          {
+            title: 'Desarrollamos e integramos',
+            body: 'Construimos la solución y la conectamos con los sistemas reales. Antes de entrar en producción probamos su comportamiento en distintas situaciones y casos límite.',
+          },
+          {
+            title: 'Medimos y mejoramos',
+            body: 'Un sistema de IA no termina cuando empieza a funcionar. Analizamos uso, errores, rendimiento, costes y comportamiento para mejorarlo progresivamente.',
+          },
+        ],
+      },
+      security: {
+        kicker: 'Seguridad',
+        title: 'La seguridad se diseña dentro de la arquitectura.',
+        intro:
+          'Un sistema de IA empresarial debe definir qué datos puede utilizar cada modelo, dónde se procesan, quién puede acceder a ellos y qué acciones puede ejecutar. Por eso la seguridad no se añade al final del proyecto: forma parte de la arquitectura desde el principio.',
+        listLabel: 'Podemos implementar',
+        items: [
+          'Control de acceso y permisos',
+          'Separación de fuentes de información',
+          'Límites sobre las acciones del agente',
+          'Validaciones antes de ejecutar operaciones',
+          'Registro y trazabilidad de acciones',
+          'Intervención humana cuando sea necesaria',
+          'Minimización de los datos enviados a modelos externos',
+        ],
+        outro:
+          'Cuando el proyecto lo requiere diseñamos soluciones sobre infraestructura privada o con modelos desplegados en entornos controlados para reducir la exposición de información sensible.',
+        link: { label: 'Inteligencia artificial, privacidad y RGPD', href: '/ia-y-rgpd' },
+        imageCaption: 'Privacidad, protección de datos y seguridad desde el diseño.',
+      },
+      sectors: {
+        title: 'La tecnología puede ser similar. El contexto de cada empresa no lo es.',
+        lead: 'Hemos trabajado con sistemas de IA y automatización en industria, agricultura, inmobiliario, administración y servicios profesionales. La arquitectura cambia según los procesos, la información disponible, los sistemas existentes y las reglas de cada organización.',
+        items: [
+          { title: 'Industria', image: '/case-studies/industrial.jpg' },
+          { title: 'Agricultura', image: '/case-studies/harvest.jpg' },
+          { title: 'Inmobiliario', image: '/case-studies/barceloneta.jpg' },
+          { title: 'Administración', image: '/case-studies/stanton.jpg' },
+          { title: 'Servicios profesionales', image: '/case-studies/dentist.jpg' },
+        ],
+        links: [
+          { label: 'IA para inmobiliarias', href: '/inmobiliarias' },
+          { label: 'Ver proyectos', href: '#casos' },
+        ],
+      },
+      resources: {
+        title: 'Recursos sobre inteligencia artificial para empresas.',
+        lead: 'Guías basadas en preguntas que aparecen cuando una empresa empieza a valorar la implantación de inteligencia artificial.',
+        tags: { guide: 'Guía', blog: 'Blog' },
+        prev: 'Anterior',
+        next: 'Siguiente',
+        position: 'Artículo',
+        items: [
+          {
+            tag: 'guide',
+            title: '¿Qué son los agentes de IA?',
+            desc: 'Qué diferencia a un agente de un chatbot, cómo utiliza herramientas y en qué situaciones aporta valor dentro de una empresa.',
+            href: '/agentes-de-ia',
+          },
+          {
+            tag: 'guide',
+            title: '¿Cuánto cuesta desarrollar un agente de IA?',
+            desc: 'Qué factores determinan el coste: integraciones, fuentes de información, arquitectura, modelos, infraestructura y mantenimiento.',
+            href: '/cuanto-cuesta-un-agente-de-ia',
+          },
+          {
+            tag: 'guide',
+            title: 'Inteligencia artificial y RGPD',
+            desc: 'Qué ocurre con los datos cuando una empresa utiliza IA y qué decisiones de arquitectura permiten reducir riesgos.',
+            href: '/ia-y-rgpd',
+          },
+          {
+            tag: 'guide',
+            title: 'Reglamento Europeo de Inteligencia Artificial',
+            desc: 'Qué obligaciones introduce el AI Act para las empresas que desarrollan, implantan o utilizan sistemas de IA.',
+            href: '/reglamento-europeo-de-ia',
+          },
+          {
+            tag: 'blog',
+            title: 'Empezar un proyecto de IA es fácil. Mantenerlo vivo, casi imposible',
+            desc: 'Los proyectos de IA vistosos se estrenan bien y mueren pronto. Los rentables son fáciles de empezar y de mantener. La diferencia se decide antes de escribir código.',
+            href: '/blog/mantener-viva-la-ia',
+            image: '/blog/keeping-ai-alive.jpg',
+          },
+          {
+            tag: 'blog',
+            title: 'No me gustan las arquitecturas agénticas',
+            desc: 'Las reglas de negocio no pueden vivir en el prompt, tienen que vivir en el código.',
+            href: '/blog/no-me-gustan-los-agentes-de-ia',
+          },
+          {
+            tag: 'blog',
+            title: 'Antes que el prompt, los datos',
+            desc: 'En producción se gana más ordenando los datos que puliendo las instrucciones.',
+            href: '/blog/antes-que-el-prompt-los-datos',
+          },
+          {
+            tag: 'blog',
+            title: 'El agente que consulta tus datos no escribe SQL',
+            desc: 'Por qué construimos Savian con la decisión contraria al text-to-SQL, que es la que lo hace seguro.',
+            href: '/blog/ai-agents-sql',
+            image: '/blog/portada-sql.jpg',
+          },
+        ],
+      },
+      faq: {
+        title: 'Preguntas frecuentes sobre desarrollo de IA para empresas.',
+        items: [
+          {
+            q: '¿Qué hace una empresa de desarrollo de inteligencia artificial?',
+            a: 'Diseña software que utiliza inteligencia artificial para resolver procesos concretos de otras empresas: agentes de IA, automatización de procesos, procesamiento documental, asistentes internos, sistemas RAG, aplicaciones conectadas con bases de datos o soluciones que usan modelos de lenguaje dentro de procesos empresariales.',
+          },
+          {
+            q: '¿Qué puede automatizar la inteligencia artificial en una empresa?',
+            a: 'Procesos que requieren interpretar lenguaje, documentos o información no estructurada: procesar facturas, clasificar documentación, consultar información en lenguaje natural, responder preguntas sobre conocimiento interno o gestionar conversaciones. Normalmente se combina con software convencional para ejecutar las acciones que requieren reglas estrictas.',
+          },
+          {
+            q: '¿Qué diferencia hay entre un agente de IA y un chatbot?',
+            a: 'Un chatbot está orientado a mantener una conversación. Un agente de IA puede además utilizar herramientas, consultar sistemas externos y ejecutar acciones. Por ejemplo, entender una solicitud, consultar una base de datos y registrar después una operación en un CRM.',
+          },
+          {
+            q: '¿Puede la inteligencia artificial conectarse con un ERP, CRM o una base de datos?',
+            a: 'Sí, siempre que exista un mecanismo de integración adecuado. El sistema puede consultar información o ejecutar acciones según los permisos, validaciones y reglas que se hayan definido.',
+          },
+          {
+            q: '¿Cuándo conviene desarrollar IA a medida en lugar de utilizar un software estándar?',
+            a: 'Cuando el proceso es específico de la empresa, necesita integrarse con sistemas propios o requiere reglas que una herramienta estándar no cubre. Si existe un software que resuelve correctamente el problema, desarrollar desde cero normalmente no es la mejor opción.',
+          },
+          {
+            q: '¿Cuándo merece la pena utilizar inteligencia artificial?',
+            a: 'Cuando el proceso requiere interpretar información variable, lenguaje natural, documentos o contexto. Si el problema se resuelve completamente mediante reglas conocidas y predecibles, una automatización convencional suele ser más sencilla y fiable.',
+          },
+          {
+            q: '¿Cuánto cuesta desarrollar una solución de inteligencia artificial a medida?',
+            a: 'Depende de la complejidad del proceso, las integraciones, las fuentes de datos, la arquitectura, los modelos y los requisitos de seguridad. Una automatización con una integración concreta y un sistema con varios agentes, fuentes de conocimiento y aplicaciones empresariales tienen niveles de complejidad muy diferentes.',
+          },
+          {
+            q: '¿Puede utilizarse inteligencia artificial con datos sensibles?',
+            a: 'Sí, pero el sistema debe diseñarse teniendo en cuenta qué información se procesa, dónde se envía, quién puede acceder a ella y qué proveedores intervienen. Según el proyecto se usan minimización de datos, permisos, infraestructura privada, modelos en entornos controlados y otros mecanismos.',
+          },
+        ],
+      },
+      contact: {
+        kicker: 'Contacto',
+        title: 'Cuéntanos el proceso que quieres mejorar.',
+        p1: 'No necesitas saber qué modelo utilizar, qué arquitectura necesitas o si el problema requiere un agente de IA. Cuéntanos cómo funciona hoy el proceso, qué personas intervienen y qué herramientas utilizáis.',
+        p2: 'Analizaremos qué parte puede automatizarse, dónde tiene sentido utilizar inteligencia artificial y qué sería necesario para convertirlo en un sistema capaz de trabajar en producción.',
+        message: 'Cómo funciona hoy el proceso que quieres mejorar',
+        placeholder:
+          'Cuéntanoslo como se lo contarías a un compañero. No hace falta que sepas qué tecnología lo resuelve.',
+        submit: 'Hablar con Ideasforge',
+      },
     },
     hero: {
       eyebrow: 'Somos la forja de tus ideas',
@@ -2513,7 +2995,9 @@ export const content: Record<Lang, SiteContent> = {
     },
     footer: {
       tagline: 'Desarrollo de IA generativa en producción para empresas. Lo medimos cada semana.',
-      menu: 'Menú',
+      menu: 'Empresa',
+      privacyShort: 'Privacidad',
+      cookiesShort: 'Cookies',
       legal: 'Legal',
       privacy: 'Política de Privacidad',
       cookies: 'Política de Cookies',
@@ -2522,7 +3006,7 @@ export const content: Record<Lang, SiteContent> = {
       rights: 'Ideasforge. Todos los derechos reservados.',
       navGroups: [
         {
-          heading: 'Servicios',
+          heading: 'Soluciones',
           links: [
             { label: 'Desarrollo de agentes de IA', href: '/servicios/desarrollo-de-agentes-de-ia' },
             { label: 'Automatización de procesos con IA', href: '/servicios/automatizacion-de-procesos-con-ia' },
@@ -3166,7 +3650,7 @@ export const content: Record<Lang, SiteContent> = {
               'Hoy hay <strong>cinco sistemas nuestros funcionando con usuarios reales</strong> en industria, agricultura, inmobiliaria, salud y servicios. Uno es producto propio, Wazzy, un asistente de citas por WhatsApp que trata datos de salud a diario y que usamos como campo de pruebas de nuestras prácticas antes de llevarlas a un cliente.',
               'El criterio con el que juzgamos todos es el mismo, lo que gana el negocio antes que lo que luce en una demostración.',
             ],
-            link: { label: 'Ver los servicios', href: '/#servicios' },
+            link: { label: 'Ver los servicios', href: '/#soluciones' },
           },
         ],
         cta: {
@@ -3773,7 +4257,7 @@ export const content: Record<Lang, SiteContent> = {
               'Ahora el flujo extrae de cada conversación el motivo, el presupuesto y la documentación. Al equipo le llega un correo que dice si cumple o no los requisitos que la agencia fijó, con el porqué al lado. Quien decide sigue siendo una persona, con ese correo delante. La agencia cifra en más de tres horas al día lo que recupera para el trabajo que sí necesita personas.',
               'Los dos casos se parecen en dos cosas: entraron por un canal que el equipo ya usaba y tenían una cifra medible antes y después. Eso es lo que buscamos en cada proceso nuevo.',
             ],
-            link: { label: 'Ver los proyectos', href: '/#proyectos' },
+            link: { label: 'Ver los proyectos', href: '/#casos' },
           },
           {
             heading: 'Medida como el software que es',
@@ -5365,12 +5849,330 @@ export const content: Record<Lang, SiteContent> = {
     nav: {
       home: 'Home',
       breadcrumb: 'Breadcrumb',
-      services: 'Services',
-      projects: 'Projects',
+      solutions: 'Solutions',
+      cases: 'Cases',
+      method: 'Method',
+      guides: 'Guides',
+      cta: 'Tell us what you want to improve',
+      menu: 'Menu',
       about: 'About us',
       blog: 'Blog',
       contact: 'Contact',
       switchTo: 'Switch language',
+    },
+    /*
+      HOME, OCTOBER 2026. Mirror of the Spanish block above, translated from
+      it in the same pass as the redesign. PENDING OWNER REVIEW: the design
+      package only shipped Spanish copy, so this English has not been through
+      the editorial pass yet.
+    */
+    home: {
+      hero: {
+        kicker: 'Custom artificial intelligence',
+        title: 'Custom AI development for companies.',
+        lead: 'We design AI agents, automations and intelligent software connected to the real data, tools and processes of each organization.',
+        ctaPrimary: 'Tell us what you want to improve',
+        ctaSecondary: 'See real projects',
+      },
+      logos: {
+        label: 'Companies we work with',
+        caption: 'Manufacturing, agriculture, real estate, healthcare and professional services.',
+      },
+      about: {
+        kicker: 'Who we are',
+        title: 'A custom artificial intelligence development company for businesses.',
+        body: 'From systems that query databases and internal documentation to document automation, conversational agents and AI-powered applications integrated with ERP, CRM and in-house software.',
+        statement:
+          'We do not build AI because it is in fashion. We build systems when there is a problem worth solving.',
+        imageCaption: 'Ideasforge, Spain.',
+      },
+      services: {
+        title: 'Artificial intelligence solutions for companies.',
+        lead: 'We build AI software to solve specific processes. We do not start from a given technology: first we study the problem, the data and the systems the solution has to work with. Then we decide what AI solves, what needs conventional software and how the two work together.',
+        items: [
+          {
+            title: 'AI agent development',
+            short: 'AI agents',
+            desc: 'Agents that can look up information, use tools and take actions on business systems such as databases, ERP, CRM, APIs or internal applications.',
+            detail:
+              'An agent can interpret a request, retrieve the context it needs and carry out an action within the permissions and rules defined for the process.',
+            cta: 'AI agent development',
+            href: '/en/services/ai-agent-development',
+          },
+          {
+            title: 'AI workflow automation',
+            short: 'Automation',
+            desc: 'We automate back-office and operational processes by combining artificial intelligence, integrations and business rules.',
+            detail:
+              'AI interprets documents, emails, messages or unstructured information. Conventional software handles the actions that need predictable behavior.',
+            cta: 'AI workflow automation',
+            href: '/en/services/ai-workflow-automation',
+          },
+          {
+            title: 'AI for documentation and knowledge',
+            short: 'Documentation',
+            desc: 'Systems that let people query company documentation in natural language. Manuals, procedures, regulations, technical documentation or knowledge bases, available to employees, customers or internal applications.',
+            detail:
+              'When the project calls for it we use RAG architectures, permission control and separate knowledge sources to determine what each user can query.',
+            cta: 'AI for corporate documentation and knowledge',
+            href: '/en/services/corporate-knowledge',
+          },
+          {
+            title: 'Conversational agents',
+            short: 'Conversational',
+            desc: 'Conversational agents connected to the company’s systems.',
+            detail:
+              'Beyond answering questions, they can look up information, collect data and take actions such as booking an appointment, changing a reservation, logging information in a CRM or checking the status of a process.',
+            cta: 'Conversational agent development',
+            href: '/en/services/conversational-ai',
+          },
+        ],
+      },
+      cases: {
+        title: 'AI systems already working in production.',
+        lead: 'We prefer to show what artificial intelligence can do through real systems. Every project starts from a different problem, but they all share one thing: AI is part of a business process and works with real data, tools and rules.',
+        viewCase: 'See the {client} case',
+        prev: 'Previous',
+        next: 'Next',
+        items: [
+          {
+            client: 'Stanton',
+            title: '98% of invoices processed with no human intervention',
+            desc: 'A system that automates receiving, interpreting and processing invoices. It combines artificial intelligence, validations and integrations with the rules of the back-office process to reduce manual work.',
+            metric: '98% of invoices complete the process with no human intervention.',
+            image: '/case-studies/stanton.jpg',
+            href: '/en/cases/stanton',
+          },
+          {
+            client: 'Barceloneta Premium',
+            title: 'More than 3 hours of back-office work saved every day',
+            desc: 'We studied several internal processes that required repetitive tasks and built automations to remove part of that operational load.',
+            metric:
+              'More than three hours of work saved every day in processes that used to need manual intervention.',
+            image: '/case-studies/barceloneta.jpg',
+            href: '/en/cases/barceloneta',
+          },
+          {
+            client: 'Savian',
+            title: 'Querying databases in natural language',
+            desc: 'A system that gives access to business information through questions in natural language. The user does not need to know SQL or dig through dashboards: the system interprets the question, works out which data it needs and uses a controlled data-access layer.',
+            metric: 'The model never runs arbitrary queries directly against the database.',
+            image: '/case-studies/harvest.jpg',
+            href: '/en/cases/savian',
+          },
+          {
+            client: 'Wazzy',
+            title: 'An AI agent that manages appointments through a conversation',
+            desc: 'Appointment management straight from WhatsApp. The agent checks availability, suggests times, books, changes or cancels, and works with different professionals, calendars and business rules.',
+            metric:
+              'A simple conversation for the user. Behind it, an architecture that controls which actions the agent can take and under which conditions.',
+            image: '/case-studies/dentist.jpg',
+            href: '/en/cases/wazzy',
+          },
+        ],
+      },
+      whenAI: {
+        kicker: 'When we use AI',
+        titlePre: 'AI ',
+        titleIa: 'interprets',
+        titleMid: 'Software ',
+        titleSoftware: 'executes',
+        titlePost: '.',
+        body: 'Not every process needs artificial intelligence. If a task can be solved with clear, predictable rules, we prefer conventional software: simpler, easier to control and, often, cheaper. AI adds value when the work is interpreting information that does not always arrive the same way.',
+        closing: 'The goal is not to add AI to a process.',
+        closingMark: 'The goal is to improve the process.',
+        ia: {
+          label: 'AI can take care of',
+          items: [
+            'Understanding natural language',
+            'Interpreting documents',
+            'Classifying information',
+            'Retrieving knowledge',
+            'Analyzing context',
+            'Working with unstructured information',
+          ],
+        },
+        software: {
+          label: 'Conventional software can take care of',
+          items: [
+            'Validating rules',
+            'Updating an ERP or CRM',
+            'Recording operations',
+            'Running integrations',
+            'Controlling permissions',
+            'Checking conditions',
+            'Triggering automated processes',
+          ],
+        },
+      },
+      method: {
+        title: 'From a business process to an AI system in production.',
+        lead: 'An artificial intelligence project does not start by choosing a model. It starts by understanding the problem.',
+        steps: [
+          {
+            title: 'We understand the process',
+            body: 'How it works today, who is involved, which tools are used, where repetitive tasks appear and which decisions are part of the flow.',
+          },
+          {
+            title: 'We study data and systems',
+            body: 'The sources the solution will have to work with: databases, documentation, ERP, CRM, APIs, internal applications or external services.',
+          },
+          {
+            title: 'We design the architecture',
+            body: 'Which part needs AI and which part is solved with conventional software. Integrations, permissions, validations, tools and limits on what the system can do.',
+          },
+          {
+            title: 'We build and integrate',
+            body: 'We build the solution and connect it to the real systems. Before it goes into production we test how it behaves in different situations and edge cases.',
+          },
+          {
+            title: 'We measure and improve',
+            body: 'An AI system is not finished when it starts working. We review usage, errors, performance, costs and behavior to improve it step by step.',
+          },
+        ],
+      },
+      security: {
+        kicker: 'Security',
+        title: 'Security is designed into the architecture.',
+        intro:
+          'A business AI system has to define which data each model can use, where it is processed, who can access it and which actions it can take. That is why security is not added at the end of the project: it is part of the architecture from the start.',
+        listLabel: 'What we can implement',
+        items: [
+          'Access control and permissions',
+          'Separation of information sources',
+          'Limits on the agent’s actions',
+          'Validations before operations are executed',
+          'Logging and traceability of actions',
+          'Human intervention when it is needed',
+          'Minimizing the data sent to external models',
+        ],
+        outro:
+          'When the project calls for it we design solutions on private infrastructure or with models deployed in controlled environments, to reduce the exposure of sensitive information.',
+        link: { label: 'Artificial intelligence, privacy and GDPR', href: '/en/gdpr-compliant-ai' },
+        imageCaption: 'Privacy, data protection and security by design.',
+      },
+      sectors: {
+        title: 'The technology may be similar. Each company’s context is not.',
+        lead: 'We have worked on AI and automation systems in manufacturing, agriculture, real estate, administration and professional services. The architecture changes with the processes, the information available, the existing systems and the rules of each organization.',
+        items: [
+          { title: 'Manufacturing', image: '/case-studies/industrial.jpg' },
+          { title: 'Agriculture', image: '/case-studies/harvest.jpg' },
+          { title: 'Real estate', image: '/case-studies/barceloneta.jpg' },
+          { title: 'Administration', image: '/case-studies/stanton.jpg' },
+          { title: 'Professional services', image: '/case-studies/dentist.jpg' },
+        ],
+        links: [
+          { label: 'AI for real estate', href: '/en/real-estate' },
+          { label: 'See projects', href: '#casos' },
+        ],
+      },
+      resources: {
+        title: 'Resources on artificial intelligence for companies.',
+        lead: 'Guides built on the questions that come up when a company starts weighing whether to bring in artificial intelligence.',
+        tags: { guide: 'Guide', blog: 'Blog' },
+        prev: 'Previous',
+        next: 'Next',
+        position: 'Article',
+        items: [
+          {
+            tag: 'guide',
+            title: 'What are AI agents?',
+            desc: 'What sets an agent apart from a chatbot, how it uses tools and in which situations it adds value inside a company.',
+            href: '/en/ai-agents',
+          },
+          {
+            tag: 'guide',
+            title: 'How much does it cost to build an AI agent?',
+            desc: 'The factors that drive the cost: integrations, information sources, architecture, models, infrastructure and maintenance.',
+            href: '/en/ai-agent-development-cost',
+          },
+          {
+            tag: 'guide',
+            title: 'Artificial intelligence and GDPR',
+            desc: 'What happens to the data when a company uses AI, and which architecture decisions reduce the risk.',
+            href: '/en/gdpr-compliant-ai',
+          },
+          {
+            tag: 'guide',
+            title: 'The EU Artificial Intelligence Act',
+            desc: 'The obligations the AI Act introduces for companies that develop, deploy or use AI systems.',
+            href: '/en/eu-ai-act-compliance',
+          },
+          {
+            tag: 'blog',
+            title: 'Starting an AI project is easy. Keeping it alive is nearly impossible',
+            desc: 'Flashy AI projects launch well and die young. Profitable ones are easy to start and cheap to sustain. The difference is decided before any code is written.',
+            href: '/en/blog/keeping-ai-alive',
+            image: '/blog/keeping-ai-alive.jpg',
+          },
+          {
+            tag: 'blog',
+            title: 'I don’t like agentic architectures',
+            desc: 'Business rules cannot live in the prompt. They have to live in the code.',
+            href: '/en/blog/i-dont-like-ai-agents',
+          },
+          {
+            tag: 'blog',
+            title: 'Data before prompts',
+            desc: 'In production you gain more from putting the data in order than from polishing the instructions.',
+            href: '/en/blog/data-before-prompts',
+          },
+          {
+            tag: 'blog',
+            title: 'The agent that queries your data does not write SQL',
+            desc: 'Why we built Savian on the opposite decision to text-to-SQL, which is what makes it safe.',
+            href: '/en/blog/ai-agents-sql',
+            image: '/blog/portada-sql.jpg',
+          },
+        ],
+      },
+      faq: {
+        title: 'Frequently asked questions about AI development for companies.',
+        items: [
+          {
+            q: 'What does an artificial intelligence development company do?',
+            a: 'It designs software that uses artificial intelligence to solve specific processes for other companies: AI agents, process automation, document processing, internal assistants, RAG systems, applications connected to databases or solutions that use language models inside business processes.',
+          },
+          {
+            q: 'What can artificial intelligence automate in a company?',
+            a: 'Processes that require interpreting language, documents or unstructured information: processing invoices, classifying documentation, querying information in natural language, answering questions about internal knowledge or handling conversations. It is usually combined with conventional software to carry out the actions that need strict rules.',
+          },
+          {
+            q: 'What is the difference between an AI agent and a chatbot?',
+            a: 'A chatbot is built to hold a conversation. An AI agent can also use tools, query external systems and take actions. For example, understanding a request, querying a database and then logging an operation in a CRM.',
+          },
+          {
+            q: 'Can artificial intelligence connect to an ERP, a CRM or a database?',
+            a: 'Yes, as long as a suitable integration mechanism exists. The system can look up information or take actions according to the permissions, validations and rules that have been defined.',
+          },
+          {
+            q: 'When does custom AI make more sense than off-the-shelf software?',
+            a: 'When the process is specific to the company, needs to integrate with its own systems or requires rules that a standard tool does not cover. If software already exists that solves the problem well, building from scratch is usually not the best option.',
+          },
+          {
+            q: 'When is artificial intelligence worth using?',
+            a: 'When the process requires interpreting variable information, natural language, documents or context. If the problem can be solved entirely with known, predictable rules, conventional automation tends to be simpler and more reliable.',
+          },
+          {
+            q: 'How much does a custom artificial intelligence solution cost?',
+            a: 'It depends on the complexity of the process, the integrations, the data sources, the architecture, the models and the security requirements. An automation with one specific integration and a system with several agents, knowledge sources and business applications sit at very different levels of complexity.',
+          },
+          {
+            q: 'Can artificial intelligence be used with sensitive data?',
+            a: 'Yes, but the system has to be designed around what information is processed, where it is sent, who can access it and which providers are involved. Depending on the project we use data minimization, permissions, private infrastructure, models in controlled environments and other mechanisms.',
+          },
+        ],
+      },
+      contact: {
+        kicker: 'Contact',
+        title: 'Tell us about the process you want to improve.',
+        p1: 'You do not need to know which model to use, which architecture you need or whether the problem calls for an AI agent. Tell us how the process works today, who is involved and which tools you use.',
+        p2: 'We will work out which part can be automated, where artificial intelligence makes sense and what it would take to turn it into a system that can work in production.',
+        message: 'How the process you want to improve works today',
+        placeholder:
+          'Describe it the way you would to a colleague. You do not need to know which technology solves it.',
+        submit: 'Talk to Ideasforge',
+      },
     },
     hero: {
       eyebrow: 'We are the forge of your ideas',
@@ -6778,7 +7580,9 @@ export const content: Record<Lang, SiteContent> = {
     },
     footer: {
       tagline: 'Generative AI development in production for businesses. Measured every week.',
-      menu: 'Menu',
+      menu: 'Company',
+      privacyShort: 'Privacy',
+      cookiesShort: 'Cookies',
       legal: 'Legal',
       privacy: 'Privacy Policy',
       cookies: 'Cookies Policy',
@@ -6787,7 +7591,7 @@ export const content: Record<Lang, SiteContent> = {
       rights: 'Ideasforge. All rights reserved.',
       navGroups: [
         {
-          heading: 'Services',
+          heading: 'Solutions',
           links: [
             { label: 'AI agent development', href: '/en/services/ai-agent-development' },
             { label: 'AI workflow automation', href: '/en/services/ai-workflow-automation' },
@@ -7412,7 +8216,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'At Ideasforge we design, build and maintain AI agents and process automation. We work with what you already have and connect to your systems and to the tools your people use every day, rather than asking you to change how you work so it fits how we work. The repository and the infrastructure are in your name from day one, because a system you depend on has to be yours. Five of our systems run today with real users across industry, agriculture, real estate, healthcare and services. The test we judge them by has not changed, what the business gains rather than what looks good in a demo.',
             ],
-            link: { label: 'See the services', href: '/en/#servicios' },
+            link: { label: 'See the services', href: '/en/#soluciones' },
           },
         ],
         cta: {

@@ -8,22 +8,21 @@
   entrada nueva la incorpora sola, sin tocar ninguna lista.
 
   Si el grupo no tiene entradas, el componente no pinta nada.
+
+  Aspecto: la retícula de tres columnas de la FAQ, con el titular a la
+  izquierda y las entradas a la derecha en filas separadas por reglas de 2 px.
+  Cada fila es un enlace entero y su título pasa a acento al posarse.
 */
 import { type Lang, content } from '../i18n/ui';
 import { localizedPath } from '../i18n/utils';
 import { postsForPillar } from '../lib/cluster';
-import Icon from './Icon.astro';
 
 interface Props {
   lang: Lang;
   /** Ruta de la página pilar, tal como la enlazan los posts. */
   pillar: string;
-  /** Fondo de la banda. Desde el fondo único (22 ago 2026) es blanco en
-   *  todo el sitio y quien separa es el filete de arriba. Se mantiene el
-   *  parámetro por si alguna página necesita otra cosa. */
-  bg?: string;
 }
-const { lang, pillar, bg = 'bg-bg' } = Astro.props;
+const { lang, pillar } = Astro.props;
 
 const t = content[lang].blog;
 const posts = await postsForPillar(lang, pillar);
@@ -33,31 +32,29 @@ const slugOf = (id: string) => id.replace(/^(es|en)\//, '');
 
 {
   posts.length > 0 && (
-    <section class={`border-t border-border-soft ${bg} py-14 sm:py-16`}>
-      <div class="mx-auto max-w-3xl px-5 sm:px-8">
-        <h2 class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">
+    <section class="wrap section-y">
+      <div class="grid items-start gap-x-[clamp(32px,5vw,96px)] gap-y-8 lg:grid-cols-3">
+        <h2 class="text-[clamp(28px,3vw,40px)] leading-[1.08] tracking-[-0.028em] lg:sticky lg:top-[104px]">
           {t.clusterHeading}
         </h2>
 
-        <ul class="mt-7 divide-y divide-border-soft border-y border-border-soft">
+        <ul class="border-t-2 border-border lg:col-span-2">
           {posts.map((post) => (
-            <li>
+            <li class="border-b-2 border-border">
               <a
                 href={localizedPath(`/blog/${slugOf(post.id)}`, lang)}
-                class="group flex items-start justify-between gap-6 py-5 transition-colors duration-300 hover:bg-border/20"
+                class="group grid grid-cols-[minmax(0,1fr)_24px] gap-6 py-[22px]"
               >
-                <span class="min-w-0">
-                  <span class="block font-bold leading-snug text-fg">{post.data.title}</span>
-                  <span class="mt-1 block text-[15px] leading-relaxed text-muted">
+                <span>
+                  <span class="block text-[clamp(17px,1.5vw,20px)] font-medium leading-[1.35] tracking-[-0.012em] transition-colors group-hover:text-accent">
+                    {post.data.title}
+                  </span>
+                  <span class="mt-2 block max-w-[70ch] text-[15px] leading-[1.6] text-muted">
                     {post.data.description}
                   </span>
                 </span>
-                <span class="mt-1 shrink-0 text-accent" aria-hidden="true">
-                  <Icon
-                    name="flecha-derecha"
-                    size={20}
-                    class="transition-transform duration-300 group-hover:translate-x-0.5"
-                  />
+                <span class="pt-0.5 text-right text-lg text-accent" aria-hidden="true">
+                  →
                 </span>
               </a>
             </li>

@@ -1,0 +1,114 @@
+---
+/*
+  Banda de logotipos: una leyenda a la izquierda y los logos pasando sin fin a
+  la derecha, en gris y al 70 % para que acompañen sin competir.
+
+  El movimiento es CSS puro. La lista va DOS veces seguidas y la pista se
+  desplaza exactamente la mitad de su ancho, así que cuando termina el ciclo
+  la segunda copia está donde empezó la primera y el salto no se ve. La copia
+  lleva `aria-hidden` y `alt` vacío: un lector de pantalla oye cada cliente
+  una vez.
+
+  La máscara lateral funde los extremos. Es un degradado sobre la MÁSCARA, no
+  sobre la página: la regla de cero degradados del diseño habla de fondos.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import { medidas } from '../../lib/imagen';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.logos;
+
+const logos = [
+  { src: '/logos/stanton.png', alt: 'Stanton' },
+  { src: '/logos/savian.png', alt: 'Savian' },
+  { src: '/logos/aimo.webp', alt: 'AIMO' },
+  { src: '/logos/bcnpremium.png', alt: 'Barceloneta Premium' },
+  { src: '/logos/wazzy.png', alt: 'Wazzy' },
+  { src: '/logos/amigoamigo.png', alt: 'Amigo & Amigo' },
+  { src: '/logos/dazzwebs.png', alt: 'Dazzwebs' },
+  { src: '/logos/baba.png', alt: 'Baba' },
+];
+---
+
+<section class="wrap" aria-label={t.label}>
+  <div class="logos">
+    <p class="text-[13px] leading-normal text-muted">{t.caption}</p>
+    <div class="logos-mascara">
+      <div class="logos-pista">
+        {
+          [false, true].map((copia) =>
+            logos.map((l) => (
+              <img
+                src={l.src}
+                alt={copia ? '' : l.alt}
+                aria-hidden={copia ? 'true' : undefined}
+                {...medidas(l.src)}
+                loading="lazy"
+                decoding="async"
+              />
+            ))
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .logos {
+    display: grid;
+    grid-template-columns: minmax(160px, 220px) minmax(0, 1fr);
+    gap: 32px;
+    align-items: center;
+    padding: 24px 0;
+    border-top: 2px solid var(--color-border);
+    border-bottom: 2px solid var(--color-border);
+  }
+  .logos-mascara {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .logos-pista {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    width: max-content;
+    /* El hueco tras el último logo de cada mitad: sin él las dos copias se
+       tocarían y el desplazamiento del 50 % no cuadraría con el ritmo. */
+    padding-right: 64px;
+    opacity: 0.7;
+    animation: if-marquee 36s linear infinite;
+  }
+  .logos-pista img {
+    height: 56px;
+    width: auto;
+    max-width: none;
+    filter: grayscale(1);
+  }
+
+  /* En móvil la leyenda sube encima: a 160 px de columna no le queda sitio a
+     la banda. */
+  @media (max-width: 639px) {
+    .logos {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    .logos-pista {
+      gap: 40px;
+      padding-right: 40px;
+    }
+    .logos-pista img {
+      height: 44px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logos-pista {
+      animation: none;
+    }
+  }
+</style>

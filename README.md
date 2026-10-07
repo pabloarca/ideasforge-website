@@ -32,7 +32,8 @@ src/
 │   └── utils.ts       ← idioma desde la URL, rutas localizadas, mapa de rutas
 ├── layouts/
 │   └── BaseLayout.astro  ← <head>, SEO, hreflang, canonical, OG, header + footer
-├── components/        ← Hero, CaseStudies, Services, Faq, Contact, etc.
+├── components/        ← piezas compartidas (Header, Footer, LongFormPage, FaqList…)
+│   └── home/          ← los doce bloques de la portada
 ├── pages/
 │   ├── index.astro            → /            (home ES)
 │   ├── blog/index.astro       → /blog
@@ -56,8 +57,8 @@ enlacen entre idiomas (switcher + hreflang). Mira un post existente como plantil
 
 **Antes de publicar, sustituye los placeholders:**
 - `astro.config.mjs`: el dominio en `SITE`.
-- `src/components/Contact.astro`: tu clave de [Web3Forms](https://web3forms.com)
-  (`YOUR-WEB3FORMS-ACCESS-KEY`) o apunta el formulario a tu backend.
+- La clave de [Web3Forms](https://web3forms.com) de los dos formularios, en la
+  variable `PUBLIC_WEB3FORMS_KEY` (ver `src/lib/formulario.ts` y `.env.example`).
 - `src/components/TrustedBy.astro` e `Integrations.astro`: logos reales.
 - `src/components/Footer.astro`: tu URL de LinkedIn.
 - Páginas legales: el texto real de tus políticas.

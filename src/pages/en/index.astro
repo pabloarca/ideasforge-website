@@ -1,18 +1,21 @@
 ---
+/*
+  Portada. El orden de los bloques es el del diseño de octubre de 2026 y cada
+  uno lee su texto de `content[lang].home`.
+*/
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import RailDots from '../../components/RailDots.astro';
-import DotReveal from '../../components/DotReveal.astro';
-import EdgeRails from '../../components/EdgeRails.astro';
-import Hero from '../../components/Hero.astro';
-import TrustedBy from '../../components/TrustedBy.astro';
-import CaseStudies from '../../components/CaseStudies.astro';
-import Services from '../../components/Services.astro';
-import WhyUs from '../../components/WhyUs.astro';
-import Methodology from '../../components/Methodology.astro';
-import Integrations from '../../components/Integrations.astro';
-import BlogPreview from '../../components/BlogPreview.astro';
-import Faq from '../../components/Faq.astro';
-import Contact from '../../components/Contact.astro';
+import Hero from '../../components/home/Hero.astro';
+import LogoMarquee from '../../components/home/LogoMarquee.astro';
+import AboutSplit from '../../components/home/AboutSplit.astro';
+import ServicesPanel from '../../components/home/ServicesPanel.astro';
+import CasesGallery from '../../components/home/CasesGallery.astro';
+import WhenAI from '../../components/home/WhenAI.astro';
+import MethodSteps from '../../components/home/MethodSteps.astro';
+import SecuritySplit from '../../components/home/SecuritySplit.astro';
+import SectorSwitcher from '../../components/home/SectorSwitcher.astro';
+import PostsCarousel from '../../components/home/PostsCarousel.astro';
+import FaqAccordion from '../../components/home/FaqAccordion.astro';
+import ContactForm from '../../components/home/ContactForm.astro';
 import { content } from '../../i18n/ui';
 import { altsFor } from '../../i18n/utils';
 
@@ -26,32 +29,16 @@ const meta = content[lang].meta;
   description={meta.homeDescription}
   alternates={altsFor('home')}
 >
-  <EdgeRails />
-  <DotReveal />
   <Hero lang={lang} />
-  <TrustedBy lang={lang} />
-  <CaseStudies lang={lang} />
-  {/*
-    Costuras entre secciones. Desde el 22 ago 2026 todas las secciones son
-    blancas: la banda gris intercalada partia la pagina en modulos y se
-    retiro en favor de la linea, que separa igual y habla mas bajo.
-
-    Con el fondo unico ya no hay cambios de color que hagan de costura, asi
-    que TODAS llevan `line` y la dibujan ellas. Si alguna vez vuelve una
-    seccion de otro color, esa costura concreta puede prescindir de `line`.
-  */}
-  <RailDots seed={419} line />
-  <Services lang={lang} />
-  <RailDots seed={431} line />
-  <WhyUs lang={lang} />
-  <RailDots seed={443} line />
-  <Methodology lang={lang} />
-  <RailDots seed={457} line />
-  <Integrations lang={lang} />
-  <RailDots seed={541} line />
-  <BlogPreview lang={lang} />
-  <RailDots seed={547} line />
-  <Faq lang={lang} />
-  <RailDots seed={557} line />
-  <Contact lang={lang} />
+  <LogoMarquee lang={lang} />
+  <AboutSplit lang={lang} />
+  <ServicesPanel lang={lang} />
+  <CasesGallery lang={lang} />
+  <WhenAI lang={lang} />
+  <MethodSteps lang={lang} />
+  <SecuritySplit lang={lang} />
+  <SectorSwitcher lang={lang} />
+  <PostsCarousel lang={lang} />
+  <FaqAccordion lang={lang} />
+  <ContactForm lang={lang} />
 </BaseLayout>

@@ -1,0 +1,198 @@
+---
+/*
+  Casos: una galería de fichas a todo el ancho, de una en una. Cada ficha es
+  un enlace a su página de caso, con la fotografía a la izquierda y el texto a
+  la derecha. Avanza sola cada 7 segundos, se pausa con el ratón encima y se
+  maneja con la barra segmentada o con las dos flechas.
+
+  La fotografía de la ficha activa hace un acercamiento muy lento (del 100 al
+  106 % en seis segundos), lo justo para que la ficha parezca viva mientras se
+  lee. Las demás se quedan al 35 % de opacidad mientras salen o entran.
+
+  Las fichas que no están a la vista llevan `inert`: siguen en el HTML, que es
+  lo que lee un buscador, pero el teclado no entra en un enlace que no se ve.
+
+  `pictureAttributes` con `contents`: <Picture> mete un elemento <picture>
+  entre la figura y la imagen, y sin eso el `h-full` de la imagen se
+  resolvería contra una caja que no tiene altura.
+*/
+import { Picture } from 'astro:assets';
+import { type Lang, content } from '../../i18n/ui';
+import { foto } from '../../lib/fotos';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.cases;
+const total = String(t.items.length).padStart(2, '0');
+---
+
+<section id="casos" class="wrap section-y">
+  <div class="section-head" data-reveal>
+    <h2 class="t-h2">{t.title}</h2>
+    <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{t.lead}</p>
+  </div>
+
+  <div data-gal>
+    <div class="gal-marco">
+      <div class="gal-pista" data-gal-pista>
+        {
+          t.items.map((k, i) => (
+            <a href={k.href} class:list={['gal-ficha', i === 0 && 'is-active']} data-gal-ficha>
+              <figure class="gal-foto">
+                <Picture
+                  pictureAttributes={{ class: 'contents' }}
+                  src={foto(k.image)}
+                  alt=""
+                  formats={['avif', 'webp']}
+                  widths={[480, 800, 1200]}
+                  sizes="(min-width: 900px) 576px, 100vw"
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  class="h-full w-full object-cover"
+                />
+              </figure>
+              <div class="gal-texto">
+                <div class="flex justify-between gap-4 text-[13px] text-muted">
+                  <span>{k.client}</span>
+                  <span class="[font-feature-settings:'tnum'_1]">
+                    {String(i + 1).padStart(2, '0')} / {total}
+                  </span>
+                </div>
+                <h3 class="t-h3-panel gal-titulo">{k.title}</h3>
+                <p class="mt-5 max-w-[48ch] text-base leading-[1.6] text-muted">{k.desc}</p>
+                <p class="mt-6 text-[15px] leading-normal">{k.metric}</p>
+                <span class="link-arrow mt-8 self-start">
+                  {t.viewCase.replace('{client}', k.client)} →
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="mt-5 flex items-center gap-6">
+      <div class="flex flex-1 gap-0.5" data-gal-barra>
+        {
+          t.items.map((k) => (
+            <button type="button" class="progress" aria-label={k.client}>
+              <i />
+            </button>
+          ))
+        }
+      </div>
+      <div class="flex gap-0.5">
+        <button type="button" class="btn-icon" aria-label={t.prev} data-gal-prev>←</button>
+        <button type="button" class="btn-icon" aria-label={t.next} data-gal-next>→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .gal-marco {
+    position: relative;
+    overflow: hidden;
+    border-top: 2px solid var(--color-border);
+    border-bottom: 2px solid var(--color-border);
+  }
+  .gal-pista {
+    display: flex;
+    transition: transform 0.9s var(--ease-in-out);
+  }
+  .gal-ficha {
+    flex: 0 0 100%;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    color: inherit;
+    opacity: 0.35;
+    transition: opacity 0.9s;
+  }
+  .gal-ficha.is-active {
+    opacity: 1;
+  }
+
+  .gal-foto {
+    margin: 0;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--color-neutral-200);
+    border-bottom: 2px solid var(--color-border);
+  }
+  /* La imagen se ancla a la figura en vez de medirse contra ella: la altura
+     de la figura la decide la retícula, y un `height: 100%` contra una altura
+     estirada no es fiable en todos los navegadores. */
+  .gal-foto {
+    position: relative;
+  }
+  .gal-foto :global(img) {
+    position: absolute;
+    inset: 0;
+    filter: grayscale(1);
+    transform: scale(1);
+    transition: transform 6s linear;
+  }
+  .gal-ficha.is-active .gal-foto :global(img) {
+    transform: scale(1.06);
+  }
+
+  .gal-texto {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(28px, 3vw, 48px) 0;
+  }
+  .gal-titulo {
+    margin-top: 32px;
+  }
+
+  /* Dos columnas en escritorio: la foto ocupa media ficha a toda su altura y
+     el titular se apoya abajo, con el cliente y el contador arriba. */
+  @media (min-width: 900px) {
+    .gal-ficha {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .gal-foto {
+      aspect-ratio: auto;
+      min-height: 320px;
+      border-bottom: 0;
+      border-right: 2px solid var(--color-border);
+    }
+    .gal-texto {
+      min-height: 100%;
+      padding: clamp(28px, 3vw, 48px);
+    }
+    .gal-titulo {
+      margin-top: auto;
+      padding-top: 32px;
+    }
+  }
+</style>
+
+<script>
+  import { carrusel } from './autoplay';
+
+  document.querySelectorAll<HTMLElement>('[data-gal]').forEach((raiz) => {
+    const pista = raiz.querySelector<HTMLElement>('[data-gal-pista]')!;
+    const fichas = Array.from(raiz.querySelectorAll<HTMLElement>('[data-gal-ficha]'));
+
+    const c = carrusel({
+      raiz,
+      total: fichas.length,
+      intervalo: 7000,
+      barra: raiz.querySelector<HTMLElement>('[data-gal-barra]'),
+      pintar(i) {
+        pista.style.transform = `translateX(-${i * 100}%)`;
+        fichas.forEach((f, k) => {
+          f.classList.toggle('is-active', k === i);
+          f.toggleAttribute('inert', k !== i);
+        });
+      },
+    });
+
+    raiz.querySelector('[data-gal-prev]')?.addEventListener('click', () => c.anterior());
+    raiz.querySelector('[data-gal-next]')?.addEventListener('click', () => c.siguiente());
+  });
+</script>

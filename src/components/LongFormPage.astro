@@ -4,6 +4,13 @@
   Pages stay thin: they pick their LongFormPageContent from ui.ts and pass it
   here together with the routeMap alternates.
 
+  Aspecto: el del diseño de octubre de 2026, el mismo sistema de la portada.
+  Héroe alineado a la izquierda con rótulo, titular y entradilla; cuerpo a dos
+  columnas con el índice fijo; reglas de 2 px entre secciones; y un cierre que
+  repite el bloque de contacto de la portada, con la regla negra encima. Nada
+  va centrado, no hay iconos y el acento se queda en rótulos, enlaces y los
+  cuadrados de las listas.
+
   Two optional levers matter for copy:
   - `hero.ctaHref` lets informational pages point at an in-page anchor instead
     of asking for the sale on first contact.
@@ -11,16 +18,12 @@
     any, so this is where the page earns trust fastest.
 */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Icon from './Icon.astro';
-import BrandBadge from './BrandBadge.astro';
 import PageNav from './PageNav.astro';
 import { type Lang, type LongFormPageContent } from '../i18n/ui';
 import ClusterPosts from './ClusterPosts.astro';
 import FaqList from './FaqList.astro';
 import { pillarFromUrl } from '../lib/cluster';
 import PizarraPorNombre from './pizarra/PizarraPorNombre.astro';
-import LatticeDots from './LatticeDots.astro';
-import RouteReveal from './RouteReveal.astro';
 import { localizedPath } from '../i18n/utils';
 
 interface Props {
@@ -40,7 +43,7 @@ const anchorOf = (sec: { id?: string; heading: string }) =>
   sec.heading
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
     .slice(0, 40);
@@ -55,7 +58,6 @@ page.sections.forEach((sec, i) => {
   }
 });
 const hasParts = parts.length > 1;
-const hasChecklist = page.sections.some((sec) => sec.kind === 'checklist');
 
 /* Entradas del índice lateral: TODAS las secciones, con el rótulo de parte
    en la que estrena cada una. Antes el índice solo listaba las partes, que
@@ -75,6 +77,8 @@ const navItems = page.sections.map((sec, i) => {
 // las cortas se leen mejor a una columna y el índice lateral las disfraza de
 // pilar de posicionamiento cuando no lo son.
 const hasNav = page.nav ?? page.sections.length >= 4;
+
+const dos = (n: number) => String(n).padStart(2, '0');
 ---
 
 <BaseLayout
@@ -84,59 +88,42 @@ const hasNav = page.nav ?? page.sections.length >= 4;
   alternates={alternates}
 >
   <!-- Hero -->
-  <section class="bg-bg py-16 sm:py-24">
-    <div class="mx-auto max-w-4xl px-5 text-center sm:px-8">
-      {page.hero.eyebrow && <BrandBadge text={page.hero.eyebrow} />}
-      <h1 class="mt-7 text-balance text-4xl font-bold leading-[1.05] tracking-tight text-fg sm:text-5xl lg:text-6xl">
-        {page.hero.title}
-      </h1>
-      <p class="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
-        {page.hero.subtitle}
-      </p>
-      {page.updated && (
-        <p class="mt-5 font-mono text-xs uppercase tracking-[0.16em] text-faint">{page.updated}</p>
-      )}
-      {/* El botón es opcional: una guía puede no querer llamada a la acción
-          en el héroe, para no pedir nada antes de haber explicado nada. */}
-      {page.hero.cta && (
-        <div class="mt-9">
+  <section class="wrap pb-[clamp(48px,6vw,80px)] pt-[clamp(56px,7vw,96px)]">
+    {page.hero.eyebrow && <span class="kicker lf-in mb-7" style="--d:0s">{page.hero.eyebrow}</span>}
+    <h1 class="t-display lf-in max-w-[24ch]" style="--d:.08s">{page.hero.title}</h1>
+    <p class="lf-in mt-6 max-w-[62ch] text-[17px] leading-[1.55] text-muted" style="--d:.16s">
+      {page.hero.subtitle}
+    </p>
+    {page.updated && <p class="num lf-in mt-5" style="--d:.2s">{page.updated}</p>}
+    {/* El botón es opcional: una guía puede no querer llamada a la acción
+        en el héroe, para no pedir nada antes de haber explicado nada. */}
+    {
+      page.hero.cta && (
+        <div class="lf-in mt-9" style="--d:.24s">
           <a href={heroCta} class="btn-primary hover:btn-primary-hover">
             {page.hero.cta}
           </a>
         </div>
-      )}
-    </div>
+      )
+    }
 
     {
       /*
-        Evidence block, not a stat grid. It used to be 2-3 identical centred
-        cards in equal columns, which is the shape every generated landing
-        page has. Two things changed and both are deliberate:
-
-        - It runs each figure into its own sentence, so the lines end at
-          different widths. Equal columns force equal-length text; ragged
-          lines do not, and the labels in ui.ts are already written as the
-          continuation of their number ("+3 horas" + "al día que...").
-        - It sits left-aligned under a centred hero. The asymmetry is the
-          point: it reads as evidence someone chose to show, not as a
-          template slot that had to be filled.
-
-        The figure keeps the accent colour and extra weight, so the block is
-        still scannable without reading it.
+        Evidence block. Cada cifra abre su propia columna bajo una regla
+        negra, con el número a tamaño de titular y su frase debajo: las
+        etiquetas de ui.ts ya están escritas como continuación del número
+        («+3 horas» + «al día que...»). Las columnas salen de `auto-fit`, así
+        que dos cifras ocupan dos columnas y tres, tres, sin huecos.
       */
       page.stats && page.stats.length > 0 && (
-        <div class="mx-auto mt-14 max-w-3xl px-5 sm:px-8">
-          <dl class="border-l-2 border-border pl-5 sm:pl-6">
-            {page.stats.map((s) => (
-              <div class="py-1.5">
-                <dt class="inline text-lg font-bold tracking-tight text-accent sm:text-xl">
-                  {s.value}
-                </dt>{' '}
-                <dd class="inline text-[15px] leading-relaxed text-muted">{s.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+        <dl class="mt-14 grid grid-cols-[repeat(auto-fit,minmax(min(100%,240px),1fr))] gap-x-8 gap-y-8 border-t-2 border-fg pt-6">
+          {page.stats.map((s) => (
+            <div>
+              <dt class="t-h3-panel">{s.value}</dt>
+              <dd class="mt-3 max-w-[36ch] text-[15px] leading-[1.6] text-muted">{s.label}</dd>
+            </div>
+          ))}
+        </dl>
       )
     }
   </section>
@@ -145,84 +132,74 @@ const hasNav = page.nav ?? page.sections.length >= 4;
     /*
       Índice de partes para pantallas estrechas. En ancho grande manda la
       columna lateral, que acompaña toda la lectura; aquí, donde esa columna
-      no cabe, se conserva la retícula continua de la home como sumario de
-      entrada. Los dos llevan a las mismas anclas.
+      no cabe, se deja una retícula con las partes como sumario de entrada.
+      Los dos llevan a las mismas anclas.
     */
     hasParts && (
-      <section class="bg-bg pb-4 lg:hidden">
-        <div class="mx-auto max-w-5xl px-5 sm:px-8">
-          {page.tocHeading && (
-            <p class="mb-5 text-xs font-semibold uppercase tracking-[0.16em] text-faint">
-              {page.tocHeading}
-            </p>
-          )}
-          <ol class="grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-            {parts.map((part, i) => (
-              <li class="relative bg-bg">
-                <a
-                  href={`#${part.anchor}`}
-                  class="group flex h-full flex-col justify-between gap-6 p-6 transition-colors duration-300 hover:bg-border/30"
-                >
-                  <span class="font-mono text-xs text-faint">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <span class="text-[15px] font-bold leading-snug text-fg">{part.name}</span>
-                </a>
-                <LatticeDots seed={811 + i * 7} />
-              </li>
-            ))}
-          </ol>
-        </div>
+      <section class="wrap pb-10 lg:hidden">
+        {page.tocHeading && <p class="mb-5 text-[13px] text-muted">{page.tocHeading}</p>}
+        <ol class="ruled-grid sm:grid-cols-2">
+          {parts.map((part, i) => (
+            <li class:list={[parts.length % 2 === 1 && i === parts.length - 1 && 'sm:col-span-2']}>
+              <a
+                href={`#${part.anchor}`}
+                class="flex h-full flex-col justify-between gap-6 px-5 py-6 transition-colors hover:text-accent"
+              >
+                <span class="num">{dos(i + 1)}</span>
+                <span class="text-lg font-medium leading-tight tracking-[-0.015em]">{part.name}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
       </section>
     )
   }
 
   {/*
     Cuerpo a dos columnas. A la izquierda el índice, pegado mientras se lee;
-    a la derecha el texto, separado por el mismo filete vertical que divide
-    las tarjetas de la home.
+    a la derecha el texto, separado por una regla vertical.
 
-    Los fondos ya no alternan. La banda gris intercalada partía la página en
-    bloques y hacía leer cada sección como un módulo suelto; con un solo
-    fondo el texto se lee de corrido y quien separa es la línea, que es más
-    callada y es el lenguaje del resto del sitio.
+    Un solo fondo en toda la página: quien separa las secciones es la regla
+    de 2 px, que es el lenguaje del resto del sitio.
   */}
-  <section class="bg-bg">
-    <div class="mx-auto max-w-6xl px-5 sm:px-8">
-      <div class={hasNav ? 'lg:grid lg:grid-cols-[14rem_minmax(0,1fr)]' : ''}>
-        {hasNav && (
+  <section class="wrap">
+    <div class:list={['border-t-2 border-border', hasNav && 'lg:grid lg:grid-cols-[15rem_minmax(0,1fr)]']}>
+      {
+        hasNav && (
           <div class="hidden lg:block">
             {/* Tope de altura: los pilares largos tienen veinte secciones y
                 una columna fija de ese alto se sale de la ventana, dejando
-                las ultimas inalcanzables. Con el tope, el indice se
-                desplaza por dentro y el resto de la pagina no se entera. */}
-            <div class="sticky top-28 max-h-[calc(100vh-9rem)] overflow-y-auto overscroll-contain pb-10 pr-8">
+                las últimas inalcanzables. Con el tope, el índice se
+                desplaza por dentro y el resto de la página no se entera. */}
+            <div class="no-scrollbar sticky top-[104px] max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain pb-10 pr-8 pt-12">
               <PageNav items={navItems} heading={page.tocHeading} />
             </div>
           </div>
-        )}
+        )
+      }
 
-        <div class={hasNav ? 'lg:border-l lg:border-border lg:pl-10' : 'mx-auto max-w-3xl'}>
-          {page.sections.map((section, i) => (
+      <div class={hasNav ? 'lg:border-l-2 lg:border-border lg:pl-12' : 'max-w-[46rem]'}>
+        {
+          page.sections.map((section, i) => (
             <section
               id={anchorOf(section)}
-              class={`scroll-mt-28 py-12 sm:py-14 ${i > 0 ? 'border-t border-border-soft' : ''}`}
+              class:list={['lf-seccion scroll-mt-[104px] py-12 sm:py-14', i > 0 && 'border-t-2 border-border']}
             >
-              <div class={hasNav ? 'max-w-2xl' : ''}>
-                {/* Portada de parte. Se abre cuando esta seccion estrena parte. */}
+              <div class={hasNav ? 'max-w-[44rem]' : ''}>
+                {/* Portada de parte. Se abre cuando esta sección estrena parte. */}
                 {parts.some((pt) => pt.from === i) && (
-                  <p class="mb-4 font-mono text-xs uppercase tracking-[0.16em] text-accent">
-                    {`${String(parts.findIndex((pt) => pt.from === i) + 1).padStart(2, '0')} · ${section.part}`}
+                  <p class="kicker mb-5">
+                    {`${dos(parts.findIndex((pt) => pt.from === i) + 1)} · ${section.part}`}
                   </p>
                 )}
 
-                <h2 class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">
+                <h2 class="text-[clamp(24px,2.4vw,32px)] leading-[1.12] tracking-[-0.025em]">
                   {section.heading}
                 </h2>
-                <div class="mt-5 space-y-4">
+                <div class="lf-texto mt-5 space-y-4">
                   {section.paragraphs.map((p, k) => (
                     <>
-                      <p class="text-[15px] leading-relaxed text-muted sm:text-base" set:html={p} />
+                      <p set:html={p} />
                       {/* Gráfico pizarra intercalado: va justo debajo del
                           párrafo que explica, no al final de la sección. */}
                       {section.pizarra?.tras === k && (
@@ -232,23 +209,28 @@ const hasNav = page.nav ?? page.sections.length >= 4;
                   ))}
                 </div>
               </div>
+
               {/* Tabla de datos. Texto plano en celdas; la primera columna es
                   la descripción y va alineada a la izquierda como el resto. */}
               {section.table && (
-                <div class="mt-7 overflow-x-auto">
-                  <table class="w-full border border-border text-left text-[15px] leading-relaxed">
+                <div class="mt-8 overflow-x-auto">
+                  <table class="w-full border-b-2 border-border text-left text-[15px] leading-[1.5]">
                     <thead>
-                      <tr class="border-b border-border">
+                      <tr class="border-t-2 border-fg">
                         {section.table.headers.map((h) => (
-                          <th scope="col" class="bg-border/30 px-4 py-3 font-bold text-fg">{h}</th>
+                          <th scope="col" class="px-4 py-3 text-[13px] font-normal text-muted first:pl-0">
+                            {h}
+                          </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
                       {section.table.rows.map((row) => (
-                        <tr class="border-b border-border-soft last:border-b-0">
+                        <tr class="border-t-2 border-border">
                           {row.map((cell, c) => (
-                            <td class={`px-4 py-3 ${c === 0 ? 'text-muted' : 'font-semibold text-fg'}`}>{cell}</td>
+                            <td class:list={['px-4 py-3.5 first:pl-0', c === 0 ? 'text-muted' : 'font-medium text-fg']}>
+                              {cell}
+                            </td>
                           ))}
                         </tr>
                       ))}
@@ -257,78 +239,62 @@ const hasNav = page.nav ?? page.sections.length >= 4;
                 </div>
               )}
 
-              {/* Reticula continua: elementos paralelos, el idioma de «Lo que
-                  construimos». Dos columnas y no cuatro porque aqui cada elemento
-                  es una frase larga, no un titulo. */}
+              {/* Retícula con líneas interiores: elementos paralelos. Dos
+                  columnas y no cuatro porque aquí cada elemento es una frase
+                  larga, no un título. Con un número impar el último ocupa
+                  las dos columnas: nunca queda una celda vacía al final. */}
               {section.bullets && section.kind === 'lattice' && (
-                <ul class="mt-7 grid gap-px border border-border bg-border sm:grid-cols-2">
+                <ul class="ruled-grid mt-8 sm:grid-cols-2">
                   {section.bullets.map((b, k) => (
-                    <li class="relative bg-bg">
-                      <div class="flex h-full gap-3 p-6">
-                        <span class="mt-0.5 shrink-0 text-accent" aria-hidden="true">
-                          <Icon name="correcto" size={14} />
-                        </span>
-                        <span class="text-[15px] leading-relaxed text-fg" set:html={b} />
-                      </div>
-                      <LatticeDots seed={907 + i * 13 + k} />
+                    <li
+                      class:list={[
+                        'lf-celda flex gap-4 py-6 sm:px-6',
+                        section.bullets!.length % 2 === 1 && k === section.bullets!.length - 1 && 'sm:col-span-2',
+                      ]}
+                    >
+                      <span class="sq mt-[7px] shrink-0" aria-hidden="true" />
+                      <span class="text-[15px] leading-[1.6] text-fg" set:html={b} />
                     </li>
                   ))}
                 </ul>
               )}
 
-              {/* Ruta numerada: secuencias y listas que se recorren una a una, el
-                  idioma de «Como trabajamos». El filete se dibuja al bajar. */}
+              {/* Lista numerada: secuencias y listas que se recorren una a
+                  una. Filas con su número y reglas de 2 px, como la lista de
+                  seguridad de la portada. Los números visibles van ocultos al
+                  lector de pantalla, que ya cuenta los elementos del <ol>. */}
               {section.bullets && section.kind === 'checklist' && (
-                <ol class="mt-8">
+                <ol class="mt-8 max-w-[44rem] border-b-2 border-border">
                   {section.bullets.map((b, k) => (
-                    <li
-                      data-route-step
-                      class="grid grid-cols-[2.25rem_1fr] gap-x-4 sm:grid-cols-[2.75rem_1fr] sm:gap-x-6"
-                    >
-                      <div class="flex flex-col items-center">
-                        <span class="route-marker grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 border-border bg-bg font-mono text-xs font-bold text-accent sm:h-11 sm:w-11 sm:text-sm">
-                          {String(k + 1).padStart(2, '0')}
-                        </span>
-                        {k < section.bullets!.length - 1 && (
-                          <span class="route-line mt-3 w-0.5 flex-1 rounded-full bg-border" aria-hidden="true" />
-                        )}
-                      </div>
-                      <div class={k < section.bullets!.length - 1 ? 'pb-8' : ''}>
-                        <p class="text-[15px] leading-relaxed text-fg sm:text-base" set:html={b} />
-                      </div>
+                    <li class="grid grid-cols-[32px_minmax(0,1fr)] gap-3 border-t-2 border-border py-4">
+                      <span class="num pt-[3px]" aria-hidden="true">{dos(k + 1)}</span>
+                      <span class="text-[15px] leading-[1.6] text-fg sm:text-base" set:html={b} />
                     </li>
                   ))}
                 </ol>
               )}
 
               {section.bullets && (section.kind ?? 'prose') === 'prose' && (
-                <ul class="mt-6 space-y-3">
+                <ul class="mt-6 max-w-[44rem] space-y-3">
                   {section.bullets.map((b) => (
-                    <li class="flex items-start gap-3 text-[15px] leading-relaxed text-fg sm:text-base">
-                      <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent text-bg" aria-hidden="true">
-                        <Icon name="correcto" size={12} />
-                      </span>
+                    <li class="flex items-start gap-3.5 text-[15px] leading-[1.6] text-fg sm:text-base">
+                      <span class="mt-[10px] block h-1.5 w-1.5 shrink-0 bg-accent" aria-hidden="true" />
                       <span set:html={b} />
                     </li>
                   ))}
                 </ul>
               )}
+
               {section.link && (
-                <div class="mt-6">
-                  {/* Misma flecha que el resto del sitio. Antes era el caracter «→»,
-                      que se dibuja con la tipografia y no casa con las demas. */}
-                  <a
-                    href={section.link.href}
-                    class="group inline-flex items-center gap-1.5 text-accent"
-                  >
-                    <span class="underline-offset-2 group-hover:underline">{section.link.label}</span>
-                    <Icon name="flecha-derecha" size={16} class="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" />
+                <p class="mt-7 max-w-[44rem]">
+                  <a href={section.link.href} class="lf-enlace">
+                    {section.link.label} →
                   </a>
-                </div>
+                </p>
               )}
             </section>
-          ))}
-        </div>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -337,33 +303,86 @@ const hasNav = page.nav ?? page.sections.length >= 4;
       URL, así que la página no tiene que declararse a sí misma, y el conjunto
       se deriva de los enlaces que los propios posts ya traen. Va detrás del
       cuerpo y delante de la FAQ, que junto al CTA forma el cierre. */}
-  <ClusterPosts lang={lang} pillar={pillarFromUrl(Astro.url.pathname)} bg="bg-bg" />
+  <ClusterPosts lang={lang} pillar={pillarFromUrl(Astro.url.pathname)} />
 
   <!-- FAQ (skipped on pages without one, e.g. About) -->
   {
     hasFaq && (
-      <section class="border-t border-border-soft bg-bg py-14 sm:py-16">
-        <div class="mx-auto max-w-3xl px-5 sm:px-8">
-          <h2 class="text-2xl font-bold tracking-tight text-fg sm:text-3xl">{page.faqHeading}</h2>
-          {/* Misma pieza que la FAQ de la home. Antes eran tarjetas estaticas
-              con sombra: la unica FAQ del sitio con otro aspecto y sin abrirse. */}
-          <FaqList items={page.faq!} group="faq-page" class="mt-7" />
+      <section class="wrap section-y">
+        <div class="grid items-start gap-x-[clamp(32px,5vw,96px)] gap-y-8 lg:grid-cols-3">
+          <h2 class="text-[clamp(28px,3vw,40px)] leading-[1.08] tracking-[-0.028em] lg:sticky lg:top-[104px]">
+            {page.faqHeading}
+          </h2>
+          {/* Misma pieza que la FAQ de la home. */}
+          <FaqList items={page.faq!} group="faq-page" class="lg:col-span-2" />
         </div>
       </section>
     )
   }
 
-  <!-- Final CTA -->
-  <section class="border-t border-border-soft bg-bg py-16 sm:py-20">
-    <div class="mx-auto max-w-3xl px-5 text-center sm:px-8">
-      <h2 class="text-3xl font-bold tracking-tight text-fg sm:text-4xl">{page.cta.heading}</h2>
-      <p class="mt-4 text-lg text-muted">{page.cta.body}</p>
-      <div class="mt-7">
-        <a href={localizedPath('/#contacto', lang)} class="btn-primary hover:btn-primary-hover">
-          {page.cta.button}
-        </a>
+  <!-- Final CTA: el bloque de contacto de la portada, sin formulario. -->
+  <section class="wrap section-y">
+    <div
+      class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] gap-x-[clamp(32px,6vw,120px)] gap-y-8 border-t-2 border-fg pt-12"
+    >
+      <h2 class="t-h2">{page.cta.heading}</h2>
+      <div>
+        <p class="max-w-[44ch] text-[17px] leading-[1.6] text-muted">{page.cta.body}</p>
+        <div class="mt-8">
+          <a href={localizedPath('/#contacto', lang)} class="btn-primary hover:btn-primary-hover">
+            {page.cta.button}
+          </a>
+        </div>
       </div>
     </div>
   </section>
-  {hasChecklist && <RouteReveal />}
 </BaseLayout>
+
+<style>
+  /* Entrada escalonada del héroe, la misma de la portada. */
+  .lf-in {
+    animation: if-up 0.8s var(--d, 0s) var(--ease-out) both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lf-in {
+      animation: none;
+    }
+  }
+
+  /* El texto corrido llega como HTML desde ui.ts, así que sus etiquetas no
+     llevan el atributo de ámbito de Astro y hay que alcanzarlas con :global. */
+  .lf-texto :global(p) {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+  .lf-seccion :global(strong) {
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+
+  /* En una columna las celdas no necesitan margen lateral: van a sangre con
+     el texto. En dos, la primera de cada fila tampoco. */
+  @media (min-width: 640px) {
+    .lf-celda:nth-child(odd) {
+      padding-left: 0;
+    }
+  }
+
+  /* El enlace de cierre de sección suele ser una frase entera que ocupa dos
+     líneas. Va en línea, y no en bloque como `link-arrow`, para que la regla
+     de debajo acompañe a cada renglón en vez de subrayar solo el último. */
+  .lf-enlace {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--color-accent);
+    border-bottom: 2px solid var(--color-accent-200);
+    padding-bottom: 2px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    transition: border-color 250ms;
+  }
+  .lf-enlace:hover {
+    border-color: var(--color-accent);
+  }
+</style>

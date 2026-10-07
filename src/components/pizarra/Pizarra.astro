@@ -1,20 +1,32 @@
 ---
 /*
-  El tablero del gráfico pizarra: una pizarra blanca magnética, con su marco
-  de aluminio y su bandeja de rotuladores, sobre la que se pegan fichas con
-  imanes y se dibuja con rotulador. Es el registro de alguien explicando en la
-  pared, y por eso convive con los diagramas de `graficos/` sin parecerse a
-  ellos: aquellos son plano técnico, esto es pizarra.
+  El tablero del gráfico pizarra: el marco sobre el que se pegan fichas y se
+  dibuja con rotulador. Es el registro de alguien explicando en la pared.
+
+  ASPECTO DESDE OCTUBRE DE 2026. El tablero era una pizarra blanca con marco
+  de aluminio en degradado, sombra, esquinas redondeadas y una bandeja de
+  rotuladores. El sistema de diseño nuevo no admite degradados, sombras,
+  radios ni adornos, así que el tablero pasa a ser lo que es todo lo demás en
+  el sitio: una figura plana enmarcada por la regla de 2 px.
+
+  Los ochenta gráficos NO se han redibujado. Son SVG con sus colores escritos
+  en atributos (`fill="#fff"`, `rx="6"`, `filter="url(…)"`), y aquí se les
+  cambia el aspecto desde fuera, con CSS, que manda sobre un atributo de
+  presentación:
+    - `rx: 0` quita todos los radios;
+    - `filter: none` quita todas las sombras;
+    - los blancos y grises fríos se llevan a los neutros cálidos de la paleta.
+  Lo que sí cambió en origen son los colores de rotulador (`colores.ts`) y la
+  ficha con su imán (`Ficha.astro`), que ahora es el cuadrado de 10 px.
 
   Reglas del kit en `README.md`. El contenido son dos SVG del mismo gráfico,
   uno apaisado para escritorio y otro vertical para el móvil, porque un SVG
   apaisado en un teléfono se encoge hasta no leerse (pasó con todos los
   diagramas de la casa hasta el 2 oct 2026).
 
-  La letra es Inter, instalada en el proyecto y servida desde el propio sitio.
+  La letra es Geist, la única del sitio. Antes era Inter: las dos tienen un
+  ancho de letra muy parecido y los textos caben en sus cajas igual.
 */
-import '@fontsource-variable/inter';
-
 interface Props {
   /** Descripción del gráfico para lectores de pantalla. */
   label: string;
@@ -30,12 +42,6 @@ const { label, caption } = Astro.props;
       <div class="lg:hidden"><slot name="estrecho" /></div>
       <div class="hidden lg:block"><slot name="ancho" /></div>
     </div>
-    {/* Bandeja de rotuladores: decoración, nada que leer. */}
-    <div class="pz-bandeja" aria-hidden="true">
-      <span class="pz-rotu pz-rotu-negro"></span>
-      <span class="pz-rotu pz-rotu-azul"></span>
-      <span class="pz-borrador"></span>
-    </div>
   </div>
   {caption && <figcaption class="pz-pie">{caption}</figcaption>}
 </figure>
@@ -46,30 +52,16 @@ const { label, caption } = Astro.props;
   }
 
   .pz {
-    --pz-tinta: #1f2430;
-    --pz-gris: #6b7280;
+    --pz-tinta: #201e1d;
+    --pz-gris: #605d5d;
     --pz-azul: var(--color-accent, #002dfd);
-    position: relative;
-    padding: 9px;
-    border-radius: 18px;
-    /* El marco de aluminio: un degradado frío con un filo más oscuro. */
-    background: linear-gradient(160deg, #f4f5f7 0%, #dfe2e7 45%, #eef0f3 100%);
-    box-shadow:
-      0 0 0 1px #c9ced6,
-      0 14px 28px -18px rgba(15, 23, 42, 0.45);
+    border: 2px solid var(--color-border);
   }
 
   .pz-tablero {
-    position: relative;
-    border-radius: 11px;
     padding: clamp(10px, 2.5vw, 22px);
-    /* Blanco, con dos manchas casi invisibles de lo que se borró antes. */
-    background:
-      radial-gradient(ellipse 38% 28% at 18% 24%, rgba(31, 36, 48, 0.035), transparent 70%),
-      radial-gradient(ellipse 30% 22% at 82% 78%, rgba(31, 36, 48, 0.03), transparent 70%),
-      #fff;
-    box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.12);
-    font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+    background: var(--color-bg);
+    font-family: var(--font-sans);
     color: var(--pz-tinta);
   }
 
@@ -80,51 +72,59 @@ const { label, caption } = Astro.props;
     overflow: visible;
   }
 
-  .pz-bandeja {
-    position: absolute;
-    left: 50%;
-    bottom: -7px;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: min(46%, 300px);
-    height: 9px;
-    padding: 0 14px;
-    border-radius: 0 0 6px 6px;
-    background: linear-gradient(#d3d7dd, #b9bfc8);
-    box-shadow: 0 2px 3px rgba(15, 23, 42, 0.2);
+  /* ---- El aspecto de los gráficos, corregido desde fuera ---- */
+
+  /* Ni radios ni sombras, en ninguna pieza de ninguna pizarra. */
+  .pz-tablero :global(rect) {
+    rx: 0;
+    ry: 0;
   }
-  .pz-rotu {
-    width: 46px;
-    height: 7px;
-    border-radius: 4px;
-    margin-top: -6px;
-    background: linear-gradient(90deg, #f8f9fb 0 72%, var(--c) 72% 100%);
-    box-shadow: 0 1px 1px rgba(15, 23, 42, 0.25);
+  .pz-tablero :global([filter]) {
+    filter: none;
   }
-  .pz-rotu-negro {
-    --c: #1f2430;
+
+  /* Papel: el blanco pasa al fondo de la página y los grises fríos de
+     relleno, a la superficie cálida. */
+  .pz-tablero :global([fill='#fff']),
+  .pz-tablero :global([fill='#fffdf8']),
+  .pz-tablero :global([fill='#fafbfc']) {
+    fill: var(--color-bg);
   }
-  .pz-rotu-azul {
-    --c: var(--pz-azul);
+  .pz-tablero :global([fill='#f6f7f9']),
+  .pz-tablero :global([fill='#f2f3f5']),
+  .pz-tablero :global([fill='#eceef2']) {
+    fill: var(--color-bg-soft);
   }
-  .pz-borrador {
-    width: 40px;
-    height: 9px;
-    margin-top: -7px;
-    margin-left: auto;
-    border-radius: 3px;
-    background: linear-gradient(#5b6270 0 45%, #e8e2d6 45% 100%);
-    box-shadow: 0 1px 1px rgba(15, 23, 42, 0.25);
+  .pz-tablero :global([fill='#f4f6ff']) {
+    fill: var(--color-accent-100);
+  }
+  .pz-tablero :global([fill='#2a2f3a']) {
+    fill: var(--pz-tinta);
+  }
+
+  /* Líneas: los grises azulados pasan al gris de las reglas, y el trazo
+     blanco que separaba piezas, al fondo. */
+  .pz-tablero :global([stroke='#c9ced6']),
+  .pz-tablero :global([stroke='#d3d7dd']),
+  .pz-tablero :global([stroke='#dcdfe4']),
+  .pz-tablero :global([stroke='#e3e6ea']),
+  .pz-tablero :global([stroke='#b9bfc8']) {
+    stroke: var(--color-border);
+  }
+  .pz-tablero :global([stroke='#9aa1ad']) {
+    stroke: var(--color-neutral-400);
+  }
+  .pz-tablero :global([stroke='#1f2430']) {
+    stroke: var(--pz-tinta);
+  }
+  .pz-tablero :global([stroke='#fff']) {
+    stroke: var(--color-bg);
   }
 
   .pz-pie {
-    margin-top: 1.4rem;
-    padding-left: 1rem;
-    border-left: 2px solid var(--color-accent, #002dfd);
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--color-fg, #111);
+    margin-top: 0.75rem;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--color-muted);
   }
 </style>

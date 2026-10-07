@@ -1,0 +1,140 @@
+---
+/*
+  Héroe de la portada: texto a la izquierda y la retícula «transformación» a
+  la derecha.
+
+  La retícula son 64 cuadrados (8 × 8) que parten dispersos, girados y grises,
+  se ordenan en tinta y vuelven a dispersarse, en un ciclo de 8 segundos. Es
+  la imagen de la casa: información desordenada que se convierte en un
+  sistema. Cada cuadrado arranca con un retardo según su fila y su columna, y
+  eso hace que el orden avance en diagonal.
+
+  Los desplazamientos de partida se calculan AQUÍ, en compilación, con una
+  función determinista del índice. No es `Math.random()` a propósito: dos
+  compilaciones seguidas tienen que dar el mismo HTML.
+
+  Es decoración (`aria-hidden`) y no recibe foco. Su única interacción es de
+  ratón: pasar por encima de un cuadrado lo pinta de azul y a los 1,6 segundos
+  vuelve a la tinta.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.hero;
+
+const cuadrados = Array.from({ length: 64 }, (_, i) => {
+  const col = i % 8;
+  const fila = Math.floor(i / 8);
+  // Pseudoazar clásico de sombreador: la parte decimal de un seno grande.
+  const r = (n: number) => {
+    const x = Math.sin(i * 12.9898 + n * 78.233) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  return [
+    `--dx:${Math.round((r(1) - 0.5) * 200)}px`,
+    `--dy:${Math.round((r(2) - 0.5) * 200)}px`,
+    `--r:${Math.round((r(3) - 0.5) * 180)}deg`,
+    `animation-delay:${(col * 0.07 + fila * 0.07).toFixed(2)}s`,
+  ].join(';');
+});
+---
+
+<section class="wrap hero">
+  <div>
+    <span class="kicker hero-in" style="--d:0s">{t.kicker}</span>
+    <h1 class="t-display hero-in mt-7 max-w-[18ch]" style="--d:.08s">{t.title}</h1>
+    <p class="hero-in mt-6 max-w-[46ch] text-[17px] leading-[1.55] text-muted" style="--d:.16s">
+      {t.lead}
+    </p>
+    <div class="hero-in mt-9 flex flex-wrap items-center gap-5" style="--d:.24s">
+      <a href={localizedPath('/#contacto', lang)} class="btn-primary hover:btn-primary-hover">
+        {t.ctaPrimary}
+      </a>
+      <a href="#casos" class="link-quiet">{t.ctaSecondary}</a>
+    </div>
+  </div>
+
+  <div class="morph-marco hero-in" style="--d:.2s" aria-hidden="true">
+    <div class="morph" data-morph>
+      {cuadrados.map((estilo) => <span style={estilo} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 48px clamp(32px, 6vw, 112px);
+    align-items: center;
+    padding-top: clamp(64px, 8vw, 112px);
+    padding-bottom: clamp(56px, 7vw, 96px);
+  }
+
+  /* Entrada escalonada del texto: cada pieza sube con su retardo. */
+  .hero-in {
+    animation: if-up 0.8s var(--d, 0s) var(--ease-out) both;
+  }
+
+  /* El marco recorta lo que se sale: los cuadrados dispersos viajan hasta
+     100 px fuera de su celda y sin esto provocarían scroll horizontal. */
+  .morph-marco {
+    display: flex;
+    justify-content: flex-end;
+    overflow: hidden;
+    margin: -8px;
+    padding: 8px;
+  }
+
+  /*
+    Cada celda mide 48 px en escritorio y el cuadrado pintado, un tercio. El
+    área sensible al ratón es la celda entera: el relleno se saca del fondo
+    con `background-clip`. En móvil la celda encoge para que las ocho quepan.
+  */
+  .morph {
+    --celda: clamp(30px, calc((100vw - 2 * var(--page-x) - 32px) / 8), 48px);
+    display: grid;
+    grid-template-columns: repeat(8, var(--celda));
+    padding: 8px;
+  }
+  .morph span {
+    --c: #201e1d;
+    display: block;
+    box-sizing: content-box;
+    width: calc(var(--celda) / 3);
+    height: calc(var(--celda) / 3);
+    padding: calc(var(--celda) / 3);
+    background-clip: content-box;
+    background-color: var(--color-neutral-400);
+    transition: --c 0.5s;
+    animation: if-morph 8s var(--ease-in-out) infinite;
+  }
+
+  /* Con movimiento reducido la retícula se queda ordenada y en tinta, que es
+     el estado que cuenta la idea. */
+  @media (prefers-reduced-motion: reduce) {
+    .morph span {
+      animation: none;
+      background-color: var(--c);
+    }
+    .hero-in {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  /* Pintura por ratón: azul al entrar, de vuelta a la tinta a los 1.600 ms. */
+  document.querySelectorAll<HTMLElement>('[data-morph] span').forEach((el) => {
+    let temporizador = 0;
+    el.addEventListener('mouseenter', () => {
+      el.style.setProperty('--c', '#002DFD');
+      window.clearTimeout(temporizador);
+      temporizador = window.setTimeout(() => el.style.setProperty('--c', '#201e1d'), 1600);
+    });
+  });
+</script>

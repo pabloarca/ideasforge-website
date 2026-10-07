@@ -1,0 +1,115 @@
+---
+/*
+  Contacto: el cierre de la portada. A la izquierda el titular grande y dos
+  párrafos que quitan el miedo a escribir («no necesitas saber qué modelo
+  utilizar»). A la derecha, el formulario.
+
+  El diseño lo entrega sin envío («sin backend aún»). Aquí SÍ envía, por el
+  mismo camino que el formulario anterior: Web3Forms, que funciona en
+  alojamiento estático sin servidor. La clave sale de `PUBLIC_WEB3FORMS_KEY`
+  (ver `src/lib/formulario.ts` para saber por qué no vive en el repositorio) y
+  tras enviar se aterriza en nuestro propio acuse, no en el de Web3Forms.
+
+  Los nombres de campo (`name`, `email`, `company`, `website`, `message`) son
+  los de siempre: son los que llegan en el correo, y cambiarlos rompería
+  cualquier filtro que alguien tenga montado sobre ese buzón.
+
+  Las etiquetas comunes (nombre, correo, empresa, web y la casilla de
+  privacidad) se leen de `contact`, que comparte con el formulario de
+  exploración. Lo propio de la portada viene de `home.contact`.
+*/
+import { type Lang, content } from '../../i18n/ui';
+import { routeMap } from '../../i18n/utils';
+import { CLAVE_WEB3FORMS, RUTA_GRACIAS } from '../../lib/formulario';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.contact;
+const c = content[lang].contact;
+const privacyHref = routeMap.privacy[lang];
+const startHref = routeMap.start[lang];
+const rutaGracias = RUTA_GRACIAS[lang];
+---
+
+<section id="contacto" class="wrap section-y">
+  <div class="contacto border-t-2 border-fg pt-12">
+    <div>
+      <span class="kicker mb-6">{t.kicker}</span>
+      <h2 class="text-[clamp(36px,4.6vw,68px)] leading-none tracking-[-0.035em]">{t.title}</h2>
+      <p class="mt-7 max-w-[44ch] text-[17px] leading-[1.6] text-muted">{t.p1}</p>
+      <p class="mt-4 max-w-[44ch] text-[15px] leading-[1.6] text-muted">{t.p2}</p>
+    </div>
+
+    <form action="https://api.web3forms.com/submit" method="POST" class="grid content-start gap-5">
+      <input type="hidden" name="access_key" value={CLAVE_WEB3FORMS} />
+      <input type="hidden" name="subject" value={c.subject} />
+      {/* Sin `redirect`, quien envía aterriza en la página de confirmación
+          de Web3Forms. Con él, en la nuestra. Pide URL absoluta. */}
+      {
+        rutaGracias && (
+          <input
+            type="hidden"
+            name="redirect"
+            value={new URL(rutaGracias, Astro.site ?? 'https://ideasforge.io').href}
+          />
+        )
+      }
+      <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,200px),1fr))] gap-5">
+        <div class="field">
+          <label for="name">{c.name}</label>
+          <input id="name" name="name" type="text" required autocomplete="name" class="input" />
+        </div>
+        <div class="field">
+          <label for="email">{c.email}</label>
+          <input id="email" name="email" type="email" required autocomplete="email" class="input" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,200px),1fr))] gap-5">
+        <div class="field">
+          <label for="company">{c.company}</label>
+          <input id="company" name="company" type="text" autocomplete="organization" class="input" />
+        </div>
+        <div class="field">
+          <label for="website">{c.website} ({c.optional.toLowerCase()})</label>
+          <input id="website" name="website" type="url" inputmode="url" autocomplete="url" class="input" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="message">{t.message}</label>
+        <textarea id="message" name="message" required placeholder={t.placeholder} class="input"></textarea>
+      </div>
+
+      <label class="flex items-start gap-2.5 text-[13px] leading-normal text-muted">
+        <input type="checkbox" name="privacy" required class="mt-[3px] accent-accent" />
+        <span>
+          {c.privacyPre}<a href={privacyHref} class="link-inline">{c.privacyLink.toLowerCase()}</a>{c.privacyPost}
+        </span>
+      </label>
+
+      <div>
+        <button type="submit" class="btn-primary hover:btn-primary-hover">{t.submit}</button>
+      </div>
+
+      {/* El formulario largo de exploración sigue existiendo y esta es su
+          entrada desde la portada. El diseño no la dibuja: se conserva porque
+          sin ella `/empezar` se queda sin ningún enlace que lleve hasta él. */}
+      <p class="text-[13px] leading-normal text-muted">
+        {c.startPre}<a href={startHref} class="link-inline">{c.startLink}</a>{c.startPost}
+      </p>
+    </form>
+  </div>
+</section>
+
+<style>
+  .contacto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: 48px clamp(32px, 6vw, 120px);
+  }
+</style>

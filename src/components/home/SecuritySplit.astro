@@ -1,0 +1,65 @@
+---
+/*
+  Seguridad: a la izquierda una fotografía 4:3 que se queda fija mientras se
+  lee, a la derecha el texto con la lista numerada de lo que se puede
+  implementar.
+
+  LA FOTO ESTÁ PENDIENTE, igual que la de «Quiénes somos». El handoff pide una
+  imagen de sala técnica, servidores o sesión de trabajo, y un gris plano
+  mientras no la haya. Ver la nota de AboutSplit para sustituirla.
+
+  La lista es una lista ordenada de verdad (<ol>): los números visibles son
+  decoración y van con `aria-hidden`, porque el lector de pantalla ya cuenta
+  los elementos por su cuenta y los leería dos veces.
+*/
+import { type Lang, content } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.security;
+---
+
+<section class="wrap section-y seguridad">
+  <figure class="seguridad-foto border-t-2 border-fg pt-4">
+    <div class="photo-slot aspect-[4/3]" aria-hidden="true"></div>
+    <figcaption class="mt-3 text-[13px] text-muted">{t.imageCaption}</figcaption>
+  </figure>
+
+  <div data-reveal>
+    <span class="kicker mb-7">{t.kicker}</span>
+    <h2 class="t-h2-compact">{t.title}</h2>
+    <p class="mt-6 max-w-[52ch] text-base leading-[1.65] text-muted">{t.intro}</p>
+
+    <p class="mb-4 mt-6 text-[13px] text-muted">{t.listLabel}</p>
+    <ol class="border-b-2 border-border text-base leading-[1.45]">
+      {
+        t.items.map((item, i) => (
+          <li class="grid grid-cols-[32px_1fr] gap-3 border-t-2 border-border py-3.5">
+            <span class="num pt-[3px]" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            {item}
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="mt-8 max-w-[52ch] text-base leading-[1.65] text-muted">{t.outro}</p>
+    <a href={t.link.href} class="link-arrow mt-6 text-[15px]!">{t.link.label} →</a>
+  </div>
+</section>
+
+<style>
+  .seguridad {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: 48px clamp(32px, 6vw, 112px);
+    align-items: start;
+  }
+  .seguridad-foto {
+    position: sticky;
+    top: var(--sticky-offset);
+  }
+</style>

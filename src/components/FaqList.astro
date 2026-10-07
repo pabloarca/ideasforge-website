@@ -5,26 +5,32 @@
   suya: la home un acordeón y las páginas largas tarjetas estáticas con sombra,
   así que la misma pieza se veía y se comportaba distinto según la página.
 
-  El aspecto es el del lenguaje de retícula del sitio: bloque continuo sin
-  radios ni sombras, con `divide-y` entre preguntas y `border-y` cerrando por
-  arriba y por abajo para que ninguna quede con el filete colgando.
+  El aspecto es el del acordeón del diseño de octubre de 2026: reglas de 2 px
+  entre preguntas, la pregunta a 500 y un signo más a la derecha hecho con dos
+  barras. Al abrirse, la barra vertical se encoge hasta desaparecer y el más
+  queda en menos.
 
   Acordeón nativo con <details name="...">: el atributo `name` agrupa los
   desplegables y el navegador cierra solo el que estuviera abierto. Sin
   JavaScript. `group` da nombre único por instancia para que dos FAQ en la
   misma página no compartan grupo.
+
+  Cada pregunta es un <h3> dentro del <summary>, porque los dos sitios que
+  usan la lista la cuelgan de un <h2>. Si algún día cuelga de otro nivel, la
+  pregunta va uno por debajo del título que la contiene.
 */
 import { type Faq } from '../i18n/ui';
-import Icon from './Icon.astro';
 import { medidas } from '../lib/imagen';
 
 interface Props {
   items: Faq[];
   /** Nombre del grupo de <details>. Único por instancia en la página. */
   group?: string;
+  /** Deja la primera pregunta abierta al cargar, como pide la portada. */
+  openFirst?: boolean;
   class?: string;
 }
-const { items: todas, group = 'faq', class: className = '' } = Astro.props;
+const { items: todas, group = 'faq', openFirst = false, class: className = '' } = Astro.props;
 
 /* Una pregunta oculta no se pinta y TAMPOCO entra en el schema: publicarla
    solo para las máquinas sería peor que publicarla entera. */
@@ -84,50 +90,134 @@ const faqJsonLd = JSON.stringify({
 
 <script is:inline type="application/ld+json" set:html={faqJsonLd}></script>
 
-<div class:list={['divide-y divide-border-soft border-y border-border-soft', className]}>
+<div class:list={['border-t-2 border-border', className]}>
   {
-    items.map((item) => (
-      <details id={ancla(item.q)} name={group} class="group scroll-mt-24 [&_summary]:list-none">
-        <summary class="flex cursor-pointer items-center gap-4 px-6 py-5 text-left font-semibold text-fg [&::-webkit-details-marker]:hidden">
-          <span class="grid h-6 w-6 shrink-0 place-items-center text-accent" aria-hidden="true">
-            {/* Galón del set. Gira al abrirse en vez de cambiar de símbolo:
-                el set no trae más/menos y un galón dice lo mismo. */}
-            <Icon
-              name="chevron-abajo"
-              size={20}
-              class="transition-transform duration-200 group-open:rotate-180"
-            />
+    items.map((item, i) => (
+      <details
+        id={ancla(item.q)}
+        name={group}
+        open={openFirst && i === 0}
+        class="faq-item border-b-2 border-border"
+      >
+        <summary class="faq-q">
+          <h3 class="faq-q-texto">{item.q}</h3>
+          <span class="faq-mas" aria-hidden="true">
+            <i />
+            <i />
           </span>
-          <span class="text-base sm:text-[17px]">{item.q}</span>
         </summary>
 
-        {item.image ? (
-          <div>
+        <div class="faq-a">
+          {item.image && (
             <img
               src={item.image}
               alt=""
               {...medidas(item.image)}
               loading="lazy"
               decoding="async"
-              class="aspect-[21/9] w-full object-cover"
+              class="bn mb-5 aspect-[21/9] w-full object-cover"
             />
-            <div class="space-y-4 px-6 pb-6 pl-[3.5rem] pr-10 pt-5 text-[15px] leading-relaxed text-muted">
-              {parrafos(item.a).map((p) => (
-                <p>{p}</p>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div class="space-y-4 px-6 pb-5 pl-[3.5rem] pr-10 text-[15px] leading-relaxed text-muted">
-            {parrafos(item.a).map((p) => (
-              <p>{p}</p>
-            ))}
-          </div>
-        )}
+          )}
+          {parrafos(item.a).map((p) => (
+            <p>{p}</p>
+          ))}
+        </div>
       </details>
     ))
   }
 </div>
+
+<style>
+  .faq-item {
+    scroll-margin-top: var(--sticky-offset);
+    /* Permite animar hacia `auto`: es lo que deja que la respuesta se
+       despliegue a su altura real sin medirla con JavaScript. */
+    interpolate-size: allow-keywords;
+  }
+  .faq-q {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 24px;
+    gap: 24px;
+    align-items: start;
+    padding: 22px 0;
+    list-style: none;
+    cursor: pointer;
+    transition: color 0.25s;
+  }
+  .faq-q::-webkit-details-marker {
+    display: none;
+  }
+  .faq-q:hover {
+    color: var(--color-accent);
+  }
+  .faq-q-texto {
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.35;
+    letter-spacing: -0.012em;
+    font-weight: 500;
+  }
+
+  /* El más: dos barras de 2 px. La vertical se encoge al abrir. */
+  .faq-mas {
+    position: relative;
+    display: block;
+    width: 24px;
+    height: 24px;
+  }
+  .faq-mas i {
+    position: absolute;
+    background: currentColor;
+  }
+  .faq-mas i:first-child {
+    left: 4px;
+    right: 4px;
+    top: 11px;
+    height: 2px;
+  }
+  .faq-mas i:last-child {
+    top: 4px;
+    bottom: 4px;
+    left: 11px;
+    width: 2px;
+    transition: transform 0.35s var(--ease-in-out);
+  }
+  .faq-item[open] .faq-mas i:last-child {
+    transform: scaleY(0);
+  }
+
+  .faq-a {
+    max-width: 70ch;
+    padding: 0 48px 26px 0;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+  .faq-a p + p {
+    margin-top: 1em;
+  }
+
+  /*
+    Apertura animada, sin JavaScript. `::details-content` es la caja que el
+    navegador oculta al cerrar: se anima su altura de cero a `auto`. Los
+    navegadores que aún no la conocen ignoran el bloque entero y abren de
+    golpe, que es lo que hacía este acordeón antes.
+  */
+  .faq-item::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 0.45s var(--ease-in-out),
+      content-visibility 0.45s allow-discrete;
+  }
+  .faq-item[open]::details-content {
+    block-size: auto;
+  }
+  @media (max-width: 639px) {
+    .faq-a {
+      padding-right: 0;
+    }
+  }
+</style>
 
 <script is:inline>
   /*

@@ -2,7 +2,6 @@
 import { getImage } from 'astro:assets';
 import { foto } from '../../../lib/fotos';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import Icon from '../../../components/Icon.astro';
 import PageNav from '../../../components/PageNav.astro';
 import CuerpoDePost from '../../../components/pizarra/CuerpoDePost.astro';
 import { getCollection, render } from 'astro:content';
@@ -106,60 +105,50 @@ const articleJsonLd = JSON.stringify({
   image={ogFoto?.src}
 >
   <script is:inline slot="head" type="application/ld+json" set:html={articleJsonLd} />
-  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
-  <div class={hasNav ? 'lg:grid lg:grid-cols-[14rem_minmax(0,1fr)]' : ''}>
-    {hasNav && (
-      <div class="hidden lg:block">
-        {/* Mismo tope de altura que en las paginas largas: una columna fija
-            mas alta que la ventana deja las ultimas entradas inalcanzables. */}
-        <div class="sticky top-28 max-h-[calc(100vh-9rem)] overflow-y-auto overscroll-contain pb-10 pr-8">
-          <PageNav items={navItems} heading={t.blog.tocHeading} />
-        </div>
-      </div>
-    )}
-  <article class={hasNav ? 'lg:border-l lg:border-border lg:pl-10' : 'mx-auto max-w-3xl'}>
-    {/* Misma flecha que el resto del sitio, reflejada. Antes era el caracter
-        «←», que se dibuja con la tipografia y no casa con las demas. */}
-    <a
-      href={localizedPath('/blog', lang)}
-      class="group inline-flex items-center gap-1.5 font-mono text-sm text-muted transition-colors hover:text-fg"
-    >
-      <Icon name="flecha-izquierda" size={16} class="shrink-0 transition-transform duration-300 group-hover:-translate-x-0.5" />
-      {t.blog.backToBlog}
+  <div class="wrap pt-[clamp(40px,5vw,72px)]">
+    <a href={localizedPath('/blog', lang)} class="link-quiet text-[13px]!">
+      ← {t.blog.backToBlog}
     </a>
 
-    <header class="mt-6 border-b border-border pb-8">
-      <div class="flex flex-wrap items-center gap-3">
+    {/* La cabecera va a todo el ancho, encima de las dos columnas, igual que
+        el héroe de las páginas largas: rótulo, titular y entradilla. */}
+    <header class="pb-[clamp(40px,5vw,64px)] pt-8">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] text-faint">
         {/* La firma va visible y no solo en el dato estructurado: un buscador
             valora la experiencia de quien escribe, y para valorarla tiene que
             verla en la página igual que la ve el lector. */}
-        <span class="font-mono text-xs text-faint">{t.blog.byline} {post.data.author ?? EMPRESA.autor}</span>
-        <time datetime={post.data.pubDate.toISOString()} class="font-mono text-xs text-faint">
-          {t.blog.publishedOn} {fmt(post.data.pubDate)}
+        <span>{t.blog.byline} {post.data.author ?? EMPRESA.autor}</span>
+        <time datetime={post.data.pubDate.toISOString()}>
+          · {t.blog.publishedOn} {fmt(post.data.pubDate)}
         </time>
         {post.data.updatedDate && (
-          <time datetime={post.data.updatedDate.toISOString()} class="font-mono text-xs text-faint">
+          <time datetime={post.data.updatedDate.toISOString()}>
             · {t.blog.updatedOn} {fmt(post.data.updatedDate)}
           </time>
         )}
-        {post.data.tags.map((tag) => (
-          <span class="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted">{tag}</span>
-        ))}
+        {post.data.tags.length > 0 && <span>· {post.data.tags.join(', ')}</span>}
       </div>
-      <h1 class="mt-4 text-balance text-4xl font-semibold leading-tight tracking-tight text-fg">
-        {post.data.title}
-      </h1>
-      <p class="mt-4 text-lg text-muted">{post.data.description}</p>
+      <h1 class="t-display mt-5 max-w-[26ch]">{post.data.title}</h1>
+      <p class="mt-6 max-w-[62ch] text-[17px] leading-[1.55] text-muted">{post.data.description}</p>
     </header>
 
-    <div
-      class="prose mt-10 max-w-none prose-headings:tracking-tight prose-headings:text-fg prose-a:text-accent prose-strong:text-fg"
-    >
-      {/* Con el HTML ya renderizado, para poder intercalar las pizarras que
-          el markdown marca con <div data-pizarra="…"></div>. */}
-      {post.rendered ? <CuerpoDePost html={post.rendered.html} lang={lang} /> : <Content />}
+    <div class:list={['border-t-2 border-border', hasNav && 'lg:grid lg:grid-cols-[15rem_minmax(0,1fr)]']}>
+      {hasNav && (
+        <div class="hidden lg:block">
+          {/* Mismo tope de altura que en las páginas largas: una columna fija
+              más alta que la ventana deja las últimas entradas inalcanzables. */}
+          <div class="no-scrollbar sticky top-[104px] max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain pb-10 pr-8 pt-12">
+            <PageNav items={navItems} heading={t.blog.tocHeading} />
+          </div>
+        </div>
+      )}
+      <article class:list={['pt-12', hasNav && 'lg:border-l-2 lg:border-border lg:pl-12']}>
+        <div class="prose max-w-[46rem]">
+          {/* Con el HTML ya renderizado, para poder intercalar las pizarras que
+              el markdown marca con <div data-pizarra="…"></div>. */}
+          {post.rendered ? <CuerpoDePost html={post.rendered.html} lang={lang} /> : <Content />}
+        </div>
+      </article>
     </div>
-  </article>
-  </div>
   </div>
 </BaseLayout>

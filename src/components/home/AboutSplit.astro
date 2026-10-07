@@ -1,0 +1,44 @@
+---
+/*
+  Quiénes somos: texto a la izquierda y una fotografía 4:5 a la derecha, bajo
+  una regla negra.
+
+  LA FOTO ESTÁ PENDIENTE. El handoff la marca como hueco a rellenar con una
+  imagen real del equipo o del espacio de trabajo, y pide un gris plano
+  (#dcdad9) mientras tanto. Cuando llegue: guardarla en `src/assets/`, y
+  cambiar el `div.photo-slot` por un `<Picture>` con `class="bn"`, como hacen
+  CasesGallery y SectorSwitcher.
+*/
+import { type Lang, content } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.about;
+---
+
+<section class="wrap section-y about">
+  <div data-reveal>
+    <span class="kicker mb-7">{t.kicker}</span>
+    <h2 class="t-h2-compact">{t.title}</h2>
+    <p class="mt-7 max-w-[52ch] text-base leading-[1.65] text-muted">{t.body}</p>
+    <p class="mt-8 max-w-[40ch] text-[clamp(19px,1.6vw,22px)] font-medium leading-[1.35] tracking-[-0.015em]">
+      {t.statement}
+    </p>
+  </div>
+
+  <figure class="border-t-2 border-fg pt-4">
+    <div class="photo-slot aspect-[4/5] max-h-[640px]" aria-hidden="true"></div>
+    <figcaption class="mt-3 text-[13px] text-muted">{t.imageCaption}</figcaption>
+  </figure>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: 48px clamp(32px, 6vw, 112px);
+    align-items: center;
+  }
+</style>

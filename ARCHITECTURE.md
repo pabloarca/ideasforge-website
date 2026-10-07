@@ -28,10 +28,10 @@ SEO; no runtime server unless an adapter is added later.
 | Framework | **Astro 5** (`astro@^5`) | `output: 'static'`. Content Layer API for the blog. |
 | Styling | **Tailwind v4** via the `@tailwindcss/vite` plugin | CSS-first config. **No** `tailwind.config.js`. **No** `@astrojs/tailwind` (deprecated for v4). |
 | Typography plugin | `@tailwindcss/typography` | Used only on legal and blog post pages via the `prose` classes. |
-| Fonts | Google Fonts loaded in `<head>` | `Space Grotesk` (display + body) and `Raleway` (secondary). |
+| Fonts | Self-hosted, preloaded in `<head>` | `Geist` variable, one file for every weight. No Google Fonts. |
 | Content | Astro 5 **Content Layer API** | `loader: glob({ pattern: '**/*.md', base: './src/content/blog' })`. Use `import { render } from 'astro:content'` then `const { Content } = await render(post)`. NOT `post.render()` (Astro 4 API). |
 | i18n | Astro native | `defaultLocale: 'es'`, `locales: ['es','en']`, `routing.prefixDefaultLocale: false`. |
-| Forms | Web3Forms (`api.web3forms.com`) | Static-hosting compatible. Access key placeholder in [Contact.astro](src/components/Contact.astro). |
+| Forms | Web3Forms (`api.web3forms.com`) | Static-hosting compatible. The access key comes from `PUBLIC_WEB3FORMS_KEY` (see `src/lib/formulario.ts`). Used by `home/ContactForm.astro` and `StartForm.astro`. |
 | Node | **≥ 20.12 required** | Vite/Rolldown depend on `util.styleText`. Node 22 LTS recommended. |
 
 ---
@@ -67,20 +67,15 @@ src/
     404.astro
   layouts/
     BaseLayout.astro          # The only layout. <head>, meta, hreflang, OG, Header, Footer.
-  components/                 # Section components. All take `lang` as a prop.
+  components/                 # Shared pieces. All take `lang` as a prop.
     Header.astro
-    Hero.astro
-    TrustedBy.astro
-    CaseStudies.astro
-    Services.astro            # 2-tier (enterprise + SMB) since the repositioning
-    WhyUs.astro               # observability, code ownership, security
-    Methodology.astro         # Explore / Prioritize / Implement / Optimize
-    Integrations.astro
-    BlogPreview.astro
-    Faq.astro
-    Contact.astro
     Footer.astro
     LanguageSwitcher.astro
+    LongFormPage.astro        # renderer for services, guides, cases, verticals
+    FaqList.astro             # the one FAQ accordion of the site
+    RevealOnScroll.astro
+    home/                     # the twelve home sections (see 5.2)
+    pizarra/                  # whiteboard diagrams for long text
   i18n/
     ui.ts                     # SINGLE SOURCE OF TRUTH for every visible string in both languages.
     utils.ts                  # Locale helpers + `routeMap` for static pages.
@@ -92,14 +87,12 @@ src/
   styles/
     global.css                # Tailwind v4 CSS-first config: @theme, @utility, @keyframes.
 public/                       # Served at root. Static assets.
-  videos/genaisolutions.mp4   # Hero video.
   ideasforge-logo.svg         # Wordmark from the original site.
   favicon-*.png               # Multi-size PNG favicons (32, 192, 270, 512).
   apple-touch-icon.png        # 180x180.
-  logos/*.{png,webp}          # Client logos for TrustedBy.
+  logos/*.{png,webp}          # Client logos for the home LogoMarquee.
   case-studies/*.{jpg,webp}   # Case-study photos.
-  integrations/*.png          # 16 integration logos for the marquee.
-  decor/{diamond,cube}.png    # Decorative crystals for FAQ and Contact.
+  fonts/geist-latin.woff2     # The site typeface, self-hosted.
   blog/*.jpg                  # Blog post hero images, referenced from frontmatter.
 astro.config.mjs              # i18n + Vite plugin config. `SITE` placeholder.
 ARCHITECTURE.md               # This file.
@@ -208,7 +201,7 @@ The only layout. Responsibilities:
 
 - HTML shell, charset, viewport, lang attribute (`es-ES` or `en-US`).
 - Title, meta description, canonical, Open Graph, Twitter card.
-- Google Fonts (`Space Grotesk`, `Raleway`).
+- Preload of the self-hosted Geist font.
 - Favicons (`favicon-32x32.png`, `favicon-192x192.png`, `apple-touch-icon.png`).
 - hreflang + x-default.
 - Renders `Header`, `<main><slot /></main>`, `Footer`.
@@ -216,82 +209,67 @@ The only layout. Responsibilities:
 
 Props: `lang`, `title`, `description`, `alternates?`, `ogType?`, `image?`.
 
-### 5.2 Section components
+### 5.2 Home sections
 
-Every home-page section component follows the same shape:
-
-```astro
----
-import { type Lang, content } from '../i18n/ui';
-interface Props { lang: Lang; }
-const { lang } = Astro.props;
-const t = content[lang].<sectionKey>;
----
-```
-
-They read their copy from `content[lang]`, accept `lang` as a prop, and
-have **no internal state**. The home pages
+Since the October 2026 redesign the home page is built from the twelve
+components in `src/components/home/`. Each takes `lang` and reads its copy
+from `content[lang].home` (typed by `HomeContent` in `ui.ts`). The home pages
 ([pages/index.astro](src/pages/index.astro) and
-[pages/en/index.astro](src/pages/en/index.astro)) compose them in the
-**enterprise-first** order:
+[pages/en/index.astro](src/pages/en/index.astro)) compose them in this order:
 
 ```
-Hero
-TrustedBy
-CaseStudies
-Services        (2-tier: enterprise + SMB)
-WhyUs           (observability / code ownership / security)
-Methodology     (Explore / Prioritize / Implement / Optimize)
-Integrations
-BlogPreview
-Faq
-Contact
+Hero             text + the 8×8 "transformation" grid
+LogoMarquee      client logos, endless strip
+AboutSplit       who we are + photo slot
+ServicesPanel    #soluciones, horizontal accordion of four columns
+CasesGallery     #casos, one case at a time
+WhenAI           the blue field: "AI interprets, software executes"
+MethodSteps      #metodo, five steps
+SecuritySplit    photo slot + numbered list
+SectorSwitcher   five sectors and a photo that changes
+PostsCarousel    #recursos, eight cards, four in view
+FaqAccordion     FaqList with the first question open
+ContactForm      #contacto, posts to Web3Forms
 ```
+
+The section ids are the same in both languages; the header links to them.
 
 ### 5.3 Notable component behaviours
 
-- **Hero**, centered eyebrow pill (`eyebrow-pill` utility), big H1,
-  subtitle, single black CTA. Full-width video card below (autoplay,
-  loop, muted).
-- **TrustedBy / Integrations**, CSS-only **marquee** (right-to-left).
-  The DOM contains the logo set twice (`aria-hidden` on the duplicate)
-  and animates the wrapper from `translateX(0)` to `translateX(-50%)`.
-  Pauses on hover and respects `prefers-reduced-motion`.
-- **CaseStudies**, horizontal scroll-snap carousel
-  (`overflow-x-auto snap-x snap-mandatory`). Each slide is full
-  container width. A small vanilla `<script>` adds prev/next buttons
-  with the original site's exact blue chevron paths, plus pagination
-  dots tracked by `IntersectionObserver`. No external carousel library.
-  The component handles `clientLogo` / `image` being absent (anonymized
-  cases): logo falls back to a small uppercase text label, image falls
-  back to a lavender gradient.
-- **Services**, **2-tier** since the repositioning. Two groups
-  (`enterprise` then `smb`), each rendered as a grid of soft cards.
-  Items with a `href` render as `<a>` cards with hover lift; items
-  without one render as static `<div>` cards. Items with a `proof`
-  string render a small blue chip ("Como en Stanton") inside the card.
-- **WhyUs**, three cards (`card-soft`) with a numbered eyebrow in blue,
-  matching the rest of the page's accent treatment.
-- **Methodology**, four step cards with the step number in big bold
-  blue, in a 2-up tablet / 4-up desktop grid.
-- **FAQ**, `<details>` elements with the FontAwesome `plus`/`minus` SVG
-  paths from the original site, swapped via `group-open:`. Floating
-  diamond decoration on the left on desktop.
-- **Contact**, the form posts to Web3Forms (static-hosting friendly),
-  with a floating cube decoration on the right on desktop. The new
-  tagline is "Cuéntanos tu reto. Si no le vemos retorno, te lo diremos."
-- **Header / Footer**, both render the wordmark SVG
-  (`/ideasforge-logo.svg`) and reuse the same four Heroicons (grid,
-  briefcase, document, user-circle). Navbar hover paints a soft gray
-  pill; the text stays black. Footer LinkedIn icon is the FontAwesome
-  `brands/linkedin` path.
+- **Auto-advancing blocks** (`ServicesPanel`, `CasesGallery`,
+  `SectorSwitcher`, `PostsCarousel`) share `home/autoplay.ts`: one interval
+  per block, paused (not reset) while the pointer is inside, a segmented
+  progress bar, and no auto-advance under `prefers-reduced-motion`. Each
+  component only supplies a `pintar(i)` callback that toggles its own classes.
+- **Hero grid**: 64 squares animated in CSS (`if-morph`). Their scatter
+  offsets are computed at build time from the index, never `Math.random()`,
+  so two builds give the same HTML.
+- **WhenAI**: the dimming interaction is pure CSS with `:has()`. No script.
+- **ServicesPanel** becomes a plain stacked list below 900 px.
+  **MethodSteps** is five columns from 1100 px and one below: never 4+1.
+- **Slides out of view are `inert`**, so keyboard focus never lands on a
+  link that is not visible, while the HTML still carries every slide.
+- **Reveal on scroll**: any `[data-reveal]` element fades up once, driven by
+  `RevealOnScroll.astro`. The hidden state only applies when an inline script
+  in `<head>` has confirmed `IntersectionObserver` exists.
+- **FAQ**, one component for the whole site (`FaqList`): native
+  `<details name>` so the browser closes the previously open one, JSON-LD
+  `FAQPage`, an anchor per question, and an animated open via
+  `::details-content`.
+- **Header**: five text links (four are home anchors), language switch and
+  the CTA. "Soluciones" and "Guías" keep a hover/focus dropdown fed by
+  `footer.navGroups`. Below `lg` everything moves into a `<details>` panel.
+- **Footer**: the three nav groups plus a "Company" column.
+- **Photo slots**: the About photo, the Security photo and six of the eight
+  resource cards have no image yet and render a flat gray `photo-slot`.
 
 ### 5.4 Landing pages
 
-All landings follow the same pattern: hero block (eyebrow pill, H1,
-subtitle, black CTA) followed by 2-3 content sections built from
-`card-soft` blocks, then a centered CTA block. Copy lives in
-`content[lang].pages.<page>` so ES and EN stay in sync.
+All landings are rendered by `LongFormPage.astro`: a left-aligned hero
+(kicker, H1, lead, optional CTA and figures), a two-column body with a sticky
+index and 2px rules between sections, the related posts, the FAQ and a
+closing CTA under a black rule. Copy lives in `content[lang].pages.<page>` so
+ES and EN stay in sync.
 
 - **Enterprise** (`/servicios/conocimiento-corporativo`),
   *Asistentes de IA sobre tu conocimiento y tus sistemas*. Sections:
@@ -310,63 +288,75 @@ subtitle, black CTA) followed by 2-3 content sections built from
 
 ## 6. Design system, `src/styles/global.css`
 
-Tailwind v4 is CSS-first: this file **is** the config. Three things live
-here:
+Tailwind v4 is CSS-first: this file **is** the config. The system comes from
+the October 2026 design handoff (kept, unversioned, in `.private/design/`).
+Editorial minimalism: one typeface, ink on very light gray, 2px rules, no
+radii, no shadows, black-and-white photography and a single accent.
 
 ### 6.1 Tokens, `@theme { ... }`
 
-Every CSS variable inside `@theme` becomes a Tailwind utility.
+The old token names were kept with new values, so existing classes
+(`bg-bg`, `text-fg`, `text-muted`, `border-border`…) picked up the new look.
 
-| Token | Value | Generates |
+| Token | Value | Notes |
 |---|---|---|
-| `--color-bg` | `#ffffff` | `bg-bg`, `text-bg`, `border-bg` |
-| `--color-bg-soft` | `#f5f5f7` | `bg-bg-soft` (soft sections, navbar hover) |
-| `--color-fg` | `#000000` | `text-fg`, `bg-fg` (LinkedIn square) |
-| `--color-muted` | `#7a7a7a` | body text |
-| `--color-faint` | `#a3a3a3` | meta/labels |
-| `--color-border` | `#e9e7ff` | lavender card borders |
-| `--color-border-soft` | `#efefef` | hairlines, header bottom border |
-| `--color-primary` | `#000000` | **black** CTAs (`btn-primary`) |
-| `--color-primary-hover` | `#1a1a1a` | |
-| `--color-accent` | `#002dfd` | eyebrow pill, links, chevron buttons, proof chips |
-| `--color-glow` | `#c9c7ff` | trademark lavender card shadow |
-| `--font-sans` / `--font-display` | `"Space Grotesk", ...` | |
-| `--radius-card` | `15px` | matches the original cards |
-| `--shadow-card` | `0 0 10px 0 var(--color-glow)` | the signature lavender bloom |
+| `--color-bg` | `#f3f2f2` | page background |
+| `--color-bg-soft` | `#eae9e9` | the `surface` of the design |
+| `--color-fg` | `#201e1d` | ink |
+| `--color-muted` | `#605d5d` | body text (5.8:1) |
+| `--color-faint` | `#6e6a69` | meta and numbers. Darker than the `#7c7877` of the design, which fails WCAG AA at 3.9:1 |
+| `--color-border`, `--color-border-soft` | `#c9c6c5` | every rule |
+| `--color-accent` (+ `-100`…`-900`) | `#002dfd` | the only accent |
+| `--color-neutral-200` | `#dcdad9` | pending photo slots |
+| `--font-sans`, `--font-display`, `--font-mono` | Geist | one typeface; `font-mono` points at it too |
+| `--radius-*` | `0` | the whole Tailwind scale is zeroed |
+| `--shadow-*` | `none` | likewise |
 
-The palette and shadows were lifted directly from the original WordPress
-kit (Elementor global colours).
+Geist is self-hosted (`public/fonts/geist-latin.woff2`, variable, preloaded
+in `BaseLayout`). It is not loaded from Google Fonts: that would block
+render and send the IP of every visitor to a third party.
 
 ### 6.2 Utilities, `@utility name { ... }`
 
-Hand-rolled reusable patterns:
+- Layout: `wrap` (1280px container with fluid side padding), `section-y`
+  (vertical rhythm), `section-head` (H2 left, supporting paragraph right).
+- Type: `t-display`, `t-poster`, `t-h2`, `t-h2-compact`, `t-h3-panel`,
+  `t-h3-row`, `kicker` (alias `eyebrow`), `num`.
+- Actions: `btn-primary` / `btn-primary-hover`, `btn-secondary`, `btn-icon`,
+  `link-arrow` (alias `btn-ghost`), `link-quiet`, `link-inline`.
+- Surfaces: `ruled-grid` (2px inner lines via gap over a rule-coloured
+  background), `panel-float`, `photo-slot`, `bn` (grayscale), `sq` (the 10px
+  accent square).
+- Forms: `field`, `input`.
+- Plain classes: `.progress` (carousel progress segment) and the
+  `[data-reveal]` states.
 
-- `eyebrow-pill`, small white pill with lavender border and blue text.
-  Used at the top of every hero (home + landings).
-- `card-soft` / `card-soft-hover`, white card with 15px radius and the
-  lavender glow shadow; hover lifts it slightly and tints the shadow
-  blue.
-- `chip` / `chip-hover`, rounded-full white pill used in the older
-  Services list (still available).
-- `btn-primary` / `btn-primary-hover`, solid black primary button.
-- `btn-ghost`, low-profile gray pill used as "Leer más" in blog cards.
-- `eyebrow`, small uppercase blue label used for section eyebrows in
-  Services (group label), WhyUs, Methodology and the landing pages.
+### 6.3 Rules that are easy to break
 
-Variants (`hover:`, `group-open:` etc.) compose with these utilities the
-same way they do with built-in Tailwind utilities.
+1. Rules are **2px** (`border-t-2`…), never the 1px `border` of Tailwind.
+2. The accent only goes on: kicker, primary CTA, arrow links, 10px squares,
+   progress bars, the active row and the blue `WhenAI` field.
+3. No radii, shadows, gradients or decorative icons. `rounded-full` is not a
+   token and must not be used.
+4. Photography is always grayscale. Nothing is centred, not even button
+   labels.
+5. Layout is fluid: `clamp()` and `repeat(auto-fit, minmax(min(100%, X), 1fr))`.
+   A block that spans two columns needs explicit breakpoints instead.
 
-### 6.3 Marquee animation
+### 6.4 Keyframes and accessibility
 
-`@keyframes marquee` plus a `.marquee-track` class. Sections set
-`--marquee-duration` inline to tune speed (TrustedBy 50s, Integrations
-70s).
+`if-up`, `if-marquee`, `if-wipe`, `if-morph` (with `@property --c` so a
+colour can transition). `:focus-visible` paints a 2px accent outline, and
+`prefers-reduced-motion` kills animations, transitions and auto-advance.
 
-### 6.4 Accessibility baseline
+### 6.5 Long text and diagrams
 
-- `:focus-visible` paints a 2px accent outline.
-- `@media (prefers-reduced-motion: reduce)` kills animations and smooth
-  scroll, including the marquee.
+`.prose` (blog posts and legal pages) is re-skinned in `global.css`: ink,
+2px rules, 500-weight headings, grayscale images. The whiteboard diagrams
+(`src/components/pizarra/`) were not redrawn: `Pizarra.astro` overrides
+their radii, shadows and cool grays from the outside with CSS. The social
+covers generated at build time (`scripts/og.mjs`) use the same palette and
+Geist.
 
 ---
 
@@ -406,8 +396,8 @@ const blog = defineCollection({
 ### 7.3 heroImage
 
 A root-relative path under `/public/`, e.g. `/blog/portada-sql.jpg`.
-Used by `BlogPreview` and the blog index card. When absent, a lavender
-gradient placeholder is rendered.
+Used by the blog index card and the home resources carousel. When absent, a flat gray
+placeholder is rendered.
 
 ### 7.4 Adding a post
 
@@ -459,19 +449,17 @@ language.
    `BaseLayout`. A landing can be ES-only (Kit Digital): just omit `en`
    from its `routeMap` entry, the switcher and hreflang already handle
    the missing language.
-3. **Use the design tokens.** Reach for `bg-bg-soft`, `text-fg`,
-   `text-muted`, `border-border-soft`, `card-soft`, `btn-primary`,
-   `chip` before introducing one-off colours or shadows.
-4. **Black is the primary action colour.** Blue (`accent`) is reserved
-   for the eyebrow pill, links, proof chips, FAQ `+` icons and carousel
-   chevrons.
+3. **Use the design tokens and utilities** of section 6 before introducing
+   a one-off colour. There are no shadows or radii to introduce.
+4. **The accent is the primary action colour**, and it is the only colour.
+   See 6.3 for the short list of places it may appear.
 5. **No client-side JS framework.** Interactivity is vanilla `<script>`
-   blocks inside `.astro` files (carousel, mobile menu via `<details>`,
-   FAQ via `<details>`).
+   blocks inside `.astro` files (the home carousels, mobile menu via
+   `<details>`, FAQ via `<details>`).
 6. **Astro 5 Content Layer rendering**, always
    `const { Content } = await render(post)`, never `post.render()`.
-7. **Marquee duplication**, when adding new logo strips, include the
-   set twice and mark the duplicate `aria-hidden="true"`.
+7. **Marquee duplication**, when adding logos to `LogoMarquee`, the set is
+   rendered twice and the duplicate is `aria-hidden="true"`.
 8. **Tailwind v4 quirks**, there is no `tailwind.config.js`. Custom
    utilities go in `global.css` via `@utility`. Custom tokens go in
    `@theme`. Renaming a token requires grepping the whole codebase for
@@ -513,18 +501,14 @@ Explicit leftovers that should be replaced before going live (not bugs,
 just deferred decisions):
 
 - `SITE` in `astro.config.mjs`.
-- `YOUR-WEB3FORMS-ACCESS-KEY` in
-  [Contact.astro](src/components/Contact.astro). Replace or swap the
-  `action` for an SSR endpoint (requires adding an adapter and setting
-  `export const prerender = false` on that route, `hybrid` no longer
-  exists in Astro 5).
+- The Web3Forms key, in the `PUBLIC_WEB3FORMS_KEY` environment variable.
 - LinkedIn URL (`https://www.linkedin.com/`) in
   [Footer.astro](src/components/Footer.astro).
 - `public/og-default.png` for social sharing (referenced by
   `BaseLayout`).
-- Real images for the anonymized industrial case study and Savian
-  (currently rendered as lavender gradients), and optional industrial-client
-  logo for TrustedBy if written approval is granted in the future.
+- Real photos for the home page: the About photo (4:5), the Security photo
+  (4:3) and six of the eight resource cards (3:2). They render as flat gray
+  `photo-slot` blocks until the images arrive.
 
 ---
 

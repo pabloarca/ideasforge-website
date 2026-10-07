@@ -1,0 +1,163 @@
+---
+/*
+  Sectores: una lista de cinco a la izquierda y una fotografía 4:3 a la
+  derecha que cambia con el sector activo. La fila activa se pinta en acento y
+  la foto nueva entra con una cortinilla de arriba abajo.
+
+  Avanza sola cada 4,5 segundos, se pausa con el ratón encima, y pasar el
+  ratón o el foco por una fila la activa.
+
+  Las cinco fotos están en el HTML desde el principio, apiladas. Cambiar de
+  sector no carga nada: sube la foto nueva encima de la anterior y le aplica
+  la cortinilla, así que debajo siempre hay imagen y nunca un hueco gris.
+
+  Las filas son botones y no enlaces porque no llevan a ninguna parte: los
+  sectores no tienen página propia. Los dos enlaces de debajo sí.
+*/
+import { Picture } from 'astro:assets';
+import { type Lang, content } from '../../i18n/ui';
+import { foto } from '../../lib/fotos';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.sectors;
+---
+
+<section class="wrap section-y">
+  <div class="section-head" data-reveal>
+    <h2 class="t-h2">{t.title}</h2>
+    <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{t.lead}</p>
+  </div>
+
+  <div class="sectores" data-sec>
+    <ul class="border-t-2 border-border">
+      {
+        t.items.map((k, i) => (
+          <li>
+            <button
+              type="button"
+              class:list={['sector', i === 0 && 'is-active']}
+              aria-pressed={i === 0 ? 'true' : 'false'}
+              data-sec-fila
+            >
+              <span class="num pt-1.5">{String(i + 1).padStart(2, '0')}</span>
+              <span class="t-h3-row">{k.title}</span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="sector-foto" aria-hidden="true">
+      {
+        t.items.map((k, i) => (
+          <Picture
+            pictureAttributes={{ class: 'contents' }}
+            src={foto(k.image)}
+            alt=""
+            formats={['avif', 'webp']}
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 700px) 544px, 100vw"
+            loading="lazy"
+            decoding="async"
+            class:list={[i === 0 && 'is-active']}
+            data-sec-foto
+          />
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="mt-8 flex flex-wrap gap-6">
+    {t.links.map((l) => <a href={l.href} class="link-arrow text-[15px]!">{l.label} →</a>)}
+  </div>
+</section>
+
+<style>
+  .sectores {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: clamp(32px, 4vw, 64px);
+    align-items: start;
+  }
+  .sector {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 16px;
+    width: 100%;
+    padding: 22px 0;
+    border-bottom: 2px solid var(--color-border);
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  .sector.is-active {
+    color: var(--color-accent);
+  }
+
+  .sector-foto {
+    position: sticky;
+    top: var(--sticky-offset);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-neutral-200);
+  }
+  .sector-foto :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1);
+    z-index: 0;
+  }
+  /* La que acaba de salir se queda justo debajo de la que entra, para que la
+     cortinilla descubra una foto sobre otra y no sobre el fondo. */
+  .sector-foto :global(img.was-active) {
+    z-index: 1;
+  }
+  .sector-foto :global(img.is-active) {
+    z-index: 2;
+    animation: if-wipe 0.7s var(--ease-wipe) both;
+  }
+</style>
+
+<script>
+  import { carrusel } from './autoplay';
+
+  document.querySelectorAll<HTMLElement>('[data-sec]').forEach((raiz) => {
+    const filas = Array.from(raiz.querySelectorAll<HTMLElement>('[data-sec-fila]'));
+    const fotos = Array.from(raiz.querySelectorAll<HTMLElement>('[data-sec-foto]'));
+    let previa = 0;
+
+    const c = carrusel({
+      raiz,
+      total: filas.length,
+      intervalo: 4500,
+      pintar(i) {
+        filas.forEach((f, k) => {
+          f.classList.toggle('is-active', k === i);
+          f.setAttribute('aria-pressed', k === i ? 'true' : 'false');
+        });
+        if (i === previa) return;
+        fotos.forEach((f, k) => {
+          f.classList.toggle('was-active', k === previa);
+          f.classList.toggle('is-active', k === i);
+        });
+        previa = i;
+      },
+    });
+
+    filas.forEach((f, k) => {
+      const activar = () => {
+        if (c.actual() !== k) c.ir(k);
+      };
+      f.addEventListener('mouseenter', activar);
+      f.addEventListener('focus', activar);
+      f.addEventListener('click', activar);
+    });
+  });
+</script>

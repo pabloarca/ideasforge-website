@@ -1,0 +1,178 @@
+---
+/*
+  Recursos: un carrusel de ocho tarjetas (cuatro guías y cuatro entradas del
+  blog) dentro de un marco con líneas interiores. Siempre hay cuatro a la
+  vista en escritorio y avanza DE UNA EN UNA, cada 5 segundos.
+
+  Con ocho tarjetas y cuatro a la vista hay cinco posiciones, y la barra de
+  progreso lleva un segmento por posición, no por tarjeta. En tableta se ven
+  dos (siete posiciones) y en móvil una (ocho). `--por` es cuántas caben, y de
+  ahí salen tanto el ancho de cada tarjeta como cuánto se desplaza la pista.
+
+  Las líneas entre tarjetas no son bordes: el marco tiene fondo de regla y la
+  pista deja 2 px de hueco entre tarjetas, así que la línea es el fondo
+  asomando. Es el truco de `ruled-grid`, aplicado a una fila que se mueve.
+
+  FOTOS. Solo dos de las ocho tarjetas tienen fotografía, las dos entradas del
+  blog que ya la traían. Las demás muestran el hueco gris que pide el handoff
+  hasta que lleguen las imágenes reales: añadir `image` a la tarjeta en
+  `ui.ts` basta para que aparezca.
+*/
+import { Picture } from 'astro:assets';
+import { type Lang, content } from '../../i18n/ui';
+import { foto } from '../../lib/fotos';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.resources;
+---
+
+<section id="recursos" class="wrap section-y">
+  <div class="section-head" data-reveal>
+    <h2 class="t-h2">{t.title}</h2>
+    <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{t.lead}</p>
+  </div>
+
+  <div data-posts>
+    <div class="posts-marco">
+      <div class="posts-pista" data-posts-pista>
+        {
+          t.items.map((p) => (
+            <a href={p.href} class="post">
+              <div class="post-foto">
+                {p.image && (
+                  <Picture
+                    pictureAttributes={{ class: 'contents' }}
+                    src={foto(p.image)}
+                    alt=""
+                    formats={['avif', 'webp']}
+                    widths={[320, 480, 640]}
+                    sizes="(min-width: 1100px) 288px, (min-width: 640px) 50vw, 100vw"
+                    loading="lazy"
+                    decoding="async"
+                    class="h-full w-full object-cover"
+                  />
+                )}
+              </div>
+              <span class="mx-5 mt-5 block text-[13px] text-faint">{t.tags[p.tag]}</span>
+              <h3 class="post-titulo mx-5 mt-2.5 text-[19px] leading-tight tracking-[-0.015em]">
+                {p.title}
+              </h3>
+              <p class="mx-5 mb-6 mt-2.5 text-sm leading-[1.55] text-muted">{p.desc}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="mt-5 flex items-center gap-6">
+      <div class="flex flex-1 gap-0.5" data-posts-barra>
+        {
+          t.items.map((_, i) => (
+            <button type="button" class="progress" aria-label={`${t.position} ${i + 1}`}>
+              <i />
+            </button>
+          ))
+        }
+      </div>
+      <div class="flex gap-0.5">
+        <button type="button" class="btn-icon" aria-label={t.prev} data-posts-prev>←</button>
+        <button type="button" class="btn-icon" aria-label={t.next} data-posts-next>→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .posts-marco {
+    --por: 1;
+    overflow: hidden;
+    border: 2px solid var(--color-border);
+    background: var(--color-border);
+  }
+  .posts-pista {
+    display: flex;
+    gap: 2px;
+    transition: transform 0.9s var(--ease-in-out);
+  }
+  .post {
+    flex: 0 0 calc((100% - (var(--por) - 1) * 2px) / var(--por));
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg);
+    color: inherit;
+  }
+  .post-foto {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--color-neutral-200);
+    border-bottom: 2px solid var(--color-border);
+  }
+  .post-foto :global(img) {
+    position: absolute;
+    inset: 0;
+    filter: grayscale(1);
+  }
+  .post-titulo {
+    transition: color 0.25s;
+  }
+  .post:hover .post-titulo,
+  .post:focus-visible .post-titulo {
+    color: var(--color-accent);
+  }
+
+  @media (min-width: 640px) {
+    .posts-marco {
+      --por: 2;
+    }
+  }
+  @media (min-width: 1100px) {
+    .posts-marco {
+      --por: 4;
+    }
+  }
+</style>
+
+<script>
+  import { carrusel } from './autoplay';
+
+  document.querySelectorAll<HTMLElement>('[data-posts]').forEach((raiz) => {
+    const marco = raiz.querySelector<HTMLElement>('.posts-marco')!;
+    const pista = raiz.querySelector<HTMLElement>('[data-posts-pista]')!;
+    const tarjetas = Array.from(pista.children) as HTMLElement[];
+
+    /* Cuántas tarjetas caben ahora: lo dice el CSS, que es quien lo decide. */
+    const porVista = () => Number(getComputedStyle(marco).getPropertyValue('--por')) || 1;
+    const posiciones = () => Math.max(1, tarjetas.length - porVista() + 1);
+
+    const c = carrusel({
+      raiz,
+      total: posiciones(),
+      intervalo: 5000,
+      barra: raiz.querySelector<HTMLElement>('[data-posts-barra]'),
+      pintar(i) {
+        const por = porVista();
+        // Un paso es el ancho de una tarjeta más su hueco de 2 px.
+        pista.style.transform = `translateX(calc(${-i} * (100% + 2px) / ${por}))`;
+        // Las que quedan fuera del marco no reciben foco.
+        tarjetas.forEach((el, k) => el.toggleAttribute('inert', k < i || k >= i + por));
+      },
+    });
+
+    raiz.querySelector('[data-posts-prev]')?.addEventListener('click', () => c.anterior());
+    raiz.querySelector('[data-posts-next]')?.addEventListener('click', () => c.siguiente());
+
+    // Al cambiar de ancho cambian las posiciones posibles.
+    let ultimo = porVista();
+    window.addEventListener('resize', () => {
+      const ahora = porVista();
+      if (ahora === ultimo) return;
+      ultimo = ahora;
+      c.redimensionar(posiciones());
+    });
+  });
+</script>

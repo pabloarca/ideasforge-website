@@ -1,6 +1,6 @@
 ---
 /*
-  Una ficha de papel pegada a la pizarra con un imán. Va dentro de un <svg>:
+  Una ficha pegada a la pizarra. Va dentro de un <svg>:
   es un grupo, no un elemento HTML. Coordenadas en las unidades del viewBox
   del gráfico que la contiene.
 
@@ -16,18 +16,28 @@
 import { ICONOS_PIZARRA, type NombreIconoPizarra } from './iconos';
 import { GRIS, COLOR_TONO, PAPEL_TONO, type Tono } from './colores';
 
+/*
+  El «imán» es desde octubre de 2026 el cuadrado de 10 px del sistema de
+  diseño, plano y sin brillo. Antes eran círculos de seis colores con sombra y
+  reflejo. El nombre del color se conserva en la propiedad para no tocar las
+  ochenta pizarras que lo pasan, pero ya solo distingue dos casos: `azul`
+  pinta el cuadrado en acento, y cualquier otro lo pinta en tinta. El diseño
+  tiene un solo acento y aquí no hay sitio para un amarillo o un verde.
+*/
 const IMANES = {
-  rojo: '#e5484d',
-  amarillo: '#f2b705',
-  verde: '#2f8f5b',
+  rojo: '#201e1d',
+  amarillo: '#201e1d',
+  verde: '#201e1d',
   azul: '#002dfd',
-  negro: '#2b303b',
-  gris: '#9aa1ad',
+  negro: '#201e1d',
+  gris: '#201e1d',
 } as const;
 
 interface Props {
-  /** Prefijo de las definiciones del SVG que la contiene (ver PizarraDefs). */
-  pre: string;
+  /** Prefijo de las definiciones del SVG que la contiene (ver PizarraDefs).
+   *  La ficha ya no usa ninguna, ni sombra ni brillo, pero la propiedad se
+   *  conserva porque todas las pizarras la pasan. */
+  pre?: string;
   x: number;
   y: number;
   w: number;
@@ -49,7 +59,6 @@ interface Props {
   tamSub?: number;
 }
 const {
-  pre,
   x,
   y,
   w,
@@ -83,7 +92,7 @@ const ySubH = h / 2 + tamSub + 3;
 ---
 
 <g transform={`translate(${x} ${y}) rotate(${giro} ${w / 2} ${h / 2})`}>
-  <rect width={w} height={h} rx="7" fill={papel.fondo} stroke={papel.borde} stroke-width="1.2" filter={`url(#${pre}-sombra)`} />
+  <rect width={w} height={h} fill={papel.fondo} stroke={papel.borde} stroke-width="2" />
   {
     disposicion === 'vertical' ? (
       <>
@@ -115,9 +124,6 @@ const ySubH = h / 2 + tamSub + 3;
       </>
     )
   }
-  {/* El imán, en el borde de arriba, con su sombra y su brillo. */}
-  <g filter={`url(#${pre}-sombra-iman)`}>
-    <circle cx={w * imanX} cy="1" r="9" fill={IMANES[iman]} />
-    <circle cx={w * imanX} cy="1" r="9" fill={`url(#${pre}-brillo)`} />
-  </g>
+  {/* El cuadrado de 10 px, a caballo del borde de arriba. */}
+  <rect x={w * imanX - 5} y="-5" width="10" height="10" fill={IMANES[iman]} />
 </g>

@@ -1,0 +1,197 @@
+---
+/*
+  Soluciones: un acordeón de columnas. Cuatro columnas en fila, una abierta
+  (ocupa cuatro partes) y tres plegadas (una parte cada una) con su título
+  corto escrito en vertical. Pasar el ratón o el foco por una columna la abre,
+  y si nadie toca nada avanza sola cada 4,5 segundos.
+
+  Los retardos importan y están medidos en el diseño: el contenido de la
+  columna que se abre espera 0,3 s a que la columna haya ganado ancho, y el
+  título vertical de la que se cierra espera 0,65 s a que haya terminado de
+  plegarse. Sin esas esperas los dos textos se pisan a mitad de camino.
+
+  Cada columna es un enlace entero a su página de servicio, y todo el texto
+  está en el HTML aunque la columna esté plegada: lo que se oculta es la
+  opacidad, no el contenido.
+
+  Por debajo de 900 px no hay sitio para columnas. El bloque pasa a ser una
+  lista: las cuatro soluciones abiertas, una debajo de otra, sin avance
+  automático ni títulos verticales.
+*/
+import { type Lang, content } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.services;
+---
+
+<section id="soluciones" class="wrap section-y">
+  <div class="section-head" data-reveal>
+    <h2 class="t-h2">{t.title}</h2>
+    <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{t.lead}</p>
+  </div>
+
+  <div class="svc" data-svc>
+    {
+      t.items.map((k, i) => (
+        <a href={k.href} class:list={['svc-col', i === 0 && 'is-active']} data-svc-col>
+          <span class="svc-bar" aria-hidden="true" />
+          <span class="num">{String(i + 1).padStart(2, '0')}</span>
+          <span class="svc-short" aria-hidden="true">
+            {k.short}
+          </span>
+          <div class="svc-body">
+            <h3 class="t-h3-panel">{k.title}</h3>
+            <p class="mt-5 max-w-[48ch] text-[15px] leading-[1.6] text-muted">{k.desc}</p>
+            <p class="mt-3 max-w-[48ch] text-[15px] leading-[1.6] text-muted">{k.detail}</p>
+            <span class="link-arrow mt-7">{k.cta} →</span>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  /*
+    La regla superior de cada columna es un pseudoelemento y no un borde. Así
+    vive DENTRO de la caja, y la barra de acento puede pintarse encima sin que
+    la recorte el `overflow: hidden` que la columna necesita para su texto.
+  */
+  .svc-col {
+    position: relative;
+    display: block;
+    color: inherit;
+  }
+  .svc-col::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-border);
+  }
+
+  /* ---- Lista (móvil y tableta): es el estado por defecto ---- */
+  .svc {
+    border-bottom: 2px solid var(--color-border);
+  }
+  .svc-col {
+    padding: 30px 0 32px;
+  }
+  .svc-bar,
+  .svc-short {
+    display: none;
+  }
+  .svc-body {
+    margin-top: 20px;
+    max-width: 560px;
+  }
+
+  /* ---- Acordeón de columnas (escritorio) ---- */
+  @media (min-width: 900px) {
+    .svc {
+      display: flex;
+      border-right: 2px solid var(--color-border);
+    }
+    .svc-col {
+      flex: 1 1 0%;
+      min-width: 0;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 30px 24px 32px;
+      border-left: 2px solid var(--color-border);
+      transition: flex 0.8s var(--ease-in-out);
+    }
+    .svc-col.is-active {
+      flex: 4 1 0%;
+    }
+
+    /* La barra de acento se dibuja sobre la regla, de izquierda a derecha,
+       mientras la columna se abre. */
+    .svc-bar {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--color-accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.8s var(--ease-in-out);
+    }
+    .svc-col.is-active .svc-bar {
+      transform: scaleX(1);
+    }
+
+    .svc-short {
+      display: block;
+      position: absolute;
+      left: 22px;
+      bottom: 32px;
+      max-height: calc(100% - 100px);
+      overflow: hidden;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.015em;
+      white-space: nowrap;
+      opacity: 1;
+      transition: opacity 0.35s 0.65s;
+    }
+    .svc-col.is-active .svc-short {
+      opacity: 0;
+      transition-delay: 0s;
+    }
+
+    .svc-body {
+      margin-top: auto;
+      min-width: 300px;
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 0.45s 0s,
+        transform 0.7s 0s var(--ease-out);
+    }
+    .svc-col.is-active .svc-body {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0.3s;
+    }
+  }
+</style>
+
+<script>
+  import { carrusel } from './autoplay';
+
+  document.querySelectorAll<HTMLElement>('[data-svc]').forEach((raiz) => {
+    const columnas = Array.from(raiz.querySelectorAll<HTMLElement>('[data-svc-col]'));
+    const ancho = window.matchMedia('(min-width: 900px)');
+
+    const c = carrusel({
+      raiz,
+      total: columnas.length,
+      intervalo: 4500,
+      pintar(i) {
+        // En la versión de lista están todas abiertas y no hay nada que mover.
+        if (!ancho.matches) return;
+        columnas.forEach((col, k) => col.classList.toggle('is-active', k === i));
+      },
+    });
+
+    columnas.forEach((col, k) => {
+      const abrir = () => {
+        if (c.actual() !== k) c.ir(k);
+      };
+      col.addEventListener('mouseenter', abrir);
+      col.addEventListener('focus', abrir);
+    });
+  });
+</script>

@@ -29,18 +29,21 @@ pensada para SEO. Replica la estructura de ideasforge.io.
 - SEO (title, description, canonical, hreflang, OG) → `src/layouts/BaseLayout.astro`.
   Cada página le pasa `alternates` (la URL equivalente en cada idioma) para el hreflang
   y el selector de idioma.
-- Secciones de la home → componentes en `src/components/` (`Hero`, `TrustedBy`,
-  `CaseStudies`, `Integrations`, `Services`, `BlogPreview`, `Faq`, `Contact`). Reciben
-  `lang` y leen su texto de `content[lang]`.
+- Secciones de la home → componentes en `src/components/home/` (`Hero`,
+  `LogoMarquee`, `AboutSplit`, `ServicesPanel`, `CasesGallery`, `WhenAI`,
+  `MethodSteps`, `SecuritySplit`, `SectorSwitcher`, `PostsCarousel`,
+  `FaqAccordion`, `ContactForm`). Reciben `lang` y leen su texto de
+  `content[lang].home`. Los cuatro bloques que avanzan solos comparten
+  `home/autoplay.ts`.
 - Posts → `src/content/blog/<lang>/*.md`. El `id` queda como `es/slug` o `en/slug`; el
   slug de la URL se obtiene quitando ese prefijo. Las traducciones se enlazan con
   `translationId`.
 
 ## Cómo hacer cosas
 
-**Nueva sección en la home:** crea un componente en `src/components/`, añade su texto a
-`content.es` y `content.en` en `ui.ts`, e inclúyelo en `src/pages/index.astro` y
-`src/pages/en/index.astro`.
+**Nueva sección en la home:** crea un componente en `src/components/home/`, añade su
+texto a `home` en `content.es` y `content.en` de `ui.ts` (y su forma a `HomeContent`),
+e inclúyelo en `src/pages/index.astro` y `src/pages/en/index.astro`.
 
 **Nueva página estática con slug distinto por idioma** (p. ej. "Sobre nosotros" /
 "About"): crea el `.astro` en ES y en `en/`, añade una entrada al `routeMap` de
@@ -52,6 +55,27 @@ carpeta `src/pages/<lang>/`, amplía `routeMap` y los `Record<Lang, ...>`.
 
 **Nuevo post:** duplica un `.md` existente en `es/` y `en/` con el mismo
 `translationId`. Marca `draft: true` para ocultarlo del build.
+
+## Sistema de diseño (octubre de 2026)
+
+El aspecto de todo el sitio sale del paquete de diseño de la portada, que vive
+en `.private/design/` (no versionado): `README.md` describe cada bloque,
+`tokens.css` los estilos y `content.json` el texto. Los tokens y las piezas
+compartidas están en `src/styles/global.css`, con las reglas al principio del
+fichero. Las que más se olvidan:
+
+- **Una tipografía**, Geist, servida desde `public/fonts/`. Titulares a 500.
+- **Un acento**, `#002DFD`, solo en rótulos (`kicker`), CTA primario, enlaces
+  con flecha, cuadrados de 10 px, barras de progreso y fila activa.
+- **Reglas de 2 px** (`border-t-2`, `border-b-2`…), nunca de 1. **Cero radios,
+  sombras, degradados e iconos decorativos.**
+- **Fotografía en blanco y negro** siempre (`bn`). **Nada va centrado.**
+- Contenedor `wrap` (1280 px), ritmo `section-y`, cabecera `section-head`.
+- Las páginas interiores usan las mismas piezas: `LongFormPage` para las
+  largas, `FaqList` para cualquier FAQ, `Pizarra` para los gráficos.
+
+Faltan por llegar las fotos reales de «Quiénes somos», «Seguridad» y seis
+tarjetas de «Recursos»: hoy son huecos grises (`photo-slot`).
 
 ## Contenido y textos (IMPORTANTE)
 

@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import Analitica from '../components/Analitica.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import RevealOnScroll from '../components/RevealOnScroll.astro';
 import { type Lang, languages, content } from '../i18n/ui';
 import { EMPRESA } from '../lib/empresa';
 
@@ -144,16 +145,20 @@ const nav = content[lang].nav;
 const inicio = lang === 'en' ? '/en' : '/';
 const ramas: Record<string, { name: string; href: string }> = {
   blog: { name: nav.blog, href: lang === 'en' ? '/en/blog' : '/blog' },
-  servicios: { name: nav.services, href: `${inicio}#servicios` },
-  services: { name: nav.services, href: `${inicio}#servicios` },
-  casos: { name: nav.projects, href: `${inicio}#proyectos` },
+  /*
+    Las anclas son las de la portada de octubre de 2026, `#soluciones` y
+    `#casos`. Son las mismas en los dos idiomas porque los `id` de la portada
+    no se traducen.
+  */
+  servicios: { name: nav.solutions, href: `${inicio}#soluciones` },
+  services: { name: nav.solutions, href: `${inicio}#soluciones` },
+  casos: { name: nav.cases, href: `${inicio}#casos` },
   /*
     `cases` faltaba, y por eso las cinco páginas de caso inglesas decían
     «Home > Wazzy…» mientras sus gemelas españolas decían «Inicio > Proyectos >
-    Wazzy…». Detectado el 14 sep 2026 al auditar el pliego de campos. El ancla
-    es la misma en los dos idiomas porque los `id` de la portada no se traducen.
+    Wazzy…». Detectado el 14 sep 2026 al auditar el pliego de campos.
   */
-  cases: { name: nav.projects, href: `${inicio}#proyectos` },
+  cases: { name: nav.cases, href: `${inicio}#casos` },
 };
 const migas = segmentos.length
   ? [
@@ -320,10 +325,10 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
     />
 
     <!--
-      Space Grotesk servida por nosotros, un fichero variable de 22 KB. La
-      declaración vive en global.css; aquí solo se precarga.
+      Geist servida por nosotros, un fichero variable de 29 KB. La declaración
+      vive en global.css; aquí solo se precarga.
 
-      El `preload` es lo que arregla el salto de maquetación: sin él, el
+      El `preload` es lo que evita el salto de maquetación: sin él, el
       navegador no descubre la tipografía hasta que ha leído y aplicado el CSS,
       pinta con la de respaldo y recoloca el texto cuando llega la buena. Con
       él la pide en la primera tanda y llega antes de pintar.
@@ -332,16 +337,27 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
       se piden en modo anónimo, y sin el atributo el navegador descarga el
       fichero dos veces.
 
-      Antes esto eran tres etiquetas a Google, con dos familias, ocho pesos y
-      224 ms de bloqueo de render.
+      El paquete de diseño la cargaba de Google Fonts. No se hace así por lo
+      mismo que se dejó de hacer con Space Grotesk el 1 sep 2026: bloqueo de
+      render y la IP del visitante viajando a un tercero.
     -->
     <link
       rel="preload"
-      href="/fonts/space-grotesk-latin.woff2"
+      href="/fonts/geist-latin.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
+
+    <!--
+      Enciende la aparición al hacer scroll solo si el navegador puede
+      observarla. Va en la cabeza y en línea para que la clase esté puesta
+      antes del primer pintado: puesta después, lo que ya se veía
+      desaparecería un instante para volver a entrar.
+    -->
+    <script is:inline>
+      if ('IntersectionObserver' in window) document.documentElement.classList.add('reveal-anim');
+    </script>
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -413,7 +429,7 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
 
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-accent focus:px-4 focus:py-2 focus:text-on-accent"
     >
       Skip to content
     </a>
@@ -428,5 +444,6 @@ const xDefault = new URL(alternates.es ?? alternates[lang] ?? '/', site).href;
 
     <Footer lang={lang} />
     <CookieConsent lang={lang} />
+    <RevealOnScroll />
   </body>
 </html>

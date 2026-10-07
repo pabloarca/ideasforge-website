@@ -1,9 +1,8 @@
 ---
 import { type Lang, content } from '../i18n/ui';
 import { localizedPath, routeMap } from '../i18n/utils';
-import Icon from './Icon.astro';
-import type { IconName } from '../lib/icons';
 import { medidas } from '../lib/imagen';
+import { EMPRESA } from '../lib/empresa';
 
 interface Props {
   lang: Lang;
@@ -14,20 +13,14 @@ const t = content[lang];
 const year = new Date().getFullYear();
 
 /*
-  Los tres grupos de navegacion, los mismos que pinta la cabecera. Antes esto
-  era una sola columna titulada «Servicios» con diez entradas de las que solo
-  cuatro lo eran (corregido el 28 ago 2026).
+  Pie del diseño de octubre de 2026: cuatro columnas de enlaces a 13 px y una
+  fila de cierre con el logotipo y el copyright.
 
-  El menu suelto pierde «Servicios», que ahora es el rotulo de un grupo, y
-  «Proyectos», que salio por decision del propietario: era un ancla a una
-  seccion de la home y no una pagina.
+  Las tres primeras columnas son los grupos de navegación, los mismos que
+  alimentan los desplegables de la cabecera (soluciones, sectores y guías).
+  La cuarta, «Empresa», reúne lo que antes iba repartido entre el menú suelto,
+  el bloque legal y el icono de LinkedIn.
 */
-const menu: Array<{ label: string; href: string; icon: IconName }> = [
-  { label: t.nav.blog, href: localizedPath('/blog', lang), icon: 'documento' },
-  { label: t.nav.contact, href: localizedPath('/#contacto', lang), icon: 'autor' },
-];
-
-import { EMPRESA } from '../lib/empresa';
 
 /* Misma variable que gobierna el aviso de cookies, ver CookieConsent.astro. */
 /*
@@ -42,64 +35,25 @@ const hayMedicion = Boolean(
     import.meta.env.PUBLIC_META_PIXEL_ID?.trim()
 );
 
-const legal = [
-  { label: t.footer.privacy, href: routeMap.privacy[lang] },
-  { label: t.footer.cookies, href: routeMap.cookies[lang] },
+const empresa = [
+  { label: t.nav.blog, href: localizedPath('/blog', lang) },
+  { label: t.nav.contact, href: localizedPath('/#contacto', lang) },
 ];
 ---
 
-<footer class="border-t border-border-soft bg-bg-soft">
-  <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
-    <div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-6">
-      <!-- Logo + legal -->
-      <div class="lg:col-span-2">
-        <a href={localizedPath('/', lang)} class="inline-flex items-center" aria-label="Ideasforge">
-          <img
-            src="/ideasforge-logo.svg"
-            alt="Ideasforge"
-            {...medidas('/ideasforge-logo.svg')}
-            loading="lazy"
-            decoding="async"
-            class="h-8 w-auto"
-          />
-        </a>
-        <ul class="mt-8 space-y-3">
-          {legal.map((l) => (
-            <li>
-              <a href={l.href} class="text-sm text-fg transition-colors hover:text-accent">{l.label}</a>
-            </li>
-          ))}
-          {/* Reabre el aviso de cookies. No es un adorno: retirar el
-              consentimiento tiene que costar lo mismo que darlo, y sin este
-              enlace la única salida sería borrar el almacenamiento a mano.
-              Va como <button> y no como <a> porque no lleva a ninguna parte.
-
-              Y solo aparece si hay medición configurada: sin ella no hay nada
-              que preferir y sería un botón que no hace nada. */}
-          {hayMedicion && (
-          <li>
-            <button
-              type="button"
-              data-cookie-prefs
-              class="text-left text-sm text-fg transition-colors hover:text-accent"
-            >
-              {t.footer.cookiePrefs}
-            </button>
-          </li>
-          )}
-        </ul>
-      </div>
-
-      <!-- Los tres grupos, rastreables y con el mismo texto de enlace que la
-           cabecera: servicios, sectores y guias. -->
+<footer class="mt-[clamp(96px,12vw,160px)] border-t-2 border-border">
+  <div class="wrap pb-10 pt-12">
+    <div
+      class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,180px),1fr))] gap-x-8 gap-y-10 text-[13px] leading-[1.8] text-muted"
+    >
       {
         t.footer.navGroups.map((g) => (
           <nav aria-label={g.heading}>
-            <h2 class="text-base font-bold text-fg">{g.heading}</h2>
-            <ul class="mt-5 space-y-3.5">
+            <p class="mb-2 text-fg">{g.heading}</p>
+            <ul>
               {g.links.map((l) => (
                 <li>
-                  <a href={l.href} class="text-sm text-fg transition-colors hover:text-accent">
+                  <a href={l.href} class="transition-colors hover:text-accent">
                     {l.label}
                   </a>
                 </li>
@@ -109,40 +63,69 @@ const legal = [
         ))
       }
 
-      <!-- Menu + contacto, en una sola columna: el menu suelto se quedo en
-           tres entradas al pasar servicios a grupo y salir proyectos. -->
-      <div>
       <nav aria-label={t.footer.menu}>
-        <h2 class="text-base font-bold text-fg">{t.footer.menu}</h2>
-        <ul class="mt-5 space-y-3.5">
-          {menu.map((l) => (
-            <li>
-              <a href={l.href} class="inline-flex items-center gap-2 text-sm text-fg transition-colors hover:text-accent">
-                <Icon name={l.icon} size={20} class="text-fg" />
-                <span>{l.label}</span>
-              </a>
-            </li>
-          ))}
+        <p class="mb-2 text-fg">{t.footer.menu}</p>
+        <ul>
+          {
+            empresa.map((l) => (
+              <li>
+                <a href={l.href} class="transition-colors hover:text-accent">
+                  {l.label}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a
+              href={EMPRESA.perfiles[0]}
+              rel="noopener noreferrer"
+              target="_blank"
+              class="transition-colors hover:text-accent"
+            >
+              LinkedIn
+            </a>
+          </li>
+          <li>
+            <a href={routeMap.privacy[lang]} class="transition-colors hover:text-accent">{t.footer.privacyShort}</a>
+            <span aria-hidden="true"> · </span>
+            <a href={routeMap.cookies[lang]} class="transition-colors hover:text-accent">{t.footer.cookiesShort}</a>
+          </li>
+          {/* Reabre el aviso de cookies. No es un adorno: retirar el
+              consentimiento tiene que costar lo mismo que darlo, y sin este
+              enlace la única salida sería borrar el almacenamiento a mano.
+              Va como <button> y no como <a> porque no lleva a ninguna parte.
+
+              Y solo aparece si hay medición configurada: sin ella no hay nada
+              que preferir y sería un botón que no hace nada. */}
+          {
+            hayMedicion && (
+              <li>
+                <button
+                  type="button"
+                  data-cookie-prefs
+                  class="cursor-pointer text-left transition-colors hover:text-accent"
+                >
+                  {t.footer.cookiePrefs}
+                </button>
+              </li>
+            )
+          }
         </ul>
       </nav>
-
-        <h2 class="mt-10 text-base font-bold text-fg">{t.footer.contactHeading}</h2>
-        <a
-          href={EMPRESA.perfiles[0]}
-          rel="noopener noreferrer"
-          target="_blank"
-          aria-label="LinkedIn"
-          class="mt-5 inline-flex h-10 w-10 items-center justify-center rounded-md bg-fg text-bg transition-colors hover:bg-accent"
-        >
-          <svg class="h-5 w-5" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true">
-            <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z" />
-          </svg>
-        </a>
-      </div>
     </div>
 
-    <div class="mt-14 border-t border-border-soft pt-6 text-center text-sm text-muted">
-      © {year} {t.footer.rights}
+    <div class="mt-14 flex flex-wrap items-center justify-between gap-6 border-t-2 border-border pt-6">
+      <a href={localizedPath('/', lang)} aria-label="Ideasforge">
+        <img
+          src="/ideasforge-logo.svg"
+          alt="Ideasforge"
+          {...medidas('/ideasforge-logo.svg')}
+          loading="lazy"
+          decoding="async"
+          class="h-[18px] w-auto"
+        />
+      </a>
+      <span class="text-[13px] text-muted">© {year} {t.footer.rights}</span>
     </div>
   </div>
 </footer>

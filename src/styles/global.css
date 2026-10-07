@@ -2,30 +2,28 @@
 @plugin "@tailwindcss/typography";
 
 /*
-  Space Grotesk, servida por nosotros.
+  Geist, servida por nosotros.
 
-  Antes venía de Google Fonts con ocho pesos de dos familias. La medición del
-  CI del 1 sep 2026 dijo tres cosas de esa decisión:
+  El rediseño de octubre de 2026 pide una sola tipografía, Geist, y el paquete
+  de diseño la cargaba de Google Fonts. Aquí NO: se mantiene la decisión del
+  1 sep 2026, que sigue valiendo entera con la fuente nueva.
     - el CSS de Google bloqueaba el render 224 ms;
-    - el texto de las entradas de blog se recolocaba al llegar la tipografía,
-      y eso era el CLS de 0,107 que sacaba el post de facturas del umbral;
-    - de las dos familias, **Raleway no se usaba en ninguna parte** y aun así
-      se descargaban sus tres pesos, igual que el peso 300 de Space Grotesk.
+    - el texto se recolocaba al llegar la tipografía, y eso era CLS;
+    - cargar de Google Fonts manda la IP de cada visitante a un tercero, y
+      para una casa que vende cumplimiento del RGPD servir su propia
+      tipografía es coherencia.
 
-  Y hay una cuarta razón que no es de rendimiento: cargar de Google Fonts
-  manda la IP de cada visitante a un tercero. Para una casa que vende
-  cumplimiento del RGPD, servir su propia tipografía es coherencia.
-
-  Es una fuente variable, así que un único fichero de 22 KB cubre de 300 a
-  700. Licencia SIL Open Font License 1.1, que permite el alojamiento propio.
+  Es una fuente variable, así que un único fichero de 29 KB cubre todos los
+  pesos. El diseño usa 400, 500 y 600. Licencia SIL Open Font License 1.1
+  (`public/fonts/OFL-Geist.txt`), que permite el alojamiento propio.
 */
 @font-face {
-  font-family: 'Space Grotesk';
+  font-family: 'Geist';
   font-style: normal;
   /* El rango completo del eje de peso: la variable los interpola todos. */
-  font-weight: 300 700;
+  font-weight: 100 900;
   font-display: swap;
-  src: url('/fonts/space-grotesk-latin.woff2') format('woff2');
+  src: url('/fonts/geist-latin.woff2') format('woff2');
   /* Subconjunto latino. Cubre el castellano entero, acentos, eñe y signos de
      apertura. El latin-ext es para lenguas del este de Europa y aquí sobra. */
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
@@ -34,71 +32,118 @@
 }
 
 /*
-  Tailwind v4 is CSS-first: this file *is* the config. Tokens replicate the
-  Ideasforge WordPress kit so the new Astro site matches the original look.
-  Primary action color is BLACK (matches the dark CTA buttons on the original).
-  The blue (#002dfd) is reserved for the eyebrow pill and small accents.
+  Tailwind v4 is CSS-first: this file *is* the config.
+
+  SISTEMA DE DISEÑO DE OCTUBRE DE 2026. Sale del paquete de diseño
+  (`tokens.css` y `README.md` del handoff, que viven en `.private/design/`).
+  Minimalismo editorial: una tipografía, tinta sobre gris muy claro, reglas de
+  2 px, sin radios ni sombras, fotografía en blanco y negro y UN acento.
+
+  Reglas no negociables del diseño, para quien toque esto después:
+    1. Una sola fuente, Geist. Titulares a 500.
+    2. Un solo acento, #002DFD, reservado a: kicker, CTA primario, enlaces con
+       flecha, cuadrados de 10 px, barras de progreso, fila activa y el campo
+       azul de «La IA interpreta». Todo lo demás es tinta sobre gris.
+    3. Reglas de 2 px en #c9c6c5. Cero radios, cero sombras, cero degradados,
+       cero iconos decorativos.
+    4. Fotografía siempre con `filter: grayscale(1)`.
+    5. Texto alineado a la izquierda, también dentro de los botones.
+    6. Maquetación fluida con `clamp()` y `auto-fit`. Nunca 3+1 huérfanos.
+
+  Los nombres de token antiguos (`bg`, `fg`, `muted`, `faint`, `border`,
+  `border-soft`, `accent`) se conservan con los valores nuevos: así las
+  páginas interiores heredan el sistema sin reescribir sus clases.
 */
 @theme {
-  --color-bg: #ffffff;
-  --color-bg-soft: #f5f5f7;
-  --color-surface: #ffffff;
-  --color-border: #e9e7ff;        /* light lavender, mirrors original card border */
-  --color-border-soft: #efefef;
+  --color-bg: #f3f2f2;
+  --color-bg-soft: #eae9e9;        /* `surface` del diseño */
+  --color-surface: #f3f2f2;
+  --color-border: #c9c6c5;         /* `divider` del diseño: todas las reglas */
+  --color-border-soft: #c9c6c5;
 
-  --color-fg: #000000;             /* strong black for headings */
+  --color-fg: #201e1d;             /* tinta */
   /*
-    Los dos grises subieron de tono el 1 sep 2026 porque no pasaban el
-    contraste mínimo de la norma (WCAG AA pide 4,5:1 para texto normal). Los
-    medía Lighthouse desde el CI: fallaba en las cuatro páginas de la muestra,
-    entre 16 y 84 elementos en cada una, y era lo único que dejaba la
-    accesibilidad en 89.
-
-    No eran decenas de arreglos, eran estas dos líneas.
-
-      muted  #7a7a7a → #5f5f5f    de 4,29:1 a 6,39:1
-      faint  #a3a3a3 → #767676    de 2,52:1 a 4,54:1
-
-    `faint` se queda justo en el suelo de la norma a propósito, para que siga
-    siendo más claro que `muted` y la jerarquía de tres niveles (negro, cuerpo,
-    secundario) no se pierda. Bajar más de #767676 vuelve a incumplir.
+    Texto secundario. `muted` es el neutral-700 del diseño (5,8:1 sobre el
+    fondo). `faint` NO es su neutral-600 (#7c7877), que se queda en 3,9:1 y no
+    llega al 4,5:1 de WCAG AA que mide Lighthouse desde el CI. La regla 7 del
+    handoff lo prevé: «sobre gris, oscurecer el texto». #6e6a69 da 4,8:1 y
+    sigue leyéndose un escalón más claro que `muted`.
   */
-  --color-muted: #5f5f5f;          /* body text */
-  --color-faint: #767676;          /* meta / labels */
+  --color-muted: #605d5d;
+  --color-faint: #6e6a69;
 
-  --color-primary: #000000;        /* primary action = black button */
-  --color-primary-hover: #1a1a1a;
-  --color-accent: #002dfd;         /* blue accent (eyebrow, arrows, links) */
-  --color-glow: #c9c7ff;           /* lavender card shadow */
-  --color-rail: rgba(0, 0, 0, 0.06); /* vertical margin rails, must read on
-                                        both --color-bg and --color-bg-soft */
+  --color-neutral-200: #dcdad9;    /* huecos de foto pendientes */
+  --color-neutral-400: #a7a3a2;
+  --color-neutral-600: #7c7877;    /* solo decorativo, nunca texto */
+  --color-neutral-700: #605d5d;
+  --color-neutral-900: #2e2c2b;
 
-  /* Type, Space Grotesk dominates the original site */
-  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", monospace;
+  --color-primary: #002dfd;        /* el CTA primario es el acento */
+  --color-primary-hover: #201e1d;  /* y pasa a tinta al posarse */
+  --color-accent: #002dfd;
+  --color-accent-100: #e9edff;
+  --color-accent-200: #cfd8ff;
+  --color-accent-300: #a9baff;
+  --color-accent-400: #6f8cff;
+  --color-accent-600: #0024cc;
+  --color-accent-700: #001b99;
+  --color-accent-800: #001366;
+  --color-accent-900: #000c40;
+  --color-on-accent: #f3f2f2;
+  --color-rail: #c9c6c5;
 
-  --container-8xl: 90rem;
+  /* Una sola tipografía. `font-mono` apunta también a Geist: las cifras se
+     alinean con `tnum`, no cambiando de familia. */
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-display: var(--font-sans);
+  --font-mono: var(--font-sans);
 
-  /* Card system used across project / blog / faq cards.
-     Corners are deliberately restrained: the original kit rounded everything
-     to 15px and up, which reads soft next to the reference (stripe.com). The
-     Tailwind scale below is lowered with it, so `rounded-xl` and friends stay
-     in step with `--radius-card` instead of drifting rounder. */
-  --radius-card: 8px;
-  --radius-pill: 9999px;
-  --radius-lg: 6px;
-  --radius-xl: 8px;
-  --radius-2xl: 10px;
-  --shadow-card: 0 0 10px 0 var(--color-glow);
-  --shadow-card-hover: 0 6px 20px -2px rgba(0, 45, 253, 0.18), 0 0 0 1px var(--color-glow);
+  --container-8xl: 80rem;          /* 1280 px, el contenedor del diseño */
+
+  /* Cero radios. Se anula la escala entera de Tailwind para que ningún
+     `rounded-*` heredado redondee nada. `rounded-full` no es un token y se
+     retiró a mano de los componentes. */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+  --radius-card: 0px;
+  --radius-pill: 0px;
+
+  /* Cero sombras. */
+  --shadow-2xs: none;
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+  --shadow-2xl: none;
+  --shadow-card: none;
+  --shadow-card-hover: none;
+
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.2, 1);
+}
+
+/* Medidas del diseño que no son utilidades de Tailwind. */
+:root {
+  --page-x: clamp(20px, 5vw, 64px);
+  --section-y: clamp(80px, 10vw, 140px);
+  --section-head: clamp(40px, 5vw, 64px);
+  --nav-height: 74px;
+  --sticky-offset: 104px;
+  --ease-wipe: cubic-bezier(0.77, 0, 0.18, 1);
 }
 
 /* ---- base ---- */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: var(--sticky-offset);
   -webkit-text-size-adjust: 100%;
 }
 
@@ -108,10 +153,24 @@ body {
   font-family: var(--font-sans);
   font-synthesis-weight: none;
   text-rendering: optimizeLegibility;
+  text-wrap: pretty;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Titulares a 500 por defecto. Va en la capa base para que una utilidad
+   (`t-h2`, `tracking-*`) pueda afinarlo sin pelearse con la especificidad. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
 }
 
 ::selection {
-  background-color: color-mix(in oklab, var(--color-accent) 25%, transparent);
+  background-color: var(--color-accent-200);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -130,32 +189,211 @@ body {
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
-/* ---- reusable utilities ---- */
+/* ---- maquetación ---- */
 
-/* Hero eyebrow pill, white background, lavender border, blue text */
-/* RETIRADA (22 ago 2026). `eyebrow-pill` era la píldora redondeada que
-   llevaban los rótulos de las páginas interiores mientras el héroe de la home
-   llevaba el marco de retícula con sus puntos. La misma marca se presentaba
-   de dos maneras según la página. Ahora todas usan `BrandBadge.astro`. */
-
-/* RETIRADA (21 ago 2026). La tarjeta antigua: sombra lavanda + radio. Ya no
-   la usa nadie: el sitio entero habla en retícula plana con filetes, y las
-   superficies flotantes usan `panel-float`. Se conserva la definición solo
-   como referencia histórica; no volver a usarla en contenido nuevo. Tailwind
-   v4 no la emite al CSS final mientras ninguna clase la invoque. */
-@utility card-soft {
-  background-color: var(--color-surface);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-  transition: box-shadow 0.25s ease, transform 0.25s ease;
+/* El contenedor del diseño: 1280 px con el margen lateral fluido. */
+@utility wrap {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--page-x);
 }
 
-@utility card-soft-hover {
-  box-shadow: var(--shadow-card-hover);
-  transform: translateY(-2px);
+/* Ritmo vertical: cada sección abre con el mismo aire. */
+@utility section-y {
+  padding-top: var(--section-y);
+}
+
+/* Cabecera estándar de sección: H2 a la izquierda y párrafo de apoyo a la
+   derecha, alineados abajo. Se apila sola cuando no caben las dos columnas. */
+@utility section-head {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  gap: 24px clamp(32px, 5vw, 96px);
+  align-items: end;
+  margin-bottom: var(--section-head);
+}
+
+/* ---- tipografía del diseño ---- */
+@utility t-display {
+  font-size: clamp(34px, 4vw, 56px);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  font-weight: 500;
+}
+@utility t-poster {
+  font-size: clamp(34px, 4vw, 60px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+}
+@utility t-h2 {
+  font-size: clamp(32px, 3.6vw, 52px);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  font-weight: 500;
+}
+@utility t-h2-compact {
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -0.028em;
+  font-weight: 500;
+}
+@utility t-h3-panel {
+  font-size: clamp(26px, 2.8vw, 40px);
+  line-height: 1.06;
+  letter-spacing: -0.028em;
+  font-weight: 500;
+}
+@utility t-h3-row {
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+
+/* Rótulo pequeño en mayúsculas y acento. Sustituye al badge con marco y a la
+   píldora: en el diseño nuevo el rótulo es solo texto. */
+@utility kicker {
+  display: block;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+/* Alias: las páginas interiores ya lo llamaban `eyebrow`. */
+@utility eyebrow {
+  display: block;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Número de orden: 01, 02… Cifras tabulares para que no bailen. */
+@utility num {
+  font-size: 13px;
+  color: var(--color-faint);
+  font-feature-settings: 'tnum' 1;
+}
+
+/* El cuadrado de acento de 10 px. */
+@utility sq {
+  display: block;
+  width: 10px;
+  height: 10px;
+  background: var(--color-accent);
+}
+
+/* ---- botones: etiqueta a la izquierda, sin radio ---- */
+@utility btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 12px 20px;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+  border: 2px solid var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+  cursor: pointer;
+  transition:
+    background-color 250ms,
+    border-color 250ms,
+    padding-right 250ms;
+}
+@utility btn-primary-hover {
+  background-color: var(--color-fg);
+  border-color: var(--color-fg);
+  padding-right: 28px;
+}
+
+@utility btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 12px 20px;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+  border: 2px solid var(--color-border);
+  background-color: transparent;
+  color: var(--color-fg);
+  cursor: pointer;
+  transition:
+    border-color 250ms,
+    color 250ms;
+}
+.btn-secondary:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Botón cuadrado de 44 px: las flechas de los carruseles. */
+@utility btn-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  font-size: 18px;
+  border: 2px solid var(--color-border);
+  background: transparent;
+  color: var(--color-fg);
+  cursor: pointer;
+  transition:
+    border-color 250ms,
+    color 250ms;
+}
+.btn-icon:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* «Leer más» y compañía. Antes era una píldora gris: ahora es el enlace con
+   flecha del diseño, que es lo único que distingue una acción secundaria. */
+@utility btn-ghost {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--color-accent);
+  border-bottom: 2px solid var(--color-accent-200);
+  padding-bottom: 2px;
+  transition: border-color 250ms;
+}
+
+/* Enlace con flecha. La flecha va en el texto («Ver caso →»). */
+@utility link-arrow {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--color-accent);
+  border-bottom: 2px solid var(--color-accent-200);
+  padding-bottom: 2px;
+  transition: border-color 250ms;
+}
+.link-arrow:hover,
+.btn-ghost:hover,
+.group:hover .link-arrow,
+.group:hover .btn-ghost {
+  border-color: var(--color-accent);
+}
+
+/* Enlace discreto subrayado en gris que pasa a acento: «Ver proyectos reales». */
+@utility link-quiet {
+  font-size: 15px;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 2px;
+  transition:
+    border-color 250ms,
+    color 250ms;
+}
+.link-quiet:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 /*
@@ -166,10 +404,9 @@ body {
   2026 (`link-in-text-block`).
 
   La solución NO es subrayarlo entero, porque entonces choca con el <u> que
-  esta misma casa usa para enfatizar dentro del mismo párrafo, que era la razón
-  por la que no llevaba subrayado. Va **punteado** en reposo, que es una señal
-  que no depende del color y que no se confunde con el énfasis, y pasa a sólido
-  al posarse encima.
+  esta misma casa usa para enfatizar dentro del mismo párrafo. Va **punteado**
+  en reposo, que es una señal que no depende del color y que no se confunde
+  con el énfasis, y pasa a sólido al posarse encima.
 */
 @utility link-inline {
   color: var(--color-accent);
@@ -182,369 +419,259 @@ body {
   text-decoration-style: solid;
 }
 
-/* Floating pill chip, used in Services and FAQ rows */
-@utility chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.85rem 1.5rem;
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-pill);
-  color: var(--color-fg);
-  font-weight: 500;
-  font-size: 0.95rem;
-  line-height: 1.2;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
-}
+/* ---- superficies ---- */
 
-@utility chip-hover {
-  border-color: color-mix(in oklab, var(--color-accent) 50%, var(--color-border));
-}
-
-/* Solid black primary button */
-@utility btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.85rem 1.75rem;
-  background-color: var(--color-primary);
-  color: #ffffff;
-  border-radius: 10px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  transition: background-color 0.2s ease, transform 0.15s ease;
-}
-
-@utility btn-primary-hover {
-  background-color: var(--color-primary-hover);
-  transform: translateY(-1px);
-}
-
-/* Subtle ghost button, gray pill used in blog cards "Leer más".
-   Kept low-profile: short vertical padding, generous horizontal one. */
-@utility btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.4rem 1.4rem;
-  background-color: var(--color-bg-soft);
-  color: var(--color-fg);
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.4;
-  transition: background-color 0.2s ease;
-}
-
-/* Floating panel: dropdowns and any surface that hovers over the page.
-   These need elevation to read as a layer, but they must speak the current
-   flat language, not the old card: straight corners, fine gray border and a
-   NEUTRAL shadow. `card-soft` here leaked the lavender glow and the radius
-   into the one place the old look survived. The modal already uses a neutral
-   black shadow; this matches it at dropdown scale. */
+/* Panel flotante: desplegables de la cabecera. Sin sombra: quien lo separa
+   del fondo es la regla de 2 px, como en todo lo demás. */
 @utility panel-float {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border-soft);
-  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.18);
+  background-color: var(--color-bg);
+  border: 2px solid var(--color-border);
 }
 
-/* Eyebrow text (no pill), used for small uppercase labels if needed */
-@utility eyebrow {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-  font-weight: 500;
+/* Retícula con líneas interiores: `gap` de 2 px sobre fondo de regla, con las
+   celdas en el color del fondo. Así las líneas sobreviven al reflow. */
+@utility ruled-grid {
+  display: grid;
+  gap: 2px;
+  background: var(--color-border);
+  border-top: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+}
+.ruled-grid > * {
+  background: var(--color-bg);
 }
 
-/* ---- Icono de expandir --------------------------------------------------
-   Las dos cuñas se apartan cuando el ratón entra en la tarjeta que las
-   contiene, no cuando entra en el icono: el icono es decorativo y no recibe
-   puntero, así que el disparador es el `group` de la tarjeta.
-
-   El desplazamiento va en la dirección a la que apunta cada cuña, así que se
-   lee como que el elemento se abre. Las unidades son las del viewBox del
-   icono (24 × 24), no píxeles de pantalla: dentro de un SVG, una transformación
-   de CSS opera en el sistema de coordenadas local. */
-.icon-expand [data-piece] {
-  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-.group:hover .icon-expand [data-piece='0'] {
-  transform: translate(1.25px, -1px);
-}
-.group:hover .icon-expand [data-piece='1'] {
-  transform: translate(-1.25px, 1px);
+/* Hueco de fotografía pendiente: el gris plano que pide el handoff hasta que
+   lleguen las imágenes reales. */
+@utility photo-slot {
+  display: block;
+  width: 100%;
+  background: var(--color-neutral-200);
 }
 
+/* Toda fotografía, en blanco y negro. */
+@utility bn {
+  filter: grayscale(1);
+}
+.bn img {
+  filter: grayscale(1);
+}
+
+/* ---- formulario ---- */
+@utility field {
+  display: grid;
+  gap: 8px;
+}
+.field > label {
+  font-size: 13px;
+  color: var(--color-muted);
+}
+@utility input {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-fg);
+  border-radius: 0;
+}
+.input::placeholder {
+  color: var(--color-faint);
+}
+.input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+textarea.input {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* ---- barra de progreso de los carruseles ----
+   Un segmento por posición. El activo se rellena de izquierda a derecha en lo
+   que dura el intervalo (`--interval`), los anteriores quedan llenos.
+
+   El diseño dibuja el segmento con 14 px de alto. Aquí mide 24, con la misma
+   línea de 2 px en el centro: es un botón, y por debajo de 24 px no llega al
+   tamaño mínimo de pulsación que pide la norma de accesibilidad. A la vista no
+   cambia nada, porque la fila ya mide los 44 px de las flechas. */
+.progress {
+  position: relative;
+  flex: 1;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.progress::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 11px;
+  height: 2px;
+  background: var(--color-border);
+}
+.progress > i {
+  position: absolute;
+  left: 0;
+  top: 11px;
+  height: 2px;
+  width: 0;
+  background: var(--color-accent);
+}
+.progress.is-active > i {
+  width: 100%;
+  transition: width var(--interval, 6000ms) linear;
+}
+.progress.is-done > i {
+  width: 100%;
+}
+
+/* ---- aparición al hacer scroll ----
+   Visible por defecto. `reveal-anim` lo pone en <html> un script en línea
+   solo si el navegador tiene IntersectionObserver, así que sin JavaScript el
+   contenido está en su sitio desde el principio. */
+.reveal-anim [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 800ms var(--ease-out),
+    transform 800ms var(--ease-out);
+}
+.reveal-anim [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
 @media (prefers-reduced-motion: reduce) {
-  .group:hover .icon-expand [data-piece] {
+  .reveal-anim [data-reveal] {
+    opacity: 1;
     transform: none;
   }
 }
 
-/* ---- Animated rainbow ring (on hover) -----------------------------------
-   Pair with any card class (e.g. card-soft). On hover, a multi-colour
-   gradient ring appears around the card and the colours flow continuously
-   inside the ring.
-   How it works: a ::before pseudo covers the full card and is painted
-   with a gradient that is 3x wider than the card. A two-layer mask uses
-   `content-box` to erase the inner area, leaving only a thin ring at the
-   border. Animating `background-position` slides the colours across the
-   ring without changing its shape. */
-.rainbow-ring {
-  position: relative;
-}
-
-.rainbow-ring::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 2px;
-  background: linear-gradient(
-    120deg,
-    #ff7eb6,
-    #ffd166,
-    #b6ff8c,
-    #7ec8ff,
-    #c98bff,
-    #ff7eb6
-  );
-  background-size: 300% 100%;
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-          mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 250ms ease;
-  pointer-events: none;
-}
-
-.rainbow-ring:hover::before {
-  opacity: 1;
-  animation: rainbow-ring-flow 6s linear infinite;
-}
-
-@keyframes rainbow-ring-flow {
-  to {
-    background-position: 300% 50%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .rainbow-ring:hover::before {
-    animation: none;
-  }
-}
-
-/* ---- Modal (native <dialog>) -------------------------------------------
-   Styles for the WhyUs "expand" modal. The native <dialog> is centered
-   automatically by the browser when opened via .showModal(). We override
-   its defaults to match the site (rounded card, white bg, ~80% viewport
-   size) and add a dim+blur backdrop with a soft fade-in animation. */
-dialog[data-whyus-modal] {
-  /* Tailwind v4 preflight resets the UA `margin: auto` on <dialog>; restoring
-     it (together with `inset: 0`) re-enables the browser's default centering
-     for a modal opened via .showModal(). */
-  inset: 0;
-  margin: auto;
-  width: 80vw;
-  /* `vh` mide el viewport SIN la barra de direcciones del navegador movil, asi
-     que `92vh` daba un dialogo MAS ALTO que el area visible. Al centrarse con
-     `margin: auto`, ese exceso se repartia arriba y abajo y el borde superior
-     se iba fuera de pantalla: justo donde vive la X, que quedaba impulsable.
-     `dvh` mide el viewport real, el que queda tras descontar la barra.
-     Sin respaldo en `vh` a proposito: Lightning CSS lo elimina del build al
-     considerar que los navegadores objetivo ya soportan `dvh`, asi que
-     dejarlo escrito solo enganaria al que lea esto. */
-  height: 92dvh;
-  max-width: none;
-  max-height: none;
-  padding: 0;
-  border: none;
-  border-radius: 0.75rem;
-  background: var(--color-surface);
-  color: var(--color-fg);
-  overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18);
-}
-
-/* En movil el 80vw de escritorio deja una columna de texto de 252 px en una
-   pantalla de 375: demasiado estrecha para parrafos largos con diagramas. El
-   dialogo pasa a ocupar el ancho completo menos un margen de 12 px por lado. */
-@media (max-width: 639px) {
-  dialog[data-whyus-modal] {
-    width: calc(100vw - 1.5rem);
-    border-radius: 0.5rem;
-  }
-}
-
-/* Frosted-white backdrop. The page behind blurs and desaturates without
-   going dark, matching the Stripe-style modal reference. */
-dialog[data-whyus-modal]::backdrop {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-dialog[data-whyus-modal][open] {
-  animation: whyus-modal-in 220ms ease-out;
-}
-
-dialog[data-whyus-modal][open]::backdrop {
-  animation: whyus-backdrop-in 220ms ease-out;
-}
-
-@keyframes whyus-modal-in {
+/* ---- keyframes del diseño ---- */
+@keyframes if-up {
   from {
     opacity: 0;
-    transform: scale(0.96) translateY(8px);
+    transform: translateY(28px);
   }
   to {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: none;
   }
 }
-
-@keyframes whyus-backdrop-in {
+@keyframes if-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes if-wipe {
   from {
-    background-color: rgba(255, 255, 255, 0);
-    backdrop-filter: blur(0);
-    -webkit-backdrop-filter: blur(0);
+    clip-path: inset(0 0 100% 0);
   }
   to {
-    background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    clip-path: inset(0);
+  }
+}
+/* `--c` registrada como color para que pueda transicionar: es lo que deja
+   que un cuadrado de la retícula del héroe vuelva del azul a la tinta. */
+@property --c {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #002dfd;
+}
+@keyframes if-morph {
+  0%,
+  12% {
+    transform: translate(var(--dx), var(--dy)) rotate(var(--r)) scale(0.55);
+    opacity: 0.3;
+    background-color: var(--color-neutral-400);
+  }
+  42%,
+  68% {
+    transform: none;
+    opacity: 1;
+    background-color: var(--c);
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) rotate(var(--r)) scale(0.55);
+    opacity: 0.3;
+    background-color: var(--color-neutral-400);
   }
 }
 
-/* Hide the scrollbar inside the modal but keep the area scrollable. */
+/* ---- texto largo (posts y páginas legales) ----
+   La `prose` de Tailwind trae su gris azulado, sus negritas a 600 y sus
+   esquinas redondeadas. Aquí se la lleva al sistema: tinta, reglas de 2 px,
+   titulares a 500 y fotografía en blanco y negro. */
+.prose {
+  --tw-prose-body: var(--color-muted);
+  --tw-prose-headings: var(--color-fg);
+  --tw-prose-lead: var(--color-muted);
+  --tw-prose-links: var(--color-accent);
+  --tw-prose-bold: var(--color-fg);
+  --tw-prose-counters: var(--color-faint);
+  --tw-prose-bullets: var(--color-accent);
+  --tw-prose-hr: var(--color-border);
+  --tw-prose-quotes: var(--color-fg);
+  --tw-prose-quote-borders: var(--color-fg);
+  --tw-prose-captions: var(--color-muted);
+  --tw-prose-code: var(--color-fg);
+  --tw-prose-pre-code: var(--color-bg);
+  --tw-prose-pre-bg: var(--color-fg);
+  --tw-prose-th-borders: var(--color-fg);
+  --tw-prose-td-borders: var(--color-border);
+  font-size: 16px;
+  line-height: 1.65;
+}
+.prose :where(h2, h3, h4):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.prose :where(h2):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+  font-size: clamp(24px, 2.4vw, 30px);
+  line-height: 1.15;
+  margin-top: 2.2em;
+  padding-top: 1.2em;
+  border-top: 2px solid var(--color-border);
+}
+.prose :where(a):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+  font-weight: 400;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.prose :where(a):not(:where([class~='not-prose'], [class~='not-prose'] *)):hover {
+  text-decoration-style: solid;
+}
+.prose :where(hr):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+  border-top-width: 2px;
+}
+.prose :where(blockquote):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+  border-inline-start-width: 2px;
+  font-style: normal;
+  font-weight: 500;
+}
+.prose :where(thead th, tbody td):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+  border-bottom-width: 2px;
+}
+.prose :where(img):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+  filter: grayscale(1);
+  border-radius: 0;
+}
+.prose :where(ul > li):not(:where([class~='not-prose'], [class~='not-prose'] *))::marker {
+  content: '■  ';
+  font-size: 0.5em;
+}
+
+/* Hide a scrollbar but keep the area scrollable. */
 .no-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 .no-scrollbar::-webkit-scrollbar {
   display: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  dialog[data-whyus-modal][open],
-  dialog[data-whyus-modal][open]::backdrop {
-    animation: none;
-  }
-}
-
-/* ---- Scroll route (Methodology) ----------------------------------------
-   A vertical numbered path instead of the card grid used everywhere else.
-   Everything is visible by default; `route-anim` is added on <html> by an
-   inline script only when IntersectionObserver exists, and that is what turns
-   the reveal on. So a visitor without JS reads the whole route as plain
-   content rather than a blank strip. */
-.route-anim [data-route-step] {
-  opacity: 0;
-  transform: translateY(1.5rem);
-  transition:
-    opacity 600ms ease,
-    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.route-anim [data-route-step].is-in {
-  opacity: 1;
-  transform: none;
-}
-
-/* The segment linking one marker to the next draws itself downwards, which is
-   what gives the section its sense of a route being travelled. */
-.route-anim [data-route-step] .route-line {
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 850ms cubic-bezier(0.22, 1, 0.36, 1) 150ms;
-}
-
-.route-anim [data-route-step].is-in .route-line {
-  transform: scaleY(1);
-}
-
-/* The rail counts with bars, not numbers. Each step adds one bar on top of the
-   ones the previous step already showed, so only that new bar draws itself,
-   left to right. The rest are static because they are carried over. */
-.route-anim [data-route-step] .route-bar-new {
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1) 120ms;
-}
-
-.route-anim [data-route-step].is-in .route-bar-new {
-  transform: scaleX(1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .route-anim [data-route-step],
-  .route-anim [data-route-step] .route-line,
-  .route-anim [data-route-step] .route-bar-new {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* ---- Cristalizacion de los puntos ---------------------------------------
-   Los puntos de los cruces no aparecen: llegan desde fuera, grandes y
-   difusos, y se posan en su sitio al tamano final. Es el gesto contrario a
-   una explosion.
-
-   El desplazamiento y la escala de partida vienen en `--dx`, `--dy` y `--cs`,
-   sorteados con semilla en el servidor, y `--cd` escalona la llegada para que
-   no se posen todos a la vez.
-
-   Se usa `transform` y no las utilidades de Tailwind a proposito: en v4 esas
-   escriben la propiedad `translate`, que es la que ya centra cada punto sobre
-   su linea. Al ser propiedades distintas, se componen en vez de pisarse.
-
-   Visible por defecto. `crystal-anim` lo enciende un script en linea solo si
-   el navegador tiene IntersectionObserver, asi que sin JavaScript los puntos
-   estan en su sitio desde el principio. */
-.crystal-anim [data-crystal] {
-  opacity: 0;
-  transform: translate(var(--dx), var(--dy)) scale(var(--cs));
-  transition:
-    opacity 600ms ease var(--cd),
-    transform 900ms cubic-bezier(0.16, 1, 0.3, 1) var(--cd);
-}
-
-.crystal-anim [data-crystal].is-in {
-  opacity: 1;
-  transform: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .crystal-anim [data-crystal] {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* ---- Marquee (auto-scrolling logo strip, right-to-left) ---- */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-.marquee-track {
-  width: max-content;
-  animation: marquee var(--marquee-duration, 40s) linear infinite;
-}
-
-.marquee-mask:hover .marquee-track {
-  animation-play-state: paused;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none; }
 }

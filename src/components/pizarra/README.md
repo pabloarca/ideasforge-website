@@ -1,18 +1,25 @@
 # Gráfico pizarra
 
-Gráficos que parecen hechos en una pizarra blanca magnética: alguien
-explicando en la pared con fichas de papel sujetas con imanes y un rotulador.
-Nacen el 2 oct 2026 para acompañar texto largo con algo más cercano que los
-diagramas técnicos de `../graficos/`. Conviven con ellos: aquellos son plano de
-ingeniero, estos son pizarra.
+Gráficos que parecen hechos en una pizarra: alguien explicando en la pared con
+fichas y un rotulador. Nacen el 2 oct 2026 para acompañar texto largo con algo
+más cercano que un diagrama técnico.
+
+**Aspecto desde el rediseño de octubre de 2026.** El sistema de diseño nuevo no
+admite degradados, sombras, radios ni adornos, así que la pizarra perdió el
+marco de aluminio, la bandeja de rotuladores, las sombras de papel y los
+imanes con brillo. Hoy es una figura plana enmarcada por la regla de 2 px, con
+fichas de borde recto y el cuadrado de 10 px donde iba el imán. Los gráficos
+no se redibujaron uno a uno: `Pizarra.astro` corrige desde fuera, con CSS, los
+radios, las sombras y los grises fríos que cada SVG lleva escritos en sus
+atributos. Ver su cabecera antes de añadir un color nuevo a un gráfico.
 
 ## Piezas
 
 | Archivo | Qué es |
 | --- | --- |
-| `Pizarra.astro` | El tablero: blanco, marco de aluminio y bandeja de rotuladores. Recibe dos SVG en los slots `ancho` (escritorio) y `estrecho` (móvil, por debajo de `lg`) |
-| `PizarraDefs.astro` | Sombra de papel y brillo de los imanes. Va dentro de cada SVG con un prefijo propio (`pre`) |
-| `Ficha.astro` | Una ficha de papel con imán: icono, título y una línea pequeña opcional. Vertical (icono arriba) u horizontal (icono a la izquierda, para listas y móvil). Puede ir algo torcida. El imán va arriba en el centro; `imanX` lo mueve a lo ancho |
+| `Pizarra.astro` | El tablero: una figura plana con la regla de 2 px, y las correcciones de aspecto para los SVG que contiene. Recibe dos SVG en los slots `ancho` (escritorio) y `estrecho` (móvil, por debajo de `lg`) |
+| `PizarraDefs.astro` | Sombra de papel y brillo de los imanes. Ya no se ven: las fichas no las usan y el tablero anula cualquier filtro. Se conserva porque cada SVG la sigue incluyendo |
+| `Ficha.astro` | Una ficha con su cuadrado de 10 px arriba (el antiguo imán): icono, título y una línea pequeña opcional. Vertical (icono arriba) u horizontal (icono a la izquierda, para listas y móvil). Puede ir algo torcida. El imán va arriba en el centro; `imanX` lo mueve a lo ancho |
 | `Nota.astro` | Texto escrito a rotulador sobre la pizarra, sin ficha: rótulos de fila y conclusiones. Admite varias líneas |
 | `Circulo.astro` | Un círculo a rotulador con velo de color, para conjuntos que se cruzan |
 | `PizarraPorNombre.astro` | Elige el gráfico por su nombre; es lo que llaman `LongFormPage` y `CuerpoDePost` |
@@ -66,13 +73,16 @@ IcebergPrompt e IcebergDemo son dos envoltorios de `PizarraIceberg`, que dibuja 
    **El rojo, solo para el fallo**, y en una ficha o una flecha por gráfico.
    **El gris, para lo que queda fuera**: lo comprado, lo que no se usa, lo
    que no decide.
-3. **Letra Inter**, servida desde el propio sitio. Títulos de ficha a 16-22 en
+3. **Letra Geist**, la única del sitio, servida desde el propio sitio. Hasta
+   octubre de 2026 era Inter, con un ancho de letra muy parecido. Títulos de ficha a 16-22 en
    escritorio y 14-18 en móvil. Las líneas pequeñas y los rótulos grises, a 13-15
    en escritorio y nunca por debajo de 12,5 en el móvil, que en pantalla queda
    en unos 11,5 px.
 4. **Fichas torcidas, pero poco**: entre -3° y 3°. Más parece descuido.
-5. **Imanes de colores para dar vida**, sin significado. El azul se reserva para
-   la ficha del modelo.
+5. **El imán es ahora un cuadrado de 10 px**, en tinta. Solo el `azul` se
+   pinta en acento, y se reserva para la ficha del modelo. Los demás nombres
+   de color (`rojo`, `amarillo`, `verde`, `negro`, `gris`) se aceptan y dan
+   todos tinta: el diseño tiene un solo acento.
 6. **Iconos de Material Symbols en línea, nunca la fuente de Google.** Cargarla
    desde Google Fonts mandaría la IP de cada visita a Google. Para añadir uno,
    ver la cabecera de `iconos.ts`.

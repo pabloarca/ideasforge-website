@@ -1,8 +1,6 @@
 ---
 import { type Lang, content } from '../i18n/ui';
 import { localizedPath } from '../i18n/utils';
-import Icon from './Icon.astro';
-import type { IconName } from '../lib/icons';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import { medidas } from '../lib/imagen';
 
@@ -16,200 +14,213 @@ const t = content[lang];
 const home = localizedPath('/', lang);
 
 /*
-  Prueba del set «Astilla» (.private/icons/iconos-ideasforge.md) en la
-  navegacion. No son otras metaforas: son los iconos que ya habia (grid,
-  spark, file, user) redibujados con la construccion del set. El de usuario
-  no hizo falta dibujarlo, `autor` ya era exactamente eso.
+  Cabecera del diseño de octubre de 2026: logotipo, cinco enlaces de texto, el
+  cambio de idioma y el CTA. Sin iconos y sin píldoras: el estado se dice con
+  el color.
 
-  Tamano 20 y no 16: `rejilla` y `destello` llevan `minSize: 20` y por debajo
-  pierden los cortes. 20 es tamano canonico, asi que no rompe la rejilla.
+  Cuatro de los cinco enlaces son anclas de la portada (soluciones, casos,
+  método y recursos), así que desde una página interior llevan a la portada y
+  bajan a su sección.
 
-  Los desplegables salen de `t.footer.navGroups` (decision del 28 ago 2026):
-  «Servicios» contiene servicios y nada mas, y lo que no lo es vive bajo
-  «Guias». El grupo marcado `soloPie` no sube aqui: son los verticales, que
-  hablan al publico secundario del arbitro (§4) y no al primario. Siguen en
-  el pie, a un clic de cualquier pagina.
-
-  «Servicios» lleva destino propio, la seccion de servicios de la home;
-  «Guias» abre el panel y no va a ninguna parte, asi que se pinta como
-  <button> y no como enlace muerto.
+  Dos de ellos conservan además su desplegable, que el diseño no dibuja y que
+  aquí se mantiene a propósito: «Soluciones» y «Guías» son la única entrada
+  directa desde la cabecera a las ocho páginas que más cuentan del sitio. Los
+  grupos salen de `t.footer.navGroups`, la misma lista que pinta el pie, y el
+  marcado `soloPie` (los verticales) sigue sin subir aquí.
 */
-type Enlace = { label: string; href: string; icon: IconName };
-type Grupo = { heading: string; href?: string; icon: IconName; links: Enlace[] };
+type Enlace = { label: string; href: string };
+type Entrada = { label: string; href: string; links?: Enlace[] };
 
-const grupos: Grupo[] = t.footer.navGroups
-  .filter((g) => !g.soloPie)
-  .map((g, i) => ({
-    heading: g.heading,
-    href: i === 0 ? localizedPath('/#servicios', lang) : undefined,
-    icon: (['rejilla', 'guia'] as IconName[])[i] ?? 'rejilla',
-    links: g.links as Enlace[],
-  }));
+const grupos = t.footer.navGroups.filter((g) => !g.soloPie);
 
-// Enlaces sueltos, tras los desplegables. «Proyectos» salio del menu el 28
-// ago 2026 por decision del propietario: era un ancla a una seccion de la
-// home, no una pagina.
-const sueltos: Array<{ label: string; href: string; icon: IconName }> = [
-  { label: t.nav.blog, href: localizedPath('/blog', lang), icon: 'documento' },
-  { label: t.nav.contact, href: localizedPath('/#contacto', lang), icon: 'autor' },
+const entradas: Entrada[] = [
+  { label: t.nav.solutions, href: localizedPath('/#soluciones', lang), links: grupos[0]?.links },
+  { label: t.nav.cases, href: localizedPath('/#casos', lang) },
+  { label: t.nav.method, href: localizedPath('/#metodo', lang) },
+  { label: t.nav.guides, href: localizedPath('/#recursos', lang), links: grupos[1]?.links },
+  { label: t.nav.blog, href: localizedPath('/blog', lang) },
 ];
-
-const claseRaiz =
-  'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-[15px] font-medium text-fg transition-colors hover:bg-bg-soft';
+const contacto = localizedPath('/#contacto', lang);
 ---
 
-<header class="sticky top-0 z-40 border-b border-border-soft bg-bg/95 backdrop-blur-md">
-  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
-    <!-- Logo: real wordmark SVG from the original site -->
-    <a href={home} class="flex items-center text-fg" aria-label="Ideasforge">
+<header class="site-nav sticky top-0 z-40 border-b-2 border-border">
+  <div class="wrap flex h-[72px] items-center gap-[clamp(16px,2.5vw,36px)]">
+    <a href={home} class="mr-auto block shrink-0" aria-label="Ideasforge">
       <img
         src="/ideasforge-logo.svg"
         alt="Ideasforge"
         {...medidas('/ideasforge-logo.svg')}
-        class="h-7 w-auto sm:h-8"
+        class="h-5 w-auto"
       />
     </a>
 
-    <!-- Desktop nav (centered), hover paints a soft gray pill, text stays black -->
-    <nav class="hidden flex-1 items-center justify-center gap-0.5 md:flex" aria-label="Principal">
+    <nav class="hidden items-center gap-[clamp(16px,2.5vw,36px)] lg:flex" aria-label={t.nav.menu}>
       {
-        grupos.map((g) => (
-          <div class="group relative">
-            {g.href ? (
-              <a href={g.href} class={claseRaiz}>
-                <Icon name={g.icon} size={20} />
-                <span>{g.heading}</span>
-                <Icon
-                  name="chevron-abajo"
-                  size={16}
-                  class="text-muted transition-transform duration-200 group-hover:rotate-180"
-                />
+        entradas.map((e) =>
+          e.links ? (
+            <div class="group" data-menu-grupo>
+              <a
+                href={e.href}
+                class="nav-link flex h-[72px] items-center"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-menu-raiz
+              >
+                {e.label}
               </a>
-            ) : (
-              <button type="button" class={claseRaiz} aria-haspopup="true" aria-expanded="false" data-menu-raiz>
-                <Icon name={g.icon} size={20} />
-                <span>{g.heading}</span>
-                <Icon
-                  name="chevron-abajo"
-                  size={16}
-                  class="text-muted transition-transform duration-200 group-hover:rotate-180"
-                />
-              </button>
-            )}
-            <div class="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-2 opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-              <div class="panel-float w-72 p-2">
-                {g.links.map((s) => (
-                  <a
-                    href={s.href}
-                    class="block rounded-md px-3 py-2.5 text-sm font-medium text-fg transition-colors hover:bg-bg-soft hover:text-accent"
-                  >
-                    {s.label}
-                  </a>
-                ))}
+              {/* El panel cuelga de la regla de la cabecera: se ancla a la
+                  barra, no al enlace, y su borde superior cae justo encima de
+                  esa regla. Por eso el grupo no es `relative` y el enlace
+                  ocupa toda la altura de la barra: entre el enlace y el panel
+                  no queda ningún hueco donde el ratón pierda el menú. */}
+              <div class="invisible absolute top-full z-50 opacity-0 transition-opacity duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                <div class="panel-float -ml-[22px] w-72 py-2">
+                  {e.links.map((s) => (
+                    <a href={s.href} class="block px-5 py-2.5 text-sm transition-colors hover:text-accent">
+                      {s.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        ))
-      }
-      {
-        sueltos.map((l) => (
-          <a href={l.href} class={claseRaiz}>
-            <Icon name={l.icon} size={20} />
-            <span>{l.label}</span>
-          </a>
-        ))
+          ) : (
+            <a href={e.href} class="nav-link">
+              {e.label}
+            </a>
+          )
+        )
       }
     </nav>
 
-    <div class="hidden items-center md:flex">
-      <LanguageSwitcher lang={lang} alternates={alternates} />
-    </div>
+    <LanguageSwitcher lang={lang} alternates={alternates} />
 
-    <!-- Mobile: el idioma vive en la barra, no dentro del desplegable.
-         Estaba al final del panel, y el panel es `absolute` dentro de un
-         `header` `sticky`: baja con la cabecera, asi que el scroll de pagina
-         nunca revelaba su parte inferior y el selector quedaba inalcanzable.
-         Cambiar de idioma es una accion global, no el ultimo renglon de una
-         lista de dieciseis. -->
-    <div class="flex items-center gap-2 md:hidden">
-      <LanguageSwitcher
-        lang={lang}
-        alternates={alternates}
-        class="h-10 w-10 justify-center rounded-md border border-border-soft"
-      />
-      <details class="group relative">
-        <summary
-          class="grid h-10 w-10 cursor-pointer list-none place-items-center rounded-md border border-border-soft text-fg [&::-webkit-details-marker]:hidden"
-          aria-label="Menú"
-        >
-          {/* El set trae `cerrar` para el estado abierto, pero <details> no da
-              forma de cambiar el contenido del <summary> sin JavaScript. */}
-          <Icon name="menu" size={20} />
-        </summary>
-        <div class="panel-float absolute right-0 mt-2 max-h-[calc(100dvh-6rem)] w-72 overflow-y-auto p-2">
-          {
-            sueltos.map((l) => (
-              <a
-                href={l.href}
-                class="block rounded-md px-3 py-2.5 text-sm font-medium text-fg transition-colors hover:bg-bg-soft hover:text-accent"
-              >
-                {l.label}
-              </a>
-            ))
-          }
-          {
-            grupos.map((g) => (
-              <Fragment>
-                <p class="mt-2 border-t border-border-soft px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-[0.12em] text-faint">
-                  {g.heading}
-                </p>
-                {g.links.map((s) => (
-                  <a
-                    href={s.href}
-                    class="block rounded-md px-3 py-2 text-sm text-fg transition-colors hover:bg-bg-soft hover:text-accent"
-                  >
-                    {s.label}
+    <a href={contacto} class="btn-primary hover:btn-primary-hover hidden py-2! sm:inline-flex">
+      {t.nav.cta}
+    </a>
+
+    <!-- Móvil y tableta: los enlaces bajan a un panel a todo el ancho. El
+         idioma se queda en la barra porque cambiarlo es una acción global, no
+         el último renglón de una lista. -->
+    <details class="nav-movil lg:hidden">
+      <summary
+        class="grid h-11 w-11 cursor-pointer list-none place-items-center border-2 border-border [&::-webkit-details-marker]:hidden"
+        aria-label={t.nav.menu}
+      >
+        <span class="nav-barras" aria-hidden="true"><i></i><i></i></span>
+      </summary>
+      <div
+        class="absolute inset-x-0 top-full max-h-[calc(100dvh-74px)] overflow-y-auto border-b-2 border-border bg-bg"
+      >
+        <div class="wrap py-6">
+          <ul class="border-t-2 border-border">
+            {
+              entradas.map((e) => (
+                <li class="border-b-2 border-border">
+                  <a href={e.href} class="block py-4 text-[22px] leading-tight tracking-[-0.02em] hover:text-accent">
+                    {e.label}
                   </a>
-                ))}
-              </Fragment>
-            ))
-          }
+                  {e.links && (
+                    <ul class="pb-4">
+                      {e.links.map((s) => (
+                        <li>
+                          <a href={s.href} class="block py-1.5 text-sm text-muted hover:text-accent">
+                            {s.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))
+            }
+          </ul>
+          <a href={contacto} class="btn-primary hover:btn-primary-hover mt-6 sm:hidden">
+            {t.nav.cta}
+          </a>
         </div>
-      </details>
-    </div>
+      </div>
+    </details>
   </div>
 </header>
 
+<style>
+  /* Fondo al 88 % con desenfoque: el contenido se adivina al pasar por debajo
+     sin restarle lectura a la barra. */
+  .site-nav {
+    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .nav-link {
+    font-size: 14px;
+    transition: color 200ms;
+  }
+  .nav-link:hover,
+  .nav-link[aria-expanded='true'] {
+    color: var(--color-accent);
+  }
+
+  /* Hamburguesa de dos barras que se cruzan al abrir. Son dos trazos de 2 px,
+     el mismo grosor que todas las reglas del sitio. */
+  .nav-barras {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 10px;
+  }
+  .nav-barras i {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: currentColor;
+    transition:
+      transform 250ms var(--ease-in-out),
+      top 250ms var(--ease-in-out);
+  }
+  .nav-barras i:first-child {
+    top: 0;
+  }
+  .nav-barras i:last-child {
+    top: 8px;
+  }
+  .nav-movil[open] .nav-barras i:first-child {
+    top: 4px;
+    transform: rotate(45deg);
+  }
+  .nav-movil[open] .nav-barras i:last-child {
+    top: 4px;
+    transform: rotate(-45deg);
+  }
+</style>
+
 <script is:inline>
   /*
-    El desplegable del menú lo abre el CSS, con `group-hover` y
-    `group-focus-within`. Funciona con ratón y funciona con teclado, porque al
-    tabular dentro del grupo el panel aparece. Lo que faltaba era CONTARLO: el
-    botón decía `aria-haspopup` y nunca decía si estaba abierto, así que un
-    lector de pantalla anunciaba un menú y no sabía en qué estado. Y pulsarlo
-    no hacía nada, que en un `<button>` es peor todavía.
+    El desplegable lo abre el CSS, con `group-hover` y `group-focus-within`.
+    Funciona con ratón y con teclado. Este script solo CUENTA lo que ya pasa:
+    sincroniza `aria-expanded` para que un lector de pantalla sepa en qué
+    estado está el menú. Si no llega a ejecutarse, el menú se abre igual.
 
-    Esto no reimplementa la apertura: sigue mandándola el CSS. Solo sincroniza
-    el atributo con lo que ya ocurre, y añade el clic para quien espera que un
-    botón responda al pulsarlo. Dieciséis líneas, sin dependencias y sin tocar
-    el estilo: si este script no llega a ejecutarse, el menú se abre igual.
+    Y cierra el panel móvil al pulsar un enlace: casi todos son anclas de la
+    propia portada, y sin esto el panel seguiría abierto tapando la sección a
+    la que se acaba de saltar.
   */
-  document.querySelectorAll("[data-menu-raiz]").forEach(function (boton) {
-    var grupo = boton.parentElement;
-    if (!grupo) return;
+  document.querySelectorAll('[data-menu-grupo]').forEach(function (grupo) {
+    var raiz = grupo.querySelector('[data-menu-raiz]');
+    if (!raiz) return;
     var marca = function (abierto) {
-      boton.setAttribute("aria-expanded", abierto ? "true" : "false");
+      raiz.setAttribute('aria-expanded', abierto ? 'true' : 'false');
     };
-    grupo.addEventListener("mouseenter", function () { marca(true); });
-    grupo.addEventListener("mouseleave", function () { marca(false); });
-    grupo.addEventListener("focusin", function () { marca(true); });
-    grupo.addEventListener("focusout", function (ev) {
+    grupo.addEventListener('mouseenter', function () { marca(true); });
+    grupo.addEventListener('mouseleave', function () { marca(false); });
+    grupo.addEventListener('focusin', function () { marca(true); });
+    grupo.addEventListener('focusout', function (ev) {
       if (!grupo.contains(ev.relatedTarget)) marca(false);
     });
-    boton.addEventListener("click", function () {
-      var abierto = boton.getAttribute("aria-expanded") === "true";
-      if (abierto) boton.blur();
-      else { var primero = grupo.querySelector("a[href]"); if (primero) primero.focus(); }
+  });
+  document.querySelectorAll('.nav-movil').forEach(function (panel) {
+    panel.addEventListener('click', function (ev) {
+      if (ev.target.closest('a')) panel.removeAttribute('open');
     });
   });
 </script>
