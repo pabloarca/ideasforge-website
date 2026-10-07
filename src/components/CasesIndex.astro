@@ -14,6 +14,9 @@
   pegado abajo. Aquí llevan además la cifra del caso, que el carrusel enseña.
 
   Cierra con el formulario de contacto de la portada, tal cual.
+
+  Se declara como `CollectionPage` con un `ItemList` de los casos, y en la
+  miga de pan se llama «Casos», no la frase que lleva de título.
 */
 import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -30,9 +33,32 @@ const t = content[lang].home.cases;
 
 const titulo = `${t.title.replace(/\.$/, '')}, Ideasforge`;
 const descripcion = t.lead.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? t.lead;
+
+/* La lista, declarada: un `ItemList` con los mismos casos y en el mismo orden
+   que las fichas. Sale de `t.items`, así que no puede enumerar un caso que la
+   página no enseñe. */
+const site = Astro.site ?? new URL('https://ideasforge.io');
+const lista = {
+  '@type': 'ItemList',
+  numberOfItems: t.items.length,
+  itemListElement: t.items.map((k, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: `${k.client}: ${k.title}`,
+    url: new URL(k.href, site).href,
+  })),
+};
 ---
 
-<BaseLayout lang={lang} title={titulo} description={descripcion} alternates={altsFor('cases')}>
+<BaseLayout
+  lang={lang}
+  title={titulo}
+  description={descripcion}
+  alternates={altsFor('cases')}
+  pageType="CollectionPage"
+  mainEntity={lista}
+  breadcrumbName={content[lang].nav.cases}
+>
   <div class="wrap">
     <section class="pt-[clamp(56px,7vw,96px)]">
       <h1 class="t-display casos-in max-w-[20ch]" style="--d:.08s">{t.title}</h1>

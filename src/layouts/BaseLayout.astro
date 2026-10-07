@@ -50,6 +50,24 @@ interface Props {
    * `follow` se conserva para que los enlaces que lleva sigan contando.
    */
   noindex?: boolean;
+  /**
+   * Tipo con que se declara la página en su dato estructurado. Por defecto
+   * `WebPage`. Un listado es `CollectionPage` y la de contacto,
+   * `ContactPage`: los dos son subtipos, así que dicen lo mismo y algo más.
+   */
+  pageType?: 'WebPage' | 'CollectionPage' | 'ContactPage';
+  /**
+   * Lo que la página enumera, para un listado: un `ItemList` con sus
+   * elementos. Entra tal cual como `mainEntity` del dato de arriba.
+   */
+  mainEntity?: Record<string, unknown>;
+  /**
+   * Nombre del último tramo de la miga de pan, visible y estructurada. Por
+   * defecto es el título de pestaña sin la marca. Lo pasa una página cuyo
+   * título describe y no nombra: el índice de casos se titula con una frase,
+   * pero en la miga es «Casos».
+   */
+  breadcrumbName?: string;
 }
 
 const {
@@ -63,6 +81,9 @@ const {
   image,
   imageAlt,
   noindex = false,
+  pageType = 'WebPage',
+  mainEntity,
+  breadcrumbName,
 } = Astro.props;
 
 const site = Astro.site ?? new URL('https://ideasforge.io');
@@ -165,7 +186,7 @@ const migas = segmentos.length
   ? [
       { name: nav.home, href: inicio },
       ...(segmentos.length > 1 && ramas[segmentos[0]] ? [ramas[segmentos[0]]] : []),
-      { name: title.replace(/, Ideasforge$/, ''), href: canonicalPath },
+      { name: breadcrumbName ?? title.replace(/, Ideasforge$/, ''), href: canonicalPath },
     ]
   : [];
 const breadcrumbJsonLd = migas.length
@@ -279,13 +300,14 @@ const webpageJsonLd =
     ? null
     : JSON.stringify({
         '@context': 'https://schema.org',
-        '@type': 'WebPage',
+        '@type': pageType,
         name: title.replace(/, Ideasforge$/, ''),
         description,
         url: canonical,
         inLanguage: lang === 'es' ? 'es-ES' : 'en-US',
         isPartOf: { '@id': websiteId },
         primaryImageOfPage: ogImage,
+        ...(mainEntity ? { mainEntity } : {}),
       }).replace(/</g, '\\u003c');
 
 // hreflang entries. x-default points at the default (Spanish) version.

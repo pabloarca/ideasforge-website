@@ -21,6 +21,9 @@
   Las páginas de solución reutilizan el bloque con su propio titular, su
   párrafo y su botón (`texto`). El campo del mensaje y su ayuda son los de la
   portada, que es lo que dibuja su diseño.
+
+  La página de contacto es este mismo bloque con `principal`, que lo pinta
+  como cabeza de página.
 */
 import { type Lang, content } from '../../i18n/ui';
 import { routeMap } from '../../i18n/utils';
@@ -30,8 +33,12 @@ interface Props {
   lang: Lang;
   /** Sustituye el rótulo, el titular, el párrafo y el botón de la portada. */
   texto?: { kicker: string; title: string; body: string; submit: string };
+  /** El bloque es la página entera, no su cierre: el titular pasa a h1 y
+   *  desaparecen la regla negra y el aire de sección de encima. Lo usa la
+   *  página de contacto. */
+  principal?: boolean;
 }
-const { lang, texto } = Astro.props;
+const { lang, texto, principal = false } = Astro.props;
 const t = content[lang].home.contact;
 const c = content[lang].contact;
 const privacyHref = routeMap.privacy[lang];
@@ -39,8 +46,8 @@ const startHref = routeMap.start[lang];
 const rutaGracias = RUTA_GRACIAS[lang];
 ---
 
-<section id="contacto" class="wrap section-y">
-  <div class="contacto border-t-2 border-fg pt-12">
+<section id="contacto" class:list={['wrap', principal ? 'pt-[clamp(56px,7vw,96px)]' : 'section-y']}>
+  <div class:list={['contacto', !principal && 'border-t-2 border-fg pt-12']}>
     <div>
       <span class="kicker mb-6">{texto?.kicker ?? t.kicker}</span>
       {
@@ -51,7 +58,11 @@ const rutaGracias = RUTA_GRACIAS[lang];
           </>
         ) : (
           <>
-            <h2 class="text-[clamp(36px,4.6vw,68px)] leading-none tracking-[-0.035em]">{t.title}</h2>
+            {principal ? (
+              <h1 class="t-display">{t.title}</h1>
+            ) : (
+              <h2 class="text-[clamp(36px,4.6vw,68px)] leading-none tracking-[-0.035em]">{t.title}</h2>
+            )}
             <p class="mt-7 max-w-[44ch] text-[17px] leading-[1.6] text-muted">{t.p1}</p>
             <p class="mt-4 max-w-[44ch] text-[15px] leading-[1.6] text-muted">{t.p2}</p>
           </>

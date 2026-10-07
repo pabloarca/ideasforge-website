@@ -29,7 +29,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import FaqList from './FaqList.astro';
 import ContactForm from './home/ContactForm.astro';
 import { type Lang, type SolutionKey, content } from '../i18n/ui';
-import { altsFor } from '../i18n/utils';
+import { altsFor, routeMap } from '../i18n/utils';
 import { foto } from '../lib/fotos';
 
 interface Props {
@@ -87,7 +87,7 @@ const nodos = Array.from({ length: NODOS }, (_, i) => {
           <span class="text-accent">{d.statement[1]}</span>
         </p>
         <div class="sol-in mt-9 flex flex-wrap items-center gap-5" style="--d:.24s">
-          <a href="#contacto" class="btn-primary hover:btn-primary-hover">{d.cta}</a>
+          <a href={routeMap.contact[lang]} class="btn-primary hover:btn-primary-hover">{d.cta}</a>
           <a href="#casos" class="link-quiet">{l.seeCases}</a>
         </div>
       </div>

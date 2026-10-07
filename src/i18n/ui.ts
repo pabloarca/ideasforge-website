@@ -927,6 +927,13 @@ export interface SiteContent {
      *  enlace, para no publicar un 404. Al crear la página, se le pone. */
     resources: string;
     resourceLinks: { label: string; href?: string }[];
+    /** «Sectores»: el enlace de la cabecera con su desplegable y la columna
+     *  del pie, los dos desde esta lista (7 oct 2026). Sube a la cabecera lo
+     *  que el 28 ago 2026 se dejó solo en el pie, por decisión del
+     *  propietario. Cada entrada es el nombre del sector, sin «IA para». Los
+     *  nombres españoles, con sus mayúsculas, los fijó el propietario. */
+    sectors: string;
+    sectorLinks: { label: string; href: string }[];
     /** El botón de la cabecera. */
     cta: string;
     /** Nombre accesible del menú desplegable en móvil. */
@@ -1145,6 +1152,12 @@ export interface SiteContent {
      * bloques de arriba, que en español ya no pinta ninguna página.
      */
     solutions?: SolutionsContent;
+    /**
+     * Páginas de sector que existen pero están vacías: solo llevan titular.
+     * Las pinta `SectorStub.astro`. La clave es la del `routeMap`. Solo
+     * español. Una página sale de aquí el día que tiene contenido.
+     */
+    sectorStubs?: Record<string, { title: string }>;
     /** Cost guide. Existe en los dos idiomas desde el 21 ago 2026. */
     cost?: LongFormPageContent;
     /**
@@ -1359,6 +1372,16 @@ export const content: Record<Lang, SiteContent> = {
       cases: 'Casos',
       method: 'Método',
       guides: 'Guías',
+      sectors: 'Sectores',
+      sectorLinks: [
+        { label: 'Real Estate e Inmobiliario', href: '/inmobiliarias' },
+        { label: 'Gestorías y Asesorías', href: '/gestorias' },
+        { label: 'Industria y Manufactura', href: '/industria' },
+        { label: 'Salud y Grupos Sanitarios', href: '/salud' },
+        { label: 'Logística y Transporte', href: '/logistica' },
+        { label: 'Energía y Utilities', href: '/energia-y-utilities' },
+        { label: 'Ecommerce y Retail', href: '/ecommerce' },
+      ],
       resources: 'Recursos',
       resourceLinks: [
         { label: 'Blog', href: '/blog' },
@@ -3138,15 +3161,9 @@ export const content: Record<Lang, SiteContent> = {
             { label: 'Consultoría de IA', href: '/servicios/consultoria-de-ia' },
           ],
         },
-        {
-          heading: 'Sectores',
-          soloPie: true,
-          links: [
-            { label: 'IA para pymes', href: '/pymes' },
-            { label: 'IA para inmobiliarias', href: '/inmobiliarias' },
-            { label: 'IA para gestorías', href: '/gestorias' },
-          ],
-        },
+        /* «Sectores» ya no vive en esta lista (7 oct 2026). La cabecera y el
+           pie lo pintan desde `nav.sectorLinks`, con el nombre del sector a
+           secas («Pymes», no «IA para pymes»). */
         /* «Casos» SALIÓ DEL MENÚ el 1 sep 2026, por decisión del propietario:
            «no lo quiero, solo se accede a los casos desde el carrusel». Vale
            para la cabecera y para el pie, que salen los dos de esta misma
@@ -3157,10 +3174,13 @@ export const content: Record<Lang, SiteContent> = {
         {
           heading: 'Guías',
           links: [
-            { label: 'Guía: agentes de IA', href: '/agentes-de-ia' },
+            { label: 'Qué es un agente de IA', href: '/agentes-de-ia' },
             { label: 'Cuánto cuesta un agente de IA', href: '/cuanto-cuesta-un-agente-de-ia' },
             { label: 'IA y RGPD', href: '/ia-y-rgpd' },
             { label: 'Reglamento europeo de IA', href: '/reglamento-europeo-de-ia' },
+            /* Pymes pasó aquí desde «Sectores» el 7 oct 2026, por decisión del
+               propietario, con este nombre. */
+            { label: 'IA para Pymes', href: '/pymes' },
           ],
         },
       ],
@@ -4100,6 +4120,13 @@ export const content: Record<Lang, SiteContent> = {
         es la primera frase de su entradilla, recortada en automatización y en
         documentación para caber en los 165 caracteres que admite `check-seo`.
       */
+      sectorStubs: {
+        sectorIndustry: { title: 'IA para industria' },
+        sectorHealth: { title: 'IA para salud' },
+        sectorLogistics: { title: 'IA para logística' },
+        sectorEnergy: { title: 'IA para energía y utilities' },
+        sectorEcommerce: { title: 'IA para ecommerce' },
+      },
       solutions: {
         labels: {
           seeCases: 'Ver casos reales',
@@ -7581,6 +7608,11 @@ export const content: Record<Lang, SiteContent> = {
       cases: 'Cases',
       method: 'Method',
       guides: 'Guides',
+      sectors: 'Sectors',
+      sectorLinks: [
+        { label: 'Real estate', href: '/en/real-estate' },
+        { label: 'Accounting firms', href: '/en/accounting-firms' },
+      ],
       resources: 'Resources',
       resourceLinks: [
         { label: 'Blog', href: '/en/blog' },
@@ -9334,15 +9366,7 @@ export const content: Record<Lang, SiteContent> = {
             { label: 'Internal documentation', href: '/en/services/corporate-knowledge' },
           ],
         },
-        {
-          heading: 'Sectors',
-          soloPie: true,
-          links: [
-            { label: 'AI for small business', href: '/en/smb' },
-            { label: 'AI for real estate', href: '/en/real-estate' },
-            { label: 'AI for accounting firms', href: '/en/accounting-firms' },
-          ],
-        },
+        /* «Sectors» sale de `nav.sectorLinks`, igual que en español. */
         /* «Cases» SALIÓ DEL MENÚ el 1 sep 2026, por decisión del propietario:
            «no lo quiero, solo se accede a los casos desde el carrusel». Vale
            para la cabecera y para el pie, que salen los dos de esta misma
@@ -9353,10 +9377,11 @@ export const content: Record<Lang, SiteContent> = {
         {
           heading: 'Guides',
           links: [
-            { label: 'Guide: AI agents', href: '/en/ai-agents' },
+            { label: 'What an AI agent is', href: '/en/ai-agents' },
             { label: 'What an AI agent costs', href: '/en/ai-agent-development-cost' },
             { label: 'GDPR-compliant AI', href: '/en/gdpr-compliant-ai' },
             { label: 'EU AI Act', href: '/en/eu-ai-act-compliance' },
+            { label: 'AI for small business', href: '/en/smb' },
           ],
         },
       ],

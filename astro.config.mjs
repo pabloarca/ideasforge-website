@@ -150,7 +150,12 @@ export default defineConfig({
         cabecera: un sitemap que anuncia una URL que la página pide no indexar
         es una contradicción que el buscador registra como tal.
       */
-      filter: (url) => !/\/(gracias|thank-you)$/.test(new URL(url).pathname.replace(/\/+$/, '')),
+      // Entran también las cinco páginas de sector creadas vacías el 7 oct
+      // 2026, que van `noindex`. Cada una sale de aquí al tener contenido.
+      filter: (url) =>
+        !/\/(gracias|thank-you|industria|salud|logistica|energia-y-utilities|ecommerce)$/.test(
+          new URL(url).pathname.replace(/\/+$/, '')
+        ),
       /*
         `lastmod` SOLO donde la fecha es de verdad, que hoy es el blog.
 

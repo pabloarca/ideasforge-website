@@ -1,0 +1,44 @@
+---
+/*
+  Página de sector todavía VACÍA: solo su titular.
+
+  Existe para que el submenú «Sectores» de la cabecera y la columna del pie
+  tengan destino mientras llega el contenido. Las cinco creadas el 7 oct 2026
+  (industria, salud, logística, energía y utilities, y ecommerce) salen de
+  aquí. El titular se lee de `pages.sectorStubs` en ui.ts.
+
+  Mientras esté vacía va `noindex` y fuera del sitemap (`astro.config.mjs`).
+  Cuando una tenga contenido, deja de usar este componente, sale de
+  `sectorStubs` y del filtro del sitemap, y gana su espejo inglés.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { type Lang, content } from '../i18n/ui';
+import { altsFor } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  /** Clave del sector en `pages.sectorStubs`, que es también la del `routeMap`. */
+  clave: string;
+}
+const { lang, clave } = Astro.props;
+const sector = content[lang].pages.sectorStubs?.[clave];
+if (!sector) throw new Error(`No hay página de sector «${clave}» en «${lang}».`);
+
+/* El titular seguido de la primera frase de la descripción general del sitio.
+   `check-seo` pide entre 70 y 165 caracteres y que no se repita entre páginas,
+   y todavía no hay nada propio que describir. */
+const general = content[lang].meta.homeDescription;
+const descripcion = `${sector.title}. ${general.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? general}`;
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${sector.title}, Ideasforge`}
+  description={descripcion}
+  alternates={altsFor(clave)}
+  noindex
+>
+  <section class="wrap section-y">
+    <h1 class="t-display max-w-[20ch]">{sector.title}</h1>
+  </section>
+</BaseLayout>

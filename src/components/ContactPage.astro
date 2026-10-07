@@ -1,0 +1,33 @@
+---
+/*
+  Página de contacto. Es el destino del botón de la cabecera, del botón del
+  héroe de la portada y de todos los «Cuéntanos…» del sitio, que hasta el
+  7 oct 2026 bajaban al formulario del final de la portada.
+
+  No tiene texto propio: pinta el `ContactForm` de la portada con su titular
+  como h1. El título de pestaña es el rótulo «Contacto» de la navegación y la
+  descripción, la primera frase del primer párrafo del formulario. Se declara
+  como `ContactPage` en su dato estructurado.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from './home/ContactForm.astro';
+import { type Lang, content } from '../i18n/ui';
+import { altsFor } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang];
+const descripcion = t.home.contact.p1.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? t.home.contact.p1;
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${t.nav.contact}, Ideasforge`}
+  description={descripcion}
+  alternates={altsFor('contact')}
+  pageType="ContactPage"
+>
+  <ContactForm lang={lang} principal />
+</BaseLayout>

@@ -37,6 +37,8 @@ export function localizedPath(path: string, lang: Lang): string {
 export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   home:        { es: '/',                              en: '/en' },
   blog:        { es: '/blog',                          en: '/en/blog' },
+  // Página de contacto (7 oct 2026): destino de los botones «Cuéntanos…».
+  contact:     { es: '/contacto',                      en: '/en/contact' },
   start:       { es: '/empezar',                       en: '/en/get-started' },
   /* EN LA NEVERA (31 ago 2026, decisión del propietario). La entrada se
      conserva porque el contenido sigue entero en `pages.about` de ui.ts y
@@ -94,6 +96,13 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   caseWazzy: { es: '/casos/wazzy',         en: '/en/cases/wazzy' },
   realEstate:  { es: '/inmobiliarias',                 en: '/en/real-estate' },
   accounting:  { es: '/gestorias',                     en: '/en/accounting-firms' },
+  // Sectores creados vacíos el 7 oct 2026. Solo en español hasta que tengan
+  // contenido: las pinta `SectorStub.astro`.
+  sectorIndustry:  { es: '/industria' },
+  sectorHealth:    { es: '/salud' },
+  sectorLogistics: { es: '/logistica' },
+  sectorEnergy:    { es: '/energia-y-utilities' },
+  sectorEcommerce: { es: '/ecommerce' },
 };
 
 /**

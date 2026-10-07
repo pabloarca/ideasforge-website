@@ -24,7 +24,7 @@ import ClusterPosts from './ClusterPosts.astro';
 import FaqList from './FaqList.astro';
 import { pillarFromUrl } from '../lib/cluster';
 import PizarraPorNombre from './pizarra/PizarraPorNombre.astro';
-import { localizedPath } from '../i18n/utils';
+import { localizedPath, routeMap } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -32,7 +32,10 @@ interface Props {
   alternates: Partial<Record<Lang, string>>;
 }
 const { lang, page, alternates } = Astro.props;
-const heroCta = page.hero.ctaHref ?? localizedPath('/#contacto', lang);
+/* Los botones de contacto llevan a la página de contacto desde el 7 oct 2026.
+   Antes bajaban al formulario del final de la portada. */
+const contacto = routeMap.contact[lang] ?? localizedPath('/#contacto', lang);
+const heroCta = page.hero.ctaHref ?? contacto;
 const hasFaq = Boolean(page.faq && page.faq.length > 0);
 
 /* Ancla estable para cada sección: la suya si la declara, y si no una salida
@@ -379,7 +382,7 @@ const varios = (t: string | string[]) => (Array.isArray(t) ? t : [t]);
           {varios(page.cta.body).map((p) => <p>{p}</p>)}
         </div>
         <div class="mt-8">
-          <a href={localizedPath('/#contacto', lang)} class="btn-primary hover:btn-primary-hover">
+          <a href={contacto} class="btn-primary hover:btn-primary-hover">
             {page.cta.button}
           </a>
         </div>

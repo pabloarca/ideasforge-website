@@ -16,10 +16,11 @@ const year = new Date().getFullYear();
   Pie del diseño de octubre de 2026: cuatro columnas de enlaces a 13 px y una
   fila de cierre con el logotipo y el copyright.
 
-  Las tres primeras columnas son los grupos de navegación, los mismos que
-  alimentan los desplegables de la cabecera (soluciones, sectores y guías).
-  La cuarta, «Empresa», reúne lo que antes iba repartido entre el menú suelto,
-  el bloque legal y el icono de LinkedIn.
+  Las tres primeras columnas son las mismas listas que alimentan los
+  desplegables de la cabecera: soluciones, sectores y guías. «Sectores» sale
+  de `nav.sectorLinks` y va entre las otras dos, con el nombre del sector a
+  secas. La cuarta, «Empresa», reúne lo que antes iba repartido entre el menú
+  suelto, el bloque legal y el icono de LinkedIn.
 */
 
 /* Misma variable que gobierna el aviso de cookies, ver CookieConsent.astro. */
@@ -35,9 +36,12 @@ const hayMedicion = Boolean(
     import.meta.env.PUBLIC_META_PIXEL_ID?.trim()
 );
 
+const [soluciones, ...otrosGrupos] = t.footer.navGroups;
+const columnas = [soluciones, { heading: t.nav.sectors, links: t.nav.sectorLinks }, ...otrosGrupos];
+
 const empresa = [
   { label: t.nav.blog, href: localizedPath('/blog', lang) },
-  { label: t.nav.contact, href: localizedPath('/#contacto', lang) },
+  { label: t.nav.contact, href: routeMap.contact[lang] ?? localizedPath('/#contacto', lang) },
 ];
 ---
 
@@ -47,7 +51,7 @@ const empresa = [
       class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,180px),1fr))] gap-x-8 gap-y-10 text-[13px] leading-[1.8] text-muted"
     >
       {
-        t.footer.navGroups.map((g) => (
+        columnas.map((g) => (
           <nav aria-label={g.heading}>
             <p class="mb-2 text-fg">{g.heading}</p>
             <ul>

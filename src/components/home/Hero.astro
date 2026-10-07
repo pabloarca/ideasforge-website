@@ -18,7 +18,7 @@
   vuelve a la tinta.
 */
 import { type Lang, content } from '../../i18n/ui';
-import { localizedPath } from '../../i18n/utils';
+import { localizedPath, routeMap } from '../../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -51,7 +51,7 @@ const cuadrados = Array.from({ length: 64 }, (_, i) => {
       {t.lead}
     </p>
     <div class="hero-in mt-9 flex flex-wrap items-center gap-5" style="--d:.24s">
-      <a href={localizedPath('/#contacto', lang)} class="btn-primary hover:btn-primary-hover">
+      <a href={routeMap.contact[lang] ?? localizedPath('/#contacto', lang)} class="btn-primary hover:btn-primary-hover">
         {t.ctaPrimary}
       </a>
       <a href="#casos" class="link-quiet">{t.ctaSecondary}</a>
