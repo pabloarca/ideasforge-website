@@ -38,7 +38,6 @@ const t = content[lang].home.services;
     {
       t.items.map((k, i) => (
         <a href={k.href} class:list={['svc-col', i === 0 && 'is-active']} data-svc-col>
-          <span class="svc-bar" aria-hidden="true" />
           <span class="num">{String(i + 1).padStart(2, '0')}</span>
           <span class="svc-short" aria-hidden="true">
             {k.short}
@@ -57,9 +56,10 @@ const t = content[lang].home.services;
 
 <style>
   /*
-    La regla superior de cada columna es un pseudoelemento y no un borde. Así
-    vive DENTRO de la caja, y la barra de acento puede pintarse encima sin que
-    la recorte el `overflow: hidden` que la columna necesita para su texto.
+    La regla superior de cada columna es un pseudoelemento y no un borde, para
+    que viva DENTRO de la caja. Es gris en todas, también en la abierta: la
+    barra de acento que la cubría en la columna activa se retiró el 7 oct 2026
+    por decisión del propietario.
   */
   .svc-col {
     position: relative;
@@ -83,7 +83,6 @@ const t = content[lang].home.services;
   .svc-col {
     padding: 30px 0 32px;
   }
-  .svc-bar,
   .svc-short {
     display: none;
   }
@@ -111,24 +110,6 @@ const t = content[lang].home.services;
     }
     .svc-col.is-active {
       flex: 4 1 0%;
-    }
-
-    /* La barra de acento se dibuja sobre la regla, de izquierda a derecha,
-       mientras la columna se abre. */
-    .svc-bar {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--color-accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.8s var(--ease-in-out);
-    }
-    .svc-col.is-active .svc-bar {
-      transform: scaleX(1);
     }
 
     .svc-short {
