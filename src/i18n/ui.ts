@@ -854,7 +854,8 @@ export interface HomeContent {
   sectors: {
     title: string;
     lead: string;
-    items: Array<{ title: string; image: string }>;
+    /** `image` es opcional: un sector sin fotografía sale con el hueco gris. */
+    items: Array<{ title: string; image?: string }>;
     links: Array<{ label: string; href: string }>;
   };
   resources: {
@@ -1369,18 +1370,18 @@ export const content: Record<Lang, SiteContent> = {
       home: 'Inicio',
       breadcrumb: 'Ruta de navegación',
       solutions: 'Soluciones',
-      cases: 'Casos',
+      cases: 'Proyectos',
       method: 'Método',
       guides: 'Guías',
       sectors: 'Sectores',
       sectorLinks: [
-        { label: 'Real Estate e Inmobiliario', href: '/inmobiliarias' },
-        { label: 'Gestorías y Asesorías', href: '/gestorias' },
-        { label: 'Industria y Manufactura', href: '/industria' },
-        { label: 'Salud y Grupos Sanitarios', href: '/salud' },
-        { label: 'Logística y Transporte', href: '/logistica' },
-        { label: 'Energía y Utilities', href: '/energia-y-utilities' },
-        { label: 'Ecommerce y Retail', href: '/ecommerce' },
+        { label: 'Real Estate e Inmobiliario', href: '/sectores/real-estate-e-inmobiliario' },
+        { label: 'Gestorías y Asesorías', href: '/sectores/gestorias-y-asesorias' },
+        { label: 'Industria y Manufactura', href: '/sectores/industria-y-manufactura' },
+        { label: 'Salud y Grupos Sanitarios', href: '/sectores/salud-y-grupos-sanitarios' },
+        { label: 'Logística y Transporte', href: '/sectores/logistica-y-transporte' },
+        { label: 'Energía y Utilities', href: '/sectores/energia-y-utilities' },
+        { label: 'Ecommerce y Retail', href: '/sectores/ecommerce-y-retail' },
       ],
       resources: 'Recursos',
       resourceLinks: [
@@ -1501,7 +1502,7 @@ export const content: Record<Lang, SiteContent> = {
             desc: 'Un sistema para automatizar la recepción, interpretación y procesamiento de facturas. Combina inteligencia artificial, validaciones e integraciones con las reglas del proceso administrativo para reducir el trabajo manual.',
             metric: 'El 98 % de las facturas completan el proceso sin intervención humana.',
             image: '/case-studies/stanton.jpg',
-            href: '/casos/stanton',
+            href: '/proyectos/stanton',
           },
           {
             client: 'Barceloneta Premium',
@@ -1510,7 +1511,7 @@ export const content: Record<Lang, SiteContent> = {
             metric:
               'Más de tres horas de trabajo ahorradas cada día en procesos que antes necesitaban intervención manual.',
             image: '/case-studies/barceloneta.jpg',
-            href: '/casos/barceloneta',
+            href: '/proyectos/barceloneta',
           },
           {
             client: 'Savian',
@@ -1518,7 +1519,7 @@ export const content: Record<Lang, SiteContent> = {
             desc: 'Un sistema que permite acceder a información empresarial mediante preguntas en lenguaje natural. El usuario no necesita conocer SQL ni recorrer paneles: el sistema interpreta la consulta, identifica qué datos necesita y usa una capa controlada de acceso a la información.',
             metric: 'El modelo nunca ejecuta consultas arbitrarias directamente sobre la base de datos.',
             image: '/case-studies/harvest.jpg',
-            href: '/casos/savian',
+            href: '/proyectos/savian',
           },
           {
             client: 'Wazzy',
@@ -1527,7 +1528,7 @@ export const content: Record<Lang, SiteContent> = {
             metric:
               'Una conversación sencilla para el usuario. Detrás, una arquitectura que controla qué acciones puede ejecutar el agente y bajo qué condiciones.',
             image: '/case-studies/dentist.jpg',
-            href: '/casos/wazzy',
+            href: '/proyectos/wazzy',
           },
         ],
       },
@@ -1608,23 +1609,24 @@ export const content: Record<Lang, SiteContent> = {
         ],
         outro:
           'Cuando el proyecto lo requiere diseñamos soluciones sobre infraestructura privada o con modelos desplegados en entornos controlados para reducir la exposición de información sensible.',
-        link: { label: 'Inteligencia artificial, privacidad y RGPD', href: '/ia-y-rgpd' },
+        link: { label: 'Inteligencia artificial, privacidad y RGPD', href: '/guias/ia-y-rgpd' },
         imageCaption: 'Privacidad, protección de datos y seguridad desde el diseño.',
       },
       sectors: {
         title: 'La tecnología puede ser similar. El contexto de cada empresa no lo es.',
         lead: 'Hemos trabajado con sistemas de IA y automatización en industria, agricultura, inmobiliario, administración y servicios profesionales. La arquitectura cambia según los procesos, la información disponible, los sistemas existentes y las reglas de cada organización.',
+        /* Los siete sectores del menú, con sus nombres (8 oct 2026). Los tres
+           últimos no tienen fotografía todavía y salen con el hueco gris. */
         items: [
-          { title: 'Industria', image: '/case-studies/industrial.jpg' },
-          { title: 'Agricultura', image: '/case-studies/harvest.jpg' },
-          { title: 'Inmobiliario', image: '/case-studies/barceloneta.jpg' },
-          { title: 'Administración', image: '/case-studies/stanton.jpg' },
-          { title: 'Servicios profesionales', image: '/case-studies/dentist.jpg' },
+          { title: 'Real Estate e Inmobiliario', image: '/case-studies/barceloneta.jpg' },
+          { title: 'Gestorías y Asesorías', image: '/case-studies/stanton.jpg' },
+          { title: 'Industria y Manufactura', image: '/case-studies/industrial.jpg' },
+          { title: 'Salud y Grupos Sanitarios', image: '/case-studies/dentist.jpg' },
+          { title: 'Logística y Transporte' },
+          { title: 'Energía y Utilities' },
+          { title: 'Ecommerce y Retail' },
         ],
-        links: [
-          { label: 'IA para inmobiliarias', href: '/inmobiliarias' },
-          { label: 'Ver proyectos', href: '#casos' },
-        ],
+        links: [{ label: 'Ver proyectos', href: '/proyectos' }],
       },
       resources: {
         title: 'Recursos sobre inteligencia artificial para empresas.',
@@ -1638,25 +1640,25 @@ export const content: Record<Lang, SiteContent> = {
             tag: 'guide',
             title: '¿Qué son los agentes de IA?',
             desc: 'Qué diferencia a un agente de un chatbot, cómo utiliza herramientas y en qué situaciones aporta valor dentro de una empresa.',
-            href: '/agentes-de-ia',
+            href: '/guias/que-es-un-agente-de-ia',
           },
           {
             tag: 'guide',
             title: '¿Cuánto cuesta desarrollar un agente de IA?',
             desc: 'Qué factores determinan el coste: integraciones, fuentes de información, arquitectura, modelos, infraestructura y mantenimiento.',
-            href: '/cuanto-cuesta-un-agente-de-ia',
+            href: '/guias/cuanto-cuesta-un-agente-de-ia',
           },
           {
             tag: 'guide',
             title: 'Inteligencia artificial y RGPD',
             desc: 'Qué ocurre con los datos cuando una empresa utiliza IA y qué decisiones de arquitectura permiten reducir riesgos.',
-            href: '/ia-y-rgpd',
+            href: '/guias/ia-y-rgpd',
           },
           {
             tag: 'guide',
             title: 'Reglamento Europeo de Inteligencia Artificial',
             desc: 'Qué obligaciones introduce el AI Act para las empresas que desarrollan, implantan o utilizan sistemas de IA.',
-            href: '/reglamento-europeo-de-ia',
+            href: '/guias/reglamento-europeo-de-ia',
           },
           {
             tag: 'blog',
@@ -1751,7 +1753,7 @@ export const content: Record<Lang, SiteContent> = {
       items: [
         {
           client: 'Empresa industrial',
-          href: '/casos/industrial',
+          href: '/proyectos/industrial',
           hrefLabel: 'Lo que costó saber que acertaba',
           image: '/case-studies/industrial.jpg',
           title: 'Diagnóstico guiado para quien está delante de la máquina',
@@ -1762,7 +1764,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           client: 'Savian',
-          href: '/casos/savian',
+          href: '/proyectos/savian',
           hrefLabel: 'Cómo está construido y qué le quitamos al modelo',
           clientLogo: '/logos/savian.png',
           image: '/case-studies/harvest.jpg',
@@ -1774,7 +1776,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           client: 'Stanton',
-          href: '/casos/stanton',
+          href: '/proyectos/stanton',
           hrefLabel: 'La factura que llegó distinta y lo que añadimos después',
           clientLogo: '/logos/stanton.png',
           image: '/case-studies/stanton.jpg',
@@ -1785,7 +1787,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           client: 'Barceloneta Premium',
-          href: '/casos/barceloneta',
+          href: '/proyectos/barceloneta',
           hrefLabel: 'La primera versión y por qué hubo que tirarla',
           clientLogo: '/logos/bcnpremium.png',
           image: '/case-studies/barceloneta.jpg',
@@ -1796,7 +1798,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           client: 'Wazzy',
-          href: '/casos/wazzy',
+          href: '/proyectos/wazzy',
           hrefLabel: 'Una auditoría contada por dentro',
           clientLogo: '/logos/wazzy.png',
           image: '/case-studies/dentist.jpg',
@@ -1870,7 +1872,7 @@ export const content: Record<Lang, SiteContent> = {
               'Filtramos a los interesados antes de que lleguen al equipo de ventas, con tu CRM y tu proceso de ventas.',
             proof: 'Como en Barceloneta Premium',
             pageLabel: 'IA para inmobiliarias',
-            href: '/inmobiliarias',
+            href: '/sectores/real-estate-e-inmobiliario',
           },
           {
             title: 'Soporte y mantenimiento',
@@ -1879,7 +1881,7 @@ export const content: Record<Lang, SiteContent> = {
               'No te dejamos un sistema y nos vamos. Lo operamos contigo, lo ajustamos y nos encargamos de los modelos nuevos cuando salen.',
             proof: '103 controles en producción',
             pageLabel: 'IA para pymes',
-            href: '/pymes',
+            href: '/guias/ia-para-pymes',
           },
         ],
       },
@@ -3174,13 +3176,13 @@ export const content: Record<Lang, SiteContent> = {
         {
           heading: 'Guías',
           links: [
-            { label: 'Qué es un agente de IA', href: '/agentes-de-ia' },
-            { label: 'Cuánto cuesta un agente de IA', href: '/cuanto-cuesta-un-agente-de-ia' },
-            { label: 'IA y RGPD', href: '/ia-y-rgpd' },
-            { label: 'Reglamento europeo de IA', href: '/reglamento-europeo-de-ia' },
+            { label: 'Qué es un agente de IA', href: '/guias/que-es-un-agente-de-ia' },
+            { label: 'Cuánto cuesta un agente de IA', href: '/guias/cuanto-cuesta-un-agente-de-ia' },
+            { label: 'IA y RGPD', href: '/guias/ia-y-rgpd' },
+            { label: 'Reglamento europeo de IA', href: '/guias/reglamento-europeo-de-ia' },
             /* Pymes pasó aquí desde «Sectores» el 7 oct 2026, por decisión del
                propietario, con este nombre. */
-            { label: 'IA para Pymes', href: '/pymes' },
+            { label: 'IA para Pymes', href: '/guias/ia-para-pymes' },
           ],
         },
       ],
@@ -3231,7 +3233,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Lo que construimos',
             paragraphs: [
               '¿Por qué no un solo agente que lo haga todo? Cuando el sistema crece, un único agente se vuelve difícil de mantener y controlar, así que dividimos el trabajo entre agentes especializados.',
-              'Un orquestador interpreta cada pregunta y la envía al agente especializado que corresponde según el dominio. En el caso industrial del que sale esta página, ese orquestador coordina media docena de agentes especializados y el conjunto suma unas 86 piezas conectadas entre sí. Ese caso está contado entero en <a class="link-inline" href="/casos/industrial">su propia página</a>.',
+              'Un orquestador interpreta cada pregunta y la envía al agente especializado que corresponde según el dominio. En el caso industrial del que sale esta página, ese orquestador coordina media docena de agentes especializados y el conjunto suma unas 86 piezas conectadas entre sí. Ese caso está contado entero en <a class="link-inline" href="/proyectos/industrial">su propia página</a>.',
               'Quien hace la pregunta no se entera de nada de lo que pasa por detrás, solo recibe una respuesta. <strong>Esta arquitectura permite añadir nuevos dominios sin modificar los agentes que ya funcionan</strong>, medir cada agente por separado y que un fallo en uno no arrastre al conjunto.',
             ],
           },
@@ -3269,10 +3271,10 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'El asistente corre en tu infraestructura, en tu nube o en tus servidores, con los datos donde tú decidas. La única dependencia externa es el proveedor del modelo, según las condiciones que tú apruebes. <strong>Se entra con el inicio de sesión que tu gente ya usa</strong>, así que dar y quitar acceso sigue siendo cosa de tu equipo, no nuestra.',
               'El código es tuyo desde el primer día, en tu repositorio. <strong>La calidad también se comprueba de forma continua</strong>, con una batería de casos reales que se ejecuta antes de cada cambio y una revisión semanal del sistema en producción.',
-              'El coste de un sistema de este tamaño se presupuesta por proyecto, porque depende de tus fuentes, tus sistemas y tu exigencia de validación. Lo desglosa la <a class="link-inline" href="/cuanto-cuesta-un-agente-de-ia">guía de coste</a>, que explica qué mueve cada cifra y dónde se sale del rango estándar.',
+              'El coste de un sistema de este tamaño se presupuesta por proyecto, porque depende de tus fuentes, tus sistemas y tu exigencia de validación. Lo desglosa la <a class="link-inline" href="/guias/cuanto-cuesta-un-agente-de-ia">guía de coste</a>, que explica qué mueve cada cifra y dónde se sale del rango estándar.',
               'El impacto de las reglas europeas de protección de datos en este tipo de sistemas lo explicamos en una página específica, pensada para quien tiene que aprobar el proyecto.',
             ],
-            link: { label: 'IA conforme al RGPD, en una cuenta que controlas', href: '/ia-y-rgpd' },
+            link: { label: 'IA conforme al RGPD, en una cuenta que controlas', href: '/guias/ia-y-rgpd' },
           },
           {
             heading: 'Capacidades técnicas',
@@ -3418,7 +3420,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: 'La guía de coste, rango por rango',
-              href: '/cuanto-cuesta-un-agente-de-ia',
+              href: '/guias/cuanto-cuesta-un-agente-de-ia',
             },
           },
           {
@@ -3559,7 +3561,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: 'La guía de coste, rango por rango',
-              href: '/cuanto-cuesta-un-agente-de-ia',
+              href: '/guias/cuanto-cuesta-un-agente-de-ia',
             },
           },
           {
@@ -3714,7 +3716,7 @@ export const content: Record<Lang, SiteContent> = {
               'Hoy el equipo las reenvía por el chat que ya usaba, el sistema las lee y cada una aterriza como una fila normalizada en la misma hoja de cálculo de siempre. <strong>El 98 % pasa sin que nadie la toque.</strong> El resto escala con el documento al lado.',
               'Nadie tuvo que aprender una herramienta nueva. Y el cliente ya nos ha encargado más procesos administrativos, que es la señal que de verdad cuenta, porque lo que se usa se amplía.',
             ],
-            link: { label: 'El caso completo', href: '/casos/stanton' },
+            link: { label: 'El caso completo', href: '/proyectos/stanton' },
           },
           {
             heading: 'Por dónde se empieza',
@@ -3731,7 +3733,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: '¿Cuánto cuesta un agente de IA?',
-              href: '/cuanto-cuesta-un-agente-de-ia',
+              href: '/guias/cuanto-cuesta-un-agente-de-ia',
             },
           },
         ],
@@ -4017,13 +4019,13 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Las reglas europeas',
             part: 'Para tu empresa',
             paragraphs: [
-              'Si despliegas en Europa, dos reglamentos enmarcan el trabajo. El RGPD gobierna los datos personales que hay dentro del sistema y el <a class="link-inline" href="/reglamento-europeo-de-ia">reglamento europeo de IA</a> ordena los sistemas por el riesgo de su uso.',
+              'Si despliegas en Europa, dos reglamentos enmarcan el trabajo. El RGPD gobierna los datos personales que hay dentro del sistema y el <a class="link-inline" href="/guias/reglamento-europeo-de-ia">reglamento europeo de IA</a> ordena los sistemas por el riesgo de su uso.',
               'Los deberes de transparencia del reglamento de IA se aplican desde agosto de 2026, mientras que el Ómnibus Digital de julio de 2026 empujó las obligaciones pesadas de alto riesgo a diciembre de 2027 y más allá. <strong>Ninguno de los dos prohíbe lo que esta guía describe. Los dos premian la misma arquitectura, con registros, supervisión y contención diseñados desde el principio.</strong>',
               'Tenemos una página completa sobre cada uno para quien tiene que defender el proyecto delante del departamento legal.',
             ],
             link: {
               label: 'IA conforme al RGPD, en una cuenta que controlas',
-              href: '/ia-y-rgpd',
+              href: '/guias/ia-y-rgpd',
             },
           },
           {
@@ -4052,7 +4054,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Un agente a medida de un solo trabajo arranca en torno a los 2.500 € de construcción, los que tocan varios sistemas se acercan a los 10.000 € y la operación mensual se mueve entre 150 y 500 €. Los sistemas multiagente grandes se presupuestan por proyecto. Qué mueve cada cifra, a dónde va la cuota mensual y qué es tuyo al final tiene su propia guía.',
             ],
-            link: { label: 'Cuánto cuesta un agente de IA, la guía completa', href: '/cuanto-cuesta-un-agente-de-ia' },
+            link: { label: 'Cuánto cuesta un agente de IA, la guía completa', href: '/guias/cuanto-cuesta-un-agente-de-ia' },
           },
         ],
         faqHeading: 'Preguntas frecuentes sobre agentes de IA',
@@ -4150,8 +4152,8 @@ export const content: Record<Lang, SiteContent> = {
           agentDev: {
             href: '/servicios/desarrollo-de-agentes-de-ia',
             guides: [
-              { title: '¿Qué es un agente de IA?', href: '/agentes-de-ia' },
-              { title: '¿Cuánto cuesta un agente de IA?', href: '/cuanto-cuesta-un-agente-de-ia' },
+              { title: '¿Qué es un agente de IA?', href: '/guias/que-es-un-agente-de-ia' },
+              { title: '¿Cuánto cuesta un agente de IA?', href: '/guias/cuanto-cuesta-un-agente-de-ia' },
             ],
             metaTitle: 'Desarrollo de agentes de IA a medida para empresas, Ideasforge',
             metaDescription: 'Ideasforge desarrolla agentes de IA a medida para empresas que necesitan ir más allá de un chatbot, una automatización básica o una herramienta estándar.',
@@ -4265,14 +4267,14 @@ export const content: Record<Lang, SiteContent> = {
                   title: 'Consultar datos empresariales mediante lenguaje natural',
                   desc: 'El agente interpreta la pregunta, determina qué información necesita y utiliza una capa controlada para acceder a los datos. El modelo no recibe libertad para ejecutar SQL arbitrario sobre la base de datos.',
                   image: '/case-studies/harvest.jpg',
-                  href: '/casos/savian',
+                  href: '/proyectos/savian',
                 },
                 {
                   client: 'Wazzy',
                   title: 'Un agente de IA que gestiona citas desde WhatsApp',
                   desc: 'Reservar, modificar o cancelar una cita mediante una conversación. El agente consulta disponibilidad, trabaja con diferentes profesionales y calendarios y ejecuta las acciones siguiendo reglas definidas. La conversación es flexible. Las reglas de agenda no lo son.',
                   image: '/case-studies/dentist.jpg',
-                  href: '/casos/wazzy',
+                  href: '/proyectos/wazzy',
                 },
               ],
             },
@@ -4520,14 +4522,14 @@ export const content: Record<Lang, SiteContent> = {
                   title: '98 % de las facturas procesadas sin intervención humana',
                   desc: 'La solución interpreta la documentación recibida, extrae la información, aplica validaciones y continúa el flujo mediante reglas e integraciones. Los casos que cumplen las condiciones completan el proceso automáticamente. Las excepciones siguen una ruta de revisión.',
                   image: '/case-studies/stanton.jpg',
-                  href: '/casos/stanton',
+                  href: '/proyectos/stanton',
                 },
                 {
                   client: 'Barceloneta Premium',
                   title: 'Más de 3 horas de trabajo administrativo ahorradas cada día',
                   desc: 'Analizamos tareas que requerían intervención manual repetitiva y diseñamos automatizaciones para conectar herramientas y eliminar pasos innecesarios. No fue necesario convertir todo el proceso en IA: automatizamos exactamente las partes donde tenía sentido.',
                   image: '/case-studies/barceloneta.jpg',
-                  href: '/casos/barceloneta',
+                  href: '/proyectos/barceloneta',
                 },
               ],
             },
@@ -4771,7 +4773,7 @@ export const content: Record<Lang, SiteContent> = {
                   title: 'Documentación técnica como fuente activa de un asistente de planta',
                   desc: 'Un sistema que combina documentación técnica, procedimientos y datos operativos para ayudar a localizar la información asociada a un contexto concreto. La documentación deja de ser un repositorio y se convierte en una fuente activa dentro del sistema.',
                   image: '/case-studies/industrial.jpg',
-                  href: '/casos/industrial',
+                  href: '/proyectos/industrial',
                 },
               ],
             },
@@ -5022,14 +5024,14 @@ export const content: Record<Lang, SiteContent> = {
                   title: 'Gestión de citas mediante una conversación en WhatsApp',
                   desc: 'El agente consulta disponibilidad, trabaja con diferentes profesionales y calendarios, propone horarios, reserva, modifica o cancela y aplica reglas específicas. El usuario mantiene una conversación sencilla. Detrás, el sistema controla las condiciones bajo las que cada acción puede ejecutarse.',
                   image: '/case-studies/dentist.jpg',
-                  href: '/casos/wazzy',
+                  href: '/proyectos/wazzy',
                 },
                 {
                   client: 'Savian',
                   title: 'Consultar información empresarial mediante lenguaje natural',
                   desc: 'La conversación actúa como interfaz sobre datos empresariales. El usuario pregunta. El sistema interpreta qué información necesita y utiliza herramientas controladas para recuperarla, sin obligar a conocer SQL ni navegar por paneles.',
                   image: '/case-studies/harvest.jpg',
-                  href: '/casos/savian',
+                  href: '/proyectos/savian',
                 },
               ],
             },
@@ -5278,14 +5280,14 @@ export const content: Record<Lang, SiteContent> = {
                   title: 'De un análisis de proceso a un 98 % de facturas sin intervención',
                   desc: 'El análisis del flujo de facturas permitió separar qué parte necesitaba interpretación y qué parte eran reglas. El resultado es un sistema que hoy procesa el 98 % de las facturas de forma automática.',
                   image: '/case-studies/stanton.jpg',
-                  href: '/casos/stanton',
+                  href: '/proyectos/stanton',
                 },
                 {
                   client: 'Savian',
                   title: 'Decidir qué no hacer: el modelo no escribe SQL',
                   desc: 'La decisión de arquitectura más importante fue una restricción: el agente interpreta la pregunta pero nunca ejecuta consultas arbitrarias. Esa decisión es la que hace el sistema seguro.',
                   image: '/case-studies/harvest.jpg',
-                  href: '/casos/savian',
+                  href: '/proyectos/savian',
                 },
               ],
             },
@@ -5590,7 +5592,7 @@ export const content: Record<Lang, SiteContent> = {
                   'El agente interpreta la pregunta, determina qué información necesita y utiliza una capa controlada para acceder a los datos.',
                   'El modelo no recibe libertad para ejecutar SQL arbitrario directamente sobre la base de datos.',
                 ],
-                link: { label: 'Ver caso Savian', href: '/casos/savian' },
+                link: { label: 'Ver caso Savian', href: '/proyectos/savian' },
               },
               {
                 heading: 'Wazzy',
@@ -5601,7 +5603,7 @@ export const content: Record<Lang, SiteContent> = {
                   'La conversación es flexible.',
                   'Las reglas de agenda no lo son.',
                 ],
-                link: { label: 'Ver caso Wazzy', href: '/casos/wazzy' },
+                link: { label: 'Ver caso Wazzy', href: '/proyectos/wazzy' },
               },
               {
                 heading: 'Sistemas especializados por función',
@@ -5797,7 +5799,7 @@ export const content: Record<Lang, SiteContent> = {
             closing: [
               'Cuando el proyecto lo requiere podemos utilizar infraestructura privada, modelos desplegados en entornos controlados o arquitecturas específicas para reducir la exposición de datos.',
             ],
-            link: { label: 'Inteligencia artificial, privacidad y RGPD', href: '/ia-y-rgpd' },
+            link: { label: 'Inteligencia artificial, privacidad y RGPD', href: '/guias/ia-y-rgpd' },
           },
           {
             heading: '¿Cuándo merece la pena desarrollar un agente de IA a medida?',
@@ -5845,7 +5847,7 @@ export const content: Record<Lang, SiteContent> = {
               'Puede conectarse con bases de datos, documentación, ERP, CRM, APIs u otras aplicaciones y actuar dentro de los límites definidos por su arquitectura.',
               'Para una explicación más amplia sobre cómo funcionan, puedes consultar nuestra guía sobre agentes de IA.',
             ],
-            link: { label: 'Qué son los agentes de IA', href: '/agentes-de-ia' },
+            link: { label: 'Qué son los agentes de IA', href: '/guias/que-es-un-agente-de-ia' },
           },
           {
             q: '¿Cuánto cuesta desarrollar un agente de IA?',
@@ -5853,7 +5855,7 @@ export const content: Record<Lang, SiteContent> = {
               'El coste depende de las integraciones, los datos, la complejidad del proceso, los modelos utilizados, los requisitos de seguridad y las acciones que debe ejecutar el agente.',
               'Un agente que consulta una única fuente de información y uno que trabaja con varios sistemas empresariales requieren niveles de desarrollo muy diferentes.',
             ],
-            link: { label: 'Cuánto cuesta desarrollar un agente de IA', href: '/cuanto-cuesta-un-agente-de-ia' },
+            link: { label: 'Cuánto cuesta desarrollar un agente de IA', href: '/guias/cuanto-cuesta-un-agente-de-ia' },
           },
           {
             q: '¿Cuánto tarda en desarrollarse un agente de IA?',
@@ -6007,7 +6009,7 @@ export const content: Record<Lang, SiteContent> = {
             pizarra: { grafico: 'cifras', tras: 3 },
             paragraphs: [
               'En Stanton, una gestora de fincas, las facturas de luz, agua y gas de cada inquilino se metían a mano. Hoy el equipo las reenvía por Telegram, un modelo lee la factura y extrae los datos y el resultado aterriza como filas normalizadas en el Excel con el que ya trabajaban.',
-              '<strong>Cada factura costaba un minuto de teclado. Hoy el 98 % pasa sin que nadie la toque</strong> y el resto escala con el documento al lado. Son dos procesos automatizados que funcionan sobre las herramientas que el equipo ya utilizaba, sin introducir una nueva aplicación. El cliente ya nos ha encargado más procesos administrativos, que es la señal de éxito que más nos importa. El caso entero, con lo que tuvimos que añadirle después, tiene <a class="link-inline" href="/casos/stanton">su propia página</a> que puedes visitar.',
+              '<strong>Cada factura costaba un minuto de teclado. Hoy el 98 % pasa sin que nadie la toque</strong> y el resto escala con el documento al lado. Son dos procesos automatizados que funcionan sobre las herramientas que el equipo ya utilizaba, sin introducir una nueva aplicación. El cliente ya nos ha encargado más procesos administrativos, que es la señal de éxito que más nos importa. El caso entero, con lo que tuvimos que añadirle después, tiene <a class="link-inline" href="/proyectos/stanton">su propia página</a> que puedes visitar.',
               'En Barceloneta Premium, una agencia inmobiliaria de Barcelona, el equipo recibe cada día decenas de consultas por WhatsApp de gente que busca alquiler. Cada consulta se llevaba entre cinco y diez minutos de comprobación a mano.',
               'Ahora el flujo extrae de cada conversación el motivo, el presupuesto y la documentación. Al equipo le llega un correo que dice si cumple o no los requisitos que la agencia fijó, con el porqué al lado. Quien decide sigue siendo una persona, con ese correo delante. La agencia cifra en más de tres horas al día lo que recupera para el trabajo que sí necesita personas.',
               'Los dos casos se parecen en dos cosas: entraron por un canal que el equipo ya usaba y tenían una cifra medible antes y después. Eso es lo que buscamos en cada proceso nuevo.',
@@ -6036,7 +6038,7 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>La automatización se conecta a lo que ya usas</strong>: ERP, CRM, bases de datos, correo, mensajería y, sí, también ese Excel que gobierna medio departamento. La entrada puede ser el canal que tu equipo ya tiene en el bolsillo, un chat de Telegram o de WhatsApp o un buzón de correo. Por eso preferimos integrar el proceso en las herramientas que tu equipo ya utiliza, en lugar de obligarlo a aprender otra aplicación.',
               'Y el repositorio es tuyo desde el primer día, con su documentación y sus manuales de operación. Si un día quieres operarlo con tu equipo o con otro proveedor, te llevas el flujo entero con su documentación y sus pruebas, no una suscripción. Lo que sí es servicio mientras trabajemos juntos es la operación, la vigilancia semanal y las alarmas de la casa. Eso queda dicho en el presupuesto.',
             ],
-            link: { label: 'Automatización documental para gestorías', href: '/gestorias' },
+            link: { label: 'Automatización documental para gestorías', href: '/sectores/gestorias-y-asesorias' },
           },
           {
             heading: 'Dónde viven tus datos',
@@ -6082,7 +6084,7 @@ export const content: Record<Lang, SiteContent> = {
               'Un flujo de un solo proceso arranca en torno a los 2.500 € de construcción, los que tocan varios de tus sistemas se acercan a los 10.000 € y la operación mensual va entre 150 y 500 €, que cubren la vigilancia y el mantenimiento. El modelo y la infraestructura van en cuentas a nombre de tu empresa, así que esas facturas son tuyas y no entran en la cuota. Lo que mueve esas cifras aquí es concreto: cuántos sistemas hay que conectar, cuánta validación exige el proceso y cuánto volumen corre por él.',
               '<strong>El coste actual del proceso debería marcar cuánto tiene sentido invertir, y el piloto debería confirmar que el ahorro esperado es real antes de ampliar el proyecto.</strong> El desglose entero está en la guía de coste.',
             ],
-            link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
+            link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/guias/cuanto-cuesta-un-agente-de-ia' },
           },
         ],
         faqHeading: 'Preguntas frecuentes',
@@ -6198,11 +6200,11 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
               'La atención al cliente suele ser uno de los casos donde antes se puede medir el ahorro de un agente conversacional. Responde lo habitual, cualifica el resto y escala lo que necesita criterio, así que las consultas sencillas pueden recibir respuesta inmediata y las demás llegan al equipo ya preparadas.',
-              'La agencia inmobiliaria con la que trabajamos recibe decenas de consultas de alquiler al día por WhatsApp. Cada una le llevaba antes entre cinco y diez minutos de comprobación y hoy cifra en más de tres horas al día lo que se ahorra. Su equipo ya solo concierta visitas. Ese caso está contado entero en <a class="link-inline" href="/casos/barceloneta">su propia página</a>.',
+              'La agencia inmobiliaria con la que trabajamos recibe decenas de consultas de alquiler al día por WhatsApp. Cada una le llevaba antes entre cinco y diez minutos de comprobación y hoy cifra en más de tres horas al día lo que se ahorra. Su equipo ya solo concierta visitas. Ese caso está contado entero en <a class="link-inline" href="/proyectos/barceloneta">su propia página</a>.',
               'Ahí la consulta se atiende y se cualifica en la misma conversación, de modo que el equipo recibe solo los casos que cumplen los criterios de la agencia.',
               '<strong>Buena parte del valor está en la hora a la que se contesta.</strong> Las consultas no llegan solo en horario de oficina, llegan también cuando el cliente tiene el móvil en la mano. Cuanto más tarda la respuesta, menos ganas le quedan de volver a escribir. Un agente que contesta al minuto uno permite atender también esas consultas y convertir las que cumplen los criterios en oportunidades para concertar una visita.',
             ],
-            link: { label: 'El caso de la inmobiliaria', href: '/inmobiliarias' },
+            link: { label: 'El caso de la inmobiliaria', href: '/sectores/real-estate-e-inmobiliario' },
           },
           {
             heading: 'Cómo se reserva una cita dentro del chat',
@@ -6257,7 +6259,7 @@ export const content: Record<Lang, SiteContent> = {
             part: 'Cómo funciona y por qué fiarse',
             paragraphs: [
               '<strong>Un chatbot puede empezar a responder peor sin mostrar un error técnico.</strong> Una actualización del modelo o un documento nuevo cambian respuestas sin ningún error visible. Por eso fijamos la versión del modelo, de modo que actualizarla es una decisión nuestra y no una sorpresa del proveedor. Cada cambio pasa por una batería de pruebas antes de publicarse y cada conversación deja un registro que se puede reconstruir.',
-              'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría mejorar y cuál añadir. Cómo se leen esos números en un sistema propio, con sus errores y las correcciones que fue necesario hacer, está en <a class="link-inline" href="/casos/wazzy">la página de Wazzy</a>.',
+              'La operación también tiene sus números: qué porcentaje termina en tarea hecha, qué porcentaje escala y por qué motivos, qué cuesta cada conversación. Con ellos se decide qué categoría mejorar y cuál añadir. Cómo se leen esos números en un sistema propio, con sus errores y las correcciones que fue necesario hacer, está en <a class="link-inline" href="/proyectos/wazzy">la página de Wazzy</a>.',
             ],
           },
           {
@@ -6285,7 +6287,7 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>En WhatsApp hay dos costes variables que hay que tener en cuenta.</strong> Cada conversación gasta sus llamadas al modelo. Meta cobra aparte cada plantilla que envía, según su política de precios. Un recordatorio de cita es una plantilla, así que cada aviso tiene su propio coste. Los dos van desglosados.',
               'Antes de encargar nada tendrás una estimación, hecha con lo que ya tenemos medido en sistemas parecidos y aplicada a tu volumen. El piloto permite comprobar esa estimación con conversaciones reales de tu negocio. El desglose entero está en la guía de coste.',
             ],
-            link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
+            link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/guias/cuanto-cuesta-un-agente-de-ia' },
           },
         ],
         faqHeading: 'Preguntas frecuentes',
@@ -6529,7 +6531,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: 'La guía completa del reglamento europeo de IA',
-              href: '/reglamento-europeo-de-ia',
+              href: '/guias/reglamento-europeo-de-ia',
             },
           },
           {
@@ -6548,7 +6550,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: 'Cuánto cuesta construir y operar uno',
-              href: '/cuanto-cuesta-un-agente-de-ia',
+              href: '/guias/cuanto-cuesta-un-agente-de-ia',
             },
           },
           {
@@ -6819,7 +6821,7 @@ export const content: Record<Lang, SiteContent> = {
               'La escriben ingenieros. Construimos agentes de IA para empresas sujetas a estas normas, así que conocemos qué información técnica necesita un expediente de cumplimiento, aunque las decisiones jurídicas correspondan a tus abogados. Y la escribimos desde España, donde la autoridad que vigila es la AESIA.',
               'Esto no es asesoramiento jurídico. No clasificamos tu riesgo. Las decisiones que necesitan un abogado van señaladas como tales a lo largo de toda la página.',
             ],
-            link: { label: 'La guía de la que parte esta: IA conforme al RGPD', href: '/ia-y-rgpd' },
+            link: { label: 'La guía de la que parte esta: IA conforme al RGPD', href: '/guias/ia-y-rgpd' },
           },
           {
             heading: 'El reglamento entero en seis frases',
@@ -7017,7 +7019,7 @@ export const content: Record<Lang, SiteContent> = {
               'La vigilancia puede parecer una obligación abierta, pero es una de las que podemos demostrar con más facilidad. Antes de publicar un cambio tiene que pasar una batería de casos anotados y anonimizados. Después de publicar, cada semana una tanda de conversaciones de prueba anonimizadas recorre de principio a fin el sistema vivo.',
               'Hacemos estas dos comprobaciones por separado para cubrir momentos distintos del ciclo de vida. Juntas permiten demostrar que el sistema se comprueba antes de cada cambio y también mientras está en producción.',
             ],
-            link: { label: 'El diseño de registros, aislamiento e identidad, en detalle', href: '/ia-y-rgpd' },
+            link: { label: 'El diseño de registros, aislamiento e identidad, en detalle', href: '/guias/ia-y-rgpd' },
           },
           {
             heading: 'Qué documentación técnica te entregamos para el expediente de cumplimiento',
@@ -7059,7 +7061,7 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>Un mismo sistema puede cumplir las exigencias de ambos reglamentos si incorpora desde el diseño los registros, la supervisión y los controles necesarios.</strong> Esa arquitectura es la que nuestra página de RGPD describe mecanismo a mecanismo. Ese nivel de control forma parte de todos los sistemas que construimos, independientemente de que el uso concreto entre o no en el anexo III.',
               'Si estás decidiendo si construir algo bajo estas reglas, la misma claridad vale para los presupuestos. Los nuestros están publicados.',
             ],
-            link: { label: 'Cuánto cuesta construir y operar un agente de IA', href: '/cuanto-cuesta-un-agente-de-ia' },
+            link: { label: 'Cuánto cuesta construir y operar un agente de IA', href: '/guias/cuanto-cuesta-un-agente-de-ia' },
           },
         ],
         faqHeading: 'Lo que preguntan los comités de verdad',
@@ -7547,7 +7549,7 @@ export const content: Record<Lang, SiteContent> = {
               'La ley marca cuánto tiempo hay que conservar una historia clínica, pero esa obligación es de la clínica y no nuestra. Wazzy borra a petición todo lo que no tenga un plazo legal por encima. Lo que sí lo tiene se conserva mientras ese plazo dure.',
               '<strong>Y el modelo no habla con la base de datos.</strong> Las dos cosas que un asistente puede hacer mal aquí, inventarse un dato o sacar el de otra persona, no dependen de que el modelo se porte bien.',
             ],
-            link: { label: 'Cómo tratamos los datos personales, en detalle', href: '/ia-y-rgpd' },
+            link: { label: 'Cómo tratamos los datos personales, en detalle', href: '/guias/ia-y-rgpd' },
           },
           {
             heading: 'El emoji que cerró una confirmación',

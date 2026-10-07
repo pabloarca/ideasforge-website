@@ -64,4 +64,4 @@ Si la respuesta es lo segundo, no existe. Un expediente que se fabrica después 
 
 Es la misma pregunta, por cierto, que separa un sistema que puedes mantener de uno con el que solo te queda rezar para que siga funcionando. El reglamento no te está pidiendo nada raro. Te está pidiendo, con fuerza de ley, lo que ya deberías querer por tu cuenta.
 
-El detalle completo, con los ocho dominios uno a uno, el artículo 26 deber a deber y una primera pasada que puedes hacer esta semana, está en [la guía del reglamento europeo de IA](/reglamento-europeo-de-ia).
+El detalle completo, con los ocho dominios uno a uno, el artículo 26 deber a deber y una primera pasada que puedes hacer esta semana, está en [la guía del reglamento europeo de IA](/guias/reglamento-europeo-de-ia).

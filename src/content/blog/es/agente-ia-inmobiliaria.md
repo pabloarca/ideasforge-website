@@ -46,7 +46,7 @@ Un agente así toca datos personales, calendario y reputación, así que **la pa
 
 Y hay una razón de fondo para que el veredicto lo firme una persona, además del sentido común. El reglamento europeo de protección de datos reconoce en su artículo 22 el derecho a no quedar sometido a decisiones basadas únicamente en un tratamiento automatizado cuando tienen efectos jurídicos o consecuencias igual de serias. Quedarse sin la vivienda que se pide entra en esa clase.
 
-Como aquí la decisión la toma alguien de la agencia con el resumen delante, nunca es únicamente automatizada. **Lo que parece cortesía con el cliente es también la línea que la ley pide no cruzar.** Ese terreno completo está contado en [IA y RGPD](/ia-y-rgpd).
+Como aquí la decisión la toma alguien de la agencia con el resumen delante, nunca es únicamente automatizada. **Lo que parece cortesía con el cliente es también la línea que la ley pide no cruzar.** Ese terreno completo está contado en [IA y RGPD](/guias/ia-y-rgpd).
 
 ## Lo que hubo que tirar primero
 
@@ -54,7 +54,7 @@ Este agente que hoy suena tan razonable no nació así. La primera versión segu
 
 **Muchas veces no las usaba.** No fallaba nada que apareciera en los registros. El modelo decidía que podía responder sin consultar, así que o inventaba la respuesta o le decía a la persona que no se podía avanzar cuando sí se podía.
 
-La reconstruimos al revés, con el estado de la conversación gestionado en código y el modelo interpretando dentro de ese estado. Esa historia entera, con la arquitectura que quedó y lo que decidimos que no hiciera, está en [la página del caso](/casos/barceloneta).
+La reconstruimos al revés, con el estado de la conversación gestionado en código y el modelo interpretando dentro de ese estado. Esa historia entera, con la arquitectura que quedó y lo que decidimos que no hiciera, está en [la página del caso](/proyectos/barceloneta).
 
 ## Y después del alquiler, lo demás
 
@@ -62,4 +62,4 @@ La señal de que un sistema funciona es lo que pasa después. La agencia está a
 
 La cuenta que hicimos aquí puedes hacerla tú esta tarde. *¿Cuántos minutos cuesta cada consulta que entra y cuántas entran al día?* Multiplica. Ese número ya lo estás pagando, solo que sin factura.
 
-Si tu agencia se parece a esto, la página de [IA para inmobiliarias](/inmobiliarias) explica el sistema completo con un caso ya funcionando en producción. Y si lo tuyo es otro sector con el mismo cuello de botella, la conversación empieza igual, contándonos dónde se van las horas.
+Si tu agencia se parece a esto, la página de [IA para inmobiliarias](/sectores/real-estate-e-inmobiliario) explica el sistema completo con un caso ya funcionando en producción. Y si lo tuyo es otro sector con el mismo cuello de botella, la conversación empieza igual, contándonos dónde se van las horas.

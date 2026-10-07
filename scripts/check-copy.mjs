@@ -650,12 +650,12 @@ for (const o of objetivosEn) {
 
 // ── Páginas de caso huérfanas ──────────────────────────────────────────────
 // Una corrección de texto puede llevarse por delante un enlace sin que se
-// note: pasó el 29 ago 2026 con `/casos/savian`, cuyo enlace desde la página
+// note: pasó el 29 ago 2026 con `/casos/savian` (hoy `/proyectos/savian`), cuyo enlace desde la página
 // de servicio murió dentro del párrafo que lo alojaba. El estándar de la casa
 // es dos entradas por caso, la ficha del carrusel y una editorial desde su
 // página de servicio.
 const RUTAS = 'src/i18n/utils.ts';
-const casos = [...readFileSync(RUTAS, 'utf8').matchAll(/'(\/casos\/[a-z-]+)'/g)].map((m) => m[1]);
+const casos = [...readFileSync(RUTAS, 'utf8').matchAll(/'(\/proyectos\/[a-z-]+)'/g)].map((m) => m[1]);
 const uiEntero = readFileSync(UI, 'utf8');
 const huerfanas = [];
 for (const ruta of casos) {

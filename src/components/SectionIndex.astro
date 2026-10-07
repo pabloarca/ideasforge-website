@@ -1,0 +1,107 @@
+---
+/*
+  Índice de una familia de páginas: `/guias` o `/sectores`. Nacieron el 7 oct
+  2026, cuando guías y sectores pasaron a vivir bajo carpeta, para que el
+  tramo intermedio de su miga de pan («Guías», «Sectores») tenga una página
+  real a la que apuntar.
+
+  No tiene texto propio. La lista es la misma que pinta el menú de la
+  cabecera, así que una página que entra en el menú entra aquí. El titular es
+  el rótulo del menú, la entradilla es la del bloque equivalente de la portada
+  y el texto de cada tarjeta es la descripción de su propia página. Una página
+  que aún está vacía no tiene descripción y sale solo con su nombre.
+
+  Se declara como `CollectionPage` con un `ItemList`, igual que el índice de
+  casos.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from './home/ContactForm.astro';
+import { type Lang, content } from '../i18n/ui';
+import { altsFor, routeMap } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  familia: 'guides' | 'sectors';
+}
+const { lang, familia } = Astro.props;
+const t = content[lang];
+
+const titular = familia === 'guides' ? t.nav.guides : t.nav.sectors;
+const entradilla = familia === 'guides' ? t.home.resources.lead : t.home.sectors.lead;
+const enlaces =
+  familia === 'guides' ? (t.footer.navGroups.filter((g) => !g.soloPie)[1]?.links ?? []) : t.nav.sectorLinks;
+
+/* La descripción de cada página, buscada por su ruta. */
+const paginas = t.pages as unknown as Record<string, { metaDescription?: string } | undefined>;
+const descripcionDe = (href: string) => {
+  const clave = Object.keys(routeMap).find((k) => routeMap[k][lang] === href);
+  return clave ? paginas[clave]?.metaDescription : undefined;
+};
+const items = enlaces.map((e) => ({ ...e, desc: descripcionDe(e.href) }));
+
+const descripcion = entradilla.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? entradilla;
+const site = Astro.site ?? new URL('https://ideasforge.io');
+const lista = {
+  '@type': 'ItemList',
+  numberOfItems: items.length,
+  itemListElement: items.map((k, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: k.label,
+    url: new URL(k.href, site).href,
+  })),
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${titular}, Ideasforge`}
+  description={descripcion}
+  alternates={altsFor(familia)}
+  pageType="CollectionPage"
+  mainEntity={lista}
+>
+  <div class="wrap">
+    <section class="pt-[clamp(56px,7vw,96px)]">
+      <h1 class="t-display indice-in max-w-[20ch]" style="--d:.08s">{titular}</h1>
+      <p class="indice-in mt-6 max-w-[62ch] text-[17px] leading-[1.55] text-muted" style="--d:.16s">{entradilla}</p>
+    </section>
+
+    <section class="pt-[clamp(48px,6vw,80px)]">
+      <div class="ruled-grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))]">
+        {
+          items.map((k) => (
+            <a href={k.href} class="indice-celda">
+              <h2 class="text-[clamp(20px,2vw,26px)] leading-[1.15] tracking-[-0.02em]">{k.label}</h2>
+              {k.desc && <p class="mt-3 max-w-[52ch] text-[15px] leading-[1.55] opacity-75">{k.desc}</p>}
+              <span class="mt-auto block pt-7 text-right text-lg leading-none" aria-hidden="true">
+                →
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+
+  <ContactForm lang={lang} />
+</BaseLayout>
+
+<style>
+  .indice-in {
+    animation: if-up 0.8s var(--d, 0s) var(--ease-out) both;
+  }
+  .indice-celda {
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+    padding: 24px;
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
+  .indice-celda:hover {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+</style>

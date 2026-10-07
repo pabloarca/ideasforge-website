@@ -1,18 +1,20 @@
 ---
 /*
-  Sectores: una lista de cinco a la izquierda y una fotografía 4:3 a la
-  derecha que cambia con el sector activo. La fila activa se pinta en acento y
+  Sectores: la lista a la izquierda y una fotografía 4:3 a la derecha que
+  cambia con el sector activo. Son los siete del menú desde el 8 oct 2026. La fila activa se pinta en acento y
   la foto nueva entra con una cortinilla de arriba abajo.
 
   Avanza sola cada 4,5 segundos, se pausa con el ratón encima, y pasar el
   ratón o el foco por una fila la activa.
 
-  Las cinco fotos están en el HTML desde el principio, apiladas. Cambiar de
-  sector no carga nada: sube la foto nueva encima de la anterior y le aplica
-  la cortinilla, así que debajo siempre hay imagen y nunca un hueco gris.
+  Las fotos están en el HTML desde el principio, apiladas. Cambiar de sector
+  no carga nada: sube la foto nueva encima de la anterior y le aplica la
+  cortinilla. Un sector que todavía no tiene fotografía ocupa su sitio en la
+  pila con el hueco gris del diseño (`photo-slot`), que entra con la misma
+  cortinilla.
 
-  Las filas son botones y no enlaces porque no llevan a ninguna parte: los
-  sectores no tienen página propia. Los dos enlaces de debajo sí.
+  Las filas son botones y no enlaces: su trabajo es cambiar la foto. Las
+  páginas de sector se alcanzan desde el menú y desde su índice.
 */
 import { Picture } from 'astro:assets';
 import { type Lang, content } from '../../i18n/ui';
@@ -52,20 +54,24 @@ const t = content[lang].home.sectors;
 
     <div class="sector-foto" aria-hidden="true">
       {
-        t.items.map((k, i) => (
-          <Picture
-            pictureAttributes={{ class: 'contents' }}
-            src={foto(k.image)}
-            alt=""
-            formats={['avif', 'webp']}
-            widths={[480, 800, 1200]}
-            sizes="(min-width: 700px) 544px, 100vw"
-            loading="lazy"
-            decoding="async"
-            class:list={[i === 0 && 'is-active']}
-            data-sec-foto
-          />
-        ))
+        t.items.map((k, i) =>
+          k.image ? (
+            <Picture
+              pictureAttributes={{ class: 'contents' }}
+              src={foto(k.image)}
+              alt=""
+              formats={['avif', 'webp']}
+              widths={[480, 800, 1200]}
+              sizes="(min-width: 700px) 544px, 100vw"
+              loading="lazy"
+              decoding="async"
+              class:list={[i === 0 && 'is-active']}
+              data-sec-foto
+            />
+          ) : (
+            <span class:list={['photo-slot', i === 0 && 'is-active']} data-sec-foto />
+          )
+        )
       }
     </div>
   </div>
@@ -105,7 +111,7 @@ const t = content[lang].home.sectors;
     overflow: hidden;
     background: var(--color-neutral-200);
   }
-  .sector-foto :global(img) {
+  .sector-foto :global([data-sec-foto]) {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -116,10 +122,10 @@ const t = content[lang].home.sectors;
   }
   /* La que acaba de salir se queda justo debajo de la que entra, para que la
      cortinilla descubra una foto sobre otra y no sobre el fondo. */
-  .sector-foto :global(img.was-active) {
+  .sector-foto :global([data-sec-foto].was-active) {
     z-index: 1;
   }
-  .sector-foto :global(img.is-active) {
+  .sector-foto :global([data-sec-foto].is-active) {
     z-index: 2;
     animation: if-wipe 0.7s var(--ease-wipe) both;
   }

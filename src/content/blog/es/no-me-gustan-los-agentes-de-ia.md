@@ -135,4 +135,4 @@ Porque «agente de IA» es como el mercado nombra esta categoría y pelearse con
 
 **Un agente así es menos espectacular el primer día. Aguanta mejor los tres años siguientes.**
 
-Si estás situando el concepto, empieza por nuestra [guía de agentes de IA](/agentes-de-ia). Y si quieres ver cómo es esto por dentro, te lo contamos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia).
+Si estás situando el concepto, empieza por nuestra [guía de agentes de IA](/guias/que-es-un-agente-de-ia). Y si quieres ver cómo es esto por dentro, te lo contamos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia).

@@ -41,7 +41,7 @@ La diferencia práctica cabe en una frase. **Un contrato con cinco campos conoci
 
 ## Lo que esa decisión compra
 
-Compra seguridad demostrable, porque los permisos se aplican sobre el contrato validado. La consulta final lleva además un filtro por empresa que se aplica siempre, la última de las cuatro capas que separan los datos de cada empresa de los de la de al lado. Y compra el resultado de negocio que justifica el proyecto, **la espera por una cifra pasó de horas a segundos**, sin la puerta que el patrón ingenuo deja abierta. Cómo quedó montado por dentro, con lo que hubo que quitarle al modelo por el camino, está en [la página del caso](/casos/savian).
+Compra seguridad demostrable, porque los permisos se aplican sobre el contrato validado. La consulta final lleva además un filtro por empresa que se aplica siempre, la última de las cuatro capas que separan los datos de cada empresa de los de la de al lado. Y compra el resultado de negocio que justifica el proyecto, **la espera por una cifra pasó de horas a segundos**, sin la puerta que el patrón ingenuo deja abierta. Cómo quedó montado por dentro, con lo que hubo que quitarle al modelo por el camino, está en [la página del caso](/proyectos/savian).
 
 ## Decir lo que falta también se diseña
 

@@ -54,7 +54,7 @@ const cuadrados = Array.from({ length: 64 }, (_, i) => {
       <a href={routeMap.contact[lang] ?? localizedPath('/#contacto', lang)} class="btn-primary hover:btn-primary-hover">
         {t.ctaPrimary}
       </a>
-      <a href="#casos" class="link-quiet">{t.ctaSecondary}</a>
+      <a href={routeMap.cases[lang] ?? '#casos'} class="link-quiet">{t.ctaSecondary}</a>
     </div>
   </div>
 

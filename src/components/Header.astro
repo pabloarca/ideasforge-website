@@ -18,10 +18,10 @@ const home = localizedPath('/', lang);
   cambio de idioma y el CTA. Sin iconos y sin píldoras: el estado se dice con
   el color.
 
-  Cuatro de los cinco enlaces son anclas de la portada (soluciones, sectores
-  y recursos, este último dos veces), así que desde una página interior llevan a la
-  portada y bajan a su sección. «Casos» lleva a su propia página, el índice
-  de casos.
+  En español, «Sectores», «Casos» y «Guías» llevan a su índice y solo
+  «Soluciones» y «Recursos» son anclas de la portada, que desde una página
+  interior llevan a la portada y bajan a su sección. En inglés no hay índice
+  de sectores ni de guías, así que allí esos dos siguen siendo anclas.
 
   «Método» y «Blog» salieron de aquí el 7 oct 2026 por decisión del
   propietario. El método sigue siendo un bloque de la portada y el blog pasó
@@ -48,9 +48,9 @@ const grupos = t.footer.navGroups.filter((g) => !g.soloPie);
 
 const entradas: Entrada[] = [
   { label: t.nav.solutions, href: localizedPath('/#soluciones', lang), links: grupos[0]?.links },
-  { label: t.nav.sectors, href: localizedPath('/#sectores', lang), links: t.nav.sectorLinks },
+  { label: t.nav.sectors, href: routeMap.sectors[lang] ?? localizedPath('/#sectores', lang), links: t.nav.sectorLinks },
   { label: t.nav.cases, href: routeMap.cases[lang] ?? localizedPath('/#casos', lang) },
-  { label: t.nav.guides, href: localizedPath('/#recursos', lang), links: grupos[1]?.links },
+  { label: t.nav.guides, href: routeMap.guides[lang] ?? localizedPath('/#recursos', lang), links: grupos[1]?.links },
   { label: t.nav.resources, href: localizedPath('/#recursos', lang), links: t.nav.resourceLinks },
 ];
 const contacto = routeMap.contact[lang] ?? localizedPath('/#contacto', lang);

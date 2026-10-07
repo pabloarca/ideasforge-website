@@ -34,7 +34,7 @@ La primera versión de ese sistema daba por hecho algo que parecía seguro, que 
 
 Un día una comercializadora rediseñó su factura sin avisar a nadie, que es como llegan estos cambios. Desde entonces el flujo verifica el formato antes de extraer nada. Si una factura no encaja con lo esperado, no se procesa. Se detiene y una persona recibe el aviso con el documento delante.
 
-Detenerse ahí no es un fallo del sistema, es el sistema funcionando. **Un formato nuevo procesado con la plantilla vieja produce datos que parecen buenos.** Eso es peor que no procesar, porque nadie revisa lo que parece bien. El caso entero, con lo que hubo que añadirle después de esa factura, está en [su propia página](/casos/stanton).
+Detenerse ahí no es un fallo del sistema, es el sistema funcionando. **Un formato nuevo procesado con la plantilla vieja produce datos que parecen buenos.** Eso es peor que no procesar, porque nadie revisa lo que parece bien. El caso entero, con lo que hubo que añadirle después de esa factura, está en [su propia página](/proyectos/stanton).
 
 ## La validación es el verdadero producto
 
@@ -66,4 +66,4 @@ Tres preguntas separan una demostración bonita de un sistema que aguanta. Qué 
 
 La prueba sigue siendo la misma. *¿Puedes fiarte de lo leído sin mirar el papel?* El día que la respuesta sea sí, ese proceso habrá desaparecido de tu lista.
 
-Si tu papeleo se parece a esto, mira cómo lo trabajamos en [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia) o directamente la página para [gestorías y asesorías](/gestorias). Y si quieres entender por qué empezamos siempre por ordenar los datos, está contado en [antes que el prompt, los datos](/blog/antes-que-el-prompt-los-datos).
+Si tu papeleo se parece a esto, mira cómo lo trabajamos en [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia) o directamente la página para [gestorías y asesorías](/sectores/gestorias-y-asesorias). Y si quieres entender por qué empezamos siempre por ordenar los datos, está contado en [antes que el prompt, los datos](/blog/antes-que-el-prompt-los-datos).

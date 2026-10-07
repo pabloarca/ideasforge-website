@@ -159,7 +159,7 @@ const orgJsonLd = JSON.stringify({
   El tramo intermedio de los servicios apunta al ancla de la home porque
   `/servicios` no existe como pagina: es una seccion. Un elemento de la miga
   tiene que ser una URL real, y esa lo es. El de los casos apunta desde el
-  7 oct 2026 a su indice, `/casos`, que ya es una pagina.
+  7 oct 2026 a su indice, `/proyectos`, que ya es una pagina.
 */
 const rutaSinIdioma = (lang === 'en' ? canonicalPath.replace(/^\/en/, '') : canonicalPath) || '/';
 const segmentos = rutaSinIdioma.split('/').filter(Boolean);
@@ -172,9 +172,13 @@ const ramas: Record<string, { name: string; href: string }> = {
     `#casos`. Son las mismas en los dos idiomas porque los `id` de la portada
     no se traducen.
   */
+  /* Guías y sectores viven bajo carpeta desde el 7 oct 2026, solo en
+     español, y su tramo intermedio apunta a su índice. */
+  guias: { name: nav.guides, href: '/guias' },
+  sectores: { name: nav.sectors, href: '/sectores' },
   servicios: { name: nav.solutions, href: `${inicio}#soluciones` },
   services: { name: nav.solutions, href: `${inicio}#soluciones` },
-  casos: { name: nav.cases, href: '/casos' },
+  proyectos: { name: nav.cases, href: '/proyectos' },
   /*
     `cases` faltaba, y por eso las cinco páginas de caso inglesas decían
     «Home > Wazzy…» mientras sus gemelas españolas decían «Inicio > Proyectos >

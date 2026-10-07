@@ -45,4 +45,4 @@ Nuestro lema interno lo resume: **el juicio vive en el código, la interpretaci�
 
 La próxima vez que un fallo pida a gritos un retoque del prompt, mira antes lo que el modelo recibió. *¿Estaban los datos limpios, ordenados y completos?* Si la respuesta es no, ya sabes que el arreglo no está en el prompt.
 
-Por eso nuestros proyectos de [automatización de procesos](/servicios/automatizacion-de-procesos-con-ia) empiezan mirando los datos antes que el modelo. Y si estás formando criterio para decidir qué contratar, la [guía de agentes de IA](/agentes-de-ia) es el mejor punto de partida.
+Por eso nuestros proyectos de [automatización de procesos](/servicios/automatizacion-de-procesos-con-ia) empiezan mirando los datos antes que el modelo. Y si estás formando criterio para decidir qué contratar, la [guía de agentes de IA](/guias/que-es-un-agente-de-ia) es el mejor punto de partida.

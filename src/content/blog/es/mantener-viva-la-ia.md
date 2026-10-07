@@ -16,7 +16,7 @@ No es una impresión nuestra. [Gartner estima](https://www.gartner.com/en/newsro
 
 ## Lo que mata a los proyectos no es el modelo
 
-Operamos [nuestro propio producto](/casos/wazzy), un asistente de citas por WhatsApp que trata datos de salud y eso nos ha enseñado dónde muere de verdad un sistema. **Nunca es el gran fallo cinematográfico, es la degradación que nadie mira.** Nuestro peor incidente lo ilustra bien. Una alerta mal calibrada empezó a disparar sobre un estado que no era un fallo real. En pocos días emitió 5.667 eventos y agotó el límite mensual del sistema de avisos. El sistema no dejó de ver, dejó de poder avisar.
+Operamos [nuestro propio producto](/proyectos/wazzy), un asistente de citas por WhatsApp que trata datos de salud y eso nos ha enseñado dónde muere de verdad un sistema. **Nunca es el gran fallo cinematográfico, es la degradación que nadie mira.** Nuestro peor incidente lo ilustra bien. Una alerta mal calibrada empezó a disparar sobre un estado que no era un fallo real. En pocos días emitió 5.667 eventos y agotó el límite mensual del sistema de avisos. El sistema no dejó de ver, dejó de poder avisar.
 
 Seis días después fallaron trece recordatorios reales de una clínica y la alarma correspondiente disparó trece veces sin que ninguna saliera de la máquina. Nos lo contó la clínica, no el sistema.
 
@@ -46,6 +46,6 @@ La diferencia entre el proyecto vistoso y el rentable no es el talento ni el mod
 
 ## La pregunta incómoda para tu proveedor
 
-Si estás evaluando un proyecto de IA, la pregunta que más información te dará no es sobre el modelo ni sobre la demostración. *¿Qué pasa el día 180?* ¿Quién mira las alarmas, quién ejecuta las pruebas, quién se entera si el sistema empeora en silencio? **Un proyecto vistoso no sabe responder. Uno rentable responde con nombres.** Cómo se ve eso por dentro, con los números y los errores de un sistema propio, está en [la página de Wazzy](/casos/wazzy).
+Si estás evaluando un proyecto de IA, la pregunta que más información te dará no es sobre el modelo ni sobre la demostración. *¿Qué pasa el día 180?* ¿Quién mira las alarmas, quién ejecuta las pruebas, quién se entera si el sistema empeora en silencio? **Un proyecto vistoso no sabe responder. Uno rentable responde con nombres.** Cómo se ve eso por dentro, con los números y los errores de un sistema propio, está en [la página de Wazzy](/proyectos/wazzy).
 
-Nosotros respondemos con lo que llamamos observabilidad por defecto y está en el centro de cómo hacemos [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia). Si prefieres empezar por el mapa general, está en la [guía de agentes](/agentes-de-ia). Mantener también tiene precio y lo que mueve esa cuota mensual está desglosado en la [guía de coste](/cuanto-cuesta-un-agente-de-ia).
+Nosotros respondemos con lo que llamamos observabilidad por defecto y está en el centro de cómo hacemos [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia). Si prefieres empezar por el mapa general, está en la [guía de agentes](/guias/que-es-un-agente-de-ia). Mantener también tiene precio y lo que mueve esa cuota mensual está desglosado en la [guía de coste](/guias/cuanto-cuesta-un-agente-de-ia).

@@ -153,7 +153,7 @@ export default defineConfig({
       // Entran también las cinco páginas de sector creadas vacías el 7 oct
       // 2026, que van `noindex`. Cada una sale de aquí al tener contenido.
       filter: (url) =>
-        !/\/(gracias|thank-you|industria|salud|logistica|energia-y-utilities|ecommerce)$/.test(
+        !/\/(gracias|thank-you|sectores\/(industria-y-manufactura|salud-y-grupos-sanitarios|logistica-y-transporte|energia-y-utilities|ecommerce-y-retail))$/.test(
           new URL(url).pathname.replace(/\/+$/, '')
         ),
       /*

@@ -39,4 +39,4 @@ La otra mitad de la disciplina es no fiarse de las cifras que sí llegan, que es
 
 La prueba del tercer cero se monta en cinco minutos. Pide un total que cruce varias fuentes y, antes, apaga una. *¿El sistema avisó de lo que faltaba o entregó el total como si nada?* Ese como-si-nada es el cero que nadie clasifica.
 
-Este tipo de disciplina es lo que separa un asistente que funciona en la demostración de uno que aguanta meses de producción. Contamos cómo la aplicamos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia) y si vienes desde cero, la [guía de agentes](/agentes-de-ia) es el mejor punto de partida.
+Este tipo de disciplina es lo que separa un asistente que funciona en la demostración de uno que aguanta meses de producción. Contamos cómo la aplicamos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia) y si vienes desde cero, la [guía de agentes](/guias/que-es-un-agente-de-ia) es el mejor punto de partida.

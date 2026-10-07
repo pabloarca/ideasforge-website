@@ -40,4 +40,4 @@ Nada de esto se improvisa el día que un servicio de terceros se cae a las once 
 
 Hay un experimento que puedes hacer esta semana. Apaga a propósito una herramienta de tu asistente en un entorno de pruebas y mira la pantalla del usuario. *¿Una traza técnica o una degradación amable?* Lo que veas es tu respuesta a la pregunta con la que abría este artículo.
 
-Si estás pensando en un asistente que dependa de tus sistemas reales, esto es parte de lo que llamamos [agentes conversacionales](/servicios/agentes-conversacionales). Y si quieres el mapa completo antes de decidir, empieza por la [guía de agentes de IA](/agentes-de-ia).
+Si estás pensando en un asistente que dependa de tus sistemas reales, esto es parte de lo que llamamos [agentes conversacionales](/servicios/agentes-conversacionales). Y si quieres el mapa completo antes de decidir, empieza por la [guía de agentes de IA](/guias/que-es-un-agente-de-ia).

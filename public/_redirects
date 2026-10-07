@@ -37,10 +37,10 @@
 # ── Entradas cuyo asunto vive ahora en una página de servicio o vertical ─────
 # Las dos de inmobiliaria eran un par que se canibalizaba en la web vieja y
 # ahora convergen en el vertical, que es lo correcto.
-/agente-de-ia-inmobiliario                          /inmobiliarias   301
-/agente-de-ia-inmobiliario/                         /inmobiliarias   301
-/agente-de-ia-para-inmobiliaria                     /inmobiliarias   301
-/agente-de-ia-para-inmobiliaria/                    /inmobiliarias   301
+/agente-de-ia-inmobiliario                          /sectores/real-estate-e-inmobiliario   301
+/agente-de-ia-inmobiliario/                         /sectores/real-estate-e-inmobiliario   301
+/agente-de-ia-para-inmobiliaria                     /sectores/real-estate-e-inmobiliario   301
+/agente-de-ia-para-inmobiliaria/                    /sectores/real-estate-e-inmobiliario   301
 /tareas-del-crm-sin-entrar-al-crm                   /servicios/automatizacion-de-procesos-con-ia   301
 /tareas-del-crm-sin-entrar-al-crm/                  /servicios/automatizacion-de-procesos-con-ia   301
 
@@ -51,8 +51,8 @@
 # salir mal. Search Console le cuenta 423 impresiones y búsquedas propias
 # («detectar alucinaciones de ia», 90 impresiones), así que reviviéndolo se
 # recupera un traslado exacto.
-/alucinaciones-ai                                   /agentes-de-ia   301
-/alucinaciones-ai/                                  /agentes-de-ia   301
+/alucinaciones-ai                                   /guias/que-es-un-agente-de-ia   301
+/alucinaciones-ai/                                  /guias/que-es-un-agente-de-ia   301
 
 # ── Entradas sin heredero, al índice del blog ───────────────────────────────
 # Nada del sitio nuevo trata estos asuntos. Van al blog y no a la home para
@@ -70,12 +70,48 @@
 /analisis-de-sitios-web-con-ia/                     /   301
 
 # ── Páginas ─────────────────────────────────────────────────────────────────
-/proyectos                                          /#proyectos   301
-/proyectos/                                         /#proyectos   301
-/category/proyectos                                 /#proyectos   301
-/category/proyectos/                                /#proyectos   301
+/category/proyectos                                 /proyectos    301
+/category/proyectos/                                /proyectos    301
 /author/79650pwpadmin                               /   301
 /author/79650pwpadmin/                              /   301
+
+# ── Guías y sectores, bajo carpeta (7 oct 2026) ──────────────────────────────
+# Estas siete direcciones eran de la web NUEVA, no del WordPress: estaban
+# publicadas y posicionando. Pasan a vivir bajo /guias/ y /sectores/. Las
+# reglas de arriba que apuntaban a tres de ellas ya llevan el destino nuevo,
+# para que nadie dé dos saltos. En inglés no cambia ninguna dirección.
+/agentes-de-ia                                      /guias/que-es-un-agente-de-ia          301
+/agentes-de-ia/                                     /guias/que-es-un-agente-de-ia          301
+/cuanto-cuesta-un-agente-de-ia                      /guias/cuanto-cuesta-un-agente-de-ia   301
+/cuanto-cuesta-un-agente-de-ia/                     /guias/cuanto-cuesta-un-agente-de-ia   301
+/ia-y-rgpd                                          /guias/ia-y-rgpd                       301
+/ia-y-rgpd/                                         /guias/ia-y-rgpd                       301
+/reglamento-europeo-de-ia                           /guias/reglamento-europeo-de-ia        301
+/reglamento-europeo-de-ia/                          /guias/reglamento-europeo-de-ia        301
+/pymes                                              /guias/ia-para-pymes                   301
+/pymes/                                             /guias/ia-para-pymes                   301
+/inmobiliarias                                      /sectores/real-estate-e-inmobiliario   301
+/inmobiliarias/                                     /sectores/real-estate-e-inmobiliario   301
+/gestorias                                          /sectores/gestorias-y-asesorias        301
+/gestorias/                                         /sectores/gestorias-y-asesorias        301
+
+# ── «Casos» pasa a llamarse «Proyectos» (8 oct 2026) ─────────────────────────
+# Las cinco páginas de caso estaban publicadas bajo /casos/. El índice /casos
+# no llegó a publicarse, pero se redirige igual por si alguien lo enlazó desde
+# la rama de trabajo. /proyectos ya no lleva regla: ahora es una página, y las
+# que apuntaban al ancla #proyectos de la portada, que ya no existe, van a ella.
+/casos                                              /proyectos                 301
+/casos/                                             /proyectos                 301
+/casos/savian                                       /proyectos/savian          301
+/casos/savian/                                      /proyectos/savian          301
+/casos/stanton                                      /proyectos/stanton         301
+/casos/stanton/                                     /proyectos/stanton         301
+/casos/barceloneta                                  /proyectos/barceloneta     301
+/casos/barceloneta/                                 /proyectos/barceloneta     301
+/casos/industrial                                   /proyectos/industrial      301
+/casos/industrial/                                  /proyectos/industrial      301
+/casos/wazzy                                        /proyectos/wazzy           301
+/casos/wazzy/                                       /proyectos/wazzy           301
 
 # ══ INGLÉS ═══════════════════════════════════════════════════════════════════
 # La web vieja tenía versión inglesa bajo /en/ conservando el slug español.
@@ -106,10 +142,10 @@
 /en/politica-cookies/                               /en/cookies-policy   301
 /en/politica-privacidad                             /en/privacy-policy   301
 /en/politica-privacidad/                            /en/privacy-policy   301
-/en/proyectos                                       /en#proyectos    301
-/en/proyectos/                                      /en#proyectos    301
-/en/category/proyectos                              /en#proyectos    301
-/en/category/proyectos/                             /en#proyectos    301
+/en/proyectos                                       /en/cases        301
+/en/proyectos/                                      /en/cases        301
+/en/category/proyectos                              /en/cases        301
+/en/category/proyectos/                             /en/cases        301
 
 # ══ LA VERSIÓN ANTERIOR EN www ═══════════════════════════════════════════════
 # Antes del WordPress hubo otra web en www.ideasforge.io con el español bajo
@@ -120,8 +156,8 @@
 /es/*                                               /       301
 /blog/ai-content-generation                         /blog      301
 /blog/ai-content-generation/                        /blog      301
-/blog/asbestos-tracker-webmap                       /#proyectos   301
-/blog/asbestos-tracker-webmap/                      /#proyectos   301
+/blog/asbestos-tracker-webmap                       /proyectos    301
+/blog/asbestos-tracker-webmap/                      /proyectos    301
 /en/blog/ai-powered-website-roasting                /en    301
 /en/blog/ai-powered-website-roasting/               /en    301
 

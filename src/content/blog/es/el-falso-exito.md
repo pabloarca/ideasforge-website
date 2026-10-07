@@ -30,7 +30,7 @@ Un tercer trabajo, de Vikas Reddy y su equipo, presentado en un taller del congr
 
 Llévalo a tu producto y verás por qué esto no se parece a un dato erróneo. Un dato erróneo la persona lo puede contrastar. Aquí el asistente dice «listo, tu cita queda cambiada al martes», la cita sigue donde estaba, la persona se va tranquila y tú te enteras el jueves cuando no aparece.
 
-Nosotros lo hemos vivido. La primera versión del agente que hoy filtra solicitudes para una agencia de alquiler era un modelo con herramientas a su disposición. Muchas veces no las llamaba, así que o se inventaba la respuesta o decía que no podía avanzar cuando sí se podía. Está contado entero en [el caso de Barceloneta](/casos/barceloneta).
+Nosotros lo hemos vivido. La primera versión del agente que hoy filtra solicitudes para una agencia de alquiler era un modelo con herramientas a su disposición. Muchas veces no las llamaba, así que o se inventaba la respuesta o decía que no podía avanzar cuando sí se podía. Está contado entero en [el caso de Barceloneta](/proyectos/barceloneta).
 
 ## Poner otra IA a vigilar no funciona
 
@@ -68,7 +68,7 @@ Un minuto después llegó el mensaje diciendo que sí iba, sin nada abierto dond
 
 **El sistema confundió «esto no trata de la cita» con «la cita ya está resuelta».** De ahí salió la regla de una línea que hoy va en todo lo que construimos. Solo una acción cierra una acción y una clasificación no lo es.
 
-Lo medimos, porque una anécdota sin cifra no sirve para decidir nada. En toda la vida del producto hay 287 confirmaciones que salieron por el camino bueno, 105 que caducaron sin respuesta y 10 que murieron de esta manera. Está contado con su contexto en [el caso de Wazzy](/casos/wazzy).
+Lo medimos, porque una anécdota sin cifra no sirve para decidir nada. En toda la vida del producto hay 287 confirmaciones que salieron por el camino bueno, 105 que caducaron sin respuesta y 10 que murieron de esta manera. Está contado con su contexto en [el caso de Wazzy](/proyectos/wazzy).
 
 Y el problema es más sutil que impedirle al modelo decir «hecho». Nuestro clasificador no dijo en ningún momento que algo estuviera terminado, solo puso una etiqueta. Lo que la volvía peligrosa es que esa etiqueta tenía efectos de escritura por detrás, porque al marcar el mensaje cerraba la confirmación.
 
@@ -108,7 +108,7 @@ Hay que distinguir además «vacío» de «no preguntado». No es lo mismo que l
 
 Contra eso solo hay una defensa, que es medir con el mismo examen tantas veces como haga falta. En el asistente de planta que mantenemos, la primera medición del enrutado sobre 118 consultas reales dio un 72,8 % de acierto. Algo más de una de cada cuatro preguntas acababa en el agente equivocado. Dos rondas de correcciones después, con esas mismas 118 consultas, quedó en 91,5 %.
 
-**Lo que importa ahí no es el número final, es que el examen no cambió entre rondas.** Un examen que se retoca cuando el sistema falla deja de medir el sistema y pasa a medir la paciencia de quien lo escribe. Las mediciones están en [el caso del asistente de planta](/casos/industrial).
+**Lo que importa ahí no es el número final, es que el examen no cambió entre rondas.** Un examen que se retoca cuando el sistema falla deja de medir el sistema y pasa a medir la paciencia de quien lo escribe. Las mediciones están en [el caso del asistente de planta](/proyectos/industrial).
 
 La posición que sostenemos, dicha sin adornos: la invención no ha desaparecido, se ha movido. Ha pasado de «qué he hecho» a «qué he entendido». Lo segundo está acotado, se puede contrastar contra la base de datos y por sí solo no cambia nada en el mundo. Lo primero, no.
 
