@@ -13,8 +13,10 @@
   pila con el hueco gris del diseño (`photo-slot`), que entra con la misma
   cortinilla.
 
-  Las filas son botones y no enlaces: su trabajo es cambiar la foto. Las
-  páginas de sector se alcanzan desde el menú y desde su índice.
+  Cada fila enlaza a la página de su sector (8 oct 2026). Pasar el ratón o
+  el foco por ella sigue cambiando la foto, y pulsarla lleva a la página. Una
+  fila sin página, como las de la portada inglesa, sigue siendo un botón que
+  solo cambia la foto.
 */
 import { Picture } from 'astro:assets';
 import { type Lang, content } from '../../i18n/ui';
@@ -38,15 +40,25 @@ const t = content[lang].home.sectors;
       {
         t.items.map((k, i) => (
           <li>
-            <button
-              type="button"
-              class:list={['sector', i === 0 && 'is-active']}
-              aria-pressed={i === 0 ? 'true' : 'false'}
-              data-sec-fila
-            >
-              <span class="num pt-1.5">{String(i + 1).padStart(2, '0')}</span>
-              <span class="t-h3-row">{k.title}</span>
-            </button>
+            {k.href ? (
+              <a href={k.href} class:list={['sector', i === 0 && 'is-active']} data-sec-fila>
+                <span class="num pt-1.5">{String(i + 1).padStart(2, '0')}</span>
+                <span class="t-h3-row">{k.title}</span>
+                <span class="sector-flecha" aria-hidden="true">
+                  →
+                </span>
+              </a>
+            ) : (
+              <button
+                type="button"
+                class:list={['sector', i === 0 && 'is-active']}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+                data-sec-fila
+              >
+                <span class="num pt-1.5">{String(i + 1).padStart(2, '0')}</span>
+                <span class="t-h3-row">{k.title}</span>
+              </button>
+            )}
           </li>
         ))
       }
@@ -90,7 +102,7 @@ const t = content[lang].home.sectors;
   }
   .sector {
     display: grid;
-    grid-template-columns: 48px minmax(0, 1fr);
+    grid-template-columns: 48px minmax(0, 1fr) auto;
     gap: 16px;
     width: 100%;
     padding: 22px 0;
@@ -102,6 +114,18 @@ const t = content[lang].home.sectors;
   }
   .sector.is-active {
     color: var(--color-accent);
+  }
+  /* La flecha de las filas que son enlace. Solo se ve en la fila activa, que
+     es la que el visitante tiene delante. */
+  .sector-flecha {
+    align-self: center;
+    font-size: 20px;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .sector.is-active .sector-flecha {
+    opacity: 1;
   }
 
   .sector-foto {
@@ -146,7 +170,8 @@ const t = content[lang].home.sectors;
       pintar(i) {
         filas.forEach((f, k) => {
           f.classList.toggle('is-active', k === i);
-          f.setAttribute('aria-pressed', k === i ? 'true' : 'false');
+          // `aria-pressed` es de botones: en una fila que es enlace no se pone.
+          if (f.tagName === 'BUTTON') f.setAttribute('aria-pressed', k === i ? 'true' : 'false');
         });
         if (i === previa) return;
         fotos.forEach((f, k) => {
@@ -163,7 +188,8 @@ const t = content[lang].home.sectors;
       };
       f.addEventListener('mouseenter', activar);
       f.addEventListener('focus', activar);
-      f.addEventListener('click', activar);
+      // El clic activa la fila solo si es un botón. En un enlace, navega.
+      if (f.tagName === 'BUTTON') f.addEventListener('click', activar);
     });
   });
 </script>

@@ -854,8 +854,10 @@ export interface HomeContent {
   sectors: {
     title: string;
     lead: string;
-    /** `image` es opcional: un sector sin fotografía sale con el hueco gris. */
-    items: Array<{ title: string; image?: string }>;
+    /** `image` es opcional: un sector sin fotografía sale con el hueco gris.
+     *  `href` también: con él la fila es un enlace a la página del sector y
+     *  sin él, un botón que solo cambia la foto. */
+    items: Array<{ title: string; image?: string; href?: string }>;
     links: Array<{ label: string; href: string }>;
   };
   resources: {
@@ -932,7 +934,7 @@ export interface SiteContent {
      *  del pie, los dos desde esta lista (7 oct 2026). Sube a la cabecera lo
      *  que el 28 ago 2026 se dejó solo en el pie, por decisión del
      *  propietario. Cada entrada es el nombre del sector, sin «IA para». Los
-     *  nombres españoles, con sus mayúsculas, los fijó el propietario. */
+     *  nombres españoles los fijó el propietario, con mayúscula solo inicial. */
     sectors: string;
     sectorLinks: { label: string; href: string }[];
     /** El botón de la cabecera. */
@@ -1375,13 +1377,13 @@ export const content: Record<Lang, SiteContent> = {
       guides: 'Guías',
       sectors: 'Sectores',
       sectorLinks: [
-        { label: 'Real Estate e Inmobiliario', href: '/sectores/real-estate-e-inmobiliario' },
-        { label: 'Gestorías y Asesorías', href: '/sectores/gestorias-y-asesorias' },
-        { label: 'Industria y Manufactura', href: '/sectores/industria-y-manufactura' },
-        { label: 'Salud y Grupos Sanitarios', href: '/sectores/salud-y-grupos-sanitarios' },
-        { label: 'Logística y Transporte', href: '/sectores/logistica-y-transporte' },
-        { label: 'Energía y Utilities', href: '/sectores/energia-y-utilities' },
-        { label: 'Ecommerce y Retail', href: '/sectores/ecommerce-y-retail' },
+        { label: 'Real estate e inmobiliario', href: '/sectores/real-estate-e-inmobiliario' },
+        { label: 'Gestorías y asesorías', href: '/sectores/gestorias-y-asesorias' },
+        { label: 'Industria y manufactura', href: '/sectores/industria-y-manufactura' },
+        { label: 'Salud y grupos sanitarios', href: '/sectores/salud-y-grupos-sanitarios' },
+        { label: 'Logística y transporte', href: '/sectores/logistica-y-transporte' },
+        { label: 'Energía y utilities', href: '/sectores/energia-y-utilities' },
+        { label: 'Ecommerce y retail', href: '/sectores/ecommerce-y-retail' },
       ],
       resources: 'Recursos',
       resourceLinks: [
@@ -1618,13 +1620,13 @@ export const content: Record<Lang, SiteContent> = {
         /* Los siete sectores del menú, con sus nombres (8 oct 2026). Los tres
            últimos no tienen fotografía todavía y salen con el hueco gris. */
         items: [
-          { title: 'Real Estate e Inmobiliario', image: '/case-studies/barceloneta.jpg' },
-          { title: 'Gestorías y Asesorías', image: '/case-studies/stanton.jpg' },
-          { title: 'Industria y Manufactura', image: '/case-studies/industrial.jpg' },
-          { title: 'Salud y Grupos Sanitarios', image: '/case-studies/dentist.jpg' },
-          { title: 'Logística y Transporte' },
-          { title: 'Energía y Utilities' },
-          { title: 'Ecommerce y Retail' },
+          { title: 'Real estate e inmobiliario', image: '/case-studies/barceloneta.jpg', href: '/sectores/real-estate-e-inmobiliario' },
+          { title: 'Gestorías y asesorías', image: '/case-studies/stanton.jpg', href: '/sectores/gestorias-y-asesorias' },
+          { title: 'Industria y manufactura', image: '/case-studies/industrial.jpg', href: '/sectores/industria-y-manufactura' },
+          { title: 'Salud y grupos sanitarios', image: '/case-studies/dentist.jpg', href: '/sectores/salud-y-grupos-sanitarios' },
+          { title: 'Logística y transporte', href: '/sectores/logistica-y-transporte' },
+          { title: 'Energía y utilities', href: '/sectores/energia-y-utilities' },
+          { title: 'Ecommerce y retail', href: '/sectores/ecommerce-y-retail' },
         ],
         links: [{ label: 'Ver proyectos', href: '/proyectos' }],
       },
