@@ -1,0 +1,678 @@
+---
+/*
+  Plantilla de las cinco páginas de solución, del paquete de diseño de octubre
+  de 2026 (`.private/paginas-soluciones/`). Una sola plantilla con doce
+  bloques en orden fijo. Cada página le pasa su clave y aquí se lee su
+  contenido de `pages.solutions` en ui.ts.
+
+  Cabecera y migas de pan NO son de este diseño: son las del sitio, que pone
+  `BaseLayout`. Por eso el héroe no repite la miga que dibuja el prototipo.
+
+  Tres bloques no se escriben aquí porque ya existen:
+    - la FAQ es `FaqList`, la misma pieza de todo el sitio, con su `FAQPage`
+      estructurado y cada pregunta como h3;
+    - el contacto es el `ContactForm` de la portada, con el titular, el
+      párrafo y el botón de cada solución, y con envío de verdad;
+    - la aparición al hacer scroll es `data-reveal`, que ya observa el layout.
+
+  Los dos campos a sangre (el póster azul y el de control en tinta) salen del
+  contenedor con márgenes negativos del mismo valor que su margen lateral, así
+  que llegan al borde de la página hasta los 1280 px y se quedan ahí.
+
+  La animación del héroe se dibuja con porcentajes y no con las coordenadas
+  fijas del prototipo, que la dejaban cortada por la derecha en un teléfono.
+  Cada paquete viaja dentro de su propio radio, así que el dibujo entero
+  encoge con su caja.
+*/
+import { Picture } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FaqList from './FaqList.astro';
+import ContactForm from './home/ContactForm.astro';
+import { type Lang, type SolutionKey, content } from '../i18n/ui';
+import { altsFor } from '../i18n/utils';
+import { foto } from '../lib/fotos';
+
+interface Props {
+  lang: Lang;
+  clave: SolutionKey;
+}
+const { lang, clave } = Astro.props;
+const sol = content[lang].pages.solutions;
+if (!sol) throw new Error(`No hay páginas de solución en «${lang}».`);
+const d = sol.pages[clave];
+const l = sol.labels;
+
+const dos = (i: number) => String(i + 1).padStart(2, '0');
+const otras = sol.order.filter((k) => k !== clave).map((k) => sol.pages[k]);
+
+/* N columnas iguales en escritorio y una en móvil, sin puntos de corte: el
+   mínimo de cada columna es su parte exacta del ancho, descontado el hueco. */
+const n = d.method.steps.length;
+const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${Math.round((32 * (n - 1)) / n)}px)), 1fr))`;
+
+/* El agente y sus sistemas: ocho nodos en círculo, unidos al centro. */
+const NODOS = 8;
+const nodos = Array.from({ length: NODOS }, (_, i) => {
+  const grados = (i / NODOS) * 360 - 90;
+  const rad = (grados * Math.PI) / 180;
+  return {
+    i,
+    grados,
+    x: (50 + Math.cos(rad) * 37.5).toFixed(2),
+    y: (50 + Math.sin(rad) * 37.5).toFixed(2),
+    // Los pares salen del centro y los impares entran.
+    sale: i % 2 === 0,
+    viaje: (2.6 + (i % 3) * 0.5).toFixed(1),
+  };
+});
+---
+
+<BaseLayout lang={lang} title={d.metaTitle} description={d.metaDescription} alternates={altsFor(clave)}>
+  <div class="wrap">
+    <!-- 1. Héroe -->
+    <section class="sol-hero">
+      <div>
+        <h1 class="t-display sol-in max-w-[20ch]" style="--d:.08s">{d.h1}</h1>
+        <p class="sol-in mt-6 max-w-[58ch] text-[17px] leading-[1.55] text-muted" style="--d:.16s">{d.lead}</p>
+        <p
+          class="sol-in mt-6 max-w-[36ch] text-[clamp(18px,1.5vw,21px)] font-medium leading-[1.35] tracking-[-0.012em]"
+          style="--d:.2s"
+        >
+          {d.statement[0]}
+          <span class="text-accent">{d.statement[1]}</span>
+        </p>
+        <div class="sol-in mt-9 flex flex-wrap items-center gap-5" style="--d:.24s">
+          <a href="#contacto" class="btn-primary hover:btn-primary-hover">{d.cta}</a>
+          <a href="#casos" class="link-quiet">{l.seeCases}</a>
+        </div>
+      </div>
+
+      <div class="sol-in sol-arte-caja" style="--d:.2s" aria-hidden="true">
+        <div class="sol-arte">
+          {
+            nodos.map((p) => (
+              <span class="sol-radio" style={`transform:translateY(-1px) rotate(${p.grados}deg)`}>
+                <span
+                  class="sol-paquete"
+                  style={`transform:rotate(${-p.grados}deg);animation:${p.sale ? 'sol-sale' : 'sol-entra'} ${p.viaje}s ${(p.i * 0.45).toFixed(2)}s var(--ease-in-out) infinite`}
+                />
+              </span>
+            ))
+          }
+          {
+            nodos.map((p) => (
+              <span class="sol-nodo" style={`left:${p.x}%;top:${p.y}%;animation-delay:${(p.i * 0.5).toFixed(1)}s`} />
+            ))
+          }
+          <span class="sol-marco" />
+          <span class="sol-nucleo" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Intro -->
+    <section class="section-y">
+      <div class="sol-intro-cab" data-reveal>
+        <h2 class="sol-h2 max-w-[18ch]">{d.intro.h2}</h2>
+        <div>
+          <p class="max-w-[52ch] text-base leading-[1.65] text-muted">{d.intro.p[0]}</p>
+          <p class="mt-4 max-w-[52ch] text-base font-medium leading-[1.65]">{d.intro.p[1]}</p>
+        </div>
+      </div>
+      <div class="flex items-baseline justify-between gap-x-8 gap-y-4 pt-6">
+        <span class="kicker">{d.intro.listLabel}</span>
+        <span class="num shrink-0">{l.examples.replace('{n}', String(d.intro.list.length))}</span>
+      </div>
+      <ul class="mt-6 flex flex-wrap gap-2.5">
+        {
+          d.intro.list.map((t) => (
+            <li class="sol-pastilla">
+              <span class="sol-pastilla-sq" aria-hidden="true" />
+              {t}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- 3. Capacidades -->
+    <section class="section-y">
+      <div class="section-head" data-reveal>
+        <h2 class="sol-h2">{d.capabilities.h2}</h2>
+        <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{d.capabilities.lead}</p>
+      </div>
+      <div class="ruled-grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))]">
+        {
+          d.capabilities.items.map(([t, texto], i) => (
+            <div class="px-6 pb-8 pt-7">
+              <span class="num mb-7 block">{dos(i)}</span>
+              <h3 class="mb-2.5 text-[19px] leading-[1.25] tracking-[-0.012em]">{t}</h3>
+              <p class="text-[15px] leading-[1.55] text-muted">{texto}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- 4. Póster azul a sangre -->
+    <section class="sol-sangre sol-poster">
+      <div class="sol-sangre-dentro grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] items-center gap-[clamp(32px,5vw,96px)]">
+        <div>
+          <span class="mb-5 block text-xs uppercase leading-[1.4] tracking-[0.12em]">{d.poster.kicker}</span>
+          <h2 class="sol-h2 sol-h2-poster max-w-[16ch]">
+            {d.poster.h2[0]}<span class="sol-subrayado">{d.poster.h2[1]}</span>{d.poster.h2[2]}<span
+              class="sol-subrayado">{d.poster.h2[3]}</span
+            >{d.poster.h2[4]}
+          </h2>
+        </div>
+        <div>
+          <p class="max-w-[48ch] text-base leading-[1.6]">{d.poster.p[0]}</p>
+          <p class="mt-4 max-w-[48ch] text-base leading-[1.6]">{d.poster.p[1]}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Tipos -->
+    <section class="section-y">
+      <div class="section-head" data-reveal>
+        <h2 class="sol-h2">{d.types.h2}</h2>
+        <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{d.types.lead}</p>
+      </div>
+      <div class="border-t-2 border-border">
+        {
+          d.types.items.map(([t, texto], i) => (
+            <div class="sol-fila">
+              <span class="text-[13px] opacity-70 [font-feature-settings:'tnum'_1]">{dos(i)}</span>
+              <h3 class="text-[clamp(20px,2vw,28px)] leading-[1.15] tracking-[-0.02em]">{t}</h3>
+              <p class="text-[15px] leading-[1.55] opacity-80">{texto}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- 6. Casos -->
+    <section id="casos" class="section-y">
+      <div class="section-head" data-reveal>
+        <h2 class="sol-h2">{d.cases.h2}</h2>
+        <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{d.cases.lead}</p>
+      </div>
+      <div class="sol-casos">
+        {
+          d.cases.items.map((k) => (
+            <a href={k.href} class="group grid grid-rows-[auto_1fr] bg-bg">
+              <figure class="bn aspect-video overflow-hidden border-b-2 border-border bg-neutral-200">
+                <Picture
+                  pictureAttributes={{ class: 'contents' }}
+                  src={foto(k.image)}
+                  alt=""
+                  formats={['avif', 'webp']}
+                  widths={[480, 800, 1200]}
+                  sizes="(min-width: 900px) 576px, 100vw"
+                  loading="lazy"
+                  decoding="async"
+                  class="h-full w-full object-cover"
+                />
+              </figure>
+              <div class="flex flex-col px-[clamp(24px,3vw,40px)] pb-9 pt-7">
+                <span class="text-[13px] text-muted">{k.client}</span>
+                <h3 class="mt-4 text-[clamp(22px,2.2vw,30px)] leading-[1.12] tracking-[-0.022em]">{k.title}</h3>
+                <p class="mt-4 text-[15px] leading-[1.6] text-muted">{k.desc}</p>
+                <span class="mt-auto self-start pt-7">
+                  <span class="link-arrow">{l.viewCase.replace('{client}', k.client)} →</span>
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- 7. Método -->
+    <section class="section-y">
+      <div class="section-head" data-reveal>
+        <h2 class="sol-h2">{d.method.h2}</h2>
+        <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{d.method.lead}</p>
+      </div>
+      <div class="grid gap-x-8 border-t-2 border-border" style={`grid-template-columns:${columnasMetodo}`}>
+        {
+          d.method.steps.map(([t, texto], i) => (
+            <div class="sol-paso">
+              <span class="sq mb-10" aria-hidden="true" />
+              <h3 class="mb-3 text-lg leading-[1.25] tracking-[-0.015em]">
+                <span class="num mb-2.5 block">{dos(i)}</span>
+                {t}
+              </h3>
+              <p class="text-[15px] leading-[1.6] text-muted">{texto}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- 8. Control: campo en tinta a sangre -->
+    <section class="sol-sangre sol-control">
+      <div class="sol-sangre-dentro">
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,360px),1fr))] items-end gap-x-[clamp(32px,6vw,112px)] gap-y-8">
+          <div>
+            <span class="mb-7 block text-xs uppercase leading-[1.4] tracking-[0.12em] text-accent-300">
+              {d.control.kicker}
+            </span>
+            <h2 class="sol-h2 max-w-[20ch]">{d.control.h2}</h2>
+          </div>
+          <div>
+            <p class="sol-control-suave max-w-[48ch] text-base leading-[1.65]">{d.control.p[0]}</p>
+            <p class="mt-4 max-w-[48ch] text-base font-medium leading-[1.65]">{d.control.p[1]}</p>
+          </div>
+        </div>
+        <p class="sol-control-rotulo mb-4 mt-[clamp(40px,5vw,64px)] text-[13px]">{d.control.listLabel}</p>
+        <ol class="sol-control-lista">
+          {
+            d.control.items.map((t, i) => (
+              <li>
+                <span class="sol-control-rotulo text-[13px] [font-feature-settings:'tnum'_1]">{dos(i)}</span>
+                <span class="mt-auto text-[15px] leading-[1.35] tracking-[-0.01em]">{t}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <!-- 9. Cuándo merece la pena -->
+    <section class="section-y">
+      <div class="section-head" data-reveal>
+        <h2 class="sol-h2">{d.when.h2}</h2>
+        <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{d.when.lead}</p>
+      </div>
+      <div class="sol-diptico">
+        <div class="bg-bg p-[clamp(24px,3vw,40px)]">
+          <div class="mb-7 flex items-center gap-3">
+            <span class="sq shrink-0" aria-hidden="true" />
+            <h3 class="kicker">{d.when.yes.label}</h3>
+          </div>
+          <ol class="text-base leading-[1.4]">
+            {
+              d.when.yes.items.map((t, i) => (
+                <li class="grid grid-cols-[32px_1fr] gap-3 border-t-2 border-border py-3">
+                  <span class="num pt-[3px]" aria-hidden="true">{dos(i)}</span>
+                  {t}
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+        <div class="bg-bg-soft p-[clamp(24px,3vw,40px)]">
+          <div class="mb-7 flex items-center gap-3">
+            <span class="sol-sq-hueco shrink-0" aria-hidden="true" />
+            <h3 class="kicker text-muted!">{d.when.no.label}</h3>
+          </div>
+          <ol class="text-base leading-[1.4] text-neutral-900">
+            {
+              d.when.no.items.map((t, i) => (
+                <li class="grid grid-cols-[32px_1fr] gap-3 border-t-2 border-border py-3">
+                  <span class="num pt-[3px]" aria-hidden="true">{dos(i)}</span>
+                  {t}
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. FAQ -->
+    <section class="mt-(--section-y) border-t-2 border-fg pt-[clamp(48px,6vw,80px)]">
+      <div class="grid items-start gap-x-[clamp(32px,5vw,96px)] gap-y-8 lg:grid-cols-3">
+        <div class="lg:sticky lg:top-[104px]">
+          <span class="kicker mb-6">{l.faqKicker}</span>
+          <h2 class="sol-h2-menor">{d.faq.h2}</h2>
+        </div>
+        <FaqList items={d.faq.items} group="faq-solucion" openFirst class="lg:col-span-2" />
+      </div>
+    </section>
+
+    <!-- 11. Otras soluciones -->
+    <section class="section-y">
+      <h2 class="kicker mb-6">{l.others}</h2>
+      <div class="ruled-grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))]">
+        {
+          otras.map((o) => (
+            <a href={o.href} class="sol-otra">
+              <span class="block text-[17px] font-medium leading-[1.25] tracking-[-0.015em]">{o.nav.name}</span>
+              <span class="mt-2 block text-[13px] leading-normal opacity-75">{o.nav.short}</span>
+              <span class="mt-auto flex items-center justify-between pt-7 text-[13px]">
+                <span class="border-b-2 border-current pb-0.5">{l.viewSolution}</span>
+                <span class="text-lg leading-none" aria-hidden="true">→</span>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+
+  <!-- 12. Contacto -->
+  <ContactForm
+    lang={lang}
+    texto={{ kicker: l.contactKicker, title: d.contact.h2, body: d.contact.p, submit: d.contact.cta }}
+  />
+</BaseLayout>
+
+<style>
+  /*
+    Titulares de sección. Van un escalón claro por debajo del h1 (34 a 56 px):
+    con los tamaños del prototipo (32 a 56) se confundían con él. El del póster
+    es la excepción pedida por el propietario: va más grande que el resto, y
+    con el interlineado abierto porque lleva dos palabras subrayadas.
+  */
+  .sol-h2 {
+    font-size: clamp(26px, 2.8vw, 40px);
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+  }
+  .sol-h2-poster {
+    font-size: clamp(30px, 3.4vw, 48px);
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+  }
+  .sol-h2-menor {
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.12;
+    letter-spacing: -0.022em;
+  }
+
+  /* ---- 1. Héroe ---- */
+  .sol-hero {
+    display: grid;
+    gap: 48px clamp(32px, 5vw, 80px);
+    align-items: center;
+    padding-top: clamp(56px, 7vw, 96px);
+  }
+  @media (min-width: 900px) {
+    .sol-hero {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    }
+  }
+  .sol-in {
+    animation: if-up 0.8s var(--d, 0s) var(--ease-out) both;
+  }
+
+  .sol-arte-caja {
+    display: flex;
+    justify-content: flex-start;
+    overflow: hidden;
+    margin: -8px;
+    padding: 8px;
+  }
+  @media (min-width: 900px) {
+    .sol-arte-caja {
+      justify-content: flex-end;
+    }
+  }
+  .sol-arte {
+    position: relative;
+    width: min(100%, 400px);
+    aspect-ratio: 1;
+  }
+  /* Radio: una regla del centro al nodo. Mide el 37,5 % del lado, que es el
+     radio de 150 sobre los 400 del prototipo. */
+  .sol-radio {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 37.5%;
+    height: 2px;
+    background: var(--color-border);
+    transform-origin: 0 50%;
+  }
+  .sol-paquete {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
+    background: var(--color-accent);
+    opacity: 0;
+  }
+  .sol-nodo {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    background: var(--color-fg);
+    animation: sol-nodo 4s ease-in-out infinite;
+  }
+  .sol-marco {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 72px;
+    height: 72px;
+    margin: -36px 0 0 -36px;
+    border: 2px solid var(--color-fg);
+    background: var(--color-bg);
+  }
+  .sol-nucleo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 28px;
+    height: 28px;
+    margin: -14px 0 0 -14px;
+    background: var(--color-accent);
+    animation: sol-latido 3s ease-in-out infinite;
+  }
+  @keyframes sol-latido {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.25);
+    }
+  }
+  @keyframes sol-nodo {
+    0%,
+    100% {
+      background: var(--color-fg);
+    }
+    50% {
+      background: var(--color-accent);
+    }
+  }
+  @keyframes sol-sale {
+    0% {
+      left: 0;
+      opacity: 0;
+    }
+    8%,
+    92% {
+      opacity: 1;
+    }
+    100% {
+      left: 100%;
+      opacity: 0;
+    }
+  }
+  @keyframes sol-entra {
+    0% {
+      left: 100%;
+      opacity: 0;
+    }
+    8%,
+    92% {
+      opacity: 1;
+    }
+    100% {
+      left: 0;
+      opacity: 0;
+    }
+  }
+
+  /* ---- 2. Intro ---- */
+  .sol-intro-cab {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+    gap: 32px clamp(32px, 6vw, 112px);
+    align-items: end;
+    border-bottom: 2px solid var(--color-fg);
+    padding-bottom: clamp(32px, 4vw, 48px);
+  }
+  .sol-pastilla {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px 12px 14px;
+    border: 2px solid var(--color-border);
+    font-size: clamp(15px, 1.3vw, 18px);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    transition:
+      border-color 0.3s,
+      background-color 0.3s,
+      color 0.3s;
+  }
+  .sol-pastilla:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+  .sol-pastilla-sq {
+    display: block;
+    flex: none;
+    width: 10px;
+    height: 10px;
+    background: currentColor;
+    opacity: 0.9;
+  }
+
+  /* ---- 4 y 8. Campos a sangre ---- */
+  .sol-sangre {
+    margin-top: var(--section-y);
+    margin-inline: calc(-1 * var(--page-x));
+    padding-inline: var(--page-x);
+    color: var(--color-on-accent);
+  }
+  .sol-sangre-dentro {
+    max-width: 1152px;
+    margin-inline: auto;
+  }
+  .sol-poster {
+    background: var(--color-accent);
+    padding-block: clamp(48px, 6vw, 80px);
+  }
+  .sol-subrayado {
+    border-bottom: 3px solid currentColor;
+    padding-bottom: 0.02em;
+  }
+
+  /* ---- 5. Tipos ---- */
+  .sol-fila {
+    display: grid;
+    gap: 8px clamp(16px, 3vw, 48px);
+    align-items: baseline;
+    padding: 24px clamp(0px, 2vw, 24px);
+    margin: 0 calc(-1 * clamp(0px, 2vw, 24px));
+    border-bottom: 2px solid var(--color-border);
+    transition:
+      background-color 0.3s,
+      color 0.3s,
+      border-color 0.3s;
+  }
+  @media (min-width: 720px) {
+    .sol-fila {
+      grid-template-columns: 48px minmax(0, 1fr) minmax(0, 1.4fr);
+    }
+  }
+  .sol-fila:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  /* ---- 6. Casos ---- */
+  .sol-casos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: 2px;
+    background: var(--color-border);
+    border: 2px solid var(--color-border);
+  }
+
+  /* ---- 7. Método ---- */
+  .sol-paso {
+    padding-top: 32px;
+    transition: transform 0.3s;
+  }
+  .sol-paso:hover {
+    transform: translateY(-4px);
+  }
+
+  /* ---- 8. Control ---- */
+  .sol-control {
+    background: var(--color-fg);
+    padding-block: clamp(56px, 7vw, 96px);
+  }
+  /* Los dos grises del texto sobre tinta. El prototipo usa su neutral-400
+     para el rótulo y los números, que sobre #201e1d da 6,6:1. */
+  .sol-control-suave {
+    color: #c9c6c5;
+  }
+  .sol-control-rotulo {
+    color: var(--color-neutral-400);
+  }
+  .sol-control-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(20% - 2px)), 1fr));
+    gap: 2px;
+    background: var(--color-neutral-900);
+    border: 2px solid var(--color-neutral-900);
+  }
+  .sol-control-lista > li {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    min-height: 120px;
+    padding: 20px 20px 24px;
+    background: var(--color-fg);
+    transition: background-color 0.3s;
+  }
+  .sol-control-lista > li:hover {
+    background-color: var(--color-accent);
+  }
+  .sol-control-lista > li:hover .sol-control-rotulo {
+    color: var(--color-on-accent);
+  }
+
+  /* ---- 9. Díptico ---- */
+  .sol-diptico {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 2px;
+    background: var(--color-border);
+    border: 2px solid var(--color-border);
+  }
+  .sol-sq-hueco {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--color-faint);
+  }
+
+  /* ---- 11. Otras soluciones ---- */
+  .sol-otra {
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+    padding: 24px;
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
+  .sol-otra:hover {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+</style>

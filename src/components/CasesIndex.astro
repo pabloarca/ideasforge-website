@@ -1,0 +1,90 @@
+---
+/*
+  Índice de casos: la página que lista las fichas del carrusel de la portada,
+  todas a la vista y cada una enlazada a su página de caso.
+
+  No tiene texto propio. El titular, la entradilla y las fichas son los de
+  `home.cases` en ui.ts, los mismos que pinta `CasesGallery`. Así un caso que
+  entra o sale del carrusel entra o sale de aquí sin tocar nada más, y las dos
+  listas no pueden contradecirse. El título de pestaña es el titular sin su
+  punto final y la descripción es la primera frase de la entradilla.
+
+  Las fichas usan el marco del bloque de casos de las páginas de solución:
+  retícula de 2 px, fotografía 16:9 en blanco y negro y el enlace con flecha
+  pegado abajo. Aquí llevan además la cifra del caso, que el carrusel enseña.
+
+  Cierra con el formulario de contacto de la portada, tal cual.
+*/
+import { Picture } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from './home/ContactForm.astro';
+import { type Lang, content } from '../i18n/ui';
+import { altsFor } from '../i18n/utils';
+import { foto } from '../lib/fotos';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.cases;
+
+const titulo = `${t.title.replace(/\.$/, '')}, Ideasforge`;
+const descripcion = t.lead.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? t.lead;
+---
+
+<BaseLayout lang={lang} title={titulo} description={descripcion} alternates={altsFor('cases')}>
+  <div class="wrap">
+    <section class="pt-[clamp(56px,7vw,96px)]">
+      <h1 class="t-display casos-in max-w-[20ch]" style="--d:.08s">{t.title}</h1>
+      <p class="casos-in mt-6 max-w-[62ch] text-[17px] leading-[1.55] text-muted" style="--d:.16s">{t.lead}</p>
+    </section>
+
+    <section class="pt-[clamp(48px,6vw,80px)]">
+      <div class="casos-reticula">
+        {
+          t.items.map((k, i) => (
+            <a href={k.href} class="group grid grid-rows-[auto_1fr] bg-bg">
+              <figure class="bn aspect-video overflow-hidden border-b-2 border-border bg-neutral-200">
+                <Picture
+                  pictureAttributes={{ class: 'contents' }}
+                  src={foto(k.image)}
+                  alt=""
+                  formats={['avif', 'webp']}
+                  widths={[480, 800, 1200]}
+                  sizes="(min-width: 900px) 576px, 100vw"
+                  loading={i < 2 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  class="h-full w-full object-cover"
+                />
+              </figure>
+              <div class="flex flex-col px-[clamp(24px,3vw,40px)] pb-9 pt-7">
+                <span class="text-[13px] text-muted">{k.client}</span>
+                <h2 class="mt-4 text-[clamp(22px,2.2vw,30px)] leading-[1.12] tracking-[-0.022em]">{k.title}</h2>
+                <p class="mt-4 text-[15px] leading-[1.6] text-muted">{k.desc}</p>
+                <p class="mt-5 text-[15px] leading-normal">{k.metric}</p>
+                <span class="mt-auto self-start pt-7">
+                  <span class="link-arrow">{t.viewCase.replace('{client}', k.client)} →</span>
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+
+  <ContactForm lang={lang} />
+</BaseLayout>
+
+<style>
+  .casos-in {
+    animation: if-up 0.8s var(--d, 0s) var(--ease-out) both;
+  }
+  .casos-reticula {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: 2px;
+    background: var(--color-border);
+    border: 2px solid var(--color-border);
+  }
+</style>

@@ -74,7 +74,9 @@ const parrafos = (a: Faq['a']) => (Array.isArray(a) ? a : [a]);
   acordeón.
 
   El escape de `<` evita que una respuesta que algún día contenga una etiqueta
-  cierre el <script> antes de tiempo.
+  cierre el bloque de script antes de tiempo. (La etiqueta no se escribe aquí
+  con sus ángulos: el escáner de dependencias de Vite la toma por un script
+  de verdad e intenta compilar el resto del comentario.)
 */
 const faqJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -121,6 +123,11 @@ const faqJsonLd = JSON.stringify({
           {parrafos(item.a).map((p) => (
             <p>{p}</p>
           ))}
+          {item.link && (
+            <a href={item.link.href} class="link-arrow mt-4">
+              {item.link.label} →
+            </a>
+          )}
         </div>
       </details>
     ))

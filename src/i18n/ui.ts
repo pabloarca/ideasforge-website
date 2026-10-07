@@ -197,6 +197,9 @@ export interface Faq {
   a: string | string[];
   /** Optional full-width image rendered above the answer text when the FAQ is open. */
   image?: string;
+  /** Enlace con flecha al final de la respuesta, hacia la página que la
+   *  desarrolla. No entra en el schema, que solo lleva el texto. */
+  link?: { label: string; href: string };
   /**
    * Retira la pregunta de la página y del schema sin borrarla (14 sep 2026).
    * Para una respuesta que deja de ser cierta mientras se decide la nueva:
@@ -919,6 +922,11 @@ export interface SiteContent {
     cases: string;
     method: string;
     guides: string;
+    /** Cuarto enlace de la cabecera, con su desplegable. Una entrada sin
+     *  `href` es una página que todavía no existe: se pinta apagada y sin
+     *  enlace, para no publicar un 404. Al crear la página, se le pone. */
+    resources: string;
+    resourceLinks: { label: string; href?: string }[];
     /** El botón de la cabecera. */
     cta: string;
     /** Nombre accesible del menú desplegable en móvil. */
@@ -1131,6 +1139,12 @@ export interface SiteContent {
     agentDev: LongFormPageContent;
     processAuto: LongFormPageContent;
     conversational: LongFormPageContent;
+    /**
+     * Las cinco páginas de solución con la plantilla de octubre de 2026. Solo
+     * español: en inglés las páginas de servicio siguen saliendo de los cuatro
+     * bloques de arriba, que en español ya no pinta ninguna página.
+     */
+    solutions?: SolutionsContent;
     /** Cost guide. Existe en los dos idiomas desde el 21 ago 2026. */
     cost?: LongFormPageContent;
     /**
@@ -1172,6 +1186,21 @@ export interface SiteContent {
  */
 export type LongFormKind = 'prose' | 'lattice' | 'checklist';
 
+/**
+ * Apartado dentro de una sección larga, con su propio encabezado (h3). Nació
+ * el 7 oct 2026 con la reescritura de desarrollo de agentes, cuyo texto llega
+ * organizado en dos niveles: la sección y sus apartados.
+ */
+export interface LongFormSubsection {
+  heading: string;
+  /** Segunda línea de titular (h4). La usan los casos: el nombre del cliente
+   *  arriba y lo que hace el sistema debajo. */
+  subheading?: string;
+  paragraphs: string[];
+  bullets?: string[];
+  link?: { label: string; href: string };
+}
+
 export interface LongFormSection {
   heading: string;
   /** Anchor id, so the hero CTA can jump here. */
@@ -1179,6 +1208,10 @@ export interface LongFormSection {
   paragraphs: string[];
   /** Optional bullet list rendered after the paragraphs. */
   bullets?: string[];
+  /** Apartados con encabezado propio. Van tras los párrafos y las viñetas. */
+  subsections?: LongFormSubsection[];
+  /** Párrafos de cierre: van al final, después de viñetas y apartados. */
+  closing?: string[];
   /** Optional accent link rendered at the end of the section. */
   link?: { label: string; href: string };
   /** Gráfico pizarra intercalado entre los párrafos: va justo después del
@@ -1213,7 +1246,8 @@ export interface LongFormPageContent {
    * `ctaHref` overrides the default contact anchor. Informational pages point
    * it at an in-page section so they don't ask for the sale on first contact.
    */
-  hero: { eyebrow?: string; title: string; subtitle: string; cta?: string; ctaHref?: string };
+  /* `subtitle` admite varios párrafos: una cadena es uno, una lista varios. */
+  hero: { eyebrow?: string; title: string; subtitle: string | string[]; cta?: string; ctaHref?: string };
   /** Línea de fecha visible bajo el subtítulo del héroe («Actualizado el …»).
    *  Las páginas que compiten por consultas de precio la llevan porque toda
    *  su SERP la lleva; el resto puede ignorarla. Se escribe entera, con el
@@ -1224,7 +1258,71 @@ export interface LongFormPageContent {
   stats?: WhyUsStat[];
   faqHeading?: string;
   faq?: Faq[];
-  cta: { heading: string; body: string; button: string };
+  /* `body`, igual que el subtítulo del héroe: una cadena o varios párrafos. */
+  cta: { heading: string; body: string | string[]; button: string };
+}
+
+/**
+ * Página de solución, con la plantilla del paquete de diseño de octubre de
+ * 2026 (`.private/paginas-soluciones/`). Las cinco páginas comparten los
+ * mismos bloques y este es el contenido de una. Lo pinta `SolutionPage.astro`.
+ *
+ * Los pares `[título, texto]` conservan la forma del `content.json` del
+ * paquete, que es de donde sale el texto.
+ */
+export interface SolutionPageContent {
+  /** Ruta de la página. También es el destino de «Otras soluciones». */
+  href: string;
+  metaTitle: string;
+  metaDescription: string;
+  /** Cómo se nombra esta solución en la retícula «Otras soluciones». */
+  nav: { name: string; short: string };
+  h1: string;
+  lead: string;
+  /** Frase de cierre del héroe: la primera en tinta y la segunda en acento. */
+  statement: [string, string];
+  cta: string;
+  intro: { h2: string; p: [string, string]; listLabel: string; list: string[] };
+  capabilities: { h2: string; lead: string; items: [string, string][] };
+  /** El titular llega en cinco trozos: el segundo y el cuarto van subrayados. */
+  poster: { kicker: string; h2: [string, string, string, string, string]; p: [string, string] };
+  types: { h2: string; lead: string; items: [string, string][] };
+  cases: {
+    h2: string;
+    lead: string;
+    items: { client: string; title: string; desc: string; image: string; href: string }[];
+  };
+  method: { h2: string; lead: string; steps: [string, string][] };
+  control: { kicker: string; h2: string; p: [string, string]; listLabel: string; items: string[] };
+  when: {
+    h2: string;
+    lead: string;
+    yes: { label: string; items: string[] };
+    no: { label: string; items: string[] };
+  };
+  faq: { h2: string; items: Faq[] };
+  contact: { h2: string; p: string; cta: string };
+}
+
+/** Las cinco soluciones. Las claves son las del `routeMap`. */
+export type SolutionKey = 'agentDev' | 'processAuto' | 'enterprise' | 'conversational' | 'consulting';
+
+export interface SolutionsContent {
+  /** Rótulos fijos de la plantilla, iguales en las cinco páginas. */
+  labels: {
+    seeCases: string;
+    /** Lleva `{n}`, que se sustituye por el número de pastillas. */
+    examples: string;
+    faqKicker: string;
+    others: string;
+    viewSolution: string;
+    /** Lleva `{client}`. */
+    viewCase: string;
+    contactKicker: string;
+  };
+  /** Orden en que se listan en «Otras soluciones». */
+  order: SolutionKey[];
+  pages: Record<SolutionKey, SolutionPageContent>;
 }
 
 /* ---- content -------------------------------------------------------------- */
@@ -1255,6 +1353,13 @@ export const content: Record<Lang, SiteContent> = {
       cases: 'Casos',
       method: 'Método',
       guides: 'Guías',
+      resources: 'Recursos',
+      resourceLinks: [
+        { label: 'Blog', href: '/blog' },
+        { label: 'Centro de ayuda' },
+        { label: 'Seguridad' },
+        { label: 'Sobre nosotros' },
+      ],
       cta: 'Cuéntanos qué quieres mejorar',
       menu: 'Menú',
       about: 'Quiénes somos',
@@ -1339,6 +1444,18 @@ export const content: Record<Lang, SiteContent> = {
               'Además de responder preguntas, pueden consultar información, recopilar datos y ejecutar acciones como crear una cita, modificar una reserva, registrar información en un CRM o consultar el estado de un proceso.',
             cta: 'Desarrollo de agentes conversacionales',
             href: '/servicios/agentes-conversacionales',
+          },
+          /* Quinto servicio, añadido el 7 oct 2026 con el texto literal del
+             propietario. Solo en español, porque el espejo inglés espera a su
+             visto bueno. */
+          {
+            title: 'Consultoría de IA',
+            short: 'Consultoría',
+            desc: 'Analizamos tus procesos, datos y sistemas para detectar oportunidades reales de aplicación de inteligencia artificial.',
+            detail:
+              'Definimos qué merece la pena desarrollar, qué impacto puede generar y qué arquitectura necesita cada proyecto antes de invertir en su construcción.',
+            cta: 'Consultoría de IA',
+            href: '/servicios/consultoria-de-ia',
           },
         ],
       },
@@ -3012,6 +3129,7 @@ export const content: Record<Lang, SiteContent> = {
             { label: 'Automatización de procesos con IA', href: '/servicios/automatizacion-de-procesos-con-ia' },
             { label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
             { label: 'Documentación interna', href: '/servicios/conocimiento-corporativo' },
+            { label: 'Consultoría de IA', href: '/servicios/consultoria-de-ia' },
           ],
         },
         {
@@ -3956,201 +4074,1799 @@ export const content: Record<Lang, SiteContent> = {
           button: 'Cuéntanos tu reto',
         },
       },
+      /*
+        LAS CINCO PÁGINAS DE SOLUCIÓN, plantilla de octubre de 2026. El texto
+        es el de `content.json` del paquete de diseño
+        (`.private/paginas-soluciones/`), volcado tal cual y sin pasar por el
+        árbitro, que no estaba en la copia de trabajo. Dos diferencias.
+
+        La primera es mecánica. El original traía ocho puntos y coma, que en
+        esta casa están vetados. Pasan a punto y seguido. Y en consultoría una
+        frase llevaba una fórmula vetada por `check-copy`, que pasa a
+        «no es únicamente».
+
+        La segunda es de rutas. El paquete nombra dos páginas con otra
+        dirección (`ia-para-documentacion-interna` y
+        `consultoria-de-inteligencia-artificial`). Aquí conservan la que ya
+        tenían, porque cambiar una dirección publicada es otra decisión.
+
+        El título de pestaña de cada página es el que ya tenía. La descripción
+        es la primera frase de su entradilla, recortada en automatización y en
+        documentación para caber en los 165 caracteres que admite `check-seo`.
+      */
+      solutions: {
+        labels: {
+          seeCases: 'Ver casos reales',
+          examples: '{n} ejemplos',
+          faqKicker: 'Preguntas frecuentes',
+          others: 'Otras soluciones',
+          viewSolution: 'Ver solución',
+          viewCase: 'Ver caso {client}',
+          contactKicker: 'Contacto',
+        },
+        order: [
+          'agentDev',
+          'processAuto',
+          'enterprise',
+          'conversational',
+          'consulting',
+        ],
+        pages: {
+          agentDev: {
+            href: '/servicios/desarrollo-de-agentes-de-ia',
+            metaTitle: 'Desarrollo de agentes de IA a medida para empresas, Ideasforge',
+            metaDescription: 'Ideasforge desarrolla agentes de IA a medida para empresas que necesitan ir más allá de un chatbot, una automatización básica o una herramienta estándar.',
+            nav: {
+              name: 'Desarrollo de agentes de IA',
+              short: 'Agentes que consultan, usan herramientas y ejecutan acciones.',
+            },
+            h1: 'Desarrollo de agentes de IA a medida',
+            lead: 'Ideasforge desarrolla agentes de IA a medida para empresas que necesitan ir más allá de un chatbot, una automatización básica o una herramienta estándar. Sistemas capaces de consultar información, utilizar herramientas y ejecutar acciones sobre bases de datos, ERP, CRM, APIs, documentación interna y aplicaciones propias.',
+            statement: [
+              'El modelo aporta capacidad de interpretación.',
+              'La arquitectura determina qué puede hacer, con qué información puede trabajar y bajo qué condiciones puede actuar.',
+            ],
+            cta: 'Cuéntanos qué tendría que hacer el agente',
+            intro: {
+              h2: 'Agentes que trabajan donde ya trabaja tu equipo',
+              p: [
+                'Un agente de IA empresarial no tiene por qué limitarse a responder preguntas. Puede recibir una petición, interpretar el contexto, consultar diferentes fuentes de información, utilizar herramientas y ejecutar acciones dentro de un proceso real.',
+                'La diferencia no está únicamente en el modelo utilizado. Está en cómo se diseña todo lo que existe alrededor del modelo.',
+              ],
+              listLabel: 'Por ejemplo, un agente puede',
+              list: [
+                'Consultar una base de datos',
+                'Recuperar información de documentación interna',
+                'Comprobar datos dentro de un ERP',
+                'Actualizar un CRM',
+                'Consultar disponibilidad en un calendario',
+                'Utilizar una API',
+                'Registrar una operación',
+                'Enviar una comunicación',
+                'Iniciar un workflow',
+                'Pedir intervención humana cuando el caso lo requiera',
+              ],
+            },
+            capabilities: {
+              h2: '¿Qué puede hacer un agente de IA dentro de una empresa?',
+              lead: 'La capacidad de un agente depende de las herramientas, fuentes de información y permisos que formen parte de su arquitectura.',
+              items: [
+                [
+                  'Consultar información',
+                  'Buscar y recuperar datos desde bases de datos, CRM, ERP, documentación, APIs o sistemas internos, usando lenguaje natural como interfaz para información que normalmente estaría repartida entre varias aplicaciones.',
+                ],
+                [
+                  'Interpretar solicitudes',
+                  'Comprender mensajes aunque no sigan una estructura fija: correos electrónicos, mensajes, documentos o instrucciones escritas de diferentes formas.',
+                ],
+                [
+                  'Utilizar herramientas',
+                  'Disponer de herramientas específicas para consultar sistemas externos, recuperar datos o realizar operaciones. Cada herramienta tiene una función definida y unas condiciones concretas de uso.',
+                ],
+                [
+                  'Ejecutar acciones',
+                  'Crear registros, actualizar información, enviar comunicaciones, reservar una cita o iniciar una operación. Las acciones pueden pasar por reglas y validaciones antes de permitirse.',
+                ],
+                [
+                  'Tomar decisiones dentro de límites definidos',
+                  'Seleccionar entre opciones cuando la decisión requiere interpretación, mientras el software mantiene el control sobre las condiciones que deben cumplirse.',
+                ],
+                [
+                  'Coordinar varios sistemas',
+                  'Consultar información en una aplicación y utilizarla para ejecutar una acción en otra, en procesos que hoy obligan a una persona a cambiar continuamente de herramienta.',
+                ],
+              ],
+            },
+            poster: {
+              kicker: 'No desarrollamos agentes genéricos',
+              h2: [
+                'La IA ',
+                'interpreta',
+                '. El software ',
+                'controla',
+                '.',
+              ],
+              p: [
+                'Dos empresas pueden querer automatizar aparentemente la misma tarea y necesitar soluciones completamente distintas. Cambian los datos, las aplicaciones, las reglas del negocio, los permisos y el impacto que puede tener un error.',
+                'Por eso el desarrollo de un agente no empieza eligiendo un modelo. Empieza entendiendo cómo funciona el proceso. Si una regla puede expresarse de forma fiable mediante software convencional, normalmente preferimos mantenerla fuera del modelo.',
+              ],
+            },
+            types: {
+              h2: 'Agentes de IA adaptados a diferentes procesos empresariales',
+              lead: 'No existe un único tipo de agente válido para cualquier situación. Diseñamos la arquitectura según la función que debe cumplir el sistema.',
+              items: [
+                [
+                  'Agentes sobre datos',
+                  'Consultan información almacenada en bases de datos o aplicaciones empresariales utilizando lenguaje natural, con herramientas controladas para recuperar la información.',
+                ],
+                [
+                  'Agentes sobre documentación',
+                  'Trabajan con manuales, procedimientos, normativa o documentación técnica. Cuando es necesario, con arquitecturas RAG para recuperar solo la información relevante.',
+                ],
+                [
+                  'Agentes operativos',
+                  'Además de consultar, ejecutan acciones sobre ERP, CRM, APIs o aplicaciones internas: registrar información, actualizar estados, crear operaciones.',
+                ],
+                [
+                  'Agentes conversacionales',
+                  'Utilizan una conversación como interfaz para acceder a información o ejecutar acciones, por web, aplicaciones internas, WhatsApp u otros canales.',
+                ],
+                [
+                  'Sistemas multiagente',
+                  'Dividen responsabilidades entre agentes especializados. No por defecto: solo cuando la separación aporta una ventaja real en control, especialización o mantenibilidad.',
+                ],
+              ],
+            },
+            cases: {
+              h2: 'Agentes de IA que ya trabajan sobre procesos reales',
+              lead: 'No planteamos el desarrollo de agentes únicamente desde la teoría. Ya hemos construido sistemas que trabajan con información, herramientas y reglas empresariales reales.',
+              items: [
+                {
+                  client: 'Savian',
+                  title: 'Consultar datos empresariales mediante lenguaje natural',
+                  desc: 'El agente interpreta la pregunta, determina qué información necesita y utiliza una capa controlada para acceder a los datos. El modelo no recibe libertad para ejecutar SQL arbitrario sobre la base de datos.',
+                  image: '/case-studies/harvest.jpg',
+                  href: '/casos/savian',
+                },
+                {
+                  client: 'Wazzy',
+                  title: 'Un agente de IA que gestiona citas desde WhatsApp',
+                  desc: 'Reservar, modificar o cancelar una cita mediante una conversación. El agente consulta disponibilidad, trabaja con diferentes profesionales y calendarios y ejecuta las acciones siguiendo reglas definidas. La conversación es flexible. Las reglas de agenda no lo son.',
+                  image: '/case-studies/dentist.jpg',
+                  href: '/casos/wazzy',
+                },
+              ],
+            },
+            method: {
+              h2: 'Cómo desarrollamos un agente de IA a medida',
+              lead: 'El desarrollo empieza antes de escribir el primer prompt.',
+              steps: [
+                [
+                  'Analizamos el proceso',
+                  'Cómo funciona actualmente, qué personas intervienen, qué decisiones existen y qué parte queremos mejorar. También qué ocurre cuando el proceso se sale del caso habitual.',
+                ],
+                [
+                  'Definimos las fuentes de información',
+                  'Qué necesita conocer el agente: bases de datos, documentación, ERP, CRM, APIs, software interno, aplicaciones externas, calendarios o sistemas de almacenamiento.',
+                ],
+                [
+                  'Diseñamos herramientas, permisos y reglas',
+                  'Qué puede consultar, qué herramientas puede utilizar y qué acciones puede ejecutar. Validaciones, límites y condiciones antes de operaciones sensibles.',
+                ],
+                [
+                  'Desarrollamos y evaluamos',
+                  'Probamos sobre casos reales: no solo el escenario ideal, también situaciones ambiguas, información incompleta, errores de usuario y casos límite.',
+                ],
+                [
+                  'Desplegamos y monitorizamos',
+                  'Medimos utilización, errores, costes, latencia y llamadas a herramientas. El objetivo no es desplegarlo: es poder observarlo, corregirlo y mejorarlo.',
+                ],
+              ],
+            },
+            control: {
+              kicker: 'Control',
+              h2: 'Un agente útil también tiene que ser controlable',
+              p: [
+                'Los modelos de lenguaje son probabilísticos. No deberíamos diseñar procesos críticos confiando únicamente en que el modelo elija siempre la respuesta correcta.',
+                'El objetivo no es que el modelo tenga libertad total. Es darle únicamente la libertad que necesita para resolver la parte del problema donde realmente aporta valor.',
+              ],
+              listLabel: 'Dependiendo del proyecto podemos implementar',
+              items: [
+                'Herramientas limitadas a funciones concretas',
+                'Parámetros validados antes de ejecutar acciones',
+                'Respuestas estructuradas',
+                'Reglas de negocio fuera del modelo',
+                'Permisos diferentes según usuario o contexto',
+                'Límites sobre determinadas operaciones',
+                'Validación adicional antes de acciones sensibles',
+                'Registro de herramientas y acciones ejecutadas',
+                'Evaluación automática de respuestas',
+                'Intervención humana cuando el sistema no puede continuar con seguridad',
+              ],
+            },
+            when: {
+              h2: '¿Cuándo merece la pena desarrollar un agente de IA a medida?',
+              lead: 'Un agente a medida tiene sentido cuando el problema necesita más control o integración de la que ofrece una herramienta estándar. Parte de nuestro trabajo consiste en determinar si el proceso lo necesita realmente.',
+              yes: {
+                label: 'Suele tener sentido cuando',
+                items: [
+                  'Debe trabajar con varios sistemas de la empresa',
+                  'Necesita utilizar información interna',
+                  'Existen reglas específicas de negocio',
+                  'Debe ejecutar acciones',
+                  'El comportamiento cambia según el contexto',
+                  'Necesita permisos o límites propios',
+                  'Debe integrarse con software interno',
+                  'Una solución estándar no cubre el proceso completo',
+                ],
+              },
+              no: {
+                label: 'Probablemente no sea necesario cuando',
+                items: [
+                  'Existe un producto estándar que ya resuelve bien el problema',
+                  'El proceso está completamente definido mediante reglas',
+                  'No existe suficiente información para que el sistema trabaje bien',
+                  'El coste del desarrollo es superior al valor que puede generar',
+                  'Solo queremos usar IA porque otras empresas la usan',
+                ],
+              },
+            },
+            faq: {
+              h2: 'Preguntas frecuentes sobre desarrollo de agentes de IA',
+              items: [
+                {
+                  q: '¿Qué es un agente de IA empresarial?',
+                  a: 'Un sistema capaz de interpretar información, utilizar herramientas y ejecutar acciones dentro de procesos de una empresa. Puede conectarse con bases de datos, documentación, ERP, CRM, APIs u otras aplicaciones y actuar dentro de los límites definidos por su arquitectura.',
+                },
+                {
+                  q: '¿Cuánto cuesta desarrollar un agente de IA?',
+                  a: 'Depende de las integraciones, los datos, la complejidad del proceso, los modelos utilizados, los requisitos de seguridad y las acciones que debe ejecutar. Un agente que consulta una única fuente y uno que trabaja con varios sistemas requieren niveles de desarrollo muy diferentes.',
+                },
+                {
+                  q: '¿Cuánto tarda en desarrollarse un agente de IA?',
+                  a: 'Depende del alcance, las integraciones, la disponibilidad de los datos y el nivel de control que necesita el sistema. Antes de estimar analizamos el proceso y los sistemas con los que deberá trabajar.',
+                },
+                {
+                  q: '¿Puede un agente de IA conectarse con nuestro ERP o CRM?',
+                  a: 'Sí, siempre que exista una vía de integración adecuada. El acceso y las acciones disponibles se limitan mediante permisos, herramientas y reglas definidas para el proyecto.',
+                },
+                {
+                  q: '¿Puede un agente trabajar con documentación interna?',
+                  a: 'Sí, como fuente de conocimiento mediante sistemas de recuperación como RAG u otras arquitecturas. También pueden aplicarse permisos para determinar qué puede recuperar cada usuario.',
+                },
+                {
+                  q: '¿Puede ejecutar acciones automáticamente?',
+                  a: 'Sí, siempre que disponga de las herramientas y permisos necesarios. Para operaciones sensibles podemos introducir validaciones adicionales o requerir aprobación humana.',
+                },
+                {
+                  q: '¿Es necesario utilizar varios agentes?',
+                  a: 'No. Una arquitectura multiagente solo tiene sentido cuando dividir responsabilidades aporta una ventaja real. Si un único agente resuelve el problema de forma más sencilla y controlable, será mejor arquitectura.',
+                },
+                {
+                  q: '¿Cómo se evita que un agente de IA cometa errores?',
+                  a: 'No es posible garantizar error cero en un modelo probabilístico, pero sí reducir y controlar el riesgo mediante arquitectura, evaluaciones, reglas, permisos, validaciones, respuestas estructuradas, herramientas restringidas, monitorización e intervención humana.',
+                },
+              ],
+            },
+            contact: {
+              h2: 'Cuéntanos qué tendría que hacer el agente',
+              p: 'No necesitas decidir qué modelo utilizar, cuántos agentes hacen falta ni cómo debería ser la arquitectura. Explícanos qué proceso quieres mejorar, con qué herramientas tendría que trabajar el sistema y qué acciones debería poder realizar.',
+              cta: 'Hablar con Ideasforge',
+            },
+          },
+          processAuto: {
+            href: '/servicios/automatizacion-de-procesos-con-ia',
+            metaTitle: 'Automatización de procesos con IA, Ideasforge',
+            metaDescription: 'Ideasforge desarrolla sistemas de automatización con inteligencia artificial para empresas que quieren reducir trabajo manual y eliminar tareas repetitivas.',
+            nav: {
+              name: 'Automatización de procesos con IA',
+              short: 'Menos trabajo manual, procesos conectados de principio a fin.',
+            },
+            h1: 'Automatización de procesos con IA',
+            lead: 'Ideasforge desarrolla sistemas de automatización con inteligencia artificial para empresas que quieren reducir trabajo manual, eliminar tareas repetitivas y conectar procesos que hoy dependen de varias herramientas y personas. Combinamos IA, integraciones y reglas de negocio para que cada parte del proceso se resuelva con la tecnología adecuada.',
+            statement: [
+              'No automatizamos por automatizar.',
+              'Analizamos primero el proceso y después decidimos qué merece la pena automatizar.',
+            ],
+            cta: 'Cuéntanos qué proceso quieres mejorar',
+            intro: {
+              h2: 'Automatización conectada con el proceso real de tu empresa',
+              p: [
+                'Un proceso puede empezar con la llegada de un email, continuar con la interpretación de un documento, consultar información en un ERP, aplicar reglas, actualizar un CRM y terminar enviando una respuesta o creando una operación. Cada paso puede necesitar una solución distinta. Por eso diseñamos el flujo completo.',
+                'El objetivo no es utilizar la mayor cantidad posible de IA. El objetivo es que el proceso funcione mejor de principio a fin.',
+              ],
+              listLabel: 'Podemos combinar',
+              list: [
+                'Inteligencia artificial',
+                'Software convencional',
+                'OCR',
+                'APIs',
+                'Bases de datos',
+                'ERP y CRM',
+                'Correo electrónico',
+                'Aplicaciones internas',
+                'Reglas de negocio',
+                'Validaciones',
+                'Intervención humana',
+              ],
+            },
+            capabilities: {
+              h2: '¿Qué procesos puede automatizar la inteligencia artificial?',
+              lead: 'La IA resulta especialmente útil cuando un proceso recibe información que necesita ser interpretada antes de poder actuar.',
+              items: [
+                [
+                  'Procesamiento documental',
+                  'Recepción, lectura, clasificación y extracción de información desde facturas, pedidos, formularios, contratos, albaranes o documentación enviada por email. La información extraída se convierte en datos estructurados y continúa hacia otros sistemas.',
+                ],
+                [
+                  'Gestión de correo electrónico',
+                  'Interpretar emails entrantes, identificar el motivo, extraer datos y decidir qué proceso iniciar: clasificar una solicitud, registrar en un CRM, comprobar datos o derivar una incidencia.',
+                ],
+                [
+                  'Procesos administrativos',
+                  'Copiar información entre aplicaciones, validar datos, crear registros, actualizar estados, generar documentos, enviar comunicaciones y coordinar sistemas.',
+                ],
+                [
+                  'Atención y gestión de solicitudes',
+                  'Interpretar solicitudes recibidas por formularios, email, chat u otros canales y convertirlas en acciones dentro de un proceso.',
+                ],
+                [
+                  'Procesos comerciales',
+                  'Tareas alrededor de leads, oportunidades, seguimiento, registro de información y actualización del CRM.',
+                ],
+                [
+                  'Operaciones internas',
+                  'Cuando una persona dedica tiempo a mover información entre varias aplicaciones y el proceso se repite con una lógica estable, hay una oportunidad de automatización.',
+                ],
+              ],
+            },
+            poster: {
+              kicker: 'No todo el proceso necesita inteligencia artificial',
+              h2: [
+                'La IA ',
+                'interpreta',
+                '. El software ',
+                'ejecuta',
+                '.',
+              ],
+              p: [
+                'La IA es útil cuando hay que interpretar información variable: un email escrito de distintas formas, una factura con otra estructura, una solicitud en lenguaje natural. Cuando existe una regla clara y conocida, preferimos que la ejecute software convencional.',
+                '"Si el importe supera un límite, solicitar aprobación" no necesita inteligencia artificial. Es una regla determinista, mucho más fácil de probar y controlar. En muchos de nuestros proyectos ambas tecnologías trabajan juntas.',
+              ],
+            },
+            types: {
+              h2: 'Automatizamos entre los sistemas que ya utiliza tu empresa',
+              lead: 'Automatizar no significa cambiar las herramientas actuales. Construimos una capa de automatización alrededor de los sistemas que ya forman parte de la empresa.',
+              items: [
+                [
+                  'ERP',
+                  'Consultar información, crear operaciones, actualizar estados o incorporar datos de otros sistemas.',
+                ],
+                [
+                  'CRM',
+                  'Registrar contactos, actualizar oportunidades, añadir información o iniciar workflows comerciales.',
+                ],
+                [
+                  'Bases de datos',
+                  'Consultar y actualizar información estructurada dentro de los permisos definidos para el proceso.',
+                ],
+                [
+                  'APIs',
+                  'Conectar aplicaciones y servicios para que intercambien información automáticamente.',
+                ],
+                [
+                  'Correo electrónico',
+                  'Recibir mensajes, interpretar su contenido y usarlo como punto de entrada de procesos automáticos.',
+                ],
+                [
+                  'Software interno',
+                  'Integrar automatizaciones con aplicaciones desarrolladas específicamente para la empresa.',
+                ],
+                [
+                  'Sistemas de almacenamiento',
+                  'Procesar archivos que llegan a carpetas, almacenamiento cloud o repositorios internos.',
+                ],
+                [
+                  'Formularios y aplicaciones externas',
+                  'Capturar información e incorporarla automáticamente al flujo correspondiente.',
+                ],
+              ],
+            },
+            cases: {
+              h2: 'Automatizaciones que ya trabajan en producción',
+              lead: 'La automatización tiene valor cuando mejora un proceso medible.',
+              items: [
+                {
+                  client: 'Stanton',
+                  title: '98 % de las facturas procesadas sin intervención humana',
+                  desc: 'La solución interpreta la documentación recibida, extrae la información, aplica validaciones y continúa el flujo mediante reglas e integraciones. Los casos que cumplen las condiciones completan el proceso automáticamente. Las excepciones siguen una ruta de revisión.',
+                  image: '/case-studies/stanton.jpg',
+                  href: '/casos/stanton',
+                },
+                {
+                  client: 'Barceloneta Premium',
+                  title: 'Más de 3 horas de trabajo administrativo ahorradas cada día',
+                  desc: 'Analizamos tareas que requerían intervención manual repetitiva y diseñamos automatizaciones para conectar herramientas y eliminar pasos innecesarios. No fue necesario convertir todo el proceso en IA: automatizamos exactamente las partes donde tenía sentido.',
+                  image: '/case-studies/barceloneta.jpg',
+                  href: '/casos/barceloneta',
+                },
+              ],
+            },
+            method: {
+              h2: 'Cómo automatizamos un proceso empresarial',
+              lead: 'La tecnología se decide después de entender el proceso.',
+              steps: [
+                [
+                  'Mapeamos el proceso actual',
+                  'Cómo empieza, qué pasos existen y qué personas o aplicaciones intervienen. También las excepciones habituales y los puntos donde el proceso suele detenerse.',
+                ],
+                [
+                  'Identificamos trabajo manual y decisiones',
+                  'Tareas repetitivas, movimientos de información entre aplicaciones, comprobaciones manuales y pasos que generan errores o retrasos. Priorizamos donde hay impacto suficiente.',
+                ],
+                [
+                  'Separamos IA, reglas e integraciones',
+                  'Qué partes requieren interpretación y cuáles pueden resolverse con lógica determinista, para no usar modelos en tareas que no los necesitan.',
+                ],
+                [
+                  'Desarrollamos e integramos',
+                  'Construimos el flujo y conectamos las herramientas. Probamos el recorrido habitual y los escenarios donde falta información o aparece una excepción.',
+                ],
+                [
+                  'Medimos el resultado',
+                  'Porcentaje de procesos completados automáticamente, tiempo ahorrado, excepciones, errores, coste por operación e intervención humana necesaria.',
+                ],
+              ],
+            },
+            control: {
+              kicker: 'Excepciones',
+              h2: 'Automatizar no significa ignorar las excepciones',
+              p: [
+                'Puede llegar un documento incompleto, una API puede dejar de responder, un proveedor puede enviar información diferente o una operación puede requerir una decisión que no debería ejecutarse automáticamente. Una automatización preparada para producción debe saber qué hacer cuando algo se sale del flujo habitual.',
+                'Automatizar un proceso no significa eliminar a las personas. Significa reservar su intervención para los casos donde realmente aporta valor.',
+              ],
+              listLabel: 'Podemos diseñar mecanismos para',
+              items: [
+                'Detener el proceso',
+                'Solicitar información adicional',
+                'Derivar el caso a una persona',
+                'Registrar una incidencia',
+                'Reintentar una operación',
+                'Enviar una alerta',
+                'Mantener el estado del proceso',
+                'Continuar cuando el problema se resuelva',
+              ],
+            },
+            when: {
+              h2: '¿Cuándo merece la pena automatizar un proceso?',
+              lead: 'No todo lo que puede automatizarse merece una inversión en desarrollo. La pregunta no es únicamente si podemos automatizarlo. La pregunta es: ¿merece la pena?',
+              yes: {
+                label: 'Suele tener sentido cuando el proceso',
+                items: [
+                  'Se repite con frecuencia',
+                  'Consume una cantidad relevante de tiempo',
+                  'Obliga a copiar información entre aplicaciones',
+                  'Genera errores manuales',
+                  'Retrasa otras tareas',
+                  'Sigue reglas relativamente estables',
+                  'Puede medirse antes y después',
+                  'Tiene volumen suficiente para justificar el desarrollo',
+                ],
+              },
+              no: {
+                label: 'Antes de desarrollar analizamos',
+                items: [
+                  'Cuánto tiempo consume actualmente el proceso',
+                  'Cuántas veces ocurre',
+                  'Cuántas personas intervienen',
+                  'Qué errores genera',
+                  'Cuánto cuesta mantenerlo manualmente',
+                  'Qué parte puede automatizarse realmente',
+                ],
+              },
+            },
+            faq: {
+              h2: 'Preguntas frecuentes sobre automatización de procesos con IA',
+              items: [
+                {
+                  q: '¿Qué es la automatización de procesos con IA?',
+                  a: 'Utilizar inteligencia artificial junto con software e integraciones para ejecutar automáticamente partes de un proceso empresarial. La IA interpreta información variable. Reglas y software convencional ejecutan las acciones que requieren un comportamiento predecible.',
+                },
+                {
+                  q: '¿Qué procesos pueden automatizarse con inteligencia artificial?',
+                  a: 'Procesos administrativos, documentales, comerciales u operativos siempre que exista suficiente información y una lógica definible: procesamiento de documentos, clasificación de emails, actualización de sistemas, registro de datos, gestión de solicitudes y coordinación entre aplicaciones.',
+                },
+                {
+                  q: '¿Cuál es la diferencia entre automatización e inteligencia artificial?',
+                  a: 'La automatización ejecuta acciones siguiendo un proceso definido. La IA interpreta información que no sigue siempre una estructura fija. En muchos sistemas trabajan juntas.',
+                },
+                {
+                  q: '¿Necesito cambiar mi ERP o CRM para automatizar procesos?',
+                  a: 'No necesariamente. Muchos procesos pueden automatizarse conectando el software actual mediante APIs, bases de datos u otros mecanismos de integración.',
+                },
+                {
+                  q: '¿Puede automatizarse un proceso que recibe documentos por email?',
+                  a: 'Sí. Un sistema puede recibir un email, interpretar su contenido y los adjuntos, extraer información y continuar con el proceso. Cuando falta información, el caso se deriva a una persona.',
+                },
+                {
+                  q: '¿Qué ocurre cuando una automatización encuentra una excepción?',
+                  a: 'Puede detenerse, solicitar información, generar una alerta, reintentar la operación o derivar el caso a una persona según las reglas definidas. Las excepciones forman parte del diseño.',
+                },
+                {
+                  q: '¿Cuánto cuesta automatizar un proceso?',
+                  a: 'Depende de la complejidad del flujo, las integraciones, el volumen de operaciones, el uso de IA y el número de excepciones. Antes de estimar es necesario entender cómo funciona el proceso.',
+                },
+                {
+                  q: '¿Cuándo compensa automatizar un proceso?',
+                  a: 'Cuando una tarea se repite con frecuencia, consume tiempo relevante o genera errores, y el ahorro esperado supera el coste de construir y mantener la automatización.',
+                },
+              ],
+            },
+            contact: {
+              h2: 'Cuéntanos qué proceso sigue dependiendo de trabajo manual',
+              p: 'No necesitas decidir qué herramientas utilizar ni qué parte debería llevar inteligencia artificial. Explícanos cómo funciona actualmente el proceso, qué aplicaciones utiliza vuestro equipo y dónde sigue siendo necesaria la intervención manual.',
+              cta: 'Analizar un proceso con Ideasforge',
+            },
+          },
+          enterprise: {
+            href: '/servicios/conocimiento-corporativo',
+            metaTitle: 'Asistente de IA sobre tu documentación interna, Ideasforge',
+            metaDescription: 'Ideasforge desarrolla sistemas de inteligencia artificial conectados con la documentación y el conocimiento interno de las empresas.',
+            nav: {
+              name: 'IA para documentación interna',
+              short: 'Conocimiento consultable en lenguaje natural, con fuentes.',
+            },
+            h1: 'IA para documentación interna y conocimiento empresarial',
+            lead: 'Ideasforge desarrolla sistemas de inteligencia artificial conectados con la documentación y el conocimiento interno de las empresas: asistentes capaces de consultar manuales, procedimientos, normativa, documentación técnica y bases de conocimiento mediante lenguaje natural.',
+            statement: [
+              'El objetivo no es subir documentos a un chatbot.',
+              'Es construir una capa de acceso al conocimiento que controle qué información se recupera, quién puede consultarla y de dónde procede cada respuesta.',
+            ],
+            cta: 'Cuéntanos dónde vive el conocimiento de tu empresa',
+            intro: {
+              h2: 'El conocimiento suele estar repartido entre demasiados lugares',
+              p: [
+                'Muchas empresas no tienen un problema de falta de información. Tienen un problema de acceso. Encontrar una respuesta puede requerir saber dónde buscar, qué documento abrir o a quién preguntar.',
+                'Un sistema de IA convierte ese conocimiento disperso en una interfaz de consulta: el usuario pregunta en lenguaje natural y el sistema busca la información relevante y construye la respuesta a partir de las fuentes adecuadas.',
+              ],
+              listLabel: 'La información existe, pero está repartida entre',
+              list: [
+                'Carpetas compartidas',
+                'SharePoint',
+                'Google Drive',
+                'PDFs',
+                'Documentos Word',
+                'Wikis',
+                'Manuales',
+                'Procedimientos',
+                'Emails',
+                'Bases de conocimiento',
+                'Aplicaciones internas',
+                'Documentación técnica',
+              ],
+            },
+            capabilities: {
+              h2: '¿Qué puede hacer la IA con la documentación de una empresa?',
+              lead: 'Un sistema conectado con la documentación interna puede hacer mucho más que buscar palabras. El objetivo no es sustituir la fuente. Es hacerla más accesible.',
+              items: [
+                [
+                  'Responder preguntas',
+                  '"¿Cuál es el procedimiento para aprobar una compra superior a 10.000 €?" El sistema busca la información y construye una respuesta basada en las fuentes internas disponibles.',
+                ],
+                [
+                  'Encontrar información relevante',
+                  'Localizar el fragmento adecuado entre grandes cantidades de documentación aunque la pregunta no utilice las mismas palabras que el documento.',
+                ],
+                [
+                  'Resumir documentación',
+                  'Generar resúmenes de documentos, procedimientos o conjuntos de información concretos.',
+                ],
+                [
+                  'Comparar información',
+                  'Identificar diferencias entre documentos, versiones, políticas o procedimientos.',
+                ],
+                [
+                  'Guiar procesos',
+                  'Explicar qué pasos debe seguir un empleado en función de la documentación interna.',
+                ],
+                [
+                  'Citar las fuentes',
+                  'Incluir referencias a los documentos utilizados para que el usuario pueda comprobar la información original.',
+                ],
+              ],
+            },
+            poster: {
+              kicker: 'La IA no necesita memorizar toda la documentación',
+              h2: [
+                'Pregunta → búsqueda → ',
+                'recuperación',
+                ' → respuesta → ',
+                'fuentes',
+                '.',
+              ],
+              p: [
+                'En muchos proyectos no entrenamos un modelo nuevo con los documentos internos. Cuando el usuario pregunta, el sistema busca primero la información relevante dentro de las fuentes autorizadas y después proporciona ese contexto al modelo. Este enfoque se conoce como RAG, Retrieval-Augmented Generation.',
+                'Mantiene separado el modelo del conocimiento específico de la empresa y permite actualizar la información sin volver a entrenar nada cada vez que cambia un documento.',
+              ],
+            },
+            types: {
+              h2: 'Conectamos la IA con las fuentes donde ya vive el conocimiento',
+              lead: 'No siempre es necesario trasladar la documentación a una plataforma nueva. La arquitectura determina si la información debe copiarse, indexarse, sincronizarse o consultarse directamente.',
+              items: [
+                [
+                  'Documentos',
+                  'PDF, Word y otros formatos documentales.',
+                ],
+                [
+                  'Bases de conocimiento',
+                  'Wikis, documentación estructurada o plataformas internas.',
+                ],
+                [
+                  'SharePoint y almacenamiento corporativo',
+                  'Recuperar y sincronizar información almacenada en entornos empresariales.',
+                ],
+                [
+                  'Google Drive',
+                  'Cuando la documentación se gestiona desde el ecosistema de Google.',
+                ],
+                [
+                  'Bases de datos',
+                  'Cuando parte del conocimiento está almacenado como información estructurada.',
+                ],
+                [
+                  'APIs',
+                  'Recuperar información actualizada desde otras aplicaciones.',
+                ],
+                [
+                  'Software interno',
+                  'Integración con herramientas desarrolladas específicamente para la empresa.',
+                ],
+              ],
+            },
+            cases: {
+              h2: 'IA aplicada a conocimiento técnico real',
+              lead: 'En determinados entornos la documentación forma parte de la operación diaria. La recuperación documental puede integrarse en arquitecturas más amplias junto con datos operativos, bases de datos, aplicaciones internas, herramientas de diagnóstico y agentes especializados.',
+              items: [
+                {
+                  client: 'Empresa industrial',
+                  title: 'Documentación técnica como fuente activa de un asistente de planta',
+                  desc: 'Un sistema que combina documentación técnica, procedimientos y datos operativos para ayudar a localizar la información asociada a un contexto concreto. La documentación deja de ser un repositorio y se convierte en una fuente activa dentro del sistema.',
+                  image: '/case-studies/industrial.jpg',
+                  href: '/casos/industrial',
+                },
+              ],
+            },
+            method: {
+              h2: 'Cómo construimos un sistema de IA sobre conocimiento corporativo',
+              lead: 'El desarrollo empieza entendiendo qué información necesita encontrar el usuario.',
+              steps: [
+                [
+                  'Identificamos las preguntas',
+                  'Qué preguntas realizan actualmente empleados, clientes o usuarios. Esto define qué tipo de conocimiento debe ser accesible.',
+                ],
+                [
+                  'Analizamos las fuentes',
+                  'Dónde está la información, qué formatos existen, qué calidad tiene y cómo se actualiza. Identificamos duplicados, versiones y contenido obsoleto.',
+                ],
+                [
+                  'Diseñamos la recuperación',
+                  'Cómo localizar la información adecuada para cada consulta: búsqueda semántica, metadata, filtros, bases de datos y otros mecanismos.',
+                ],
+                [
+                  'Definimos permisos y fuentes',
+                  'Qué información puede consultar cada usuario y qué fuentes puede utilizar el sistema para responder.',
+                ],
+                [
+                  'Evaluamos respuestas',
+                  'Preguntas reales: si recupera lo correcto, si la respuesta está respaldada por fuentes, si cita bien, si respeta permisos y qué pasa cuando no hay información suficiente.',
+                ],
+                [
+                  'Desplegamos y monitorizamos',
+                  'Preguntas frecuentes, consultas sin respuesta, fuentes que no se recuperan, documentos obsoletos, calidad y utilización.',
+                ],
+              ],
+            },
+            control: {
+              kicker: 'Permisos y fuentes',
+              h2: 'No todos los empleados deberían poder consultar la misma información',
+              p: [
+                'Un asistente no debería mostrar información solo porque existe en el sistema. Debe tener en cuenta quién pregunta. Recursos Humanos, dirección, un equipo técnico o un proveedor externo pueden tener accesos distintos. La búsqueda también debe respetar la estructura de permisos de la empresa.',
+                'Y cuando la respuesta no está en las fuentes, el sistema debería saber decirlo. Decir "no encuentro esa información" puede ser mejor que responder con seguridad algo incorrecto.',
+              ],
+              listLabel: 'Podemos diseñar permisos y controles por',
+              items: [
+                'Usuario',
+                'Rol',
+                'Departamento',
+                'Fuente',
+                'Documento',
+                'Tipo de información',
+                'Fuentes citadas en cada respuesta',
+                'Umbrales de recuperación',
+                'Respuestas limitadas al contenido recuperado',
+                'Registro de preguntas sin respuesta',
+                'Reindexado al cambiar documentos',
+              ],
+            },
+            when: {
+              h2: 'No todo problema de conocimiento necesita RAG',
+              lead: 'RAG es una arquitectura útil, no una solución automática para cualquier problema documental. No implantamos RAG porque sea popular. Lo utilizamos cuando mejora la recuperación del conocimiento.',
+              yes: {
+                label: 'Tipos de conocimiento donde aporta valor',
+                items: [
+                  'Documentación técnica',
+                  'Procedimientos internos',
+                  'Normativa y compliance',
+                  'Producto y servicio',
+                  'Soporte interno',
+                  'Formación y onboarding',
+                  'Conocimiento operativo disperso',
+                ],
+              },
+              no: {
+                label: 'Según el caso combinamos',
+                items: [
+                  'Búsqueda semántica',
+                  'Búsqueda por palabras',
+                  'Filtros y metadata',
+                  'Recuperación híbrida',
+                  'Bases de datos',
+                  'APIs',
+                  'Reglas específicas',
+                  'RAG',
+                ],
+              },
+            },
+            faq: {
+              h2: 'Preguntas frecuentes sobre IA y documentación interna',
+              items: [
+                {
+                  q: '¿Puede una IA consultar nuestros documentos internos?',
+                  a: 'Sí. Puede consultar documentación interna y utilizarla como contexto para responder en lenguaje natural, conectándose con documentos, bases de conocimiento, almacenamiento corporativo, bases de datos u otras fuentes.',
+                },
+                {
+                  q: '¿Qué es un sistema RAG?',
+                  a: 'Una arquitectura que busca información relevante antes de pedir al modelo que genere una respuesta. En lugar de depender del conocimiento del modelo, recupera información de fuentes concretas y la usa como contexto.',
+                },
+                {
+                  q: '¿Qué diferencia hay entre RAG y entrenar un modelo?',
+                  a: 'RAG recupera información externa al responder. Entrenar o ajustar un modelo modifica su conocimiento interno. Para documentación empresarial, RAG facilita actualizar las fuentes sin reentrenar.',
+                },
+                {
+                  q: '¿Puede indicar de qué documento obtiene una respuesta?',
+                  a: 'Sí. El sistema puede incluir referencias a las fuentes y fragmentos utilizados para que el usuario compruebe la información en el documento original.',
+                },
+                {
+                  q: '¿Cómo se controlan los permisos?',
+                  a: 'Se aplican antes de recuperar la información, para que el sistema solo use fuentes autorizadas para cada usuario: por rol, departamento, documento, fuente o identidad.',
+                },
+                {
+                  q: '¿Qué ocurre cuando los documentos cambian?',
+                  a: 'El sistema puede sincronizar o reindexar las fuentes cuando detecta documentos nuevos, modificaciones o versiones actualizadas.',
+                },
+                {
+                  q: '¿Puede funcionar con SharePoint o Google Drive?',
+                  a: 'Sí, siempre que exista una vía adecuada de acceso e integración para recuperar, sincronizar o indexar la información.',
+                },
+                {
+                  q: '¿Cómo se reduce el riesgo de que la IA invente respuestas?',
+                  a: 'Limitando las respuestas a fuentes recuperadas, validando, evaluando la calidad de la recuperación y definiendo qué ocurre cuando no hay información suficiente. No se elimina el comportamiento probabilístico, pero el sistema reconoce mejor sus límites.',
+                },
+              ],
+            },
+            contact: {
+              h2: 'Cuéntanos dónde vive ahora el conocimiento de tu empresa',
+              p: 'Explícanos qué información necesita encontrar vuestro equipo, dónde está almacenada y quién debería poder consultarla. Analizaremos cómo hacerla accesible sin perder control sobre las fuentes, los permisos, las versiones y la seguridad.',
+              cta: 'Crear un asistente sobre nuestro conocimiento',
+            },
+          },
+          conversational: {
+            href: '/servicios/agentes-conversacionales',
+            metaTitle: 'Chatbot con IA y agentes conversacionales, Ideasforge',
+            metaDescription: 'Ideasforge desarrolla chatbots y agentes conversacionales a medida para empresas que necesitan algo más que respuestas automáticas.',
+            nav: {
+              name: 'Chatbots y agentes conversacionales',
+              short: 'Conversaciones que consultan sistemas y ejecutan acciones.',
+            },
+            h1: 'Desarrollo de chatbots y agentes conversacionales para empresas',
+            lead: 'Ideasforge desarrolla chatbots y agentes conversacionales a medida para empresas que necesitan algo más que respuestas automáticas. Sistemas capaces de mantener una conversación, consultar información, utilizar herramientas y ejecutar acciones sobre CRM, ERP, bases de datos, calendarios, documentación, APIs y aplicaciones internas.',
+            statement: [
+              'Un agente conversacional puede responder.',
+              'Pero también puede actuar.',
+            ],
+            cta: 'Cuéntanos qué debería poder resolver una conversación',
+            intro: {
+              h2: 'Conversaciones conectadas con procesos reales',
+              p: [
+                'Un chatbot tradicional suele responder preguntas. Un agente conversacional puede formar parte de un proceso: el usuario explica lo que necesita en lenguaje natural y el sistema interpreta la solicitud, recupera información, consulta otras aplicaciones y ejecuta las acciones necesarias.',
+                'El usuario no necesita conocer qué sistema hay detrás. Solo necesita explicar qué quiere hacer.',
+              ],
+              listLabel: 'Una conversación puede convertirse en',
+              list: [
+                'Una consulta sobre información empresarial',
+                'Una solicitud registrada en un CRM',
+                'Una reserva creada en un calendario',
+                'Un cambio dentro de un proceso',
+                'Una consulta sobre documentación',
+                'Una operación en una aplicación interna',
+                'Un caso derivado al equipo adecuado',
+              ],
+            },
+            capabilities: {
+              h2: '¿Qué puede hacer un agente conversacional?',
+              lead: 'La capacidad del agente depende de las fuentes de información, herramientas y permisos que formen parte del sistema. El objetivo no es obligar al sistema a resolverlo todo. Es automatizar aquello que puede resolver correctamente.',
+              items: [
+                [
+                  'Responder con información empresarial',
+                  'Utiliza documentación, bases de conocimiento, productos, servicios, procedimientos o datos internos para construir respuestas basadas en información de la empresa.',
+                ],
+                [
+                  'Recopilar información',
+                  'Solicita los datos necesarios dentro de la propia conversación y los convierte en información estructurada. Permite sustituir formularios o procesos rígidos por una interacción más natural.',
+                ],
+                [
+                  'Consultar sistemas',
+                  'Recupera información desde CRM, ERP, bases de datos, calendarios, APIs, aplicaciones internas o servicios externos.',
+                ],
+                [
+                  'Ejecutar acciones',
+                  'La conversación puede terminar en una operación real: crear un registro, actualizar información, reservar una cita, cancelar una solicitud, enviar una comunicación o iniciar un workflow.',
+                ],
+                [
+                  'Mantener contexto',
+                  'Usa la información proporcionada anteriormente para comprender referencias y continuar el proceso sin repetir las mismas preguntas.',
+                ],
+                [
+                  'Derivar a una persona',
+                  'Cuando no puede continuar, el caso pasa a un miembro del equipo junto con la información recopilada y el contexto de la conversación.',
+                ],
+              ],
+            },
+            poster: {
+              kicker: 'Chatbot frente a agente conversacional',
+              h2: [
+                'La conversación es la ',
+                'interfaz',
+                '. El proceso ocurre ',
+                'detrás',
+                '.',
+              ],
+              p: [
+                'Un chatbot se centra en responder mensajes: "¿Cuál es vuestro horario?". Un agente conversacional puede recibir "Quiero cambiar mi cita del jueves por la tarde" y continuar el proceso: identificar la cita, consultar el calendario, comprobar alternativas, aplicar las reglas de agenda, ofrecer opciones, modificar la reserva y confirmar el cambio.',
+                'La automatización no tiene por qué terminar en una respuesta. Puede continuar dentro de los sistemas de la empresa, y liberar al equipo para las situaciones que requieren criterio, negociación o atención personal.',
+              ],
+            },
+            types: {
+              h2: 'Una conversación puede ser la interfaz de tus sistemas',
+              lead: 'Los agentes conversacionales se conectan con las herramientas que ya utiliza tu empresa, para clientes (web, aplicación, WhatsApp) o para equipos internos. En lugar de navegar por varias pantallas, una solicitud en lenguaje natural se convierte en las operaciones necesarias dentro de esos sistemas.',
+              items: [
+                [
+                  'CRM',
+                  'Consultar clientes, oportunidades, interacciones o registrar nueva información.',
+                ],
+                [
+                  'ERP',
+                  'Recuperar información operativa, consultar estados o ejecutar operaciones permitidas.',
+                ],
+                [
+                  'Bases de datos',
+                  'Buscar información estructurada sin obligar al usuario a conocer consultas técnicas.',
+                ],
+                [
+                  'Calendarios y reservas',
+                  'Consultar disponibilidad y gestionar citas o recursos.',
+                ],
+                [
+                  'APIs',
+                  'Utilizar funcionalidades de aplicaciones externas o servicios propios.',
+                ],
+                [
+                  'Documentación',
+                  'Recuperar información desde manuales, procedimientos, normativa o bases de conocimiento, con RAG y permisos cuando el proyecto lo requiere.',
+                ],
+                [
+                  'Software interno',
+                  'Herramientas específicas para que el agente trabaje sobre aplicaciones propias de la empresa.',
+                ],
+                [
+                  'Canales',
+                  'Web, aplicación propia, WhatsApp o herramientas internas. La lógica, fuentes y reglas se comparten. Cambia la experiencia de cada canal.',
+                ],
+              ],
+            },
+            cases: {
+              h2: 'Agentes conversacionales que ya trabajan sobre procesos reales',
+              lead: 'Los mejores ejemplos de un sistema conversacional aparecen cuando la conversación está conectada con un proceso.',
+              items: [
+                {
+                  client: 'Wazzy',
+                  title: 'Gestión de citas mediante una conversación en WhatsApp',
+                  desc: 'El agente consulta disponibilidad, trabaja con diferentes profesionales y calendarios, propone horarios, reserva, modifica o cancela y aplica reglas específicas. El usuario mantiene una conversación sencilla. Detrás, el sistema controla las condiciones bajo las que cada acción puede ejecutarse.',
+                  image: '/case-studies/dentist.jpg',
+                  href: '/casos/wazzy',
+                },
+                {
+                  client: 'Savian',
+                  title: 'Consultar información empresarial mediante lenguaje natural',
+                  desc: 'La conversación actúa como interfaz sobre datos empresariales. El usuario pregunta. El sistema interpreta qué información necesita y utiliza herramientas controladas para recuperarla, sin obligar a conocer SQL ni navegar por paneles.',
+                  image: '/case-studies/harvest.jpg',
+                  href: '/casos/savian',
+                },
+              ],
+            },
+            method: {
+              h2: 'Cómo desarrollamos un agente conversacional a medida',
+              lead: 'El desarrollo no empieza escribiendo respuestas. Empieza entendiendo las conversaciones que el sistema tendrá que gestionar.',
+              steps: [
+                [
+                  'Analizamos los casos de uso',
+                  'Quién hablará con el agente, qué solicitudes recibe hoy el equipo y qué resultados debería conseguir la conversación. También qué casos no debería resolver automáticamente.',
+                ],
+                [
+                  'Definimos las fuentes de información',
+                  'Qué necesita consultar el agente para responder correctamente: documentación, CRM, ERP, bases de datos, APIs u otros sistemas.',
+                ],
+                [
+                  'Diseñamos acciones e integraciones',
+                  'Qué puede hacer el agente además de conversar. Cada acción se convierte en una herramienta controlada dentro de la arquitectura.',
+                ],
+                [
+                  'Establecemos reglas y límites',
+                  'Qué información puede utilizar, qué acciones están permitidas, cuándo necesita validación o aprobación y cuándo debe derivar a una persona.',
+                ],
+                [
+                  'Evaluamos conversaciones reales',
+                  'Mensajes ambiguos, datos incompletos, cambios de intención, errores, solicitudes inesperadas y situaciones donde el agente debería negarse a actuar. No solo la conversación perfecta.',
+                ],
+                [
+                  'Desplegamos y monitorizamos',
+                  'Conversaciones, errores, derivaciones y herramientas utilizadas para entender dónde funciona y dónde necesita mejorar.',
+                ],
+              ],
+            },
+            control: {
+              kicker: 'Control',
+              h2: 'Un chatbot empresarial no debería inventar cuando no sabe la respuesta',
+              p: [
+                'Los modelos de lenguaje pueden generar respuestas incorrectas. Por eso un agente conversacional no debería diseñarse confiando únicamente en que el modelo siempre responda bien. Cuando no dispone de suficiente información puede pedir aclaraciones, indicar que no sabe la respuesta, consultar otra fuente o derivar el caso a una persona.',
+                'No responder también puede ser la respuesta correcta. Y cuando interviene una persona, conserva el contexto: mensajes, datos recopilados, acciones ejecutadas y motivo de la derivación. El usuario no empieza de nuevo.',
+              ],
+              listLabel: 'Dependiendo del proyecto podemos utilizar',
+              items: [
+                'Fuentes de conocimiento controladas',
+                'Recuperación de información',
+                'Respuestas estructuradas',
+                'Validaciones',
+                'Herramientas limitadas',
+                'Reglas de negocio',
+                'Permisos',
+                'Evaluación automática',
+                'Registro de conversaciones',
+                'Intervención humana con contexto',
+              ],
+            },
+            when: {
+              h2: '¿Cuándo merece la pena desarrollar un chatbot a medida?',
+              lead: 'Una solución a medida suele tener sentido cuando el chatbot necesita hacer algo más que responder unas pocas preguntas. Parte de nuestro trabajo consiste en identificar cuándo un desarrollo a medida realmente aporta valor.',
+              yes: {
+                label: 'Suele tener sentido cuando',
+                items: [
+                  'Necesita consultar información propia de la empresa',
+                  'Debe trabajar con varias fuentes',
+                  'Tiene que conectarse con CRM, ERP u otros sistemas',
+                  'Debe ejecutar acciones',
+                  'Existen reglas específicas de negocio',
+                  'Necesita diferentes permisos',
+                  'Trabaja con información privada',
+                  'Debe derivar casos de forma controlada',
+                  'Una plataforma estándar no cubre el proceso completo',
+                ],
+              },
+              no: {
+                label: 'Probablemente no sea necesario cuando',
+                items: [
+                  'Solo debe responder un pequeño conjunto de preguntas frecuentes',
+                  'Existe una plataforma estándar que resuelve bien el problema',
+                  'El volumen de conversaciones es muy bajo',
+                  'No existe un proceso claro que automatizar',
+                  'El coste del desarrollo sería superior al beneficio esperado',
+                ],
+              },
+            },
+            faq: {
+              h2: 'Preguntas frecuentes sobre chatbots y agentes conversacionales',
+              items: [
+                {
+                  q: '¿Qué es un agente conversacional?',
+                  a: 'Un sistema de inteligencia artificial que utiliza una conversación como interfaz para consultar información, utilizar herramientas o ejecutar acciones. Puede responder mensajes, pero también conectarse con sistemas empresariales y participar en procesos reales.',
+                },
+                {
+                  q: '¿Cuál es la diferencia entre un chatbot y un agente de IA?',
+                  a: 'Un chatbot se centra en mantener una conversación. Un agente de IA puede utilizar herramientas y ejecutar acciones además de responder. Un chatbot informa del horario. Un agente consulta un calendario y reserva una cita.',
+                },
+                {
+                  q: '¿Puede un chatbot conectarse con nuestro CRM o ERP?',
+                  a: 'Sí, si existe una vía de integración adecuada. El sistema puede consultar información o ejecutar operaciones según los permisos definidos.',
+                },
+                {
+                  q: '¿Puede responder utilizando nuestra documentación?',
+                  a: 'Sí. Dependiendo del proyecto se usan arquitecturas RAG y sistemas de permisos para recuperar únicamente la información adecuada antes de responder.',
+                },
+                {
+                  q: '¿Puede un chatbot ejecutar acciones?',
+                  a: 'Sí: crear registros, actualizar información, gestionar solicitudes o iniciar procesos. Las acciones pueden estar sujetas a reglas y validaciones adicionales.',
+                },
+                {
+                  q: '¿Puede funcionar en WhatsApp?',
+                  a: 'Sí, cuando el proyecto y la infraestructura del canal lo permiten. La misma lógica puede utilizarse en una web, una aplicación u otros canales compatibles.',
+                },
+                {
+                  q: '¿Qué ocurre si el chatbot no sabe responder?',
+                  a: 'Puede pedir más información, indicar que no dispone de una respuesta fiable o derivar la conversación a una persona. No debería estar obligado a inventar.',
+                },
+                {
+                  q: '¿Puede transferir la conversación a una persona?',
+                  a: 'Sí, conservando el contexto, los datos recopilados y el estado del proceso, para que la atención humana continúe sin que el usuario empiece de nuevo.',
+                },
+                {
+                  q: '¿Cuánto cuesta desarrollar un chatbot a medida?',
+                  a: 'Depende del número de casos de uso, las integraciones, las fuentes de información, los canales, las acciones disponibles y los requisitos de seguridad y control. Un chatbot informativo y un agente conectado con varios sistemas tienen complejidades muy distintas.',
+                },
+              ],
+            },
+            contact: {
+              h2: 'Cuéntanos qué debería poder resolver una conversación',
+              p: 'No necesitas decidir si necesitas un chatbot, un agente conversacional o una arquitectura concreta. Explícanos quién hablaría con el sistema, qué solicitudes recibe actualmente vuestro equipo y qué debería ocurrir después de cada conversación. Analizaremos qué puede automatizarse, qué sistemas habría que conectar y en qué situaciones debería intervenir una persona.',
+              cta: 'Desarrollar un agente conversacional con Ideasforge',
+            },
+          },
+          consulting: {
+            href: '/servicios/consultoria-de-ia',
+            metaTitle: 'Consultoría de IA para empresas, Ideasforge',
+            metaDescription: 'Ideasforge ofrece consultoría de inteligencia artificial para empresas que necesitan convertir oportunidades de IA en proyectos concretos, viables y medibles.',
+            nav: {
+              name: 'Consultoría de IA',
+              short: 'Qué merece la pena construir, qué no, y cómo.',
+            },
+            h1: 'Consultoría de inteligencia artificial para empresas',
+            lead: 'Ideasforge ofrece consultoría de inteligencia artificial para empresas que necesitan convertir oportunidades de IA en proyectos concretos, viables y medibles. Analizamos procesos, datos y sistemas para identificar dónde puede aportar valor, qué merece la pena desarrollar y qué arquitectura necesita cada caso.',
+            statement: [
+              'No partimos de una tecnología.',
+              'Partimos del problema.',
+            ],
+            cta: 'Analizar una oportunidad con Ideasforge',
+            intro: {
+              h2: 'No necesitas saber qué modelo o agente necesitas',
+              p: [
+                'Muchas empresas saben que quieren utilizar inteligencia artificial, pero todavía no tienen claro dónde aplicarla. Eso es normal. A partir del proceso decidimos qué tecnología tiene sentido: a veces un agente, a veces una automatización, a veces una integración convencional. Y otras veces la conclusión será que no merece la pena construir nada.',
+                'La consultoría sirve precisamente para tomar esa decisión antes de invertir en desarrollo.',
+              ],
+              listLabel: 'Antes de hablar de agentes, RAG o modelos, necesitamos entender',
+              list: [
+                'Qué proceso queremos mejorar',
+                'Cuánto tiempo consume',
+                'Qué personas intervienen',
+                'Qué herramientas utiliza',
+                'Qué datos existen',
+                'Qué decisiones forman parte del flujo',
+                'Qué resultado queremos conseguir',
+              ],
+            },
+            capabilities: {
+              h2: '¿Qué analizamos en una consultoría de inteligencia artificial?',
+              lead: 'Una consultoría no debería limitarse a generar una lista de ideas. Analizamos el contexto real de la empresa. La pregunta no es únicamente si algo puede hacerse. Es si merece la pena hacerlo.',
+              items: [
+                [
+                  'Procesos',
+                  'Cómo funciona cada flujo: tareas repetitivas, cuellos de botella, errores manuales, esperas, duplicidades y procesos que dependen de demasiado trabajo administrativo.',
+                ],
+                [
+                  'Datos',
+                  'Qué información existe, dónde está, quién puede acceder y si tiene suficiente calidad para soportar una solución de IA.',
+                ],
+                [
+                  'Sistemas',
+                  'ERP, CRM, bases de datos, APIs, documentación, software interno, almacenamiento y aplicaciones externas con las que tendría que trabajar la solución.',
+                ],
+                [
+                  'Casos de uso',
+                  'Dónde puede aportar valor la inteligencia artificial y dónde probablemente no sea necesaria.',
+                ],
+                [
+                  'Viabilidad',
+                  'Si el proyecto puede construirse con los datos, integraciones y restricciones actuales.',
+                ],
+                [
+                  'Impacto',
+                  'Qué mejora podría generar en tiempo, coste, errores, velocidad, capacidad operativa, calidad del servicio o acceso a la información.',
+                ],
+              ],
+            },
+            poster: {
+              kicker: 'Diseñamos la arquitectura antes de construir',
+              h2: [
+                'La arquitectura es ',
+                'consecuencia',
+                ' del problema. No el ',
+                'punto de partida',
+                '.',
+              ],
+              p: [
+                'Cuando un caso tiene sentido, definimos qué arquitectura necesita: modelos, agentes, RAG, automatizaciones, APIs, integraciones, software convencional, permisos, infraestructura, observabilidad e intervención humana.',
+                'También qué partes deben mantenerse fuera del modelo. Las reglas críticas, permisos y validaciones permanecen en código para mantener un comportamiento predecible.',
+              ],
+            },
+            types: {
+              h2: 'De "queremos utilizar IA" a casos de uso concretos',
+              lead: 'Transformamos ideas genéricas en casos definidos. Cada caso debería responder como mínimo a estas preguntas.',
+              items: [
+                [
+                  '¿Qué problema queremos resolver?',
+                  'Qué ocurre actualmente y por qué representa una fricción.',
+                ],
+                [
+                  '¿Quién utilizará el sistema?',
+                  'Empleados, clientes, equipo comercial, operaciones, administración u otros usuarios.',
+                ],
+                [
+                  '¿Qué información necesita?',
+                  'Documentación, datos, históricos, mensajes, sistemas internos o fuentes externas.',
+                ],
+                [
+                  '¿Qué debería poder hacer?',
+                  'Responder, consultar, clasificar, validar, ejecutar acciones o automatizar un flujo.',
+                ],
+                [
+                  '¿Qué sistemas necesita?',
+                  'ERP, CRM, bases de datos, APIs, software interno o servicios externos.',
+                ],
+                [
+                  '¿Qué beneficio esperamos?',
+                  'Tiempo ahorrado, reducción de errores, mayor capacidad, mejor acceso a información o una nueva funcionalidad.',
+                ],
+                [
+                  '¿Qué riesgos existen?',
+                  'Privacidad, errores, permisos, dependencia de proveedores o impacto de una decisión incorrecta.',
+                ],
+              ],
+            },
+            cases: {
+              h2: 'La estrategia puede terminar en un sistema real',
+              lead: 'Ideasforge no es únicamente una consultora. También desarrollamos las soluciones que diseñamos. La estrategia no termina en una presentación: puede convertirse en software funcionando dentro de la empresa.',
+              items: [
+                {
+                  client: 'Stanton',
+                  title: 'De un análisis de proceso a un 98 % de facturas sin intervención',
+                  desc: 'El análisis del flujo de facturas permitió separar qué parte necesitaba interpretación y qué parte eran reglas. El resultado es un sistema que hoy procesa el 98 % de las facturas de forma automática.',
+                  image: '/case-studies/stanton.jpg',
+                  href: '/casos/stanton',
+                },
+                {
+                  client: 'Savian',
+                  title: 'Decidir qué no hacer: el modelo no escribe SQL',
+                  desc: 'La decisión de arquitectura más importante fue una restricción: el agente interpreta la pregunta pero nunca ejecuta consultas arbitrarias. Esa decisión es la que hace el sistema seguro.',
+                  image: '/case-studies/harvest.jpg',
+                  href: '/casos/savian',
+                },
+              ],
+            },
+            method: {
+              h2: 'Un roadmap de IA que se pueda ejecutar',
+              lead: 'El resultado de una consultoría debería permitir tomar decisiones. Un roadmap útil no es una lista de ideas: es una secuencia de decisiones que se puede ejecutar.',
+              steps: [
+                [
+                  'Casos de uso priorizados',
+                  'Según impacto esperado, complejidad técnica, disponibilidad de datos, integraciones, riesgo, coste y facilidad de adopción.',
+                ],
+                [
+                  'Proyectos de impacto rápido',
+                  'Un caso con impacto alto y complejidad baja puede ser una buena primera implementación.',
+                ],
+                [
+                  'Dependencias y requisitos',
+                  'Qué datos hay que ordenar, qué API desarrollar o qué proceso cambiar antes de construir.',
+                ],
+                [
+                  'Arquitectura propuesta',
+                  'Qué tecnología resuelve cada parte y qué permanece como software convencional.',
+                ],
+                [
+                  'Fases y criterios de éxito',
+                  'Cómo medir si el desarrollo genera suficiente valor, con datos del proceso real.',
+                ],
+              ],
+            },
+            control: {
+              kicker: 'Seguridad, RGPD y AI Act',
+              h2: 'Seguridad y cumplimiento desde la estrategia',
+              p: [
+                'Algunas decisiones de arquitectura afectan directamente a la privacidad, la exposición de información y el riesgo regulatorio. No deberían revisarse únicamente cuando el desarrollo está terminado.',
+                'También identificamos requisitos relacionados con el Reglamento General de Protección de Datos y el Reglamento Europeo de Inteligencia Artificial.',
+              ],
+              listLabel: 'Durante la consultoría analizamos',
+              items: [
+                'Qué datos procesará el sistema',
+                'Si existe información personal o sensible',
+                'Qué proveedores participan',
+                'Dónde se procesan los datos',
+                'Qué permisos son necesarios',
+                'Qué acciones puede ejecutar la IA',
+                'Qué decisiones necesitan supervisión humana',
+                'Qué trazabilidad debe existir',
+              ],
+            },
+            when: {
+              h2: '¿Cuándo tiene sentido una consultoría de IA?',
+              lead: 'Aporta valor cuando la empresa sabe que existen oportunidades, pero todavía necesita decidir cuáles abordar. Puede centrarse en un único proceso. Y a veces el siguiente paso es simplemente construir.',
+              yes: {
+                label: 'Puede tener sentido si',
+                items: [
+                  'No sabes por dónde empezar',
+                  'Hay demasiadas ideas y necesitas priorizarlas',
+                  'Quieres identificar procesos automatizables',
+                  'Necesitas validar si un proyecto es viable',
+                  'Quieres calcular si la inversión tiene retorno',
+                  'Dudas entre software estándar o desarrollo a medida',
+                  'Necesitas definir una arquitectura',
+                  'Existen requisitos de seguridad o privacidad',
+                ],
+              },
+              no: {
+                label: 'No la necesitas si ya tienes definido',
+                items: [
+                  'Qué problema quieres resolver',
+                  'Qué debe hacer el sistema',
+                  'Con qué herramientas debe trabajar',
+                  'Qué datos utilizará',
+                  'Qué reglas debe cumplir',
+                  'Qué alcance tiene el proyecto',
+                ],
+              },
+            },
+            faq: {
+              h2: 'Preguntas frecuentes sobre consultoría de inteligencia artificial',
+              items: [
+                {
+                  q: '¿Qué hace una consultora de inteligencia artificial?',
+                  a: 'Analiza procesos, datos y sistemas para identificar dónde puede aportar valor la IA y cómo implementar cada oportunidad: casos de uso, viabilidad, arquitectura, priorización e impacto.',
+                },
+                {
+                  q: '¿Qué incluye una consultoría de IA?',
+                  a: 'Análisis de procesos, identificación de casos de uso, revisión de datos y sistemas, priorización, arquitectura, evaluación de riesgos y creación de un roadmap. El alcance depende de si se analiza un proceso o una estrategia más amplia.',
+                },
+                {
+                  q: '¿Cuánto cuesta una consultoría de inteligencia artificial?',
+                  a: 'Depende del alcance, el número de procesos, la complejidad de los sistemas y el nivel de detalle. Una evaluación de un caso concreto y una consultoría transversal tienen alcances muy diferentes.',
+                },
+                {
+                  q: '¿Cómo se identifican casos de uso de IA?',
+                  a: 'Analizando procesos con trabajo manual, información difícil de procesar, decisiones variables o necesidad de acceder a conocimiento. Después se evalúan según impacto, complejidad, datos disponibles y riesgo.',
+                },
+                {
+                  q: '¿Cómo saber si un proyecto de IA es rentable?',
+                  a: 'Comparando el coste de construir y mantener el sistema con el valor que puede generar: tiempo ahorrado, reducción de errores, capacidad adicional o mejora del servicio.',
+                },
+                {
+                  q: '¿Necesito tener los datos preparados antes de empezar?',
+                  a: 'No necesariamente. Parte de la consultoría puede consistir en evaluar qué datos existen y qué tendría que cambiar antes de desarrollar.',
+                },
+                {
+                  q: '¿La consultoría incluye el desarrollo?',
+                  a: 'Pueden contratarse como fases diferentes. Ideasforge puede realizar únicamente el análisis o continuar con la construcción de la solución.',
+                },
+                {
+                  q: '¿Qué diferencia hay entre consultoría de IA y desarrollo de IA?',
+                  a: 'La consultoría define qué merece la pena construir y cómo plantearlo. El desarrollo convierte esa decisión en software funcionando.',
+                },
+              ],
+            },
+            contact: {
+              h2: 'Cuéntanos qué quieres mejorar, aunque todavía no sepas cómo',
+              p: 'No necesitas llegar con un agente definido, una arquitectura diseñada ni una solución decidida. Explícanos qué proceso quieres mejorar, qué problemas encuentra vuestro equipo o qué oportunidades estáis valorando. Analizaremos qué tiene sentido hacer, qué no y cuál debería ser el siguiente paso.',
+              cta: 'Analizar una oportunidad con Ideasforge',
+            },
+          },
+        },
+      },
+      /*
+        DESARROLLO DE AGENTES, REESCRITA EL 7 OCT 2026. El texto es el del
+        propietario (`.private/Contenido-web/Desarrollo-de-agentes.txt`),
+        volcado literal y sin pasar por el árbitro, que no estaba en la copia
+        de trabajo. Tres cosas se apartan del original y conviene conocerlas.
+
+        Las listas llegaban con punto y coma al final de cada elemento, que
+        en esta casa está vetado. Se quitan, igual que se hizo con el texto de
+        la portada.
+
+        Las negritas con que abría cada respuesta de la FAQ no se pintan,
+        porque la respuesta es texto plano y también alimenta el `FAQPage`.
+
+        La página ya no publica precios ni lleva gráficos pizarra. Por lo
+        primero sale de la oferta estructurada de `BaseLayout`. El espejo
+        inglés conserva el texto anterior hasta que se traduzca este.
+      */
       agentDev: {
         tocHeading: 'Qué verás en esta página',
         metaTitle: 'Desarrollo de agentes de IA a medida para empresas, Ideasforge',
         metaDescription:
-          'Diseñamos, construimos y mantenemos agentes de IA para empresas: a medida, sobre tu infraestructura y medidos antes de cada cambio.',
+          'Ideasforge desarrolla agentes de IA a medida para empresas que necesitan ir más allá de un chatbot, una automatización básica o una herramienta estándar.',
         hero: {
-          eyebrow: 'Desarrollo de agentes de IA a medida',
-          title: 'Agentes de IA para empresas, construidos para llegar a producción y quedarse.',
-          subtitle:
-            'Diseñamos, construimos y mantenemos agentes de IA a medida para medianas y grandes empresas. Funcionan sobre tu infraestructura y se miden antes de cada cambio.',
-          cta: 'Cuéntanos tu reto',
+          title: 'Desarrollo de agentes de IA a medida',
+          subtitle: [
+            'Ideasforge desarrolla agentes de IA a medida para empresas que necesitan ir más allá de un chatbot, una automatización básica o una herramienta estándar.',
+            'Diseñamos sistemas capaces de consultar información, utilizar herramientas y ejecutar acciones sobre bases de datos, ERP, CRM, APIs, documentación interna y aplicaciones propias.',
+            'El modelo aporta capacidad de interpretación.',
+            'La arquitectura determina qué puede hacer, con qué información puede trabajar y bajo qué condiciones puede actuar.',
+          ],
+          cta: 'Cuéntanos qué tendría que hacer el agente',
         },
         sections: [
           {
-            heading: 'Qué construimos',
-            part: 'El servicio',
+            heading: 'Agentes conectados con los sistemas donde ocurre el trabajo',
             paragraphs: [
-              'Agentes de IA a medida que resuelven tareas concretas: consultan tu documentación y tus bases de datos, guían diagnósticos, cualifican solicitudes y ejecutan acciones sobre los sistemas que apruebes. <strong>Cada agente se construye para una tarea concreta y se conecta solo a las herramientas que esa tarea necesita.</strong>',
-              'Cuando un solo agente no puede cubrir todo el proceso, construimos un sistema que coordina varios agentes especializados. Un orquestador analiza cada consulta y la envía al agente especializado que puede resolverla. Uno de nuestros sistemas en producción funciona así y coordina seis.',
-              'Estos son algunos de los encargos que más se repiten:',
+              'Un agente de IA empresarial no tiene por qué limitarse a responder preguntas.',
+              'Puede recibir una petición, interpretar el contexto, consultar diferentes fuentes de información, utilizar herramientas y ejecutar acciones dentro de un proceso real.',
+              'Por ejemplo, un agente puede:',
             ],
-            kind: 'lattice',
             bullets: [
-              'Consultas a tus datos. La pregunta se escribe en lenguaje natural y el sistema la convierte en una consulta validada a tu base de datos. La respuesta sale de esos datos, no de la memoria del modelo. «¿Cuánto facturamos en marzo en la zona norte?», escrito así, tal cual se le preguntaría a un compañero.',
-              'Asistente sobre tu documentación. El agente consulta manuales, wikis y sistemas internos y responde en una sola conversación, indicando de qué fuente ha obtenido cada respuesta. La política de devoluciones que hoy vive repartida entre tres manuales se contesta en una frase, con su fuente al lado.',
-              'Diagnóstico guiado. El agente hace preguntas, descarta posibles causas y guía al usuario paso a paso hasta identificar el problema, como nuestro asistente de planta cuando una máquina se para.',
-              'Cualificación de solicitudes. El agente analiza cada entrada, comprueba los criterios que hayas definido y la dirige al equipo correspondiente. Tu equipo recibe los casos que cumplen esos criterios. De veinte solicitudes de presupuesto que entran por la web, tres merecen una llamada hoy y el resto puede esperar a mañana.',
-              'Acciones sobre tus sistemas. El agente puede completar una gestión utilizando únicamente las acciones que tú hayas aprobado. Dar de alta al cliente, generar su contrato y dejarlo listo para la firma, sin que nadie copie datos de una pantalla a otra.',
+              'consultar una base de datos',
+              'recuperar información de documentación interna',
+              'comprobar datos dentro de un ERP',
+              'actualizar un CRM',
+              'consultar disponibilidad en un calendario',
+              'utilizar una API',
+              'registrar una operación',
+              'enviar una comunicación',
+              'iniciar un workflow',
+              'pedir intervención humana cuando el caso lo requiera',
             ],
-            link: { label: 'Si todavía estás decidiendo qué es un agente y qué no, empieza por la guía de agentes de IA', href: '/agentes-de-ia' },
-          },
-          {
-            heading: 'Lo que antes era difícil de automatizar',
-            pizarra: { grafico: 'entradaSucia', tras: 3 },
-            part: 'El servicio',
-            paragraphs: [
-              'Los procesos con reglas claras se automatizan desde hace décadas. Lo difícil era automatizar los casos en los que la información llegaba en formatos diferentes o había que interpretar lo que quería decir el usuario. Por ejemplo, un cliente manda el pedido en PDF, otro lo escribe en el cuerpo del correo y un tercero pide «lo del mes pasado, pero para el almacén nuevo».',
-              'Hasta ahora, esos casos exigían que una persona interpretara y copiara los datos, o construir muchas reglas específicas para cada formato posible.',
-              '¿Qué ha cambiado con los modelos de lenguaje?',
-              '<strong>Los modelos de lenguaje permiten automatizar una parte que antes requería trabajo manual: interpretar información que llega sin una estructura fija.</strong> El modelo puede interpretar un pedido aunque esté escrito de formas diferentes y convertirlo en los campos estructurados que necesita el resto del sistema.',
+            closing: [
+              'La diferencia no está únicamente en el modelo utilizado.',
+              'Está en cómo se diseña todo lo que existe alrededor del modelo.',
             ],
           },
           {
-            heading: 'La autonomía se amplía por etapas',
-            pizarra: { grafico: 'peldanos', tras: 2 },
-            part: 'El servicio',
+            heading: '¿Qué puede hacer un agente de IA dentro de una empresa?',
             paragraphs: [
-              'Solemos recomendar que ningún agente nuestro empiece actuando por su cuenta. Al principio debería limitarse a proponer una respuesta o una acción, sin ejecutarla. Una persona debería revisar cada salida antes de que salga al usuario final. Cuando las pruebas y el uso real muestran que funciona correctamente en los casos previstos, ampliamos las acciones que puede ejecutar sin revisión.',
-              'Con un ejemplo se ve mejor. Un agente que contesta a proveedores empieza escribiendo borradores que aprueba el equipo. Semanas después puede enviar por sí solo los acuses de recibo, mientras que una reclamación o una negociación de precio siguen requiriendo revisión humana.',
-              'Y hay una regla que no rompemos. <strong>Nunca ampliamos al mismo tiempo los sistemas a los que tiene acceso y las acciones que puede ejecutar sin revisión.</strong> Si le damos acceso a un sistema nuevo, en ese sistema vuelve al modo de revisión, aunque lleve meses trabajando solo en los demás.',
+              'La capacidad de un agente depende de las herramientas, fuentes de información y permisos que formen parte de su arquitectura.',
+            ],
+            subsections: [
+              {
+                heading: 'Consultar información',
+                paragraphs: [
+                  'El agente puede buscar y recuperar datos desde bases de datos, CRM, ERP, documentación, APIs o sistemas internos.',
+                  'Puede utilizar lenguaje natural como interfaz para acceder a información que normalmente estaría repartida entre diferentes aplicaciones.',
+                ],
+              },
+              {
+                heading: 'Interpretar solicitudes',
+                paragraphs: [
+                  'Los modelos de lenguaje permiten comprender mensajes aunque no sigan una estructura fija.',
+                  'Esto resulta especialmente útil cuando el proceso recibe correos electrónicos, mensajes, documentos o instrucciones escritas de diferentes formas.',
+                ],
+              },
+              {
+                heading: 'Utilizar herramientas',
+                paragraphs: [
+                  'Un agente puede disponer de herramientas específicas para consultar sistemas externos, recuperar datos o realizar determinadas operaciones.',
+                  'Cada herramienta tiene una función definida y unas condiciones concretas de uso.',
+                ],
+              },
+              {
+                heading: 'Ejecutar acciones',
+                paragraphs: [
+                  'Dependiendo del proceso, un agente puede crear registros, actualizar información, enviar comunicaciones, reservar una cita o iniciar una operación.',
+                  'Las acciones no tienen por qué ejecutarse únicamente porque el modelo las solicite. Podemos incorporar reglas y validaciones antes de permitirlas.',
+                ],
+              },
+              {
+                heading: 'Tomar decisiones dentro de límites definidos',
+                paragraphs: [
+                  'En algunos procesos existen diferentes caminos posibles dependiendo del contexto.',
+                  'El agente puede seleccionar entre opciones cuando esa decisión requiere interpretación, mientras que el software mantiene el control sobre las condiciones que deben cumplirse.',
+                ],
+              },
+              {
+                heading: 'Coordinar varios sistemas',
+                paragraphs: [
+                  'Un agente puede consultar información en una aplicación y utilizarla posteriormente para ejecutar una acción en otra.',
+                  'Esto permite trabajar sobre procesos que hoy requieren que una persona cambie continuamente entre diferentes herramientas.',
+                ],
+              },
             ],
           },
           {
-            heading: 'La seguridad se diseña desde el principio',
-            pizarra: { grafico: 'cuatroCapas', tras: 4 },
-            part: 'Las garantías',
+            heading: 'No desarrollamos agentes genéricos. Diseñamos sistemas alrededor de tus procesos',
             paragraphs: [
-              '<strong>El modelo propone una acción, pero el código decide si puede ejecutarse.</strong> Escoge dentro de un conjunto cerrado de acciones. El agente de un taller puede consultar el historial de un vehículo, proponer cita y enviar un presupuesto. No puede borrar un registro porque esa acción no forma parte de las operaciones que el sistema le permite ejecutar, aunque el usuario se la pida explícitamente.',
-              'Por eso las restricciones no dependen únicamente de una instrucción escrita para el modelo. Ahí está la diferencia entre una garantía y un prompt bien escrito que puede no cumplirse de forma fiable en todos los casos.',
-              'El reparto de papeles es la regla de la casa: el código controla las decisiones y acciones permitidas, el modelo interpreta el lenguaje y tus sistemas aportan los datos necesarios. Todo lo que pueda resolverse con código normal se resuelve con código, porque cada llamada al modelo en producción añade coste, tiempo de espera y una variabilidad que hay que vigilar.',
-              'Calcular un vencimiento o aplicar un tipo de IVA con código produce el mismo resultado cada vez que se ejecuta con los mismos datos. En cambio un LLM, al no ser determinista, no siempre dará el mismo resultado. Entender que «lo del otro día para el almacén nuevo» es el pedido 4512 con otra dirección de entrega, eso es el modelo. Así reducimos llamadas innecesarias al modelo y hacemos que el comportamiento del sistema sea más fácil de comprobar y auditar.',
-              'Y cuando conviven datos de varias empresas o de varias áreas, el aislamiento no se pide por instrucciones. Se construye en capas que acaban en un filtro que el modelo no puede tocar y al agente solo se le entrega el contexto de quien pregunta, para que ni siquiera pueda formular una consulta sobre datos ajenos.',
-              'Es el mismo principio que aplicaría una asesoría: cada gestor puede consultar las empresas que tiene asignadas, pero no las de otros gestores.',
+              'Dos empresas pueden querer automatizar aparentemente la misma tarea y necesitar soluciones completamente distintas.',
+              'Cambian los datos disponibles.',
+              'Cambian las aplicaciones utilizadas.',
+              'Cambian las reglas del negocio.',
+              'Cambian los permisos.',
+              'Y también cambia el impacto que puede tener un error.',
+              'Por eso el desarrollo de un agente de IA no debería empezar eligiendo un modelo.',
+              'Empieza entendiendo cómo funciona el proceso.',
+              'Analizamos qué información recibe el sistema, qué decisiones debe tomar, qué acciones puede ejecutar y qué partes del flujo necesitan seguir siendo completamente deterministas.',
+              'Si una regla puede expresarse de forma fiable mediante software convencional, normalmente preferimos mantenerla fuera del modelo.',
+              '<strong>La IA interpreta. El software controla.</strong>',
             ],
           },
           {
-            heading: 'El modelo interpreta la petición y el código controla lo que puede ejecutarse',
-            pizarra: { grafico: 'contratoCerca', tras: 0 },
-            part: 'Las garantías',
+            heading: 'Agentes de IA adaptados a diferentes procesos empresariales',
             paragraphs: [
-              '<strong>El modelo no tiene acceso directo a tus sistemas.</strong> Interpreta la pregunta y entrega un formulario de campos fijos, lo que llamamos un contrato. A partir de ahí decide el código, que sí se comporta igual siempre. Incluso si una petición intenta manipular al modelo, este solo puede seleccionar entre las acciones que el sistema permite. Un caso construido así, con lo que tuvimos que quitarle al modelo por el camino, está en <a class="link-inline" href="/casos/savian">la página de Savian</a>.',
+              'No existe un único tipo de agente válido para cualquier situación.',
+              'Diseñamos la arquitectura según la función que debe cumplir el sistema.',
+            ],
+            subsections: [
+              {
+                heading: 'Agentes sobre datos',
+                paragraphs: [
+                  'Permiten consultar información almacenada en bases de datos o aplicaciones empresariales utilizando lenguaje natural.',
+                  'El agente interpreta qué necesita el usuario y utiliza herramientas controladas para recuperar la información correspondiente.',
+                ],
+              },
+              {
+                heading: 'Agentes sobre documentación',
+                paragraphs: [
+                  'Trabajan con manuales, procedimientos, normativa, documentación técnica o conocimiento interno.',
+                  'Cuando es necesario podemos utilizar arquitecturas RAG para recuperar únicamente la información relevante antes de generar una respuesta.',
+                ],
+              },
+              {
+                heading: 'Agentes operativos',
+                paragraphs: [
+                  'Además de consultar información, pueden ejecutar acciones sobre ERP, CRM, APIs o aplicaciones internas.',
+                  'Por ejemplo, registrar información, actualizar estados, crear operaciones o iniciar determinados procesos.',
+                ],
+              },
+              {
+                heading: 'Agentes conversacionales',
+                paragraphs: [
+                  'Utilizan una conversación como interfaz para acceder a información o ejecutar acciones.',
+                  'Pueden trabajar mediante web, aplicaciones internas, WhatsApp u otros canales según las necesidades del proyecto.',
+                ],
+              },
+              {
+                heading: 'Sistemas multiagente',
+                paragraphs: [
+                  'En determinados problemas puede tener sentido dividir responsabilidades entre diferentes agentes especializados.',
+                  'No utilizamos arquitecturas multiagente por defecto.',
+                  'Solo cuando la separación de funciones aporta una ventaja real en control, especialización o mantenibilidad.',
+                ],
+              },
             ],
           },
           {
-            heading: 'Cómo validamos un agente antes de ponerlo en producción',
-            part: 'Las garantías',
+            heading: 'Agentes de IA que ya trabajan sobre procesos reales',
             paragraphs: [
-              'Una demostración se hace en días. Ponerlo en producción exige pruebas y controles continuos. Cada agente sale con una batería de pruebas, un conjunto de casos reales con su respuesta correcta anotada que se ejecuta entera antes de cada cambio. También incluimos casos ambiguos y situaciones en las que esperamos que el agente tenga que pedir más información o escalar: la factura que llega sin número de pedido, la pregunta con dos lecturas posibles, el mensaje con faltas escrito desde el móvil.',
-              '<strong>Si la calidad baja, el cambio no sale.</strong> En uno de nuestros agentes esa batería tiene 118 casos reales y con ella llevamos del 72 % al 91 % el acierto del enrutado, el componente que decide qué agente especializado debe atender cada pregunta.',
-              'Cada respuesta queda registrada con su contexto: qué consultó el agente, qué decidió y cuánto costó. Cuando llega una queja, reconstruimos exactamente qué pasó. Y lo que está en producción se revisa cada semana, porque un sistema con un modelo dentro puede empeorar sin que aparezca un solo error en ningún registro.',
+              'No planteamos el desarrollo de agentes únicamente desde la teoría.',
+              'Ya hemos construido sistemas que utilizan inteligencia artificial para trabajar con información, herramientas y reglas empresariales reales.',
+            ],
+            subsections: [
+              {
+                heading: 'Savian',
+                subheading: 'Consultar datos empresariales mediante lenguaje natural',
+                paragraphs: [
+                  'Desarrollamos un sistema que permite realizar consultas sobre información empresarial sin que el usuario necesite escribir SQL.',
+                  'El agente interpreta la pregunta, determina qué información necesita y utiliza una capa controlada para acceder a los datos.',
+                  'El modelo no recibe libertad para ejecutar SQL arbitrario directamente sobre la base de datos.',
+                ],
+                link: { label: 'Ver caso Savian', href: '/casos/savian' },
+              },
+              {
+                heading: 'Wazzy',
+                subheading: 'Un agente de IA que gestiona citas desde WhatsApp',
+                paragraphs: [
+                  'Wazzy permite que un usuario reserve, modifique o cancele una cita mediante una conversación.',
+                  'El agente consulta disponibilidad, trabaja con diferentes profesionales y calendarios y ejecuta las acciones necesarias siguiendo reglas previamente definidas.',
+                  'La conversación es flexible.',
+                  'Las reglas de agenda no lo son.',
+                ],
+                link: { label: 'Ver caso Wazzy', href: '/casos/wazzy' },
+              },
+              {
+                heading: 'Sistemas especializados por función',
+                paragraphs: [
+                  'En proyectos más complejos podemos separar responsabilidades entre distintos componentes o agentes.',
+                  'Por ejemplo, un sistema puede disponer de componentes diferentes para recuperar documentación, trabajar con datos operativos o ejecutar determinadas acciones.',
+                  'La decisión de utilizar uno o varios agentes depende de la arquitectura que mejor controle el proceso, no del número de agentes que podamos añadir.',
+                ],
+              },
             ],
           },
           {
-            heading: 'Qué puede hacer el agente sin supervisión',
-            pizarra: { grafico: 'sinSupervision', tras: 0 },
-            part: 'Las garantías',
-            paragraphs: [
-              'La batería hace algo más que vigilar la calidad. Permite definir qué casos ha demostrado el agente que puede resolver correctamente y cuáles todavía deben pasar a una persona. <strong>En los casos validados, el agente puede actuar sin revisión. En los demás, el sistema detiene la ejecución y los envía a una persona.</strong>',
-              'El límite entre unos casos y otros se define a partir de los casos que el agente ha superado en las pruebas y en producción. Un agente que lleva meses tramitando pedidos nacionales recibe un día el primero con aduanas por medio. Lo que toca no es improvisar la respuesta, es reconocer que ese terreno no está probado y pasarlo a quien sepa, hasta que entre en la batería con sus propios casos.',
-              'Esto requiere programar una respuesta para los casos en los que el agente no tiene suficiente información. A un empleado nuevo se le puede enseñar a preguntar cuando tiene dudas. En un modelo, ese comportamiento hay que definirlo y programarlo, porque un modelo puede generar una respuesta aunque no tenga información suficiente para responder correctamente.',
-              'Si a una solicitud le falta el CIF, el agente no registra nada y pide el dato. Esa parada no la decide el modelo, la impone el código.',
+            heading: 'Cómo desarrollamos un agente de IA a medida',
+            paragraphs: ['El desarrollo empieza antes de escribir el primer prompt.'],
+            subsections: [
+              {
+                heading: '01. Analizamos el proceso',
+                paragraphs: [
+                  'Estudiamos cómo funciona actualmente, qué personas intervienen, qué decisiones existen y qué parte queremos mejorar.',
+                  'También identificamos qué ocurre cuando el proceso se sale del caso habitual.',
+                ],
+              },
+              {
+                heading: '02. Definimos las fuentes de información',
+                paragraphs: [
+                  'Determinamos qué necesita conocer el agente para realizar su trabajo.',
+                  'Puede incluir:',
+                ],
+                bullets: [
+                  'bases de datos',
+                  'documentación',
+                  'ERP',
+                  'CRM',
+                  'APIs',
+                  'software interno',
+                  'aplicaciones externas',
+                  'calendarios',
+                  'sistemas de almacenamiento',
+                ],
+              },
+              {
+                heading: '03. Diseñamos herramientas, permisos y reglas',
+                paragraphs: [
+                  'Definimos qué puede consultar el agente, qué herramientas puede utilizar y qué acciones puede ejecutar.',
+                  'También establecemos validaciones, límites y condiciones antes de permitir operaciones sensibles.',
+                ],
+              },
+              {
+                heading: '04. Desarrollamos y evaluamos',
+                paragraphs: [
+                  'Construimos el sistema y lo probamos sobre casos reales.',
+                  'No evaluamos únicamente si funciona en el escenario ideal.',
+                  'Probamos también situaciones ambiguas, información incompleta, errores de usuario y casos límite.',
+                ],
+              },
+              {
+                heading: '05. Desplegamos y monitorizamos',
+                paragraphs: [
+                  'Una vez en producción medimos el comportamiento del sistema.',
+                  'Podemos analizar utilización, errores, costes, latencia, llamadas a herramientas y otros indicadores necesarios para entender cómo está funcionando el agente.',
+                  'El objetivo no es simplemente desplegarlo.',
+                  'Es poder observarlo, corregirlo y mejorarlo.',
+                ],
+              },
             ],
           },
           {
-            heading: 'Qué supervisión necesita en producción',
-            part: 'Las garantías',
+            heading: 'Un agente útil también tiene que ser controlable',
             paragraphs: [
-              'Un agente en producción necesita un responsable en tu equipo que responda por él. La persona que hoy revisa cada solicitud completa pasa a revisar solo los casos que el agente no puede resolver por sí mismo. Cada caso llega con los datos extraídos y una explicación de por qué necesita revisión. Así puede decidir rápidamente sobre casos que antes requerían revisar toda la solicitud.',
-              '<strong>Los casos que el agente no puede resolver se envían a una persona.</strong> Antes de arrancar queda acordado qué casos escala, a qué bandeja llegan y quién los atiende.',
+              'Los modelos de lenguaje son probabilísticos.',
+              'Eso significa que no deberíamos diseñar procesos críticos confiando únicamente en que el modelo elija siempre la respuesta correcta.',
+              'Por eso utilizamos diferentes mecanismos de control alrededor del agente.',
+              'Dependiendo del proyecto podemos implementar:',
+            ],
+            bullets: [
+              'herramientas limitadas a funciones concretas',
+              'parámetros validados antes de ejecutar acciones',
+              'respuestas estructuradas',
+              'reglas de negocio fuera del modelo',
+              'permisos diferentes según usuario o contexto',
+              'límites sobre determinadas operaciones',
+              'validación adicional antes de acciones sensibles',
+              'registro de herramientas y acciones ejecutadas',
+              'evaluación automática de respuestas',
+              'intervención humana cuando el sistema no puede continuar con suficiente seguridad',
+            ],
+            closing: [
+              'El objetivo no es hacer que el modelo tenga libertad total.',
+              'Es darle únicamente la libertad que necesita para resolver la parte del problema donde realmente aporta valor.',
             ],
           },
           {
-            heading: 'Empezamos por el problema, no por el modelo',
-            part: 'Decidir con criterio',
+            heading: 'No todo necesita una arquitectura agéntica',
             paragraphs: [
-              '<strong>No empezamos buscando dónde encajar la IA en tu empresa. Buscamos los problemas que ya te cuestan dinero y evaluamos si un agente los resuelve con ganancia demostrable.</strong> Parece lo mismo y es lo contrario. La primera estrategia suele producir demostraciones atractivas que no llegan a convertirse en herramientas útiles para el negocio. La segunda busca sistemas cuyo resultado pueda justificarse con una mejora medible.',
-              '¿Cómo se encuentra un problema así?',
-              'La primera fase se hace con quien sufre el proceso, no solo con quien compra la tecnología. Mapeamos el proceso paso a paso con sus actores, sus sistemas y sus tiempos. Después separamos los problemas que duelen hoy, los que ya consumen horas de trabajo, generan errores o hacen perder oportunidades comerciales, de los cuellos de botella que aguantarán solo hasta que el volumen crezca.',
-              'Cada candidato se traduce a su ganancia esperada partiendo de una línea base medida, cuánto cuesta hoy en horas, en errores o en espera.',
-              'De esa lista, la mayoría se descarta. Los procesos que pasan ese filtro empiezan con un piloto pequeño (una parte del problema, un grupo reducido de usuarios y una métrica acordada antes de empezar), no con un despliegue completo. Preferimos probar a fondo una parte concreta del proceso antes que intentar cubrirlo entero desde el principio. Así, si el piloto no funciona, la inversión es limitada; si funciona, los datos permiten decidir qué ampliar.',
+              'Un agente de IA no debería utilizarse para reemplazar reglas de software que ya pueden expresarse de forma clara y determinista.',
+              'Si una condición puede resolverse con un <code>if</code>, normalmente no necesitamos pedirle a un modelo que decida.',
+              'Las reglas de negocio que deben cumplirse siempre son más fáciles de probar, mantener y auditar cuando permanecen en código.',
+              'Utilizamos inteligencia artificial en aquellas partes donde aporta capacidades difíciles de conseguir mediante reglas tradicionales:',
+            ],
+            bullets: [
+              'interpretar lenguaje natural',
+              'trabajar con información no estructurada',
+              'recuperar conocimiento',
+              'analizar contexto',
+              'elegir entre herramientas según una situación variable',
+              'transformar información compleja en una representación estructurada',
+            ],
+            closing: [
+              'El resto puede seguir siendo software.',
+              '<strong>Un buen sistema de IA no es el que utiliza más IA. Es el que utiliza IA exactamente donde la necesita.</strong>',
             ],
           },
           {
-            heading: 'Qué ponemos nosotros y qué pones tú',
-            part: 'Decidir con criterio',
+            heading: 'Un agente puede conectarse con las herramientas que ya utiliza tu empresa',
             paragraphs: [
-              '<strong>En estos proyectos, el principal obstáculo no suele ser construir el sistema, sino disponer de los datos, las personas y el tiempo necesarios para ponerlo en producción.</strong> Los proyectos se caen por el lado de la organización, cuando nadie tiene tiempo de revisar el piloto o el acceso a los datos se eterniza.',
-              'Por eso pedimos tres cosas antes de empezar: un responsable con nombre que decide y responde, horas reales de su equipo para revisar los casos del piloto y acceso a los datos que el agente necesita. Sin esas horas no hay batería que calibrar ni nadie que pueda dar el resultado por bueno.',
-              'Y hay una parte que no se compra, se gana. Quien hoy hace la tarea a mano será quien vigile al agente mañana. Si entra al proyecto el último, lo vivirá como una amenaza y encontrará motivos por los que no funciona.',
-              'Es una de las formas más habituales de que un proyecto útil fracase, y puede evitarse involucrando al equipo desde el principio. El mapeo del proceso se hace con esas personas desde el primer día. En él se define qué papel tendrá ese equipo cuando el agente entre en producción.',
+              'El agente no necesita sustituir el software actual.',
+              'Puede trabajar sobre él.',
+              'Podemos integrar agentes con:',
+            ],
+            subsections: [
+              {
+                heading: 'Bases de datos',
+                paragraphs: [
+                  'Para consultar información, recuperar registros o utilizar datos empresariales dentro del contexto del agente.',
+                ],
+              },
+              {
+                heading: 'ERP',
+                paragraphs: [
+                  'Para consultar operaciones, estados, productos, clientes u otra información disponible en el sistema.',
+                ],
+              },
+              {
+                heading: 'CRM',
+                paragraphs: [
+                  'Para recuperar contexto comercial, crear registros, actualizar oportunidades o añadir información generada durante una interacción.',
+                ],
+              },
+              {
+                heading: 'APIs',
+                paragraphs: [
+                  'Para utilizar servicios externos o conectar aplicaciones que ya forman parte del proceso.',
+                ],
+              },
+              {
+                heading: 'Software interno',
+                paragraphs: [
+                  'Cuando existe una aplicación propia, podemos diseñar una integración específica para que el agente trabaje con ella.',
+                ],
+              },
+              {
+                heading: 'Calendarios y sistemas de reservas',
+                paragraphs: [
+                  'Para consultar disponibilidad y ejecutar operaciones relacionadas con citas o recursos.',
+                ],
+              },
+              {
+                heading: 'Correo electrónico y mensajería',
+                paragraphs: [
+                  'Para interpretar comunicaciones, extraer información o iniciar procesos a partir de mensajes.',
+                ],
+              },
+              {
+                heading: 'Documentación empresarial',
+                paragraphs: [
+                  'Para recuperar conocimiento desde manuales, procedimientos, normativa o documentación técnica.',
+                ],
+              },
+            ],
+            closing: [
+              'La existencia de una API no es el único factor que determina si una integración es adecuada.',
+              'También analizamos permisos, consistencia de los datos y qué operaciones es razonable automatizar.',
             ],
           },
           {
-            heading: 'Cuándo un agente no compensa',
-            part: 'Decidir con criterio',
+            heading: 'Datos, permisos y seguridad desde la arquitectura',
             paragraphs: [
-              '<strong>Decírtelo es parte de nuestro servicio en Ideasforge.</strong> Si las reglas de tu proceso son claras y estables, una automatización a medida lo resuelve más barato, más rápido y sin la vigilancia que exige un modelo. Eso también lo construimos nosotros. Un agente compensa cuando el proceso requiere interpretar información que cambia de un caso a otro, por ejemplo correos, documentos o peticiones escritas de formas diferentes.',
-              'Dos comprobaciones rápidas suelen indicar cuál de las dos opciones encaja mejor. Si el proceso se deja escribir como una lista de comprobación, llega el archivo, se vuelca, se confirma, siempre con el mismo formato, lo tuyo son reglas y te sobra el modelo. Y si llevas meses apilando condiciones para cada manera nueva en que la gente escribe una dirección, el problema deja de ser definir reglas y pasa a ser interpretar las distintas formas en que llega la información. Ahí empieza el terreno del agente.',
-              'Tampoco compensa cuando no puedes medir qué mejora aportaría ni cuando los datos necesarios no están disponibles o el equipo que debería usarlo no quiere. En esos casos lo sensato es empezar por ordenar los datos o por el proceso, no por el agente.',
-              'El mercado también muestra que muchos proyectos de IA se abandonan por el camino. Gartner calcula que antes de que acabe 2027 se habrá cancelado más del 40 % de los proyectos de IA agéntica. Por eso nosotros filtramos los casos antes de construir y usamos una métrica acordada para decidir si el proyecto continúa.',
-              'Que un agente no sea la solución no significa que el proceso no pueda automatizarse. Un proceso de reglas claras se automatiza igual y sale más barato de construir y de operar. Esa es la otra mitad de lo que hacemos.',
+              'Un agente puede tener acceso a información sensible y capacidad para ejecutar acciones.',
+              'Por eso la seguridad no debería incorporarse al final del proyecto.',
+              'Debe decidirse desde el diseño.',
+              'Analizamos:',
             ],
-            link: {
-              label: 'Si tus reglas son claras, lo tuyo es la automatización de procesos con IA',
-              href: '/servicios/automatizacion-de-procesos-con-ia',
-            },
+            bullets: [
+              'qué información necesita realmente el modelo',
+              'qué fuentes puede consultar',
+              'qué usuarios tienen acceso a cada dato',
+              'qué información se envía a proveedores externos',
+              'dónde se procesan los datos',
+              'qué acciones puede realizar',
+              'qué operaciones necesitan validación',
+              'qué información debe quedar registrada',
+            ],
+            closing: [
+              'Cuando el proyecto lo requiere podemos utilizar infraestructura privada, modelos desplegados en entornos controlados o arquitecturas específicas para reducir la exposición de datos.',
+            ],
+            link: { label: 'Inteligencia artificial, privacidad y RGPD', href: '/ia-y-rgpd' },
           },
           {
-            heading: 'Qué te llevas el último día',
-            part: 'Decidir con criterio',
+            heading: '¿Cuándo merece la pena desarrollar un agente de IA a medida?',
             paragraphs: [
-              '<strong>El repositorio está a tu nombre desde el primer día</strong>: código, documentación, manuales de operación, instrucciones del modelo y la batería de pruebas. La infraestructura también, montada en una nube a nombre de tu empresa.',
-              'Tenemos sistemas en producción que pueden utilizar modelos de distintos proveedores. Cambiar el tuyo es posible y se hace con la batería de pruebas delante, porque modelos distintos se comportan distinto y el cambio se mide.',
-              'Con el sistema entregamos un catálogo de incidencias que permite identificar qué comportamiento ha fallado antes de investigar su causa. Si decides operar el sistema sin nosotros, formamos a tu equipo y ya tienes el código, la documentación, las pruebas y los manuales necesarios para hacerlo.',
+              'Un agente a medida tiene sentido cuando el problema necesita más control o integración de la que ofrece una herramienta estándar.',
             ],
-          },
-          {
-            heading: 'Qué cuesta',
-            part: 'Decidir con criterio',
-            paragraphs: [
-              'Un agente a medida se mueve entre 2.500 y 10.000 € de construcción, según integraciones y exigencia de validación, más entre 150 y 500 € al mes de operación, que cubre la vigilancia y el mantenimiento del sistema. El modelo y la infraestructura van en cuentas a nombre de tu empresa, así que esas facturas son tuyas y no entran en la cuota. <strong>La cuota se acuerda antes de arrancar y el consumo de modelos e infraestructura se controla con límites para evitar costes inesperados.</strong>',
-              'Los sistemas con orquestador y varios agentes se presupuestan por proyecto. El desglose entero, qué encarece la construcción y a qué se va la cuota, está en la guía de coste.',
+            subsections: [
+              {
+                heading: 'Suele tener sentido cuando:',
+                paragraphs: [],
+                bullets: [
+                  'debe trabajar con varios sistemas de la empresa',
+                  'necesita utilizar información interna',
+                  'existen reglas específicas de negocio',
+                  'debe ejecutar acciones',
+                  'el comportamiento cambia según el contexto',
+                  'necesita permisos o límites propios',
+                  'debe integrarse con software desarrollado internamente',
+                  'una solución estándar no cubre el proceso completo',
+                ],
+              },
+              {
+                heading: 'Probablemente no sea necesario cuando:',
+                paragraphs: [],
+                bullets: [
+                  'existe un producto estándar que ya resuelve bien el problema',
+                  'el proceso está completamente definido mediante reglas',
+                  'no existe suficiente información para que el sistema trabaje correctamente',
+                  'el coste del desarrollo es superior al valor que puede generar',
+                  'simplemente queremos utilizar IA porque otras empresas la están utilizando',
+                ],
+              },
             ],
-            link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/cuanto-cuesta-un-agente-de-ia' },
+            closing: [
+              'Parte de nuestro trabajo consiste precisamente en determinar si el proceso necesita realmente un agente.',
+            ],
           },
         ],
-        faqHeading: 'Preguntas frecuentes',
+        faqHeading: 'Preguntas frecuentes sobre desarrollo de agentes de IA',
         faq: [
           {
-            q: '¿Qué significa «para empresas» en la práctica?',
-            a: 'Tu infraestructura o tu nube, las cuentas de tu organización, tus datos donde tú decidas y la calidad medida de forma continua. Las garantías por las que va a preguntar tu comité de seguridad, respondidas antes de la reunión.',
+            q: '¿Qué es un agente de IA empresarial?',
+            a: [
+              'Un agente de IA empresarial es un sistema capaz de interpretar información, utilizar herramientas y ejecutar acciones dentro de procesos de una empresa.',
+              'Puede conectarse con bases de datos, documentación, ERP, CRM, APIs u otras aplicaciones y actuar dentro de los límites definidos por su arquitectura.',
+              'Para una explicación más amplia sobre cómo funcionan, puedes consultar nuestra guía sobre agentes de IA.',
+            ],
+            link: { label: 'Qué son los agentes de IA', href: '/agentes-de-ia' },
           },
           {
-            q: '¿No nos basta con ChatGPT?',
-            a: 'Para ayudar a las personas en su trabajo, quizá sí. Esa respuesta no la cobramos. Un chat es una herramienta de ayuda donde cada salida la revisa quien la pidió. Un agente es un sistema que produce el resultado él solo, sobre tus datos y con tus permisos. Eso exige la ingeniería que describe esta página. Son compras distintas para problemas distintos.',
+            q: '¿Cuánto cuesta desarrollar un agente de IA?',
+            a: [
+              'El coste depende de las integraciones, los datos, la complejidad del proceso, los modelos utilizados, los requisitos de seguridad y las acciones que debe ejecutar el agente.',
+              'Un agente que consulta una única fuente de información y uno que trabaja con varios sistemas empresariales requieren niveles de desarrollo muy diferentes.',
+            ],
+            link: { label: 'Cuánto cuesta desarrollar un agente de IA', href: '/cuanto-cuesta-un-agente-de-ia' },
           },
           {
-            q: '¿El agente puede conectarse a nuestros sistemas internos?',
-            a: 'Sí, es exactamente para eso. ERP, bases de datos, sistemas industriales, documentación. El agente solo habla con los sistemas que apruebes, con los permisos de cada usuario.',
+            q: '¿Cuánto tarda en desarrollarse un agente de IA?',
+            a: [
+              'El plazo depende principalmente del alcance, las integraciones, la disponibilidad de los datos y el nivel de control que necesita el sistema.',
+              'Antes de estimar un proyecto analizamos primero el proceso y los sistemas con los que deberá trabajar el agente.',
+            ],
           },
           {
-            q: '¿El agente decide por su cuenta?',
-            a: 'Decide dentro de un perímetro. Las acciones posibles son una lista cerrada que tú apruebas, el código valida cada una antes de ejecutarla y las sensibles piden confirmación de una persona. La autonomía se administra por coste y fiabilidad, no por fe en el modelo.',
+            q: '¿Puede un agente de IA conectarse con nuestro ERP o CRM?',
+            a: [
+              'Sí. Un agente de IA puede conectarse con ERP, CRM, bases de datos, APIs y aplicaciones internas siempre que exista una vía de integración adecuada.',
+              'El acceso y las acciones disponibles se limitan mediante permisos, herramientas y reglas definidas para el proyecto.',
+            ],
           },
           {
-            q: '¿Y si nuestros datos están hechos un desastre?',
-            a: 'Es de lo primero que miramos. Si los datos que el caso necesita no están o no son fiables, te lo decimos y la primera fase pasa a ser ordenarlos, porque un agente sobre datos rotos solo automatiza el error más rápido.',
+            q: '¿Puede un agente trabajar con documentación interna?',
+            a: [
+              'Sí. Un agente puede utilizar documentación interna como fuente de conocimiento mediante sistemas de recuperación de información como RAG u otras arquitecturas adecuadas al proyecto.',
+              'También pueden aplicarse permisos para determinar qué información puede recuperar cada usuario.',
+            ],
           },
           {
-            q: '¿Quién mantiene el agente después?',
-            a: 'Lo que decidas. Podemos encargarnos del mantenimiento medido o formar a tu equipo y entregar el manual de operación para que lo lleve. La documentación se escribe para ese segundo caso, aunque elijas el primero.',
+            q: '¿Puede ejecutar acciones automáticamente?',
+            a: [
+              'Sí. Un agente puede ejecutar acciones automáticamente siempre que disponga de las herramientas y permisos necesarios.',
+              'Para operaciones sensibles podemos introducir validaciones adicionales o requerir aprobación humana antes de ejecutar la acción.',
+            ],
           },
           {
-            q: '¿Qué pasa si el proveedor del modelo sube el precio o lo retira?',
-            a: 'El modelo va detrás de una capa de abstracción, así que cambiarlo es un cambio controlado que pasa la batería de pruebas antes de salir. A veces obliga además a tocar el sistema, porque modelos distintos se comportan distinto. Lo hemos probado. Descartamos un modelo más barato porque las pruebas mostraron que perdía diez puntos de acierto.',
+            q: '¿Es necesario utilizar varios agentes?',
+            a: [
+              'No. Una arquitectura multiagente solo tiene sentido cuando dividir responsabilidades aporta una ventaja real.',
+              'Si un único agente puede resolver el problema de forma más sencilla y controlable, normalmente será una arquitectura mejor.',
+            ],
           },
           {
-            q: '¿Qué pasa si concluís que nuestro caso no compensa?',
-            a: 'Te lo decimos antes de cobrarlo y te quedas con el mapa del proceso y sus números, que valen aunque el agente no salga. Descartar pronto es parte del método, no un fracaso del método.',
+            q: '¿Cómo se evita que un agente de IA cometa errores?',
+            a: [
+              'No es posible garantizar error cero en un modelo probabilístico, pero sí reducir y controlar el riesgo mediante arquitectura, evaluaciones, reglas, permisos y validaciones.',
+              'También pueden utilizarse respuestas estructuradas, herramientas restringidas, monitorización y mecanismos de intervención humana cuando el sistema detecta que no puede continuar con suficiente seguridad.',
+            ],
           },
         ],
         cta: {
-          heading: '¿Te interesa para tu empresa?',
-          body: 'Cuéntanos tu reto. Si no le vemos retorno, te lo diremos.',
-          button: 'Cuéntanos tu reto',
+          heading: 'Cuéntanos qué tendría que hacer el agente',
+          body: [
+            'No necesitas decidir qué modelo utilizar, cuántos agentes hacen falta ni cómo debería ser la arquitectura.',
+            'Explícanos qué proceso quieres mejorar, con qué herramientas tendría que trabajar el sistema y qué acciones debería poder realizar.',
+            'Analizaremos si realmente necesitas un agente de IA, qué partes deben permanecer bajo reglas de software y cómo podría construirse para trabajar en producción.',
+          ],
+          button: 'Hablar con Ideasforge',
         },
       },
       processAuto: {
@@ -5853,6 +7569,13 @@ export const content: Record<Lang, SiteContent> = {
       cases: 'Cases',
       method: 'Method',
       guides: 'Guides',
+      resources: 'Resources',
+      resourceLinks: [
+        { label: 'Blog', href: '/en/blog' },
+        { label: 'Help center' },
+        { label: 'Security' },
+        { label: 'About us' },
+      ],
       cta: 'Tell us what you want to improve',
       menu: 'Menu',
       about: 'About us',

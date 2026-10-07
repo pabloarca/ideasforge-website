@@ -1,6 +1,6 @@
 ---
 import { type Lang, content } from '../i18n/ui';
-import { localizedPath } from '../i18n/utils';
+import { localizedPath, routeMap } from '../i18n/utils';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import { medidas } from '../lib/imagen';
 
@@ -14,31 +14,39 @@ const t = content[lang];
 const home = localizedPath('/', lang);
 
 /*
-  Cabecera del diseño de octubre de 2026: logotipo, cinco enlaces de texto, el
+  Cabecera del diseño de octubre de 2026: logotipo, cuatro enlaces de texto, el
   cambio de idioma y el CTA. Sin iconos y sin píldoras: el estado se dice con
   el color.
 
-  Cuatro de los cinco enlaces son anclas de la portada (soluciones, casos,
-  método y recursos), así que desde una página interior llevan a la portada y
-  bajan a su sección.
+  Tres de los cuatro enlaces son anclas de la portada (soluciones y recursos,
+  este último dos veces), así que desde una página interior llevan a la
+  portada y bajan a su sección. «Casos» lleva a su propia página, el índice
+  de casos.
 
-  Dos de ellos conservan además su desplegable, que el diseño no dibuja y que
+  «Método» y «Blog» salieron de aquí el 7 oct 2026 por decisión del
+  propietario. El método sigue siendo un bloque de la portada y el blog pasó
+  al desplegable de «Recursos», añadido ese mismo día.
+
+  «Recursos» lleva tres páginas que aún no existen (centro de ayuda, seguridad
+  y sobre nosotros). Llegan sin `href` desde ui.ts y se pintan apagadas y sin
+  enlace hasta que se creen.
+
+  Tres de ellos llevan además su desplegable, que el diseño no dibuja y que
   aquí se mantiene a propósito: «Soluciones» y «Guías» son la única entrada
   directa desde la cabecera a las ocho páginas que más cuentan del sitio. Los
   grupos salen de `t.footer.navGroups`, la misma lista que pinta el pie, y el
   marcado `soloPie` (los verticales) sigue sin subir aquí.
 */
-type Enlace = { label: string; href: string };
+type Enlace = { label: string; href?: string };
 type Entrada = { label: string; href: string; links?: Enlace[] };
 
 const grupos = t.footer.navGroups.filter((g) => !g.soloPie);
 
 const entradas: Entrada[] = [
   { label: t.nav.solutions, href: localizedPath('/#soluciones', lang), links: grupos[0]?.links },
-  { label: t.nav.cases, href: localizedPath('/#casos', lang) },
-  { label: t.nav.method, href: localizedPath('/#metodo', lang) },
+  { label: t.nav.cases, href: routeMap.cases[lang] ?? localizedPath('/#casos', lang) },
   { label: t.nav.guides, href: localizedPath('/#recursos', lang), links: grupos[1]?.links },
-  { label: t.nav.blog, href: localizedPath('/blog', lang) },
+  { label: t.nav.resources, href: localizedPath('/#recursos', lang), links: t.nav.resourceLinks },
 ];
 const contacto = localizedPath('/#contacto', lang);
 ---
@@ -75,11 +83,15 @@ const contacto = localizedPath('/#contacto', lang);
                   no queda ningún hueco donde el ratón pierda el menú. */}
               <div class="invisible absolute top-full z-50 opacity-0 transition-opacity duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                 <div class="panel-float -ml-[22px] w-72 py-2">
-                  {e.links.map((s) => (
-                    <a href={s.href} class="block px-5 py-2.5 text-sm transition-colors hover:text-accent">
-                      {s.label}
-                    </a>
-                  ))}
+                  {e.links.map((s) =>
+                    s.href ? (
+                      <a href={s.href} class="block px-5 py-2.5 text-sm transition-colors hover:text-accent">
+                        {s.label}
+                      </a>
+                    ) : (
+                      <span class="block px-5 py-2.5 text-sm text-faint">{s.label}</span>
+                    )
+                  )}
                 </div>
               </div>
             </div>
@@ -123,9 +135,13 @@ const contacto = localizedPath('/#contacto', lang);
                     <ul class="pb-4">
                       {e.links.map((s) => (
                         <li>
-                          <a href={s.href} class="block py-1.5 text-sm text-muted hover:text-accent">
-                            {s.label}
-                          </a>
+                          {s.href ? (
+                            <a href={s.href} class="block py-1.5 text-sm text-muted hover:text-accent">
+                              {s.label}
+                            </a>
+                          ) : (
+                            <span class="block py-1.5 text-sm text-faint">{s.label}</span>
+                          )}
                         </li>
                       ))}
                     </ul>

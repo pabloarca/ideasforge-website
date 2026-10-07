@@ -59,7 +59,10 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   agentDev:    { es: '/servicios/desarrollo-de-agentes-de-ia', en: '/en/services/ai-agent-development' },
   processAuto: { es: '/servicios/automatizacion-de-procesos-con-ia', en: '/en/services/ai-workflow-automation' },
   conversational: { es: '/servicios/agentes-conversacionales', en: '/en/services/conversational-ai' },
-  smb:         { es: '/pymes',                         en: '/en/smb' },
+  // Solo en español (7 oct 2026): el espejo inglés no se escribe hasta que el
+  // propietario dé por bueno el texto español.
+  consulting:  { es: '/servicios/consultoria-de-ia' },
+  smb:         { es: '/pymes',                        en: '/en/smb' },
   // El espejo español se añadió el 21 ago 2026: las tandas comerciales dieron
   // `cuanto cuesta un agente de ia` con crecimiento interanual infinito, o sea
   // término recién nacido. Antes esta entrada era solo inglesa porque en agosto
@@ -82,6 +85,8 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   // 1 sep 2026, cuando se escribieron los cinco espejos ingleses: hasta ese día
   // ninguna emitía hreflang y el grupo «Casos» no podía entrar en el menú sin
   // descuadrar las dos cabeceras.
+  // Índice de casos (7 oct 2026): lista las fichas del carrusel de la portada.
+  cases:       { es: '/casos',             en: '/en/cases' },
   caseSavian:  { es: '/casos/savian',      en: '/en/cases/savian' },
   caseStanton: { es: '/casos/stanton',     en: '/en/cases/stanton' },
   caseBarceloneta: { es: '/casos/barceloneta', en: '/en/cases/barceloneta' },

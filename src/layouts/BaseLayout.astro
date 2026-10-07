@@ -135,9 +135,10 @@ const orgJsonLd = JSON.stringify({
   pagina por pagina: asi ninguna se queda sin ella al crearse.
 
   Google la usa para sustituir la URL cruda del resultado por la ruta legible.
-  El tramo intermedio apunta a las anclas de la home porque `/servicios` y
-  `/casos` no existen como paginas: son secciones. Un elemento de la miga
-  tiene que ser una URL real, y esas lo son.
+  El tramo intermedio de los servicios apunta al ancla de la home porque
+  `/servicios` no existe como pagina: es una seccion. Un elemento de la miga
+  tiene que ser una URL real, y esa lo es. El de los casos apunta desde el
+  7 oct 2026 a su indice, `/casos`, que ya es una pagina.
 */
 const rutaSinIdioma = (lang === 'en' ? canonicalPath.replace(/^\/en/, '') : canonicalPath) || '/';
 const segmentos = rutaSinIdioma.split('/').filter(Boolean);
@@ -152,13 +153,13 @@ const ramas: Record<string, { name: string; href: string }> = {
   */
   servicios: { name: nav.solutions, href: `${inicio}#soluciones` },
   services: { name: nav.solutions, href: `${inicio}#soluciones` },
-  casos: { name: nav.cases, href: `${inicio}#casos` },
+  casos: { name: nav.cases, href: '/casos' },
   /*
     `cases` faltaba, y por eso las cinco páginas de caso inglesas decían
     «Home > Wazzy…» mientras sus gemelas españolas decían «Inicio > Proyectos >
     Wazzy…». Detectado el 14 sep 2026 al auditar el pliego de campos.
   */
-  cases: { name: nav.cases, href: `${inicio}#casos` },
+  cases: { name: nav.cases, href: '/en/cases' },
 };
 const migas = segmentos.length
   ? [
@@ -208,7 +209,13 @@ const esServicio = /^\/(servicios|en\/services)\//.test(canonicalPath);
   cubre: esas facturas son del cliente y van a su nombre.
 */
 const publicaPrecio =
-  esServicio && !/(conocimiento-corporativo|corporate-knowledge)$/.test(canonicalPath);
+  esServicio &&
+  // Las páginas españolas dejaron de publicar el rango el 7 oct 2026, con la
+  // plantilla nueva de soluciones. Las inglesas conservan su texto anterior.
+  // Se mira la ruta y no `lang` para que el tipo no se estreche: las ofertas
+  // de abajo siguen escritas en los dos idiomas por si el rango vuelve.
+  /^\/en\/services\//.test(canonicalPath) &&
+  !/corporate-knowledge$/.test(canonicalPath);
 const ofertas = publicaPrecio
   ? [
       {
