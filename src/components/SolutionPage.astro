@@ -2,7 +2,7 @@
 /*
   Plantilla de las cinco páginas de solución, del paquete de diseño de octubre
   de 2026 (`.private/paginas-soluciones/`). Una sola plantilla con doce
-  bloques en orden fijo. Cada página le pasa su clave y aquí se lee su
+  bloques en orden fijo, más uno opcional de guías relacionadas justo bajo el héroe. Cada página le pasa su clave y aquí se lee su
   contenido de `pages.solutions` en ui.ts.
 
   Cabecera y migas de pan NO son de este diseño: son las del sitio, que pone
@@ -44,6 +44,11 @@ const l = sol.labels;
 
 const dos = (i: number) => String(i + 1).padStart(2, '0');
 const otras = sol.order.filter((k) => k !== clave).map((k) => sol.pages[k]);
+
+/* Guías relacionadas. El texto de apoyo es el de la tarjeta de esa misma guía
+   en los recursos de la portada: una sola redacción para las dos. */
+const recursos = content[lang].home.resources.items;
+const guias = (d.guides ?? []).map((g) => ({ ...g, desc: recursos.find((r) => r.href === g.href)?.desc }));
 
 /* N columnas iguales en escritorio y una en móvil, sin puntos de corte: el
    mínimo de cada columna es su parte exacta del ancho, descontado el hueco. */
@@ -109,6 +114,27 @@ const nodos = Array.from({ length: NODOS }, (_, i) => {
         </div>
       </div>
     </section>
+
+    <!-- Guías relacionadas: justo bajo el héroe, solo en las páginas que las declaran -->
+    {
+      guias.length > 0 && (
+        <section class="section-y">
+          <h2 class="kicker mb-6">{l.guides}</h2>
+          <div class="ruled-grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))]">
+            {guias.map((g) => (
+              <a href={g.href} class="sol-otra">
+                <span class="block text-[clamp(20px,2vw,26px)] font-medium leading-[1.15] tracking-[-0.02em]">{g.title}</span>
+                {g.desc && <span class="mt-3 block max-w-[52ch] text-[15px] leading-[1.55] opacity-75">{g.desc}</span>}
+                <span class="mt-auto flex items-center justify-between pt-7 text-[13px]">
+                  <span class="border-b-2 border-current pb-0.5">{l.readGuide}</span>
+                  <span class="text-lg leading-none" aria-hidden="true">→</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
 
     <!-- 2. Intro -->
     <section class="section-y">

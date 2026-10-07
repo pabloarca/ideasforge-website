@@ -1277,6 +1277,10 @@ export interface SolutionPageContent {
   metaDescription: string;
   /** Cómo se nombra esta solución en la retícula «Otras soluciones». */
   nav: { name: string; short: string };
+  /** Guías que desarrollan lo que cuenta la página. Su bloque va bajo el héroe.
+   *  El texto de apoyo de cada una no se repite aquí: es el de su tarjeta en
+   *  los recursos de la portada, que se busca por la ruta. */
+  guides?: { title: string; href: string }[];
   h1: string;
   lead: string;
   /** Frase de cierre del héroe: la primera en tinta y la segunda en acento. */
@@ -1319,6 +1323,8 @@ export interface SolutionsContent {
     /** Lleva `{client}`. */
     viewCase: string;
     contactKicker: string;
+    guides: string;
+    readGuide: string;
   };
   /** Orden en que se listan en «Otras soluciones». */
   order: SolutionKey[];
@@ -3152,7 +3158,7 @@ export const content: Record<Lang, SiteContent> = {
           heading: 'Guías',
           links: [
             { label: 'Guía: agentes de IA', href: '/agentes-de-ia' },
-            { label: 'Qué cuesta un agente de IA', href: '/cuanto-cuesta-un-agente-de-ia' },
+            { label: 'Cuánto cuesta un agente de IA', href: '/cuanto-cuesta-un-agente-de-ia' },
             { label: 'IA y RGPD', href: '/ia-y-rgpd' },
             { label: 'Reglamento europeo de IA', href: '/reglamento-europeo-de-ia' },
           ],
@@ -3704,7 +3710,7 @@ export const content: Record<Lang, SiteContent> = {
               '<strong>Esa cuota paga la vigilancia y el mantenimiento, no el consumo.</strong> Las llamadas al modelo y la infraestructura van en cuentas a tu nombre, así que ves lo que gastas y no pasa por nosotros.',
             ],
             link: {
-              label: 'Cuánto cuesta un agente de IA',
+              label: '¿Cuánto cuesta un agente de IA?',
               href: '/cuanto-cuesta-un-agente-de-ia',
             },
           },
@@ -4103,6 +4109,8 @@ export const content: Record<Lang, SiteContent> = {
           viewSolution: 'Ver solución',
           viewCase: 'Ver caso {client}',
           contactKicker: 'Contacto',
+          guides: 'Guías relacionadas',
+          readGuide: 'Leer la guía',
         },
         order: [
           'agentDev',
@@ -4114,6 +4122,10 @@ export const content: Record<Lang, SiteContent> = {
         pages: {
           agentDev: {
             href: '/servicios/desarrollo-de-agentes-de-ia',
+            guides: [
+              { title: '¿Qué es un agente de IA?', href: '/agentes-de-ia' },
+              { title: '¿Cuánto cuesta un agente de IA?', href: '/cuanto-cuesta-un-agente-de-ia' },
+            ],
             metaTitle: 'Desarrollo de agentes de IA a medida para empresas, Ideasforge',
             metaDescription: 'Ideasforge desarrolla agentes de IA a medida para empresas que necesitan ir más allá de un chatbot, una automatización básica o una herramienta estándar.',
             nav: {
