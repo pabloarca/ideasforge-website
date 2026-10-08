@@ -1,0 +1,7 @@
+---
+import SectorPage from '../components/SectorPage.astro';
+import { content } from '../i18n/ui';
+import { altsFor } from '../i18n/utils';
+---
+
+<SectorPage lang="es" page={content.es.pages.security} alternates={altsFor('security')} />

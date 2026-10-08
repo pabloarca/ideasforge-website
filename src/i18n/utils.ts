@@ -64,6 +64,8 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   // Preguntas frecuentes (8 oct 2026). La portada va aquí. Las páginas de
   // bloque salen de `pages.faqs.blocks` y cuelgan de esta ruta.
   faqs:        { es: '/preguntas-frecuentes' },
+  // Seguridad y privacidad (8 oct 2026). Solo en español.
+  security:    { es: '/seguridad' },
   aiGuide:     { es: '/guias/que-es-un-agente-de-ia',                 en: '/en/ai-agents' },
   agentDev:    { es: '/servicios/desarrollo-de-agentes-de-ia', en: '/en/services/ai-agent-development' },
   processAuto: { es: '/servicios/automatizacion-de-procesos-con-ia', en: '/en/services/ai-workflow-automation' },

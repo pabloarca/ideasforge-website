@@ -1167,6 +1167,12 @@ export interface SiteContent {
      */
     sectors?: Record<SectorKey, SectorPageContent>;
     /**
+     * Página de seguridad y privacidad (8 oct 2026), la entrada «Seguridad»
+     * del menú «Recursos». No es un sector, pero su texto llega con la misma
+     * forma y la pinta la misma plantilla. Solo español.
+     */
+    security?: SectorPageContent;
+    /**
      * Preguntas frecuentes (8 oct 2026): una portada que reparte hacia los
      * bloques y una página por bloque. Ocupa el sitio del «Centro de ayuda»
      * del menú «Recursos», que nunca llegó a existir. Solo español.
@@ -1389,7 +1395,7 @@ export interface SectorSection {
   method?: [string, string][];
 }
 
-/** Página de sector. Lo pinta `SectorPage.astro`. */
+/** Página de sector, y también la de seguridad. Lo pinta `SectorPage.astro`. */
 export interface SectorPageContent {
   metaTitle: string;
   metaDescription: string;
@@ -1488,7 +1494,7 @@ export const content: Record<Lang, SiteContent> = {
       resourceLinks: [
         { label: 'Blog', href: '/blog' },
         { label: 'FAQs', href: '/preguntas-frecuentes' },
-        { label: 'Seguridad' },
+        { label: 'Seguridad', href: '/seguridad' },
         { label: 'Sobre nosotros' },
       ],
       cta: 'Cuéntanos qué quieres mejorar',
@@ -6076,6 +6082,488 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
         ],
+      },
+      /*
+        SEGURIDAD Y PRIVACIDAD (8 oct 2026). Texto del propietario
+        (`.private/ideasforge_seguridad_privacidad_ia.md.txt`), volcado con el
+        mismo script y los mismos criterios que las páginas de sector de
+        abajo. Dos diferencias. El título de pestaña va acortado, porque el
+        titular con la marca no cabe en los 62 caracteres de `check-seo`. Y
+        en la lista de minimización, el segundo verbo de «anonimizar o…»
+        está vetado desde el 27 ago y el elemento pasa a «anonimizar datos o
+        separarlos de la persona».
+      */
+      security: {
+        metaTitle: 'Seguridad y privacidad en sistemas de IA, Ideasforge',
+        metaDescription: 'Desarrollamos sistemas de inteligencia artificial para empresas donde la seguridad, la privacidad y el control forman parte de la arquitectura desde el principio.',
+        h1: 'Seguridad y privacidad en sistemas de inteligencia artificial',
+        lead: [
+          'Desarrollamos sistemas de inteligencia artificial para empresas donde la seguridad, la privacidad y el control forman parte de la arquitectura desde el principio.',
+          'Definimos qué información puede utilizar cada componente, quién puede acceder a ella, qué acciones puede ejecutar la IA y qué debe ocurrir cuando aparece una excepción.',
+        ],
+        statement: [
+          'Porque llevar inteligencia artificial a producción no consiste únicamente en conseguir que un modelo funcione.',
+          'También consiste en controlar lo que puede ver, lo que puede hacer y lo que ocurre cuando se equivoca.',
+        ],
+        cta: 'Cuéntanos qué sistema quieres desarrollar',
+        sections: [
+          {
+            heading: 'La seguridad no se añade al final',
+            blocks: [
+              'Un sistema de IA empresarial puede interactuar con:',
+              {
+                t: 'list',
+                items: [
+                  'documentación interna', 'bases de datos', 'CRM', 'ERP', 'correo electrónico',
+                  'información de clientes', 'aplicaciones internas', 'APIs',
+                  'sistemas operativos del negocio',
+                ],
+              },
+              'Por eso las decisiones de seguridad deben formar parte del diseño.',
+              'Antes de desarrollar analizamos:',
+              {
+                t: 'list',
+                items: [
+                  'qué información necesita realmente el sistema',
+                  'qué datos no necesita',
+                  'quién puede acceder',
+                  'qué sistemas puede consultar',
+                  'qué operaciones puede ejecutar',
+                  'qué acciones requieren validación',
+                  'qué debe registrarse',
+                  'qué ocurre ante un error',
+                ],
+              },
+              'La arquitectura se diseña alrededor de esos límites.',
+            ],
+          },
+          {
+            heading: 'Privacidad y minimización de datos',
+            blocks: [
+              'Un sistema de IA no debería recibir más información de la necesaria para resolver una tarea.',
+              'Aplicamos el principio de minimización para limitar el contexto que se envía a modelos y servicios externos.',
+              'Dependiendo del proyecto podemos:',
+              {
+                t: 'list',
+                items: [
+                  'seleccionar únicamente los campos necesarios',
+                  'excluir información sensible',
+                  'anonimizar datos o separarlos de la persona',
+                  'limitar la retención',
+                  'separar diferentes fuentes',
+                  'aplicar controles de acceso',
+                  'definir políticas distintas según el tipo de información',
+                ],
+              },
+              'Esto reduce exposición innecesaria y simplifica el control sobre el sistema.',
+              'Los principios de minimización, limitación de finalidad e integridad y confidencialidad forman parte del marco del RGPD y de la protección de datos desde el diseño.',
+            ],
+          },
+          {
+            heading: 'Control de acceso y permisos',
+            blocks: [
+              'No todos los usuarios deberían poder consultar la misma información.',
+              'Podemos aplicar permisos según:',
+              {
+                t: 'list',
+                items: [
+                  'usuario', 'rol', 'departamento', 'organización', 'sociedad', 'sede', 'proyecto', 'activo',
+                  'tipo de documentación',
+                ],
+              },
+              'Por ejemplo, un asistente interno puede estar conectado con miles de documentos y devolver únicamente aquellos que el usuario tiene autorización para consultar.',
+              'La IA no debería convertirse en una vía alternativa para saltarse los permisos existentes.',
+              { t: 'strong', text: 'Debe respetarlos.' },
+            ],
+          },
+          {
+            heading: 'Control sobre las acciones de los agentes de IA',
+            blocks: [
+              'Un agente puede consultar información.',
+              'Pero también puede utilizar herramientas y ejecutar acciones.',
+              'Por ejemplo:',
+              {
+                t: 'list',
+                items: [
+                  'crear un registro', 'modificar una cita', 'actualizar un CRM', 'generar una incidencia',
+                  'enviar un mensaje', 'ejecutar una consulta', 'iniciar un workflow',
+                ],
+              },
+              'No todas esas acciones tienen el mismo riesgo.',
+              'Por eso definimos niveles de actuación.',
+              'Una operación de bajo impacto puede ejecutarse automáticamente.',
+              'Una acción sensible puede requerir:',
+              {
+                t: 'list',
+                items: [
+                  'comprobaciones adicionales', 'reglas de negocio', 'límites', 'confirmación del usuario',
+                  'aprobación humana',
+                ],
+              },
+              { t: 'strong', text: 'La IA interpreta. El software ejecuta.' },
+              'Y las reglas determinan cuándo una acción está permitida.',
+            ],
+          },
+          {
+            heading: 'No damos libertad ilimitada a un modelo',
+            blocks: [
+              'Un modelo de lenguaje es probabilístico.',
+              'Puede interpretar mal una solicitud o generar una respuesta incorrecta.',
+              'Por eso evitamos arquitecturas donde el modelo controla directamente procesos críticos sin mecanismos intermedios.',
+              'Podemos incorporar:',
+              {
+                t: 'list',
+                items: [
+                  'herramientas limitadas', 'respuestas estructuradas', 'validaciones',
+                  'listas de operaciones permitidas', 'límites de importe o alcance', 'estados', 'permisos',
+                  'confirmaciones', 'intervención humana',
+                ],
+              },
+              'El objetivo no es conseguir que el modelo nunca se equivoque.',
+              {
+                t: 'strong',
+                text: 'Es diseñar el sistema para que un error del modelo no implique automáticamente un error operativo.',
+              },
+            ],
+          },
+          {
+            heading: 'Seguridad en agentes conectados con bases de datos',
+            blocks: [
+              'Un agente no necesita recibir acceso ilimitado a una base de datos.',
+              'Podemos diseñar capas intermedias que controlen:',
+              {
+                t: 'list',
+                items: [
+                  'qué tablas puede consultar', 'qué campos puede utilizar',
+                  'qué operaciones están disponibles', 'qué filtros deben aplicarse',
+                  'qué usuarios pueden acceder', 'qué consultas quedan registradas',
+                ],
+              },
+              'Cuando el riesgo lo justifica, evitamos que el modelo genere y ejecute SQL arbitrario directamente sobre sistemas de producción.',
+              'En su lugar, puede trabajar mediante herramientas específicas y consultas controladas.',
+            ],
+          },
+          {
+            heading: 'Seguridad en sistemas RAG y documentación interna',
+            blocks: [
+              'Un sistema conectado con documentación empresarial debe controlar tanto <strong>qué recupera</strong> como <strong>quién puede recuperarlo</strong>.',
+              'Podemos aplicar:',
+              {
+                t: 'list',
+                items: [
+                  'filtros por usuario', 'permisos por documento', 'metadata',
+                  'separación entre organizaciones', 'control de versiones', 'fuentes autorizadas',
+                  'referencias al documento original',
+                ],
+              },
+              'Un sistema RAG no debería asumir que todo documento indexado puede mostrarse a cualquier persona.',
+              'La recuperación debe respetar las mismas restricciones que el resto de la organización.',
+              {
+                t: 'link',
+                label: 'IA para documentación interna y conocimiento empresarial',
+                href: '/servicios/conocimiento-corporativo',
+              },
+            ],
+          },
+          {
+            heading: 'Modelos y proveedores de inteligencia artificial',
+            blocks: [
+              'No todos los proyectos necesitan utilizar el mismo modelo ni el mismo proveedor.',
+              'La elección puede depender de:',
+              {
+                t: 'list',
+                items: [
+                  'privacidad', 'ubicación del procesamiento', 'tratamiento de los datos', 'rendimiento',
+                  'coste', 'latencia', 'capacidad técnica', 'requisitos corporativos',
+                ],
+              },
+              'También podemos diseñar arquitecturas que reduzcan la dependencia de un único proveedor.',
+              'La lógica de negocio puede mantenerse separada del modelo para facilitar cambios cuando sea necesario.',
+            ],
+          },
+          {
+            heading: 'Infraestructura privada y entornos controlados',
+            blocks: [
+              'Determinados proyectos requieren un mayor nivel de aislamiento.',
+              'Dependiendo del caso pueden utilizarse:',
+              {
+                t: 'list',
+                items: [
+                  'entornos cloud controlados',
+                  'infraestructura del cliente',
+                  'redes privadas',
+                  'almacenamiento independiente',
+                  'modelos privados',
+                  'componentes desplegados dentro de la infraestructura corporativa',
+                ],
+              },
+              'No todos los proyectos necesitan este nivel de complejidad.',
+              'La arquitectura debe ser proporcional al riesgo, a los datos utilizados y al proceso que queremos automatizar.',
+            ],
+          },
+          {
+            heading: 'Trazabilidad: saber qué ocurrió dentro del sistema',
+            blocks: [
+              'Cuando una automatización toma decisiones o ejecuta acciones, necesitamos poder reconstruir qué ocurrió.',
+              'Podemos registrar:',
+              {
+                t: 'list',
+                items: [
+                  'usuario', 'solicitud', 'herramientas utilizadas', 'información consultada',
+                  'acciones ejecutadas', 'errores', 'estados', 'tiempos', 'resultados',
+                ],
+              },
+              'Esto facilita:',
+              {
+                t: 'list',
+                items: [
+                  'auditoría', 'resolución de incidencias', 'evaluación', 'mejora del sistema',
+                  'análisis de comportamientos inesperados',
+                ],
+              },
+              'Un sistema de IA empresarial no debería ser una caja negra imposible de investigar.',
+            ],
+          },
+          {
+            heading: 'Observabilidad y monitorización en producción',
+            blocks: [
+              'El comportamiento de una solución debe seguir analizándose después del lanzamiento.',
+              'Podemos monitorizar:',
+              {
+                t: 'list',
+                items: [
+                  'errores', 'excepciones', 'latencia', 'uso de herramientas', 'coste de modelos',
+                  'respuestas incorrectas', 'derivaciones a humanos', 'porcentaje automatizado',
+                ],
+              },
+              'Los casos reales permiten detectar situaciones que no aparecen durante las pruebas.',
+              'Por eso llevar IA a producción implica también crear mecanismos para observarla.',
+            ],
+          },
+          {
+            heading: 'Intervención humana cuando realmente es necesaria',
+            blocks: [
+              'La supervisión humana no significa que una persona tenga que revisar cada operación.',
+              'Significa definir <strong>cuándo</strong> debe intervenir.',
+              'Por ejemplo:',
+              {
+                t: 'list',
+                items: [
+                  'información insuficiente', 'resultado ambiguo', 'operación sensible',
+                  'excepción no prevista', 'petición fuera del alcance', 'riesgo elevado',
+                  'importe superior a determinado límite',
+                ],
+              },
+              'El resto del proceso puede continuar automáticamente.',
+              'La intervención humana debe utilizarse donde aporta control, no como sustituto de una automatización mal diseñada.',
+            ],
+          },
+          {
+            heading: 'Gestión de errores y excepciones',
+            blocks: [
+              'Un sistema empresarial debe estar preparado para fallar.',
+              'Una API puede dejar de responder.',
+              'Un documento puede estar incompleto.',
+              'Un usuario puede introducir datos incorrectos.',
+              'Un modelo puede interpretar mal una solicitud.',
+              'Por eso diseñamos rutas para:',
+              {
+                t: 'list',
+                items: [
+                  'reintentar', 'detener', 'registrar', 'alertar', 'pedir información', 'derivar',
+                  'recuperar el estado anterior',
+                ],
+              },
+              'La diferencia entre una demo y un sistema en producción suele aparecer precisamente cuando algo sale mal.',
+            ],
+          },
+          {
+            heading: 'Seguridad en integraciones',
+            blocks: [
+              'Cada integración amplía las capacidades del sistema y también su superficie de riesgo.',
+              'Antes de conectar una aplicación analizamos:',
+              {
+                t: 'list',
+                items: [
+                  'autenticación', 'permisos', 'operaciones disponibles', 'información accesible',
+                  'límites de uso', 'gestión de credenciales', 'comportamiento ante errores',
+                ],
+              },
+              'Aplicamos el principio de mínimo privilegio.',
+              'Si una integración solo necesita consultar determinada información, no debería disponer de permisos para modificar todo el sistema.',
+            ],
+          },
+          {
+            heading: 'Entornos OT, SCADA e infraestructura crítica',
+            blocks: [
+              'En Industria, Energía y otros entornos críticos, la integración requiere un nivel adicional de prudencia.',
+              'Puede ser técnicamente posible utilizar información procedente de sistemas OT o SCADA, pero la arquitectura debe analizar específicamente:',
+              {
+                t: 'list',
+                items: [
+                  'segregación', 'ciberseguridad', 'permisos', 'controles intermedios', 'aislamiento',
+                  'impacto potencial de cada acción',
+                ],
+              },
+              'No planteamos acceso directo de un modelo a sistemas críticos sin una arquitectura específica que limite y controle sus capacidades.',
+              {
+                t: 'link',
+                label: 'IA para Industria y Manufactura',
+                href: '/sectores/industria-y-manufactura',
+              },
+              { t: 'link', label: 'IA para Energía y Utilities', href: '/sectores/energia-y-utilities' },
+            ],
+          },
+          {
+            heading: 'Inteligencia artificial y RGPD',
+            blocks: [
+              'Cuando un sistema procesa datos personales, el diseño debe tener en cuenta los principios y obligaciones aplicables de protección de datos.',
+              'Entre ellos:',
+              {
+                t: 'list',
+                items: [
+                  'licitud y transparencia', 'limitación de finalidad', 'minimización', 'exactitud',
+                  'limitación del plazo de conservación', 'integridad y confidencialidad',
+                  'responsabilidad proactiva',
+                ],
+              },
+              'La arquitectura técnica puede ayudar a implementar estos principios, pero determinar la base jurídica y las obligaciones concretas de cada tratamiento puede requerir asesoramiento especializado.',
+            ],
+          },
+          {
+            heading: 'Inteligencia artificial y AI Act',
+            blocks: [
+              'El Reglamento Europeo de Inteligencia Artificial establece obligaciones diferentes según el sistema, su finalidad, el nivel de riesgo y el papel que desempeña cada organización.',
+              'Desde el <strong>2 de agosto de 2026</strong> son aplicables, entre otras, las obligaciones de transparencia previstas en el artículo 50 para determinados sistemas de IA. Estas incluyen, en ciertos casos, informar a una persona cuando interactúa directamente con un sistema de inteligencia artificial.',
+              'Por eso podemos incorporar desde el diseño elementos como:',
+              {
+                t: 'list',
+                items: [
+                  'transparencia', 'trazabilidad', 'supervisión humana', 'permisos', 'documentación',
+                  'límites de actuación',
+                ],
+              },
+              'Las obligaciones concretas deben evaluarse según el caso de uso y el papel de la organización.',
+              {
+                t: 'strong',
+                text: 'La arquitectura puede facilitar el cumplimiento. No sustituye el análisis jurídico cuando es necesario.',
+              },
+            ],
+          },
+          {
+            heading: 'Seguridad en sectores con información sensible',
+            blocks: [
+              'No todos los proyectos presentan el mismo nivel de riesgo.',
+              'La arquitectura debe adaptarse especialmente cuando trabajamos con:',
+              {
+                t: 'list',
+                items: [
+                  'salud', 'infraestructuras', 'información financiera', 'documentación confidencial',
+                  'datos personales', 'información contractual', 'conocimiento estratégico',
+                ],
+              },
+              'Por ejemplo, en Salud orientamos principalmente nuestros sistemas hacia procesos administrativos, operativos y de acceso a información.',
+              'No utilizamos un agente para sustituir diagnóstico o criterio clínico.',
+            ],
+          },
+          {
+            heading: 'Cómo diseñamos la seguridad de un sistema de IA',
+            blocks: [],
+            method: [
+              [
+                'Analizamos los datos',
+                'Identificamos qué información utiliza el proceso y qué nivel de sensibilidad tiene.',
+              ],
+              [
+                'Definimos usuarios y permisos',
+                'Establecemos quién puede consultar cada fuente y ejecutar cada acción.',
+              ],
+              [
+                'Revisamos integraciones',
+                'Analizamos qué operaciones permite cada sistema y qué permisos necesita realmente la solución.',
+              ],
+              [
+                'Limitamos las capacidades del modelo',
+                'Definimos herramientas, reglas, validaciones y acciones permitidas.',
+              ],
+              [
+                'Diseñamos excepciones',
+                'Establecemos qué ocurre cuando falta información, aparece un error o una operación necesita aprobación.',
+              ],
+              [
+                'Añadimos trazabilidad',
+                'Registramos la información necesaria para entender y auditar el comportamiento del sistema.',
+              ],
+              [
+                'Evaluamos antes de producción',
+                'Probamos casos habituales, situaciones límite, intentos de acceso indebido y escenarios de error.',
+              ],
+              [
+                'Monitorizamos',
+                'Una vez desplegado, analizamos comportamiento, incidencias, costes y nuevos riesgos.',
+              ],
+            ],
+          },
+        ],
+        faq: {
+          h2: 'Preguntas frecuentes sobre seguridad e inteligencia artificial',
+          items: [
+            {
+              q: '¿Puede utilizarse IA con datos personales?',
+              a: 'Sí, siempre que exista una base adecuada para el tratamiento y se diseñen los controles necesarios sobre finalidad, acceso, proveedores, almacenamiento y seguridad.',
+            },
+            {
+              q: '¿Puede utilizarse IA con información confidencial?',
+              a: 'Puede ser posible. El diseño debe evaluar qué información necesita realmente el modelo, dónde se procesa y qué proveedores intervienen.',
+            },
+            {
+              q: '¿Puede limitarse qué documentos puede consultar cada usuario?',
+              a: 'Sí. Los sistemas de recuperación pueden aplicar permisos por usuario, rol, departamento u organización.',
+            },
+            {
+              q: '¿Puede impedirse que un agente ejecute determinadas acciones?',
+              a: 'Sí. Las herramientas y permisos disponibles para el agente pueden limitarse explícitamente.',
+            },
+            {
+              q: '¿Puede exigirse aprobación humana antes de una operación?',
+              a: 'Sí. Una automatización puede detenerse hasta recibir una aprobación antes de continuar.',
+            },
+            {
+              q: '¿Puede registrarse lo que hace un agente de IA?',
+              a: 'Sí. Es posible registrar herramientas utilizadas, acciones, errores, estados y otros eventos relevantes.',
+            },
+            {
+              q: '¿Puede evitarse que el modelo acceda directamente a una base de datos?',
+              a: 'Sí. Puede utilizarse una capa intermedia que exponga únicamente las operaciones necesarias.',
+            },
+            {
+              q: '¿Puede utilizarse infraestructura privada?',
+              a: 'Sí, cuando los requisitos del proyecto justifican una arquitectura privada o más controlada.',
+            },
+            {
+              q: '¿Un sistema de IA puede cumplir el RGPD?',
+              a: 'Puede diseñarse teniendo en cuenta los requisitos aplicables de protección de datos, pero el cumplimiento depende del caso de uso, los datos, la base jurídica, los proveedores y la organización.',
+            },
+            {
+              q: '¿El AI Act afecta a los chatbots?',
+              a: 'Puede hacerlo. Desde el 2 de agosto de 2026 el artículo 50 establece obligaciones de transparencia para determinados sistemas que interactúan directamente con personas.',
+            },
+            {
+              q: '¿La seguridad se revisa solo antes del lanzamiento?',
+              a: 'No. Los sistemas deben monitorizarse también en producción para detectar errores, nuevos casos, cambios de comportamiento y riesgos.',
+            },
+          ],
+        },
+        contact: {
+          h2: 'Diseñemos un sistema que pueda utilizarse de verdad',
+          p: [
+            'Una prueba de concepto puede demostrar que una idea funciona.',
+            'El reto empieza cuando esa IA debe acceder a datos, utilizar herramientas y formar parte de un proceso real.',
+            'Cuéntanos qué quieres automatizar, qué información necesita el sistema y con qué aplicaciones debe trabajar.',
+            'Diseñaremos una arquitectura que combine inteligencia artificial, software, permisos y controles para llevarla a producción.',
+          ],
+          cta: 'Hablar con Ideasforge sobre tu proyecto',
+        },
       },
       /*
         LAS SIETE PÁGINAS DE SECTOR (8 oct 2026). El texto es el del propietario

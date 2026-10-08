@@ -19,15 +19,14 @@
   contenedor con márgenes negativos del mismo valor que su margen lateral, así
   que llegan al borde de la página hasta los 1280 px y se quedan ahí.
 
-  La animación del héroe se dibuja con porcentajes y no con las coordenadas
-  fijas del prototipo, que la dejaban cortada por la derecha en un teléfono.
-  Cada paquete viaja dentro de su propio radio, así que el dibujo entero
-  encoge con su caja.
+  El dibujo animado del héroe es distinto en cada solución y vive en
+  `SolutionHeroArt.astro`.
 */
 import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FaqList from './FaqList.astro';
 import ContactForm from './home/ContactForm.astro';
+import SolutionHeroArt from './SolutionHeroArt.astro';
 import { type Lang, type SolutionKey, content } from '../i18n/ui';
 import { altsFor, routeMap } from '../i18n/utils';
 import { foto } from '../lib/fotos';
@@ -54,22 +53,6 @@ const guias = (d.guides ?? []).map((g) => ({ ...g, desc: recursos.find((r) => r.
    mínimo de cada columna es su parte exacta del ancho, descontado el hueco. */
 const n = d.method.steps.length;
 const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${Math.round((32 * (n - 1)) / n)}px)), 1fr))`;
-
-/* El agente y sus sistemas: ocho nodos en círculo, unidos al centro. */
-const NODOS = 8;
-const nodos = Array.from({ length: NODOS }, (_, i) => {
-  const grados = (i / NODOS) * 360 - 90;
-  const rad = (grados * Math.PI) / 180;
-  return {
-    i,
-    grados,
-    x: (50 + Math.cos(rad) * 37.5).toFixed(2),
-    y: (50 + Math.sin(rad) * 37.5).toFixed(2),
-    // Los pares salen del centro y los impares entran.
-    sale: i % 2 === 0,
-    viaje: (2.6 + (i % 3) * 0.5).toFixed(1),
-  };
-});
 ---
 
 <BaseLayout lang={lang} title={d.metaTitle} description={d.metaDescription} alternates={altsFor(clave)}>
@@ -93,25 +76,7 @@ const nodos = Array.from({ length: NODOS }, (_, i) => {
       </div>
 
       <div class="sol-in sol-arte-caja" style="--d:.2s" aria-hidden="true">
-        <div class="sol-arte">
-          {
-            nodos.map((p) => (
-              <span class="sol-radio" style={`transform:translateY(-1px) rotate(${p.grados}deg)`}>
-                <span
-                  class="sol-paquete"
-                  style={`transform:rotate(${-p.grados}deg);animation:${p.sale ? 'sol-sale' : 'sol-entra'} ${p.viaje}s ${(p.i * 0.45).toFixed(2)}s var(--ease-in-out) infinite`}
-                />
-              </span>
-            ))
-          }
-          {
-            nodos.map((p) => (
-              <span class="sol-nodo" style={`left:${p.x}%;top:${p.y}%;animation-delay:${(p.i * 0.5).toFixed(1)}s`} />
-            ))
-          }
-          <span class="sol-marco" />
-          <span class="sol-nucleo" />
-        </div>
+        <SolutionHeroArt clave={clave} />
       </div>
     </section>
 
@@ -437,107 +402,6 @@ const nodos = Array.from({ length: NODOS }, (_, i) => {
       justify-content: flex-end;
     }
   }
-  .sol-arte {
-    position: relative;
-    width: min(100%, 400px);
-    aspect-ratio: 1;
-  }
-  /* Radio: una regla del centro al nodo. Mide el 37,5 % del lado, que es el
-     radio de 150 sobre los 400 del prototipo. */
-  .sol-radio {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 37.5%;
-    height: 2px;
-    background: var(--color-border);
-    transform-origin: 0 50%;
-  }
-  .sol-paquete {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 8px;
-    height: 8px;
-    margin: -4px 0 0 -4px;
-    background: var(--color-accent);
-    opacity: 0;
-  }
-  .sol-nodo {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    margin: -8px 0 0 -8px;
-    background: var(--color-fg);
-    animation: sol-nodo 4s ease-in-out infinite;
-  }
-  .sol-marco {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 72px;
-    height: 72px;
-    margin: -36px 0 0 -36px;
-    border: 2px solid var(--color-fg);
-    background: var(--color-bg);
-  }
-  .sol-nucleo {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 28px;
-    height: 28px;
-    margin: -14px 0 0 -14px;
-    background: var(--color-accent);
-    animation: sol-latido 3s ease-in-out infinite;
-  }
-  @keyframes sol-latido {
-    0%,
-    100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.25);
-    }
-  }
-  @keyframes sol-nodo {
-    0%,
-    100% {
-      background: var(--color-fg);
-    }
-    50% {
-      background: var(--color-accent);
-    }
-  }
-  @keyframes sol-sale {
-    0% {
-      left: 0;
-      opacity: 0;
-    }
-    8%,
-    92% {
-      opacity: 1;
-    }
-    100% {
-      left: 100%;
-      opacity: 0;
-    }
-  }
-  @keyframes sol-entra {
-    0% {
-      left: 100%;
-      opacity: 0;
-    }
-    8%,
-    92% {
-      opacity: 1;
-    }
-    100% {
-      left: 0;
-      opacity: 0;
-    }
-  }
-
   /* ---- 2. Intro ---- */
   .sol-intro-cab {
     display: grid;

@@ -1,8 +1,10 @@
 ---
 /*
-  Plantilla de las siete páginas de sector (8 oct 2026). Cada página le pasa
-  su clave y aquí se lee su contenido de `pages.sectors` en ui.ts, que es el
-  texto del propietario volcado tal cual.
+  Plantilla de las siete páginas de sector (8 oct 2026) y de la de seguridad,
+  cuyo texto llega con la misma forma. Las páginas se quedan finas: eligen su
+  contenido de ui.ts (`pages.sectors` o `pages.security`), que es el texto
+  del propietario volcado tal cual, y lo pasan aquí con sus alternativas del
+  `routeMap`.
 
   No hay paquete de diseño para los sectores, así que la página se monta con
   lo que ya existe. El héroe es el de las páginas de solución, sin su dibujo:
@@ -14,22 +16,24 @@
   Dentro de cada sección el texto llega como una fila de piezas (párrafos,
   listas, preguntas de ejemplo, procesos), que dibuja `SectorBlocks.astro`.
   El método es la única sección con forma propia: sus pasos van en retícula,
-  numerados.
+  numerados. A tres columnas si los pasos son múltiplo de tres y a dos si no,
+  para que la última fila no deje una celda vacía.
 */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageNav from './PageNav.astro';
 import FaqList from './FaqList.astro';
 import SectorBlocks from './SectorBlocks.astro';
-import { type Lang, type SectorKey, content } from '../i18n/ui';
-import { altsFor, routeMap } from '../i18n/utils';
+import { type Lang, type SectorPageContent } from '../i18n/ui';
+import { routeMap } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
-  clave: SectorKey;
+  /** Falta cuando el idioma no tiene esta página: es un error de montaje. */
+  page: SectorPageContent | undefined;
+  alternates: Partial<Record<Lang, string>>;
 }
-const { lang, clave } = Astro.props;
-const d = content[lang].pages.sectors?.[clave];
-if (!d) throw new Error(`No hay página de sector «${clave}» en «${lang}».`);
+const { lang, page: d, alternates } = Astro.props;
+if (!d) throw new Error(`Esta página no tiene contenido en «${lang}».`);
 
 const contacto = routeMap.contact[lang];
 const dos = (i: number) => String(i + 1).padStart(2, '0');
@@ -47,7 +51,7 @@ const ancla = (t: string) =>
 const indice = d.sections.map((s) => ({ heading: s.heading, anchor: ancla(s.heading) }));
 ---
 
-<BaseLayout lang={lang} title={d.metaTitle} description={d.metaDescription} alternates={altsFor(clave)}>
+<BaseLayout lang={lang} title={d.metaTitle} description={d.metaDescription} alternates={alternates}>
   <!-- Héroe -->
   <section class="wrap pb-[clamp(48px,6vw,80px)] pt-[clamp(56px,7vw,96px)]">
     <h1 class="t-display sec-in max-w-[20ch]" style="--d:.08s">{d.h1}</h1>
@@ -105,7 +109,14 @@ const indice = d.sections.map((s) => ({ heading: s.heading, anchor: ancla(s.head
               )}
 
               {s.method && (
-                <ol class="ruled-grid mt-8 grid-cols-[repeat(auto-fit,minmax(min(100%,250px),1fr))]">
+                <ol
+                  class:list={[
+                    'ruled-grid mt-8',
+                    s.method.length % 3 === 0
+                      ? 'grid-cols-[repeat(auto-fit,minmax(min(100%,250px),1fr))]'
+                      : 'sm:grid-cols-2',
+                  ]}
+                >
                   {s.method.map(([t, texto], k) => (
                     <li class="px-6 pb-8 pt-7">
                       <span class="sq mb-8" aria-hidden="true" />

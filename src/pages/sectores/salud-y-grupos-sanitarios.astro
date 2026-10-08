@@ -1,5 +1,7 @@
 ---
 import SectorPage from '../../components/SectorPage.astro';
+import { content } from '../../i18n/ui';
+import { altsFor } from '../../i18n/utils';
 ---
 
-<SectorPage lang="es" clave="sectorHealth" />
+<SectorPage lang="es" page={content.es.pages.sectors?.sectorHealth} alternates={altsFor('sectorHealth')} />
