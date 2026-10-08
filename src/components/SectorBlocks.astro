@@ -1,0 +1,230 @@
+---
+/*
+  Las piezas del cuerpo de una página de sector, en el orden en que llegan.
+  Las usa `SectorPage.astro` dos veces, en la sección y en sus apartados, y
+  por eso viven aparte.
+
+  Cada forma del texto tiene su dibujo, todos con piezas que ya existen en el
+  sitio: las pastillas de la intro de las soluciones, la retícula y la lista
+  numerada de las páginas largas y su enlace de cierre. Solo dos son nuevas.
+  La pregunta de ejemplo lleva una regla de acento a la izquierda. Y el
+  proceso va en cajas unidas por flechas, que se parten en varias líneas
+  cuando no caben.
+
+  Una lista es de pastillas cuando todos sus elementos son cortos («ERP»,
+  «bases de datos»). Con frases enteras, una pastilla por línea no dice nada
+  que no diga una fila, así que pasa a retícula.
+*/
+import { type SectorBlock } from '../i18n/ui';
+
+interface Props {
+  blocks: SectorBlock[];
+}
+const { blocks } = Astro.props;
+
+const CORTO = 44;
+/* Aquí y no en la plantilla: el compilador de Astro toma el signo de menor
+   por la apertura de una etiqueta. */
+const deCortos = (items: string[]) => items.every((t) => t.length <= CORTO);
+const dos = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+<div class="sb">
+  {
+    blocks.map((b) => {
+      if (typeof b === 'string') return <p class="sb-p" set:html={b} />;
+      if (b.t === 'strong') return <p class="sb-fuerte">{b.text}</p>;
+      if (b.t === 'quote') return <blockquote class="sb-cita">{b.text}</blockquote>;
+      if (b.t === 'link')
+        return (
+          <p class="sb-bloque">
+            <a href={b.href} class="sb-enlace">
+              {b.label} →
+            </a>
+          </p>
+        );
+      if (b.t === 'flow')
+        return (
+          <ol class="sb-bloque sb-flujo">
+            {b.steps.map((paso, i) => (
+              <li>
+                <span class="sb-caja">{paso}</span>
+                {i < b.steps.length - 1 && (
+                  <span class="text-accent" aria-hidden="true">
+                    →
+                  </span>
+                )}
+              </li>
+            ))}
+          </ol>
+        );
+      if (b.t === 'steps')
+        return (
+          <ol class="sb-bloque max-w-[44rem] border-b-2 border-border">
+            {b.items.map((t, i) => (
+              <li class="grid grid-cols-[32px_minmax(0,1fr)] gap-3 border-t-2 border-border py-3.5">
+                <span class="num pt-[3px]" aria-hidden="true">
+                  {dos(i)}
+                </span>
+                <span class="text-[15px] leading-[1.6] sm:text-base">{t}</span>
+              </li>
+            ))}
+          </ol>
+        );
+      return deCortos(b.items) ? (
+        <ul class="sb-bloque flex flex-wrap gap-2.5">
+          {b.items.map((t) => (
+            <li class="sb-pastilla">
+              <span class="sb-pastilla-sq" aria-hidden="true" />
+              {t}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <ul class="sb-bloque ruled-grid sm:grid-cols-2">
+          {b.items.map((t, k) => (
+            <li
+              class:list={[
+                'sb-celda flex gap-4 py-5 sm:px-6',
+                b.items.length % 2 === 1 && k === b.items.length - 1 && 'sm:col-span-2',
+              ]}
+            >
+              <span class="sq mt-[7px] shrink-0" aria-hidden="true" />
+              <span class="text-[15px] leading-[1.6]">{t}</span>
+            </li>
+          ))}
+        </ul>
+      );
+    })
+  }
+</div>
+
+<style>
+  /* Ritmo: los párrafos van juntos y cualquier otra pieza abre más aire, por
+     arriba y por abajo. */
+  .sb > * + * {
+    margin-top: 16px;
+  }
+  .sb > .sb-bloque,
+  .sb > .sb-cita,
+  .sb > .sb-fuerte,
+  .sb > .sb-bloque + *,
+  .sb > .sb-cita + *,
+  .sb > .sb-fuerte + * {
+    margin-top: 28px;
+  }
+  .sb > :first-child {
+    margin-top: 0;
+  }
+  /* Dos preguntas de ejemplo seguidas, o separadas por un «o», son un grupo. */
+  .sb > .sb-cita + .sb-cita {
+    margin-top: 16px;
+  }
+
+  .sb-p {
+    max-width: 44rem;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+  .sb-p :global(strong) {
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+  .sb-fuerte {
+    max-width: 40ch;
+    font-size: clamp(18px, 1.5vw, 21px);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.012em;
+  }
+  .sb-cita {
+    max-width: 40rem;
+    border-left: 2px solid var(--color-accent);
+    padding: 4px 0 4px 20px;
+    font-size: clamp(17px, 1.4vw, 20px);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.012em;
+  }
+
+  /* Enlace de cierre: el mismo de las páginas largas, en línea para que la
+     regla acompañe a cada renglón si el rótulo ocupa dos. */
+  .sb-enlace {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--color-accent);
+    border-bottom: 2px solid var(--color-accent-200);
+    padding-bottom: 2px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    transition: border-color 250ms;
+  }
+  .sb-enlace:hover {
+    border-color: var(--color-accent);
+  }
+
+  /* Proceso: cada paso en su caja y la flecha viaja con el paso que deja
+     atrás, así que al partirse la línea nunca empieza por una flecha. */
+  .sb-flujo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .sb-flujo > li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sb-caja {
+    border: 2px solid var(--color-border);
+    padding: 9px 14px;
+    font-size: 15px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  .sb-flujo > li:first-child .sb-caja {
+    border-color: var(--color-fg);
+  }
+  .sb-flujo > li:last-child .sb-caja {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  /* Pastillas: las de la intro de las páginas de solución, un punto menores
+     porque aquí van dentro de la columna de texto. */
+  .sb-pastilla {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px 9px 12px;
+    border: 2px solid var(--color-border);
+    font-size: 15px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    transition:
+      border-color 0.3s,
+      background-color 0.3s,
+      color 0.3s;
+  }
+  .sb-pastilla:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+  .sb-pastilla-sq {
+    display: block;
+    flex: none;
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+    opacity: 0.9;
+  }
+
+  @media (min-width: 640px) {
+    .sb-celda:nth-child(odd) {
+      padding-left: 0;
+    }
+  }
+</style>

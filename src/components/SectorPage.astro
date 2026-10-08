@@ -1,0 +1,161 @@
+---
+/*
+  Plantilla de las siete páginas de sector (8 oct 2026). Cada página le pasa
+  su clave y aquí se lee su contenido de `pages.sectors` en ui.ts, que es el
+  texto del propietario volcado tal cual.
+
+  No hay paquete de diseño para los sectores, así que la página se monta con
+  lo que ya existe. El héroe es el de las páginas de solución, sin su dibujo:
+  titular, entradilla, la frase en tinta y acento y el botón. El cuerpo es el
+  de las páginas largas, con el índice fijo a la izquierda, porque cada
+  sector trae entre trece y diecisiete secciones. La FAQ es `FaqList` y el
+  cierre repite el bloque de contacto de las páginas largas.
+
+  Dentro de cada sección el texto llega como una fila de piezas (párrafos,
+  listas, preguntas de ejemplo, procesos), que dibuja `SectorBlocks.astro`.
+  El método es la única sección con forma propia: sus pasos van en retícula,
+  numerados.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageNav from './PageNav.astro';
+import FaqList from './FaqList.astro';
+import SectorBlocks from './SectorBlocks.astro';
+import { type Lang, type SectorKey, content } from '../i18n/ui';
+import { altsFor, routeMap } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  clave: SectorKey;
+}
+const { lang, clave } = Astro.props;
+const d = content[lang].pages.sectors?.[clave];
+if (!d) throw new Error(`No hay página de sector «${clave}» en «${lang}».`);
+
+const contacto = routeMap.contact[lang];
+const dos = (i: number) => String(i + 1).padStart(2, '0');
+
+/* Ancla de cada sección, deducida de su encabezado como en las páginas
+   largas. Solo se usa dentro de la página. */
+const ancla = (t: string) =>
+  t
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 40);
+const indice = d.sections.map((s) => ({ heading: s.heading, anchor: ancla(s.heading) }));
+---
+
+<BaseLayout lang={lang} title={d.metaTitle} description={d.metaDescription} alternates={altsFor(clave)}>
+  <!-- Héroe -->
+  <section class="wrap pb-[clamp(48px,6vw,80px)] pt-[clamp(56px,7vw,96px)]">
+    <h1 class="t-display sec-in max-w-[20ch]" style="--d:.08s">{d.h1}</h1>
+    <div class="sec-in mt-6 max-w-[62ch] space-y-4 text-[17px] leading-[1.55] text-muted" style="--d:.16s">
+      {d.lead.map((p) => <p>{p}</p>)}
+    </div>
+    <p
+      class="sec-in mt-6 max-w-[36ch] text-[clamp(18px,1.5vw,21px)] font-medium leading-[1.35] tracking-[-0.012em]"
+      style="--d:.2s"
+    >
+      {d.statement[0]}
+      <span class="text-accent">{d.statement[1]}</span>
+    </p>
+    <div class="sec-in mt-9" style="--d:.24s">
+      <a href={contacto} class="btn-primary hover:btn-primary-hover">{d.cta}</a>
+    </div>
+  </section>
+
+  <!-- Cuerpo: índice fijo a la izquierda y texto a la derecha -->
+  <section class="wrap">
+    <div class="border-t-2 border-border lg:grid lg:grid-cols-[15rem_minmax(0,1fr)]">
+      <div class="hidden lg:block">
+        <div
+          class="no-scrollbar sticky top-[104px] max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain pb-10 pr-8 pt-12"
+        >
+          <PageNav items={indice} />
+        </div>
+      </div>
+
+      <div class="lg:border-l-2 lg:border-border lg:pl-12">
+        {
+          d.sections.map((s, i) => (
+            <section
+              id={ancla(s.heading)}
+              class:list={['scroll-mt-[104px] py-12 sm:py-14', i > 0 && 'border-t-2 border-border']}
+            >
+              <h2 class="max-w-[26ch] text-[clamp(24px,2.4vw,32px)] leading-[1.12] tracking-[-0.025em]">{s.heading}</h2>
+              {s.blocks.length > 0 && (
+                <div class="mt-6">
+                  <SectorBlocks blocks={s.blocks} />
+                </div>
+              )}
+
+              {s.subsections && (
+                <div class="mt-8">
+                  {s.subsections.map((sub) => (
+                    <div class="border-t-2 border-border py-7 last:pb-0">
+                      <h3 class="text-[clamp(19px,1.7vw,22px)] leading-[1.2] tracking-[-0.015em]">{sub.heading}</h3>
+                      <div class="mt-4">
+                        <SectorBlocks blocks={sub.blocks} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {s.method && (
+                <ol class="ruled-grid mt-8 grid-cols-[repeat(auto-fit,minmax(min(100%,250px),1fr))]">
+                  {s.method.map(([t, texto], k) => (
+                    <li class="px-6 pb-8 pt-7">
+                      <span class="sq mb-8" aria-hidden="true" />
+                      <h3 class="mb-2.5 text-[19px] leading-[1.25] tracking-[-0.012em]">
+                        <span class="num mb-2.5 block">{dos(k)}</span>
+                        {t}
+                      </h3>
+                      <p class="text-[15px] leading-[1.55] text-muted">{texto}</p>
+                    </li>
+                  ))}
+                </ol>
+              )}
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="wrap section-y">
+    <div class="grid items-start gap-x-[clamp(32px,5vw,96px)] gap-y-8 border-t-2 border-fg pt-[clamp(48px,6vw,80px)] lg:grid-cols-3">
+      <h2 class="text-[clamp(22px,2.2vw,30px)] leading-[1.12] tracking-[-0.022em] lg:sticky lg:top-[104px]">
+        {d.faq.h2}
+      </h2>
+      <FaqList items={d.faq.items} group="faq-sector" openFirst class="lg:col-span-2" />
+    </div>
+  </section>
+
+  <!-- Cierre: el bloque de contacto de las páginas largas, sin formulario -->
+  <section class="wrap section-y">
+    <div
+      class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] gap-x-[clamp(32px,6vw,120px)] gap-y-8 border-t-2 border-fg pt-12"
+    >
+      <h2 class="t-h2-compact max-w-[18ch]">{d.contact.h2}</h2>
+      <div>
+        <div class="max-w-[44ch] space-y-4 text-[17px] leading-[1.6] text-muted">
+          {d.contact.p.map((p) => <p>{p}</p>)}
+        </div>
+        <div class="mt-8">
+          <a href={contacto} class="btn-primary hover:btn-primary-hover">{d.contact.cta}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Entrada escalonada del héroe, la misma de la portada. */
+  .sec-in {
+    animation: if-up 0.8s var(--d, 0s) var(--ease-out) both;
+  }
+</style>

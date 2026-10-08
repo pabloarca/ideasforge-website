@@ -41,6 +41,8 @@ const columnas = [soluciones, { heading: t.nav.sectors, links: t.nav.sectorLinks
 
 const empresa = [
   { label: t.nav.blog, href: localizedPath('/blog', lang) },
+  // Solo donde la sección existe: en inglés todavía no hay preguntas frecuentes.
+  ...(routeMap.faqs[lang] ? [{ label: t.nav.faqs, href: routeMap.faqs[lang] }] : []),
   { label: t.nav.contact, href: routeMap.contact[lang] ?? localizedPath('/#contacto', lang) },
 ];
 ---

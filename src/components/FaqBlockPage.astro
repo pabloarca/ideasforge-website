@@ -1,0 +1,136 @@
+---
+/*
+  Página de un bloque de preguntas frecuentes (8 oct 2026). La portada
+  (`FaqHub.astro`) reparte hacia aquí.
+
+  A la izquierda, fija, la lista de todos los bloques con el actual marcado:
+  es lo que deja pasar de uno a otro sin volver a la portada. En pantallas
+  estrechas esa lista baja al final, detrás de las preguntas. A la derecha,
+  las preguntas con `FaqList`, la pieza de todas las FAQ del sitio, que pone
+  además el `FAQPage` estructurado y el ancla de cada pregunta.
+
+  Bajo el titular, el enlace a la página que desarrolla el tema del bloque,
+  si tiene una. Su rótulo no se escribe aquí: es el nombre con que esa página
+  ya figura en el menú.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FaqList from './FaqList.astro';
+import ContactForm from './home/ContactForm.astro';
+import { type Lang, content } from '../i18n/ui';
+import { routeMap } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  slug: string;
+}
+const { lang, slug } = Astro.props;
+const t = content[lang];
+const faqs = t.pages.faqs;
+const bloque = faqs?.blocks.find((b) => b.slug === slug);
+if (!faqs || !bloque) throw new Error(`No hay bloque de preguntas «${slug}» en «${lang}».`);
+
+const base = routeMap.faqs[lang];
+const ruta = `${base}/${bloque.slug}`;
+
+const menu = [...t.footer.navGroups.flatMap((g) => g.links), ...t.nav.sectorLinks];
+const relacionada = bloque.related && menu.find((e) => e.href === bloque.related);
+---
+
+<BaseLayout
+  lang={lang}
+  title={bloque.metaTitle}
+  description={bloque.metaDescription}
+  alternates={{ [lang]: ruta }}
+  breadcrumbName={bloque.title}
+>
+  <div class="wrap">
+    <section class="pb-[clamp(48px,6vw,80px)] pt-[clamp(56px,7vw,96px)]">
+      <h1 class="t-display fb-in max-w-[24ch]" style="--d:.08s">{bloque.h1}</h1>
+      <div class="fb-in mt-7 flex flex-wrap items-center gap-x-8 gap-y-4" style="--d:.16s">
+        {/* Es un h2 porque cada pregunta de `FaqList` es un h3 y entre el
+            titular y ellas no puede faltar un nivel. */}
+        <h2 class="num font-normal! tracking-normal!">{faqs.count.replace('{n}', String(bloque.items.length))}</h2>
+        {
+          relacionada && (
+            <a href={relacionada.href} class="link-arrow">
+              {relacionada.label} →
+            </a>
+          )
+        }
+      </div>
+    </section>
+
+    <div class="border-border lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:border-t-2">
+      <div class="pb-12 lg:order-2 lg:border-l-2 lg:border-border lg:py-12 lg:pl-12">
+        <FaqList items={bloque.items} group="faq-bloque" openFirst class="max-w-[52rem]" />
+      </div>
+
+      <nav class="border-t-2 border-border py-10 lg:order-1 lg:border-t-0 lg:py-0" aria-label={faqs.blocksLabel}>
+        <div class="no-scrollbar lg:sticky lg:top-[104px] lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:pb-10 lg:pr-8 lg:pt-12">
+          <p class="mb-4 text-[13px] text-muted">
+            <a href={base} class="transition-colors hover:text-accent">{faqs.blocksLabel}</a>
+          </p>
+          <ul>
+            {
+              faqs.blocks.map((b) => (
+                <li>
+                  <a
+                    href={`${base}/${b.slug}`}
+                    class:list={['fb-enlace', b.slug === bloque.slug && 'is-active']}
+                    aria-current={b.slug === bloque.slug ? 'page' : undefined}
+                  >
+                    <span class="fb-punto" aria-hidden="true" />
+                    {b.title}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <ContactForm lang={lang} />
+</BaseLayout>
+
+<style>
+  .fb-in {
+    animation: if-up 0.8s var(--d, 0s) var(--ease-out) both;
+  }
+
+  /* La lista de bloques habla el idioma del índice lateral de las páginas
+     largas (`PageNav`): cuadrado gris que pasa a acento en el actual. */
+  .fb-enlace {
+    display: grid;
+    grid-template-columns: 4px 1fr;
+    align-items: start;
+    gap: 0.75rem;
+    padding: 0.4rem 0;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-muted);
+    transition: color 200ms ease;
+  }
+  .fb-punto {
+    margin-top: 0.5rem;
+    width: 4px;
+    height: 4px;
+    background: var(--color-border);
+    transition: background-color 200ms ease;
+  }
+  .fb-enlace:hover {
+    color: var(--color-fg);
+  }
+  .fb-enlace:hover .fb-punto {
+    background: var(--color-accent);
+  }
+  .fb-enlace.is-active {
+    color: var(--color-fg);
+    font-weight: 500;
+  }
+  .fb-enlace.is-active .fb-punto {
+    background: var(--color-accent);
+    transform: scale(1.5);
+  }
+</style>

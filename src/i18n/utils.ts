@@ -61,6 +61,9 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   // esas páginas conservan su dirección sin carpeta y no hay índice.
   guides:      { es: '/guias' },
   sectors:     { es: '/sectores' },
+  // Preguntas frecuentes (8 oct 2026). La portada va aquí. Las páginas de
+  // bloque salen de `pages.faqs.blocks` y cuelgan de esta ruta.
+  faqs:        { es: '/preguntas-frecuentes' },
   aiGuide:     { es: '/guias/que-es-un-agente-de-ia',                 en: '/en/ai-agents' },
   agentDev:    { es: '/servicios/desarrollo-de-agentes-de-ia', en: '/en/services/ai-agent-development' },
   processAuto: { es: '/servicios/automatizacion-de-procesos-con-ia', en: '/en/services/ai-workflow-automation' },
@@ -100,8 +103,8 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   caseWazzy: { es: '/proyectos/wazzy',         en: '/en/cases/wazzy' },
   realEstate:  { es: '/sectores/real-estate-e-inmobiliario',                 en: '/en/real-estate' },
   accounting:  { es: '/sectores/gestorias-y-asesorias',                     en: '/en/accounting-firms' },
-  // Sectores creados vacíos el 7 oct 2026. Solo en español hasta que tengan
-  // contenido: las pinta `SectorStub.astro`.
+  // Sectores nacidos el 7 oct 2026, con contenido desde el día 8. Solo en
+  // español hasta que se escriba su espejo.
   sectorIndustry:  { es: '/sectores/industria-y-manufactura' },
   sectorHealth:    { es: '/sectores/salud-y-grupos-sanitarios' },
   sectorLogistics: { es: '/sectores/logistica-y-transporte' },
