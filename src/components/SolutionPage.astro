@@ -111,9 +111,11 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
           <p class="mt-4 max-w-[52ch] text-base font-medium leading-[1.65]">{d.intro.p[1]}</p>
         </div>
       </div>
-      <div class="flex items-baseline justify-between gap-x-8 gap-y-4 pt-6">
+      {/* Sin el contador «{n} ejemplos» que llevaba a la derecha: pegado al
+          rótulo se leía como parte de la frase («Podemos combinar 11
+          ejemplos»). Lo quitó la revisión del 8 oct 2026. */}
+      <div class="pt-6">
         <span class="kicker">{d.intro.listLabel}</span>
-        <span class="num shrink-0">{l.examples.replace('{n}', String(d.intro.list.length))}</span>
       </div>
       <ul class="mt-6 flex flex-wrap gap-2.5">
         {

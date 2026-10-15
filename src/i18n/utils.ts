@@ -57,39 +57,41 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   // English-led keyword architecture. Each ES page is the local mirror of the
   // EN page that defines the cluster; the guide pair is intentionally NOT a
   // translation (each targets its language's biggest informational term).
-  // Índices de guías y de sectores (7 oct 2026). Solo en español: en inglés
-  // esas páginas conservan su dirección sin carpeta y no hay índice.
-  guides:      { es: '/guias' },
-  sectors:     { es: '/sectores' },
+  // Índices de guías y de sectores (7 oct 2026). El inglés pasó a carpeta el
+  // 15 oct 2026 (las direcciones tienen que ser espejo en los dos idiomas):
+  // cada página conserva su nombre por palabra clave, salvo `/en/smb`, que
+  // pasó a `ai-for-small-business`. Redirecciones en `public/_redirects`.
+  guides:      { es: '/guias',                         en: '/en/guides' },
+  sectors:     { es: '/sectores',                      en: '/en/sectors' },
   // Preguntas frecuentes (8 oct 2026). La portada va aquí. Las páginas de
   // bloque salen de `pages.faqs.blocks` y cuelgan de esta ruta.
   faqs:        { es: '/preguntas-frecuentes' },
   // Seguridad y privacidad (8 oct 2026). Solo en español.
   security:    { es: '/seguridad' },
-  aiGuide:     { es: '/guias/que-es-un-agente-de-ia',                 en: '/en/ai-agents' },
+  aiGuide:     { es: '/guias/que-es-un-agente-de-ia',                 en: '/en/guides/ai-agents' },
   agentDev:    { es: '/servicios/desarrollo-de-agentes-de-ia', en: '/en/services/ai-agent-development' },
   processAuto: { es: '/servicios/automatizacion-de-procesos-con-ia', en: '/en/services/ai-workflow-automation' },
   conversational: { es: '/servicios/agentes-conversacionales', en: '/en/services/conversational-ai' },
   // Solo en español (7 oct 2026): el espejo inglés no se escribe hasta que el
   // propietario dé por bueno el texto español.
   consulting:  { es: '/servicios/consultoria-de-ia' },
-  smb:         { es: '/guias/ia-para-pymes',                        en: '/en/smb' },
+  smb:         { es: '/guias/ia-para-pymes',                        en: '/en/guides/ai-for-small-business' },
   // El espejo español se añadió el 21 ago 2026: las tandas comerciales dieron
   // `cuanto cuesta un agente de ia` con crecimiento interanual infinito, o sea
   // término recién nacido. Antes esta entrada era solo inglesa porque en agosto
   // no había demanda medible de coste en español.
-  cost:        { es: '/guias/cuanto-cuesta-un-agente-de-ia',  en: '/en/ai-agent-development-cost' },
+  cost:        { es: '/guias/cuanto-cuesta-un-agente-de-ia',  en: '/en/guides/ai-agent-development-cost' },
   // Pilar de confianza. Nació solo en inglés porque `gdpr compliant ai` crece
   // un 9.900 % con competencia 0 mientras el planificador no veía nada en
   // español. El espejo español se añadió el 27 ago 2026 por decisión del
   // propietario: la página no vive de la búsqueda, vive de la conversación con
   // el comité que tiene que aprobar el proyecto, y ese comité es español.
-  compliance:  { es: '/guias/ia-y-rgpd',                      en: '/en/gdpr-compliant-ai' },
+  compliance:  { es: '/guias/ia-y-rgpd',                      en: '/en/guides/gdpr-compliant-ai' },
   // Satélite del pilar de cumplimiento. Nació solo en inglés y ganó su espejo
   // español el 28 ago 2026: la página española de RGPD enlazaba aquí, así que
   // un lector español acababa en una página en inglés. Era la única fuga de
   // idioma del sitio y la única página sin pareja.
-  aiAct:       { es: '/guias/reglamento-europeo-de-ia',       en: '/en/eu-ai-act-compliance' },
+  aiAct:       { es: '/guias/reglamento-europeo-de-ia',       en: '/en/guides/eu-ai-act-compliance' },
   // Familia nueva de rutas (28 ago 2026): los casos. No persiguen término,
   // su trabajo es convertir a quien ya llegó y dar destino a las tarjetas del
   // carrusel, que hasta ahora no enlazaban a ninguna parte. Emparejadas el
@@ -103,8 +105,8 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   caseBarceloneta: { es: '/proyectos/barceloneta', en: '/en/cases/barceloneta' },
   caseIndustrial: { es: '/proyectos/industrial',   en: '/en/cases/industrial' },
   caseWazzy: { es: '/proyectos/wazzy',         en: '/en/cases/wazzy' },
-  realEstate:  { es: '/sectores/real-estate-e-inmobiliario',                 en: '/en/real-estate' },
-  accounting:  { es: '/sectores/gestorias-y-asesorias',                     en: '/en/accounting-firms' },
+  realEstate:  { es: '/sectores/real-estate-e-inmobiliario',                 en: '/en/sectors/real-estate' },
+  accounting:  { es: '/sectores/gestorias-y-asesorias',                     en: '/en/sectors/accounting-firms' },
   // Sectores nacidos el 7 oct 2026, con contenido desde el día 8. Solo en
   // español hasta que se escriba su espejo.
   sectorIndustry:  { es: '/sectores/industria-y-manufactura' },

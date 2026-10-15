@@ -31,11 +31,15 @@ const entradilla = familia === 'guides' ? t.home.resources.lead : t.home.sectors
 const enlaces =
   familia === 'guides' ? (t.footer.navGroups.filter((g) => !g.soloPie)[1]?.links ?? []) : t.nav.sectorLinks;
 
-/* La descripción de cada página, buscada por su ruta. */
-const paginas = t.pages as unknown as Record<string, { metaDescription?: string } | undefined>;
+/* La descripción de cada página, buscada por su ruta. Los sectores nuevos
+   (8 oct 2026) viven en `pages.sectors.pages` y no en `pages`, así que se
+   miran también ahí: sin eso, cinco tarjetas salían solo con el nombre. */
+type ConDescripcion = Record<string, { metaDescription?: string } | undefined>;
+const paginas = t.pages as unknown as ConDescripcion;
+const sectores = (t.pages as unknown as { sectors?: { pages?: ConDescripcion } }).sectors?.pages ?? {};
 const descripcionDe = (href: string) => {
   const clave = Object.keys(routeMap).find((k) => routeMap[k][lang] === href);
-  return clave ? paginas[clave]?.metaDescription : undefined;
+  return clave ? (paginas[clave]?.metaDescription ?? sectores[clave]?.metaDescription) : undefined;
 };
 const items = enlaces.map((e) => ({ ...e, desc: descripcionDe(e.href) }));
 

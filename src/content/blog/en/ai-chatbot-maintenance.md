@@ -53,7 +53,7 @@ You also need a clear bar: how many of the cases the chatbot has to get right ov
 
 **Every time the chatbot works it leaves a trace in Arize Phoenix: what came in, what it did step by step, what it cost, how long it took and which model actually answered.** Phoenix is a tool from Arize for seeing inside what an AI agent does. We use it on the chatbots and agents we maintain.
 
-The traces don't leave for a third party's cloud. On custom projects, Phoenix is installed on your own server, as we explain in our [guide to GDPR-compliant AI](/en/gdpr-compliant-ai).
+The traces don't leave for a third party's cloud. On custom projects, Phoenix is installed on your own server, as we explain in our [guide to GDPR-compliant AI](/en/guides/gdpr-compliant-ai).
 
 The traces show what the chatbot costs and whether something is slowing down. They also show whether the provider answered with a fallback model without telling anyone. In one of our chatbots, a check looks for exactly that and hasn't found a single fallback model in 29,041 calls.
 
@@ -96,6 +96,6 @@ The model version is also pinned. Updating it is our decision and it goes throug
 - **The questions the chatbot couldn't answer**, so we can decide together what to adjust.
 - **A weekly report that sums it up**, if you need it.
 
-On custom projects, the code and the infrastructure are in your name from day one. Maintenance is a monthly fee with no minimum term, and the prices are in our guide to [how much an AI agent costs](/en/ai-agent-development-cost).
+On custom projects, the code and the infrastructure are in your name from day one. Maintenance is a monthly fee with no minimum term, and the prices are in our guide to [how much an AI agent costs](/en/guides/ai-agent-development-cost).
 
 You won't get a chatbot that never makes a mistake, because that doesn't exist. **You'll get one that's measured every week, tested before every change and improved with what it couldn't answer.**

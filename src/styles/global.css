@@ -552,6 +552,36 @@ textarea.input {
   }
 }
 
+/* ---- dibujo animado de los héroes ----
+   La caja cuadrada de las composiciones de soluciones y sectores
+   (`SolutionHeroArt.astro` y `SectorHeroArt.astro`). Sus piezas son `<span>`
+   colocados en porcentaje, así que el dibujo encoge con ella.
+
+   A quien pide menos movimiento se le para todo. Como varias piezas nacen
+   invisibles y es la animación quien las enseña, cada una dice con su clase
+   cómo se queda quieta: `ha-visible` se ve y `ha-oculto` no. */
+.hero-art {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+.hero-art span {
+  display: block;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-art span {
+    animation: none !important;
+  }
+  .hero-art .ha-oculto {
+    opacity: 0 !important;
+  }
+  .hero-art .ha-visible {
+    opacity: 1 !important;
+  }
+}
+
 /* ---- keyframes del diseño ---- */
 @keyframes if-up {
   from {

@@ -1,7 +1,7 @@
 ---
 /*
-  Las piezas del cuerpo de una página de sector, en el orden en que llegan.
-  Las usa `SectorPage.astro` dos veces, en la sección y en sus apartados, y
+  Las piezas del cuerpo de la página de seguridad, en el orden en que llegan.
+  Las usa `SecurityPage.astro` dos veces, en la sección y en sus apartados, y
   por eso viven aparte.
 
   Cada forma del texto tiene su dibujo, todos con piezas que ya existen en el
@@ -15,10 +15,10 @@
   «bases de datos»). Con frases enteras, una pastilla por línea no dice nada
   que no diga una fila, así que pasa a retícula.
 */
-import { type SectorBlock } from '../i18n/ui';
+import { type SecurityBlock } from '../i18n/ui';
 
 interface Props {
-  blocks: SectorBlock[];
+  blocks: SecurityBlock[];
 }
 const { blocks } = Astro.props;
 

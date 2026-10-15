@@ -172,10 +172,12 @@ const ramas: Record<string, { name: string; href: string }> = {
     `#casos`. Son las mismas en los dos idiomas porque los `id` de la portada
     no se traducen.
   */
-  /* Guías y sectores viven bajo carpeta desde el 7 oct 2026, solo en
-     español, y su tramo intermedio apunta a su índice. */
+  /* Guías y sectores viven bajo carpeta desde el 7 oct 2026 en español y
+     desde el 15 oct 2026 en inglés, y su tramo intermedio apunta a su índice. */
   guias: { name: nav.guides, href: '/guias' },
   sectores: { name: nav.sectors, href: '/sectores' },
+  guides: { name: nav.guides, href: '/en/guides' },
+  sectors: { name: nav.sectors, href: '/en/sectors' },
   'preguntas-frecuentes': { name: nav.faqs, href: '/preguntas-frecuentes' },
   servicios: { name: nav.solutions, href: `${inicio}#soluciones` },
   services: { name: nav.solutions, href: `${inicio}#soluciones` },
@@ -237,11 +239,10 @@ const esServicio = /^\/(servicios|en\/services)\//.test(canonicalPath);
 const publicaPrecio =
   esServicio &&
   // Las páginas españolas dejaron de publicar el rango el 7 oct 2026, con la
-  // plantilla nueva de soluciones. Las inglesas conservan su texto anterior.
-  // Se mira la ruta y no `lang` para que el tipo no se estreche: las ofertas
-  // de abajo siguen escritas en los dos idiomas por si el rango vuelve.
-  /^\/en\/services\//.test(canonicalPath) &&
-  !/corporate-knowledge$/.test(canonicalPath);
+  // plantilla nueva de soluciones, y lo recuperaron el 15 oct 2026 en su
+  // pregunta de coste. Conocimiento corporativo y consultoría no lo publican:
+  // la primera se presupuesta por proyecto y la segunda no tiene rango.
+  !/(corporate-knowledge|conocimiento-corporativo|consultoria-de-ia)$/.test(canonicalPath);
 const ofertas = publicaPrecio
   ? [
       {

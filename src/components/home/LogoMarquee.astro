@@ -21,12 +21,14 @@ interface Props {
 const { lang } = Astro.props;
 const t = content[lang].home.logos;
 
+/* Solo clientes. Wazzy salió el 8 oct 2026 por decisión del propietario: es
+   producto propio y no puede ir en una banda que dice «empresas con las que
+   trabajamos». */
 const logos = [
   { src: '/logos/stanton.png', alt: 'Stanton' },
   { src: '/logos/savian.png', alt: 'Savian' },
   { src: '/logos/aimo.webp', alt: 'AIMO' },
   { src: '/logos/bcnpremium.png', alt: 'Barceloneta Premium' },
-  { src: '/logos/wazzy.png', alt: 'Wazzy' },
   { src: '/logos/amigoamigo.png', alt: 'Amigo & Amigo' },
   { src: '/logos/dazzwebs.png', alt: 'Dazzwebs' },
   { src: '/logos/baba.png', alt: 'Baba' },

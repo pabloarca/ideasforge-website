@@ -1182,18 +1182,18 @@ export interface SiteContent {
      */
     solutions?: SolutionsContent;
     /**
-     * Las siete páginas de sector, con el texto del propietario (8 oct 2026).
-     * Las pinta `SectorPage.astro`. La clave es la del `routeMap`. Solo
-     * español: las dos inglesas que existen siguen saliendo de `realEstate` y
-     * `accounting`, que en español ya no pinta ninguna página.
+     * Las siete páginas de sector, con la plantilla del paquete de diseño del
+     * 8 oct 2026. Las pinta `SectorPage.astro`. Solo español: las dos
+     * inglesas que existen siguen saliendo de `realEstate` y `accounting`,
+     * que en español ya no pinta ninguna página.
      */
-    sectors?: Record<SectorKey, SectorPageContent>;
+    sectors?: SectorsContent;
     /**
      * Página de seguridad y privacidad (8 oct 2026), la entrada «Seguridad»
-     * del menú «Recursos». No es un sector, pero su texto llega con la misma
-     * forma y la pinta la misma plantilla. Solo español.
+     * del menú «Recursos». La pinta `SecurityPage.astro`, que fue la primera
+     * plantilla de los sectores. Solo español.
      */
-    security?: SectorPageContent;
+    security?: SecurityPageContent;
     /**
      * Preguntas frecuentes (8 oct 2026): una portada que reparte hacia los
      * bloques y una página por bloque. Ocupa el sitio del «Centro de ayuda»
@@ -1387,9 +1387,9 @@ export interface SolutionsContent {
 }
 
 /**
- * Pieza del cuerpo de una página de sector. Una cadena es un párrafo, que
+ * Pieza del cuerpo de la página de seguridad. Una cadena es un párrafo, que
  * admite `<strong>`. El resto son las formas en que llega el texto del
- * propietario, y `SectorBlocks.astro` dibuja cada una a su manera:
+ * propietario, y `SecurityBlocks.astro` dibuja cada una a su manera:
  *
  * - `strong`  frase destacada, sola en su línea;
  * - `list`    enumeración sin orden. Si todos sus elementos son cortos sale
@@ -1399,7 +1399,7 @@ export interface SolutionsContent {
  * - `flow`    proceso de principio a fin, un paso por caja;
  * - `link`    enlace con flecha a otra página del sitio.
  */
-export type SectorBlock =
+export type SecurityBlock =
   | string
   | { t: 'strong'; text: string }
   | { t: 'list'; items: string[] }
@@ -1408,17 +1408,17 @@ export type SectorBlock =
   | { t: 'flow'; steps: string[] }
   | { t: 'link'; label: string; href: string };
 
-export interface SectorSection {
+export interface SecuritySection {
   heading: string;
-  blocks: SectorBlock[];
+  blocks: SecurityBlock[];
   /** Apartados con encabezado propio (h3). Van tras las piezas de la sección. */
-  subsections?: { heading: string; blocks: SectorBlock[] }[];
+  subsections?: { heading: string; blocks: SecurityBlock[] }[];
   /** Pasos del método, pares `[título, texto]`. Se numeran solos. */
   method?: [string, string][];
 }
 
-/** Página de sector, y también la de seguridad. Lo pinta `SectorPage.astro`. */
-export interface SectorPageContent {
+/** La página de seguridad. Lo pinta `SecurityPage.astro`. */
+export interface SecurityPageContent {
   metaTitle: string;
   metaDescription: string;
   h1: string;
@@ -1426,7 +1426,7 @@ export interface SectorPageContent {
   /** Frase de cierre del héroe: la primera en tinta y la segunda en acento. */
   statement: [string, string];
   cta: string;
-  sections: SectorSection[];
+  sections: SecuritySection[];
   faq: { h2: string; items: Faq[] };
   contact: { h2: string; p: string[]; cta: string };
 }
@@ -1461,6 +1461,137 @@ export interface FaqsContent {
   /** Rótulo de la lista de bloques en la página de cada uno. */
   blocksLabel: string;
   blocks: FaqBlock[];
+}
+
+/**
+ * PÁGINAS DE SECTOR, con la plantilla del paquete de diseño del 8 oct 2026
+ * (`.private/paginas-sectores-2/`). Una página es su héroe y una fila de
+ * bloques, que `SectorPage.astro` dibuja en orden según su `type`.
+ */
+export type SectorLink = { label: string; href: string };
+
+/** Campos de los bloques de texto y lista. Cada tipo usa los que dibuja. */
+export interface SectorTextBlock {
+  /**
+   * - `landscape`    cabecera cerrada por regla negra y pastillas;
+   * - `poster`       campo azul a sangre: `h2` es su rótulo y la primera de
+   *                  `quotes`, su titular;
+   * - `split`        texto a la izquierda y lista numerada a la derecha;
+   * - `cells`        retícula de celdas;
+   * - `text`         solo texto, para el bloque que llega sin lista;
+   * - `integration`  texto y retícula de sistemas;
+   * - `dark`         campo en tinta a sangre con lista numerada;
+   * - `when`         caja «a medida».
+   */
+  type: 'landscape' | 'poster' | 'split' | 'cells' | 'text' | 'integration' | 'dark' | 'when';
+  h2: string;
+  /** Rótulo propio, cuando no vale el fijo del tipo («Integración», «Control»). */
+  kicker?: string;
+  paras?: string[];
+  /** Secuencia numerada. */
+  steps?: string[];
+  /** Párrafos de cierre. */
+  after?: string[];
+  /** Preguntas de ejemplo, tal como las escribiría un usuario. */
+  quotes?: string[];
+  /** Frases destacadas. */
+  emph?: string[];
+  label?: string;
+  list?: string[];
+  label2?: string;
+  list2?: string[];
+  link?: SectorLink;
+}
+
+export type SectorBlock =
+  | SectorTextBlock
+  /** Lista de usos a la izquierda y el panel del uso activo a la derecha. */
+  | {
+      type: 'uses';
+      h2: string;
+      lead: string;
+      subs: { t: string; d?: string; q?: string; label?: string; items?: string[] }[];
+    }
+  /** Procesos paso a paso. El segundo valor de cada paso dice si lo hace la IA. */
+  | {
+      type: 'flow';
+      h2: string;
+      paras: string[];
+      flows: { label?: string; steps: [string, boolean][] }[];
+      emph?: string;
+      link?: SectorLink;
+    }
+  /** Columnas con título y texto, y opcionalmente su lista y su frase de cierre. */
+  | {
+      type: 'areas';
+      h2: string;
+      paras?: string[];
+      items: { t: string; d: string; items?: string[]; k?: string }[];
+      after?: string[];
+    }
+  /** Caso real: el nombre arriba, lo que consiguió debajo y el enlace a su página. */
+  | {
+      type: 'case';
+      h2: string;
+      sub: string;
+      paras: string[];
+      label?: string;
+      list?: string[];
+      after?: string[];
+      link: SectorLink;
+    }
+  /** Dos listas enfrentadas. */
+  | {
+      type: 'diptych';
+      h2: string;
+      paras: string[];
+      yesLabel: string;
+      yes: string[];
+      roiLabel: string;
+      roi: string[];
+      note?: string;
+      emph?: string[];
+    }
+  /** Método: pares `[título, texto]`, que se numeran solos. */
+  | { type: 'steps'; h2: string; lead?: string; steps: [string, string][] }
+  | { type: 'faq'; h2: string; lead?: string; items: Faq[] }
+  | { type: 'contact'; h2: string; p: string; cta: string };
+
+export interface SectorPageContent {
+  metaTitle: string;
+  metaDescription: string;
+  /** Nombre y descripción corta en la retícula «Otros sectores». */
+  name: string;
+  short: string;
+  h1: string;
+  lead: string;
+  /** Frase de cierre del héroe: la primera en tinta y la segunda en acento. */
+  statement: [string, string];
+  cta: string;
+  /** Rótulo del enlace del héroe a los usos, si no vale el común. */
+  heroLink?: string;
+  blocks: SectorBlock[];
+}
+
+export interface SectorsContent {
+  /** Rótulos fijos de la plantilla, iguales en las siete páginas. */
+  labels: {
+    whatAI: string;
+    /** Lleva `{n}`, que se sustituye por el número de pastillas. */
+    sources: string;
+    integration: string;
+    control: string;
+    aiReads: string;
+    softwareRuns: string;
+    custom: string;
+    faq: string;
+    contact: string;
+    others: string;
+    viewSector: string;
+  };
+  /** Orden en que se listan en «Otros sectores». */
+  order: SectorKey[];
+  pages: Record<SectorKey, SectorPageContent>;
 }
 
 /** Los siete sectores. Las claves son las del `routeMap`. */
@@ -1503,7 +1634,7 @@ export const content: Record<Lang, SiteContent> = {
       guides: 'Guías',
       sectors: 'Sectores',
       sectorLinks: [
-        { label: 'Real estate e inmobiliario', href: '/sectores/real-estate-e-inmobiliario' },
+        { label: 'Inmobiliario', href: '/sectores/real-estate-e-inmobiliario' },
         { label: 'Gestorías y asesorías', href: '/sectores/gestorias-y-asesorias' },
         { label: 'Industria y manufactura', href: '/sectores/industria-y-manufactura' },
         { label: 'Salud y grupos sanitarios', href: '/sectores/salud-y-grupos-sanitarios' },
@@ -1626,6 +1757,14 @@ export const content: Record<Lang, SiteContent> = {
         next: 'Siguiente',
         items: [
           {
+            client: 'Empresa industrial',
+            title: 'Diagnóstico guiado para quien está delante de la máquina',
+            desc: 'El conocimiento de planta vivía en manuales densos y en la cabeza de los más veteranos. Construimos un asistente sobre los sistemas de la propia empresa. Los operarios consultan datos de producción y averías y reciben el diagnóstico guiado paso a paso cuando una máquina se para.',
+            metric: '6 agentes especializados, coordinados por un orquestador que dirige cada consulta.',
+            image: '/case-studies/industrial.jpg',
+            href: '/proyectos/industrial',
+          },
+          {
             client: 'Stanton',
             title: '98 % de las facturas procesadas sin intervención humana',
             desc: 'Un sistema para automatizar la recepción, interpretación y procesamiento de facturas. Combina inteligencia artificial, validaciones e integraciones con las reglas del proceso administrativo para reducir el trabajo manual.',
@@ -1635,10 +1774,10 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             client: 'Barceloneta Premium',
-            title: 'Más de 3 horas de trabajo administrativo ahorradas cada día',
-            desc: 'Analizamos distintos procesos internos que requerían tareas repetitivas y desarrollamos automatizaciones para eliminar parte de esa carga operativa.',
+            title: 'Más de 3 horas al día ahorradas filtrando solicitudes de alquiler',
+            desc: 'Cada solicitud de alquiler que entraba por WhatsApp costaba entre cinco y diez minutos de comprobación manual y llegaban decenas al día. El agente conversa con el interesado, recoge motivo, presupuesto y documentación y envía al equipo un correo con el resumen y un párrafo explicando por qué encaja o no.',
             metric:
-              'Más de tres horas de trabajo ahorradas cada día en procesos que antes necesitaban intervención manual.',
+              'Más de tres horas ahorradas cada día en comprobar solicitudes de alquiler. El equipo dejó de hacer criba y volvió a concertar visitas.',
             image: '/case-studies/barceloneta.jpg',
             href: '/proyectos/barceloneta',
           },
@@ -1653,9 +1792,8 @@ export const content: Record<Lang, SiteContent> = {
           {
             client: 'Wazzy',
             title: 'Un agente de IA capaz de gestionar citas mediante una conversación',
-            desc: 'Gestión de citas directamente desde WhatsApp. El agente comprueba disponibilidad, propone horarios, reserva, modifica o cancela, y trabaja con distintos profesionales, calendarios y reglas de negocio.',
-            metric:
-              'Una conversación sencilla para el usuario. Detrás, una arquitectura que controla qué acciones puede ejecutar el agente y bajo qué condiciones.',
+            desc: 'Wazzy es producto nuestro, no de un cliente. Gestiona citas directamente desde WhatsApp en clínicas dentales, de fisioterapia y de estética: comprueba la agenda real, propone horarios, reserva, modifica o cancela y avisa al equipo cuando la conversación lo necesita.',
+            metric: 'Cientos de citas al mes y ninguna reservada dos veces en toda la historia del producto.',
             image: '/case-studies/dentist.jpg',
             href: '/proyectos/wazzy',
           },
@@ -1743,11 +1881,11 @@ export const content: Record<Lang, SiteContent> = {
       },
       sectors: {
         title: 'La tecnología puede ser similar. El contexto de cada empresa no lo es.',
-        lead: 'Hemos trabajado con sistemas de IA y automatización en industria, agricultura, inmobiliario, administración y servicios profesionales. La arquitectura cambia según los procesos, la información disponible, los sistemas existentes y las reglas de cada organización.',
+        lead: 'Hemos construido sistemas de IA y automatización en industria, agricultura, inmobiliario, salud y servicios. Logística, energía y ecommerce son sectores en los que podemos ayudar, aunque todavía no tenemos un caso propio en ellos. La arquitectura cambia según los procesos, la información disponible, los sistemas existentes y las reglas de cada organización.',
         /* Los siete sectores del menú, con sus nombres (8 oct 2026). Los tres
            últimos no tienen fotografía todavía y salen con el hueco gris. */
         items: [
-          { title: 'Real estate e inmobiliario', image: '/case-studies/barceloneta.jpg', href: '/sectores/real-estate-e-inmobiliario' },
+          { title: 'Inmobiliario', image: '/case-studies/barceloneta.jpg', href: '/sectores/real-estate-e-inmobiliario' },
           { title: 'Gestorías y asesorías', image: '/case-studies/stanton.jpg', href: '/sectores/gestorias-y-asesorias' },
           { title: 'Industria y manufactura', image: '/case-studies/industrial.jpg', href: '/sectores/industria-y-manufactura' },
           { title: 'Salud y grupos sanitarios', image: '/case-studies/dentist.jpg', href: '/sectores/salud-y-grupos-sanitarios' },
@@ -1786,7 +1924,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             tag: 'guide',
             title: 'Reglamento Europeo de Inteligencia Artificial',
-            desc: 'Qué obligaciones introduce el AI Act para las empresas que desarrollan, implantan o utilizan sistemas de IA.',
+            desc: 'Qué obligaciones introduce el reglamento europeo de IA para las empresas que desarrollan, implantan o utilizan sistemas de IA.',
             href: '/guias/reglamento-europeo-de-ia',
           },
           {
@@ -1811,7 +1949,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             tag: 'blog',
             title: 'El agente que consulta tus datos no escribe SQL',
-            desc: 'Por qué construimos Savian con la decisión contraria al text-to-SQL, que es la que lo hace seguro.',
+            desc: 'Por qué construimos el agente de datos de Savian con la decisión contraria al text-to-SQL, que es la que lo hace seguro.',
             href: '/blog/ai-agents-sql',
             image: '/blog/portada-sql.jpg',
           },
@@ -1830,7 +1968,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: '¿Qué diferencia hay entre un agente de IA y un chatbot?',
-            a: 'Un chatbot está orientado a mantener una conversación. Un agente de IA puede además utilizar herramientas, consultar sistemas externos y ejecutar acciones. Por ejemplo, entender una solicitud, consultar una base de datos y registrar después una operación en un CRM.',
+            a: 'Un chatbot de guion sigue un menú de opciones fijo. Un agente de IA entiende texto libre y puede además utilizar herramientas, consultar sistemas externos y ejecutar acciones. Por ejemplo, entender una solicitud, consultar una base de datos y registrar después una operación en un CRM.',
           },
           {
             q: '¿Puede la inteligencia artificial conectarse con un ERP, CRM o una base de datos?',
@@ -1858,7 +1996,7 @@ export const content: Record<Lang, SiteContent> = {
         kicker: 'Contacto',
         title: 'Cuéntanos el proceso que quieres mejorar.',
         p1: 'No necesitas saber qué modelo utilizar, qué arquitectura necesitas o si el problema requiere un agente de IA. Cuéntanos cómo funciona hoy el proceso, qué personas intervienen y qué herramientas utilizáis.',
-        p2: 'Analizaremos qué parte puede automatizarse, dónde tiene sentido utilizar inteligencia artificial y qué sería necesario para convertirlo en un sistema capaz de trabajar en producción.',
+        p2: 'Te respondemos en un día laborable con una primera lectura de tu caso.',
         message: 'Cómo funciona hoy el proceso que quieres mejorar',
         placeholder:
           'Cuéntanoslo como se lo contarías a un compañero. No hace falta que sepas qué tecnología lo resuelve.',
@@ -4202,7 +4340,7 @@ export const content: Record<Lang, SiteContent> = {
               'Herramienta. Cada acción concreta que un agente puede ejecutar: consultar una base de datos, reservar una cita, enviar un correo.',
               'Contrato estructurado. El formato fijo con el que el modelo entrega lo que entendió, para que un código lo valide antes de actuar. En las propuestas lo verás como salida estructurada o function calling.',
               'Batería de pruebas. Casos reales, con su respuesta correcta escrita al lado, que todo cambio debe superar antes de publicarse. En inglés lo verás como evals.',
-              'Telemetría. Las mediciones que el propio sistema publica sobre cómo está funcionando. Bien diseñada, solo recoge los campos que se han aprobado, para que no viajen datos personales.',
+              'Telemetría. Las mediciones que el propio sistema publica sobre cómo está funcionando.',
               'Alucinación. Respuesta falsa con apariencia impecable. Se combate con arquitectura, no con ruegos al modelo.',
               'Identidad del usuario. La credencial que viaja con cada acción, para que el agente actúe con los permisos de esa persona y no con los de una cuenta que lo puede todo.',
             ],
@@ -4343,7 +4481,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Ideasforge trabaja por proyecto o mediante mantenimiento continuo?',
-                a: 'Ambas opciones son posibles. Algunos proyectos tienen un alcance cerrado y otros requieren mantenimiento, monitorización y evolución posterior.',
+                a: 'Por las dos cosas. La construcción se paga una vez y, si quieres que sigamos, una cuota mensual de 150 a 500 € paga la vigilancia semanal y el mantenimiento. La cuota no tiene permanencia y el sistema no se apaga al dejarla, porque el repositorio y la infraestructura ya están a tu nombre.',
               },
               {
                 q: '¿Ideasforge puede trabajar junto al equipo técnico interno de una empresa?',
@@ -4367,7 +4505,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Ideasforge ofrece soporte después del lanzamiento?',
-                a: 'Puede hacerlo. El soporte puede incluir monitorización, resolución de incidencias, evaluación, mejoras e incorporación de nuevos casos de uso.',
+                a: 'Sí. Lo que está en producción se revisa cada semana y cada cambio pasa una batería de pruebas antes de salir. Esa vigilancia y el mantenimiento los paga la cuota mensual, que no tiene permanencia.',
               },
             ],
           },
@@ -4408,11 +4546,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Se puede cambiar de modelo en el futuro?',
-                a: 'Sí, si la arquitectura se diseña para desacoplar el modelo del resto del sistema. Esto reduce dependencia de un único proveedor.',
+                a: 'Sí, con la batería de pruebas delante. Cambiar de modelo se prueba, no se promete: modelos distintos se comportan distinto y a veces el cambio obliga a tocar el sistema.',
               },
               {
                 q: '¿El software con IA necesita mantenimiento?',
-                a: 'Sí. Conviene revisar errores, costes, cambios en integraciones, calidad de respuestas, datos y comportamiento en producción.',
+                a: 'Sí. Revisamos cada semana lo que está en producción, porque un sistema con un modelo dentro puede empeorar sin dar ningún error. Cada cambio pasa además la batería de pruebas antes de salir.',
               },
               {
                 q: '¿Cómo se mide si un desarrollo de IA funciona?',
@@ -4452,11 +4590,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Cómo se evita depender demasiado de un proveedor de modelos?',
-                a: 'Separando la lógica de negocio del proveedor y utilizando capas de abstracción que permitan sustituir modelos cuando sea necesario.',
+                a: 'La versión del modelo va fijada, así que un cambio del proveedor no llega solo a producción. Y el repositorio y la infraestructura están a tu nombre desde el primer día, de modo que la dependencia tampoco es con nosotros.',
               },
               {
                 q: '¿Qué ocurre si un proveedor cambia precios o condiciones?',
-                a: 'La arquitectura puede revisarse para cambiar de modelo, optimizar consumo o utilizar alternativas.',
+                a: 'El consumo del modelo va en cuentas a nombre de tu empresa, así que cualquier cambio de precio lo ves en tu factura y no pasa por nosotros. Si compensa cambiar de modelo, el cambio se prueba contra la batería antes de decidir.',
               },
             ],
           },
@@ -4474,7 +4612,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Qué diferencia hay entre un agente de IA y un chatbot?',
-                a: 'Un chatbot se centra principalmente en conversar. Un agente puede además consultar sistemas, utilizar herramientas y ejecutar acciones.',
+                a: 'Un chatbot de guion sigue un menú de opciones fijo. Un agente entiende texto libre y puede además consultar sistemas, utilizar herramientas y ejecutar acciones.',
               },
               {
                 q: '¿Qué puede hacer un agente de IA en una empresa?',
@@ -4522,7 +4660,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Un agente de IA puede tomar decisiones?',
-                a: 'Sí, pero conviene limitar qué decisiones se delegan al modelo. Las reglas críticas deberían permanecer en software cuando sea posible.',
+                a: 'El modelo interpreta la petición y elige el camino. Las decisiones las toma y las ejecuta el código, con las reglas que tú apruebas, y las acciones sensibles piden confirmación de una persona.',
               },
               {
                 q: '¿Qué herramientas puede usar un agente?',
@@ -4568,9 +4706,9 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             slug: 'automatizacion-de-procesos-con-ia',
-            title: 'Automatización de procesos con IA',
-            h1: 'Preguntas frecuentes sobre automatización de procesos con IA',
-            metaTitle: 'FAQ sobre automatización de procesos con IA, Ideasforge',
+            title: 'Automatizar procesos',
+            h1: 'Preguntas frecuentes antes de automatizar un proceso con IA',
+            metaTitle: 'Dudas antes de automatizar un proceso con IA, Ideasforge',
             metaDescription: '¿Qué es la automatización de procesos con IA? ¿Qué diferencia hay entre automatización tradicional y automatización con IA?',
             related: '/servicios/automatizacion-de-procesos-con-ia',
             items: [
@@ -4592,7 +4730,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede automatizarse un proceso que empieza con un email?',
-                a: 'Sí. La IA puede interpretar el mensaje, extraer información y activar el workflow correspondiente.',
+                a: 'Sí. La IA puede interpretar el mensaje, extraer información y activar el flujo correspondiente.',
               },
               {
                 q: '¿Puede automatizarse un proceso con documentos adjuntos?',
@@ -4628,7 +4766,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Se puede automatizar un proceso que cruza varios departamentos?',
-                a: 'Sí. Puede diseñarse un workflow que coordine acciones entre diferentes equipos y sistemas.',
+                a: 'Sí. Puede diseñarse un flujo que coordine acciones entre diferentes equipos y sistemas.',
               },
               {
                 q: '¿Puede una automatización esperar aprobaciones humanas?',
@@ -4651,7 +4789,7 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'Sí. Puede activarse por eventos, APIs, formularios, mensajes o cambios en sistemas.',
               },
               {
-                q: '¿Puede una automatización decidir entre varios workflows?',
+                q: '¿Puede una automatización decidir entre varios flujos de trabajo?',
                 a: 'Sí. Puede clasificar la entrada y seleccionar el flujo correspondiente.',
               },
               {
@@ -4694,7 +4832,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede un chatbot ejecutar acciones?',
-                a: 'Sí. Puede crear registros, iniciar workflows, modificar citas o realizar otras acciones dentro de los permisos definidos.',
+                a: 'Sí. Puede crear registros, iniciar flujos de trabajo, modificar citas o realizar otras acciones dentro de los permisos definidos.',
               },
               {
                 q: '¿Puede un agente conversacional funcionar en WhatsApp?',
@@ -4773,7 +4911,7 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'Puede iniciar un flujo de pago o generar un enlace, aunque las operaciones financieras deberían realizarse mediante proveedores seguros especializados.',
               },
               {
-                q: '¿Puede un agente conversacional cualificar leads?',
+                q: '¿Puede un agente conversacional cualificar a los interesados?',
                 a: 'Sí. Puede recopilar información, aplicar criterios y registrar la oportunidad en un CRM.',
               },
             ],
@@ -5011,7 +5149,8 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede consultar datos sin dar acceso SQL directo al modelo?',
-                a: 'Sí. Es recomendable utilizar herramientas controladas o capas intermedias cuando el riesgo lo justifica.',
+                a: 'Sí, y así lo hacemos siempre. El modelo rellena un formulario cerrado y el código construye la consulta, de modo que el modelo nunca escribe las consultas que llegan a tus sistemas.',
+                link: { label: 'El agente que consulta tus datos no escribe SQL', href: '/blog/ai-agents-sql' },
               },
               {
                 q: '¿Puede conectarse con varios sistemas a la vez?',
@@ -5129,7 +5268,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Ideasforge asesora sobre RGPD?',
-                a: 'Puede incorporar consideraciones de privacidad y arquitectura, aunque determinadas cuestiones legales pueden requerir asesoramiento jurídico especializado.',
+                a: [
+                  'No. Decir si una empresa cumple la ley es trabajo de sus abogados, no nuestro.',
+                  'Lo que sí hacemos es construir el sistema para que el cumplimiento se pueda demostrar, tratar los datos por encargo tuyo con su contrato y dar a tu delegado de protección de datos y a tus abogados el material que necesitan para valorarlo.',
+                ],
+                link: { label: 'Inteligencia artificial, privacidad y RGPD', href: '/guias/ia-y-rgpd' },
               },
               {
                 q: '¿La seguridad se añade al final?',
@@ -5165,7 +5308,8 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede evitarse que los datos se utilicen para entrenar modelos externos?',
-                a: 'Depende del proveedor y contrato seleccionado. Es un criterio que puede considerarse al elegir infraestructura.',
+                a: 'Con los proveedores y la configuración que desplegamos, sí. Las llamadas al modelo van bajo acuerdos y ajustes que excluyen el entrenamiento con tu contenido, y la elección del proveedor la apruebas tú.',
+                link: { label: 'Inteligencia artificial, privacidad y RGPD', href: '/guias/ia-y-rgpd' },
               },
               {
                 q: '¿Qué pasa si un usuario intenta acceder a información restringida?',
@@ -5186,23 +5330,23 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
-            slug: 'ai-act-y-cumplimiento',
-            title: 'AI Act y cumplimiento',
-            h1: 'Preguntas frecuentes sobre el AI Act y cumplimiento',
-            metaTitle: 'FAQ sobre el AI Act y cumplimiento, Ideasforge',
-            metaDescription: '¿Qué es el AI Act? ¿El AI Act ya está en vigor y qué obligaciones se aplican en 2026? ¿Qué exige el AI Act a un chatbot que interactúa directamente con personas?',
+            slug: 'reglamento-europeo-de-ia',
+            title: 'Reglamento europeo de IA',
+            h1: 'Preguntas frecuentes sobre el reglamento europeo de IA y su cumplimiento',
+            metaTitle: 'FAQ sobre el reglamento europeo de IA, Ideasforge',
+            metaDescription: 'Qué es el reglamento europeo de IA, qué obligaciones ya se aplican en 2026 y qué exige a un chatbot que habla con personas.',
             related: '/guias/reglamento-europeo-de-ia',
             items: [
               {
-                q: '¿Qué es el AI Act?',
-                a: 'El AI Act es el Reglamento europeo que establece un marco común para el desarrollo, comercialización, despliegue y uso de sistemas de inteligencia artificial en la Unión Europea. Aplica un enfoque basado en el riesgo y asigna obligaciones diferentes según el sistema y el papel de cada organización.',
+                q: '¿Qué es el reglamento europeo de IA?',
+                a: 'El reglamento europeo de IA es la norma que establece un marco común para el desarrollo, comercialización, despliegue y uso de sistemas de inteligencia artificial en la Unión Europea. Aplica un enfoque basado en el riesgo y asigna obligaciones diferentes según el sistema y el papel de cada organización.',
               },
               {
-                q: '¿El AI Act ya está en vigor y qué obligaciones se aplican en 2026?',
+                q: '¿El reglamento europeo de IA ya está en vigor y qué obligaciones se aplican en 2026?',
                 a: 'Sí. El Reglamento entró en vigor en 2024 y su aplicación es progresiva. Desde el 2 de agosto de 2026 son aplicables, entre otras, las obligaciones de transparencia del artículo 50 para determinados sistemas de IA. Las obligaciones concretas deben revisarse según el sistema, el rol de la organización y el calendario aplicable.',
               },
               {
-                q: '¿Qué exige el AI Act a un chatbot que interactúa directamente con personas?',
+                q: '¿Qué exige el reglamento europeo de IA a un chatbot que interactúa directamente con personas?',
                 a: 'El artículo 50 exige, con determinadas excepciones, que las personas sean informadas de que están interactuando con un sistema de IA cuando no resulte evidente por las circunstancias y el contexto. Esta obligación de transparencia es aplicable desde el 2 de agosto de 2026.',
               },
               {
@@ -5211,15 +5355,15 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Qué son los sistemas de IA de alto riesgo?',
-                a: 'Son determinados sistemas clasificados por el AI Act como de alto riesgo por el contexto y el impacto potencial de su uso. Están sujetos a requisitos adicionales, cuya aplicación concreta debe analizarse según el caso.',
+                a: 'Son determinados sistemas clasificados por el reglamento europeo de IA como de alto riesgo por el contexto y el impacto potencial de su uso. Están sujetos a requisitos adicionales, cuya aplicación concreta debe analizarse según el caso.',
               },
               {
-                q: '¿El AI Act afecta solo a empresas que desarrollan IA?',
+                q: '¿El reglamento europeo de IA afecta solo a empresas que desarrollan IA?',
                 a: 'No. También puede imponer obligaciones a organizaciones que despliegan o utilizan determinados sistemas de IA.',
               },
               {
-                q: '¿RGPD y AI Act son lo mismo?',
-                a: 'No. El RGPD regula la protección de datos personales, mientras que el AI Act regula sistemas de inteligencia artificial desde una perspectiva más amplia. Un mismo proyecto puede estar sujeto a ambos marcos.',
+                q: '¿Son lo mismo el RGPD y el reglamento europeo de IA?',
+                a: 'No. El RGPD regula la protección de datos personales, mientras que el reglamento europeo de IA regula sistemas de inteligencia artificial desde una perspectiva más amplia. Un mismo proyecto puede estar sujeto a ambos marcos.',
               },
               {
                 q: '¿Hay que documentar los sistemas de IA?',
@@ -5227,14 +5371,14 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Es necesaria supervisión humana?',
-                a: 'Depende del sistema y de la categoría de riesgo. En determinados sistemas, especialmente de alto riesgo, el AI Act contempla requisitos específicos relacionados con supervisión humana.',
+                a: 'Depende del sistema y de la categoría de riesgo. En determinados sistemas, especialmente de alto riesgo, el reglamento europeo de IA contempla requisitos específicos relacionados con supervisión humana.',
               },
               {
-                q: '¿Ideasforge tiene en cuenta el AI Act al diseñar sistemas?',
-                a: 'Sí. La arquitectura puede incorporar desde el inicio trazabilidad, permisos, límites, intervención humana, transparencia y otros controles relevantes. La determinación jurídica de obligaciones concretas puede requerir asesoramiento legal especializado.',
+                q: '¿Ideasforge tiene en cuenta el reglamento europeo de IA al diseñar sistemas?',
+                a: 'Sí. La arquitectura puede incorporar desde el inicio trazabilidad, permisos, límites, intervención humana, transparencia y otros controles relevantes. La determinación jurídica de obligaciones concretas requiere asesoramiento legal especializado, y esa valoración no la hacemos nosotros.',
               },
               {
-                q: '¿Puede cambiar la interpretación o aplicación práctica del AI Act?',
+                q: '¿Puede cambiar la interpretación o aplicación práctica del reglamento europeo de IA?',
                 a: 'Sí. La Comisión Europea y las autoridades competentes publican directrices, códigos y criterios de aplicación. Por eso el contenido regulatorio debe revisarse periódicamente en lugar de tratarse como documentación estática.',
               },
             ],
@@ -5249,19 +5393,19 @@ export const content: Record<Lang, SiteContent> = {
             items: [
               {
                 q: '¿Cuánto cuesta desarrollar una solución de IA?',
-                a: 'Depende del alcance, integraciones, datos, arquitectura, volumen, seguridad y mantenimiento.',
+                a: 'La construcción va de 2.500 a 10.000 € según integraciones y exigencia de validación. La operación va de 150 a 500 € al mes, sin permanencia. El consumo del modelo y la infraestructura van aparte, en cuentas a nombre de tu empresa.',
               },
               {
                 q: '¿Cuánto cuesta desarrollar un agente de IA?',
-                a: 'Depende de las herramientas, fuentes de información, acciones, permisos y complejidad del proceso.',
+                a: 'Entre 2.500 y 10.000 € de construcción y entre 150 y 500 € al mes de operación. Lo que lo mueve dentro de ese rango son las herramientas, las fuentes de información, las acciones y la validación que exige el proceso. Los sistemas con orquestador y varios agentes se presupuestan por proyecto.',
               },
               {
                 q: '¿Cuánto cuesta automatizar un proceso?',
-                a: 'Depende del número de pasos, sistemas, excepciones y uso de IA necesario.',
+                a: 'Un flujo de un solo proceso arranca en torno a los 2.500 € de construcción y los que tocan varios de tus sistemas se acercan a los 10.000 €. La operación mensual va entre 150 y 500 €.',
               },
               {
                 q: '¿Cuánto cuesta un chatbot a medida?',
-                a: 'Depende de los casos de uso, canales, integraciones, documentación, acciones y controles.',
+                a: 'Lo mismo que el resto de nuestros agentes, entre 2.500 y 10.000 € de construcción y entre 150 y 500 € al mes de operación. En WhatsApp hay además dos costes variables, las llamadas al modelo de cada conversación y las plantillas que Meta cobra aparte.',
               },
               {
                 q: '¿Cuánto cuesta una consultoría de IA?',
@@ -5269,7 +5413,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Cuánto tarda un proyecto de IA?',
-                a: 'Depende de la complejidad, integraciones, datos, validaciones y pruebas necesarias.',
+                a: 'Depende de tres cosas: que los datos existan, que los accesos estén dados y que la tarea esté bien definida. Con las tres, un piloto en dos semanas es realista. Si falta alguna, lo primero del proyecto es conseguirla.',
               },
               {
                 q: '¿Qué factores alargan un proyecto?',
@@ -5277,7 +5421,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Se puede empezar con un piloto?',
-                a: 'Sí. Puede ser útil para validar viabilidad, valor y comportamiento antes de ampliar el alcance.',
+                a: 'Sí. Es lo que recomendamos. El piloto cubre una parte del problema con una métrica acordada antes de empezar. Se paga y su precio entra dentro del proyecto final.',
               },
               {
                 q: '¿Cómo se calcula el ROI?',
@@ -5289,7 +5433,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿El coste de los modelos forma parte del proyecto?',
-                a: 'Sí. El uso de modelos puede generar costes variables según proveedor, volumen y arquitectura.',
+                a: 'No. El consumo del modelo y la infraestructura van aparte, en cuentas a nombre de tu empresa, así que ves lo que gastas y no pasa por nosotros. Ni la construcción ni la cuota mensual los incluyen.',
               },
               {
                 q: '¿Una solución de IA tiene costes recurrentes?',
@@ -5321,7 +5465,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Se puede trabajar con presupuesto por fases?',
-                a: 'Sí. Es habitual dividir descubrimiento, piloto, desarrollo e implantación.',
+                a: 'Sí, es como trabajamos. Son cuatro pasos: Explorar, que entrega un sí o un no, Priorizar, que elige el primer caso con su cifra, Implementar, que lo pone en producción con su batería de pruebas, y Optimizar, que da los datos para decidir el paso siguiente. Cada uno se decide con lo que entregó el anterior.',
               },
               {
                 q: '¿Puede un piloto reducir el riesgo económico?',
@@ -5366,11 +5510,15 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Se pueden medir las respuestas incorrectas?',
-                a: 'Sí. Pueden registrarse y evaluarse mediante revisiones humanas, métricas o evaluadores automáticos.',
+                a: 'Sí. Antes de cada cambio, cada respuesta se compara con la correcta, anotada en la batería de pruebas. En producción, las preguntas que el sistema no supo contestar quedan registradas y se revisan cada semana.',
               },
               {
                 q: '¿Se pueden detectar errores en producción?',
-                a: 'Sí. Logs, alertas y monitorización ayudan a identificar comportamientos inesperados.',
+                a: [
+                  'Sí, pero no basta con mirar los registros de error. Los fallos peligrosos de un sistema con IA no dan error: el sistema contesta algo equivocado con total normalidad.',
+                  'Por eso cada semana pasamos una tanda de conversaciones de prueba sobre el sistema en marcha y revisamos el panel de Phoenix, una herramienta de seguimiento instalada en servidor propio, y las preguntas que el agente no supo contestar. Esas tres cosas son también lo que entregamos al cliente.',
+                ],
+                link: { label: 'Qué pasa después de entregar un chatbot de IA', href: '/blog/despues-de-entregar-un-agente-de-ia' },
               },
               {
                 q: '¿Puede un agente quedar bloqueado?',
@@ -5390,7 +5538,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Un modelo puede garantizar un 100 % de precisión?',
-                a: 'No en todos los casos. Los modelos probabilísticos requieren controles adicionales cuando el impacto del error es relevante.',
+                a: 'No, y no lo prometemos. Lo que sí prometemos es enterarnos antes que el usuario cuando algo falla y dejar escrito por qué falló. En uno de nuestros sistemas asumimos un techo cercano al 92 %, porque perseguir el cien acaba ajustando las pruebas en vez de mejorar el sistema.',
               },
               {
                 q: '¿Puede intervenir una persona cuando el sistema no está seguro?',
@@ -5410,7 +5558,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede utilizarse un modelo para evaluar a otro modelo?',
-                a: 'Sí. Los evaluadores automáticos pueden ayudar, aunque conviene validarlos y combinarlos con criterios humanos.',
+                a: 'Nosotros no lo hacemos. Medimos contra un golden dataset (batería de pruebas) con la respuesta correcta anotada, y los controles los hace el código, no otro modelo. En uno de nuestros sistemas un segundo modelo revisaba al primero y lo retiramos, porque también se equivocaba.',
               },
               {
                 q: '¿Qué es un dataset de evaluación?',
@@ -5418,7 +5566,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Cada cambio debería volver a evaluarse?',
-                a: 'Sí, especialmente cuando modifica prompts, modelos, recuperación, herramientas o reglas.',
+                a: 'Sí, y en nuestros sistemas es una regla, no un consejo. Ningún cambio de prompt, modelo, recuperación, herramientas o reglas llega a producción sin pasar la batería de pruebas. Antes de aplicarlo se hace copia de la base de datos y, si después el servicio no responde, se vuelve solo a la versión anterior.',
               },
               {
                 q: '¿Qué es una regresión en un sistema de IA?',
@@ -5442,7 +5590,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Qué ocurre si un nuevo modelo funciona peor?',
-                a: 'Puede mantenerse o restaurarse el modelo anterior si la arquitectura y despliegue permiten versionado.',
+                a: 'No llega a producción. El modelo va fijado y un cambio de modelo pasa las pruebas antes de salir. Si algo falla al aplicar cualquier cambio, se vuelve solo a la versión anterior, porque antes se hace copia de la base de datos.',
               },
               {
                 q: '¿Se puede hacer A/B testing con IA?',
@@ -5452,18 +5600,18 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             slug: 'real-estate-e-inmobiliario',
-            title: 'Real Estate e Inmobiliario',
-            h1: 'Preguntas frecuentes sobre IA en real estate e inmobiliario',
-            metaTitle: 'FAQ sobre IA en real estate e inmobiliario, Ideasforge',
-            metaDescription: '¿Cómo puede utilizarse la IA en Real Estate? ¿Puede una IA gestionar leads inmobiliarios? ¿Puede conectarse con software inmobiliario?',
+            title: 'Inmobiliario',
+            h1: 'Preguntas frecuentes sobre IA para inmobiliarias',
+            metaTitle: 'FAQ sobre IA para inmobiliarias, Ideasforge',
+            metaDescription: '¿Cómo puede utilizarse la IA en una inmobiliaria? ¿Puede una IA atender a los interesados? ¿Puede conectarse con software inmobiliario?',
             related: '/sectores/real-estate-e-inmobiliario',
             items: [
               {
-                q: '¿Cómo puede utilizarse la IA en Real Estate?',
-                a: 'Puede utilizarse en leads, atención, documentación, incidencias, conocimiento interno y automatización administrativa.',
+                q: '¿Cómo puede utilizarse la IA en una inmobiliaria?',
+                a: 'Puede utilizarse con interesados, atención, documentación, incidencias, conocimiento interno y automatización administrativa.',
               },
               {
-                q: '¿Puede una IA gestionar leads inmobiliarios?',
+                q: '¿Puede una IA atender a los interesados de una inmobiliaria?',
                 a: 'Sí. Puede interpretar requisitos, clasificar oportunidades y registrar información en CRM.',
               },
               {
@@ -5479,7 +5627,7 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'Sí. Puede clasificar y extraer datos desde contratos, formularios, facturas y otros documentos.',
               },
               {
-                q: '¿Puede ayudar a property managers?',
+                q: '¿Puede ayudar a las gestoras de alquiler?',
                 a: 'Sí. Puede automatizar solicitudes, incidencias, proveedores, documentación y acceso a información.',
               },
               {
@@ -5492,15 +5640,15 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede automatizarse la gestión de incidencias?',
-                a: 'Sí. La IA puede interpretar la incidencia y activar el workflow correspondiente.',
+                a: 'Sí. La IA puede interpretar la incidencia y activar el flujo correspondiente.',
               },
               {
-                q: '¿Cuándo compensa una solución a medida en Real Estate?',
+                q: '¿Cuándo compensa una solución a medida en una inmobiliaria?',
                 a: 'Cuando existe suficiente volumen, complejidad, integración o reglas propias que una herramienta estándar no cubre.',
               },
               {
                 q: '¿Puede la IA ayudar a gestionar múltiples promociones?',
-                a: 'Sí. Puede consultar datos, documentación, leads y procesos asociados a distintas promociones.',
+                a: 'Sí. Puede consultar datos, documentación, interesados y procesos asociados a distintas promociones.',
               },
               {
                 q: '¿Puede diferenciar permisos entre sociedades o activos?',
@@ -5512,10 +5660,10 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede detectar vencimientos de contratos?',
-                a: 'Sí. Puede extraer fechas o consultar bases de datos y generar alertas dentro de un workflow.',
+                a: 'Sí. Puede extraer fechas o consultar bases de datos y generar alertas dentro de un flujo.',
               },
               {
-                q: '¿Puede ayudar con procesos de property management?',
+                q: '¿Puede ayudar con la gestión de inmuebles en alquiler?',
                 a: 'Sí. Puede automatizar incidencias, documentación, proveedores y consultas internas.',
               },
               {
@@ -5591,7 +5739,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede extraer vencimientos de documentos?',
-                a: 'Sí. Puede identificar fechas y utilizarlas para alertas o workflows.',
+                a: 'Sí. Puede identificar fechas y utilizarlas para alertas o flujos de trabajo.',
               },
               {
                 q: '¿Puede automatizar recordatorios de obligaciones?',
@@ -5649,7 +5797,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede gestionar incidencias industriales?',
-                a: 'Sí. Puede interpretarlas, clasificarlas y activar el workflow adecuado.',
+                a: 'Sí. Puede interpretarlas, clasificarlas y activar el flujo adecuado.',
               },
               {
                 q: '¿Puede utilizarse IA en calidad?',
@@ -5810,7 +5958,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede gestionar incidencias logísticas?',
-                a: 'Sí. Puede interpretarlas, clasificarlas y activar el workflow correspondiente.',
+                a: 'Sí. Puede interpretarlas, clasificarlas y activar el flujo correspondiente.',
               },
               {
                 q: '¿Puede procesar albaranes?',
@@ -5971,7 +6119,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede automatizar devoluciones?',
-                a: 'Sí. Puede interpretar la solicitud y ejecutar el workflow según reglas definidas.',
+                a: 'Sí. Puede interpretar la solicitud y ejecutar el flujo según reglas definidas.',
               },
               {
                 q: '¿Puede ayudar con catálogos grandes?',
@@ -6093,15 +6241,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Qué diferencia hay entre una agencia de automatización y una empresa de desarrollo de IA?',
-                a: 'Depende del proveedor, pero una empresa de desarrollo suele tener mayor foco en arquitectura, software e integraciones a medida.',
-              },
-              {
-                q: '¿Qué riesgo existe al depender de herramientas no-code?',
-                a: 'No son necesariamente malas, pero pueden limitar escalabilidad, control o seguridad en ciertos proyectos.',
-              },
-              {
-                q: '¿Se puede empezar con no-code y migrar después?',
-                a: 'Sí, si el diseño inicial permite separar lógica y datos suficientemente.',
+                a: 'Lo que distingue a un proveedor no es cómo se llame. Pregúntale si mide la calidad antes de cada cambio, si el código queda a nombre de tu empresa y si sigue vigilando el sistema después de entregarlo.',
               },
               {
                 q: '¿Qué debería incluir una propuesta técnica?',
@@ -6238,7 +6378,7 @@ export const content: Record<Lang, SiteContent> = {
                 t: 'list',
                 items: [
                   'crear un registro', 'modificar una cita', 'actualizar un CRM', 'generar una incidencia',
-                  'enviar un mensaje', 'ejecutar una consulta', 'iniciar un workflow',
+                  'enviar un mensaje', 'ejecutar una consulta', 'iniciar un flujo de trabajo',
                 ],
               },
               'No todas esas acciones tienen el mismo riesgo.',
@@ -6479,11 +6619,11 @@ export const content: Record<Lang, SiteContent> = {
                   'responsabilidad proactiva',
                 ],
               },
-              'La arquitectura técnica puede ayudar a implementar estos principios, pero determinar la base jurídica y las obligaciones concretas de cada tratamiento puede requerir asesoramiento especializado.',
+              'La arquitectura técnica puede ayudar a implementar estos principios, pero determinar la base jurídica y las obligaciones concretas de cada tratamiento requiere asesoramiento jurídico, y esa valoración no la hacemos nosotros.',
             ],
           },
           {
-            heading: 'Inteligencia artificial y AI Act',
+            heading: 'Inteligencia artificial y reglamento europeo de IA',
             blocks: [
               'El Reglamento Europeo de Inteligencia Artificial establece obligaciones diferentes según el sistema, su finalidad, el nivel de riesgo y el papel que desempeña cada organización.',
               'Desde el <strong>2 de agosto de 2026</strong> son aplicables, entre otras, las obligaciones de transparencia previstas en el artículo 50 para determinados sistemas de IA. Estas incluyen, en ciertos casos, informar a una persona cuando interactúa directamente con un sistema de inteligencia artificial.',
@@ -6597,7 +6737,7 @@ export const content: Record<Lang, SiteContent> = {
               a: 'Puede diseñarse teniendo en cuenta los requisitos aplicables de protección de datos, pero el cumplimiento depende del caso de uso, los datos, la base jurídica, los proveedores y la organización.',
             },
             {
-              q: '¿El AI Act afecta a los chatbots?',
+              q: '¿El reglamento europeo de IA afecta a los chatbots?',
               a: 'Puede hacerlo. Desde el 2 de agosto de 2026 el artículo 50 establece obligaciones de transparencia para determinados sistemas que interactúan directamente con personas.',
             },
             {
@@ -6618,3152 +6758,2697 @@ export const content: Record<Lang, SiteContent> = {
         },
       },
       /*
-        LAS SIETE PÁGINAS DE SECTOR (8 oct 2026). El texto es el del propietario
-        (`.private/paginas-sectores/`), volcado tal cual con un script y sin
-        pasar por el árbitro, que no estaba en la copia de trabajo. Lo único
-        que no viaja es la puntuación de lista del original: el punto y coma
-        de cada elemento y el punto del último, que en una pastilla o en una
-        celda no pintan nada.
+        LAS SIETE PÁGINAS DE SECTOR, con la plantilla del paquete de diseño del
+        8 oct 2026 (`.private/paginas-sectores-2/`). El texto es el de su
+        `content.json`, que es el del propietario troceado por bloques. Entró sin
+        pasar por el árbitro, que no estaba en la copia de trabajo. Industria
+        es la excepción: su texto es el de su prototipo, más corto que el
+        original del propietario.
 
-        Tres cosas no son del propietario. El título de pestaña es su titular
-        con la marca. La descripción es la primera frase de su entradilla,
-        recortada para caber en los 165 caracteres que admite `check-seo`. Y
-        el destino de cada enlace, que en el original es solo un rótulo.
+        El troceado del paquete es automático y dejaba restos. Aquí están
+        rehechos desde el texto original (`.private/paginas-sectores/`). Las
+        secuencias numeradas, que llegaban como párrafos, van a `steps`. Los
+        dos casos, que llegaban aplastados en una celda y sin su enlace, son
+        un bloque `case`. Los perfiles de real estate, igual, son un bloque
+        `areas`. Y un bloque que llega sin lista es `text`, porque no tiene
+        nada que poner en una retícula.
+
+        No son del propietario los títulos de pestaña, las descripciones y el
+        destino de los enlaces. Los titulares van con mayúscula solo inicial,
+        como el menú. Las direcciones son las que ya tenían, no las del
+        paquete, porque cambiar una dirección publicada es otra decisión.
       */
       sectors: {
-        realEstate: {
-          metaTitle: 'IA para Real Estate e Inmobiliario, Ideasforge',
-          metaDescription: 'Soluciones de inteligencia artificial para empresas inmobiliarias, promotoras, gestoras de activos y operadores de Real Estate.',
-          h1: 'IA para Real Estate e Inmobiliario',
-          lead: [
-            'Ideasforge desarrolla soluciones de inteligencia artificial para empresas inmobiliarias, promotoras, gestoras de activos y operadores de Real Estate que necesitan automatizar procesos, conectar sistemas y reducir trabajo administrativo.',
-            'Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con CRM, ERP, bases de datos, documentación, portales, calendarios y aplicaciones internas.',
-          ],
-          statement: [
-            'No aplicamos IA al sector inmobiliario de forma genérica.',
-            'La integramos en los procesos donde puede generar un impacto medible.',
-          ],
-          cta: 'Cuéntanos qué proceso quieres mejorar',
-          sections: [
-            {
-              heading: 'Inteligencia artificial para organizaciones inmobiliarias con procesos complejos',
-              blocks: [
-                'Una empresa de Real Estate puede trabajar al mismo tiempo con:',
-                {
-                  t: 'list',
-                  items: [
-                    'activos', 'inmuebles', 'propietarios', 'compradores', 'arrendatarios', 'proveedores',
-                    'leads', 'documentación', 'contratos', 'incidencias', 'agendas', 'CRM', 'ERP',
-                    'portales inmobiliarios', 'software de gestión',
-                  ],
-                },
-                'Cuando la información está distribuida entre diferentes herramientas, gran parte del trabajo termina dependiendo de personas que buscan datos, copian información o coordinan manualmente procesos entre sistemas.',
-                'La inteligencia artificial puede ayudar a interpretar esa información y utilizarla dentro de automatizaciones conectadas con la operativa real de la empresa.',
-              ],
-            },
-            {
-              heading: '¿Qué puede automatizar la IA en una empresa inmobiliaria?',
-              blocks: [
-                'La inteligencia artificial puede intervenir en procesos comerciales, administrativos, documentales y operativos.',
-                'No todos necesitan la misma arquitectura.',
-              ],
-              subsections: [
-                {
-                  heading: 'Gestión de leads',
-                  blocks: [
-                    'Un sistema puede recibir contactos desde diferentes canales, interpretar la solicitud y estructurar la información antes de incorporarla al CRM.',
-                    'Puede identificar, por ejemplo:',
-                    {
-                      t: 'list',
-                      items: [
-                        'qué tipo de inmueble busca', 'zona', 'presupuesto', 'características', 'urgencia',
-                        'datos de contacto', 'intención de compra o alquiler',
-                      ],
-                    },
-                    'La información puede quedar registrada automáticamente para que el equipo continúe el proceso con más contexto.',
-                  ],
-                },
-                {
-                  heading: 'Atención a compradores y arrendatarios',
-                  blocks: [
-                    'Un agente conversacional puede responder consultas sobre activos, características, disponibilidad o procesos.',
-                    'También puede utilizar información del CRM u otras fuentes para ofrecer respuestas contextualizadas.',
-                    'Cuando la consulta requiere intervención comercial, el sistema puede derivarla junto con la información recopilada.',
-                  ],
-                },
-                {
-                  heading: 'Gestión documental',
-                  blocks: [
-                    'El sector inmobiliario genera una gran cantidad de documentación.',
-                    'La IA puede ayudar a interpretar, clasificar y extraer información desde:',
-                    {
-                      t: 'list',
-                      items: [
-                        'contratos', 'escrituras', 'notas simples', 'documentación de activos', 'facturas',
-                        'presupuestos', 'formularios', 'documentación técnica', 'correos electrónicos',
-                      ],
-                    },
-                    'Una vez estructurada, esa información puede incorporarse automáticamente al sistema correspondiente.',
-                  ],
-                },
-                {
-                  heading: 'Consulta de información interna',
-                  blocks: [
-                    'Los equipos pueden utilizar lenguaje natural para acceder a información distribuida entre diferentes fuentes.',
-                    'Por ejemplo:',
-                    {
-                      t: 'quote',
-                      text: '¿Qué contratos de este activo vencen durante los próximos seis meses?',
-                    },
-                    'o:',
-                    {
-                      t: 'quote',
-                      text: '¿Cuál es el procedimiento para aprobar una reparación superior a determinado importe?',
-                    },
-                    'El sistema puede recuperar la información autorizada desde bases de datos, documentación o aplicaciones internas.',
-                  ],
-                },
-                {
-                  heading: 'Gestión de incidencias',
-                  blocks: [
-                    'Una solicitud puede recibirse por email, formulario o conversación.',
-                    'La IA puede interpretar el problema, recopilar la información necesaria, clasificarlo y enviarlo al proceso correspondiente.',
-                    'Después, el software puede:',
-                    {
-                      t: 'list',
-                      items: [
-                        'crear una incidencia', 'asignarla', 'avisar a un proveedor', 'actualizar un sistema',
-                        'enviar una confirmación',
-                      ],
-                    },
-                  ],
-                },
-                {
-                  heading: 'Automatización administrativa',
-                  blocks: [
-                    'Procesos como validaciones, entrada de información, actualización de sistemas, generación de documentos o coordinación entre departamentos pueden automatizarse cuando siguen una lógica suficientemente definida.',
-                    'La IA se utiliza únicamente en los pasos que necesitan interpretación.',
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'IA para inmobiliarias, promotoras y gestoras de activos',
-              blocks: [
-                'El término “inmobiliaria” engloba organizaciones muy diferentes.',
-                'La arquitectura debe adaptarse al modelo de negocio.',
-              ],
-              subsections: [
-                {
-                  heading: 'Agencias y redes inmobiliarias',
-                  blocks: ['Automatización de captación, consultas, CRM, documentación y procesos comerciales.'],
-                },
-                {
-                  heading: 'Promotoras',
-                  blocks: [
-                    'Gestión de solicitudes, documentación de promociones, atención comercial y coordinación entre sistemas.',
-                  ],
-                },
-                {
-                  heading: 'Gestoras de activos',
-                  blocks: ['Acceso a información sobre activos, contratos, incidencias, documentación y operaciones.'],
-                },
-                {
-                  heading: 'Property managers',
-                  blocks: [
-                    'Automatización de solicitudes, incidencias, proveedores, documentación y comunicación con usuarios.',
-                  ],
-                },
-                {
-                  heading: 'Grupos inmobiliarios',
-                  blocks: [
-                    'Sistemas capaces de trabajar sobre diferentes sociedades, departamentos, fuentes de información y permisos.',
-                    'La complejidad del sistema crece con la organización.',
-                    'Por eso no planteamos la misma solución para una agencia local y para un grupo que gestiona cientos o miles de activos.',
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'Agentes de IA conectados con CRM, ERP y software inmobiliario',
-              blocks: [
-                'Un agente de IA puede convertirse en una capa de acceso sobre los sistemas que ya utiliza la organización.',
-                'Puede consultar o utilizar información procedente de:',
-                {
-                  t: 'list',
-                  items: [
-                    'CRM', 'ERP', 'bases de datos', 'software inmobiliario', 'portales', 'calendarios',
-                    'gestores documentales', 'APIs', 'aplicaciones propias',
-                  ],
-                },
-                'Por ejemplo, una persona podría preguntar:',
-                {
-                  t: 'quote',
-                  text: '¿Qué oportunidades abiertas tenemos para esta promoción y cuáles llevan más de siete días sin actividad?',
-                },
-                'El agente puede consultar las fuentes autorizadas y devolver una respuesta sin obligar al usuario a revisar manualmente diferentes sistemas.',
-                'Dependiendo de los permisos, también puede ejecutar acciones posteriores.',
-              ],
-            },
-            {
-              heading: 'Automatización de procesos inmobiliarios con IA',
-              blocks: [
-                'Muchos procesos de Real Estate no necesitan un agente autónomo.',
-                'Necesitan un workflow bien diseñado.',
-                'Por ejemplo:',
-                {
-                  t: 'flow',
-                  steps: ['Lead recibido', 'interpretación', 'clasificación', 'CRM', 'asignación', 'seguimiento'],
-                },
-                'o:',
-                {
-                  t: 'flow',
-                  steps: ['Documento recibido', 'extracción de datos', 'validación', 'ERP', 'archivo', 'excepción'],
-                },
-                'La IA puede interpretar la información.',
-                'Las reglas de negocio controlan qué ocurre después.',
-                { t: 'strong', text: 'IA donde existe variabilidad. Software donde necesitamos certeza.' },
-              ],
-            },
-            {
-              heading: 'IA para documentación inmobiliaria',
-              blocks: [
-                'Los documentos suelen contener información relevante para múltiples procesos.',
-                'Un sistema puede ayudar a extraer y utilizar datos desde documentos aunque no todos tengan exactamente la misma estructura.',
-                'Esto puede aplicarse a:',
-                {
-                  t: 'list',
-                  items: [
-                    'contratos', 'documentación de propiedades', 'presupuestos', 'informes', 'facturas',
-                    'documentación técnica', 'formularios',
-                  ],
-                },
-                'También podemos desarrollar asistentes internos conectados con repositorios documentales para que los equipos consulten información mediante lenguaje natural.',
-                {
-                  t: 'link',
-                  label: 'IA para documentación interna y conocimiento empresarial',
-                  href: '/servicios/conocimiento-corporativo',
-                },
-              ],
-            },
-            {
-              heading: 'Atención conversacional conectada con el negocio',
-              blocks: [
-                'Un chatbot inmobiliario puede hacer mucho más que responder preguntas frecuentes.',
-                'Cuando está conectado con los sistemas de la empresa puede:',
-                {
-                  t: 'list',
-                  items: [
-                    'consultar activos', 'recuperar información', 'recopilar requisitos',
-                    'identificar una oportunidad', 'registrar datos en el CRM', 'proponer una cita',
-                    'consultar disponibilidad', 'iniciar procesos', 'derivar a una persona',
-                  ],
-                },
-                'La conversación se convierte en una interfaz sobre los procesos reales de la organización.',
-                { t: 'link', label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
-              ],
-            },
-            {
-              heading: 'Automatización sin perder control sobre las operaciones',
-              blocks: [
-                'En Real Estate existen procesos donde una acción incorrecta puede tener consecuencias comerciales, operativas o legales.',
-                'Por eso no diseñamos sistemas donde el modelo tenga libertad absoluta.',
-                'Podemos incorporar:',
-                {
-                  t: 'list',
-                  items: [
-                    'permisos', 'validaciones', 'reglas de negocio', 'límites de actuación',
-                    'aprobación humana', 'logs', 'trazabilidad', 'estados', 'mecanismos de excepción',
-                  ],
-                },
-                'Por ejemplo, un modelo puede interpretar una solicitud.',
-                'Pero una regla puede decidir si determinada operación necesita aprobación antes de continuar.',
-              ],
-            },
-            {
-              heading: 'Acceso al conocimiento para equipos distribuidos',
-              blocks: [
-                'En organizaciones grandes, el conocimiento suele estar repartido entre departamentos y herramientas.',
-                'Un asistente interno puede ayudar a consultar:',
-                {
-                  t: 'list',
-                  items: [
-                    'procedimientos', 'manuales', 'documentación de activos', 'normativa interna',
-                    'políticas', 'información comercial', 'documentación técnica',
-                  ],
-                },
-                'El sistema puede respetar permisos para que cada usuario acceda únicamente a las fuentes que le corresponden.',
-                'Esto resulta especialmente útil en organizaciones con:',
-                {
-                  t: 'list',
-                  items: [
-                    'múltiples sedes', 'diferentes sociedades', 'equipos especializados',
-                    'grandes volúmenes de documentación', 'procesos poco homogéneos',
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'Integración con sistemas existentes',
-              blocks: [
-                'No necesitas sustituir toda tu infraestructura para aplicar inteligencia artificial.',
-                'Podemos diseñar soluciones alrededor del software actual.',
-                'Dependiendo del proyecto podemos conectar:',
-                {
-                  t: 'list',
-                  items: [
-                    'CRM', 'ERP', 'property management software', 'bases de datos',
-                    'herramientas de ticketing', 'portales inmobiliarios', 'almacenamiento documental',
-                    'calendarios', 'email', 'APIs', 'aplicaciones internas',
-                  ],
-                },
-                'Antes de integrar cualquier sistema analizamos:',
-                {
-                  t: 'list',
-                  items: [
-                    'qué información necesitamos', 'qué permisos existen', 'qué operaciones son seguras',
-                    'qué debe ocurrir ante un error', 'qué acciones necesitan validación',
-                  ],
-                },
-              ],
-            },
-            {
-              heading: '¿Dónde suele aparecer el mayor retorno?',
-              blocks: [
-                'La IA suele aportar más valor cuando interviene en procesos con volumen y repetición.',
-                'Por ejemplo:',
-                {
-                  t: 'list',
-                  items: [
-                    'cientos de leads mensuales', 'grandes volúmenes de documentación', 'múltiples activos',
-                    'incidencias recurrentes', 'equipos que trabajan con varias aplicaciones',
-                    'consultas internas repetitivas', 'tareas administrativas de alta frecuencia',
-                  ],
-                },
-                'Antes de desarrollar analizamos:',
-                {
-                  t: 'list',
-                  items: [
-                    'frecuencia', 'coste actual', 'tiempo empleado', 'errores', 'volumen', 'complejidad',
-                    'porcentaje potencialmente automatizable',
-                  ],
-                },
-                {
-                  t: 'strong',
-                  text: 'No buscamos automatizar más procesos. Buscamos automatizar los que realmente justifican la inversión.',
-                },
-              ],
-            },
-            {
-              heading: 'Cómo desarrollamos soluciones de IA para Real Estate',
-              blocks: [],
-              method: [
-                [
-                  'Analizamos el proceso',
-                  'Estudiamos cómo funciona actualmente y qué equipos, aplicaciones y fuentes de información intervienen.',
-                ],
-                [
-                  'Identificamos oportunidades',
-                  'Detectamos tareas repetitivas, puntos de fricción, procesos documentales y decisiones donde puede aportar valor la inteligencia artificial.',
-                ],
-                [
-                  'Revisamos datos e integraciones',
-                  'Analizamos CRM, ERP, bases de datos, documentación, APIs y cualquier sistema necesario.',
-                ],
-                [
-                  'Diseñamos la arquitectura',
-                  'Determinamos qué parte necesita IA, qué parte debe permanecer en software convencional y qué permisos o validaciones necesita el sistema.',
-                ],
-                [
-                  'Desarrollamos y evaluamos',
-                  'Probamos la solución con casos reales, excepciones y situaciones límite.',
-                ],
-                [
-                  'Desplegamos y monitorizamos',
-                  'Una vez en producción medimos comportamiento, utilización, errores, costes y resultados.',
-                ],
-              ],
-            },
-            {
-              heading: '¿Cuándo merece la pena desarrollar IA a medida en Real Estate?',
-              blocks: [
-                'Un desarrollo a medida suele tener sentido cuando:',
-                {
-                  t: 'list',
-                  items: [
-                    'existen varios sistemas que deben trabajar juntos',
-                    'el proceso depende de documentación propia',
-                    'hay reglas específicas del negocio',
-                    'existe suficiente volumen',
-                    'una plataforma estándar no cubre el flujo completo',
-                    'se necesita control sobre datos y permisos',
-                    'el sistema debe ejecutar acciones',
-                    'hay procesos diferentes entre departamentos o sociedades',
-                  ],
-                },
-                'Si una herramienta estándar resuelve correctamente el problema, desarrollar una solución propia no siempre será la mejor opción.',
-                'Parte de nuestro trabajo consiste en identificar esa diferencia.',
-              ],
-            },
-          ],
-          faq: {
-            h2: 'Preguntas frecuentes sobre inteligencia artificial para inmobiliarias y Real Estate',
-            items: [
-              {
-                q: '¿Cómo puede utilizarse la IA en una inmobiliaria?',
-                a: [
-                  'La IA puede utilizarse para automatizar gestión de leads, atención, documentación, consultas internas, incidencias y procesos administrativos.',
-                  'También puede conectarse con CRM, ERP, bases de datos y otras aplicaciones para consultar información o ejecutar acciones.',
-                ],
-              },
-              {
-                q: '¿Puede la IA conectarse con nuestro CRM inmobiliario?',
-                a: [
-                  'Sí. Una solución de IA puede conectarse con CRM y otros sistemas siempre que exista una vía de integración adecuada.',
-                  'El sistema puede consultar información o actualizar datos dentro de los permisos y reglas definidas.',
-                ],
-              },
-              {
-                q: '¿Puede utilizarse IA para gestionar leads inmobiliarios?',
-                a: [
-                  'Sí. La IA puede interpretar la solicitud de un lead, extraer sus requisitos, clasificarla y registrar la información en el CRM.',
-                  'También puede iniciar procesos de seguimiento o derivar la oportunidad al equipo adecuado.',
-                ],
-              },
-              {
-                q: '¿Puede automatizarse la documentación inmobiliaria?',
-                a: [
-                  'Sí. La IA puede ayudar a clasificar documentos y extraer información desde contratos, formularios, facturas, presupuestos y otros archivos.',
-                  'Después, los datos pueden incorporarse a workflows o aplicaciones empresariales.',
-                ],
-              },
-              {
-                q: '¿Puede un chatbot consultar información sobre inmuebles?',
-                a: [
-                  'Sí. Un agente conversacional puede conectarse con fuentes internas y responder utilizando información disponible sobre activos, disponibilidad u otros datos autorizados.',
-                  'También puede recopilar información del usuario y registrar posteriormente la interacción.',
-                ],
-              },
-              {
-                q: '¿La IA puede utilizarse en una empresa que gestiona muchos activos?',
-                a: [
-                  'Sí. En organizaciones con múltiples activos, la IA puede facilitar el acceso a información, automatizar procesos documentales y conectar diferentes herramientas operativas.',
-                  'La arquitectura debe tener en cuenta permisos, sociedades, departamentos y fuentes de información.',
-                ],
-              },
-              {
-                q: '¿Qué diferencia hay entre utilizar un software de IA y desarrollar una solución a medida?',
-                a: [
-                  'Una herramienta estándar resuelve un conjunto de casos previamente definidos, mientras que un desarrollo a medida puede adaptarse a los procesos, reglas e integraciones específicas de la organización.',
-                  'El desarrollo propio suele tener más sentido cuando existe suficiente complejidad o volumen para justificarlo.',
-                ],
-              },
-              {
-                q: '¿Cuánto cuesta implantar IA en una empresa inmobiliaria?',
-                a: [
-                  'El coste depende del proceso, las integraciones necesarias, los datos, el volumen, la arquitectura y los requisitos de seguridad.',
-                  'Una automatización concreta y un sistema conectado con varios CRM, ERP y fuentes documentales tienen alcances muy diferentes.',
-                ],
-              },
-            ],
-          },
-          contact: {
-            h2: 'Cuéntanos qué proceso quieres mejorar en tu organización',
-            p: [
-              'No necesitas llegar con una solución de IA definida.',
-              'Explícanos qué proceso consume tiempo, qué herramientas utiliza vuestro equipo y dónde aparecen las principales fricciones.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido utilizar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
-            ],
-            cta: 'Hablar con Ideasforge sobre Real Estate',
-          },
+        labels: {
+          whatAI: 'Qué puede hacer la IA',
+          sources: '{n} fuentes',
+          integration: 'Integración',
+          control: 'Control',
+          aiReads: 'IA interpreta',
+          softwareRuns: 'Software ejecuta',
+          custom: 'A medida',
+          faq: 'Preguntas frecuentes',
+          contact: 'Contacto',
+          others: 'Otros sectores',
+          viewSector: 'Ver sector',
         },
-        accounting: {
-          metaTitle: 'IA para Gestorías y Asesorías, Ideasforge',
-          metaDescription: 'Soluciones de inteligencia artificial para gestorías, asesorías fiscales, despachos contables y firmas profesionales.',
-          h1: 'IA para Gestorías y Asesorías',
-          lead: [
-            'Ideasforge desarrolla soluciones de inteligencia artificial para gestorías, asesorías fiscales, despachos contables y firmas profesionales que necesitan reducir carga administrativa, automatizar documentación y conectar procesos que hoy dependen de trabajo manual.',
-            'Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con software contable, ERP, CRM, correo electrónico, gestores documentales, bases de datos y aplicaciones internas.',
-          ],
-          statement: [
-            'No buscamos sustituir el conocimiento profesional.',
-            'Utilizamos IA para reducir el trabajo repetitivo que rodea a ese conocimiento.',
-          ],
-          cta: 'Cuéntanos qué proceso quieres automatizar',
-          sections: [
-            {
-              heading: 'Inteligencia artificial para despachos con alto volumen administrativo',
-              blocks: [
-                'Las gestorías y asesorías trabajan con una gran cantidad de información que llega desde múltiples fuentes:',
-                {
-                  t: 'list',
-                  items: [
-                    'facturas', 'nóminas', 'contratos', 'modelos', 'justificantes', 'correos electrónicos',
-                    'documentos de clientes', 'consultas', 'expedientes', 'bases de datos',
-                    'software contable', 'ERP', 'CRM',
-                  ],
-                },
-                'Cuando el volumen crece, una parte importante del tiempo se dedica a recibir, revisar, clasificar, copiar y mover información entre sistemas.',
-                'La inteligencia artificial puede ayudar a interpretar esa información y convertirla en datos utilizables dentro de procesos automáticos.',
-              ],
-            },
-            {
-              heading: '¿Qué puede automatizar la IA en una gestoría o asesoría?',
-              blocks: [
-                'La IA puede intervenir en procesos administrativos, documentales, de atención y de gestión interna.',
-              ],
-              subsections: [
-                {
-                  heading: 'Recepción y clasificación de documentación',
-                  blocks: [
-                    'Un sistema puede recibir documentos por email, formularios, portales o carpetas compartidas y clasificarlos automáticamente.',
-                    'Por ejemplo:',
-                    {
-                      t: 'list',
-                      items: [
-                        'facturas', 'nóminas', 'contratos', 'certificados', 'justificantes',
-                        'modelos tributarios', 'documentación laboral', 'documentación societaria',
-                      ],
-                    },
-                    'Después puede derivarlos al proceso correspondiente.',
-                  ],
-                },
-                {
-                  heading: 'Extracción de información',
-                  blocks: [
-                    'La IA puede extraer datos desde documentos que no siempre tienen exactamente la misma estructura.',
-                    'Por ejemplo:',
-                    {
-                      t: 'list',
-                      items: [
-                        'NIF', 'razón social', 'fechas', 'importes', 'números de factura', 'conceptos',
-                        'vencimientos', 'datos bancarios', 'referencias',
-                      ],
-                    },
-                    'La información puede convertirse después en datos estructurados para continuar el proceso automáticamente.',
-                  ],
-                },
-                {
-                  heading: 'Gestión de facturas',
-                  blocks: [
-                    'Podemos automatizar procesos como:',
-                    {
-                      t: 'flow',
-                      steps: [
-                        'Factura recibida', 'interpretación', 'extracción', 'validación', 'sistema contable',
-                        'archivo', 'excepción o proceso completado',
-                      ],
-                    },
-                    'La IA se encarga de interpretar la parte variable.',
-                    'El software mantiene el control sobre las reglas y validaciones.',
-                  ],
-                },
-                {
-                  heading: 'Gestión de correos electrónicos',
-                  blocks: [
-                    'Un sistema puede analizar emails entrantes, identificar el motivo del mensaje, extraer información y activar el flujo correspondiente.',
-                    'Por ejemplo:',
-                    {
-                      t: 'list',
-                      items: [
-                        'solicitud de documentación', 'envío de factura', 'consulta administrativa',
-                        'cambio de datos', 'incidencia', 'petición de certificado',
-                      ],
-                    },
-                  ],
-                },
-                {
-                  heading: 'Entrada de datos',
-                  blocks: [
-                    'La información recibida puede incorporarse automáticamente a ERP, CRM, software contable o aplicaciones internas.',
-                    'Esto reduce tareas de copia manual y riesgo de errores.',
-                  ],
-                },
-                {
-                  heading: 'Atención y consultas recurrentes',
-                  blocks: [
-                    'Un agente conversacional puede responder preguntas frecuentes sobre procesos, documentación necesaria, estados o trámites.',
-                    'También puede recopilar información antes de derivar el caso a un profesional.',
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'Automatización de facturas y documentación contable',
-              blocks: [
-                'La documentación contable es uno de los procesos donde más valor puede aportar la automatización.',
-                'Las facturas pueden llegar:',
-                {
-                  t: 'list',
-                  items: [
-                    'por email', 'desde portales', 'mediante carpetas compartidas', 'como PDF', 'como imagen',
-                    'en distintos formatos',
-                  ],
-                },
-                'Un sistema puede:',
-                {
-                  t: 'steps',
-                  items: [
-                    'recibir el documento', 'identificar su tipo', 'extraer los datos', 'validar campos',
-                    'comprobar reglas', 'registrar la información', 'archivar el documento',
-                    'derivar excepciones',
-                  ],
-                },
-                'No todos los casos tienen que completarse automáticamente.',
-                'Los documentos incompletos, incoherentes o fuera de norma pueden enviarse a revisión.',
-              ],
-            },
-            {
-              heading: 'Un caso real: Stanton',
-              blocks: [],
-              subsections: [
-                {
-                  heading: '98 % de las facturas procesadas sin intervención humana',
-                  blocks: [
-                    'Desarrollamos un sistema para automatizar un proceso de gestión de facturas que anteriormente requería varias tareas manuales.',
-                    'La solución interpreta la documentación, extrae la información necesaria, aplica validaciones y continúa el flujo mediante reglas e integraciones.',
-                    'Actualmente, <strong>el 98 % de las facturas completan el proceso sin intervención humana</strong>.',
-                    'Los casos que no cumplen las condiciones pasan a una ruta de excepción para revisión.',
-                    'Este tipo de arquitectura puede adaptarse a procesos administrativos con gran volumen documental.',
-                    { t: 'link', label: 'Ver caso Stanton', href: '/proyectos/stanton' },
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'IA para asesorías fiscales y contables',
-              blocks: [
-                'La inteligencia artificial puede ayudar a reducir tareas administrativas que rodean al trabajo fiscal y contable.',
-                'Por ejemplo:',
-                {
-                  t: 'list',
-                  items: [
-                    'clasificación documental',
-                    'extracción de datos',
-                    'organización de expedientes',
-                    'consulta interna de normativa y procedimientos',
-                    'preparación de información',
-                    'seguimiento de documentación pendiente',
-                    'automatización de comunicaciones',
-                    'actualización de sistemas',
-                  ],
-                },
-                'El objetivo no es delegar decisiones fiscales sensibles a un modelo.',
-                'Es reducir el trabajo previo y posterior que consume tiempo del equipo.',
-              ],
-            },
-            {
-              heading: 'IA para despachos laborales y nóminas',
-              blocks: [
-                'Los departamentos laborales manejan información sensible y procesos muy estructurados.',
-                'La IA puede ayudar en tareas como:',
-                {
-                  t: 'list',
-                  items: [
-                    'clasificación de documentación', 'recopilación de datos', 'consulta de procedimientos',
-                    'organización de expedientes', 'atención a consultas recurrentes',
-                    'seguimiento de documentación faltante',
-                  ],
-                },
-                'Las reglas críticas deben permanecer bajo controles claros.',
-                'La IA se utiliza principalmente donde hace falta interpretar información o lenguaje natural.',
-              ],
-            },
-            {
-              heading: 'Agentes de IA conectados con software contable, ERP y CRM',
-              blocks: [
-                'Un agente de IA puede trabajar sobre los sistemas que ya utiliza el despacho.',
-                'Puede consultar o utilizar información de:',
-                {
-                  t: 'list',
-                  items: [
-                    'software contable', 'ERP', 'CRM', 'bases de datos', 'aplicaciones internas',
-                    'gestores documentales', 'correo electrónico', 'APIs', 'almacenamiento cloud',
-                  ],
-                },
-                'Por ejemplo, un usuario podría preguntar:',
-                { t: 'quote', text: '¿Qué clientes siguen teniendo documentación pendiente este mes?' },
-                'El agente puede consultar las fuentes autorizadas y devolver una respuesta sin obligar al usuario a revisar manualmente varios sistemas.',
-                'Dependiendo de los permisos, también podría ejecutar acciones posteriores.',
-              ],
-            },
-            {
-              heading: 'Automatización de procesos administrativos',
-              blocks: [
-                'Muchos procesos dentro de una gestoría no necesitan un agente complejo.',
-                'Necesitan un workflow bien diseñado.',
-                'Por ejemplo:',
-                {
-                  t: 'flow',
-                  steps: [
-                    'Documento recibido', 'clasificación', 'extracción', 'validación', 'sistema contable',
-                    'archivo',
-                  ],
-                },
-                'o:',
-                {
-                  t: 'flow',
-                  steps: ['Email recibido', 'interpretación', 'clasificación', 'asignación', 'CRM', 'respuesta'],
-                },
-                'La IA interpreta la información variable.',
-                'Las reglas de negocio controlan qué ocurre después.',
-                { t: 'strong', text: 'IA donde existe variabilidad. Software donde necesitamos certeza.' },
-              ],
-            },
-            {
-              heading: 'Asistentes internos sobre normativa y procedimientos',
-              blocks: [
-                'Las gestorías y asesorías trabajan con una gran cantidad de normativa, documentación técnica y procedimientos internos.',
-                'Podemos desarrollar asistentes capaces de consultar:',
-                {
-                  t: 'list',
-                  items: [
-                    'manuales', 'procedimientos', 'documentación interna', 'normativa', 'instrucciones',
-                    'políticas', 'bases de conocimiento',
-                  ],
-                },
-                'El usuario realiza una pregunta en lenguaje natural y el sistema recupera la información relevante desde las fuentes autorizadas.',
-                'También puede mostrar de qué documento procede la respuesta.',
-                {
-                  t: 'link',
+        order: [
+          'realEstate', 'accounting', 'sectorIndustry', 'sectorHealth', 'sectorLogistics', 'sectorEnergy',
+          'sectorEcommerce',
+        ],
+        pages: {
+          realEstate: {
+            metaTitle: 'IA para inmobiliarias y gestión de alquileres, Ideasforge',
+            metaDescription: 'Soluciones de inteligencia artificial para empresas inmobiliarias, promotoras, gestoras de activos y operadores inmobiliarios.',
+            name: 'Inmobiliario',
+            short: 'Interesados, propiedades, documentación y gestión.',
+            h1: 'IA para inmobiliarias y gestión de inmuebles',
+            lead: 'Ideasforge desarrolla soluciones de inteligencia artificial para empresas inmobiliarias, promotoras, gestoras de activos y operadores inmobiliarios que necesitan automatizar procesos, conectar sistemas y reducir trabajo administrativo. Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con CRM, ERP, bases de datos, documentación, portales, calendarios y aplicaciones internas.',
+            statement: [
+              'No aplicamos IA al sector inmobiliario de forma genérica.',
+              'La integramos en los procesos donde puede generar un impacto medible.',
+            ],
+            cta: 'Cuéntanos qué proceso quieres mejorar',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Inteligencia artificial para organizaciones inmobiliarias con procesos complejos',
+                after: [
+                  'Cuando la información está distribuida entre diferentes herramientas, gran parte del trabajo termina dependiendo de personas que buscan datos, copian información o coordinan manualmente procesos entre sistemas.',
+                  'La inteligencia artificial puede ayudar a interpretar esa información y utilizarla dentro de automatizaciones conectadas con la operativa real de la empresa.',
+                ],
+                label: 'Una empresa inmobiliaria puede trabajar al mismo tiempo con',
+                list: [
+                  'Activos', 'Inmuebles', 'Propietarios', 'Compradores', 'Arrendatarios', 'Proveedores',
+                  'Interesados', 'Documentación', 'Contratos', 'Incidencias', 'Agendas', 'CRM', 'ERP',
+                  'Portales inmobiliarios', 'Software de gestión',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: '¿Qué puede automatizar la IA en una empresa inmobiliaria?',
+                lead: 'La inteligencia artificial puede intervenir en procesos comerciales, administrativos, documentales y operativos. No todos necesitan la misma arquitectura.',
+                subs: [
+                  {
+                    t: 'Gestión de interesados',
+                    d: 'Un sistema puede recibir contactos desde diferentes canales, interpretar la solicitud y estructurar la información antes de incorporarla al CRM. La información puede quedar registrada automáticamente para que el equipo continúe el proceso con más contexto.',
+                    label: 'Puede identificar, por ejemplo',
+                    items: [
+                      'Qué tipo de inmueble busca', 'Zona', 'Presupuesto', 'Características', 'Urgencia',
+                      'Datos de contacto', 'Intención de compra o alquiler',
+                    ],
+                  },
+                  {
+                    t: 'Atención a compradores y arrendatarios',
+                    d: 'Un agente conversacional puede responder consultas sobre activos, características, disponibilidad o procesos. También puede utilizar información del CRM u otras fuentes para ofrecer respuestas contextualizadas. Cuando la consulta requiere intervención comercial, el sistema puede derivarla junto con la información recopilada.',
+                  },
+                  {
+                    t: 'Gestión documental',
+                    d: 'El sector inmobiliario genera una gran cantidad de documentación. Una vez estructurada, esa información puede incorporarse automáticamente al sistema correspondiente.',
+                    label: 'La IA puede ayudar a interpretar, clasificar y extraer información desde',
+                    items: [
+                      'Contratos', 'Escrituras', 'Notas simples', 'Documentación de activos', 'Facturas',
+                      'Presupuestos', 'Formularios', 'Documentación técnica', 'Correos electrónicos',
+                    ],
+                  },
+                  {
+                    t: 'Consulta de información interna',
+                    d: 'Los equipos pueden utilizar lenguaje natural para acceder a información distribuida entre diferentes fuentes. El sistema puede recuperar la información autorizada desde bases de datos, documentación o aplicaciones internas.',
+                    q: '¿Qué contratos de este activo vencen durante los próximos seis meses?',
+                    label: 'Otra consulta habitual',
+                    items: ['¿Cuál es el procedimiento para aprobar una reparación superior a determinado importe?'],
+                  },
+                  {
+                    t: 'Gestión de incidencias',
+                    d: 'Una solicitud puede recibirse por email, formulario o conversación. La IA puede interpretar el problema, recopilar la información necesaria, clasificarlo y enviarlo al proceso correspondiente.',
+                    label: 'Después, el software puede',
+                    items: [
+                      'Crear una incidencia', 'Asignarla', 'Avisar a un proveedor', 'Actualizar un sistema',
+                      'Enviar una confirmación',
+                    ],
+                  },
+                  {
+                    t: 'Automatización administrativa',
+                    d: 'Procesos como validaciones, entrada de información, actualización de sistemas, generación de documentos o coordinación entre departamentos pueden automatizarse cuando siguen una lógica suficientemente definida. La IA se utiliza únicamente en los pasos que necesitan interpretación.',
+                  },
+                ],
+              },
+              {
+                type: 'areas',
+                h2: 'IA para inmobiliarias, promotoras y gestoras de activos',
+                paras: [
+                  'El término “inmobiliaria” engloba organizaciones muy diferentes.',
+                  'La arquitectura debe adaptarse al modelo de negocio.',
+                ],
+                items: [
+                  {
+                    t: 'Agencias y redes inmobiliarias',
+                    d: 'Automatización de captación, consultas, CRM, documentación y procesos comerciales.',
+                  },
+                  {
+                    t: 'Promotoras',
+                    d: 'Gestión de solicitudes, documentación de promociones, atención comercial y coordinación entre sistemas.',
+                  },
+                  {
+                    t: 'Gestoras de activos',
+                    d: 'Acceso a información sobre activos, contratos, incidencias, documentación y operaciones.',
+                  },
+                  {
+                    t: 'Gestoras de alquiler',
+                    d: 'Automatización de solicitudes, incidencias, proveedores, documentación y comunicación con usuarios.',
+                  },
+                  {
+                    t: 'Grupos inmobiliarios',
+                    d: 'Sistemas capaces de trabajar sobre diferentes sociedades, departamentos, fuentes de información y permisos.',
+                  },
+                ],
+                after: [
+                  'La complejidad del sistema crece con la organización.',
+                  'Por eso no planteamos la misma solución para una agencia local y para un grupo que gestiona cientos o miles de activos.',
+                ],
+              },
+              {
+                type: 'case',
+                h2: 'Un caso real: Barceloneta Premium',
+                sub: 'Más de 3 horas al día recuperadas filtrando solicitudes de alquiler',
+                paras: [
+                  'Barceloneta Premium, una agencia de Barcelona, recibe decenas de mensajes de WhatsApp al día de interesados en alquiler. Comprobar cada consulta se llevaba entre cinco y diez minutos de la atención de alguien.',
+                  'Ahora un agente mantiene la conversación, reúne motivo, presupuesto y documentación y entrega al equipo un resumen por correo que dice si cumple los requisitos de la agencia y por qué. Quien decide sigue siendo una persona.',
+                  'La agencia recuperó más de tres horas al día y su equipo ya solo concierta visitas.',
+                ],
+                link: { label: 'Ver caso Barceloneta Premium', href: '/proyectos/barceloneta' },
+              },
+              {
+                type: 'case',
+                h2: 'Un caso real: Stanton',
+                sub: 'El 98 % de las facturas de suministros, sin que nadie las toque',
+                paras: [
+                  'Stanton, una gestora de fincas, metía a mano las facturas de luz, gas y agua de cada inquilino, a un minuto de teclado por documento.',
+                  'Hoy el equipo las reenvía por Telegram, un modelo lee cada factura, el código comprueba que cuadra y el resultado aterriza en la hoja de cálculo que ya usaban. El 98 % pasa sin que nadie las toque.',
+                ],
+                link: { label: 'Ver caso Stanton', href: '/proyectos/stanton' },
+              },
+              {
+                type: 'poster',
+                h2: 'Agentes de IA conectados con CRM, ERP y software inmobiliario',
+                paras: [
+                  'Un agente de IA puede convertirse en una capa de acceso sobre los sistemas que ya utiliza la organización.',
+                ],
+                after: [
+                  'El agente puede consultar las fuentes autorizadas y devolver una respuesta sin obligar al usuario a revisar manualmente diferentes sistemas.',
+                  'Dependiendo de los permisos, también puede ejecutar acciones posteriores.',
+                ],
+                quotes: [
+                  '¿Qué oportunidades abiertas tenemos para esta promoción y cuáles llevan más de siete días sin actividad?',
+                ],
+                label: 'Puede consultar o utilizar información procedente de',
+                list: [
+                  'CRM', 'ERP', 'Bases de datos', 'Software inmobiliario', 'Portales', 'Calendarios',
+                  'Gestores documentales', 'APIs', 'Aplicaciones propias',
+                ],
+              },
+              {
+                type: 'flow',
+                h2: 'Automatización de procesos inmobiliarios con IA',
+                paras: [
+                  'Muchos procesos inmobiliarios no necesitan un agente autónomo.',
+                  'Necesitan un flujo bien diseñado.',
+                  'La IA puede interpretar la información.',
+                  'Las reglas de negocio controlan qué ocurre después.',
+                ],
+                flows: [
+                  {
+                    steps: [
+                      ['Solicitud recibida', false],
+                      ['interpretación', true],
+                      ['clasificación', true],
+                      ['CRM', false],
+                      ['asignación', false],
+                      ['seguimiento', false],
+                    ],
+                  },
+                  {
+                    steps: [
+                      ['Documento recibido', false],
+                      ['extracción de datos', true],
+                      ['validación', false],
+                      ['ERP', false],
+                      ['archivo', false],
+                      ['excepción', false],
+                    ],
+                  },
+                ],
+                emph: 'IA donde existe variabilidad. Software donde necesitamos certeza.',
+              },
+              {
+                type: 'split',
+                h2: 'IA para documentación inmobiliaria',
+                paras: [
+                  'Los documentos suelen contener información relevante para múltiples procesos.',
+                  'Un sistema puede ayudar a extraer y utilizar datos desde documentos aunque no todos tengan exactamente la misma estructura.',
+                ],
+                after: [
+                  'También podemos desarrollar asistentes internos conectados con repositorios documentales para que los equipos consulten información mediante lenguaje natural.',
+                ],
+                label: 'Esto puede aplicarse a',
+                list: [
+                  'Contratos', 'Documentación de propiedades', 'Presupuestos', 'Informes', 'Facturas',
+                  'Documentación técnica', 'Formularios',
+                ],
+                link: {
                   label: 'IA para documentación interna y conocimiento empresarial',
                   href: '/servicios/conocimiento-corporativo',
                 },
-              ],
-            },
-            {
-              heading: 'Automatización de atención al cliente',
-              blocks: [
-                'Muchas consultas recibidas por una gestoría son repetitivas.',
-                'Por ejemplo:',
-                {
-                  t: 'list',
-                  items: [
-                    'qué documentación hace falta', 'cuándo vence un plazo', 'cómo enviar un documento',
-                    'estado de una solicitud', 'qué datos faltan', 'cómo iniciar un trámite',
-                  ],
-                },
-                'Un agente conversacional puede resolver parte de estas consultas automáticamente.',
-                'Cuando la solicitud requiere criterio profesional, puede derivarse junto con el contexto recopilado.',
-                {
-                  t: 'strong',
-                  text: 'El objetivo no es sustituir al asesor. Es evitar que dedique tiempo a preguntas que no necesitan su intervención.',
-                },
-                { t: 'link', label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
-              ],
-            },
-            {
-              heading: 'Seguimiento automático de documentación pendiente',
-              blocks: [
-                'Una parte importante del trabajo administrativo consiste en recordar a clientes qué documentación falta.',
-                'Este proceso puede automatizarse.',
-                'El sistema puede:',
-                {
-                  t: 'list',
-                  items: [
-                    'detectar documentación pendiente', 'generar recordatorios', 'enviar comunicaciones',
-                    'registrar respuestas', 'actualizar estados', 'escalar casos sin respuesta',
-                  ],
-                },
-                'Esto permite reducir tareas repetitivas y mejorar el seguimiento.',
-              ],
-            },
-            {
-              heading: 'Procesamiento de emails y adjuntos',
-              blocks: [
-                'El correo electrónico suele ser uno de los principales puntos de entrada de información.',
-                'La IA puede ayudar a:',
-                {
-                  t: 'list',
-                  items: [
-                    'interpretar el contenido', 'identificar al cliente', 'clasificar el mensaje',
-                    'detectar documentos adjuntos', 'extraer información', 'registrar datos',
-                    'iniciar procesos',
-                  ],
-                },
-                'Una bandeja de entrada puede convertirse en el inicio de un workflow estructurado.',
-              ],
-            },
-            {
-              heading: 'Control, validaciones y trazabilidad',
-              blocks: [
-                'Los procesos administrativos y fiscales no deberían depender únicamente de las decisiones de un modelo.',
-                'Por eso diseñamos mecanismos de control como:',
-                {
-                  t: 'list',
-                  items: [
-                    'validaciones', 'permisos', 'reglas de negocio', 'límites de actuación',
-                    'aprobación humana', 'logs', 'trazabilidad', 'gestión de excepciones',
-                  ],
-                },
-                'Por ejemplo, la IA puede interpretar un documento.',
-                'Pero una regla puede decidir si el importe, proveedor o tipo de operación cumple las condiciones necesarias antes de registrar nada.',
-              ],
-            },
-            {
-              heading: 'Seguridad y protección de datos',
-              blocks: [
-                'Las gestorías y asesorías trabajan con información confidencial y datos personales.',
-                'La arquitectura debe definir:',
-                {
-                  t: 'list',
-                  items: [
-                    'qué información recibe cada modelo',
-                    'dónde se procesa',
-                    'qué proveedores intervienen',
-                    'quién puede acceder',
-                    'qué queda registrado',
-                    'qué información debe anonimizarse o limitarse',
-                  ],
-                },
-                'Cuando el proyecto lo requiere podemos diseñar sistemas con infraestructura privada o entornos controlados.',
-                { t: 'link', label: 'Inteligencia artificial, privacidad y RGPD', href: '/guias/ia-y-rgpd' },
-              ],
-            },
-            {
-              heading: '¿Dónde suele aparecer el mayor retorno?',
-              blocks: [
-                'La automatización suele generar más valor en procesos con:',
-                {
-                  t: 'list',
-                  items: [
-                    'gran volumen documental', 'tareas administrativas repetitivas',
-                    'información que debe copiarse entre sistemas', 'correos recurrentes',
-                    'múltiples clientes', 'documentación pendiente', 'validaciones frecuentes',
-                    'errores manuales', 'procesos que consumen horas cada semana',
-                  ],
-                },
-                'Antes de desarrollar analizamos:',
-                {
-                  t: 'list',
-                  items: [
-                    'volumen', 'frecuencia', 'tiempo actual', 'número de personas implicadas', 'coste',
-                    'errores', 'porcentaje potencialmente automatizable',
-                  ],
-                },
-                { t: 'strong', text: 'No todo lo que puede automatizarse merece desarrollo.' },
-                'Priorizamos los procesos donde el ahorro y la mejora operativa justifican la inversión.',
-              ],
-            },
-            {
-              heading: 'Cómo desarrollamos soluciones de IA para gestorías y asesorías',
-              blocks: [],
-              method: [
-                [
-                  'Analizamos el proceso actual',
-                  'Estudiamos qué ocurre desde que llega la información hasta que el proceso termina.',
-                ],
-                [
-                  'Identificamos tareas repetitivas',
-                  'Localizamos pasos manuales, validaciones, movimientos de datos y puntos de fricción.',
-                ],
-                [
-                  'Revisamos sistemas y documentación',
-                  'Analizamos software contable, ERP, CRM, correo, bases de datos y fuentes documentales.',
-                ],
-                [
-                  'Diseñamos la arquitectura',
-                  'Definimos qué parte necesita IA y qué debe resolverse mediante reglas convencionales.',
-                ],
-                [
-                  'Desarrollamos y probamos excepciones',
-                  'Probamos casos habituales, documentación incompleta, errores y situaciones límite.',
-                ],
-                [
-                  'Desplegamos y medimos',
-                  'Analizamos porcentaje automatizado, tiempo ahorrado, errores, excepciones y coste operativo.',
-                ],
-              ],
-            },
-            {
-              heading: '¿Cuándo merece la pena desarrollar IA a medida en una gestoría?',
-              blocks: [
-                'Un desarrollo a medida suele tener sentido cuando:',
-                {
-                  t: 'list',
-                  items: [
-                    'hay gran volumen de documentos',
-                    'existen varias aplicaciones que deben trabajar juntas',
-                    'el proceso tiene reglas específicas',
-                    'una plataforma estándar no cubre el flujo completo',
-                    'se necesita control sobre datos y permisos',
-                    'hay procesos repetitivos de alta frecuencia',
-                    'se quiere automatizar entre varios sistemas',
-                  ],
-                },
-                'Si una herramienta existente ya resuelve correctamente el problema, desarrollar desde cero no siempre será la mejor opción.',
-              ],
-            },
-          ],
-          faq: {
-            h2: 'Preguntas frecuentes sobre inteligencia artificial para gestorías y asesorías',
-            items: [
+              },
               {
-                q: '¿Cómo puede utilizarse la IA en una gestoría?',
-                a: [
-                  'La IA puede utilizarse para automatizar clasificación documental, extracción de datos, procesamiento de facturas, gestión de emails, atención a consultas y tareas administrativas.',
-                  'También puede conectarse con software contable, ERP, CRM y otras aplicaciones.',
+                type: 'cells',
+                h2: 'Atención conversacional conectada con el negocio',
+                paras: ['Un chatbot inmobiliario puede hacer mucho más que responder preguntas frecuentes.'],
+                after: ['La conversación se convierte en una interfaz sobre los procesos reales de la organización.'],
+                label: 'Cuando está conectado con los sistemas de la empresa puede',
+                list: [
+                  'Consultar activos', 'Recuperar información', 'Recopilar requisitos',
+                  'Identificar una oportunidad', 'Registrar datos en el CRM', 'Proponer una cita',
+                  'Consultar disponibilidad', 'Iniciar procesos', 'Derivar a una persona',
+                ],
+                link: { label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
+              },
+              {
+                type: 'dark',
+                h2: 'Automatización sin perder control sobre las operaciones',
+                paras: [
+                  'En el sector inmobiliario existen procesos donde una acción incorrecta puede tener consecuencias comerciales, operativas o legales.',
+                  'Por eso no diseñamos sistemas donde el modelo tenga libertad absoluta.',
+                ],
+                after: [
+                  'Por ejemplo, un modelo puede interpretar una solicitud.',
+                  'Pero una regla puede decidir si determinada operación necesita aprobación antes de continuar.',
+                ],
+                label: 'Podemos incorporar',
+                list: [
+                  'Permisos', 'Validaciones', 'Reglas de negocio', 'Límites de actuación',
+                  'Aprobación humana', 'Logs', 'Trazabilidad', 'Estados', 'Mecanismos de excepción',
                 ],
               },
               {
-                q: '¿Puede automatizarse la entrada de facturas?',
-                a: [
-                  'Sí. Un sistema puede recibir facturas, extraer información, aplicar validaciones y registrar los datos en el software correspondiente.',
-                  'Los casos que no cumplan las reglas pueden enviarse a revisión.',
+                type: 'split',
+                h2: 'Acceso al conocimiento para equipos distribuidos',
+                paras: [
+                  'En organizaciones grandes, el conocimiento suele estar repartido entre departamentos y herramientas.',
+                ],
+                after: [
+                  'El sistema puede respetar permisos para que cada usuario acceda únicamente a las fuentes que le corresponden.',
+                ],
+                label: 'Un asistente interno puede ayudar a consultar',
+                list: [
+                  'Procedimientos', 'Manuales', 'Documentación de activos', 'Normativa interna', 'Políticas',
+                  'Información comercial', 'Documentación técnica',
+                ],
+                label2: 'Esto resulta especialmente útil en organizaciones con',
+                list2: [
+                  'Múltiples sedes', 'Diferentes sociedades', 'Equipos especializados',
+                  'Grandes volúmenes de documentación', 'Procesos poco homogéneos',
                 ],
               },
               {
-                q: '¿Puede la IA leer documentos contables y fiscales?',
-                a: [
-                  'Sí. La IA puede interpretar documentos y extraer información relevante siempre que la calidad y el formato permitan un procesamiento adecuado.',
-                  'Después, los datos pueden utilizarse dentro de procesos automatizados.',
+                type: 'integration',
+                h2: 'Integración con sistemas existentes',
+                paras: [
+                  'No necesitas sustituir toda tu infraestructura para aplicar inteligencia artificial.',
+                  'Podemos diseñar soluciones alrededor del software actual.',
+                ],
+                label: 'Dependiendo del proyecto podemos conectar',
+                list: [
+                  'CRM', 'ERP', 'Software de gestión de inmuebles', 'Bases de datos', 'Herramientas de ticketing',
+                  'Portales inmobiliarios', 'Almacenamiento documental', 'Calendarios', 'Email', 'APIs',
+                  'Aplicaciones internas',
+                ],
+                label2: 'Antes de integrar cualquier sistema analizamos',
+                list2: [
+                  'Qué información necesitamos', 'Qué permisos existen', 'Qué operaciones son seguras',
+                  'Qué debe ocurrir ante un error', 'Qué acciones necesitan validación',
                 ],
               },
               {
-                q: '¿Puede conectarse con nuestro software contable?',
-                a: [
-                  'Sí, siempre que exista una vía de integración adecuada.',
-                  'La conexión puede realizarse mediante APIs, bases de datos u otros mecanismos disponibles.',
+                type: 'cells',
+                h2: '¿Dónde suele aparecer el mayor retorno?',
+                paras: ['La IA suele aportar más valor cuando interviene en procesos con volumen y repetición.'],
+                emph: [
+                  'No buscamos automatizar más procesos. Buscamos automatizar los que realmente justifican la inversión.',
+                ],
+                label: 'Por ejemplo',
+                list: [
+                  'Cientos de solicitudes al mes', 'Grandes volúmenes de documentación', 'Múltiples activos',
+                  'Incidencias recurrentes', 'Equipos que trabajan con varias aplicaciones',
+                  'Consultas internas repetitivas', 'Tareas administrativas de alta frecuencia',
+                ],
+                label2: 'Antes de desarrollar analizamos',
+                list2: [
+                  'Frecuencia', 'Coste actual', 'Tiempo empleado', 'Errores', 'Volumen', 'Complejidad',
+                  'Porcentaje potencialmente automatizable',
                 ],
               },
               {
-                q: '¿Puede utilizarse IA para responder consultas de clientes?',
-                a: [
-                  'Sí. Un agente conversacional puede responder preguntas recurrentes, recopilar información y consultar fuentes internas.',
-                  'Los casos que necesitan criterio profesional pueden derivarse a una persona.',
+                type: 'steps',
+                h2: 'Cómo desarrollamos soluciones de IA para el sector inmobiliario',
+                steps: [
+                  [
+                    'Analizamos el proceso',
+                    'Estudiamos cómo funciona actualmente y qué equipos, aplicaciones y fuentes de información intervienen.',
+                  ],
+                  [
+                    'Identificamos oportunidades',
+                    'Detectamos tareas repetitivas, puntos de fricción, procesos documentales y decisiones donde puede aportar valor la inteligencia artificial.',
+                  ],
+                  [
+                    'Revisamos datos e integraciones',
+                    'Analizamos CRM, ERP, bases de datos, documentación, APIs y cualquier sistema necesario.',
+                  ],
+                  [
+                    'Diseñamos la arquitectura',
+                    'Determinamos qué parte necesita IA, qué parte debe permanecer en software convencional y qué permisos o validaciones necesita el sistema.',
+                  ],
+                  [
+                    'Desarrollamos y evaluamos',
+                    'Probamos la solución con casos reales, excepciones y situaciones límite.',
+                  ],
+                  [
+                    'Desplegamos y monitorizamos',
+                    'Una vez en producción medimos comportamiento, utilización, errores, costes y resultados.',
+                  ],
                 ],
               },
               {
-                q: '¿Puede automatizarse el seguimiento de documentación pendiente?',
-                a: 'Sí. El sistema puede detectar qué documentos faltan, enviar recordatorios y actualizar el estado cuando se recibe nueva información.',
-              },
-              {
-                q: '¿Es segura la IA para trabajar con documentación confidencial?',
-                a: [
-                  'Puede serlo si la arquitectura se diseña con controles adecuados sobre datos, permisos, proveedores e infraestructura.',
-                  'La seguridad debe definirse desde el inicio del proyecto.',
+                type: 'when',
+                h2: '¿Cuándo merece la pena desarrollar IA a medida en una inmobiliaria?',
+                after: [
+                  'Si una herramienta estándar resuelve correctamente el problema, desarrollar una solución propia no siempre será la mejor opción.',
+                  'Parte de nuestro trabajo consiste en identificar esa diferencia.',
+                ],
+                label: 'Un desarrollo a medida suele tener sentido cuando',
+                list: [
+                  'Existen varios sistemas que deben trabajar juntos',
+                  'El proceso depende de documentación propia',
+                  'Hay reglas específicas del negocio',
+                  'Existe suficiente volumen',
+                  'Una plataforma estándar no cubre el flujo completo',
+                  'Se necesita control sobre datos y permisos',
+                  'El sistema debe ejecutar acciones',
+                  'Hay procesos diferentes entre departamentos o sociedades',
                 ],
               },
               {
-                q: '¿Cuánto cuesta implantar IA en una gestoría o asesoría?',
-                a: [
-                  'El coste depende del proceso, el volumen, las integraciones, la documentación, la complejidad de las reglas y los requisitos de seguridad.',
-                  'Una automatización concreta y un sistema transversal conectado con múltiples aplicaciones tienen alcances distintos.',
+                type: 'faq',
+                h2: 'Inteligencia artificial para inmobiliarias',
+                items: [
+                  {
+                    q: '¿Cómo puede utilizarse la IA en una inmobiliaria?',
+                    a: [
+                      'La IA puede utilizarse para automatizar gestión de interesados, atención, documentación, consultas internas, incidencias y procesos administrativos.',
+                      'También puede conectarse con CRM, ERP, bases de datos y otras aplicaciones para consultar información o ejecutar acciones.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede la IA conectarse con nuestro CRM inmobiliario?',
+                    a: [
+                      'Sí. Una solución de IA puede conectarse con CRM y otros sistemas siempre que exista una vía de integración adecuada.',
+                      'El sistema puede consultar información o actualizar datos dentro de los permisos y reglas definidas.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede utilizarse IA para gestionar a los interesados de una inmobiliaria?',
+                    a: [
+                      'Sí. La IA puede interpretar la solicitud de un interesado, extraer sus requisitos, clasificarla y registrar la información en el CRM.',
+                      'También puede iniciar procesos de seguimiento o derivar la oportunidad al equipo adecuado.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede automatizarse la documentación inmobiliaria?',
+                    a: [
+                      'Sí. La IA puede ayudar a clasificar documentos y extraer información desde contratos, formularios, facturas, presupuestos y otros archivos.',
+                      'Después, los datos pueden incorporarse a flujos de trabajo o aplicaciones empresariales.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede un chatbot consultar información sobre inmuebles?',
+                    a: [
+                      'Sí. Un agente conversacional puede conectarse con fuentes internas y responder utilizando información disponible sobre activos, disponibilidad u otros datos autorizados.',
+                      'También puede recopilar información del usuario y registrar posteriormente la interacción.',
+                    ],
+                  },
+                  {
+                    q: '¿La IA puede utilizarse en una empresa que gestiona muchos activos?',
+                    a: [
+                      'Sí. En organizaciones con múltiples activos, la IA puede facilitar el acceso a información, automatizar procesos documentales y conectar diferentes herramientas operativas.',
+                      'La arquitectura debe tener en cuenta permisos, sociedades, departamentos y fuentes de información.',
+                    ],
+                  },
+                  {
+                    q: '¿Qué diferencia hay entre utilizar un software de IA y desarrollar una solución a medida?',
+                    a: [
+                      'Una herramienta estándar resuelve un conjunto de casos previamente definidos, mientras que un desarrollo a medida puede adaptarse a los procesos, reglas e integraciones específicas de la organización.',
+                      'El desarrollo propio suele tener más sentido cuando existe suficiente complejidad o volumen para justificarlo.',
+                    ],
+                  },
+                  {
+                    q: '¿Cuánto cuesta implantar IA en una empresa inmobiliaria?',
+                    a: [
+                      'El coste depende del proceso, las integraciones necesarias, los datos, el volumen, la arquitectura y los requisitos de seguridad.',
+                      'Una automatización concreta y un sistema conectado con varios CRM, ERP y fuentes documentales tienen alcances muy diferentes.',
+                    ],
+                  },
                 ],
+              },
+              {
+                type: 'contact',
+                h2: 'Cuéntanos qué proceso quieres mejorar en tu organización',
+                p: 'No necesitas llegar con una solución de IA definida. Explícanos qué proceso consume tiempo, qué herramientas utiliza vuestro equipo y dónde aparecen las principales fricciones. Analizaremos qué puede automatizarse, dónde tiene sentido utilizar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+                cta: 'Hablar con Ideasforge sobre el sector inmobiliario',
               },
             ],
           },
-          contact: {
-            h2: 'Cuéntanos qué proceso quieres reducir o automatizar',
-            p: [
-              'No necesitas llegar con una solución tecnológica definida.',
-              'Explícanos qué tarea consume tiempo, qué documentación recibe vuestro equipo y qué sistemas utilizáis actualmente.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+          accounting: {
+            metaTitle: 'OCR de facturas e IA para gestorías y asesorías, Ideasforge',
+            metaDescription: 'Soluciones de inteligencia artificial para gestorías, asesorías fiscales, despachos contables y firmas profesionales.',
+            name: 'Gestorías y asesorías',
+            short: 'Documentación de clientes, plazos y tareas repetitivas.',
+            h1: 'IA para gestorías y asesorías',
+            lead: 'Ideasforge desarrolla soluciones de inteligencia artificial para gestorías, asesorías fiscales, despachos contables y firmas profesionales que necesitan reducir carga administrativa, automatizar documentación y conectar procesos que hoy dependen de trabajo manual. Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con software contable, ERP, CRM, correo electrónico, gestores documentales, bases de datos y aplicaciones internas.',
+            statement: [
+              'No buscamos sustituir el conocimiento profesional.',
+              'Utilizamos IA para reducir el trabajo repetitivo que rodea a ese conocimiento.',
             ],
-            cta: 'Hablar con Ideasforge sobre Gestorías y Asesorías',
-          },
-        },
-        sectorIndustry: {
-          metaTitle: 'IA para Industria y Manufactura, Ideasforge',
-          metaDescription: 'Soluciones de inteligencia artificial para empresas industriales y manufactureras que necesitan automatizar procesos y conectar datos y sistemas.',
-          h1: 'IA para Industria y Manufactura',
-          lead: [
-            'Ideasforge desarrolla soluciones de inteligencia artificial para empresas industriales y manufactureras que necesitan automatizar procesos, acceder mejor al conocimiento técnico y conectar datos, documentación y sistemas operativos.',
-            'Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con ERP, MES, bases de datos, documentación técnica, software interno, APIs y otras fuentes empresariales.',
-          ],
-          statement: [
-            'No aplicamos IA de forma genérica.',
-            'La integramos en los procesos donde puede reducir tiempos, mejorar el acceso a la información o eliminar trabajo manual.',
-          ],
-          cta: 'Cuéntanos qué proceso industrial quieres mejorar',
-          sections: [
-            {
-              heading: 'Inteligencia artificial para entornos industriales complejos',
-              blocks: [
-                'Las empresas industriales trabajan con una combinación de:',
-                {
-                  t: 'list',
-                  items: [
-                    'datos operativos', 'documentación técnica', 'procedimientos', 'órdenes de trabajo',
-                    'incidencias', 'mantenimiento', 'ERP', 'MES', 'bases de datos', 'sistemas propios',
-                    'manuales', 'hojas de cálculo', 'correo electrónico',
-                  ],
-                },
-                'Cuando la información está distribuida entre varias herramientas, gran parte del conocimiento termina dependiendo de personas que saben dónde buscar o cómo interpretar cada sistema.',
-                'La inteligencia artificial puede convertirse en una capa de acceso y automatización sobre esa infraestructura existente.',
-              ],
-            },
-            {
-              heading: '¿Qué puede hacer la IA en una empresa industrial?',
-              blocks: [
-                'La inteligencia artificial puede intervenir en procesos técnicos, operativos, documentales y administrativos.',
-              ],
-              subsections: [
-                {
-                  heading: 'Consulta de documentación técnica',
-                  blocks: [
-                    'Un asistente puede buscar información dentro de:',
-                    {
-                      t: 'list',
-                      items: [
-                        'manuales', 'procedimientos', 'fichas técnicas', 'protocolos',
-                        'documentación de mantenimiento', 'documentación de producto',
-                        'instrucciones internas',
-                      ],
-                    },
-                    'El usuario realiza una pregunta en lenguaje natural y el sistema recupera la información relevante desde las fuentes autorizadas.',
-                  ],
-                },
-                {
-                  heading: 'Acceso a datos operativos',
-                  blocks: [
-                    'Un agente puede consultar información almacenada en bases de datos, ERP, MES u otras aplicaciones industriales.',
-                    'Por ejemplo:',
-                    { t: 'quote', text: '¿Qué órdenes de mantenimiento siguen abiertas en la línea 3?' },
-                    'o:',
-                    { t: 'quote', text: '¿Qué incidencias se han repetido más veces durante este trimestre?' },
-                    'El sistema puede recuperar la información sin obligar al usuario a navegar por múltiples pantallas.',
-                  ],
-                },
-                {
-                  heading: 'Gestión de incidencias',
-                  blocks: [
-                    'La IA puede ayudar a interpretar una incidencia, clasificarla, recuperar documentación relacionada y dirigirla al proceso adecuado.',
-                    'Después, el software puede:',
-                    {
-                      t: 'list',
-                      items: [
-                        'crear una orden', 'registrar información', 'asignar responsables', 'generar alertas',
-                        'actualizar estados',
-                      ],
-                    },
-                  ],
-                },
-                {
-                  heading: 'Soporte técnico interno',
-                  blocks: [
-                    'Un asistente puede ayudar a empleados a localizar procedimientos, antecedentes y documentación relacionada con un problema concreto.',
-                    'Esto resulta especialmente útil en entornos donde parte del conocimiento está concentrado en perfiles con mucha experiencia.',
-                  ],
-                },
-                {
-                  heading: 'Automatización de procesos administrativos',
-                  blocks: [
-                    'La IA también puede intervenir en procesos como:',
-                    {
-                      t: 'list',
-                      items: [
-                        'gestión de documentación', 'entrada de datos', 'clasificación de emails',
-                        'validaciones', 'generación de informes', 'coordinación entre aplicaciones',
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'IA para conocimiento técnico y operativo',
-              blocks: [
-                'En industria, el conocimiento no siempre está organizado en una única fuente.',
-                'Puede estar repartido entre:',
-                {
-                  t: 'list',
-                  items: [
-                    'manuales', 'procedimientos', 'documentación de fabricante', 'históricos de incidencias',
-                    'bases de datos', 'sistemas de mantenimiento', 'conocimiento interno',
-                  ],
-                },
-                'Un sistema de IA puede ayudar a conectar esas fuentes.',
-                'Por ejemplo, ante una incidencia, el usuario podría consultar:',
-                { t: 'quote', text: '¿Ha ocurrido antes algo parecido y qué procedimiento se siguió?' },
-                'El sistema puede recuperar información documental y operativa para construir una respuesta basada en fuentes reales.',
-                {
-                  t: 'link',
+            cta: 'Cuéntanos qué proceso quieres automatizar',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Inteligencia artificial para despachos con alto volumen administrativo',
+                after: [
+                  'Cuando el volumen crece, una parte importante del tiempo se dedica a recibir, revisar, clasificar, copiar y mover información entre sistemas.',
+                  'La inteligencia artificial puede ayudar a interpretar esa información y convertirla en datos utilizables dentro de procesos automáticos.',
+                ],
+                label: 'Las gestorías y asesorías trabajan con una gran cantidad de información que llega desde múltiples fuentes',
+                list: [
+                  'Facturas', 'Nóminas', 'Contratos', 'Modelos', 'Justificantes', 'Correos electrónicos',
+                  'Documentos de clientes', 'Consultas', 'Expedientes', 'Bases de datos', 'Software contable',
+                  'ERP', 'CRM',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: '¿Qué puede automatizar la IA en una gestoría o asesoría?',
+                lead: 'La IA puede intervenir en procesos administrativos, documentales, de atención y de gestión interna.',
+                subs: [
+                  {
+                    t: 'Recepción y clasificación de documentación',
+                    d: 'Un sistema puede recibir documentos por email, formularios, portales o carpetas compartidas y clasificarlos automáticamente. Después puede derivarlos al proceso correspondiente.',
+                    label: 'Por ejemplo',
+                    items: [
+                      'Facturas', 'Nóminas', 'Contratos', 'Certificados', 'Justificantes',
+                      'Modelos tributarios', 'Documentación laboral', 'Documentación societaria',
+                    ],
+                  },
+                  {
+                    t: 'Extracción de información',
+                    d: 'La IA puede extraer datos desde documentos que no siempre tienen exactamente la misma estructura. La información puede convertirse después en datos estructurados para continuar el proceso automáticamente.',
+                    label: 'Por ejemplo',
+                    items: [
+                      'NIF', 'Razón social', 'Fechas', 'Importes', 'Números de factura', 'Conceptos',
+                      'Vencimientos', 'Datos bancarios', 'Referencias',
+                    ],
+                  },
+                  {
+                    t: 'Gestión de facturas',
+                    d: 'La IA se encarga de interpretar la parte variable. El software mantiene el control sobre las reglas y validaciones.',
+                  },
+                  {
+                    t: 'Gestión de correos electrónicos',
+                    d: 'Un sistema puede analizar emails entrantes, identificar el motivo del mensaje, extraer información y activar el flujo correspondiente.',
+                    label: 'Por ejemplo',
+                    items: [
+                      'Solicitud de documentación', 'Envío de factura', 'Consulta administrativa',
+                      'Cambio de datos', 'Incidencia', 'Petición de certificado',
+                    ],
+                  },
+                  {
+                    t: 'Entrada de datos',
+                    d: 'La información recibida puede incorporarse automáticamente a ERP, CRM, software contable o aplicaciones internas. Esto reduce tareas de copia manual y riesgo de errores.',
+                  },
+                  {
+                    t: 'Atención y consultas recurrentes',
+                    d: 'Un agente conversacional puede responder preguntas frecuentes sobre procesos, documentación necesaria, estados o trámites. También puede recopilar información antes de derivar el caso a un profesional.',
+                  },
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'OCR de facturas y automatización de la documentación contable',
+                paras: [
+                  'La documentación contable es uno de los procesos donde más valor puede aportar la automatización.',
+                ],
+                steps: [
+                  'Recibir el documento', 'Identificar su tipo', 'Extraer los datos', 'Validar campos',
+                  'Comprobar reglas', 'Registrar la información', 'Archivar el documento',
+                  'Derivar excepciones',
+                ],
+                after: [
+                  'No todos los casos tienen que completarse automáticamente.',
+                  'Los documentos incompletos, incoherentes o fuera de norma pueden enviarse a revisión.',
+                ],
+                label: 'Las facturas pueden llegar',
+                list: [
+                  'Por email', 'Desde portales', 'Mediante carpetas compartidas', 'Como PDF', 'Como imagen',
+                  'En distintos formatos',
+                ],
+              },
+              {
+                type: 'case',
+                h2: 'Un caso real: Stanton',
+                sub: '98 % de las facturas procesadas sin intervención humana',
+                paras: [
+                  'Stanton es una gestora de fincas, no una gestoría. Las facturas de luz, gas y agua de cada inquilino se metían a mano, documento a documento, y cada una costaba un minuto de teclado.',
+                  'Hoy el equipo las reenvía por Telegram, un modelo lee cada factura, el código comprueba que cuadra y el resultado aterriza como filas en la hoja de cálculo con la que ya trabajaban.',
+                  'El 98 % de las facturas pasa sin que nadie las toque y el resto llega a una persona con el documento al lado.',
+                  'No hacemos la contabilidad ni decidimos el asiento. El sistema deja el dato comprobado y con su enlace al documento original.',
+                  'No certificamos nada ante la Agencia Tributaria. Esto no es software de facturación ni lo sustituye.',
+                ],
+                link: { label: 'Ver caso Stanton', href: '/proyectos/stanton' },
+              },
+              {
+                type: 'split',
+                h2: 'IA para asesorías fiscales y contables',
+                paras: [
+                  'La inteligencia artificial puede ayudar a reducir tareas administrativas que rodean al trabajo fiscal y contable.',
+                ],
+                after: [
+                  'El objetivo no es delegar decisiones fiscales sensibles a un modelo.',
+                  'Es reducir el trabajo previo y posterior que consume tiempo del equipo.',
+                ],
+                label: 'Por ejemplo',
+                list: [
+                  'Clasificación documental',
+                  'Extracción de datos',
+                  'Organización de expedientes',
+                  'Consulta interna de normativa y procedimientos',
+                  'Preparación de información',
+                  'Seguimiento de documentación pendiente',
+                  'Automatización de comunicaciones',
+                  'Actualización de sistemas',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: 'IA para despachos laborales y nóminas',
+                paras: ['Los departamentos laborales manejan información sensible y procesos muy estructurados.'],
+                after: [
+                  'Las reglas críticas deben permanecer bajo controles claros.',
+                  'La IA se utiliza principalmente donde hace falta interpretar información o lenguaje natural.',
+                ],
+                label: 'La IA puede ayudar en tareas como',
+                list: [
+                  'Clasificación de documentación', 'Recopilación de datos', 'Consulta de procedimientos',
+                  'Organización de expedientes', 'Atención a consultas recurrentes',
+                  'Seguimiento de documentación faltante',
+                ],
+              },
+              {
+                type: 'poster',
+                h2: 'Agentes de IA conectados con software contable, ERP y CRM',
+                paras: ['Un agente de IA puede trabajar sobre los sistemas que ya utiliza el despacho.'],
+                after: [
+                  'El agente puede consultar las fuentes autorizadas y devolver una respuesta sin obligar al usuario a revisar manualmente varios sistemas.',
+                  'Dependiendo de los permisos, también podría ejecutar acciones posteriores.',
+                ],
+                quotes: ['¿Qué clientes siguen teniendo documentación pendiente este mes?'],
+                label: 'Puede consultar o utilizar información de',
+                list: [
+                  'Software contable', 'ERP', 'CRM', 'Bases de datos', 'Aplicaciones internas',
+                  'Gestores documentales', 'Correo electrónico', 'APIs', 'Almacenamiento cloud',
+                ],
+              },
+              {
+                type: 'flow',
+                h2: 'Automatización de procesos administrativos',
+                paras: [
+                  'Muchos procesos dentro de una gestoría no necesitan un agente complejo.',
+                  'Necesitan un flujo bien diseñado.',
+                  'La IA interpreta la información variable.',
+                  'Las reglas de negocio controlan qué ocurre después.',
+                ],
+                flows: [
+                  {
+                    steps: [
+                      ['Documento recibido', false],
+                      ['clasificación', true],
+                      ['extracción', true],
+                      ['validación', false],
+                      ['sistema contable', false],
+                      ['archivo', false],
+                    ],
+                  },
+                  {
+                    steps: [
+                      ['Email recibido', false],
+                      ['interpretación', true],
+                      ['clasificación', true],
+                      ['asignación', false],
+                      ['CRM', false],
+                      ['respuesta', false],
+                    ],
+                  },
+                ],
+                emph: 'IA donde existe variabilidad. Software donde necesitamos certeza.',
+              },
+              {
+                type: 'cells',
+                h2: 'Asistentes internos sobre normativa y procedimientos',
+                paras: [
+                  'Las gestorías y asesorías trabajan con una gran cantidad de normativa, documentación técnica y procedimientos internos.',
+                ],
+                after: [
+                  'El usuario realiza una pregunta en lenguaje natural y el sistema recupera la información relevante desde las fuentes autorizadas.',
+                  'También puede mostrar de qué documento procede la respuesta.',
+                ],
+                label: 'Podemos desarrollar asistentes capaces de consultar',
+                list: [
+                  'Manuales', 'Procedimientos', 'Documentación interna', 'Normativa', 'Instrucciones',
+                  'Políticas', 'Bases de conocimiento',
+                ],
+                link: {
                   label: 'IA para documentación interna y conocimiento empresarial',
                   href: '/servicios/conocimiento-corporativo',
                 },
-              ],
-            },
-            {
-              heading: 'Agentes de IA conectados con sistemas industriales',
-              blocks: [
-                'Un agente puede convertirse en una capa de acceso sobre diferentes sistemas.',
-                'Dependiendo del proyecto puede trabajar con:',
-                {
-                  t: 'list',
-                  items: [
-                    'ERP', 'MES', 'CMMS', 'bases de datos', 'APIs', 'software interno',
-                    'gestores documentales', 'sistemas de mantenimiento', 'aplicaciones de calidad',
-                  ],
-                },
-                'El objetivo no es sustituir esos sistemas.',
-                'Es facilitar el acceso a la información y automatizar acciones entre ellos.',
-              ],
-            },
-            {
-              heading: 'Automatización de procesos industriales con IA',
-              blocks: [
-                'Muchos procesos industriales necesitan combinar IA con reglas convencionales.',
-                'Por ejemplo:',
-                {
-                  t: 'flow',
-                  steps: [
-                    'Incidencia recibida', 'interpretación', 'clasificación', 'consulta de documentación',
-                    'creación de orden', 'asignación',
-                  ],
-                },
-                'o:',
-                {
-                  t: 'flow',
-                  steps: ['Documento técnico recibido', 'extracción', 'validación', 'ERP', 'archivo', 'excepción'],
-                },
-                'La IA interpreta la parte variable.',
-                'El software mantiene el control sobre reglas, permisos y acciones.',
-                { t: 'strong', text: 'IA para entender. Software para ejecutar con seguridad.' },
-              ],
-            },
-            {
-              heading: 'Mantenimiento y soporte operativo',
-              blocks: [
-                'La inteligencia artificial puede ayudar a equipos de mantenimiento a acceder más rápido a información relevante.',
-                'Por ejemplo:',
-                {
-                  t: 'list',
-                  items: [
-                    'procedimientos', 'históricos', 'documentación de máquina', 'intervenciones anteriores',
-                    'repuestos', 'incidencias similares',
-                  ],
-                },
-                'Esto no sustituye la experiencia técnica.',
-                'La hace más accesible.',
-                'Un sistema bien diseñado puede reducir el tiempo dedicado a buscar información y facilitar el diagnóstico inicial.',
-              ],
-            },
-            {
-              heading: 'Gestión de incidencias y conocimiento histórico',
-              blocks: [
-                'Las incidencias generan información valiosa.',
-                'Cuando se almacenan únicamente como texto libre o documentos aislados, ese conocimiento puede ser difícil de reutilizar.',
-                'La IA puede ayudar a:',
-                {
-                  t: 'list',
-                  items: [
-                    'clasificar incidencias', 'agrupar casos similares', 'recuperar antecedentes',
-                    'encontrar patrones', 'relacionar documentación', 'resumir históricos',
-                  ],
-                },
-                'Esto permite transformar información acumulada en conocimiento operativo reutilizable.',
-              ],
-            },
-            {
-              heading: 'Asistentes para equipos de planta y oficina técnica',
-              blocks: [
-                'Un asistente interno puede servir como interfaz para consultar información técnica sin necesidad de saber en qué sistema está almacenada.',
-                'Puede utilizarse para:',
-                {
-                  t: 'list',
-                  items: [
-                    'consultar procedimientos', 'localizar documentación', 'recuperar datos',
-                    'revisar históricos', 'acceder a información de producto',
-                    'buscar incidencias anteriores',
-                  ],
-                },
-                'La conversación se convierte en una capa sobre el conocimiento industrial.',
-              ],
-            },
-            {
-              heading: 'IA para calidad y documentación',
-              blocks: [
-                'Los departamentos de calidad trabajan con grandes volúmenes de documentación.',
-                'La IA puede ayudar a:',
-                {
-                  t: 'list',
-                  items: [
-                    'localizar procedimientos', 'comparar versiones', 'resumir documentación',
-                    'clasificar archivos', 'recuperar normativa', 'identificar información relevante',
-                  ],
-                },
-                'También puede formar parte de workflows donde los documentos necesitan ser interpretados antes de continuar.',
-              ],
-            },
-            {
-              heading: 'Integración con sistemas existentes',
-              blocks: [
-                'No necesitas sustituir la infraestructura actual para aplicar inteligencia artificial.',
-                'Podemos diseñar soluciones conectadas con:',
-                {
-                  t: 'list',
-                  items: [
-                    'ERP', 'MES', 'CMMS', 'bases de datos', 'software de producción', 'gestores documentales',
-                    'APIs', 'almacenamiento interno', 'correo electrónico', 'aplicaciones propias',
-                  ],
-                },
-                'Antes de integrar analizamos:',
-                {
-                  t: 'list',
-                  items: [
-                    'permisos', 'calidad de los datos', 'frecuencia de actualización',
-                    'operaciones permitidas', 'impacto de errores', 'necesidad de validación humana',
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'Control y seguridad en entornos industriales',
-              blocks: [
-                'En industria, una acción incorrecta puede tener consecuencias operativas importantes.',
-                'Por eso no diseñamos agentes con libertad ilimitada.',
-                'Podemos incorporar:',
-                {
-                  t: 'list',
-                  items: [
-                    'permisos', 'validaciones', 'límites de actuación', 'reglas de negocio',
-                    'aprobación humana', 'logs', 'trazabilidad', 'estados', 'recuperación ante errores',
-                  ],
-                },
-                'La IA puede ayudar a interpretar.',
-                'Las decisiones críticas pueden permanecer bajo reglas deterministas.',
-              ],
-            },
-            {
-              heading: 'No todo proceso industrial necesita IA',
-              blocks: [
-                'Parte de nuestro trabajo consiste en identificar dónde la inteligencia artificial realmente aporta valor.',
-                'Tiene sentido utilizarla cuando existe:',
-                {
-                  t: 'list',
-                  items: [
-                    'lenguaje natural', 'documentación no estructurada', 'decisiones variables',
-                    'grandes volúmenes de información', 'necesidad de recuperar conocimiento',
-                    'múltiples fuentes',
-                  ],
-                },
-                'Cuando una regla puede expresarse claramente en software, normalmente preferimos resolverla así.',
-                {
-                  t: 'strong',
-                  text: 'Un buen sistema industrial no utiliza más IA. Utiliza la cantidad adecuada.',
-                },
-              ],
-            },
-            {
-              heading: '¿Dónde suele aparecer el mayor retorno?',
-              blocks: [
-                'La IA suele aportar más valor en procesos con:',
-                {
-                  t: 'list',
-                  items: [
-                    'documentación abundante', 'incidencias frecuentes', 'conocimiento disperso',
-                    'tareas administrativas repetitivas', 'múltiples aplicaciones', 'equipos grandes',
-                    'tiempos elevados de búsqueda', 'dependencia de perfiles concretos',
-                  ],
-                },
-                'Antes de desarrollar analizamos:',
-                {
-                  t: 'list',
-                  items: [
-                    'frecuencia', 'tiempo actual', 'volumen', 'errores', 'número de usuarios',
-                    'impacto operativo', 'complejidad', 'porcentaje potencialmente automatizable',
-                  ],
-                },
-                { t: 'strong', text: 'El objetivo es mejorar el proceso, no añadir tecnología.' },
-              ],
-            },
-            {
-              heading: 'Cómo desarrollamos soluciones de IA para industria',
-              blocks: [],
-              method: [
-                [
-                  'Analizamos el proceso',
-                  'Estudiamos cómo funciona actualmente y qué sistemas, personas y fuentes intervienen.',
-                ],
-                [
-                  'Identificamos puntos de fricción',
-                  'Buscamos tareas repetitivas, búsquedas de información, incidencias y pasos manuales.',
-                ],
-                [
-                  'Revisamos datos y documentación',
-                  'Analizamos ERP, MES, bases de datos, documentación técnica y software interno.',
-                ],
-                [
-                  'Diseñamos la arquitectura',
-                  'Definimos qué parte necesita IA, qué parte debe permanecer en software convencional y qué controles son necesarios.',
-                ],
-                [
-                  'Desarrollamos y evaluamos',
-                  'Probamos casos reales, errores, excepciones y situaciones límite.',
-                ],
-                [
-                  'Desplegamos y monitorizamos',
-                  'Medimos utilización, errores, tiempos, calidad de las respuestas y resultados.',
-                ],
-              ],
-            },
-            {
-              heading: '¿Cuándo merece la pena desarrollar IA a medida en industria?',
-              blocks: [
-                'Un desarrollo a medida suele tener sentido cuando:',
-                {
-                  t: 'list',
-                  items: [
-                    'existen varios sistemas que deben trabajar juntos',
-                    'el conocimiento está repartido',
-                    'hay documentación propia',
-                    'existen procesos específicos',
-                    'el sistema debe consultar datos internos',
-                    'una herramienta estándar no cubre el flujo completo',
-                    'se necesita control sobre permisos y acciones',
-                    'existe suficiente volumen para justificar el desarrollo',
-                  ],
-                },
-                'Si una solución estándar resuelve correctamente el problema, desarrollar desde cero no siempre será necesario.',
-              ],
-            },
-          ],
-          faq: {
-            h2: 'Preguntas frecuentes sobre inteligencia artificial para industria',
-            items: [
+              },
               {
-                q: '¿Cómo puede utilizarse la IA en una empresa industrial?',
-                a: [
-                  'La IA puede utilizarse para consultar documentación técnica, acceder a datos operativos, gestionar incidencias, automatizar procesos y facilitar el acceso al conocimiento interno.',
-                  'También puede conectarse con ERP, MES, bases de datos y software propio.',
+                type: 'split',
+                h2: 'Automatización de atención al cliente',
+                paras: ['Muchas consultas recibidas por una gestoría son repetitivas.'],
+                after: [
+                  'Un agente conversacional puede resolver parte de estas consultas automáticamente.',
+                  'Cuando la solicitud requiere criterio profesional, puede derivarse junto con el contexto recopilado.',
+                ],
+                emph: [
+                  'El objetivo no es sustituir al asesor. Es evitar que dedique tiempo a preguntas que no necesitan su intervención.',
+                ],
+                label: 'Por ejemplo',
+                list: [
+                  'Qué documentación hace falta', 'Cuándo vence un plazo', 'Cómo enviar un documento',
+                  'Estado de una solicitud', 'Qué datos faltan', 'Cómo iniciar un trámite',
+                ],
+                link: { label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
+              },
+              {
+                type: 'cells',
+                h2: 'Seguimiento automático de documentación pendiente',
+                paras: [
+                  'Una parte importante del trabajo administrativo consiste en recordar a clientes qué documentación falta.',
+                  'Este proceso puede automatizarse.',
+                ],
+                after: ['Esto permite reducir tareas repetitivas y mejorar el seguimiento.'],
+                label: 'El sistema puede',
+                list: [
+                  'Detectar documentación pendiente', 'Generar recordatorios', 'Enviar comunicaciones',
+                  'Registrar respuestas', 'Actualizar estados', 'Escalar casos sin respuesta',
                 ],
               },
               {
-                q: '¿Puede la IA consultar datos de producción?',
-                a: [
-                  'Sí. Un sistema puede consultar datos operativos siempre que exista una vía de integración y se definan los permisos adecuados.',
-                  'La información puede recuperarse desde bases de datos, ERP, MES u otras aplicaciones.',
+                type: 'split',
+                h2: 'Procesamiento de emails y adjuntos',
+                paras: ['El correo electrónico suele ser uno de los principales puntos de entrada de información.'],
+                after: ['Una bandeja de entrada puede convertirse en el inicio de un flujo estructurado.'],
+                label: 'La IA puede ayudar a',
+                list: [
+                  'Interpretar el contenido', 'Identificar al cliente', 'Clasificar el mensaje',
+                  'Detectar documentos adjuntos', 'Extraer información', 'Registrar datos',
+                  'Iniciar procesos',
                 ],
               },
               {
-                q: '¿Puede utilizarse IA para mantenimiento?',
-                a: [
-                  'Sí. La IA puede ayudar a localizar documentación, recuperar históricos, clasificar incidencias y acceder a información relacionada con mantenimiento.',
-                  'No sustituye el criterio técnico, pero puede reducir tiempos de búsqueda.',
+                type: 'dark',
+                h2: 'Control, validaciones y trazabilidad',
+                paras: [
+                  'Los procesos administrativos y fiscales no deberían depender únicamente de las decisiones de un modelo.',
+                ],
+                after: [
+                  'Por ejemplo, la IA puede interpretar un documento.',
+                  'Pero una regla puede decidir si el importe, proveedor o tipo de operación cumple las condiciones necesarias antes de registrar nada.',
+                ],
+                label: 'Por eso diseñamos mecanismos de control como',
+                list: [
+                  'Validaciones', 'Permisos', 'Reglas de negocio', 'Límites de actuación',
+                  'Aprobación humana', 'Logs', 'Trazabilidad', 'Gestión de excepciones',
                 ],
               },
               {
-                q: '¿Puede conectarse con nuestro ERP o MES?',
-                a: [
-                  'Sí, siempre que exista una integración adecuada.',
-                  'La conexión puede realizarse mediante APIs, bases de datos u otros mecanismos disponibles.',
+                type: 'split',
+                h2: 'Seguridad y protección de datos',
+                paras: ['Las gestorías y asesorías trabajan con información confidencial y datos personales.'],
+                after: [
+                  'Cuando el proyecto lo requiere podemos diseñar sistemas con infraestructura privada o entornos controlados.',
+                ],
+                label: 'La arquitectura debe definir',
+                list: [
+                  'Qué información recibe cada modelo',
+                  'Dónde se procesa',
+                  'Qué proveedores intervienen',
+                  'Quién puede acceder',
+                  'Qué queda registrado',
+                  'Qué información debe anonimizarse o limitarse',
+                ],
+                link: { label: 'Inteligencia artificial, privacidad y RGPD', href: '/guias/ia-y-rgpd' },
+              },
+              {
+                type: 'cells',
+                h2: '¿Dónde suele aparecer el mayor retorno?',
+                paras: ['Priorizamos los procesos donde el ahorro y la mejora operativa justifican la inversión.'],
+                emph: ['No todo lo que puede automatizarse merece desarrollo.'],
+                label: 'La automatización suele generar más valor en procesos con',
+                list: [
+                  'Gran volumen documental', 'Tareas administrativas repetitivas',
+                  'Información que debe copiarse entre sistemas', 'Correos recurrentes', 'Múltiples clientes',
+                  'Documentación pendiente', 'Validaciones frecuentes', 'Errores manuales',
+                  'Procesos que consumen horas cada semana',
+                ],
+                label2: 'Antes de desarrollar analizamos',
+                list2: [
+                  'Volumen', 'Frecuencia', 'Tiempo actual', 'Número de personas implicadas', 'Coste',
+                  'Errores', 'Porcentaje potencialmente automatizable',
                 ],
               },
               {
-                q: '¿Puede utilizarse IA sobre documentación técnica?',
-                a: [
-                  'Sí. Un asistente puede consultar manuales, procedimientos, fichas técnicas y otras fuentes mediante lenguaje natural.',
-                  'También puede mostrar las fuentes utilizadas.',
+                type: 'steps',
+                h2: 'Cómo desarrollamos soluciones de IA para gestorías y asesorías',
+                steps: [
+                  [
+                    'Analizamos el proceso actual',
+                    'Estudiamos qué ocurre desde que llega la información hasta que el proceso termina.',
+                  ],
+                  [
+                    'Identificamos tareas repetitivas',
+                    'Localizamos pasos manuales, validaciones, movimientos de datos y puntos de fricción.',
+                  ],
+                  [
+                    'Revisamos sistemas y documentación',
+                    'Analizamos software contable, ERP, CRM, correo, bases de datos y fuentes documentales.',
+                  ],
+                  [
+                    'Diseñamos la arquitectura',
+                    'Definimos qué parte necesita IA y qué debe resolverse mediante reglas convencionales.',
+                  ],
+                  [
+                    'Desarrollamos y probamos excepciones',
+                    'Probamos casos habituales, documentación incompleta, errores y situaciones límite.',
+                  ],
+                  [
+                    'Desplegamos y medimos',
+                    'Analizamos porcentaje automatizado, tiempo ahorrado, errores, excepciones y coste operativo.',
+                  ],
                 ],
               },
               {
-                q: '¿Puede utilizarse IA para gestionar incidencias?',
-                a: [
-                  'Sí. El sistema puede interpretar una incidencia, clasificarla, recuperar información relacionada y activar el workflow correspondiente.',
+                type: 'when',
+                h2: '¿Cuándo merece la pena desarrollar IA a medida en una gestoría?',
+                after: [
+                  'Si una herramienta existente ya resuelve correctamente el problema, desarrollar desde cero no siempre será la mejor opción.',
+                ],
+                label: 'Un desarrollo a medida suele tener sentido cuando',
+                list: [
+                  'Hay gran volumen de documentos',
+                  'Existen varias aplicaciones que deben trabajar juntas',
+                  'El proceso tiene reglas específicas',
+                  'Una plataforma estándar no cubre el flujo completo',
+                  'Se necesita control sobre datos y permisos',
+                  'Hay procesos repetitivos de alta frecuencia',
+                  'Se quiere automatizar entre varios sistemas',
+                ],
+              },
+              {
+                type: 'faq',
+                h2: 'Inteligencia artificial para gestorías y asesorías',
+                items: [
+                  {
+                    q: '¿Cómo puede utilizarse la IA en una gestoría?',
+                    a: [
+                      'La IA puede utilizarse para automatizar clasificación documental, extracción de datos, procesamiento de facturas, gestión de emails, atención a consultas y tareas administrativas.',
+                      'También puede conectarse con software contable, ERP, CRM y otras aplicaciones.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede automatizarse la entrada de facturas?',
+                    a: [
+                      'Sí. Un sistema puede recibir facturas, extraer información, aplicar validaciones y registrar los datos en el software correspondiente.',
+                      'Los casos que no cumplan las reglas pueden enviarse a revisión.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede la IA leer documentos contables y fiscales?',
+                    a: [
+                      'Sí. La IA puede interpretar documentos y extraer información relevante siempre que la calidad y el formato permitan un procesamiento adecuado.',
+                      'Después, los datos pueden utilizarse dentro de procesos automatizados.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede conectarse con nuestro software contable?',
+                    a: [
+                      'Sí, siempre que exista una vía de integración adecuada.',
+                      'La conexión puede realizarse mediante APIs, bases de datos u otros mecanismos disponibles.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede utilizarse IA para responder consultas de clientes?',
+                    a: [
+                      'Sí. Un agente conversacional puede responder preguntas recurrentes, recopilar información y consultar fuentes internas.',
+                      'Los casos que necesitan criterio profesional pueden derivarse a una persona.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede automatizarse el seguimiento de documentación pendiente?',
+                    a: 'Sí. El sistema puede detectar qué documentos faltan, enviar recordatorios y actualizar el estado cuando se recibe nueva información.',
+                  },
+                  {
+                    q: '¿Es segura la IA para trabajar con documentación confidencial?',
+                    a: [
+                      'Puede serlo si la arquitectura se diseña con controles adecuados sobre datos, permisos, proveedores e infraestructura.',
+                      'La seguridad debe definirse desde el inicio del proyecto.',
+                    ],
+                  },
+                  {
+                    q: '¿Cuánto cuesta implantar IA en una gestoría o asesoría?',
+                    a: [
+                      'El coste depende del proceso, el volumen, las integraciones, la documentación, la complejidad de las reglas y los requisitos de seguridad.',
+                      'Una automatización concreta y un sistema transversal conectado con múltiples aplicaciones tienen alcances distintos.',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'contact',
+                h2: 'Cuéntanos qué proceso quieres reducir o automatizar',
+                p: 'No necesitas llegar con una solución tecnológica definida. Explícanos qué tarea consume tiempo, qué documentación recibe vuestro equipo y qué sistemas utilizáis actualmente. Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+                cta: 'Hablar con Ideasforge sobre Gestorías y Asesorías',
+              },
+            ],
+          },
+          sectorIndustry: {
+            metaTitle: 'IA para industria y manufactura, Ideasforge',
+            metaDescription: 'Soluciones de inteligencia artificial para empresas industriales y manufactureras que necesitan automatizar procesos y conectar datos y sistemas.',
+            name: 'Industria y manufactura',
+            short: 'Conocimiento técnico, incidencias y datos de planta.',
+            h1: 'IA para industria y manufactura',
+            lead: 'Ideasforge desarrolla soluciones de inteligencia artificial para empresas industriales y manufactureras que necesitan automatizar procesos, acceder mejor al conocimiento técnico y conectar datos, documentación y sistemas operativos. Agentes de IA, automatizaciones y asistentes conectados con ERP, MES, bases de datos, documentación técnica, software interno y APIs.',
+            statement: [
+              'No aplicamos IA de forma genérica.',
+              'La integramos donde reduce tiempos, mejora el acceso a la información o elimina trabajo manual.',
+            ],
+            cta: 'Cuéntanos qué proceso industrial quieres mejorar',
+            heroLink: 'Qué puede hacer la IA en planta',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Inteligencia artificial para entornos industriales complejos.',
+                after: [
+                  'Cuando la información está distribuida entre varias herramientas, gran parte del conocimiento termina dependiendo de personas que saben dónde buscar o cómo interpretar cada sistema.',
+                  'La inteligencia artificial puede convertirse en una capa de acceso y automatización sobre esa infraestructura existente.',
+                ],
+                label: 'Las empresas industriales trabajan con',
+                list: [
+                  'Datos operativos', 'Documentación técnica', 'Procedimientos', 'Órdenes de trabajo',
+                  'Incidencias', 'Mantenimiento', 'ERP', 'MES', 'Bases de datos', 'Sistemas propios',
+                  'Manuales', 'Hojas de cálculo', 'Correo electrónico',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: '¿Qué puede hacer la IA en una empresa industrial?',
+                lead: 'La inteligencia artificial puede intervenir en procesos técnicos, operativos, documentales y administrativos.',
+                subs: [
+                  {
+                    t: 'Consulta de documentación técnica',
+                    d: 'El usuario realiza una pregunta en lenguaje natural y el sistema recupera la información relevante desde las fuentes autorizadas.',
+                    label: 'Un asistente puede buscar dentro de',
+                    items: [
+                      'Manuales', 'Procedimientos', 'Fichas técnicas', 'Protocolos',
+                      'Documentación de mantenimiento', 'Documentación de producto', 'Instrucciones internas',
+                    ],
+                  },
+                  {
+                    t: 'Acceso a datos operativos',
+                    d: 'Un agente puede consultar información almacenada en bases de datos, ERP, MES u otras aplicaciones industriales, sin obligar al usuario a navegar por múltiples pantallas.',
+                    q: '¿Qué órdenes de mantenimiento siguen abiertas en la línea 3?',
+                    label: 'Otra consulta habitual',
+                    items: ['¿Qué incidencias se han repetido más veces durante este trimestre?'],
+                  },
+                  {
+                    t: 'Gestión de incidencias',
+                    d: 'La IA puede ayudar a interpretar una incidencia, clasificarla, recuperar documentación relacionada y dirigirla al proceso adecuado.',
+                    label: 'Después, el software puede',
+                    items: [
+                      'Crear una orden', 'Registrar información', 'Asignar responsables', 'Generar alertas',
+                      'Actualizar estados',
+                    ],
+                  },
+                  {
+                    t: 'Soporte técnico interno',
+                    d: 'Un asistente puede ayudar a empleados a localizar procedimientos, antecedentes y documentación relacionada con un problema concreto. Especialmente útil donde parte del conocimiento está concentrado en perfiles con mucha experiencia.',
+                    label: 'Ayuda a localizar',
+                    items: ['Procedimientos', 'Antecedentes', 'Documentación relacionada'],
+                  },
+                  {
+                    t: 'Automatización de procesos administrativos',
+                    d: 'La IA también puede intervenir en procesos administrativos alrededor de la operación.',
+                    label: 'Por ejemplo',
+                    items: [
+                      'Gestión de documentación', 'Entrada de datos', 'Clasificación de emails',
+                      'Validaciones', 'Generación de informes', 'Coordinación entre aplicaciones',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'poster',
+                h2: 'Conocimiento técnico y operativo',
+                quotes: ['¿Ha ocurrido antes algo parecido y qué procedimiento se siguió?'],
+                paras: [
+                  'En industria, el conocimiento no siempre está organizado en una única fuente. Puede estar repartido entre manuales, procedimientos, documentación de fabricante, históricos de incidencias, bases de datos, sistemas de mantenimiento y conocimiento interno.',
+                  'Un sistema de IA puede conectar esas fuentes y, ante una incidencia, construir una respuesta basada en información documental y operativa real.',
+                ],
+                link: {
+                  label: 'IA para documentación interna y conocimiento empresarial',
+                  href: '/servicios/conocimiento-corporativo',
+                },
+              },
+              {
+                type: 'integration',
+                kicker: 'Agentes conectados',
+                h2: 'Agentes de IA conectados con sistemas industriales.',
+                paras: [
+                  'Un agente puede convertirse en una capa de acceso sobre diferentes sistemas. El objetivo no es sustituirlos.',
+                  'Es facilitar el acceso a la información y automatizar acciones entre ellos.',
+                ],
+                list: [
+                  'ERP', 'MES', 'CMMS', 'Bases de datos', 'APIs', 'Software interno', 'Gestores documentales',
+                  'Sistemas de mantenimiento', 'Aplicaciones de calidad',
+                ],
+                link: { label: 'Desarrollo de agentes de IA', href: '/servicios/desarrollo-de-agentes-de-ia' },
+              },
+              {
+                type: 'flow',
+                h2: 'Automatización de procesos industriales con IA.',
+                paras: [
+                  'Muchos procesos industriales necesitan combinar IA con reglas convencionales. La IA interpreta la parte variable. El software mantiene el control sobre reglas, permisos y acciones.',
+                ],
+                flows: [
+                  {
+                    label: 'Incidencia',
+                    steps: [
+                      ['Incidencia recibida', false],
+                      ['Interpretación', true],
+                      ['Clasificación', true],
+                      ['Consulta de documentación', true],
+                      ['Creación de orden', false],
+                      ['Asignación', false],
+                    ],
+                  },
+                  {
+                    label: 'Documento técnico',
+                    steps: [
+                      ['Documento recibido', false],
+                      ['Extracción', true],
+                      ['Validación', false],
+                      ['ERP', false],
+                      ['Archivo', false],
+                      ['Excepción', false],
+                    ],
+                  },
+                ],
+                emph: 'IA para entender. Software para ejecutar con seguridad.',
+                link: {
+                  label: 'Automatización de procesos con IA',
+                  href: '/servicios/automatizacion-de-procesos-con-ia',
+                },
+              },
+              {
+                type: 'areas',
+                h2: 'Dónde se aplica en planta y oficina técnica.',
+                paras: [
+                  'Cuatro áreas donde la IA suele reducir el tiempo dedicado a buscar información y a mover datos entre sistemas.',
+                ],
+                items: [
+                  {
+                    t: 'Mantenimiento y soporte operativo',
+                    d: 'Acceso más rápido a la información relevante para el diagnóstico inicial.',
+                    items: [
+                      'Procedimientos', 'Históricos', 'Documentación de máquina', 'Intervenciones anteriores',
+                      'Repuestos', 'Incidencias similares',
+                    ],
+                    k: 'No sustituye la experiencia técnica. La hace más accesible.',
+                  },
+                  {
+                    t: 'Incidencias y conocimiento histórico',
+                    d: 'Las incidencias generan información valiosa que, guardada como texto libre, es difícil de reutilizar.',
+                    items: [
+                      'Clasificar incidencias', 'Agrupar casos similares', 'Recuperar antecedentes',
+                      'Encontrar patrones', 'Relacionar documentación', 'Resumir históricos',
+                    ],
+                    k: 'Información acumulada convertida en conocimiento operativo reutilizable.',
+                  },
+                  {
+                    t: 'Asistentes para planta y oficina técnica',
+                    d: 'Una interfaz para consultar información técnica sin saber en qué sistema está almacenada.',
+                    items: [
+                      'Consultar procedimientos', 'Localizar documentación', 'Recuperar datos',
+                      'Revisar históricos', 'Información de producto', 'Incidencias anteriores',
+                    ],
+                    k: 'La conversación como capa sobre el conocimiento industrial.',
+                  },
+                  {
+                    t: 'Calidad y documentación',
+                    d: 'Grandes volúmenes de documentación y flujos de trabajo donde los documentos deben interpretarse antes de continuar.',
+                    items: [
+                      'Localizar procedimientos', 'Comparar versiones', 'Resumir documentación',
+                      'Clasificar archivos', 'Recuperar normativa', 'Identificar información relevante',
+                    ],
+                    k: 'Documentos interpretados antes de entrar en el flujo.',
+                  },
+                ],
+              },
+              {
+                type: 'case',
+                h2: 'Un caso real: un asistente de planta',
+                sub: 'Diagnóstico guiado para quien está delante de la máquina',
+                paras: [
+                  'En una empresa industrial, el conocimiento de planta vivía en manuales densos y en la cabeza de los más veteranos.',
+                  'Construimos un asistente sobre los sistemas de la propia empresa. Operarios y supervisores consultan datos de producción y averías y reciben un diagnóstico guiado paso a paso cuando una máquina se para.',
+                  'Por debajo, un orquestador reparte cada consulta entre media docena de agentes especializados. El acierto al elegir qué agente responde pasó del 72 % al 91 %, medido sobre 118 casos reales.',
+                ],
+                link: { label: 'Ver el caso del asistente de planta', href: '/proyectos/industrial' },
+              },
+              {
+                type: 'dark',
+                kicker: 'Control y seguridad',
+                h2: 'En industria, una acción incorrecta puede tener consecuencias operativas importantes.',
+                paras: [
+                  'Por eso no diseñamos agentes con libertad ilimitada. La IA interpreta y las decisiones críticas las toma el código, nunca el modelo.',
+                  'No necesitas sustituir la infraestructura actual para aplicar inteligencia artificial.',
+                ],
+                label: 'Podemos incorporar',
+                list: [
+                  'Permisos', 'Validaciones', 'Límites de actuación', 'Reglas de negocio',
+                  'Aprobación humana', 'Logs', 'Trazabilidad', 'Estados', 'Recuperación ante errores',
+                ],
+                label2: 'Antes de integrar analizamos',
+                list2: [
+                  'Permisos', 'Calidad de los datos', 'Frecuencia de actualización', 'Operaciones permitidas',
+                  'Impacto de errores', 'Necesidad de validación humana',
+                ],
+              },
+              {
+                type: 'diptych',
+                h2: 'No todo proceso industrial necesita IA.',
+                paras: [
+                  'Parte de nuestro trabajo consiste en identificar dónde la inteligencia artificial realmente aporta valor. Cuando una regla puede expresarse claramente en software, normalmente preferimos resolverla así.',
+                ],
+                yesLabel: 'Tiene sentido cuando existe',
+                yes: [
+                  'Lenguaje natural', 'Documentación no estructurada', 'Decisiones variables',
+                  'Grandes volúmenes de información', 'Necesidad de recuperar conocimiento',
+                  'Múltiples fuentes',
+                ],
+                roiLabel: 'Mayor retorno en procesos con',
+                roi: [
+                  'Documentación abundante', 'Incidencias frecuentes', 'Conocimiento disperso',
+                  'Tareas administrativas repetitivas', 'Múltiples aplicaciones', 'Equipos grandes',
+                  'Tiempos elevados de búsqueda', 'Dependencia de perfiles concretos',
+                ],
+                emph: ['Un buen sistema industrial no utiliza más IA. Utiliza la cantidad adecuada.'],
+              },
+              {
+                type: 'steps',
+                h2: 'Cómo desarrollamos soluciones de IA para industria.',
+                lead: 'Antes de desarrollar analizamos frecuencia, tiempo actual, volumen, errores, número de usuarios, impacto operativo, complejidad y porcentaje automatizable. El objetivo es mejorar el proceso, no añadir tecnología.',
+                steps: [
+                  [
+                    'Analizamos el proceso',
+                    'Estudiamos cómo funciona actualmente y qué sistemas, personas y fuentes intervienen.',
+                  ],
+                  [
+                    'Identificamos puntos de fricción',
+                    'Buscamos tareas repetitivas, búsquedas de información, incidencias y pasos manuales.',
+                  ],
+                  [
+                    'Revisamos datos y documentación',
+                    'Analizamos ERP, MES, bases de datos, documentación técnica y software interno.',
+                  ],
+                  [
+                    'Diseñamos la arquitectura',
+                    'Definimos qué parte necesita IA, qué parte debe permanecer en software convencional y qué controles son necesarios.',
+                  ],
+                  [
+                    'Desarrollamos y evaluamos',
+                    'Probamos casos reales, errores, excepciones y situaciones límite.',
+                  ],
+                  [
+                    'Desplegamos y monitorizamos',
+                    'Medimos utilización, errores, tiempos, calidad de las respuestas y resultados.',
+                  ],
+                ],
+              },
+              {
+                type: 'faq',
+                h2: 'Inteligencia artificial para industria.',
+                lead: 'Un desarrollo a medida suele tener sentido cuando varios sistemas deben trabajar juntos, el conocimiento está repartido y una herramienta estándar no cubre el flujo completo.',
+                items: [
+                  {
+                    q: '¿Cómo puede utilizarse la IA en una empresa industrial?',
+                    a: [
+                      'Para consultar documentación técnica, acceder a datos operativos, gestionar incidencias, automatizar procesos y facilitar el acceso al conocimiento interno.',
+                      'También puede conectarse con ERP, MES, bases de datos y software propio.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede la IA consultar datos de producción?',
+                    a: [
+                      'Sí. Un sistema puede consultar datos operativos siempre que exista una vía de integración y se definan los permisos adecuados.',
+                      'La información puede recuperarse desde bases de datos, ERP, MES u otras aplicaciones.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede utilizarse IA para mantenimiento?',
+                    a: [
+                      'Sí. La IA puede ayudar a localizar documentación, recuperar históricos, clasificar incidencias y acceder a información relacionada con mantenimiento.',
+                      'No sustituye el criterio técnico, pero puede reducir tiempos de búsqueda.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede conectarse con nuestro ERP o MES?',
+                    a: [
+                      'Sí, siempre que exista una integración adecuada.',
+                      'La conexión puede realizarse mediante APIs, bases de datos u otros mecanismos disponibles.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede utilizarse IA sobre documentación técnica?',
+                    a: [
+                      'Sí. Un asistente puede consultar manuales, procedimientos, fichas técnicas y otras fuentes mediante lenguaje natural.',
+                      'También puede mostrar las fuentes utilizadas.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede utilizarse IA para gestionar incidencias?',
+                    a: [
+                      'Sí. El sistema puede interpretar una incidencia, clasificarla, recuperar información relacionada y activar el flujo correspondiente.',
+                      'Los casos complejos pueden derivarse a una persona.',
+                    ],
+                  },
+                  {
+                    q: '¿Es segura la IA en un entorno industrial?',
+                    a: [
+                      'Puede serlo si la arquitectura define correctamente permisos, validaciones, límites y trazabilidad.',
+                      'Las acciones críticas pueden mantenerse bajo control humano o reglas deterministas.',
+                    ],
+                  },
+                  {
+                    q: '¿Cuánto cuesta implantar IA en una empresa industrial?',
+                    a: [
+                      'El coste depende del proceso, las integraciones, los sistemas implicados, los datos, la arquitectura y los requisitos de seguridad.',
+                      'Un asistente documental y un sistema conectado con varios entornos operativos tienen alcances diferentes.',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'contact',
+                h2: 'Cuéntanos qué proceso industrial quieres mejorar.',
+                p: 'No necesitas llegar con una solución tecnológica definida. Explícanos qué proceso consume tiempo, dónde está el conocimiento y qué sistemas utiliza vuestro equipo. Analizaremos qué puede automatizarse, dónde tiene sentido utilizar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+                cta: 'Hablar con Ideasforge sobre Industria y Manufactura',
+              },
+            ],
+          },
+          sectorHealth: {
+            metaTitle: 'IA para salud y grupos sanitarios, Ideasforge',
+            metaDescription: 'Soluciones de inteligencia artificial para grupos sanitarios, redes de clínicas, centros médicos y organizaciones de salud.',
+            name: 'Salud y grupos sanitarios',
+            short: 'Citas, documentación clínica y procesos administrativos.',
+            h1: 'IA para salud y grupos sanitarios',
+            lead: 'Ideasforge desarrolla soluciones de inteligencia artificial para grupos sanitarios, redes de clínicas, centros médicos y organizaciones de salud que necesitan automatizar procesos, mejorar la atención y conectar sistemas internos. Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con sistemas de citas, CRM, ERP, bases de datos, documentación, correo electrónico, mensajería y aplicaciones internas.',
+            statement: [
+              'No utilizamos IA para sustituir el criterio clínico.',
+              'La aplicamos a procesos administrativos, operativos y de acceso a información donde puede generar un impacto medible.',
+            ],
+            cta: 'Cuéntanos qué proceso quieres mejorar',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Inteligencia artificial para organizaciones sanitarias con operaciones complejas',
+                after: [
+                  'Cuando la información está repartida entre distintas herramientas, parte del trabajo diario termina dependiendo de tareas manuales, búsquedas repetitivas o coordinación entre equipos.',
+                  'La inteligencia artificial puede ayudar a interpretar esa información y utilizarla dentro de procesos más eficientes.',
+                ],
+                label: 'Los grupos sanitarios trabajan con',
+                list: [
+                  'Múltiples centros', 'Agendas', 'Profesionales', 'Pacientes', 'Documentación',
+                  'Autorizaciones', 'Facturación', 'Atención', 'Incidencias', 'CRM', 'ERP',
+                  'Sistemas de citas', 'Correo electrónico', 'Aplicaciones internas',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: '¿Qué puede automatizar la IA en una organización sanitaria?',
+                lead: 'La IA puede intervenir en procesos administrativos, de atención, documentación y coordinación interna.',
+                subs: [
+                  {
+                    t: 'Gestión de citas',
+                    d: 'La conversación puede convertirse en una interfaz sobre el sistema de citas.',
+                    label: 'Un agente puede ayudar a',
+                    items: [
+                      'Consultar disponibilidad', 'Reservar', 'Modificar', 'Cancelar', 'Reubicar',
+                      'Trabajar con distintos profesionales', 'Respetar reglas de agenda',
+                      'Derivar casos excepcionales',
+                    ],
+                  },
+                  {
+                    t: 'Atención administrativa',
+                    d: 'Los casos que necesitan atención humana pueden derivarse con el contexto ya recopilado.',
+                    label: 'Un agente conversacional puede responder consultas sobre',
+                    items: [
+                      'Horarios', 'Documentación necesaria', 'Ubicaciones', 'Procesos', 'Citas', 'Servicios',
+                      'Instrucciones previas', 'Solicitudes administrativas',
+                    ],
+                  },
+                  {
+                    t: 'Recordatorios y seguimiento',
+                    label: 'Los sistemas pueden automatizar',
+                    items: [
+                      'Recordatorios de cita', 'Confirmaciones', 'Cambios', 'Cancelaciones',
+                      'Comunicaciones posteriores', 'Recuperación de huecos liberados',
+                    ],
+                  },
+                  {
+                    t: 'Gestión documental',
+                    d: 'La IA puede ayudar a clasificar, interpretar y extraer información desde documentos administrativos.',
+                  },
+                  {
+                    t: 'Procesos internos',
+                    label: 'Podemos automatizar tareas de',
+                    items: [
+                      'Coordinación', 'Actualización de sistemas', 'Entrada de datos',
+                      'Gestión de solicitudes', 'Clasificación de mensajes', 'Generación de avisos',
+                      'Seguimiento',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'poster',
+                h2: 'Gestión de citas mediante IA',
+                paras: [
+                  'La gestión de agenda es uno de los procesos más adecuados para automatización conversacional.',
+                  'Un sistema puede interpretar una solicitud escrita en lenguaje natural.',
+                ],
+                steps: [
+                  'Identificar la cita', 'Consultar disponibilidad', 'Aplicar reglas de agenda',
+                  'Proponer alternativas', 'Modificar la reserva', 'Confirmar el cambio',
+                ],
+                after: ['La experiencia es conversacional.', 'Las reglas de negocio permanecen bajo control.'],
+                quotes: ['Necesito cambiar mi cita del viernes a cualquier tarde de la semana que viene.'],
+              },
+              {
+                type: 'case',
+                h2: 'Nuestro producto: Wazzy',
+                sub: 'Gestión de citas por WhatsApp',
+                paras: [
+                  'Wazzy es producto nuestro, no un cliente. Permite que los pacientes gestionen sus citas directamente desde WhatsApp y hoy trabaja en clínicas dentales, de fisioterapia y de estética.',
+                ],
+                label: 'El sistema puede',
+                list: [
+                  'Comprobar disponibilidad en la agenda real', 'Reservar', 'Modificar', 'Cancelar',
+                  'Aplicar las reglas de la clínica', 'Derivar a una persona cuando es necesario',
+                ],
+                after: [
+                  'La conversación es sencilla.',
+                  'Detrás existe una arquitectura que controla qué puede hacer el agente y bajo qué condiciones.',
+                ],
+                link: { label: 'Ver caso Wazzy', href: '/proyectos/wazzy' },
+              },
+              {
+                type: 'split',
+                h2: 'Atención al paciente sin convertir todo en un chatbot de guion',
+                paras: [
+                  'No todas las consultas necesitan una persona.',
+                  'Y no todas deberían resolverlas automáticamente.',
+                ],
+                after: [
+                  'Cuando aparece una cuestión clínica, sensible o fuera del alcance definido, el sistema puede detenerse y derivar el caso.',
+                ],
+                emph: ['El objetivo es automatizar la atención administrativa, no sustituir decisiones médicas.'],
+                label: 'Un agente puede encargarse de',
+                list: [
+                  'Preguntas frecuentes', 'Instrucciones', 'Solicitudes administrativas',
+                  'Consulta de disponibilidad', 'Información de centros', 'Recopilación de datos',
+                  'Derivación',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: 'IA para redes de clínicas y grupos con varias sedes',
+                paras: ['Un sistema de IA puede trabajar con esa complejidad.'],
+                after: ['Esto permite diseñar soluciones más adecuadas para organizaciones con estructura compleja.'],
+                label: 'Una red sanitaria puede tener',
+                list: [
+                  'Múltiples centros', 'Profesionales', 'Agendas', 'Especialidades', 'Reglas distintas',
+                  'Sistemas diferentes', 'Equipos distribuidos',
+                ],
+                label2: 'Por ejemplo, puede',
+                list2: [
+                  'Identificar el centro correcto', 'Consultar agendas', 'Respetar reglas específicas',
+                  'Trabajar con varias sedes', 'Adaptar respuestas según ubicación',
+                  'Utilizar permisos diferentes',
+                ],
+              },
+              {
+                type: 'flow',
+                h2: 'Automatización de procesos administrativos',
+                paras: [
+                  'Además de la gestión de citas, existen muchos procesos repetitivos.',
+                  'La IA interpreta la información variable.',
+                  'El software mantiene el control del flujo.',
+                ],
+                flows: [
+                  {
+                    steps: [
+                      ['Solicitud recibida', false],
+                      ['interpretación', true],
+                      ['clasificación', true],
+                      ['sistema interno', false],
+                      ['asignación', false],
+                      ['respuesta', false],
+                    ],
+                  },
+                  {
+                    steps: [
+                      ['Cancelación', false],
+                      ['hueco liberado', false],
+                      ['búsqueda de alternativa', false],
+                      ['comunicación', false],
+                      ['nueva reserva', false],
+                    ],
+                  },
+                ],
+                emph: 'El juicio vive en el código, la interpretación del lenguaje vive en el modelo y el conocimiento vive en los datos.',
+              },
+              {
+                type: 'split',
+                h2: 'Gestión de cancelaciones y huecos libres',
+                paras: ['Las cancelaciones generan trabajo administrativo y pérdida potencial de capacidad.'],
+                after: ['Esto puede reducir tiempo de gestión y mejorar el uso de la agenda.'],
+                label: 'Un sistema puede',
+                list: [
+                  'Detectar una cancelación',
+                  'Liberar el hueco',
+                  'Consultar una lista de espera',
+                  'Identificar pacientes compatibles',
+                  'Enviar una propuesta',
+                  'Reservar automáticamente si el usuario acepta',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: 'Agentes conversacionales para canales de atención',
+                paras: ['El canal cambia.'],
+                after: [
+                  'La lógica del sistema puede mantenerse.',
+                  'Esto permite centralizar reglas, integraciones y fuentes de información.',
+                ],
+                label: 'Dependiendo del proyecto, un agente puede operar desde',
+                list: ['Web', 'WhatsApp', 'Aplicaciones', 'Herramientas internas', 'Otros canales con integración'],
+                link: { label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
+              },
+              {
+                type: 'split',
+                h2: 'IA para documentación interna y procedimientos',
+                paras: ['Los equipos sanitarios también trabajan con gran cantidad de documentación interna.'],
+                after: [
+                  'El usuario puede preguntar en lenguaje natural y recibir una respuesta basada en fuentes autorizadas.',
+                ],
+                label: 'Un asistente puede ayudar a consultar',
+                list: [
+                  'Procedimientos', 'Protocolos', 'Manuales', 'Documentación administrativa',
+                  'Políticas internas', 'Instrucciones', 'Documentación operativa',
+                ],
+                link: {
+                  label: 'IA para documentación interna y conocimiento empresarial',
+                  href: '/servicios/conocimiento-corporativo',
+                },
+              },
+              {
+                type: 'cells',
+                h2: 'Automatización de correo electrónico y solicitudes',
+                paras: ['El correo sigue siendo un punto de entrada importante.'],
+                after: ['Una bandeja de entrada puede convertirse en el inicio de un flujo estructurado.'],
+                label: 'La IA puede ayudar a',
+                list: [
+                  'Interpretar mensajes', 'Clasificar solicitudes', 'Extraer información',
+                  'Identificar prioridad', 'Iniciar procesos', 'Asignar casos', 'Registrar datos',
+                ],
+              },
+              {
+                type: 'integration',
+                h2: 'Integración con sistemas existentes',
+                paras: ['No necesitas sustituir toda la infraestructura para aplicar inteligencia artificial.'],
+                label: 'Podemos diseñar soluciones conectadas con',
+                list: [
+                  'Sistemas de citas', 'CRM', 'ERP', 'Bases de datos', 'Software interno', 'Calendarios',
+                  'Plataformas de mensajería', 'Correo electrónico', 'Gestores documentales', 'APIs',
+                ],
+                label2: 'Antes de integrar analizamos',
+                list2: [
+                  'Permisos', 'Información disponible', 'Operaciones permitidas', 'Trazabilidad',
+                  'Impacto de errores', 'Requisitos de seguridad',
+                ],
+              },
+              {
+                type: 'dark',
+                h2: 'Privacidad, datos y control',
+                paras: ['El sector sanitario trabaja con información sensible.'],
+                label: 'Por eso la arquitectura debe definir con especial cuidado',
+                list: [
+                  'Qué información recibe cada modelo', 'Qué datos se procesan', 'Dónde se almacenan',
+                  'Qué proveedores intervienen', 'Quién puede acceder',
+                  'Qué operaciones puede ejecutar el sistema', 'Qué debe quedar registrado',
+                ],
+                label2: 'También pueden aplicarse',
+                list2: [
+                  'Permisos', 'Minimización de datos', 'Logs', 'Validaciones', 'Límites',
+                  'Intervención humana', 'Infraestructura controlada',
+                ],
+                link: { label: 'Inteligencia artificial, privacidad y RGPD', href: '/guias/ia-y-rgpd' },
+              },
+              {
+                type: 'diptych',
+                h2: 'No todo proceso sanitario necesita inteligencia artificial',
+                paras: [
+                  'Parte de nuestro trabajo consiste en identificar dónde la IA aporta valor y dónde no.',
+                  'Cuando una tarea puede resolverse mediante reglas convencionales, normalmente preferimos hacerlo así.',
+                ],
+                yesLabel: 'Puede tener sentido cuando existe',
+                yes: [
+                  'Lenguaje natural', 'Documentación', 'Solicitudes variables', 'Múltiples sistemas',
+                  'Gran volumen de consultas', 'Necesidad de interpretar contexto',
+                ],
+                roiLabel: 'La IA suele generar más valor en organizaciones con',
+                roi: [
+                  'Múltiples centros', 'Alto volumen de citas', 'Muchas consultas administrativas',
+                  'Cancelaciones frecuentes', 'Equipos distribuidos', 'Tareas repetitivas',
+                  'Sistemas poco conectados', 'Gran cantidad de documentación',
+                ],
+                note: 'Antes de desarrollar analizamos: volumen, tiempo administrativo, errores, número de profesionales, número de centros, porcentaje potencialmente automatizable, coste operativo.',
+                emph: [
+                  'Un buen sistema sanitario no utiliza más IA. Utiliza IA solo donde mejora el proceso.',
+                  'El objetivo es liberar capacidad sin perder control.',
+                ],
+              },
+              {
+                type: 'steps',
+                h2: 'Cómo desarrollamos soluciones de IA para Salud',
+                steps: [
+                  [
+                    'Analizamos el proceso',
+                    'Estudiamos cómo funciona actualmente, qué equipos intervienen y qué herramientas utilizan.',
+                  ],
+                  [
+                    'Identificamos oportunidades',
+                    'Detectamos procesos repetitivos, consultas frecuentes y tareas administrativas.',
+                  ],
+                  [
+                    'Revisamos sistemas y datos',
+                    'Analizamos agendas, CRM, ERP, bases de datos, documentación y canales.',
+                  ],
+                  [
+                    'Diseñamos la arquitectura',
+                    'Definimos qué parte necesita IA, qué parte debe permanecer en software convencional y qué controles son necesarios.',
+                  ],
+                  [
+                    'Desarrollamos y evaluamos',
+                    'Probamos conversaciones reales, excepciones, errores y situaciones límite.',
+                  ],
+                  [
+                    'Desplegamos y monitorizamos',
+                    'Medimos utilización, errores, derivaciones, tiempo ahorrado y resultados.',
+                  ],
+                ],
+              },
+              {
+                type: 'when',
+                h2: '¿Cuándo merece la pena desarrollar IA a medida en un grupo sanitario?',
+                after: [
+                  'Si una herramienta estándar resuelve correctamente el problema, desarrollar una solución propia no siempre será necesario.',
+                ],
+                label: 'Un desarrollo a medida suele tener sentido cuando',
+                list: [
+                  'Existen varios centros', 'Se utilizan distintos sistemas',
+                  'Hay reglas específicas de agenda', 'Existe gran volumen de atención',
+                  'Se necesita integración profunda', 'Una plataforma estándar no cubre el proceso',
+                  'Se requiere control sobre datos y permisos', 'Hay procesos repetitivos de alta frecuencia',
+                ],
+              },
+              {
+                type: 'faq',
+                h2: 'Inteligencia artificial para Salud y Grupos Sanitarios',
+                items: [
+                  {
+                    q: '¿Cómo puede utilizarse la IA en una clínica o grupo sanitario?',
+                    a: [
+                      'La IA puede utilizarse para automatizar citas, atención administrativa, recordatorios, clasificación de solicitudes, documentación y procesos internos.',
+                      'También puede conectarse con sistemas de agenda, CRM, ERP y aplicaciones propias.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede la IA gestionar citas automáticamente?',
+                    a: 'Sí. Un agente puede consultar disponibilidad, reservar, modificar y cancelar citas siguiendo las reglas definidas para cada centro o profesional.',
+                  },
+                  {
+                    q: '¿Puede funcionar con varias sedes?',
+                    a: 'Sí. El sistema puede trabajar con múltiples centros, profesionales, agendas y reglas diferentes.',
+                  },
+                  {
+                    q: '¿Puede utilizarse WhatsApp para gestionar citas?',
+                    a: 'Sí. Un agente conversacional puede integrarse con WhatsApp cuando el proyecto y la infraestructura del canal lo permiten.',
+                  },
+                  {
+                    q: '¿Puede automatizar recordatorios y cancelaciones?',
+                    a: 'Sí. El sistema puede enviar recordatorios, registrar respuestas y actualizar la agenda según las reglas configuradas.',
+                  },
+                  {
+                    q: '¿Puede ayudar a reducir huecos por cancelaciones?',
+                    a: 'Sí. Una automatización puede detectar huecos libres y contactar con pacientes o usuarios de una lista de espera según criterios definidos.',
+                  },
+                  {
+                    q: '¿Puede responder preguntas clínicas?',
+                    a: [
+                      'El sistema puede limitarse a información administrativa o documental y derivar cualquier cuestión clínica cuando así se defina.',
+                      'No es necesario permitir que el modelo responda fuera de su ámbito.',
+                    ],
+                  },
+                  {
+                    q: '¿Es segura la IA para trabajar en salud?',
+                    a: [
+                      'Puede serlo si la arquitectura se diseña con controles adecuados sobre datos, permisos, proveedores, trazabilidad e infraestructura.',
+                      'La privacidad debe formar parte del diseño desde el inicio.',
+                    ],
+                  },
+                  {
+                    q: '¿Cuánto cuesta implantar IA en un grupo sanitario?',
+                    a: [
+                      'El coste depende del proceso, el número de centros, las integraciones, el volumen, la arquitectura y los requisitos de seguridad.',
+                      'Un agente para una única agenda y un sistema conectado con múltiples centros tienen alcances muy diferentes.',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'contact',
+                h2: 'Cuéntanos qué proceso quieres mejorar en tu organización sanitaria',
+                p: 'No necesitas llegar con una solución tecnológica definida. Explícanos qué proceso consume tiempo, qué canales utiliza vuestro equipo y qué sistemas forman parte de la operación. Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+                cta: 'Hablar con Ideasforge sobre Salud y Grupos Sanitarios',
+              },
+            ],
+          },
+          sectorLogistics: {
+            metaTitle: 'IA para logística y transporte, Ideasforge',
+            metaDescription: 'Soluciones de inteligencia artificial para operadores logísticos, empresas de transporte, distribución y organizaciones con cadenas operativas complejas.',
+            name: 'Logística y transporte',
+            short: 'Envíos, incidencias, documentación y tracking.',
+            h1: 'IA para logística y transporte',
+            lead: 'Ideasforge desarrolla soluciones de inteligencia artificial para operadores logísticos, empresas de transporte, distribución y organizaciones con cadenas operativas complejas. Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con TMS, ERP, CRM, bases de datos, documentación, correo electrónico, APIs y aplicaciones internas. Es un sector en el que podemos ayudar, aunque todavía no tenemos un cliente en él: esta página cuenta lo que construiríamos, con el método de los cinco sistemas que ya tenemos en producción.',
+            statement: [
+              'No aplicamos IA a la logística de forma genérica.',
+              'La integramos en los procesos donde puede reducir tiempos, errores y trabajo manual.',
+            ],
+            cta: 'Cuéntanos qué proceso logístico quieres mejorar',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Inteligencia artificial para operaciones logísticas complejas',
+                after: [
+                  'Cuando la información está distribuida entre múltiples sistemas, gran parte del trabajo depende de personas que consultan datos, coordinan incidencias, actualizan estados y mueven información entre herramientas.',
+                  'La inteligencia artificial puede ayudar a interpretar esa información y utilizarla dentro de procesos automatizados.',
+                ],
+                label: 'Las empresas de logística y transporte trabajan con',
+                list: [
+                  'Pedidos', 'Expediciones', 'Rutas', 'Almacenes', 'Incidencias', 'Transportistas',
+                  'Proveedores', 'Documentación', 'Facturación', 'Clientes', 'TMS', 'ERP', 'CRM',
+                  'Correo electrónico', 'Aplicaciones internas',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: '¿Qué puede automatizar la IA en logística y transporte?',
+                lead: 'La IA puede intervenir en procesos operativos, administrativos, documentales y de atención.',
+                subs: [
+                  {
+                    t: 'Gestión de incidencias',
+                    d: 'Un sistema puede recibir una incidencia, interpretarla y clasificarla. Después puede consultar datos, actualizar sistemas o derivar el caso al equipo correspondiente.',
+                    label: 'Por ejemplo',
+                    items: [
+                      'Retrasos', 'Entregas fallidas', 'Mercancía dañada', 'Problemas de documentación',
+                      'Direcciones incorrectas', 'Errores de preparación', 'Discrepancias de pedido',
+                    ],
+                  },
+                  {
+                    t: 'Procesamiento de pedidos',
+                    d: 'La IA puede interpretar información recibida desde emails, formularios, documentos o integraciones y convertirla en datos estructurados. El proceso puede continuar automáticamente hacia ERP, TMS o software interno.',
+                  },
+                  {
+                    t: 'Gestión documental',
+                    label: 'Podemos automatizar la clasificación y extracción de información desde',
+                    items: [
+                      'Albaranes', 'Cartas de porte', 'Facturas', 'Pedidos', 'Comprobantes',
+                      'Documentación de entrega', 'Formularios', 'Documentación de proveedores',
+                    ],
+                  },
+                  {
+                    t: 'Atención a clientes',
+                    d: 'Un agente conversacional puede responder consultas sobre estados, entregas, incidencias o documentación. Cuando la solicitud necesita intervención humana, puede derivarse con el contexto ya recopilado.',
+                  },
+                  {
+                    t: 'Coordinación entre sistemas',
+                    label: 'La IA puede formar parte de procesos que conectan',
+                    items: [
+                      'TMS', 'ERP', 'CRM', 'Bases de datos', 'Correo electrónico', 'APIs',
+                      'Aplicaciones internas',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'IA para gestión de incidencias logísticas',
+                paras: [
+                  'Las incidencias son uno de los procesos donde más tiempo puede perder una organización logística.',
+                ],
+                steps: [
+                  'Interpretar el problema', 'Identificar el envío o pedido', 'Clasificar la incidencia',
+                  'Recuperar información relacionada', 'Aplicar reglas', 'Actualizar el sistema',
+                  'Asignar el caso', 'Comunicar el estado',
+                ],
+                after: ['Los casos fuera de norma pueden pasar a revisión.'],
+                label: 'Una incidencia puede llegar por',
+                list: ['Email', 'Formulario', 'Teléfono transcrito', 'Portal', 'Chat', 'Sistema interno'],
+              },
+              {
+                type: 'poster',
+                h2: 'Agentes de IA conectados con TMS, ERP y CRM',
+                paras: [
+                  'Un agente puede convertirse en una capa de acceso sobre los sistemas logísticos existentes.',
+                ],
+                after: [
+                  'El sistema puede recuperar la información autorizada sin obligar al usuario a revisar varias aplicaciones.',
+                  'Dependiendo de los permisos, también puede ejecutar acciones.',
+                ],
+                quotes: [
+                  '¿Qué expediciones llevan más de 24 horas sin actualización?',
+                  '¿Qué incidencias abiertas afectan a clientes prioritarios?',
+                ],
+                label: 'Puede consultar información de',
+                list: ['TMS', 'ERP', 'CRM', 'WMS', 'Bases de datos', 'APIs', 'Aplicaciones propias'],
+              },
+              {
+                type: 'flow',
+                h2: 'Automatización de procesos logísticos con IA',
+                paras: [
+                  'Muchos procesos logísticos necesitan combinar interpretación y reglas.',
+                  'La IA interpreta la información variable.',
+                  'El software controla el proceso.',
+                ],
+                flows: [
+                  {
+                    steps: [
+                      ['Email recibido', false],
+                      ['interpretación', true],
+                      ['identificación de envío', true],
+                      ['clasificación', true],
+                      ['TMS', false],
+                      ['asignación', false],
+                      ['respuesta', false],
+                    ],
+                  },
+                  {
+                    steps: [
+                      ['Documento recibido', false],
+                      ['extracción', true],
+                      ['validación', false],
+                      ['ERP', false],
+                      ['archivo', false],
+                      ['excepción', false],
+                    ],
+                  },
+                ],
+                emph: 'El juicio vive en el código, la interpretación del lenguaje vive en el modelo y el conocimiento vive en los datos.',
+              },
+              {
+                type: 'cells',
+                h2: 'Procesamiento automático de documentación logística',
+                paras: ['La logística genera un gran volumen de documentos.'],
+                after: ['Una vez estructurada la información, el resto del proceso puede continuar automáticamente.'],
+                label: 'La IA puede ayudar a',
+                list: [
+                  'Identificar el tipo de documento',
+                  'Extraer datos',
+                  'Validar campos',
+                  'Relacionar documentos con pedidos o expediciones',
+                  'Detectar información faltante',
+                  'Iniciar flujos de trabajo',
+                ],
+                label2: 'Esto puede aplicarse a',
+                list2: [
+                  'Albaranes', 'Comprobantes', 'Facturas', 'Documentos de transporte', 'Órdenes',
+                  'Justificantes',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Atención al cliente conectada con datos reales',
+                paras: ['Un chatbot logístico puede hacer mucho más que responder preguntas frecuentes.'],
+                after: ['La conversación se convierte en una interfaz sobre el proceso logístico.'],
+                label: 'Cuando está conectado con los sistemas de la empresa puede',
+                list: [
+                  'Consultar estados', 'Recuperar información de pedidos', 'Registrar incidencias',
+                  'Recopilar datos', 'Iniciar solicitudes', 'Derivar casos', 'Enviar confirmaciones',
+                ],
+                link: { label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
+              },
+              {
+                type: 'cells',
+                h2: 'IA para almacenes y distribución',
+                paras: ['No todas las tareas requieren IA.'],
+                after: ['Las operaciones estructuradas siguen siendo mejores candidatas para software determinista.'],
+                label: 'En operaciones de almacén y distribución, la IA puede ayudar a',
+                list: [
+                  'Consultar incidencias', 'Acceder a procedimientos', 'Interpretar documentación',
+                  'Recuperar información de pedidos', 'Automatizar comunicaciones', 'Coordinar sistemas',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Consultar la información operativa sin saltar entre aplicaciones',
+                paras: [
+                  'La inteligencia artificial puede ayudar a interpretar información operativa y facilitar el acceso a datos.',
+                ],
+                after: [
+                  'Cuando una decisión depende de reglas críticas, la toma el código, nunca el modelo.',
+                ],
+                label: 'Por ejemplo',
+                list: [
+                  'Identificar expediciones con riesgo', 'Resumir incidencias', 'Consultar históricos',
+                  'Priorizar casos', 'Detectar excepciones',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: 'Asistentes internos sobre procedimientos y conocimiento logístico',
+                paras: ['Un asistente puede permitir consultar esa información mediante lenguaje natural.'],
+                after: ['También puede mostrar las fuentes utilizadas y respetar permisos.'],
+                label: 'Los equipos logísticos trabajan con',
+                list: [
+                  'Procedimientos', 'Manuales', 'Instrucciones', 'Documentación de clientes', 'Políticas',
+                  'Normativa', 'Procesos internos',
+                ],
+                link: {
+                  label: 'IA para documentación interna y conocimiento empresarial',
+                  href: '/servicios/conocimiento-corporativo',
+                },
+              },
+              {
+                type: 'split',
+                h2: 'Automatización de correo electrónico',
+                paras: ['El email sigue siendo uno de los principales puntos de entrada de información.'],
+                after: ['Esto permite convertir mensajes no estructurados en procesos controlados.'],
+                label: 'La IA puede ayudar a',
+                list: [
+                  'Identificar pedidos', 'Clasificar solicitudes', 'Extraer referencias',
+                  'Detectar incidencias', 'Registrar información', 'Iniciar flujos de trabajo',
+                ],
+              },
+              {
+                type: 'integration',
+                h2: 'Integración con sistemas existentes',
+                paras: ['No necesitas sustituir la infraestructura actual.'],
+                label: 'Podemos diseñar soluciones conectadas con',
+                list: [
+                  'TMS', 'WMS', 'ERP', 'CRM', 'Bases de datos', 'APIs', 'Software interno',
+                  'Correo electrónico', 'Almacenamiento documental', 'Portales',
+                ],
+                label2: 'Antes de integrar analizamos',
+                list2: [
+                  'Permisos', 'Calidad de datos', 'Operaciones permitidas', 'Impacto de errores',
+                  'Trazabilidad', 'Necesidad de validación humana',
+                ],
+              },
+              {
+                type: 'dark',
+                h2: 'Control, trazabilidad y gestión de excepciones',
+                paras: ['En logística, una excepción puede tener impacto en entregas, clientes y costes.'],
+                after: ['La IA puede interpretar.', 'El sistema debe mantener el control.'],
+                label: 'Por eso una automatización debe poder',
+                list: [
+                  'Registrar estados', 'Generar alertas', 'Detener procesos', 'Escalar casos',
+                  'Reintentar operaciones', 'Derivar a una persona', 'Mantener trazabilidad',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: '¿Dónde suele aparecer el mayor retorno?',
+                emph: ['No buscamos automatizar todo. Buscamos automatizar lo que más impacto genera.'],
+                label: 'La IA suele aportar más valor cuando existe',
+                list: [
+                  'Gran volumen de pedidos', 'Muchas incidencias', 'Documentación repetitiva',
+                  'Múltiples sistemas', 'Atención constante', 'Procesos administrativos intensivos',
+                  'Información no estructurada', 'Necesidad de coordinación entre equipos',
+                ],
+                label2: 'Antes de desarrollar analizamos',
+                list2: [
+                  'Volumen', 'Frecuencia', 'Tiempo actual', 'Número de personas implicadas',
+                  'Coste operativo', 'Errores', 'Porcentaje potencialmente automatizable',
+                ],
+              },
+              {
+                type: 'steps',
+                h2: 'Cómo desarrollamos soluciones de IA para Logística',
+                steps: [
+                  [
+                    'Analizamos el proceso',
+                    'Estudiamos cómo funciona actualmente y qué sistemas, personas y fuentes intervienen.',
+                  ],
+                  [
+                    'Identificamos puntos de fricción',
+                    'Buscamos incidencias, tareas repetitivas, movimientos de datos y pasos manuales.',
+                  ],
+                  [
+                    'Revisamos sistemas y documentación',
+                    'Analizamos TMS, WMS, ERP, CRM, bases de datos y canales.',
+                  ],
+                  [
+                    'Diseñamos la arquitectura',
+                    'Definimos qué parte necesita IA y qué parte debe mantenerse bajo reglas convencionales.',
+                  ],
+                  [
+                    'Desarrollamos y evaluamos',
+                    'Probamos casos habituales, errores, excepciones y situaciones límite.',
+                  ],
+                  [
+                    'Desplegamos y monitorizamos',
+                    'Medimos utilización, tiempos, errores, excepciones y resultados.',
+                  ],
+                ],
+              },
+              {
+                type: 'when',
+                h2: '¿Cuándo merece la pena desarrollar IA a medida en logística?',
+                after: [
+                  'Si una solución estándar resuelve correctamente el problema, desarrollar desde cero no siempre será necesario.',
+                ],
+                label: 'Un desarrollo a medida suele tener sentido cuando',
+                list: [
+                  'Existen varios sistemas que deben trabajar juntos',
+                  'Hay gran volumen de operaciones',
+                  'El proceso recibe información no estructurada',
+                  'Existen reglas específicas',
+                  'Hay muchas excepciones',
+                  'Una herramienta estándar no cubre el flujo completo',
+                  'Se necesita control sobre datos y acciones',
+                ],
+              },
+              {
+                type: 'faq',
+                h2: 'Inteligencia artificial para logística y transporte',
+                items: [
+                  {
+                    q: '¿Cómo puede utilizarse la IA en logística?',
+                    a: [
+                      'La IA puede utilizarse para gestionar incidencias, procesar documentación, automatizar pedidos, atender consultas y conectar información entre sistemas logísticos.',
+                      'También puede trabajar con TMS, WMS, ERP, CRM y bases de datos.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede la IA conectarse con un TMS?',
+                    a: [
+                      'Sí. Un sistema de IA puede conectarse con un TMS siempre que exista una vía de integración adecuada.',
+                      'Puede consultar información o ejecutar acciones según los permisos definidos.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede automatizarse la gestión de incidencias?',
+                    a: [
+                      'Sí. La IA puede interpretar una incidencia, clasificarla, recuperar información relacionada y activar el flujo correspondiente.',
+                      'Los casos complejos pueden derivarse a una persona.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede procesar albaranes y documentos de transporte?',
+                    a: 'Sí. La IA puede ayudar a clasificar documentos y extraer información relevante para incorporarla a procesos automáticos.',
+                  },
+                  {
+                    q: '¿Puede responder consultas sobre el estado de un pedido?',
+                    a: 'Sí. Un agente conversacional puede consultar información actualizada desde los sistemas autorizados y responder al usuario.',
+                  },
+                  {
+                    q: '¿Puede automatizar correos relacionados con pedidos y entregas?',
+                    a: 'Sí. El sistema puede interpretar emails, extraer referencias, identificar el motivo y activar el proceso correspondiente.',
+                  },
+                  {
+                    q: '¿Es segura la IA en operaciones logísticas?',
+                    a: [
+                      'Puede serlo si la arquitectura define correctamente permisos, validaciones, trazabilidad y límites de actuación.',
+                      'Las acciones críticas las decide el código, con aprobación humana cuando hace falta.',
+                    ],
+                  },
+                  {
+                    q: '¿Cuánto cuesta implantar IA en una empresa logística?',
+                    a: [
+                      'El coste depende del proceso, el volumen, los sistemas implicados, las integraciones y la complejidad de las reglas.',
+                      'Una automatización concreta y un sistema conectado con múltiples plataformas tienen alcances distintos.',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'contact',
+                h2: 'Cuéntanos qué proceso logístico quieres mejorar',
+                p: 'No necesitas llegar con una solución tecnológica definida. Explícanos qué proceso consume tiempo, qué sistemas utiliza vuestro equipo y dónde aparecen incidencias o tareas manuales. Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+                cta: 'Hablar con Ideasforge sobre Logística y Transporte',
+              },
+            ],
+          },
+          sectorEnergy: {
+            metaTitle: 'IA para energía y utilities, Ideasforge',
+            metaDescription: 'Soluciones de inteligencia artificial para compañías energéticas, utilities y operadores de infraestructuras.',
+            name: 'Energía y utilities',
+            short: 'Activos, mantenimiento, normativa y atención.',
+            h1: 'IA para energía y utilities',
+            lead: 'Ideasforge desarrolla soluciones de inteligencia artificial para compañías energéticas, utilities y operadores de infraestructuras que necesitan automatizar procesos, acceder mejor al conocimiento técnico y conectar información distribuida entre múltiples sistemas. Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con ERP, CRM, bases de datos, documentación técnica, sistemas de mantenimiento, APIs, correo electrónico y aplicaciones internas. Es un sector en el que podemos ayudar, aunque todavía no tenemos un cliente en él: esta página cuenta lo que construiríamos, con el método de los cinco sistemas que ya tenemos en producción.',
+            statement: [
+              'No aplicamos IA de forma genérica.',
+              'La integramos en procesos concretos donde puede reducir tiempos, mejorar el acceso a la información o eliminar trabajo manual.',
+            ],
+            cta: 'Cuéntanos qué proceso quieres mejorar',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Inteligencia artificial para organizaciones energéticas complejas',
+                after: [
+                  'Cuando la información está repartida entre múltiples plataformas, parte del trabajo diario depende de personas que buscan datos, revisan documentación, coordinan incidencias o actualizan sistemas manualmente.',
+                  'La inteligencia artificial puede ayudar a interpretar esa información y utilizarla dentro de procesos más eficientes.',
+                ],
+                label: 'Las empresas de energía y utilities trabajan con',
+                list: [
+                  'Activos', 'Infraestructuras', 'Mantenimiento', 'Incidencias', 'Contratos', 'Clientes',
+                  'Proveedores', 'Documentación técnica', 'Normativa', 'Sistemas de gestión', 'ERP', 'CRM',
+                  'Bases de datos', 'Aplicaciones internas',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: '¿Qué puede automatizar la IA en energía y utilities?',
+                lead: 'La IA puede intervenir en procesos técnicos, operativos, administrativos, documentales y de atención.',
+                subs: [
+                  {
+                    t: 'Gestión de incidencias',
+                    d: 'Un sistema puede recibir una incidencia, interpretarla y clasificarla. Después puede recuperar información, actualizar sistemas o derivar el caso al equipo correspondiente.',
+                    label: 'Por ejemplo',
+                    items: [
+                      'Fallos', 'Cortes', 'Anomalías', 'Problemas de suministro',
+                      'Incidencias de mantenimiento', 'Problemas de facturación', 'Errores documentales',
+                    ],
+                  },
+                  {
+                    t: 'Consulta de documentación técnica',
+                    label: 'Un asistente puede ayudar a localizar información dentro de',
+                    items: [
+                      'Manuales', 'Procedimientos', 'Fichas técnicas', 'Documentación de mantenimiento',
+                      'Protocolos', 'Documentación regulatoria', 'Instrucciones internas',
+                    ],
+                  },
+                  {
+                    t: 'Acceso a datos operativos',
+                    d: 'Un agente puede consultar información almacenada en bases de datos, ERP, sistemas de mantenimiento u otras aplicaciones.',
+                    q: '¿Qué incidencias siguen abiertas en esta instalación?',
+                    label: 'Otra consulta habitual',
+                    items: ['¿Qué activos tienen mantenimientos pendientes este mes?'],
+                  },
+                  {
+                    t: 'Procesos administrativos',
+                    label: 'La IA puede ayudar a automatizar',
+                    items: [
+                      'Entrada de datos', 'Clasificación de emails', 'Validaciones',
+                      'Generación de documentos', 'Actualización de sistemas',
+                      'Coordinación entre aplicaciones',
+                    ],
+                  },
+                  {
+                    t: 'Atención al cliente',
+                    d: 'Un agente conversacional puede responder consultas administrativas, recuperar información y registrar solicitudes. Los casos que requieren intervención humana pueden derivarse con el contexto ya recopilado.',
+                  },
+                ],
+              },
+              {
+                type: 'poster',
+                h2: 'IA para mantenimiento e infraestructura',
+                paras: [
+                  'Las organizaciones energéticas gestionan activos con documentación, históricos y procesos de mantenimiento complejos.',
+                ],
+                after: ['El sistema puede recuperar información desde las fuentes autorizadas.'],
+                quotes: ['¿Qué intervenciones se han realizado anteriormente sobre este equipo?'],
+                label: 'La IA puede ayudar a acceder a',
+                list: [
+                  'Órdenes de trabajo', 'Históricos', 'Manuales', 'Procedimientos', 'Incidencias anteriores',
+                  'Documentación de fabricante', 'Información técnica',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Agentes de IA conectados con sistemas energéticos',
+                paras: ['Un agente puede convertirse en una capa de acceso sobre distintos sistemas empresariales.'],
+                after: [
+                  'El objetivo no es sustituir esas herramientas.',
+                  'Es facilitar el acceso a la información y automatizar procesos entre ellas.',
+                ],
+                label: 'Dependiendo del proyecto puede trabajar con',
+                list: [
+                  'ERP', 'CRM', 'CMMS', 'Bases de datos', 'APIs', 'Sistemas de mantenimiento',
+                  'Software interno', 'Gestores documentales', 'Aplicaciones propias',
+                ],
+              },
+              {
+                type: 'flow',
+                h2: 'Automatización de procesos en energía y utilities',
+                paras: [
+                  'Muchos procesos en energía y utilities necesitan combinar interpretación y reglas.',
+                  'La IA interpreta la información variable.',
+                  'El software mantiene el control sobre reglas, permisos y acciones.',
+                ],
+                flows: [
+                  {
+                    steps: [
+                      ['Incidencia recibida', false],
+                      ['interpretación', true],
+                      ['clasificación', true],
+                      ['consulta de datos', false],
+                      ['creación de orden', false],
+                      ['asignación', false],
+                    ],
+                  },
+                  {
+                    steps: [
+                      ['Documento recibido', false],
+                      ['extracción', true],
+                      ['validación', false],
+                      ['ERP', false],
+                      ['archivo', false],
+                      ['excepción', false],
+                    ],
+                  },
+                ],
+                emph: 'El juicio vive en el código, la interpretación del lenguaje vive en el modelo y el conocimiento vive en los datos.',
+              },
+              {
+                type: 'cells',
+                h2: 'IA para documentación técnica y normativa',
+                paras: ['Las empresas energéticas trabajan con grandes volúmenes de documentación.'],
+                after: [
+                  'El usuario puede preguntar en lenguaje natural y recibir una respuesta basada en fuentes autorizadas.',
+                  'También puede mostrarse el documento original utilizado.',
+                ],
+                label: 'Un asistente puede ayudar a consultar',
+                list: [
+                  'Procedimientos', 'Manuales', 'Normativa', 'Políticas', 'Documentación de seguridad',
+                  'Documentación de activos', 'Informes', 'Especificaciones',
+                ],
+                link: {
+                  label: 'IA para documentación interna y conocimiento empresarial',
+                  href: '/servicios/conocimiento-corporativo',
+                },
+              },
+              {
+                type: 'split',
+                h2: 'Gestión de incidencias y soporte operativo',
+                after: [
                   'Los casos complejos pueden derivarse a una persona.',
+                  'Esto permite reducir el tiempo dedicado a tareas de clasificación y búsqueda.',
+                ],
+                label: 'La IA puede ayudar a',
+                list: [
+                  'Interpretar incidencias', 'Clasificarlas', 'Recuperar antecedentes',
+                  'Localizar documentación relacionada', 'Priorizar casos', 'Activar flujos de trabajo',
                 ],
               },
               {
-                q: '¿Es segura la IA en un entorno industrial?',
-                a: [
-                  'Puede serlo si la arquitectura define correctamente permisos, validaciones, límites y trazabilidad.',
-                  'Las acciones críticas pueden mantenerse bajo control humano o reglas deterministas.',
+                type: 'cells',
+                h2: 'Atención al cliente conectada con sistemas reales',
+                paras: ['Un chatbot para utilities puede hacer más que responder preguntas frecuentes.'],
+                after: ['La conversación puede convertirse en una interfaz sobre procesos reales.'],
+                label: 'Cuando está conectado con sistemas internos puede',
+                list: [
+                  'Consultar estados', 'Recuperar información de contratos', 'Registrar incidencias',
+                  'Recopilar datos', 'Iniciar solicitudes', 'Derivar casos', 'Enviar confirmaciones',
+                ],
+                link: { label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
+              },
+              {
+                type: 'split',
+                h2: 'Automatización de correo electrónico y solicitudes',
+                paras: [
+                  'El correo electrónico sigue siendo un punto de entrada importante para procesos internos y externos.',
+                ],
+                after: ['Esto permite convertir información no estructurada en procesos controlados.'],
+                label: 'La IA puede ayudar a',
+                list: [
+                  'Interpretar mensajes', 'Clasificar solicitudes', 'Identificar activos o contratos',
+                  'Extraer información', 'Iniciar flujos de trabajo', 'Asignar casos',
                 ],
               },
               {
-                q: '¿Cuánto cuesta implantar IA en una empresa industrial?',
-                a: [
-                  'El coste depende del proceso, las integraciones, los sistemas implicados, los datos, la arquitectura y los requisitos de seguridad.',
-                  'Un asistente documental y un sistema conectado con varios entornos operativos tienen alcances diferentes.',
+                type: 'cells',
+                h2: 'IA para operaciones de campo',
+                paras: [
+                  'Un asistente puede ayudar a recuperar esa información sin obligar al usuario a navegar por múltiples aplicaciones.',
                 ],
+                after: ['La IA no sustituye el criterio técnico.', 'Facilita el acceso al conocimiento.'],
+                label: 'Los equipos de campo pueden necesitar acceso rápido a',
+                list: [
+                  'Procedimientos', 'Documentación técnica', 'Históricos', 'Información de activos',
+                  'Órdenes de trabajo', 'Incidencias anteriores',
+                ],
+              },
+              {
+                type: 'integration',
+                h2: 'Integración con sistemas existentes',
+                paras: ['No necesitas sustituir la infraestructura actual para aplicar inteligencia artificial.'],
+                label: 'Podemos diseñar soluciones conectadas con',
+                list: [
+                  'ERP', 'CRM', 'CMMS', 'Bases de datos', 'Software de activos', 'Gestores documentales',
+                  'APIs', 'Correo electrónico', 'Aplicaciones internas',
+                ],
+                label2: 'Antes de integrar analizamos',
+                list2: [
+                  'Permisos', 'Calidad de datos', 'Operaciones permitidas', 'Impacto de errores',
+                  'Trazabilidad', 'Necesidad de validación humana',
+                ],
+              },
+              {
+                type: 'dark',
+                h2: 'Seguridad, permisos y trazabilidad',
+                paras: [
+                  'En energía y utilities, una acción incorrecta puede tener impacto operativo o regulatorio.',
+                  'Por eso no diseñamos sistemas con libertad ilimitada.',
+                ],
+                after: [
+                  'La IA interpreta.',
+                  'Las decisiones críticas las toma el código, nunca el modelo.',
+                ],
+                label: 'Podemos incorporar',
+                list: [
+                  'Permisos', 'Validaciones', 'Límites de actuación', 'Reglas de negocio',
+                  'Aprobación humana', 'Logs', 'Trazabilidad', 'Estados', 'Recuperación ante errores',
+                ],
+              },
+              {
+                type: 'diptych',
+                h2: 'No todo proceso energético necesita IA',
+                paras: [
+                  'Parte de nuestro trabajo consiste en identificar dónde la inteligencia artificial aporta valor y dónde no.',
+                  'Cuando una tarea puede resolverse mediante reglas claras, normalmente preferimos software convencional.',
+                ],
+                yesLabel: 'Tiene sentido cuando existe',
+                yes: [
+                  'Documentación no estructurada', 'Lenguaje natural', 'Múltiples fuentes',
+                  'Necesidad de recuperar conocimiento', 'Gran volumen de incidencias', 'Procesos variables',
+                ],
+                roiLabel: 'La IA suele aportar más valor cuando existe',
+                roi: [
+                  'Gran volumen de incidencias', 'Documentación abundante', 'Múltiples activos',
+                  'Equipos distribuidos', 'Sistemas poco conectados', 'Tareas administrativas repetitivas',
+                  'Tiempos elevados de búsqueda', 'Alta frecuencia de consultas',
+                ],
+                note: 'Antes de desarrollar analizamos: volumen, frecuencia, tiempo actual, coste operativo, número de usuarios, errores, impacto, porcentaje potencialmente automatizable.',
+                emph: [
+                  'Un buen sistema no utiliza más IA. Utiliza IA exactamente donde la necesita.',
+                  'El objetivo es mejorar la operación, no añadir tecnología.',
+                ],
+              },
+              {
+                type: 'steps',
+                h2: 'Cómo desarrollamos soluciones de IA para Energía y Utilities',
+                steps: [
+                  [
+                    'Analizamos el proceso',
+                    'Estudiamos cómo funciona actualmente y qué sistemas, personas y fuentes intervienen.',
+                  ],
+                  [
+                    'Identificamos oportunidades',
+                    'Buscamos tareas repetitivas, incidencias, búsquedas de información y procesos manuales.',
+                  ],
+                  [
+                    'Revisamos sistemas y documentación',
+                    'Analizamos ERP, CRM, CMMS, bases de datos, documentación técnica y aplicaciones internas.',
+                  ],
+                  [
+                    'Diseñamos la arquitectura',
+                    'Definimos qué parte necesita IA, qué parte debe permanecer en software convencional y qué controles son necesarios.',
+                  ],
+                  [
+                    'Desarrollamos y evaluamos',
+                    'Probamos casos reales, errores, excepciones y situaciones límite.',
+                  ],
+                  [
+                    'Desplegamos y monitorizamos',
+                    'Medimos utilización, tiempos, errores, calidad de respuesta y resultados.',
+                  ],
+                ],
+              },
+              {
+                type: 'when',
+                h2: '¿Cuándo merece la pena desarrollar IA a medida en energía?',
+                after: [
+                  'Si una solución estándar resuelve correctamente el problema, desarrollar desde cero no siempre será necesario.',
+                ],
+                label: 'Un desarrollo a medida suele tener sentido cuando',
+                list: [
+                  'Existen varios sistemas que deben trabajar juntos',
+                  'Hay documentación propia',
+                  'Se gestionan múltiples activos',
+                  'Existen reglas específicas',
+                  'Una plataforma estándar no cubre el flujo completo',
+                  'Se necesita control sobre datos y permisos',
+                  'Existe suficiente volumen para justificar el desarrollo',
+                ],
+              },
+              {
+                type: 'faq',
+                h2: 'Inteligencia artificial para Energía y Utilities',
+                items: [
+                  {
+                    q: '¿Cómo puede utilizarse la IA en una empresa energética?',
+                    a: [
+                      'La IA puede utilizarse para gestionar incidencias, consultar documentación técnica, acceder a datos operativos, automatizar procesos administrativos y facilitar la atención al cliente.',
+                      'También puede conectarse con ERP, CRM, CMMS y bases de datos.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede la IA ayudar en mantenimiento?',
+                    a: [
+                      'Sí. La IA puede ayudar a localizar documentación, recuperar históricos, consultar incidencias anteriores y acceder a información sobre activos.',
+                      'No sustituye el criterio técnico, pero puede reducir tiempos de búsqueda.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede conectarse con sistemas de gestión de activos?',
+                    a: [
+                      'Sí, siempre que exista una vía de integración adecuada.',
+                      'Puede consultar información o ejecutar acciones según los permisos definidos.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede utilizarse IA sobre documentación técnica y normativa?',
+                    a: [
+                      'Sí. Un asistente puede consultar manuales, procedimientos, normativa y otra documentación mediante lenguaje natural.',
+                      'También puede mostrar las fuentes utilizadas.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede automatizarse la gestión de incidencias?',
+                    a: [
+                      'Sí. La IA puede interpretar una incidencia, clasificarla, recuperar información relacionada y activar el flujo correspondiente.',
+                      'Los casos complejos pueden derivarse a una persona.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede utilizarse IA para atención al cliente en utilities?',
+                    a: 'Sí. Un agente conversacional puede responder consultas administrativas, registrar incidencias y consultar información autorizada.',
+                  },
+                  {
+                    q: '¿Es segura la IA en el sector energético?',
+                    a: [
+                      'Sí, si la arquitectura define permisos, validaciones, trazabilidad y límites de actuación. Las acciones críticas las decide el código, con aprobación humana cuando hace falta.',
+                      'Hay algo más que tiene que saber un comité del sector. La energía es infraestructura crítica y el reglamento europeo de IA puede considerar de alto riesgo algunos usos en ese ámbito, con obligaciones que se aplican desde el 2 de diciembre de 2027. Qué uso concreto cae ahí lo valoran tus abogados, no nosotros.',
+                    ],
+                    link: { label: 'El reglamento europeo de IA para empresas que la usan', href: '/guias/reglamento-europeo-de-ia' },
+                  },
+                  {
+                    q: '¿Cuánto cuesta implantar IA en una compañía energética?',
+                    a: [
+                      'El coste depende del proceso, las integraciones, los sistemas implicados, los datos, la arquitectura y los requisitos de seguridad.',
+                      'Un asistente documental y un sistema conectado con varios entornos operativos tienen alcances distintos.',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'contact',
+                h2: 'Cuéntanos qué proceso quieres mejorar',
+                p: 'No necesitas llegar con una solución tecnológica definida. Explícanos qué proceso consume tiempo, dónde está la información y qué sistemas utiliza vuestro equipo. Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+                cta: 'Hablar con Ideasforge sobre Energía y Utilities',
               },
             ],
           },
-          contact: {
-            h2: 'Cuéntanos qué proceso industrial quieres mejorar',
-            p: [
-              'No necesitas llegar con una solución tecnológica definida.',
-              'Explícanos qué proceso consume tiempo, dónde está el conocimiento y qué sistemas utiliza vuestro equipo.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido utilizar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+          sectorEcommerce: {
+            metaTitle: 'IA para ecommerce y retail, Ideasforge',
+            metaDescription: 'Soluciones de inteligencia artificial para empresas de ecommerce, retail y distribución.',
+            name: 'Ecommerce y retail',
+            short: 'Pedidos, catálogo, devoluciones y atención.',
+            h1: 'IA para ecommerce y retail',
+            lead: 'Ideasforge desarrolla soluciones de inteligencia artificial para empresas de ecommerce, retail y distribución que necesitan automatizar operaciones, mejorar la atención y conectar sistemas comerciales, logísticos y administrativos. Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con ecommerce, ERP, CRM, PIM, bases de datos, herramientas de atención, logística, correo electrónico, APIs y aplicaciones internas. Es un sector en el que podemos ayudar, aunque todavía no tenemos un cliente en él: esta página cuenta lo que construiríamos, con el método de los cinco sistemas que ya tenemos en producción.',
+            statement: [
+              'No aplicamos IA para añadir una capa superficial a la tienda.',
+              'La integramos en procesos donde puede reducir trabajo manual, mejorar la experiencia del cliente o acelerar la operación.',
             ],
-            cta: 'Hablar con Ideasforge sobre Industria y Manufactura',
-          },
-        },
-        sectorHealth: {
-          metaTitle: 'IA para Salud y Grupos Sanitarios, Ideasforge',
-          metaDescription: 'Soluciones de inteligencia artificial para grupos sanitarios, redes de clínicas, centros médicos y organizaciones de salud.',
-          h1: 'IA para Salud y Grupos Sanitarios',
-          lead: [
-            'Ideasforge desarrolla soluciones de inteligencia artificial para grupos sanitarios, redes de clínicas, centros médicos y organizaciones de salud que necesitan automatizar procesos, mejorar la atención y conectar sistemas internos.',
-            'Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con sistemas de citas, CRM, ERP, bases de datos, documentación, correo electrónico, mensajería y aplicaciones internas.',
-          ],
-          statement: [
-            'No utilizamos IA para sustituir el criterio clínico.',
-            'La aplicamos a procesos administrativos, operativos y de acceso a información donde puede generar un impacto medible.',
-          ],
-          cta: 'Cuéntanos qué proceso quieres mejorar',
-          sections: [
-            {
-              heading: 'Inteligencia artificial para organizaciones sanitarias con operaciones complejas',
-              blocks: [
-                'Los grupos sanitarios trabajan con:',
-                {
-                  t: 'list',
-                  items: [
-                    'múltiples centros', 'agendas', 'profesionales', 'pacientes', 'documentación',
-                    'autorizaciones', 'facturación', 'atención', 'incidencias', 'CRM', 'ERP',
-                    'sistemas de citas', 'correo electrónico', 'aplicaciones internas',
-                  ],
-                },
-                'Cuando la información está repartida entre distintas herramientas, parte del trabajo diario termina dependiendo de tareas manuales, búsquedas repetitivas o coordinación entre equipos.',
-                'La inteligencia artificial puede ayudar a interpretar esa información y utilizarla dentro de procesos más eficientes.',
-              ],
-            },
-            {
-              heading: '¿Qué puede automatizar la IA en una organización sanitaria?',
-              blocks: [
-                'La IA puede intervenir en procesos administrativos, de atención, documentación y coordinación interna.',
-              ],
-              subsections: [
-                {
-                  heading: 'Gestión de citas',
-                  blocks: [
-                    'Un agente puede ayudar a:',
-                    {
-                      t: 'list',
-                      items: [
-                        'consultar disponibilidad', 'reservar', 'modificar', 'cancelar', 'reubicar',
-                        'trabajar con distintos profesionales', 'respetar reglas de agenda',
-                        'derivar casos excepcionales',
-                      ],
-                    },
-                    'La conversación puede convertirse en una interfaz sobre el sistema de citas.',
-                  ],
-                },
-                {
-                  heading: 'Atención administrativa',
-                  blocks: [
-                    'Un agente conversacional puede responder consultas sobre:',
-                    {
-                      t: 'list',
-                      items: [
-                        'horarios', 'documentación necesaria', 'ubicaciones', 'procesos', 'citas',
-                        'servicios', 'instrucciones previas', 'solicitudes administrativas',
-                      ],
-                    },
-                    'Los casos que necesitan atención humana pueden derivarse con el contexto ya recopilado.',
-                  ],
-                },
-                {
-                  heading: 'Recordatorios y seguimiento',
-                  blocks: [
-                    'Los sistemas pueden automatizar:',
-                    {
-                      t: 'list',
-                      items: [
-                        'recordatorios de cita', 'confirmaciones', 'cambios', 'cancelaciones',
-                        'comunicaciones posteriores', 'recuperación de huecos liberados',
-                      ],
-                    },
-                  ],
-                },
-                {
-                  heading: 'Gestión documental',
-                  blocks: [
-                    'La IA puede ayudar a clasificar, interpretar y extraer información desde documentos administrativos.',
-                  ],
-                },
-                {
-                  heading: 'Procesos internos',
-                  blocks: [
-                    'Podemos automatizar tareas de:',
-                    {
-                      t: 'list',
-                      items: [
-                        'coordinación', 'actualización de sistemas', 'entrada de datos',
-                        'gestión de solicitudes', 'clasificación de mensajes', 'generación de avisos',
-                        'seguimiento',
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'Gestión de citas mediante IA',
-              blocks: [
-                'La gestión de agenda es uno de los procesos más adecuados para automatización conversacional.',
-                'Un sistema puede interpretar una solicitud escrita en lenguaje natural.',
-                'Por ejemplo:',
-                {
-                  t: 'quote',
-                  text: 'Necesito cambiar mi cita del viernes a cualquier tarde de la semana que viene.',
-                },
-                'El agente puede:',
-                {
-                  t: 'steps',
-                  items: [
-                    'identificar la cita', 'consultar disponibilidad', 'aplicar reglas de agenda',
-                    'proponer alternativas', 'modificar la reserva', 'confirmar el cambio',
-                  ],
-                },
-                'La experiencia es conversacional.',
-                'Las reglas de negocio permanecen bajo control.',
-              ],
-            },
-            {
-              heading: 'Un caso real: Wazzy',
-              blocks: [],
-              subsections: [
-                {
-                  heading: 'Gestión de citas por WhatsApp',
-                  blocks: [
-                    'Wazzy permite que pacientes y usuarios gestionen citas directamente desde WhatsApp.',
-                    'El sistema puede:',
-                    {
-                      t: 'list',
-                      items: [
-                        'comprobar disponibilidad', 'trabajar con distintos profesionales', 'reservar',
-                        'modificar', 'cancelar', 'aplicar reglas específicas', 'utilizar varios calendarios',
-                        'derivar a una persona cuando es necesario',
-                      ],
-                    },
-                    'La conversación es sencilla.',
-                    'Detrás existe una arquitectura que controla qué puede hacer el agente y bajo qué condiciones.',
-                    { t: 'link', label: 'Ver caso Wazzy', href: '/proyectos/wazzy' },
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'Atención al paciente sin convertir todo en un chatbot',
-              blocks: [
-                'No todas las consultas necesitan una persona.',
-                'Y no todas deberían resolverlas automáticamente.',
-                'Un agente puede encargarse de:',
-                {
-                  t: 'list',
-                  items: [
-                    'preguntas frecuentes', 'instrucciones', 'solicitudes administrativas',
-                    'consulta de disponibilidad', 'información de centros', 'recopilación de datos',
-                    'derivación',
-                  ],
-                },
-                'Cuando aparece una cuestión clínica, sensible o fuera del alcance definido, el sistema puede detenerse y derivar el caso.',
-                {
-                  t: 'strong',
-                  text: 'El objetivo es automatizar la atención administrativa, no sustituir decisiones médicas.',
-                },
-              ],
-            },
-            {
-              heading: 'IA para redes de clínicas y grupos con varias sedes',
-              blocks: [
-                'Una red sanitaria puede tener:',
-                {
-                  t: 'list',
-                  items: [
-                    'múltiples centros', 'profesionales', 'agendas', 'especialidades', 'reglas distintas',
-                    'sistemas diferentes', 'equipos distribuidos',
-                  ],
-                },
-                'Un sistema de IA puede trabajar con esa complejidad.',
-                'Por ejemplo, puede:',
-                {
-                  t: 'list',
-                  items: [
-                    'identificar el centro correcto', 'consultar agendas', 'respetar reglas específicas',
-                    'trabajar con varias sedes', 'adaptar respuestas según ubicación',
-                    'utilizar permisos diferentes',
-                  ],
-                },
-                'Esto permite diseñar soluciones más adecuadas para organizaciones con estructura compleja.',
-              ],
-            },
-            {
-              heading: 'Automatización de procesos administrativos',
-              blocks: [
-                'Además de la gestión de citas, existen muchos procesos repetitivos.',
-                'Por ejemplo:',
-                {
-                  t: 'flow',
-                  steps: [
-                    'Solicitud recibida', 'interpretación', 'clasificación', 'sistema interno', 'asignación',
-                    'respuesta',
-                  ],
-                },
-                'o:',
-                {
-                  t: 'flow',
-                  steps: [
-                    'Cancelación', 'hueco liberado', 'búsqueda de alternativa', 'comunicación',
-                    'nueva reserva',
-                  ],
-                },
-                'La IA interpreta la información variable.',
-                'El software mantiene el control del flujo.',
-                { t: 'strong', text: 'IA donde hace falta entender. Software donde hace falta certeza.' },
-              ],
-            },
-            {
-              heading: 'Gestión de cancelaciones y huecos libres',
-              blocks: [
-                'Las cancelaciones generan trabajo administrativo y pérdida potencial de capacidad.',
-                'Un sistema puede:',
-                {
-                  t: 'list',
-                  items: [
-                    'detectar una cancelación',
-                    'liberar el hueco',
-                    'consultar una lista de espera',
-                    'identificar pacientes compatibles',
-                    'enviar una propuesta',
-                    'reservar automáticamente si el usuario acepta',
-                  ],
-                },
-                'Esto puede reducir tiempo de gestión y mejorar el uso de la agenda.',
-              ],
-            },
-            {
-              heading: 'Agentes conversacionales para canales de atención',
-              blocks: [
-                'Dependiendo del proyecto, un agente puede operar desde:',
-                {
-                  t: 'list',
-                  items: [
-                    'web', 'WhatsApp', 'aplicaciones', 'herramientas internas',
-                    'otros canales con integración',
-                  ],
-                },
-                'El canal cambia.',
-                'La lógica del sistema puede mantenerse.',
-                'Esto permite centralizar reglas, integraciones y fuentes de información.',
-                { t: 'link', label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
-              ],
-            },
-            {
-              heading: 'IA para documentación interna y procedimientos',
-              blocks: [
-                'Los equipos sanitarios también trabajan con gran cantidad de documentación interna.',
-                'Un asistente puede ayudar a consultar:',
-                {
-                  t: 'list',
-                  items: [
-                    'procedimientos', 'protocolos', 'manuales', 'documentación administrativa',
-                    'políticas internas', 'instrucciones', 'documentación operativa',
-                  ],
-                },
-                'El usuario puede preguntar en lenguaje natural y recibir una respuesta basada en fuentes autorizadas.',
-                {
-                  t: 'link',
+            cta: 'Cuéntanos qué proceso quieres mejorar',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Inteligencia artificial para operaciones de ecommerce y retail',
+                after: [
+                  'Cuando la información está distribuida entre varias herramientas, parte del trabajo diario depende de personas que buscan datos, actualizan sistemas, responden consultas o coordinan incidencias.',
+                  'La inteligencia artificial puede ayudar a interpretar esa información y utilizarla dentro de procesos automatizados.',
+                ],
+                label: 'Las empresas de ecommerce y retail trabajan con',
+                list: [
+                  'Productos', 'Catálogo', 'Pedidos', 'Clientes', 'Devoluciones', 'Incidencias',
+                  'Promociones', 'Proveedores', 'Inventario', 'Atención', 'ERP', 'CRM', 'PIM', 'Ecommerce',
+                  'Logística', 'Bases de datos', 'Aplicaciones internas',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: '¿Qué puede automatizar la IA en ecommerce y retail?',
+                lead: 'La IA puede intervenir en procesos comerciales, operativos, administrativos y de atención.',
+                subs: [
+                  {
+                    t: 'Atención al cliente',
+                    d: 'Cuando la consulta requiere intervención humana, puede derivarse con el contexto ya recopilado.',
+                    label: 'Un agente conversacional puede responder consultas sobre',
+                    items: [
+                      'Productos', 'Pedidos', 'Devoluciones', 'Disponibilidad', 'Envíos', 'Incidencias',
+                      'Políticas', 'Promociones',
+                    ],
+                  },
+                  {
+                    t: 'Gestión de pedidos',
+                    d: 'La IA puede ayudar a interpretar solicitudes, detectar incidencias y coordinar acciones entre ecommerce, ERP, logística y atención.',
+                  },
+                  {
+                    t: 'Catálogo y producto',
+                    label: 'Un sistema puede ayudar a',
+                    items: [
+                      'Estructurar información', 'Enriquecer fichas', 'Clasificar productos',
+                      'Detectar datos faltantes', 'Resumir características', 'Adaptar contenido interno',
+                    ],
+                  },
+                  {
+                    t: 'Gestión de incidencias',
+                    d: 'La IA puede interpretar una incidencia, identificar el pedido o cliente, clasificarla y activar el proceso adecuado.',
+                  },
+                  {
+                    t: 'Procesos administrativos',
+                    label: 'También puede intervenir en',
+                    items: [
+                      'Validaciones', 'Entrada de datos', 'Coordinación entre sistemas',
+                      'Clasificación de emails', 'Generación de documentos', 'Actualización de estados',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Atención al cliente conectada con pedidos y catálogo',
+                paras: ['Un chatbot de ecommerce puede hacer mucho más que responder preguntas frecuentes.'],
+                after: ['La conversación se convierte en una interfaz sobre los procesos reales del negocio.'],
+                label: 'Cuando está conectado con los sistemas de la empresa puede',
+                list: [
+                  'Consultar pedidos', 'Revisar estados', 'Recuperar información de producto',
+                  'Comprobar disponibilidad', 'Registrar incidencias', 'Iniciar devoluciones',
+                  'Recopilar datos', 'Derivar casos',
+                ],
+                link: { label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
+              },
+              {
+                type: 'poster',
+                h2: 'Agentes de IA conectados con ecommerce, ERP y CRM',
+                paras: ['Un agente puede trabajar sobre la infraestructura que ya utiliza la empresa.'],
+                after: [
+                  'El sistema puede recuperar la información autorizada y devolver una respuesta sin obligar al usuario a revisar varias herramientas.',
+                  'Dependiendo de los permisos, también puede ejecutar acciones.',
+                ],
+                quotes: [
+                  '¿Qué pedidos están retrasados y pertenecen a clientes VIP?',
+                  '¿Qué productos tienen stock bajo y ventas por encima de la media esta semana?',
+                ],
+                label: 'Puede consultar o utilizar información de',
+                list: [
+                  'Plataforma ecommerce', 'ERP', 'CRM', 'PIM', 'WMS', 'Bases de datos', 'APIs',
+                  'Sistemas de atención', 'Aplicaciones internas',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Automatización de incidencias y devoluciones',
+                paras: ['Los procesos de devoluciones e incidencias suelen generar trabajo repetitivo.'],
+                after: [
+                  'La IA interpreta la parte variable.',
+                  'Las reglas de negocio controlan qué operaciones están permitidas.',
+                ],
+                list: [
+                  'Interpretar la solicitud', 'Identificar el pedido', 'Comprobar condiciones',
+                  'Aplicar reglas', 'Solicitar información adicional', 'Crear la devolución',
+                  'Actualizar sistemas', 'Enviar confirmación',
+                ],
+              },
+              {
+                type: 'flow',
+                h2: 'Automatización de procesos comerciales y operativos',
+                paras: [
+                  'Muchos procesos de ecommerce y retail necesitan combinar IA con software convencional.',
+                  'La IA ayuda a entender la entrada.',
+                  'El software controla el proceso.',
+                ],
+                flows: [
+                  {
+                    steps: [
+                      ['Consulta recibida', false],
+                      ['interpretación', true],
+                      ['identificación de pedido', true],
+                      ['consulta de estado', false],
+                      ['respuesta', false],
+                    ],
+                  },
+                  {
+                    steps: [
+                      ['Incidencia', false],
+                      ['clasificación', true],
+                      ['ERP', false],
+                      ['logística', false],
+                      ['actualización', false],
+                      ['comunicación', false],
+                    ],
+                  },
+                ],
+                emph: 'El juicio vive en el código, la interpretación del lenguaje vive en el modelo y el conocimiento vive en los datos.',
+              },
+              {
+                type: 'split',
+                h2: 'IA para catálogo y gestión de producto',
+                paras: ['Los catálogos grandes pueden generar mucho trabajo operativo.'],
+                after: [
+                  'También puede utilizar información desde PIM, ERP o bases de datos para mantener procesos de producto más consistentes.',
+                ],
+                label: 'La IA puede ayudar a',
+                list: [
+                  'Clasificar productos', 'Detectar inconsistencias', 'Generar descripciones internas',
+                  'Resumir atributos', 'Normalizar información', 'Identificar campos incompletos',
+                ],
+              },
+              {
+                type: 'text',
+                h2: 'Búsqueda y consulta de información de producto',
+                paras: [
+                  'Un sistema conversacional puede permitir que clientes o empleados consulten productos utilizando lenguaje natural.',
+                  'La misma tecnología puede adaptarse a distintos usuarios y fuentes.',
+                ],
+                quotes: [
+                  'Necesito una chaqueta impermeable para invierno por menos de 150 euros.',
+                  '¿Qué referencias de esta categoría llevan más de 60 días sin rotación?',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'IA para soporte interno y operaciones',
+                after: ['El sistema puede respetar permisos y mostrar las fuentes utilizadas.'],
+                label: 'Los equipos de ecommerce y retail también pueden utilizar asistentes internos para consultar',
+                list: [
+                  'Procedimientos', 'Políticas', 'Documentación de producto', 'Procesos logísticos',
+                  'Protocolos de devolución', 'Manuales', 'Información comercial',
+                ],
+                link: {
                   label: 'IA para documentación interna y conocimiento empresarial',
                   href: '/servicios/conocimiento-corporativo',
                 },
-              ],
-            },
-            {
-              heading: 'Automatización de correo electrónico y solicitudes',
-              blocks: [
-                'El correo sigue siendo un punto de entrada importante.',
-                'La IA puede ayudar a:',
-                {
-                  t: 'list',
-                  items: [
-                    'interpretar mensajes', 'clasificar solicitudes', 'extraer información',
-                    'identificar prioridad', 'iniciar procesos', 'asignar casos', 'registrar datos',
-                  ],
-                },
-                'Una bandeja de entrada puede convertirse en el inicio de un workflow estructurado.',
-              ],
-            },
-            {
-              heading: 'Integración con sistemas existentes',
-              blocks: [
-                'No necesitas sustituir toda la infraestructura para aplicar inteligencia artificial.',
-                'Podemos diseñar soluciones conectadas con:',
-                {
-                  t: 'list',
-                  items: [
-                    'sistemas de citas', 'CRM', 'ERP', 'bases de datos', 'software interno', 'calendarios',
-                    'plataformas de mensajería', 'correo electrónico', 'gestores documentales', 'APIs',
-                  ],
-                },
-                'Antes de integrar analizamos:',
-                {
-                  t: 'list',
-                  items: [
-                    'permisos', 'información disponible', 'operaciones permitidas', 'trazabilidad',
-                    'impacto de errores', 'requisitos de seguridad',
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'Privacidad, datos y control',
-              blocks: [
-                'El sector sanitario trabaja con información sensible.',
-                'Por eso la arquitectura debe definir con especial cuidado:',
-                {
-                  t: 'list',
-                  items: [
-                    'qué información recibe cada modelo', 'qué datos se procesan', 'dónde se almacenan',
-                    'qué proveedores intervienen', 'quién puede acceder',
-                    'qué operaciones puede ejecutar el sistema', 'qué debe quedar registrado',
-                  ],
-                },
-                'También pueden aplicarse:',
-                {
-                  t: 'list',
-                  items: [
-                    'permisos', 'minimización de datos', 'logs', 'validaciones', 'límites',
-                    'intervención humana', 'infraestructura controlada',
-                  ],
-                },
-                { t: 'link', label: 'Inteligencia artificial, privacidad y RGPD', href: '/guias/ia-y-rgpd' },
-              ],
-            },
-            {
-              heading: 'No todo proceso sanitario necesita inteligencia artificial',
-              blocks: [
-                'Parte de nuestro trabajo consiste en identificar dónde la IA aporta valor y dónde no.',
-                'Puede tener sentido cuando existe:',
-                {
-                  t: 'list',
-                  items: [
-                    'lenguaje natural', 'documentación', 'solicitudes variables', 'múltiples sistemas',
-                    'gran volumen de consultas', 'necesidad de interpretar contexto',
-                  ],
-                },
-                'Cuando una tarea puede resolverse mediante reglas convencionales, normalmente preferimos hacerlo así.',
-                {
-                  t: 'strong',
-                  text: 'Un buen sistema sanitario no utiliza más IA. Utiliza IA solo donde mejora el proceso.',
-                },
-              ],
-            },
-            {
-              heading: '¿Dónde suele aparecer el mayor retorno?',
-              blocks: [
-                'La IA suele generar más valor en organizaciones con:',
-                {
-                  t: 'list',
-                  items: [
-                    'múltiples centros', 'alto volumen de citas', 'muchas consultas administrativas',
-                    'cancelaciones frecuentes', 'equipos distribuidos', 'tareas repetitivas',
-                    'sistemas poco conectados', 'gran cantidad de documentación',
-                  ],
-                },
-                'Antes de desarrollar analizamos:',
-                {
-                  t: 'list',
-                  items: [
-                    'volumen', 'tiempo administrativo', 'errores', 'número de profesionales',
-                    'número de centros', 'porcentaje potencialmente automatizable', 'coste operativo',
-                  ],
-                },
-                { t: 'strong', text: 'El objetivo es liberar capacidad sin perder control.' },
-              ],
-            },
-            {
-              heading: 'Cómo desarrollamos soluciones de IA para Salud',
-              blocks: [],
-              method: [
-                [
-                  'Analizamos el proceso',
-                  'Estudiamos cómo funciona actualmente, qué equipos intervienen y qué herramientas utilizan.',
-                ],
-                [
-                  'Identificamos oportunidades',
-                  'Detectamos procesos repetitivos, consultas frecuentes y tareas administrativas.',
-                ],
-                [
-                  'Revisamos sistemas y datos',
-                  'Analizamos agendas, CRM, ERP, bases de datos, documentación y canales.',
-                ],
-                [
-                  'Diseñamos la arquitectura',
-                  'Definimos qué parte necesita IA, qué parte debe permanecer en software convencional y qué controles son necesarios.',
-                ],
-                [
-                  'Desarrollamos y evaluamos',
-                  'Probamos conversaciones reales, excepciones, errores y situaciones límite.',
-                ],
-                [
-                  'Desplegamos y monitorizamos',
-                  'Medimos utilización, errores, derivaciones, tiempo ahorrado y resultados.',
-                ],
-              ],
-            },
-            {
-              heading: '¿Cuándo merece la pena desarrollar IA a medida en un grupo sanitario?',
-              blocks: [
-                'Un desarrollo a medida suele tener sentido cuando:',
-                {
-                  t: 'list',
-                  items: [
-                    'existen varios centros', 'se utilizan distintos sistemas',
-                    'hay reglas específicas de agenda', 'existe gran volumen de atención',
-                    'se necesita integración profunda', 'una plataforma estándar no cubre el proceso',
-                    'se requiere control sobre datos y permisos',
-                    'hay procesos repetitivos de alta frecuencia',
-                  ],
-                },
-                'Si una herramienta estándar resuelve correctamente el problema, desarrollar una solución propia no siempre será necesario.',
-              ],
-            },
-          ],
-          faq: {
-            h2: 'Preguntas frecuentes sobre inteligencia artificial para Salud y Grupos Sanitarios',
-            items: [
+              },
               {
-                q: '¿Cómo puede utilizarse la IA en una clínica o grupo sanitario?',
-                a: [
-                  'La IA puede utilizarse para automatizar citas, atención administrativa, recordatorios, clasificación de solicitudes, documentación y procesos internos.',
-                  'También puede conectarse con sistemas de agenda, CRM, ERP y aplicaciones propias.',
+                type: 'cells',
+                h2: 'Automatización de correo electrónico y tickets',
+                paras: ['Muchas incidencias llegan por email o sistemas de ticketing.'],
+                after: ['Esto permite convertir entradas no estructuradas en procesos controlados.'],
+                label: 'La IA puede ayudar a',
+                list: [
+                  'Interpretar mensajes', 'Identificar pedidos', 'Clasificar motivos', 'Extraer datos',
+                  'Asignar prioridad', 'Iniciar flujos de trabajo', 'Derivar casos',
                 ],
               },
               {
-                q: '¿Puede la IA gestionar citas automáticamente?',
-                a: 'Sí. Un agente puede consultar disponibilidad, reservar, modificar y cancelar citas siguiendo las reglas definidas para cada centro o profesional.',
-              },
-              {
-                q: '¿Puede funcionar con varias sedes?',
-                a: 'Sí. El sistema puede trabajar con múltiples centros, profesionales, agendas y reglas diferentes.',
-              },
-              {
-                q: '¿Puede utilizarse WhatsApp para gestionar citas?',
-                a: 'Sí. Un agente conversacional puede integrarse con WhatsApp cuando el proyecto y la infraestructura del canal lo permiten.',
-              },
-              {
-                q: '¿Puede automatizar recordatorios y cancelaciones?',
-                a: 'Sí. El sistema puede enviar recordatorios, registrar respuestas y actualizar la agenda según las reglas configuradas.',
-              },
-              {
-                q: '¿Puede ayudar a reducir huecos por cancelaciones?',
-                a: 'Sí. Una automatización puede detectar huecos libres y contactar con pacientes o usuarios de una lista de espera según criterios definidos.',
-              },
-              {
-                q: '¿Puede responder preguntas clínicas?',
-                a: [
-                  'El sistema puede limitarse a información administrativa o documental y derivar cualquier cuestión clínica cuando así se defina.',
-                  'No es necesario permitir que el modelo responda fuera de su ámbito.',
+                type: 'split',
+                h2: 'Ecommerce y retail omnicanal',
+                paras: [
+                  'En organizaciones con ecommerce, tiendas físicas y varios canales, la información puede estar repartida entre diferentes sistemas.',
+                ],
+                after: ['La arquitectura debe respetar qué sistema es la fuente correcta para cada dato.'],
+                label: 'Un agente puede ayudar a consultar y coordinar información sobre',
+                list: [
+                  'Pedidos', 'Inventario', 'Clientes', 'Devoluciones', 'Promociones', 'Incidencias',
+                  'Disponibilidad',
                 ],
               },
               {
-                q: '¿Es segura la IA para trabajar en salud?',
-                a: [
-                  'Puede serlo si la arquitectura se diseña con controles adecuados sobre datos, permisos, proveedores, trazabilidad e infraestructura.',
-                  'La privacidad debe formar parte del diseño desde el inicio.',
+                type: 'integration',
+                h2: 'Integración con sistemas existentes',
+                paras: ['No necesitas sustituir la infraestructura actual.'],
+                label: 'Podemos diseñar soluciones conectadas con',
+                list: [
+                  'Shopify', 'Magento', 'WooCommerce', 'Plataformas ecommerce propias', 'ERP', 'CRM', 'PIM',
+                  'WMS', 'Bases de datos', 'APIs', 'Herramientas de atención', 'Correo electrónico',
+                  'Aplicaciones internas',
+                ],
+                label2: 'Antes de integrar analizamos',
+                list2: [
+                  'Permisos', 'Calidad de datos', 'Operaciones permitidas', 'Impacto de errores',
+                  'Trazabilidad', 'Necesidad de validación humana',
                 ],
               },
               {
-                q: '¿Cuánto cuesta implantar IA en un grupo sanitario?',
-                a: [
-                  'El coste depende del proceso, el número de centros, las integraciones, el volumen, la arquitectura y los requisitos de seguridad.',
-                  'Un agente para una única agenda y un sistema conectado con múltiples centros tienen alcances muy diferentes.',
+                type: 'dark',
+                h2: 'Control, reglas y excepciones',
+                paras: [
+                  'En ecommerce, una acción incorrecta puede afectar a pedidos, stock, clientes o dinero.',
+                  'Por eso las decisiones críticas las toma el código, nunca el modelo.',
                 ],
+                after: [
+                  'La IA puede interpretar una solicitud.',
+                  'El software decide si la operación cumple las condiciones.',
+                ],
+                label: 'Podemos incorporar',
+                list: [
+                  'Validaciones', 'Permisos', 'Límites', 'Reglas de negocio', 'Aprobación humana', 'Logs',
+                  'Trazabilidad', 'Estados', 'Gestión de excepciones',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: '¿Dónde suele aparecer el mayor retorno?',
+                emph: ['No buscamos automatizar más. Buscamos automatizar lo que más impacto genera.'],
+                label: 'La IA suele aportar más valor cuando existe',
+                list: [
+                  'Gran volumen de pedidos', 'Muchas consultas', 'Catálogo amplio', 'Incidencias frecuentes',
+                  'Devoluciones', 'Múltiples sistemas', 'Procesos administrativos repetitivos',
+                  'Equipos grandes',
+                ],
+                label2: 'Antes de desarrollar analizamos',
+                list2: [
+                  'Volumen', 'Frecuencia', 'Tiempo actual', 'Coste operativo', 'Errores',
+                  'Número de usuarios', 'Porcentaje potencialmente automatizable',
+                ],
+              },
+              {
+                type: 'steps',
+                h2: 'Cómo desarrollamos soluciones de IA para Ecommerce y Retail',
+                steps: [
+                  [
+                    'Analizamos el proceso',
+                    'Estudiamos cómo funciona actualmente y qué sistemas, personas y canales intervienen.',
+                  ],
+                  [
+                    'Identificamos puntos de fricción',
+                    'Buscamos tareas repetitivas, incidencias, consultas y movimientos de datos.',
+                  ],
+                  [
+                    'Revisamos sistemas y datos',
+                    'Analizamos ecommerce, ERP, CRM, PIM, WMS, bases de datos y APIs.',
+                  ],
+                  [
+                    'Diseñamos la arquitectura',
+                    'Definimos qué parte necesita IA, qué parte debe permanecer en software convencional y qué controles son necesarios.',
+                  ],
+                  [
+                    'Desarrollamos y evaluamos',
+                    'Probamos casos habituales, errores, excepciones y situaciones límite.',
+                  ],
+                  [
+                    'Desplegamos y monitorizamos',
+                    'Medimos utilización, tiempos, errores, derivaciones y resultados.',
+                  ],
+                ],
+              },
+              {
+                type: 'when',
+                h2: '¿Cuándo merece la pena desarrollar IA a medida en ecommerce o retail?',
+                after: [
+                  'Si una solución estándar resuelve correctamente el problema, desarrollar desde cero no siempre será necesario.',
+                ],
+                label: 'Un desarrollo a medida suele tener sentido cuando',
+                list: [
+                  'Existen varios sistemas que deben trabajar juntos',
+                  'Hay gran volumen de pedidos o consultas',
+                  'El catálogo es complejo',
+                  'Existen reglas específicas',
+                  'Una herramienta estándar no cubre el flujo completo',
+                  'Se necesita control sobre datos y acciones',
+                  'Hay procesos repetitivos de alta frecuencia',
+                ],
+              },
+              {
+                type: 'faq',
+                h2: 'Inteligencia artificial para Ecommerce y Retail',
+                items: [
+                  {
+                    q: '¿Cómo puede utilizarse la IA en ecommerce?',
+                    a: [
+                      'La IA puede utilizarse para atención al cliente, gestión de pedidos, incidencias, devoluciones, catálogo, búsqueda de producto y automatización de procesos internos.',
+                      'También puede conectarse con ecommerce, ERP, CRM, PIM y otras aplicaciones.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede la IA consultar el estado de un pedido?',
+                    a: 'Sí. Un agente conversacional puede consultar información actualizada desde los sistemas autorizados y responder al usuario.',
+                  },
+                  {
+                    q: '¿Puede automatizar devoluciones?',
+                    a: 'Sí. El sistema puede interpretar la solicitud, comprobar condiciones y ejecutar el flujo correspondiente según las reglas definidas.',
+                  },
+                  {
+                    q: '¿Puede conectarse con Shopify, Magento o WooCommerce?',
+                    a: [
+                      'Sí, siempre que exista una vía de integración adecuada.',
+                      'También puede conectarse con plataformas ecommerce propias.',
+                    ],
+                  },
+                  {
+                    q: '¿Puede ayudar a gestionar un catálogo grande?',
+                    a: 'Sí. La IA puede ayudar a clasificar, estructurar y enriquecer información de producto, así como detectar inconsistencias o campos incompletos.',
+                  },
+                  {
+                    q: '¿Puede utilizarse IA para atención al cliente?',
+                    a: 'Sí. Un agente puede responder consultas, consultar pedidos, registrar incidencias y derivar casos cuando sea necesario.',
+                  },
+                  {
+                    q: '¿Es segura la IA para ejecutar acciones sobre pedidos o clientes?',
+                    a: [
+                      'Puede serlo si la arquitectura define permisos, reglas, validaciones y trazabilidad.',
+                      'Las acciones críticas las decide el código, con aprobación humana cuando hace falta.',
+                    ],
+                  },
+                  {
+                    q: '¿Cuánto cuesta implantar IA en ecommerce o retail?',
+                    a: [
+                      'El coste depende del proceso, el volumen, las integraciones, los sistemas implicados y la complejidad de las reglas.',
+                      'Una automatización concreta y un sistema conectado con múltiples plataformas tienen alcances distintos.',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'contact',
+                h2: 'Cuéntanos qué proceso quieres mejorar',
+                p: 'No necesitas llegar con una solución tecnológica definida. Explícanos qué proceso consume tiempo, qué sistemas utiliza vuestro equipo y dónde aparecen más incidencias o trabajo manual. Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+                cta: 'Hablar con Ideasforge sobre Ecommerce y Retail',
               },
             ],
-          },
-          contact: {
-            h2: 'Cuéntanos qué proceso quieres mejorar en tu organización sanitaria',
-            p: [
-              'No necesitas llegar con una solución tecnológica definida.',
-              'Explícanos qué proceso consume tiempo, qué canales utiliza vuestro equipo y qué sistemas forman parte de la operación.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
-            ],
-            cta: 'Hablar con Ideasforge sobre Salud y Grupos Sanitarios',
-          },
-        },
-        sectorLogistics: {
-          metaTitle: 'IA para Logística y Transporte, Ideasforge',
-          metaDescription: 'Soluciones de inteligencia artificial para operadores logísticos, empresas de transporte, distribución y organizaciones con cadenas operativas complejas.',
-          h1: 'IA para Logística y Transporte',
-          lead: [
-            'Ideasforge desarrolla soluciones de inteligencia artificial para operadores logísticos, empresas de transporte, distribución y organizaciones con cadenas operativas complejas.',
-            'Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con TMS, ERP, CRM, bases de datos, documentación, correo electrónico, APIs y aplicaciones internas.',
-          ],
-          statement: [
-            'No aplicamos IA a la logística de forma genérica.',
-            'La integramos en los procesos donde puede reducir tiempos, errores y trabajo manual.',
-          ],
-          cta: 'Cuéntanos qué proceso logístico quieres mejorar',
-          sections: [
-            {
-              heading: 'Inteligencia artificial para operaciones logísticas complejas',
-              blocks: [
-                'Las empresas de logística y transporte trabajan con:',
-                {
-                  t: 'list',
-                  items: [
-                    'pedidos', 'expediciones', 'rutas', 'almacenes', 'incidencias', 'transportistas',
-                    'proveedores', 'documentación', 'facturación', 'clientes', 'TMS', 'ERP', 'CRM',
-                    'correo electrónico', 'aplicaciones internas',
-                  ],
-                },
-                'Cuando la información está distribuida entre múltiples sistemas, gran parte del trabajo depende de personas que consultan datos, coordinan incidencias, actualizan estados y mueven información entre herramientas.',
-                'La inteligencia artificial puede ayudar a interpretar esa información y utilizarla dentro de procesos automatizados.',
-              ],
-            },
-            {
-              heading: '¿Qué puede automatizar la IA en logística y transporte?',
-              blocks: ['La IA puede intervenir en procesos operativos, administrativos, documentales y de atención.'],
-              subsections: [
-                {
-                  heading: 'Gestión de incidencias',
-                  blocks: [
-                    'Un sistema puede recibir una incidencia, interpretarla y clasificarla.',
-                    'Por ejemplo:',
-                    {
-                      t: 'list',
-                      items: [
-                        'retrasos', 'entregas fallidas', 'mercancía dañada', 'problemas de documentación',
-                        'direcciones incorrectas', 'errores de preparación', 'discrepancias de pedido',
-                      ],
-                    },
-                    'Después puede consultar datos, actualizar sistemas o derivar el caso al equipo correspondiente.',
-                  ],
-                },
-                {
-                  heading: 'Procesamiento de pedidos',
-                  blocks: [
-                    'La IA puede interpretar información recibida desde emails, formularios, documentos o integraciones y convertirla en datos estructurados.',
-                    'El proceso puede continuar automáticamente hacia ERP, TMS o software interno.',
-                  ],
-                },
-                {
-                  heading: 'Gestión documental',
-                  blocks: [
-                    'Podemos automatizar la clasificación y extracción de información desde:',
-                    {
-                      t: 'list',
-                      items: [
-                        'albaranes', 'cartas de porte', 'facturas', 'pedidos', 'comprobantes',
-                        'documentación de entrega', 'formularios', 'documentación de proveedores',
-                      ],
-                    },
-                  ],
-                },
-                {
-                  heading: 'Atención a clientes',
-                  blocks: [
-                    'Un agente conversacional puede responder consultas sobre estados, entregas, incidencias o documentación.',
-                    'Cuando la solicitud necesita intervención humana, puede derivarse con el contexto ya recopilado.',
-                  ],
-                },
-                {
-                  heading: 'Coordinación entre sistemas',
-                  blocks: [
-                    'La IA puede formar parte de procesos que conectan:',
-                    {
-                      t: 'list',
-                      items: [
-                        'TMS', 'ERP', 'CRM', 'bases de datos', 'correo electrónico', 'APIs',
-                        'aplicaciones internas',
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'IA para gestión de incidencias logísticas',
-              blocks: [
-                'Las incidencias son uno de los procesos donde más tiempo puede perder una organización logística.',
-                'Una incidencia puede llegar por:',
-                {
-                  t: 'list',
-                  items: ['email', 'formulario', 'teléfono transcrito', 'portal', 'chat', 'sistema interno'],
-                },
-                'La IA puede ayudar a:',
-                {
-                  t: 'steps',
-                  items: [
-                    'interpretar el problema', 'identificar el envío o pedido', 'clasificar la incidencia',
-                    'recuperar información relacionada', 'aplicar reglas', 'actualizar el sistema',
-                    'asignar el caso', 'comunicar el estado',
-                  ],
-                },
-                'Los casos fuera de norma pueden pasar a revisión.',
-              ],
-            },
-            {
-              heading: 'Agentes de IA conectados con TMS, ERP y CRM',
-              blocks: [
-                'Un agente puede convertirse en una capa de acceso sobre los sistemas logísticos existentes.',
-                'Puede consultar información de:',
-                {
-                  t: 'list',
-                  items: ['TMS', 'ERP', 'CRM', 'WMS', 'bases de datos', 'APIs', 'aplicaciones propias'],
-                },
-                'Por ejemplo:',
-                { t: 'quote', text: '¿Qué expediciones llevan más de 24 horas sin actualización?' },
-                'o:',
-                { t: 'quote', text: '¿Qué incidencias abiertas afectan a clientes prioritarios?' },
-                'El sistema puede recuperar la información autorizada sin obligar al usuario a revisar varias aplicaciones.',
-                'Dependiendo de los permisos, también puede ejecutar acciones.',
-              ],
-            },
-            {
-              heading: 'Automatización de procesos logísticos con IA',
-              blocks: [
-                'Muchos procesos logísticos necesitan combinar interpretación y reglas.',
-                'Por ejemplo:',
-                {
-                  t: 'flow',
-                  steps: [
-                    'Email recibido', 'interpretación', 'identificación de envío', 'clasificación', 'TMS',
-                    'asignación', 'respuesta',
-                  ],
-                },
-                'o:',
-                {
-                  t: 'flow',
-                  steps: ['Documento recibido', 'extracción', 'validación', 'ERP', 'archivo', 'excepción'],
-                },
-                'La IA interpreta la información variable.',
-                'El software controla el proceso.',
-                { t: 'strong', text: 'IA donde hay variabilidad. Reglas donde necesitamos certeza.' },
-              ],
-            },
-            {
-              heading: 'Procesamiento automático de documentación logística',
-              blocks: [
-                'La logística genera un gran volumen de documentos.',
-                'La IA puede ayudar a:',
-                {
-                  t: 'list',
-                  items: [
-                    'identificar el tipo de documento',
-                    'extraer datos',
-                    'validar campos',
-                    'relacionar documentos con pedidos o expediciones',
-                    'detectar información faltante',
-                    'iniciar workflows',
-                  ],
-                },
-                'Esto puede aplicarse a:',
-                {
-                  t: 'list',
-                  items: [
-                    'albaranes', 'comprobantes', 'facturas', 'documentos de transporte', 'órdenes',
-                    'justificantes',
-                  ],
-                },
-                'Una vez estructurada la información, el resto del proceso puede continuar automáticamente.',
-              ],
-            },
-            {
-              heading: 'Atención al cliente conectada con datos reales',
-              blocks: [
-                'Un chatbot logístico puede hacer mucho más que responder preguntas frecuentes.',
-                'Cuando está conectado con los sistemas de la empresa puede:',
-                {
-                  t: 'list',
-                  items: [
-                    'consultar estados', 'recuperar información de pedidos', 'registrar incidencias',
-                    'recopilar datos', 'iniciar solicitudes', 'derivar casos', 'enviar confirmaciones',
-                  ],
-                },
-                'La conversación se convierte en una interfaz sobre el proceso logístico.',
-                { t: 'link', label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
-              ],
-            },
-            {
-              heading: 'IA para almacenes y distribución',
-              blocks: [
-                'En operaciones de almacén y distribución, la IA puede ayudar a:',
-                {
-                  t: 'list',
-                  items: [
-                    'consultar incidencias', 'acceder a procedimientos', 'interpretar documentación',
-                    'recuperar información de pedidos', 'automatizar comunicaciones', 'coordinar sistemas',
-                  ],
-                },
-                'No todas las tareas requieren IA.',
-                'Las operaciones estructuradas siguen siendo mejores candidatas para software determinista.',
-              ],
-            },
-            {
-              heading: 'IA para planificación y operaciones',
-              blocks: [
-                'La inteligencia artificial puede ayudar a interpretar información operativa y facilitar el acceso a datos.',
-                'Por ejemplo:',
-                {
-                  t: 'list',
-                  items: [
-                    'identificar expediciones con riesgo', 'resumir incidencias', 'consultar históricos',
-                    'priorizar casos', 'detectar excepciones',
-                  ],
-                },
-                'Cuando una decisión requiere reglas críticas, esas reglas pueden mantenerse fuera del modelo.',
-              ],
-            },
-            {
-              heading: 'Asistentes internos sobre procedimientos y conocimiento logístico',
-              blocks: [
-                'Los equipos logísticos trabajan con:',
-                {
-                  t: 'list',
-                  items: [
-                    'procedimientos', 'manuales', 'instrucciones', 'documentación de clientes', 'políticas',
-                    'normativa', 'procesos internos',
-                  ],
-                },
-                'Un asistente puede permitir consultar esa información mediante lenguaje natural.',
-                'También puede mostrar las fuentes utilizadas y respetar permisos.',
-                {
-                  t: 'link',
-                  label: 'IA para documentación interna y conocimiento empresarial',
-                  href: '/servicios/conocimiento-corporativo',
-                },
-              ],
-            },
-            {
-              heading: 'Automatización de correo electrónico',
-              blocks: [
-                'El email sigue siendo uno de los principales puntos de entrada de información.',
-                'La IA puede ayudar a:',
-                {
-                  t: 'list',
-                  items: [
-                    'identificar pedidos', 'clasificar solicitudes', 'extraer referencias',
-                    'detectar incidencias', 'registrar información', 'iniciar workflows',
-                  ],
-                },
-                'Esto permite convertir mensajes no estructurados en procesos controlados.',
-              ],
-            },
-            {
-              heading: 'Integración con sistemas existentes',
-              blocks: [
-                'No necesitas sustituir la infraestructura actual.',
-                'Podemos diseñar soluciones conectadas con:',
-                {
-                  t: 'list',
-                  items: [
-                    'TMS', 'WMS', 'ERP', 'CRM', 'bases de datos', 'APIs', 'software interno',
-                    'correo electrónico', 'almacenamiento documental', 'portales',
-                  ],
-                },
-                'Antes de integrar analizamos:',
-                {
-                  t: 'list',
-                  items: [
-                    'permisos', 'calidad de datos', 'operaciones permitidas', 'impacto de errores',
-                    'trazabilidad', 'necesidad de validación humana',
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'Control, trazabilidad y gestión de excepciones',
-              blocks: [
-                'En logística, una excepción puede tener impacto en entregas, clientes y costes.',
-                'Por eso una automatización debe poder:',
-                {
-                  t: 'list',
-                  items: [
-                    'registrar estados', 'generar alertas', 'detener procesos', 'escalar casos',
-                    'reintentar operaciones', 'derivar a una persona', 'mantener trazabilidad',
-                  ],
-                },
-                'La IA puede interpretar.',
-                'El sistema debe mantener el control.',
-              ],
-            },
-            {
-              heading: '¿Dónde suele aparecer el mayor retorno?',
-              blocks: [
-                'La IA suele aportar más valor cuando existe:',
-                {
-                  t: 'list',
-                  items: [
-                    'gran volumen de pedidos', 'muchas incidencias', 'documentación repetitiva',
-                    'múltiples sistemas', 'atención constante', 'procesos administrativos intensivos',
-                    'información no estructurada', 'necesidad de coordinación entre equipos',
-                  ],
-                },
-                'Antes de desarrollar analizamos:',
-                {
-                  t: 'list',
-                  items: [
-                    'volumen', 'frecuencia', 'tiempo actual', 'número de personas implicadas',
-                    'coste operativo', 'errores', 'porcentaje potencialmente automatizable',
-                  ],
-                },
-                {
-                  t: 'strong',
-                  text: 'No buscamos automatizar todo. Buscamos automatizar lo que más impacto genera.',
-                },
-              ],
-            },
-            {
-              heading: 'Cómo desarrollamos soluciones de IA para Logística',
-              blocks: [],
-              method: [
-                [
-                  'Analizamos el proceso',
-                  'Estudiamos cómo funciona actualmente y qué sistemas, personas y fuentes intervienen.',
-                ],
-                [
-                  'Identificamos puntos de fricción',
-                  'Buscamos incidencias, tareas repetitivas, movimientos de datos y pasos manuales.',
-                ],
-                [
-                  'Revisamos sistemas y documentación',
-                  'Analizamos TMS, WMS, ERP, CRM, bases de datos y canales.',
-                ],
-                [
-                  'Diseñamos la arquitectura',
-                  'Definimos qué parte necesita IA y qué parte debe mantenerse bajo reglas convencionales.',
-                ],
-                [
-                  'Desarrollamos y evaluamos',
-                  'Probamos casos habituales, errores, excepciones y situaciones límite.',
-                ],
-                [
-                  'Desplegamos y monitorizamos',
-                  'Medimos utilización, tiempos, errores, excepciones y resultados.',
-                ],
-              ],
-            },
-            {
-              heading: '¿Cuándo merece la pena desarrollar IA a medida en logística?',
-              blocks: [
-                'Un desarrollo a medida suele tener sentido cuando:',
-                {
-                  t: 'list',
-                  items: [
-                    'existen varios sistemas que deben trabajar juntos',
-                    'hay gran volumen de operaciones',
-                    'el proceso recibe información no estructurada',
-                    'existen reglas específicas',
-                    'hay muchas excepciones',
-                    'una herramienta estándar no cubre el flujo completo',
-                    'se necesita control sobre datos y acciones',
-                  ],
-                },
-                'Si una solución estándar resuelve correctamente el problema, desarrollar desde cero no siempre será necesario.',
-              ],
-            },
-          ],
-          faq: {
-            h2: 'Preguntas frecuentes sobre inteligencia artificial para logística y transporte',
-            items: [
-              {
-                q: '¿Cómo puede utilizarse la IA en logística?',
-                a: [
-                  'La IA puede utilizarse para gestionar incidencias, procesar documentación, automatizar pedidos, atender consultas y conectar información entre sistemas logísticos.',
-                  'También puede trabajar con TMS, WMS, ERP, CRM y bases de datos.',
-                ],
-              },
-              {
-                q: '¿Puede la IA conectarse con un TMS?',
-                a: [
-                  'Sí. Un sistema de IA puede conectarse con un TMS siempre que exista una vía de integración adecuada.',
-                  'Puede consultar información o ejecutar acciones según los permisos definidos.',
-                ],
-              },
-              {
-                q: '¿Puede automatizarse la gestión de incidencias?',
-                a: [
-                  'Sí. La IA puede interpretar una incidencia, clasificarla, recuperar información relacionada y activar el workflow correspondiente.',
-                  'Los casos complejos pueden derivarse a una persona.',
-                ],
-              },
-              {
-                q: '¿Puede procesar albaranes y documentos de transporte?',
-                a: 'Sí. La IA puede ayudar a clasificar documentos y extraer información relevante para incorporarla a procesos automáticos.',
-              },
-              {
-                q: '¿Puede responder consultas sobre el estado de un pedido?',
-                a: 'Sí. Un agente conversacional puede consultar información actualizada desde los sistemas autorizados y responder al usuario.',
-              },
-              {
-                q: '¿Puede automatizar correos relacionados con pedidos y entregas?',
-                a: 'Sí. El sistema puede interpretar emails, extraer referencias, identificar el motivo y activar el proceso correspondiente.',
-              },
-              {
-                q: '¿Es segura la IA en operaciones logísticas?',
-                a: [
-                  'Puede serlo si la arquitectura define correctamente permisos, validaciones, trazabilidad y límites de actuación.',
-                  'Las acciones críticas pueden requerir reglas o aprobación humana.',
-                ],
-              },
-              {
-                q: '¿Cuánto cuesta implantar IA en una empresa logística?',
-                a: [
-                  'El coste depende del proceso, el volumen, los sistemas implicados, las integraciones y la complejidad de las reglas.',
-                  'Una automatización concreta y un sistema conectado con múltiples plataformas tienen alcances distintos.',
-                ],
-              },
-            ],
-          },
-          contact: {
-            h2: 'Cuéntanos qué proceso logístico quieres mejorar',
-            p: [
-              'No necesitas llegar con una solución tecnológica definida.',
-              'Explícanos qué proceso consume tiempo, qué sistemas utiliza vuestro equipo y dónde aparecen incidencias o tareas manuales.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
-            ],
-            cta: 'Hablar con Ideasforge sobre Logística y Transporte',
-          },
-        },
-        sectorEnergy: {
-          metaTitle: 'IA para Energía y Utilities, Ideasforge',
-          metaDescription: 'Soluciones de inteligencia artificial para compañías energéticas, utilities y operadores de infraestructuras.',
-          h1: 'IA para Energía y Utilities',
-          lead: [
-            'Ideasforge desarrolla soluciones de inteligencia artificial para compañías energéticas, utilities y operadores de infraestructuras que necesitan automatizar procesos, acceder mejor al conocimiento técnico y conectar información distribuida entre múltiples sistemas.',
-            'Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con ERP, CRM, bases de datos, documentación técnica, sistemas de mantenimiento, APIs, correo electrónico y aplicaciones internas.',
-          ],
-          statement: [
-            'No aplicamos IA de forma genérica.',
-            'La integramos en procesos concretos donde puede reducir tiempos, mejorar el acceso a la información o eliminar trabajo manual.',
-          ],
-          cta: 'Cuéntanos qué proceso quieres mejorar',
-          sections: [
-            {
-              heading: 'Inteligencia artificial para organizaciones energéticas complejas',
-              blocks: [
-                'Las empresas de energía y utilities trabajan con:',
-                {
-                  t: 'list',
-                  items: [
-                    'activos', 'infraestructuras', 'mantenimiento', 'incidencias', 'contratos', 'clientes',
-                    'proveedores', 'documentación técnica', 'normativa', 'sistemas de gestión', 'ERP', 'CRM',
-                    'bases de datos', 'aplicaciones internas',
-                  ],
-                },
-                'Cuando la información está repartida entre múltiples plataformas, parte del trabajo diario depende de personas que buscan datos, revisan documentación, coordinan incidencias o actualizan sistemas manualmente.',
-                'La inteligencia artificial puede ayudar a interpretar esa información y utilizarla dentro de procesos más eficientes.',
-              ],
-            },
-            {
-              heading: '¿Qué puede automatizar la IA en energía y utilities?',
-              blocks: [
-                'La IA puede intervenir en procesos técnicos, operativos, administrativos, documentales y de atención.',
-              ],
-              subsections: [
-                {
-                  heading: 'Gestión de incidencias',
-                  blocks: [
-                    'Un sistema puede recibir una incidencia, interpretarla y clasificarla.',
-                    'Por ejemplo:',
-                    {
-                      t: 'list',
-                      items: [
-                        'fallos', 'cortes', 'anomalías', 'problemas de suministro',
-                        'incidencias de mantenimiento', 'problemas de facturación', 'errores documentales',
-                      ],
-                    },
-                    'Después puede recuperar información, actualizar sistemas o derivar el caso al equipo correspondiente.',
-                  ],
-                },
-                {
-                  heading: 'Consulta de documentación técnica',
-                  blocks: [
-                    'Un asistente puede ayudar a localizar información dentro de:',
-                    {
-                      t: 'list',
-                      items: [
-                        'manuales', 'procedimientos', 'fichas técnicas', 'documentación de mantenimiento',
-                        'protocolos', 'documentación regulatoria', 'instrucciones internas',
-                      ],
-                    },
-                  ],
-                },
-                {
-                  heading: 'Acceso a datos operativos',
-                  blocks: [
-                    'Un agente puede consultar información almacenada en bases de datos, ERP, sistemas de mantenimiento u otras aplicaciones.',
-                    'Por ejemplo:',
-                    { t: 'quote', text: '¿Qué incidencias siguen abiertas en esta instalación?' },
-                    'o:',
-                    { t: 'quote', text: '¿Qué activos tienen mantenimientos pendientes este mes?' },
-                  ],
-                },
-                {
-                  heading: 'Procesos administrativos',
-                  blocks: [
-                    'La IA puede ayudar a automatizar:',
-                    {
-                      t: 'list',
-                      items: [
-                        'entrada de datos', 'clasificación de emails', 'validaciones',
-                        'generación de documentos', 'actualización de sistemas',
-                        'coordinación entre aplicaciones',
-                      ],
-                    },
-                  ],
-                },
-                {
-                  heading: 'Atención al cliente',
-                  blocks: [
-                    'Un agente conversacional puede responder consultas administrativas, recuperar información y registrar solicitudes.',
-                    'Los casos que requieren intervención humana pueden derivarse con el contexto ya recopilado.',
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'IA para mantenimiento e infraestructura',
-              blocks: [
-                'Las organizaciones energéticas gestionan activos con documentación, históricos y procesos de mantenimiento complejos.',
-                'La IA puede ayudar a acceder a:',
-                {
-                  t: 'list',
-                  items: [
-                    'órdenes de trabajo', 'históricos', 'manuales', 'procedimientos',
-                    'incidencias anteriores', 'documentación de fabricante', 'información técnica',
-                  ],
-                },
-                'Por ejemplo, un técnico podría consultar:',
-                { t: 'quote', text: '¿Qué intervenciones se han realizado anteriormente sobre este equipo?' },
-                'El sistema puede recuperar información desde las fuentes autorizadas.',
-              ],
-            },
-            {
-              heading: 'Agentes de IA conectados con sistemas energéticos',
-              blocks: [
-                'Un agente puede convertirse en una capa de acceso sobre distintos sistemas empresariales.',
-                'Dependiendo del proyecto puede trabajar con:',
-                {
-                  t: 'list',
-                  items: [
-                    'ERP', 'CRM', 'CMMS', 'bases de datos', 'APIs', 'sistemas de mantenimiento',
-                    'software interno', 'gestores documentales', 'aplicaciones propias',
-                  ],
-                },
-                'El objetivo no es sustituir esas herramientas.',
-                'Es facilitar el acceso a la información y automatizar procesos entre ellas.',
-              ],
-            },
-            {
-              heading: 'Automatización de procesos con IA',
-              blocks: [
-                'Muchos procesos en energía y utilities necesitan combinar interpretación y reglas.',
-                'Por ejemplo:',
-                {
-                  t: 'flow',
-                  steps: [
-                    'Incidencia recibida', 'interpretación', 'clasificación', 'consulta de datos',
-                    'creación de orden', 'asignación',
-                  ],
-                },
-                'o:',
-                {
-                  t: 'flow',
-                  steps: ['Documento recibido', 'extracción', 'validación', 'ERP', 'archivo', 'excepción'],
-                },
-                'La IA interpreta la información variable.',
-                'El software mantiene el control sobre reglas, permisos y acciones.',
-                { t: 'strong', text: 'IA donde hace falta entender. Software donde hace falta certeza.' },
-              ],
-            },
-            {
-              heading: 'IA para documentación técnica y normativa',
-              blocks: [
-                'Las empresas energéticas trabajan con grandes volúmenes de documentación.',
-                'Un asistente puede ayudar a consultar:',
-                {
-                  t: 'list',
-                  items: [
-                    'procedimientos', 'manuales', 'normativa', 'políticas', 'documentación de seguridad',
-                    'documentación de activos', 'informes', 'especificaciones',
-                  ],
-                },
-                'El usuario puede preguntar en lenguaje natural y recibir una respuesta basada en fuentes autorizadas.',
-                'También puede mostrarse el documento original utilizado.',
-                {
-                  t: 'link',
-                  label: 'IA para documentación interna y conocimiento empresarial',
-                  href: '/servicios/conocimiento-corporativo',
-                },
-              ],
-            },
-            {
-              heading: 'Gestión de incidencias y soporte operativo',
-              blocks: [
-                'La IA puede ayudar a:',
-                {
-                  t: 'list',
-                  items: [
-                    'interpretar incidencias', 'clasificarlas', 'recuperar antecedentes',
-                    'localizar documentación relacionada', 'priorizar casos', 'activar workflows',
-                  ],
-                },
-                'Los casos complejos pueden derivarse a una persona.',
-                'Esto permite reducir el tiempo dedicado a tareas de clasificación y búsqueda.',
-              ],
-            },
-            {
-              heading: 'Atención al cliente conectada con sistemas reales',
-              blocks: [
-                'Un chatbot para utilities puede hacer más que responder preguntas frecuentes.',
-                'Cuando está conectado con sistemas internos puede:',
-                {
-                  t: 'list',
-                  items: [
-                    'consultar estados', 'recuperar información de contratos', 'registrar incidencias',
-                    'recopilar datos', 'iniciar solicitudes', 'derivar casos', 'enviar confirmaciones',
-                  ],
-                },
-                'La conversación puede convertirse en una interfaz sobre procesos reales.',
-                { t: 'link', label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
-              ],
-            },
-            {
-              heading: 'Automatización de correo electrónico y solicitudes',
-              blocks: [
-                'El correo electrónico sigue siendo un punto de entrada importante para procesos internos y externos.',
-                'La IA puede ayudar a:',
-                {
-                  t: 'list',
-                  items: [
-                    'interpretar mensajes', 'clasificar solicitudes', 'identificar activos o contratos',
-                    'extraer información', 'iniciar workflows', 'asignar casos',
-                  ],
-                },
-                'Esto permite convertir información no estructurada en procesos controlados.',
-              ],
-            },
-            {
-              heading: 'IA para operaciones de campo',
-              blocks: [
-                'Los equipos de campo pueden necesitar acceso rápido a:',
-                {
-                  t: 'list',
-                  items: [
-                    'procedimientos', 'documentación técnica', 'históricos', 'información de activos',
-                    'órdenes de trabajo', 'incidencias anteriores',
-                  ],
-                },
-                'Un asistente puede ayudar a recuperar esa información sin obligar al usuario a navegar por múltiples aplicaciones.',
-                'La IA no sustituye el criterio técnico.',
-                'Facilita el acceso al conocimiento.',
-              ],
-            },
-            {
-              heading: 'Integración con sistemas existentes',
-              blocks: [
-                'No necesitas sustituir la infraestructura actual para aplicar inteligencia artificial.',
-                'Podemos diseñar soluciones conectadas con:',
-                {
-                  t: 'list',
-                  items: [
-                    'ERP', 'CRM', 'CMMS', 'bases de datos', 'software de activos', 'gestores documentales',
-                    'APIs', 'correo electrónico', 'aplicaciones internas',
-                  ],
-                },
-                'Antes de integrar analizamos:',
-                {
-                  t: 'list',
-                  items: [
-                    'permisos', 'calidad de datos', 'operaciones permitidas', 'impacto de errores',
-                    'trazabilidad', 'necesidad de validación humana',
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'Seguridad, permisos y trazabilidad',
-              blocks: [
-                'En energía y utilities, una acción incorrecta puede tener impacto operativo o regulatorio.',
-                'Por eso no diseñamos sistemas con libertad ilimitada.',
-                'Podemos incorporar:',
-                {
-                  t: 'list',
-                  items: [
-                    'permisos', 'validaciones', 'límites de actuación', 'reglas de negocio',
-                    'aprobación humana', 'logs', 'trazabilidad', 'estados', 'recuperación ante errores',
-                  ],
-                },
-                'La IA puede interpretar.',
-                'Las decisiones críticas pueden permanecer bajo reglas deterministas.',
-              ],
-            },
-            {
-              heading: 'No todo proceso energético necesita IA',
-              blocks: [
-                'Parte de nuestro trabajo consiste en identificar dónde la inteligencia artificial aporta valor y dónde no.',
-                'Tiene sentido cuando existe:',
-                {
-                  t: 'list',
-                  items: [
-                    'documentación no estructurada', 'lenguaje natural', 'múltiples fuentes',
-                    'necesidad de recuperar conocimiento', 'gran volumen de incidencias',
-                    'procesos variables',
-                  ],
-                },
-                'Cuando una tarea puede resolverse mediante reglas claras, normalmente preferimos software convencional.',
-                {
-                  t: 'strong',
-                  text: 'Un buen sistema no utiliza más IA. Utiliza IA exactamente donde la necesita.',
-                },
-              ],
-            },
-            {
-              heading: '¿Dónde suele aparecer el mayor retorno?',
-              blocks: [
-                'La IA suele aportar más valor cuando existe:',
-                {
-                  t: 'list',
-                  items: [
-                    'gran volumen de incidencias', 'documentación abundante', 'múltiples activos',
-                    'equipos distribuidos', 'sistemas poco conectados', 'tareas administrativas repetitivas',
-                    'tiempos elevados de búsqueda', 'alta frecuencia de consultas',
-                  ],
-                },
-                'Antes de desarrollar analizamos:',
-                {
-                  t: 'list',
-                  items: [
-                    'volumen', 'frecuencia', 'tiempo actual', 'coste operativo', 'número de usuarios',
-                    'errores', 'impacto', 'porcentaje potencialmente automatizable',
-                  ],
-                },
-                { t: 'strong', text: 'El objetivo es mejorar la operación, no añadir tecnología.' },
-              ],
-            },
-            {
-              heading: 'Cómo desarrollamos soluciones de IA para Energía y Utilities',
-              blocks: [],
-              method: [
-                [
-                  'Analizamos el proceso',
-                  'Estudiamos cómo funciona actualmente y qué sistemas, personas y fuentes intervienen.',
-                ],
-                [
-                  'Identificamos oportunidades',
-                  'Buscamos tareas repetitivas, incidencias, búsquedas de información y procesos manuales.',
-                ],
-                [
-                  'Revisamos sistemas y documentación',
-                  'Analizamos ERP, CRM, CMMS, bases de datos, documentación técnica y aplicaciones internas.',
-                ],
-                [
-                  'Diseñamos la arquitectura',
-                  'Definimos qué parte necesita IA, qué parte debe permanecer en software convencional y qué controles son necesarios.',
-                ],
-                [
-                  'Desarrollamos y evaluamos',
-                  'Probamos casos reales, errores, excepciones y situaciones límite.',
-                ],
-                [
-                  'Desplegamos y monitorizamos',
-                  'Medimos utilización, tiempos, errores, calidad de respuesta y resultados.',
-                ],
-              ],
-            },
-            {
-              heading: '¿Cuándo merece la pena desarrollar IA a medida en energía?',
-              blocks: [
-                'Un desarrollo a medida suele tener sentido cuando:',
-                {
-                  t: 'list',
-                  items: [
-                    'existen varios sistemas que deben trabajar juntos',
-                    'hay documentación propia',
-                    'se gestionan múltiples activos',
-                    'existen reglas específicas',
-                    'una plataforma estándar no cubre el flujo completo',
-                    'se necesita control sobre datos y permisos',
-                    'existe suficiente volumen para justificar el desarrollo',
-                  ],
-                },
-                'Si una solución estándar resuelve correctamente el problema, desarrollar desde cero no siempre será necesario.',
-              ],
-            },
-          ],
-          faq: {
-            h2: 'Preguntas frecuentes sobre inteligencia artificial para Energía y Utilities',
-            items: [
-              {
-                q: '¿Cómo puede utilizarse la IA en una empresa energética?',
-                a: [
-                  'La IA puede utilizarse para gestionar incidencias, consultar documentación técnica, acceder a datos operativos, automatizar procesos administrativos y facilitar la atención al cliente.',
-                  'También puede conectarse con ERP, CRM, CMMS y bases de datos.',
-                ],
-              },
-              {
-                q: '¿Puede la IA ayudar en mantenimiento?',
-                a: [
-                  'Sí. La IA puede ayudar a localizar documentación, recuperar históricos, consultar incidencias anteriores y acceder a información sobre activos.',
-                  'No sustituye el criterio técnico, pero puede reducir tiempos de búsqueda.',
-                ],
-              },
-              {
-                q: '¿Puede conectarse con sistemas de gestión de activos?',
-                a: [
-                  'Sí, siempre que exista una vía de integración adecuada.',
-                  'Puede consultar información o ejecutar acciones según los permisos definidos.',
-                ],
-              },
-              {
-                q: '¿Puede utilizarse IA sobre documentación técnica y normativa?',
-                a: [
-                  'Sí. Un asistente puede consultar manuales, procedimientos, normativa y otra documentación mediante lenguaje natural.',
-                  'También puede mostrar las fuentes utilizadas.',
-                ],
-              },
-              {
-                q: '¿Puede automatizarse la gestión de incidencias?',
-                a: [
-                  'Sí. La IA puede interpretar una incidencia, clasificarla, recuperar información relacionada y activar el workflow correspondiente.',
-                  'Los casos complejos pueden derivarse a una persona.',
-                ],
-              },
-              {
-                q: '¿Puede utilizarse IA para atención al cliente en utilities?',
-                a: 'Sí. Un agente conversacional puede responder consultas administrativas, registrar incidencias y consultar información autorizada.',
-              },
-              {
-                q: '¿Es segura la IA en el sector energético?',
-                a: [
-                  'Puede serlo si la arquitectura define correctamente permisos, validaciones, trazabilidad y límites de actuación.',
-                  'Las acciones críticas pueden permanecer bajo reglas o aprobación humana.',
-                ],
-              },
-              {
-                q: '¿Cuánto cuesta implantar IA en una compañía energética?',
-                a: [
-                  'El coste depende del proceso, las integraciones, los sistemas implicados, los datos, la arquitectura y los requisitos de seguridad.',
-                  'Un asistente documental y un sistema conectado con varios entornos operativos tienen alcances distintos.',
-                ],
-              },
-            ],
-          },
-          contact: {
-            h2: 'Cuéntanos qué proceso quieres mejorar',
-            p: [
-              'No necesitas llegar con una solución tecnológica definida.',
-              'Explícanos qué proceso consume tiempo, dónde está la información y qué sistemas utiliza vuestro equipo.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
-            ],
-            cta: 'Hablar con Ideasforge sobre Energía y Utilities',
-          },
-        },
-        sectorEcommerce: {
-          metaTitle: 'IA para Ecommerce y Retail, Ideasforge',
-          metaDescription: 'Soluciones de inteligencia artificial para empresas de ecommerce, retail y distribución.',
-          h1: 'IA para Ecommerce y Retail',
-          lead: [
-            'Ideasforge desarrolla soluciones de inteligencia artificial para empresas de ecommerce, retail y distribución que necesitan automatizar operaciones, mejorar la atención y conectar sistemas comerciales, logísticos y administrativos.',
-            'Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con ecommerce, ERP, CRM, PIM, bases de datos, herramientas de atención, logística, correo electrónico, APIs y aplicaciones internas.',
-          ],
-          statement: [
-            'No aplicamos IA para añadir una capa superficial a la tienda.',
-            'La integramos en procesos donde puede reducir trabajo manual, mejorar la experiencia del cliente o acelerar la operación.',
-          ],
-          cta: 'Cuéntanos qué proceso quieres mejorar',
-          sections: [
-            {
-              heading: 'Inteligencia artificial para operaciones de ecommerce y retail',
-              blocks: [
-                'Las empresas de ecommerce y retail trabajan con:',
-                {
-                  t: 'list',
-                  items: [
-                    'productos', 'catálogo', 'pedidos', 'clientes', 'devoluciones', 'incidencias',
-                    'promociones', 'proveedores', 'inventario', 'atención', 'ERP', 'CRM', 'PIM', 'ecommerce',
-                    'logística', 'bases de datos', 'aplicaciones internas',
-                  ],
-                },
-                'Cuando la información está distribuida entre varias herramientas, parte del trabajo diario depende de personas que buscan datos, actualizan sistemas, responden consultas o coordinan incidencias.',
-                'La inteligencia artificial puede ayudar a interpretar esa información y utilizarla dentro de procesos automatizados.',
-              ],
-            },
-            {
-              heading: '¿Qué puede automatizar la IA en ecommerce y retail?',
-              blocks: ['La IA puede intervenir en procesos comerciales, operativos, administrativos y de atención.'],
-              subsections: [
-                {
-                  heading: 'Atención al cliente',
-                  blocks: [
-                    'Un agente conversacional puede responder consultas sobre:',
-                    {
-                      t: 'list',
-                      items: [
-                        'productos', 'pedidos', 'devoluciones', 'disponibilidad', 'envíos', 'incidencias',
-                        'políticas', 'promociones',
-                      ],
-                    },
-                    'Cuando la consulta requiere intervención humana, puede derivarse con el contexto ya recopilado.',
-                  ],
-                },
-                {
-                  heading: 'Gestión de pedidos',
-                  blocks: [
-                    'La IA puede ayudar a interpretar solicitudes, detectar incidencias y coordinar acciones entre ecommerce, ERP, logística y atención.',
-                  ],
-                },
-                {
-                  heading: 'Catálogo y producto',
-                  blocks: [
-                    'Un sistema puede ayudar a:',
-                    {
-                      t: 'list',
-                      items: [
-                        'estructurar información', 'enriquecer fichas', 'clasificar productos',
-                        'detectar datos faltantes', 'resumir características', 'adaptar contenido interno',
-                      ],
-                    },
-                  ],
-                },
-                {
-                  heading: 'Gestión de incidencias',
-                  blocks: [
-                    'La IA puede interpretar una incidencia, identificar el pedido o cliente, clasificarla y activar el proceso adecuado.',
-                  ],
-                },
-                {
-                  heading: 'Procesos administrativos',
-                  blocks: [
-                    'También puede intervenir en:',
-                    {
-                      t: 'list',
-                      items: [
-                        'validaciones', 'entrada de datos', 'coordinación entre sistemas',
-                        'clasificación de emails', 'generación de documentos', 'actualización de estados',
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'Atención al cliente conectada con pedidos y catálogo',
-              blocks: [
-                'Un chatbot de ecommerce puede hacer mucho más que responder preguntas frecuentes.',
-                'Cuando está conectado con los sistemas de la empresa puede:',
-                {
-                  t: 'list',
-                  items: [
-                    'consultar pedidos', 'revisar estados', 'recuperar información de producto',
-                    'comprobar disponibilidad', 'registrar incidencias', 'iniciar devoluciones',
-                    'recopilar datos', 'derivar casos',
-                  ],
-                },
-                'La conversación se convierte en una interfaz sobre los procesos reales del negocio.',
-                { t: 'link', label: 'Agentes conversacionales', href: '/servicios/agentes-conversacionales' },
-              ],
-            },
-            {
-              heading: 'Agentes de IA conectados con ecommerce, ERP y CRM',
-              blocks: [
-                'Un agente puede trabajar sobre la infraestructura que ya utiliza la empresa.',
-                'Puede consultar o utilizar información de:',
-                {
-                  t: 'list',
-                  items: [
-                    'plataforma ecommerce', 'ERP', 'CRM', 'PIM', 'WMS', 'bases de datos', 'APIs',
-                    'sistemas de atención', 'aplicaciones internas',
-                  ],
-                },
-                'Por ejemplo:',
-                { t: 'quote', text: '¿Qué pedidos están retrasados y pertenecen a clientes VIP?' },
-                'o:',
-                {
-                  t: 'quote',
-                  text: '¿Qué productos tienen stock bajo y ventas por encima de la media esta semana?',
-                },
-                'El sistema puede recuperar la información autorizada y devolver una respuesta sin obligar al usuario a revisar varias herramientas.',
-                'Dependiendo de los permisos, también puede ejecutar acciones.',
-              ],
-            },
-            {
-              heading: 'Automatización de incidencias y devoluciones',
-              blocks: [
-                'Los procesos de devoluciones e incidencias suelen generar trabajo repetitivo.',
-                'Un sistema puede:',
-                {
-                  t: 'steps',
-                  items: [
-                    'interpretar la solicitud', 'identificar el pedido', 'comprobar condiciones',
-                    'aplicar reglas', 'solicitar información adicional', 'crear la devolución',
-                    'actualizar sistemas', 'enviar confirmación',
-                  ],
-                },
-                'La IA interpreta la parte variable.',
-                'Las reglas de negocio controlan qué operaciones están permitidas.',
-              ],
-            },
-            {
-              heading: 'Automatización de procesos comerciales y operativos',
-              blocks: [
-                'Muchos procesos de ecommerce y retail necesitan combinar IA con software convencional.',
-                'Por ejemplo:',
-                {
-                  t: 'flow',
-                  steps: [
-                    'Consulta recibida', 'interpretación', 'identificación de pedido', 'consulta de estado',
-                    'respuesta',
-                  ],
-                },
-                'o:',
-                {
-                  t: 'flow',
-                  steps: ['Incidencia', 'clasificación', 'ERP', 'logística', 'actualización', 'comunicación'],
-                },
-                'La IA ayuda a entender la entrada.',
-                'El software controla el proceso.',
-                { t: 'strong', text: 'IA para interpretar. Software para ejecutar con certeza.' },
-              ],
-            },
-            {
-              heading: 'IA para catálogo y gestión de producto',
-              blocks: [
-                'Los catálogos grandes pueden generar mucho trabajo operativo.',
-                'La IA puede ayudar a:',
-                {
-                  t: 'list',
-                  items: [
-                    'clasificar productos', 'detectar inconsistencias', 'generar descripciones internas',
-                    'resumir atributos', 'normalizar información', 'identificar campos incompletos',
-                  ],
-                },
-                'También puede utilizar información desde PIM, ERP o bases de datos para mantener procesos de producto más consistentes.',
-              ],
-            },
-            {
-              heading: 'Búsqueda y consulta de información de producto',
-              blocks: [
-                'Un sistema conversacional puede permitir que clientes o empleados consulten productos utilizando lenguaje natural.',
-                'Por ejemplo:',
-                {
-                  t: 'quote',
-                  text: 'Necesito una chaqueta impermeable para invierno por menos de 150 euros.',
-                },
-                'o internamente:',
-                { t: 'quote', text: '¿Qué referencias de esta categoría llevan más de 60 días sin rotación?' },
-                'La misma tecnología puede adaptarse a distintos usuarios y fuentes.',
-              ],
-            },
-            {
-              heading: 'IA para soporte interno y operaciones',
-              blocks: [
-                'Los equipos de ecommerce y retail también pueden utilizar asistentes internos para consultar:',
-                {
-                  t: 'list',
-                  items: [
-                    'procedimientos', 'políticas', 'documentación de producto', 'procesos logísticos',
-                    'protocolos de devolución', 'manuales', 'información comercial',
-                  ],
-                },
-                'El sistema puede respetar permisos y mostrar las fuentes utilizadas.',
-                {
-                  t: 'link',
-                  label: 'IA para documentación interna y conocimiento empresarial',
-                  href: '/servicios/conocimiento-corporativo',
-                },
-              ],
-            },
-            {
-              heading: 'Automatización de correo electrónico y tickets',
-              blocks: [
-                'Muchas incidencias llegan por email o sistemas de ticketing.',
-                'La IA puede ayudar a:',
-                {
-                  t: 'list',
-                  items: [
-                    'interpretar mensajes', 'identificar pedidos', 'clasificar motivos', 'extraer datos',
-                    'asignar prioridad', 'iniciar workflows', 'derivar casos',
-                  ],
-                },
-                'Esto permite convertir entradas no estructuradas en procesos controlados.',
-              ],
-            },
-            {
-              heading: 'Ecommerce y retail omnicanal',
-              blocks: [
-                'En organizaciones con ecommerce, tiendas físicas y varios canales, la información puede estar repartida entre diferentes sistemas.',
-                'Un agente puede ayudar a consultar y coordinar información sobre:',
-                {
-                  t: 'list',
-                  items: [
-                    'pedidos', 'inventario', 'clientes', 'devoluciones', 'promociones', 'incidencias',
-                    'disponibilidad',
-                  ],
-                },
-                'La arquitectura debe respetar qué sistema es la fuente correcta para cada dato.',
-              ],
-            },
-            {
-              heading: 'Integración con sistemas existentes',
-              blocks: [
-                'No necesitas sustituir la infraestructura actual.',
-                'Podemos diseñar soluciones conectadas con:',
-                {
-                  t: 'list',
-                  items: [
-                    'Shopify', 'Magento', 'WooCommerce', 'plataformas ecommerce propias', 'ERP', 'CRM', 'PIM',
-                    'WMS', 'bases de datos', 'APIs', 'herramientas de atención', 'correo electrónico',
-                    'aplicaciones internas',
-                  ],
-                },
-                'Antes de integrar analizamos:',
-                {
-                  t: 'list',
-                  items: [
-                    'permisos', 'calidad de datos', 'operaciones permitidas', 'impacto de errores',
-                    'trazabilidad', 'necesidad de validación humana',
-                  ],
-                },
-              ],
-            },
-            {
-              heading: 'Control, reglas y excepciones',
-              blocks: [
-                'En ecommerce, una acción incorrecta puede afectar a pedidos, stock, clientes o dinero.',
-                'Por eso no dejamos las reglas críticas únicamente en manos de un modelo.',
-                'Podemos incorporar:',
-                {
-                  t: 'list',
-                  items: [
-                    'validaciones', 'permisos', 'límites', 'reglas de negocio', 'aprobación humana', 'logs',
-                    'trazabilidad', 'estados', 'gestión de excepciones',
-                  ],
-                },
-                'La IA puede interpretar una solicitud.',
-                'El software decide si la operación cumple las condiciones.',
-              ],
-            },
-            {
-              heading: '¿Dónde suele aparecer el mayor retorno?',
-              blocks: [
-                'La IA suele aportar más valor cuando existe:',
-                {
-                  t: 'list',
-                  items: [
-                    'gran volumen de pedidos', 'muchas consultas', 'catálogo amplio',
-                    'incidencias frecuentes', 'devoluciones', 'múltiples sistemas',
-                    'procesos administrativos repetitivos', 'equipos grandes',
-                  ],
-                },
-                'Antes de desarrollar analizamos:',
-                {
-                  t: 'list',
-                  items: [
-                    'volumen', 'frecuencia', 'tiempo actual', 'coste operativo', 'errores',
-                    'número de usuarios', 'porcentaje potencialmente automatizable',
-                  ],
-                },
-                {
-                  t: 'strong',
-                  text: 'No buscamos automatizar más. Buscamos automatizar lo que más impacto genera.',
-                },
-              ],
-            },
-            {
-              heading: 'Cómo desarrollamos soluciones de IA para Ecommerce y Retail',
-              blocks: [],
-              method: [
-                [
-                  'Analizamos el proceso',
-                  'Estudiamos cómo funciona actualmente y qué sistemas, personas y canales intervienen.',
-                ],
-                [
-                  'Identificamos puntos de fricción',
-                  'Buscamos tareas repetitivas, incidencias, consultas y movimientos de datos.',
-                ],
-                [
-                  'Revisamos sistemas y datos',
-                  'Analizamos ecommerce, ERP, CRM, PIM, WMS, bases de datos y APIs.',
-                ],
-                [
-                  'Diseñamos la arquitectura',
-                  'Definimos qué parte necesita IA, qué parte debe permanecer en software convencional y qué controles son necesarios.',
-                ],
-                [
-                  'Desarrollamos y evaluamos',
-                  'Probamos casos habituales, errores, excepciones y situaciones límite.',
-                ],
-                [
-                  'Desplegamos y monitorizamos',
-                  'Medimos utilización, tiempos, errores, derivaciones y resultados.',
-                ],
-              ],
-            },
-            {
-              heading: '¿Cuándo merece la pena desarrollar IA a medida en ecommerce o retail?',
-              blocks: [
-                'Un desarrollo a medida suele tener sentido cuando:',
-                {
-                  t: 'list',
-                  items: [
-                    'existen varios sistemas que deben trabajar juntos',
-                    'hay gran volumen de pedidos o consultas',
-                    'el catálogo es complejo',
-                    'existen reglas específicas',
-                    'una herramienta estándar no cubre el flujo completo',
-                    'se necesita control sobre datos y acciones',
-                    'hay procesos repetitivos de alta frecuencia',
-                  ],
-                },
-                'Si una solución estándar resuelve correctamente el problema, desarrollar desde cero no siempre será necesario.',
-              ],
-            },
-          ],
-          faq: {
-            h2: 'Preguntas frecuentes sobre inteligencia artificial para Ecommerce y Retail',
-            items: [
-              {
-                q: '¿Cómo puede utilizarse la IA en ecommerce?',
-                a: [
-                  'La IA puede utilizarse para atención al cliente, gestión de pedidos, incidencias, devoluciones, catálogo, búsqueda de producto y automatización de procesos internos.',
-                  'También puede conectarse con ecommerce, ERP, CRM, PIM y otras aplicaciones.',
-                ],
-              },
-              {
-                q: '¿Puede la IA consultar el estado de un pedido?',
-                a: 'Sí. Un agente conversacional puede consultar información actualizada desde los sistemas autorizados y responder al usuario.',
-              },
-              {
-                q: '¿Puede automatizar devoluciones?',
-                a: 'Sí. El sistema puede interpretar la solicitud, comprobar condiciones y ejecutar el workflow correspondiente según las reglas definidas.',
-              },
-              {
-                q: '¿Puede conectarse con Shopify, Magento o WooCommerce?',
-                a: [
-                  'Sí, siempre que exista una vía de integración adecuada.',
-                  'También puede conectarse con plataformas ecommerce propias.',
-                ],
-              },
-              {
-                q: '¿Puede ayudar a gestionar un catálogo grande?',
-                a: 'Sí. La IA puede ayudar a clasificar, estructurar y enriquecer información de producto, así como detectar inconsistencias o campos incompletos.',
-              },
-              {
-                q: '¿Puede utilizarse IA para atención al cliente?',
-                a: 'Sí. Un agente puede responder consultas, consultar pedidos, registrar incidencias y derivar casos cuando sea necesario.',
-              },
-              {
-                q: '¿Es segura la IA para ejecutar acciones sobre pedidos o clientes?',
-                a: [
-                  'Puede serlo si la arquitectura define permisos, reglas, validaciones y trazabilidad.',
-                  'Las acciones críticas pueden requerir controles adicionales.',
-                ],
-              },
-              {
-                q: '¿Cuánto cuesta implantar IA en ecommerce o retail?',
-                a: [
-                  'El coste depende del proceso, el volumen, las integraciones, los sistemas implicados y la complejidad de las reglas.',
-                  'Una automatización concreta y un sistema conectado con múltiples plataformas tienen alcances distintos.',
-                ],
-              },
-            ],
-          },
-          contact: {
-            h2: 'Cuéntanos qué proceso quieres mejorar',
-            p: [
-              'No necesitas llegar con una solución tecnológica definida.',
-              'Explícanos qué proceso consume tiempo, qué sistemas utiliza vuestro equipo y dónde aparecen más incidencias o trabajo manual.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
-            ],
-            cta: 'Hablar con Ideasforge sobre Ecommerce y Retail',
           },
         },
       },
@@ -9822,15 +9507,15 @@ export const content: Record<Lang, SiteContent> = {
             h1: 'Desarrollo de agentes de IA a medida',
             lead: 'Ideasforge desarrolla agentes de IA a medida para empresas que necesitan ir más allá de un chatbot, una automatización básica o una herramienta estándar. Sistemas capaces de consultar información, utilizar herramientas y ejecutar acciones sobre bases de datos, ERP, CRM, APIs, documentación interna y aplicaciones propias.',
             statement: [
-              'El modelo aporta capacidad de interpretación.',
-              'La arquitectura determina qué puede hacer, con qué información puede trabajar y bajo qué condiciones puede actuar.',
+              'Funcionan sobre tu infraestructura, en una nube a nombre de tu empresa.',
+              'Y se miden antes de cada cambio.',
             ],
             cta: 'Cuéntanos qué tendría que hacer el agente',
             intro: {
-              h2: 'Agentes que trabajan donde ya trabaja tu equipo',
+              h2: 'Qué construimos',
               p: [
-                'Un agente de IA empresarial no tiene por qué limitarse a responder preguntas. Puede recibir una petición, interpretar el contexto, consultar diferentes fuentes de información, utilizar herramientas y ejecutar acciones dentro de un proceso real.',
-                'La diferencia no está únicamente en el modelo utilizado. Está en cómo se diseña todo lo que existe alrededor del modelo.',
+                'Agentes de IA a medida que resuelven tareas concretas: consultan tu documentación y tus bases de datos, guían diagnósticos, cualifican solicitudes y ejecutan acciones sobre los sistemas que apruebes. Cada agente se construye para una tarea concreta y se conecta solo a las herramientas que esa tarea necesita.',
+                'Cuando un solo agente no puede cubrir todo el proceso, construimos un sistema que coordina varios agentes especializados. Uno de nuestros sistemas en producción funciona así y coordina seis.',
               ],
               listLabel: 'Por ejemplo, un agente puede',
               list: [
@@ -9842,37 +9527,33 @@ export const content: Record<Lang, SiteContent> = {
                 'Utilizar una API',
                 'Registrar una operación',
                 'Enviar una comunicación',
-                'Iniciar un workflow',
+                'Iniciar un flujo de trabajo',
                 'Pedir intervención humana cuando el caso lo requiera',
               ],
             },
             capabilities: {
               h2: '¿Qué puede hacer un agente de IA dentro de una empresa?',
-              lead: 'La capacidad de un agente depende de las herramientas, fuentes de información y permisos que formen parte de su arquitectura.',
+              lead: 'Estos son algunos de los encargos que más se repiten.',
               items: [
                 [
-                  'Consultar información',
-                  'Buscar y recuperar datos desde bases de datos, CRM, ERP, documentación, APIs o sistemas internos, usando lenguaje natural como interfaz para información que normalmente estaría repartida entre varias aplicaciones.',
+                  'Consultas a tus datos',
+                  'La pregunta se escribe en lenguaje natural y el sistema la convierte en una consulta validada a tu base de datos. La respuesta sale de esos datos, no de la memoria del modelo. «¿Cuánto facturamos en marzo en la zona norte?», escrito así, tal cual se le preguntaría a un compañero.',
                 ],
                 [
-                  'Interpretar solicitudes',
-                  'Comprender mensajes aunque no sigan una estructura fija: correos electrónicos, mensajes, documentos o instrucciones escritas de diferentes formas.',
+                  'Asistente sobre tu documentación',
+                  'El agente consulta manuales, wikis y sistemas internos y responde en una sola conversación, indicando de qué fuente ha obtenido cada respuesta. La política de devoluciones que hoy vive repartida entre tres manuales se contesta en una frase, con su fuente al lado.',
                 ],
                 [
-                  'Utilizar herramientas',
-                  'Disponer de herramientas específicas para consultar sistemas externos, recuperar datos o realizar operaciones. Cada herramienta tiene una función definida y unas condiciones concretas de uso.',
+                  'Diagnóstico guiado',
+                  'El agente hace preguntas, descarta posibles causas y guía al usuario paso a paso hasta identificar el problema, como nuestro asistente de planta cuando una máquina se para.',
                 ],
                 [
-                  'Ejecutar acciones',
-                  'Crear registros, actualizar información, enviar comunicaciones, reservar una cita o iniciar una operación. Las acciones pueden pasar por reglas y validaciones antes de permitirse.',
+                  'Cualificación de solicitudes',
+                  'El agente analiza cada entrada, comprueba los criterios que hayas definido y la dirige al equipo correspondiente. De veinte solicitudes de presupuesto que entran por la web, tres merecen una llamada hoy y el resto puede esperar a mañana.',
                 ],
                 [
-                  'Tomar decisiones dentro de límites definidos',
-                  'Seleccionar entre opciones cuando la decisión requiere interpretación, mientras el software mantiene el control sobre las condiciones que deben cumplirse.',
-                ],
-                [
-                  'Coordinar varios sistemas',
-                  'Consultar información en una aplicación y utilizarla para ejecutar una acción en otra, en procesos que hoy obligan a una persona a cambiar continuamente de herramienta.',
+                  'Acciones sobre tus sistemas',
+                  'El agente puede completar una gestión utilizando únicamente las acciones que tú hayas aprobado. Dar de alta al cliente, generar su contrato y dejarlo listo para la firma, sin que nadie copie datos de una pantalla a otra.',
                 ],
               ],
             },
@@ -9886,8 +9567,8 @@ export const content: Record<Lang, SiteContent> = {
                 '.',
               ],
               p: [
-                'Dos empresas pueden querer automatizar aparentemente la misma tarea y necesitar soluciones completamente distintas. Cambian los datos, las aplicaciones, las reglas del negocio, los permisos y el impacto que puede tener un error.',
-                'Por eso el desarrollo de un agente no empieza eligiendo un modelo. Empieza entendiendo cómo funciona el proceso. Si una regla puede expresarse de forma fiable mediante software convencional, normalmente preferimos mantenerla fuera del modelo.',
+                'El modelo propone una acción, pero el código decide si puede ejecutarse. Escoge dentro de un conjunto cerrado de acciones, así que las restricciones no dependen únicamente de una instrucción escrita para el modelo.',
+                'Si las reglas de tu proceso son claras y estables, una automatización a medida lo resuelve más barato, más rápido y sin la vigilancia que exige un modelo. Eso también lo construimos nosotros.',
               ],
             },
             types: {
@@ -9923,14 +9604,14 @@ export const content: Record<Lang, SiteContent> = {
                 {
                   client: 'Savian',
                   title: 'Consultar datos empresariales mediante lenguaje natural',
-                  desc: 'El agente interpreta la pregunta, determina qué información necesita y utiliza una capa controlada para acceder a los datos. El modelo no recibe libertad para ejecutar SQL arbitrario sobre la base de datos.',
+                  desc: 'El modelo no tiene acceso directo a la base de datos. Interpreta la pregunta y entrega un formulario de campos fijos. A partir de ahí el código, que sí se comporta igual siempre, construye la consulta.',
                   image: '/case-studies/harvest.jpg',
                   href: '/proyectos/savian',
                 },
                 {
                   client: 'Wazzy',
                   title: 'Un agente de IA que gestiona citas desde WhatsApp',
-                  desc: 'Reservar, modificar o cancelar una cita mediante una conversación. El agente consulta disponibilidad, trabaja con diferentes profesionales y calendarios y ejecuta las acciones siguiendo reglas definidas. La conversación es flexible. Las reglas de agenda no lo son.',
+                  desc: 'Wazzy es producto nuestro. Reserva, modifica o cancela una cita mediante una conversación: el agente consulta la agenda real y ejecuta las acciones siguiendo las reglas de la clínica. La conversación es flexible y las reglas de agenda no lo son.',
                   image: '/case-studies/dentist.jpg',
                   href: '/proyectos/wazzy',
                 },
@@ -9938,27 +9619,27 @@ export const content: Record<Lang, SiteContent> = {
             },
             method: {
               h2: 'Cómo desarrollamos un agente de IA a medida',
-              lead: 'El desarrollo empieza antes de escribir el primer prompt.',
+              lead: 'No empezamos buscando dónde encajar la IA en tu empresa. Buscamos los problemas que ya te cuestan dinero y evaluamos si un agente los resuelve con ganancia demostrable.',
               steps: [
                 [
-                  'Analizamos el proceso',
-                  'Cómo funciona actualmente, qué personas intervienen, qué decisiones existen y qué parte queremos mejorar. También qué ocurre cuando el proceso se sale del caso habitual.',
+                  'Mapeamos el proceso',
+                  'Con quien sufre el proceso, no solo con quien compra la tecnología. Paso a paso, con sus actores, sus sistemas y sus tiempos.',
                 ],
                 [
-                  'Definimos las fuentes de información',
-                  'Qué necesita conocer el agente: bases de datos, documentación, ERP, CRM, APIs, software interno, aplicaciones externas, calendarios o sistemas de almacenamiento.',
+                  'Medimos lo que cuesta hoy',
+                  'Cada candidato se traduce a su ganancia esperada partiendo de lo que cuesta hoy en horas, en errores o en espera. De esa lista, la mayoría se descarta.',
                 ],
                 [
                   'Diseñamos herramientas, permisos y reglas',
                   'Qué puede consultar, qué herramientas puede utilizar y qué acciones puede ejecutar. Validaciones, límites y condiciones antes de operaciones sensibles.',
                 ],
                 [
-                  'Desarrollamos y evaluamos',
-                  'Probamos sobre casos reales: no solo el escenario ideal, también situaciones ambiguas, información incompleta, errores de usuario y casos límite.',
+                  'Arrancamos con un piloto',
+                  'Una parte del problema, un grupo reducido de usuarios y una métrica acordada antes de empezar. El piloto se paga y su precio entra dentro del proyecto final.',
                 ],
                 [
-                  'Desplegamos y monitorizamos',
-                  'Medimos utilización, errores, costes, latencia y llamadas a herramientas. El objetivo no es desplegarlo: es poder observarlo, corregirlo y mejorarlo.',
+                  'Ampliamos la autonomía por etapas',
+                  'Al principio el agente propone y una persona revisa cada salida. Cuando las pruebas y el uso real muestran que funciona en los casos previstos, ampliamos las acciones que puede ejecutar sin revisión.',
                 ],
               ],
             },
@@ -9966,10 +9647,10 @@ export const content: Record<Lang, SiteContent> = {
               kicker: 'Control',
               h2: 'Un agente útil también tiene que ser controlable',
               p: [
-                'Los modelos de lenguaje son probabilísticos. No deberíamos diseñar procesos críticos confiando únicamente en que el modelo elija siempre la respuesta correcta.',
-                'El objetivo no es que el modelo tenga libertad total. Es darle únicamente la libertad que necesita para resolver la parte del problema donde realmente aporta valor.',
+                'Cada agente sale con una batería de pruebas, un conjunto de casos reales con su respuesta correcta anotada que se ejecuta entera antes de cada cambio. Si la calidad baja, el cambio no sale.',
+                'Lo que está en producción se revisa cada semana, porque un sistema con un modelo dentro puede empeorar sin que aparezca un solo error en ningún registro.',
               ],
-              listLabel: 'Dependiendo del proyecto podemos implementar',
+              listLabel: 'Los controles que ponemos alrededor del agente',
               items: [
                 'Herramientas limitadas a funciones concretas',
                 'Parámetros validados antes de ejecutar acciones',
@@ -9979,13 +9660,13 @@ export const content: Record<Lang, SiteContent> = {
                 'Límites sobre determinadas operaciones',
                 'Validación adicional antes de acciones sensibles',
                 'Registro de herramientas y acciones ejecutadas',
-                'Evaluación automática de respuestas',
+                'Batería de pruebas antes de cada cambio',
                 'Intervención humana cuando el sistema no puede continuar con seguridad',
               ],
             },
             when: {
               h2: '¿Cuándo merece la pena desarrollar un agente de IA a medida?',
-              lead: 'Un agente a medida tiene sentido cuando el problema necesita más control o integración de la que ofrece una herramienta estándar. Parte de nuestro trabajo consiste en determinar si el proceso lo necesita realmente.',
+              lead: 'Decirte si compensa es parte de nuestro servicio. Un agente compensa cuando el proceso requiere interpretar información que cambia de un caso a otro, por ejemplo correos, documentos o peticiones escritas de formas diferentes.',
               yes: {
                 label: 'Suele tener sentido cuando',
                 items: [
@@ -10014,36 +9695,52 @@ export const content: Record<Lang, SiteContent> = {
               h2: 'Preguntas frecuentes sobre desarrollo de agentes de IA',
               items: [
                 {
-                  q: '¿Qué es un agente de IA empresarial?',
-                  a: 'Un sistema capaz de interpretar información, utilizar herramientas y ejecutar acciones dentro de procesos de una empresa. Puede conectarse con bases de datos, documentación, ERP, CRM, APIs u otras aplicaciones y actuar dentro de los límites definidos por su arquitectura.',
+                  q: '¿Qué significa «para empresas» en la práctica?',
+                  a: 'Tu infraestructura o tu nube, las cuentas de tu organización, tus datos donde tú decidas y la calidad medida de forma continua. Las garantías por las que va a preguntar tu comité de seguridad, respondidas antes de la reunión.',
+                },
+                {
+                  q: '¿No nos basta con ChatGPT?',
+                  a: 'Para ayudar a las personas en su trabajo, quizá sí. Esa respuesta no la cobramos. Un chat es una herramienta de ayuda donde cada salida la revisa quien la pidió. Un agente es un sistema que produce el resultado él solo, sobre tus datos y con tus permisos. Eso exige la ingeniería que describe esta página. Son compras distintas para problemas distintos.',
+                },
+                {
+                  q: '¿El agente puede conectarse a nuestros sistemas internos?',
+                  a: 'Sí, es exactamente para eso. ERP, bases de datos, sistemas industriales, documentación. El agente solo habla con los sistemas que apruebes, con los permisos de cada usuario.',
+                },
+                {
+                  q: '¿El agente decide por su cuenta?',
+                  a: 'Decide dentro de un perímetro. Las acciones posibles son una lista cerrada que tú apruebas, el código valida cada una antes de ejecutarla y las sensibles piden confirmación de una persona. La autonomía se administra por coste y fiabilidad, no por fe en el modelo.',
+                },
+                {
+                  q: '¿Y si nuestros datos están hechos un desastre?',
+                  a: 'Es de lo primero que miramos. Si los datos que el caso necesita no están o no son fiables, te lo decimos y la primera fase pasa a ser ordenarlos, porque un agente sobre datos rotos solo automatiza el error más rápido.',
                 },
                 {
                   q: '¿Cuánto cuesta desarrollar un agente de IA?',
-                  a: 'Depende de las integraciones, los datos, la complejidad del proceso, los modelos utilizados, los requisitos de seguridad y las acciones que debe ejecutar. Un agente que consulta una única fuente y uno que trabaja con varios sistemas requieren niveles de desarrollo muy diferentes.',
+                  a: [
+                    'Un agente a medida se mueve entre 2.500 y 10.000 € de construcción, según integraciones y exigencia de validación, más entre 150 y 500 € al mes de operación, que cubre la vigilancia y el mantenimiento del sistema. La cuota no tiene permanencia.',
+                    'El modelo y la infraestructura van en cuentas a nombre de tu empresa, así que esas facturas son tuyas y no entran en la cuota. Los sistemas con orquestador y varios agentes se presupuestan por proyecto.',
+                  ],
+                  link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/guias/cuanto-cuesta-un-agente-de-ia' },
                 },
                 {
                   q: '¿Cuánto tarda en desarrollarse un agente de IA?',
-                  a: 'Depende del alcance, las integraciones, la disponibilidad de los datos y el nivel de control que necesita el sistema. Antes de estimar analizamos el proceso y los sistemas con los que deberá trabajar.',
+                  a: 'Depende de tres cosas: que los datos existan, que los accesos estén dados y que la tarea esté bien definida. Con las tres, un piloto en dos semanas es realista. Si falta alguna, lo primero del proyecto es conseguirla.',
                 },
                 {
-                  q: '¿Puede un agente de IA conectarse con nuestro ERP o CRM?',
-                  a: 'Sí, siempre que exista una vía de integración adecuada. El acceso y las acciones disponibles se limitan mediante permisos, herramientas y reglas definidas para el proyecto.',
+                  q: '¿De quién es el agente cuando termina el proyecto?',
+                  a: 'Tuyo. El repositorio está a tu nombre desde el primer día: código, documentación, manuales de operación, instrucciones del modelo y la batería de pruebas. La infraestructura también, montada en una nube a nombre de tu empresa.',
                 },
                 {
-                  q: '¿Puede un agente trabajar con documentación interna?',
-                  a: 'Sí, como fuente de conocimiento mediante sistemas de recuperación como RAG u otras arquitecturas. También pueden aplicarse permisos para determinar qué puede recuperar cada usuario.',
+                  q: '¿Quién mantiene el agente después?',
+                  a: 'Lo que decidas. Podemos encargarnos del mantenimiento medido o formar a tu equipo y entregar el manual de operación para que lo lleve. La documentación se escribe para ese segundo caso, aunque elijas el primero.',
                 },
                 {
-                  q: '¿Puede ejecutar acciones automáticamente?',
-                  a: 'Sí, siempre que disponga de las herramientas y permisos necesarios. Para operaciones sensibles podemos introducir validaciones adicionales o requerir aprobación humana.',
+                  q: '¿Qué pasa si el proveedor del modelo sube el precio o lo retira?',
+                  a: 'Cambiar de modelo se prueba, no se promete. Tenemos sistemas en producción que usan modelos de distintos proveedores y el cambio pasa la batería de pruebas antes de salir. A veces obliga además a tocar el sistema, porque modelos distintos se comportan distinto. Lo hemos visto: descartamos un modelo más barato porque las pruebas mostraron que perdía diez puntos de acierto.',
                 },
                 {
-                  q: '¿Es necesario utilizar varios agentes?',
-                  a: 'No. Una arquitectura multiagente solo tiene sentido cuando dividir responsabilidades aporta una ventaja real. Si un único agente resuelve el problema de forma más sencilla y controlable, será mejor arquitectura.',
-                },
-                {
-                  q: '¿Cómo se evita que un agente de IA cometa errores?',
-                  a: 'No es posible garantizar error cero en un modelo probabilístico, pero sí reducir y controlar el riesgo mediante arquitectura, evaluaciones, reglas, permisos, validaciones, respuestas estructuradas, herramientas restringidas, monitorización e intervención humana.',
+                  q: '¿Qué pasa si concluís que nuestro caso no compensa?',
+                  a: 'Te lo decimos antes de cobrarlo y te quedas con el mapa del proceso y sus números, que valen aunque el agente no salga. Descartar pronto es parte del método, no un fracaso del método.',
                 },
               ],
             },
@@ -10069,10 +9766,10 @@ export const content: Record<Lang, SiteContent> = {
             ],
             cta: 'Cuéntanos qué proceso quieres mejorar',
             intro: {
-              h2: 'Automatización conectada con el proceso real de tu empresa',
+              h2: 'Qué resuelve la automatización de procesos con IA',
               p: [
-                'Un proceso puede empezar con la llegada de un email, continuar con la interpretación de un documento, consultar información en un ERP, aplicar reglas, actualizar un CRM y terminar enviando una respuesta o creando una operación. Cada paso puede necesitar una solución distinta. Por eso diseñamos el flujo completo.',
-                'El objetivo no es utilizar la mayor cantidad posible de IA. El objetivo es que el proceso funcione mejor de principio a fin.',
+                'Los procesos que las herramientas clásicas no pudieron automatizar comparten un rasgo. En algún punto, una persona tiene que leer y decidir. Llega una factura y alguien la teclea. Llega una solicitud y alguien la cualifica. Llega una pregunta y alguien busca la respuesta.',
+                'Ese paso, leer algo que no viene en un formato fijo y decidir qué hacer con ello, era la frontera de la automatización. Los modelos de lenguaje absorben exactamente ese paso y con él se abre la familia entera de procesos que lo contenían.',
               ],
               listLabel: 'Podemos combinar',
               list: [
@@ -10091,31 +9788,27 @@ export const content: Record<Lang, SiteContent> = {
             },
             capabilities: {
               h2: '¿Qué procesos puede automatizar la inteligencia artificial?',
-              lead: 'La IA resulta especialmente útil cuando un proceso recibe información que necesita ser interpretada antes de poder actuar.',
+              lead: 'Casi todo lo que nos piden encaja en cuatro tipos de proceso. El quinto punto no es un tipo de proceso, sino lo que ocurre cuando un caso necesita que intervenga una persona.',
               items: [
                 [
-                  'Procesamiento documental',
-                  'Recepción, lectura, clasificación y extracción de información desde facturas, pedidos, formularios, contratos, albaranes o documentación enviada por email. La información extraída se convierte en datos estructurados y continúa hacia otros sistemas.',
+                  'Entrada de documentos',
+                  'Facturas, tickets y formularios escaneados que se leen, se validan y se registran en tus sistemas sin que nadie los teclee.',
                 ],
                 [
-                  'Gestión de correo electrónico',
-                  'Interpretar emails entrantes, identificar el motivo, extraer datos y decidir qué proceso iniciar: clasificar una solicitud, registrar en un CRM, comprobar datos o derivar una incidencia.',
+                  'Gestión de solicitudes',
+                  'Consultas entrantes que se clasifican, se cualifican y se envían a la persona adecuada, con los datos necesarios para decidir ya extraídos.',
                 ],
                 [
-                  'Procesos administrativos',
-                  'Copiar información entre aplicaciones, validar datos, crear registros, actualizar estados, generar documentos, enviar comunicaciones y coordinar sistemas.',
+                  'Consultas a datos',
+                  'Preguntas de negocio que se convierten en consultas seguras a la base de datos y vuelven con la respuesta en segundos.',
                 ],
                 [
-                  'Atención y gestión de solicitudes',
-                  'Interpretar solicitudes recibidas por formularios, email, chat u otros canales y convertirlas en acciones dentro de un proceso.',
+                  'Redacción a partir de datos',
+                  'Correos, resúmenes y avisos que el flujo redacta usando los datos que ya ha obtenido y validado. Los que van a una persona de tu equipo pueden salir solos. Los que van a un cliente salen de una plantilla que tú apruebas, rellena con datos ya validados.',
                 ],
                 [
-                  'Procesos comerciales',
-                  'Tareas alrededor de leads, oportunidades, seguimiento, registro de información y actualización del CRM.',
-                ],
-                [
-                  'Operaciones internas',
-                  'Cuando una persona dedica tiempo a mover información entre varias aplicaciones y el proceso se repite con una lógica estable, hay una oportunidad de automatización.',
+                  'Escalado con contexto',
+                  'Los casos que necesitan una decisión humana llegan a tu equipo con los datos, documentos y comprobaciones que el sistema ya ha hecho.',
                 ],
               ],
             },
@@ -10129,13 +9822,13 @@ export const content: Record<Lang, SiteContent> = {
                 '.',
               ],
               p: [
-                'La IA es útil cuando hay que interpretar información variable: un email escrito de distintas formas, una factura con otra estructura, una solicitud en lenguaje natural. Cuando existe una regla clara y conocida, preferimos que la ejecute software convencional.',
-                '"Si el importe supera un límite, solicitar aprobación" no necesita inteligencia artificial. Es una regla determinista, mucho más fácil de probar y controlar. En muchos de nuestros proyectos ambas tecnologías trabajan juntas.',
+                'El código mueve los datos entre sistemas, ejecuta las acciones y controla en qué orden ocurre cada paso. El modelo entra solo cuando hay que leer un documento, entender una petición o clasificar un caso. Devuelve un resultado con estructura fija que el código puede comprobar.',
+                'Si tu proceso tiene reglas claras sobre datos que siempre llegan igual, la automatización clásica lo resuelve más barato y más rápido, sin modelo que vigilar. Eso también lo construimos nosotros.',
               ],
             },
             types: {
               h2: 'Automatizamos entre los sistemas que ya utiliza tu empresa',
-              lead: 'Automatizar no significa cambiar las herramientas actuales. Construimos una capa de automatización alrededor de los sistemas que ya forman parte de la empresa.',
+              lead: 'La automatización se conecta a lo que ya usas: ERP, CRM, bases de datos, correo, mensajería y, sí, también ese Excel que gobierna medio departamento.',
               items: [
                 [
                   'ERP',
@@ -10143,7 +9836,7 @@ export const content: Record<Lang, SiteContent> = {
                 ],
                 [
                   'CRM',
-                  'Registrar contactos, actualizar oportunidades, añadir información o iniciar workflows comerciales.',
+                  'Registrar contactos, actualizar oportunidades, añadir información o iniciar flujos comerciales.',
                 ],
                 [
                   'Bases de datos',
@@ -10173,19 +9866,19 @@ export const content: Record<Lang, SiteContent> = {
             },
             cases: {
               h2: 'Automatizaciones que ya trabajan en producción',
-              lead: 'La automatización tiene valor cuando mejora un proceso medible.',
+              lead: 'Los dos casos se parecen en dos cosas: entraron por un canal que el equipo ya usaba y tenían una cifra medible antes y después.',
               items: [
                 {
                   client: 'Stanton',
                   title: '98 % de las facturas procesadas sin intervención humana',
-                  desc: 'La solución interpreta la documentación recibida, extrae la información, aplica validaciones y continúa el flujo mediante reglas e integraciones. Los casos que cumplen las condiciones completan el proceso automáticamente. Las excepciones siguen una ruta de revisión.',
+                  desc: 'En Stanton, una gestora de fincas, las facturas de luz, agua y gas de cada inquilino se metían a mano y cada una costaba un minuto de teclado. Hoy el equipo las reenvía por Telegram, un modelo lee la factura y el resultado aterriza como filas en el Excel con el que ya trabajaban. El 98 % pasa sin que nadie la toque y el resto escala con el documento al lado.',
                   image: '/case-studies/stanton.jpg',
                   href: '/proyectos/stanton',
                 },
                 {
                   client: 'Barceloneta Premium',
-                  title: 'Más de 3 horas de trabajo administrativo ahorradas cada día',
-                  desc: 'Analizamos tareas que requerían intervención manual repetitiva y diseñamos automatizaciones para conectar herramientas y eliminar pasos innecesarios. No fue necesario convertir todo el proceso en IA: automatizamos exactamente las partes donde tenía sentido.',
+                  title: 'Más de 3 horas al día ahorradas filtrando solicitudes de alquiler',
+                  desc: 'En Barceloneta Premium, una agencia inmobiliaria de Barcelona, cada consulta de alquiler que llegaba por WhatsApp se llevaba entre cinco y diez minutos de comprobación a mano. Ahora el flujo extrae de cada conversación el motivo, el presupuesto y la documentación. Al equipo le llega un correo que dice si cumple los requisitos que fijó la agencia, con el porqué al lado. Quien decide sigue siendo una persona.',
                   image: '/case-studies/barceloneta.jpg',
                   href: '/proyectos/barceloneta',
                 },
@@ -10193,38 +9886,38 @@ export const content: Record<Lang, SiteContent> = {
             },
             method: {
               h2: 'Cómo automatizamos un proceso empresarial',
-              lead: 'La tecnología se decide después de entender el proceso.',
+              lead: 'No hace falta empezar con un proyecto grande. Lo primero es elegir un proceso concreto que merezca la pena automatizar.',
               steps: [
                 [
-                  'Mapeamos el proceso actual',
-                  'Cómo empieza, qué pasos existen y qué personas o aplicaciones intervienen. También las excepciones habituales y los puntos donde el proceso suele detenerse.',
+                  'Mapeamos el proceso',
+                  'Paso a paso con quien lo ejecuta cada día: qué llega, quién lo toca, por qué sistemas pasa y dónde se atasca.',
                 ],
                 [
-                  'Identificamos trabajo manual y decisiones',
-                  'Tareas repetitivas, movimientos de información entre aplicaciones, comprobaciones manuales y pasos que generan errores o retrasos. Priorizamos donde hay impacto suficiente.',
+                  'Medimos lo que cuesta hoy',
+                  'Medir ese punto de partida permite comparar después el resultado con datos, no con percepciones.',
                 ],
                 [
-                  'Separamos IA, reglas e integraciones',
-                  'Qué partes requieren interpretación y cuáles pueden resolverse con lógica determinista, para no usar modelos en tareas que no los necesitan.',
+                  'Separamos reglas e interpretación',
+                  'Pedimos tres ejemplos reales de la entrada, de tres orígenes distintos. Si se parecen entre sí, tu problema es de reglas. Si cada uno viene de una manera distinta, ahí hace falta el modelo.',
                 ],
                 [
-                  'Desarrollamos e integramos',
-                  'Construimos el flujo y conectamos las herramientas. Probamos el recorrido habitual y los escenarios donde falta información o aparece una excepción.',
+                  'Arrancamos con un piloto',
+                  'Cubre solo una parte del volumen, con la cifra que debería moverse acordada antes de empezar. El piloto se paga y su precio entra dentro del proyecto final.',
                 ],
                 [
-                  'Medimos el resultado',
-                  'Porcentaje de procesos completados automáticamente, tiempo ahorrado, excepciones, errores, coste por operación e intervención humana necesaria.',
+                  'Ampliamos o paramos',
+                  'Si el piloto cumple, se amplía por fases. Si no cumple, se detiene el proyecto con una inversión limitada y con información concreta sobre qué no funcionó.',
                 ],
               ],
             },
             control: {
               kicker: 'Excepciones',
-              h2: 'Automatizar no significa ignorar las excepciones',
+              h2: 'Validar cada resultado antes de que llegue a tus sistemas',
               p: [
-                'Puede llegar un documento incompleto, una API puede dejar de responder, un proveedor puede enviar información diferente o una operación puede requerir una decisión que no debería ejecutarse automáticamente. Una automatización preparada para producción debe saber qué hacer cuando algo se sale del flujo habitual.',
-                'Automatizar un proceso no significa eliminar a las personas. Significa reservar su intervención para los casos donde realmente aporta valor.',
+                'Un modelo puede equivocarse, por lo que sus resultados deben comprobarse antes de que el proceso continúe. Lo que pasa la validación fluye solo. Lo que no la pasa no se descarta ni se inventa, va a una persona con el caso preparado.',
+                'Hay pasos que dejamos con confirmación humana a propósito: los que mueven dinero de verdad, los irreversibles y los que deciden sobre personas. El sistema prepara toda la información y una persona confirma la acción antes de ejecutarla.',
               ],
-              listLabel: 'Podemos diseñar mecanismos para',
+              listLabel: 'Cuando algo se sale del flujo habitual, el sistema sabe',
               items: [
                 'Detener el proceso',
                 'Solicitar información adicional',
@@ -10238,7 +9931,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             when: {
               h2: '¿Cuándo merece la pena automatizar un proceso?',
-              lead: 'No todo lo que puede automatizarse merece una inversión en desarrollo. La pregunta no es únicamente si podemos automatizarlo. La pregunta es: ¿merece la pena?',
+              lead: 'No automatizamos procesos sin volumen, porque un flujo que corre tres veces al mes no paga su mantenimiento, ni procesos que hay que rediseñar antes de acelerarlos. Si tu caso está en alguno de esos grupos, te lo decimos antes de arrancar.',
               yes: {
                 label: 'Suele tener sentido cuando el proceso',
                 items: [
@@ -10269,35 +9962,55 @@ export const content: Record<Lang, SiteContent> = {
               items: [
                 {
                   q: '¿Qué es la automatización de procesos con IA?',
-                  a: 'Utilizar inteligencia artificial junto con software e integraciones para ejecutar automáticamente partes de un proceso empresarial. La IA interpreta información variable. Reglas y software convencional ejecutan las acciones que requieren un comportamiento predecible.',
+                  a: 'Automatización donde un modelo de lenguaje resuelve los pasos que exigen leer o interpretar, dentro de un flujo validado por código. El modelo interpreta. El código comprueba y ejecuta.',
                 },
                 {
-                  q: '¿Qué procesos pueden automatizarse con inteligencia artificial?',
-                  a: 'Procesos administrativos, documentales, comerciales u operativos siempre que exista suficiente información y una lógica definible: procesamiento de documentos, clasificación de emails, actualización de sistemas, registro de datos, gestión de solicitudes y coordinación entre aplicaciones.',
+                  q: '¿Esto es RPA?',
+                  a: 'No es lo mismo, aunque hoy muchas suites de RPA lleven lectura con IA dentro. La RPA repite clics y reglas sobre pantallas y se rompe cuando algo cambia de sitio o de formato. Lo que aportamos es que el modelo interpreta el contenido, así que la variación no rompe el flujo. Conviven bien, la RPA moviendo lo estable y el modelo leyendo lo variable.',
                 },
                 {
-                  q: '¿Cuál es la diferencia entre automatización e inteligencia artificial?',
-                  a: 'La automatización ejecuta acciones siguiendo un proceso definido. La IA interpreta información que no sigue siempre una estructura fija. En muchos sistemas trabajan juntas.',
+                  q: '¿Y si la IA lee mal un documento?',
+                  a: 'Una capa de validación comprueba el resultado antes de registrarlo: totales, formatos, campos obligatorios. Los casos dudosos van a una persona, así que la revisión se concentra donde hace falta criterio.',
                 },
                 {
-                  q: '¿Necesito cambiar mi ERP o CRM para automatizar procesos?',
-                  a: 'No necesariamente. Muchos procesos pueden automatizarse conectando el software actual mediante APIs, bases de datos u otros mecanismos de integración.',
+                  q: '¿Cuánto del proceso queda automatizado de verdad?',
+                  a: 'Depende de cuántos casos raros tenga, así que se mide en vez de estimarse. El sistema registra qué resuelve solo y qué escala a una persona y ese porcentaje se ve desde el primer mes.',
                 },
                 {
-                  q: '¿Puede automatizarse un proceso que recibe documentos por email?',
-                  a: 'Sí. Un sistema puede recibir un email, interpretar su contenido y los adjuntos, extraer información y continuar con el proceso. Cuando falta información, el caso se deriva a una persona.',
+                  q: '¿Tenemos que cambiar de ERP o de herramientas?',
+                  a: 'No. El flujo se conecta a lo que ya usas y el resultado aterriza donde tu equipo ya trabaja, sea un ERP o un Excel. Uno de nuestros clientes gestiona sus facturas reenviándolas por Telegram, sin aprender ninguna herramienta nueva.',
                 },
                 {
-                  q: '¿Qué ocurre cuando una automatización encuentra una excepción?',
-                  a: 'Puede detenerse, solicitar información, generar una alerta, reintentar la operación o derivar el caso a una persona según las reglas definidas. Las excepciones forman parte del diseño.',
+                  q: '¿Podemos empezar por un solo proceso?',
+                  a: 'Es justo lo que recomendamos. Un proceso con dolor medible, un piloto con su métrica y ampliar por fases si cumple. El piloto se paga y su precio entra dentro del proyecto final. Es como empezaron nuestros clientes de automatización. El que más tiempo lleva sigue añadiendo procesos.',
+                },
+                {
+                  q: '¿Funciona con escaneos malos o fotos de móvil?',
+                  a: 'Los legibles pasan y los dudosos escalan a una persona con la imagen al lado, en vez de registrarse a medias. Qué porcentaje cae de cada lado no te lo prometemos por adelantado, se mide en tu piloto con tus documentos reales.',
+                },
+                {
+                  q: '¿El flujo solo lee o también escribe en nuestros sistemas?',
+                  a: 'Lee y escribe, con red. Las escrituras pasan la validación y las sensibles piden confirmación de una persona antes de ejecutarse. Qué puede tocar cada flujo se define contigo, por sistema y por acción.',
+                },
+                {
+                  q: '¿Cuánto se tarda en tener el primer flujo andando?',
+                  a: 'Depende de tres cosas: que los datos existan, que los accesos estén dados y que la tarea a automatizar esté bien definida. Con las tres, un piloto en dos semanas es realista. Si falta alguna, lo primero del proyecto es conseguirla. Ese plazo no lo marcamos nosotros.',
+                },
+                {
+                  q: '¿Qué pasa con los casos que el flujo no resuelve?',
+                  a: 'Escalan a tu equipo con todo el contexto que el sistema ya reunió. Aquí caben además los casos que el flujo entiende bien pero no le corresponde decidir. El objetivo no es el cien por cien, es que la revisión humana quede donde aporta criterio y que el porcentaje resuelto esté medido, no supuesto.',
                 },
                 {
                   q: '¿Cuánto cuesta automatizar un proceso?',
-                  a: 'Depende de la complejidad del flujo, las integraciones, el volumen de operaciones, el uso de IA y el número de excepciones. Antes de estimar es necesario entender cómo funciona el proceso.',
+                  a: [
+                    'Un flujo de un solo proceso arranca en torno a los 2.500 € de construcción, los que tocan varios de tus sistemas se acercan a los 10.000 € y la operación mensual va entre 150 y 500 €, que cubren la vigilancia semanal y el mantenimiento. La cuota no tiene permanencia.',
+                    'El modelo y la infraestructura van en cuentas a nombre de tu empresa, así que esas facturas son tuyas y no entran en la cuota. Lo que mueve esas cifras aquí es concreto: cuántos sistemas hay que conectar, cuánta validación exige el proceso y cuánto volumen corre por él.',
+                  ],
+                  link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/guias/cuanto-cuesta-un-agente-de-ia' },
                 },
                 {
-                  q: '¿Cuándo compensa automatizar un proceso?',
-                  a: 'Cuando una tarea se repite con frecuencia, consume tiempo relevante o genera errores, y el ahorro esperado supera el coste de construir y mantener la automatización.',
+                  q: '¿De quién es el flujo que construís?',
+                  a: 'Tuyo. El repositorio es tuyo desde el primer día, con su documentación y sus manuales de operación. Si un día quieres operarlo con tu equipo o con otro proveedor, te llevas el flujo entero con su documentación y sus pruebas, no una suscripción. Lo que sí es servicio mientras trabajemos juntos es la operación, la vigilancia semanal y las alarmas de la casa.',
                 },
               ],
             },
@@ -10323,10 +10036,10 @@ export const content: Record<Lang, SiteContent> = {
             ],
             cta: 'Cuéntanos dónde vive el conocimiento de tu empresa',
             intro: {
-              h2: 'El conocimiento suele estar repartido entre demasiados lugares',
+              h2: 'El conocimiento que nadie encuentra cuesta tiempo y dinero',
               p: [
-                'Muchas empresas no tienen un problema de falta de información. Tienen un problema de acceso. Encontrar una respuesta puede requerir saber dónde buscar, qué documento abrir o a quién preguntar.',
-                'Un sistema de IA convierte ese conocimiento disperso en una interfaz de consulta: el usuario pregunta en lenguaje natural y el sistema busca la información relevante y construye la respuesta a partir de las fuentes adecuadas.',
+                'El problema es habitual. Alguien necesita un dato técnico, un procedimiento o el histórico de un problema y la respuesta existe, pero está enterrada. Se pregunta al compañero, el compañero pregunta al más veterano de la empresa y el veterano lo sabe de memoria porque el documento que lo cuenta tiene doscientas páginas.',
+                'El coste no son solo los minutos perdidos. Es la dependencia de unas pocas personas, que convierte cada baja y cada jubilación en un riesgo para la operación.',
               ],
               listLabel: 'La información existe, pero está repartida entre',
               list: [
@@ -10346,27 +10059,27 @@ export const content: Record<Lang, SiteContent> = {
             },
             capabilities: {
               h2: '¿Qué puede hacer la IA con la documentación de una empresa?',
-              lead: 'Un sistema conectado con la documentación interna puede hacer mucho más que buscar palabras. El objetivo no es sustituir la fuente. Es hacerla más accesible.',
+              lead: 'Un buscador devuelve diez documentos donde puede estar la respuesta y la persona sigue teniendo que leerlos. Este asistente responde a la pregunta y la acompaña con la referencia de dónde salió.',
               items: [
                 [
                   'Responder preguntas',
-                  '"¿Cuál es el procedimiento para aprobar una compra superior a 10.000 €?" El sistema busca la información y construye una respuesta basada en las fuentes internas disponibles.',
+                  '«¿Cuál es el procedimiento para aprobar una compra superior a 10.000 €?» El sistema busca la información y construye una respuesta basada en las fuentes internas disponibles.',
                 ],
                 [
                   'Encontrar información relevante',
                   'Localizar el fragmento adecuado entre grandes cantidades de documentación aunque la pregunta no utilice las mismas palabras que el documento.',
                 ],
                 [
+                  'Consultar datos vivos',
+                  'Hay preguntas que ningún documento responde bien, porque la respuesta cambia cada hora. Para esas, el asistente consulta el sistema interno que tiene el dato y responde con lo que hay ahora mismo.',
+                ],
+                [
                   'Resumir documentación',
                   'Generar resúmenes de documentos, procedimientos o conjuntos de información concretos.',
                 ],
                 [
-                  'Comparar información',
-                  'Identificar diferencias entre documentos, versiones, políticas o procedimientos.',
-                ],
-                [
                   'Guiar procesos',
-                  'Explicar qué pasos debe seguir un empleado en función de la documentación interna.',
+                  'Explicar qué pasos debe seguir un empleado según la documentación interna o llevarle paso a paso por un diagnóstico.',
                 ],
                 [
                   'Citar las fuentes',
@@ -10384,8 +10097,8 @@ export const content: Record<Lang, SiteContent> = {
                 '.',
               ],
               p: [
-                'En muchos proyectos no entrenamos un modelo nuevo con los documentos internos. Cuando el usuario pregunta, el sistema busca primero la información relevante dentro de las fuentes autorizadas y después proporciona ese contexto al modelo. Este enfoque se conoce como RAG, Retrieval-Augmented Generation.',
-                'Mantiene separado el modelo del conocimiento específico de la empresa y permite actualizar la información sin volver a entrenar nada cada vez que cambia un documento.',
+                'No entrenamos un modelo con tus documentos. Cuando el usuario pregunta, el sistema busca primero la información relevante dentro de las fuentes autorizadas y después se la proporciona al modelo para que responda desde tus fuentes, no desde su conocimiento general. Este enfoque se conoce como RAG.',
+                'Un RAG de demostración puede resolver las preguntas sencillas. Uno de producción tiene que encontrar información relevante incluso en documentos densos, con vocabulario interno y preguntas mal formuladas.',
               ],
             },
             types: {
@@ -10424,12 +10137,12 @@ export const content: Record<Lang, SiteContent> = {
             },
             cases: {
               h2: 'IA aplicada a conocimiento técnico real',
-              lead: 'En determinados entornos la documentación forma parte de la operación diaria. La recuperación documental puede integrarse en arquitecturas más amplias junto con datos operativos, bases de datos, aplicaciones internas, herramientas de diagnóstico y agentes especializados.',
+              lead: 'El asistente de planta reparte el trabajo entre agentes especializados. Así se pueden añadir dominios nuevos sin modificar los agentes que ya funcionan, medir cada agente por separado y evitar que un fallo en uno arrastre al conjunto.',
               items: [
                 {
                   client: 'Empresa industrial',
                   title: 'Documentación técnica como fuente activa de un asistente de planta',
-                  desc: 'Un sistema que combina documentación técnica, procedimientos y datos operativos para ayudar a localizar la información asociada a un contexto concreto. La documentación deja de ser un repositorio y se convierte en una fuente activa dentro del sistema.',
+                  desc: 'Un orquestador interpreta cada pregunta y la envía al agente especializado que corresponde según el dominio. Coordina media docena de agentes, que combinan documentación técnica con datos de producción y averías. Quien hace la pregunta no ve nada de lo que pasa por detrás, solo recibe una respuesta.',
                   image: '/case-studies/industrial.jpg',
                   href: '/proyectos/industrial',
                 },
@@ -10449,7 +10162,7 @@ export const content: Record<Lang, SiteContent> = {
                 ],
                 [
                   'Diseñamos la recuperación',
-                  'Cómo localizar la información adecuada para cada consulta: búsqueda semántica, metadata, filtros, bases de datos y otros mecanismos.',
+                  'Cómo localizar la información adecuada para cada consulta: búsqueda semántica, metadatos, filtros, bases de datos y otros mecanismos.',
                 ],
                 [
                   'Definimos permisos y fuentes',
@@ -10460,19 +10173,19 @@ export const content: Record<Lang, SiteContent> = {
                   'Preguntas reales: si recupera lo correcto, si la respuesta está respaldada por fuentes, si cita bien, si respeta permisos y qué pasa cuando no hay información suficiente.',
                 ],
                 [
-                  'Desplegamos y monitorizamos',
-                  'Preguntas frecuentes, consultas sin respuesta, fuentes que no se recuperan, documentos obsoletos, calidad y utilización.',
+                  'Medimos en producción',
+                  'Una batería de casos reales antes de cada cambio y una tanda semanal de conversaciones de prueba sobre el sistema en marcha. Las preguntas sin respuesta acaban convertidas en tareas para quien documenta.',
                 ],
               ],
             },
             control: {
               kicker: 'Permisos y fuentes',
-              h2: 'No todos los empleados deberían poder consultar la misma información',
+              h2: 'Cada persona solo puede consultar lo que sus permisos permiten',
               p: [
-                'Un asistente no debería mostrar información solo porque existe en el sistema. Debe tener en cuenta quién pregunta. Recursos Humanos, dirección, un equipo técnico o un proveedor externo pueden tener accesos distintos. La búsqueda también debe respetar la estructura de permisos de la empresa.',
-                'Y cuando la respuesta no está en las fuentes, el sistema debería saber decirlo. Decir "no encuentro esa información" puede ser mejor que responder con seguridad algo incorrecto.',
+                'El asistente utiliza los mismos permisos que ya tiene la persona en los sistemas de la empresa, así que nadie recibe en una respuesta un fragmento que no podría abrir a mano. Cuando consulta un sistema interno, lo hace con la identidad y los permisos de la persona, no con una cuenta de servicio con acceso global.',
+                'Y cuando la respuesta no está en las fuentes, el asistente lo dice, con claridad y con rastro. Un asistente que rellena huecos con seguridad fingida es exactamente lo que no construimos.',
               ],
-              listLabel: 'Podemos diseñar permisos y controles por',
+              listLabel: 'Permisos y controles del asistente',
               items: [
                 'Usuario',
                 'Rol',
@@ -10481,10 +10194,10 @@ export const content: Record<Lang, SiteContent> = {
                 'Documento',
                 'Tipo de información',
                 'Fuentes citadas en cada respuesta',
-                'Umbrales de recuperación',
                 'Respuestas limitadas al contenido recuperado',
+                'Aviso cuando algo no está documentado',
                 'Registro de preguntas sin respuesta',
-                'Reindexado al cambiar documentos',
+                'Batería de pruebas antes de cada cambio',
               ],
             },
             when: {
@@ -10507,7 +10220,7 @@ export const content: Record<Lang, SiteContent> = {
                 items: [
                   'Búsqueda semántica',
                   'Búsqueda por palabras',
-                  'Filtros y metadata',
+                  'Filtros y metadatos',
                   'Recuperación híbrida',
                   'Bases de datos',
                   'APIs',
@@ -10520,10 +10233,6 @@ export const content: Record<Lang, SiteContent> = {
               h2: 'Preguntas frecuentes sobre IA y documentación interna',
               items: [
                 {
-                  q: '¿Puede una IA consultar nuestros documentos internos?',
-                  a: 'Sí. Puede consultar documentación interna y utilizarla como contexto para responder en lenguaje natural, conectándose con documentos, bases de conocimiento, almacenamiento corporativo, bases de datos u otras fuentes.',
-                },
-                {
                   q: '¿Qué es un sistema RAG?',
                   a: 'Una arquitectura que busca información relevante antes de pedir al modelo que genere una respuesta. En lugar de depender del conocimiento del modelo, recupera información de fuentes concretas y la usa como contexto.',
                 },
@@ -10532,24 +10241,36 @@ export const content: Record<Lang, SiteContent> = {
                   a: 'RAG recupera información externa al responder. Entrenar o ajustar un modelo modifica su conocimiento interno. Para documentación empresarial, RAG facilita actualizar las fuentes sin reentrenar.',
                 },
                 {
-                  q: '¿Puede indicar de qué documento obtiene una respuesta?',
-                  a: 'Sí. El sistema puede incluir referencias a las fuentes y fragmentos utilizados para que el usuario compruebe la información en el documento original.',
+                  q: '¿Cuánto cuesta un asistente de conocimiento corporativo?',
+                  a: 'Se presupuesta por proyecto, porque el coste depende del volumen y estado de tus fuentes, de cuántos sistemas se integran y de cuánta validación exiges antes de salir. Los sistemas multiagente de este tamaño quedan fuera de los rangos estándar que publicamos para agentes de un solo trabajo. La estructura del precio, construcción más operación mensual, es la misma. La guía de coste la desglosa.',
+                  link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/guias/cuanto-cuesta-un-agente-de-ia' },
                 },
                 {
-                  q: '¿Cómo se controlan los permisos?',
-                  a: 'Se aplican antes de recuperar la información, para que el sistema solo use fuentes autorizadas para cada usuario: por rol, departamento, documento, fuente o identidad.',
+                  q: '¿Qué pasa con las preguntas que la documentación no cubre?',
+                  a: 'El asistente lo dice, con claridad y con rastro. Distinguimos el «queda fuera del producto» del «falta documentación», cada uno con su respuesta y su cola de trabajo, así que los huecos reales acaban convertidos en tareas para quien documenta. Un asistente que rellena huecos con seguridad fingida es exactamente lo que no construimos.',
                 },
                 {
-                  q: '¿Qué ocurre cuando los documentos cambian?',
-                  a: 'El sistema puede sincronizar o reindexar las fuentes cuando detecta documentos nuevos, modificaciones o versiones actualizadas.',
+                  q: '¿Los empleados verán documentos que no les tocan?',
+                  a: 'No. La búsqueda que alimenta al asistente respeta los permisos de cada puesto, así que un documento restringido ni siquiera llega a lo que el modelo lee antes de responder. Y las consultas a sistemas viajan con la identidad de quien pregunta, con sus permisos de siempre. Si alguien no puede abrir un dato a mano, su asistente tampoco.',
                 },
                 {
-                  q: '¿Puede funcionar con SharePoint o Google Drive?',
-                  a: 'Sí, siempre que exista una vía adecuada de acceso e integración para recuperar, sincronizar o indexar la información.',
+                  q: '¿Cómo se mantiene al día cuando la documentación cambia?',
+                  a: 'Los documentos se vuelven a procesar cuando cambian y la calidad se vigila de dos maneras, una batería de casos reales antes de cada cambio nuestro y una tanda semanal de conversaciones de prueba sobre el sistema en marcha. Cuando algo deja de encontrarse o de entenderse bien, lo vemos en las métricas antes de que se convierta en queja.',
                 },
                 {
-                  q: '¿Cómo se reduce el riesgo de que la IA invente respuestas?',
-                  a: 'Limitando las respuestas a fuentes recuperadas, validando, evaluando la calidad de la recuperación y definiendo qué ocurre cuando no hay información suficiente. No se elimina el comportamiento probabilístico, pero el sistema reconoce mejor sus límites.',
+                  q: '¿Funciona con nuestro vocabulario y en varios idiomas?',
+                  a: 'El vocabulario propio de la casa es precisamente el caso difícil para el que se calibra la búsqueda, con casos reales de tu gente y no con ejemplos de laboratorio. Los idiomas que hagan falta se definen en la exploración, que es la primera fase del proyecto.',
+                },
+                {
+                  q: '¿Puede correr sin salir de nuestra infraestructura?',
+                  a: [
+                    'El sistema completo corre en infraestructura tuya, nube o servidores propios. El código es tuyo desde el primer día, en tu repositorio. La llamada al modelo de lenguaje es la única pieza externa, va bajo los acuerdos y la configuración que apruebes y sin que tu contenido se use para entrenar.',
+                    'Desplegar el propio modelo en tus máquinas es un proyecto distinto, con otros costes y otro equilibrio de calidad. Si es requisito hay que decirlo en la primera conversación, porque cambia la arquitectura desde los cimientos.',
+                  ],
+                },
+                {
+                  q: '¿Cuánto se tarda?',
+                  a: 'La exploración, que es la primera fase del proyecto, lo responde con tus fuentes delante y no antes. La forma del proyecto sí es constante, un primer dominio de conocimiento acotado que entra en producción con su medición puesta y crecimiento dominio a dominio desde ahí. El caso industrial creció exactamente así.',
                 },
               ],
             },
@@ -10575,10 +10296,10 @@ export const content: Record<Lang, SiteContent> = {
             ],
             cta: 'Cuéntanos qué debería poder resolver una conversación',
             intro: {
-              h2: 'Conversaciones conectadas con procesos reales',
+              h2: 'Qué construimos',
               p: [
-                'Un chatbot tradicional suele responder preguntas. Un agente conversacional puede formar parte de un proceso: el usuario explica lo que necesita en lenguaje natural y el sistema interpreta la solicitud, recupera información, consulta otras aplicaciones y ejecuta las acciones necesarias.',
-                'El usuario no necesita conocer qué sistema hay detrás. Solo necesita explicar qué quiere hacer.',
+                'Chatbots con inteligencia artificial para los canales donde ya están tus clientes o tu equipo: WhatsApp con la API oficial de Meta, la web y herramientas internas. El agente entiende lenguaje natural, consulta tus sistemas reales (agenda, CRM, base de datos) y realiza la gestión sin sacar al usuario de la conversación.',
+                'La diferencia está en lo que ocurre después de responder. Un chatbot tradicional puede explicarte cómo reservar una cita, pero deja que seas tú quien haga la reserva. Estos agentes hacen la gestión dentro de la conversación.',
               ],
               listLabel: 'Una conversación puede convertirse en',
               list: [
@@ -10593,36 +10314,32 @@ export const content: Record<Lang, SiteContent> = {
             },
             capabilities: {
               h2: '¿Qué puede hacer un agente conversacional?',
-              lead: 'La capacidad del agente depende de las fuentes de información, herramientas y permisos que formen parte del sistema. El objetivo no es obligar al sistema a resolverlo todo. Es automatizar aquello que puede resolver correctamente.',
+              lead: 'Estas son las gestiones que más nos piden. Las cuatro primeras son tipos de trabajo concretos y la última forma parte de todos los agentes.',
               items: [
                 [
-                  'Responder con información empresarial',
-                  'Utiliza documentación, bases de conocimiento, productos, servicios, procedimientos o datos internos para construir respuestas basadas en información de la empresa.',
+                  'Atención al cliente',
+                  'Respuestas basadas en tus datos y documentación, con la fuente correspondiente, a cualquier hora.',
                 ],
                 [
-                  'Recopilar información',
-                  'Solicita los datos necesarios dentro de la propia conversación y los convierte en información estructurada. Permite sustituir formularios o procesos rígidos por una interacción más natural.',
+                  'Gestiones completas',
+                  'Reservar, cambiar, cancelar o consultar, con la agenda y la ficha actualizadas en el momento.',
                 ],
                 [
-                  'Consultar sistemas',
-                  'Recupera información desde CRM, ERP, bases de datos, calendarios, APIs, aplicaciones internas o servicios externos.',
+                  'Filtro de conversaciones',
+                  'Las que tienen recorrido comercial pasan a tu equipo ya cualificadas y el resto queda atendido sin robarle tiempo a nadie.',
                 ],
                 [
-                  'Ejecutar acciones',
-                  'La conversación puede terminar en una operación real: crear un registro, actualizar información, reservar una cita, cancelar una solicitud, enviar una comunicación o iniciar un workflow.',
+                  'Consultas internas',
+                  'La misma ingeniería hacia dentro, con empleados que preguntan a sus datos o a su documentación.',
                 ],
                 [
-                  'Mantener contexto',
-                  'Usa la información proporcionada anteriormente para comprender referencias y continuar el proceso sin repetir las mismas preguntas.',
-                ],
-                [
-                  'Derivar a una persona',
-                  'Cuando no puede continuar, el caso pasa a un miembro del equipo junto con la información recopilada y el contexto de la conversación.',
+                  'Escalado a una persona',
+                  'Cuando una conversación necesita intervención humana, llega al miembro del equipo correspondiente con todo el historial.',
                 ],
               ],
             },
             poster: {
-              kicker: 'Chatbot frente a agente conversacional',
+              kicker: 'Chatbot de guion frente a agente conversacional',
               h2: [
                 'La conversación es la ',
                 'interfaz',
@@ -10631,8 +10348,8 @@ export const content: Record<Lang, SiteContent> = {
                 '.',
               ],
               p: [
-                'Un chatbot se centra en responder mensajes: "¿Cuál es vuestro horario?". Un agente conversacional puede recibir "Quiero cambiar mi cita del jueves por la tarde" y continuar el proceso: identificar la cita, consultar el calendario, comprobar alternativas, aplicar las reglas de agenda, ofrecer opciones, modificar la reserva y confirmar el cambio.',
-                'La automatización no tiene por qué terminar en una respuesta. Puede continuar dentro de los sistemas de la empresa, y liberar al equipo para las situaciones que requieren criterio, negociación o atención personal.',
+                'Estos agentes ya no dependen de un árbol de opciones cerrado. Pueden entender una petición escrita de muchas formas, pero solo pueden ejecutar las acciones que hemos definido previamente.',
+                'El modelo interpreta la petición y elige entre las acciones que definimos contigo: reservar, consultar, cambiar o escalar. El código ejecuta la acción elegida y valida el resultado antes de responder.',
               ],
             },
             types: {
@@ -10680,7 +10397,7 @@ export const content: Record<Lang, SiteContent> = {
                 {
                   client: 'Wazzy',
                   title: 'Gestión de citas mediante una conversación en WhatsApp',
-                  desc: 'El agente consulta disponibilidad, trabaja con diferentes profesionales y calendarios, propone horarios, reserva, modifica o cancela y aplica reglas específicas. El usuario mantiene una conversación sencilla. Detrás, el sistema controla las condiciones bajo las que cada acción puede ejecutarse.',
+                  desc: 'Wazzy es producto nuestro. El agente consulta la agenda real, propone horarios, reserva, modifica o cancela y aplica las reglas de la clínica. El usuario mantiene una conversación sencilla. Detrás, el sistema controla las condiciones bajo las que cada acción puede ejecutarse.',
                   image: '/case-studies/dentist.jpg',
                   href: '/proyectos/wazzy',
                 },
@@ -10695,7 +10412,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             method: {
               h2: 'Cómo desarrollamos un agente conversacional a medida',
-              lead: 'El desarrollo no empieza escribiendo respuestas. Empieza entendiendo las conversaciones que el sistema tendrá que gestionar.',
+              lead: 'No lo ponemos a atender todas las conversaciones desde el primer día. Se estrena en pequeño, en un canal, en un horario o en un grupo de clientes, con sus categorías medidas desde la primera conversación.',
               steps: [
                 [
                   'Analizamos los casos de uso',
@@ -10718,19 +10435,19 @@ export const content: Record<Lang, SiteContent> = {
                   'Mensajes ambiguos, datos incompletos, cambios de intención, errores, solicitudes inesperadas y situaciones donde el agente debería negarse a actuar. No solo la conversación perfecta.',
                 ],
                 [
-                  'Desplegamos y monitorizamos',
-                  'Conversaciones, errores, derivaciones y herramientas utilizadas para entender dónde funciona y dónde necesita mejorar.',
+                  'Medimos en producción',
+                  'Fijamos la versión del modelo y cada cambio pasa por una batería de pruebas antes de publicarse. Cada conversación deja un registro que se puede reconstruir.',
                 ],
               ],
             },
             control: {
               kicker: 'Control',
-              h2: 'Un chatbot empresarial no debería inventar cuando no sabe la respuesta',
+              h2: 'Qué puede responder el agente y cuándo pasa la conversación a una persona',
               p: [
-                'Los modelos de lenguaje pueden generar respuestas incorrectas. Por eso un agente conversacional no debería diseñarse confiando únicamente en que el modelo siempre responda bien. Cuando no dispone de suficiente información puede pedir aclaraciones, indicar que no sabe la respuesta, consultar otra fuente o derivar el caso a una persona.',
-                'No responder también puede ser la respuesta correcta. Y cuando interviene una persona, conserva el contexto: mensajes, datos recopilados, acciones ejecutadas y motivo de la derivación. El usuario no empieza de nuevo.',
+                'Las respuestas de conocimiento salen de tus datos y tu documentación, con la fuente al lado. Los textos sensibles, como una política de devoluciones, una condición legal o un precio, no los redacta el modelo. Son textos aprobados por ti que el sistema entrega tal cual.',
+                'Y cuando no hay dato para responder, el agente lo dice y ofrece el camino a una persona, que recibe la conversación entera sin hacer repetir nada.',
               ],
-              listLabel: 'Dependiendo del proyecto podemos utilizar',
+              listLabel: 'Los controles que ponemos alrededor del agente',
               items: [
                 'Fuentes de conocimiento controladas',
                 'Recuperación de información',
@@ -10739,14 +10456,14 @@ export const content: Record<Lang, SiteContent> = {
                 'Herramientas limitadas',
                 'Reglas de negocio',
                 'Permisos',
-                'Evaluación automática',
+                'Batería de pruebas antes de cada cambio',
                 'Registro de conversaciones',
                 'Intervención humana con contexto',
               ],
             },
             when: {
               h2: '¿Cuándo merece la pena desarrollar un chatbot a medida?',
-              lead: 'Una solución a medida suele tener sentido cuando el chatbot necesita hacer algo más que responder unas pocas preguntas. Parte de nuestro trabajo consiste en identificar cuándo un desarrollo a medida realmente aporta valor.',
+              lead: 'También forma parte del trabajo decirte cuándo no compensa. Un agente conversacional compensa cuando hay volumen, cuando la información existe y cuando una parte real de las gestiones puede terminarse dentro de la conversación.',
               yes: {
                 label: 'Suele tener sentido cuando',
                 items: [
@@ -10776,40 +10493,52 @@ export const content: Record<Lang, SiteContent> = {
               h2: 'Preguntas frecuentes sobre chatbots y agentes conversacionales',
               items: [
                 {
-                  q: '¿Qué es un agente conversacional?',
-                  a: 'Un sistema de inteligencia artificial que utiliza una conversación como interfaz para consultar información, utilizar herramientas o ejecutar acciones. Puede responder mensajes, pero también conectarse con sistemas empresariales y participar en procesos reales.',
+                  q: '¿Qué diferencia hay entre un chatbot de guion y un agente conversacional?',
+                  a: 'Un chatbot de guion sigue un árbol de botones y se rompe al salirse de él. Un agente conversacional entiende texto libre y decide entre las acciones disponibles, así que la misma pregunta formulada de veinte maneras llega al mismo sitio.',
                 },
                 {
-                  q: '¿Cuál es la diferencia entre un chatbot y un agente de IA?',
-                  a: 'Un chatbot se centra en mantener una conversación. Un agente de IA puede utilizar herramientas y ejecutar acciones además de responder. Un chatbot informa del horario. Un agente consulta un calendario y reserva una cita.',
+                  q: '¿En qué canales funciona?',
+                  a: 'WhatsApp con la API oficial de Meta, web y herramientas internas. Donde ya estén tus clientes o tu equipo.',
                 },
                 {
-                  q: '¿Puede un chatbot conectarse con nuestro CRM o ERP?',
-                  a: 'Sí, si existe una vía de integración adecuada. El sistema puede consultar información o ejecutar operaciones según los permisos definidos.',
+                  q: '¿Puede reservar, cambiar o cancelar citas él solo?',
+                  a: 'Sí. Lo tenemos en producción con Wazzy, un asistente de citas que es producto nuestro, con disponibilidad en tiempo real, confirmación inmediata y agenda actualizada.',
                 },
                 {
-                  q: '¿Puede responder utilizando nuestra documentación?',
-                  a: 'Sí. Dependiendo del proyecto se usan arquitecturas RAG y sistemas de permisos para recuperar únicamente la información adecuada antes de responder.',
+                  q: '¿Y si mi cliente quiere hablar con una persona?',
+                  a: 'Siempre. El camino a una persona está a la vista y quien atiende recibe la conversación entera, sin hacer repetir nada. Fuera de horario el caso espera con su historial y se atiende a primera hora. Un bot que atrapa a la gente sale caro en clientes, no lo construimos.',
                 },
                 {
-                  q: '¿Puede un chatbot ejecutar acciones?',
-                  a: 'Sí: crear registros, actualizar información, gestionar solicitudes o iniciar procesos. Las acciones pueden estar sujetas a reglas y validaciones adicionales.',
+                  q: '¿Se inventará respuestas delante de mis clientes?',
+                  a: 'Las respuestas de conocimiento salen de tus datos con su fuente y las frases delicadas son textos aprobados por ti que el sistema entrega tal cual. Cuando no hay dato, lo dice y ofrece una persona. Con eso el riesgo baja mucho. El que queda se mide por tipo de gestión, así que un fallo aparece en su categoría en vez de perderse en un promedio.',
                 },
                 {
-                  q: '¿Puede funcionar en WhatsApp?',
-                  a: 'Sí, cuando el proyecto y la infraestructura del canal lo permiten. La misma lógica puede utilizarse en una web, una aplicación u otros canales compatibles.',
+                  q: '¿Podemos cambiar lo que dice sin llamaros?',
+                  a: 'Los textos aprobados los editas tú sin tocar código. Ninguna edición entra en producción sin pasar su comprobación. Un documento nuevo tampoco cambia respuestas hasta que la batería lo aprueba. Para cambiar lo que el agente puede hacer entramos nosotros, también con las pruebas delante.',
                 },
                 {
-                  q: '¿Qué ocurre si el chatbot no sabe responder?',
-                  a: 'Puede pedir más información, indicar que no dispone de una respuesta fiable o derivar la conversación a una persona. No debería estar obligado a inventar.',
+                  q: '¿Quién responde del RGPD?',
+                  a: 'El responsable del tratamiento es tu empresa y nosotros somos el encargado. Lo que entregamos es contrato de encargo, medidas técnicas y plazos de conservación por escrito. Cuando hay datos de categoría especial de por medio, como los de salud, eso incluye además cifrado campo a campo y borrado a petición de todo lo que no tenga un plazo legal por encima.',
                 },
                 {
-                  q: '¿Puede transferir la conversación a una persona?',
-                  a: 'Sí, conservando el contexto, los datos recopilados y el estado del proceso, para que la atención humana continúe sin que el usuario empiece de nuevo.',
+                  q: '¿Cuánto cuesta un chatbot con IA?',
+                  a: [
+                    'Los precios de construcción y operación son los mismos que para el resto de nuestros agentes, entre 2.500 y 10.000 € de construcción y entre 150 y 500 € al mes de operación. La cuota no tiene permanencia y el consumo del modelo va en cuentas a nombre de tu empresa.',
+                    'En WhatsApp hay dos costes variables que hay que tener en cuenta. Cada conversación gasta sus llamadas al modelo. Meta cobra aparte cada plantilla que envía, según su política de precios. Un recordatorio de cita es una plantilla, así que cada aviso tiene su propio coste. Los dos van desglosados.',
+                  ],
+                  link: { label: 'Cuánto cuesta un agente de IA, desglosado', href: '/guias/cuanto-cuesta-un-agente-de-ia' },
                 },
                 {
-                  q: '¿Cuánto cuesta desarrollar un chatbot a medida?',
-                  a: 'Depende del número de casos de uso, las integraciones, las fuentes de información, los canales, las acciones disponibles y los requisitos de seguridad y control. Un chatbot informativo y un agente conectado con varios sistemas tienen complejidades muy distintas.',
+                  q: '¿Y si WhatsApp cambia sus reglas o sus precios?',
+                  a: 'La API oficial nos protege de que Meta corte los atajos no oficiales, no de que suba sus tarifas. Las suyas se repercuten desglosadas y aparte de nuestra parte, así que siempre ves cuál es cuál. Y la lógica del agente no vive en el canal, la misma conversación puede atenderse en web o en una herramienta interna con el mismo cerebro detrás.',
+                },
+                {
+                  q: '¿Sirve para vender o solo para atender?',
+                  a: 'Las dos cosas se tocan. Un agente que filtra y cualifica entrega a tu equipo interesados cualificados, como la inmobiliaria que ya solo concierta visitas. Lo que no hacemos es envío masivo por WhatsApp, ni con IA ni sin ella.',
+                },
+                {
+                  q: '¿Cuántas conversaciones hacen falta para que compense?',
+                  a: 'No damos un número mágico porque depende de lo que te cuesta hoy atender esos mensajes a mano. El piloto lo mide con tus conversaciones reales, se paga y su precio entra dentro del proyecto final. Si la cuenta no sale, te lo decimos nosotros antes de ampliar.',
                 },
               ],
             },
@@ -10935,15 +10664,15 @@ export const content: Record<Lang, SiteContent> = {
               items: [
                 {
                   client: 'Stanton',
-                  title: 'De un análisis de proceso a un 98 % de facturas sin intervención',
-                  desc: 'El análisis del flujo de facturas permitió separar qué parte necesitaba interpretación y qué parte eran reglas. El resultado es un sistema que hoy procesa el 98 % de las facturas de forma automática.',
+                  title: 'De un minuto por factura a un 98 % de facturas sin tocar',
+                  desc: 'Cada factura de suministros costaba un minuto de teclado. Hoy el 98 % pasa sin que nadie la toque y el resto llega a una persona con el documento al lado. Separar qué parte de un proceso necesita un modelo y qué parte resuelven reglas es justo lo que estudia una consultoría.',
                   image: '/case-studies/stanton.jpg',
                   href: '/proyectos/stanton',
                 },
                 {
                   client: 'Savian',
-                  title: 'Decidir qué no hacer: el modelo no escribe SQL',
-                  desc: 'La decisión de arquitectura más importante fue una restricción: el agente interpreta la pregunta pero nunca ejecuta consultas arbitrarias. Esa decisión es la que hace el sistema seguro.',
+                  title: 'Rectificar a tiempo: el modelo dejó de escribir SQL',
+                  desc: 'La primera versión dejaba que el modelo escribiera la consulta y la ejecutara. Cometía fallos que salían sin error y devolvían una cifra distinta de la preguntada, así que la sustituimos. Hoy el modelo solo interpreta la pregunta y el código construye la consulta.',
                   image: '/case-studies/harvest.jpg',
                   href: '/proyectos/savian',
                 },
@@ -10976,7 +10705,7 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             control: {
-              kicker: 'Seguridad, RGPD y AI Act',
+              kicker: 'Seguridad, RGPD y reglamento de IA',
               h2: 'Seguridad y cumplimiento desde la estrategia',
               p: [
                 'Algunas decisiones de arquitectura afectan directamente a la privacidad, la exposición de información y el riesgo regulatorio. No deberían revisarse únicamente cuando el desarrollo está terminado.',
@@ -11116,7 +10845,7 @@ export const content: Record<Lang, SiteContent> = {
               'utilizar una API',
               'registrar una operación',
               'enviar una comunicación',
-              'iniciar un workflow',
+              'iniciar un flujo de trabajo',
               'pedir intervención humana cuando el caso lo requiera',
             ],
             closing: [
@@ -11256,8 +10985,8 @@ export const content: Record<Lang, SiteContent> = {
                 heading: 'Wazzy',
                 subheading: 'Un agente de IA que gestiona citas desde WhatsApp',
                 paragraphs: [
-                  'Wazzy permite que un usuario reserve, modifique o cancele una cita mediante una conversación.',
-                  'El agente consulta disponibilidad, trabaja con diferentes profesionales y calendarios y ejecuta las acciones necesarias siguiendo reglas previamente definidas.',
+                  'Wazzy es producto nuestro y permite que un usuario reserve, modifique o cancele una cita mediante una conversación.',
+                  'El agente consulta la agenda real y ejecuta las acciones necesarias siguiendo las reglas de la clínica.',
                   'La conversación es flexible.',
                   'Las reglas de agenda no lo son.',
                 ],
@@ -12085,7 +11814,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               '<strong>Un agente en producción tiene dos costes distintos que conviene separar.</strong> Uno es lo que el sistema consume para funcionar, el modelo y la infraestructura, que va en cuentas a nombre de tu empresa. El otro es nuestra cuota, que cubre la supervisión y el mantenimiento.',
               'Cada interacción puede generar llamadas al proveedor del modelo. Ese es el coste bruto de tener el agente en marcha, lo paga tu empresa y sube o baja con el uso, así que no lo escondemos dentro de nuestra cuota. La infraestructura funciona igual. La cuenta en la nube está a tu nombre, así que su factura también.',
-              'Separar este coste te permite verlo y optimizarlo. <strong>Conocer cómo se reparte el gasto permite reducirlo con datos, en lugar de hacerlo a ciegas.</strong> En Wazzy lo medimos por capas: leer y estructurar el mensaje que entra se lleva entre el 52 y el 57 % del gasto de modelo, decidir qué hacer a continuación entre el 24 y el 31 % y escribir la respuesta entre el 16 y el 19 %.',
+              'Separar este coste te permite verlo y optimizarlo. <strong>Conocer cómo se reparte el gasto permite reducirlo con datos, en lugar de hacerlo a ciegas.</strong>',
               'Con ese desglose podemos decidir qué cambios compensan y cuáles no. En uno de nuestros sistemas probamos un modelo más barato y la batería de pruebas lo descartó, porque la calidad general bajaba diez puntos. El ahorro era real. No compensaba.',
               '<strong>Nuestra cuota cubre la supervisión y el mantenimiento del sistema.</strong> Cada semana lanzamos contra el sistema vivo una tanda de conversaciones de prueba anonimizadas, de principio a fin. Y antes de publicar cualquier cambio tiene que pasar la batería de pruebas. Son dos cosas distintas y separadas a propósito. <strong>La batería de pruebas evita publicar cambios que empeoren el sistema y la revisión semanal comprueba que el sistema que ya está en producción sigue funcionando correctamente.</strong>',
             ],
@@ -12262,7 +11991,7 @@ export const content: Record<Lang, SiteContent> = {
               'Una versión temprana de uno de nuestros asistentes mantenía separadas a las empresas diciéndole al modelo, en sus instrucciones, que no se saltara nunca el filtro. Funcionaba en todas las pruebas que hicimos.',
               'Aunque funcionara en las pruebas, seguía teniendo un problema: una instrucción a un modelo de lenguaje es una petición. Un modelo puede dejar de atender una petición por motivos que nadie predice desde fuera.',
               'Lo explicamos como la diferencia entre una garantía técnica y una instrucción que el modelo puede incumplir. Cambió nuestra manera de construir. <strong>La seguridad tiene que aguantar incluso cuando el modelo falla.</strong>',
-              'El sistema donde mejor se ve es el de Savian, un agente que responde a los responsables de varias empresas del mismo grupo, cada uno sobre las suyas. Corre en la cuenta de Savian, que es quien lo encarga. Ahí la separación se impone en cuatro sitios. Ninguna de esas capas depende del modelo.',
+              'El sistema donde mejor se ve es el de Savian, un agente que trabaja con datos de varias empresas y contesta a cada responsable solo sobre lo que le corresponde. Corre en la cuenta de Savian, que es quien lo encarga. Ahí la separación se impone en cuatro sitios. Ninguna de esas capas depende del modelo.',
             ],
             bullets: [
               'El contexto, la información que el modelo puede leer mientras responde, solo contiene lo que la persona que pregunta tiene derecho a ver. El asistente no puede acceder a información que nunca recibió y no puede construir una consulta sobre una empresa fuera de su ámbito.',
@@ -12846,7 +12575,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Cuatro capas entre una empresa y la de al lado',
             part: 'Cómo funciona hoy',
             paragraphs: [
-              'El agente responde a los responsables de varias empresas del mismo grupo, cada uno sobre las suyas, así que la separación entre unas y otras es la garantía que sostiene el sistema entero. <strong>La separación se impone en cuatro sitios. El modelo no es ninguno de los cuatro.</strong>',
+              'El agente trabaja con datos de varias empresas y cada responsable solo puede preguntar por lo que le corresponde, así que la separación entre unos datos y otros es la garantía que sostiene el sistema entero. <strong>La separación se impone en cuatro sitios. El modelo no es ninguno de los cuatro.</strong>',
               'La información que el modelo puede leer mientras responde contiene solo las empresas de quien pregunta, así que las demás no existen para él y no puede filtrar lo que nunca tuvo.',
               'La corrección de nombres que acabamos de contar busca solo dentro de esas mismas empresas. Quien escribe un nombre a medias o con una letra bailada acaba en el centro que quería, si ese centro es suyo. Si no lo es, no llega a ninguna parte.',
               'Después, el código valida la petición contra una lista cerrada de valores permitidos antes de construir nada. Y la consulta final lleva un filtro incondicional que, si la lista de permisos llegara vacía, la resuelve en una condición que no encaja con ninguna fila. Cuando algo falla, el sistema se cierra en vez de abrirse.',
@@ -13270,8 +12999,8 @@ export const content: Record<Lang, SiteContent> = {
       guides: 'Guides',
       sectors: 'Sectors',
       sectorLinks: [
-        { label: 'Real estate', href: '/en/real-estate' },
-        { label: 'Accounting firms', href: '/en/accounting-firms' },
+        { label: 'Real estate', href: '/en/sectors/real-estate' },
+        { label: 'Accounting firms', href: '/en/sectors/accounting-firms' },
       ],
       resources: 'Resources',
       faqs: 'FAQs',
@@ -13364,6 +13093,14 @@ export const content: Record<Lang, SiteContent> = {
         next: 'Next',
         items: [
           {
+            client: 'Industrial company',
+            title: 'Guided troubleshooting for whoever is at the machine',
+            desc: 'Plant knowledge lived in dense manuals and in the heads of the most experienced people. We built an assistant on the company’s own systems. Operators query production and fault data, and get step-by-step guided troubleshooting when a machine stops.',
+            metric: '6 specialized agents, coordinated by an orchestrator that routes every query.',
+            image: '/case-studies/industrial.jpg',
+            href: '/en/cases/industrial',
+          },
+          {
             client: 'Stanton',
             title: '98% of invoices processed with no human intervention',
             desc: 'A system that automates receiving, interpreting and processing invoices. It combines artificial intelligence, validations and integrations with the rules of the back-office process to reduce manual work.',
@@ -13373,10 +13110,10 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             client: 'Barceloneta Premium',
-            title: 'More than 3 hours of back-office work saved every day',
-            desc: 'We studied several internal processes that required repetitive tasks and built automations to remove part of that operational load.',
+            title: 'More than 3 hours a day saved screening rental inquiries',
+            desc: 'Every rental inquiry arriving on WhatsApp took five to ten minutes of manual checking, and dozens came in every day. The agent talks to the applicant, collects reason, budget and paperwork, and emails the team a summary with a paragraph explaining why each one fits or doesn’t.',
             metric:
-              'More than three hours of work saved every day in processes that used to need manual intervention.',
+              'More than three hours saved every day checking rental inquiries. The team stopped screening applications and went back to booking viewings.',
             image: '/case-studies/barceloneta.jpg',
             href: '/en/cases/barceloneta',
           },
@@ -13391,9 +13128,8 @@ export const content: Record<Lang, SiteContent> = {
           {
             client: 'Wazzy',
             title: 'An AI agent that manages appointments through a conversation',
-            desc: 'Appointment management straight from WhatsApp. The agent checks availability, suggests times, books, changes or cancels, and works with different professionals, calendars and business rules.',
-            metric:
-              'A simple conversation for the user. Behind it, an architecture that controls which actions the agent can take and under which conditions.',
+            desc: 'Wazzy is our own product, not a client’s. It manages appointments straight from WhatsApp in dental, physiotherapy and aesthetic clinics: it checks the real calendar, suggests times, books, changes or cancels, and alerts the team when the conversation needs it.',
+            metric: 'Hundreds of appointments a month, and not one double-booked in the product’s entire history.',
             image: '/case-studies/dentist.jpg',
             href: '/en/cases/wazzy',
           },
@@ -13476,12 +13212,12 @@ export const content: Record<Lang, SiteContent> = {
         ],
         outro:
           'When the project calls for it we design solutions on private infrastructure or with models deployed in controlled environments, to reduce the exposure of sensitive information.',
-        link: { label: 'Artificial intelligence, privacy and GDPR', href: '/en/gdpr-compliant-ai' },
+        link: { label: 'Artificial intelligence, privacy and GDPR', href: '/en/guides/gdpr-compliant-ai' },
         imageCaption: 'Privacy, data protection and security by design.',
       },
       sectors: {
         title: 'The technology may be similar. Each company’s context is not.',
-        lead: 'We have worked on AI and automation systems in manufacturing, agriculture, real estate, administration and professional services. The architecture changes with the processes, the information available, the existing systems and the rules of each organization.',
+        lead: 'We have built AI and automation systems in manufacturing, agriculture, real estate, healthcare and services. Logistics, energy and ecommerce are sectors where we can help, although we don’t have a case of our own in them yet. The architecture changes with the processes, the information available, the existing systems and the rules of each organization.',
         items: [
           { title: 'Manufacturing', image: '/case-studies/industrial.jpg' },
           { title: 'Agriculture', image: '/case-studies/harvest.jpg' },
@@ -13490,7 +13226,7 @@ export const content: Record<Lang, SiteContent> = {
           { title: 'Professional services', image: '/case-studies/dentist.jpg' },
         ],
         links: [
-          { label: 'AI for real estate', href: '/en/real-estate' },
+          { label: 'AI for real estate', href: '/en/sectors/real-estate' },
           { label: 'See projects', href: '#casos' },
         ],
       },
@@ -13506,25 +13242,25 @@ export const content: Record<Lang, SiteContent> = {
             tag: 'guide',
             title: 'What are AI agents?',
             desc: 'What sets an agent apart from a chatbot, how it uses tools and in which situations it adds value inside a company.',
-            href: '/en/ai-agents',
+            href: '/en/guides/ai-agents',
           },
           {
             tag: 'guide',
             title: 'How much does it cost to build an AI agent?',
             desc: 'The factors that drive the cost: integrations, information sources, architecture, models, infrastructure and maintenance.',
-            href: '/en/ai-agent-development-cost',
+            href: '/en/guides/ai-agent-development-cost',
           },
           {
             tag: 'guide',
             title: 'Artificial intelligence and GDPR',
             desc: 'What happens to the data when a company uses AI, and which architecture decisions reduce the risk.',
-            href: '/en/gdpr-compliant-ai',
+            href: '/en/guides/gdpr-compliant-ai',
           },
           {
             tag: 'guide',
             title: 'The EU Artificial Intelligence Act',
             desc: 'The obligations the AI Act introduces for companies that develop, deploy or use AI systems.',
-            href: '/en/eu-ai-act-compliance',
+            href: '/en/guides/eu-ai-act-compliance',
           },
           {
             tag: 'blog',
@@ -13548,7 +13284,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             tag: 'blog',
             title: 'The agent that queries your data does not write SQL',
-            desc: 'Why we built Savian on the opposite decision to text-to-SQL, which is what makes it safe.',
+            desc: 'Why we built Savian’s data agent on the opposite decision to text-to-SQL, which is what makes it safe.',
             href: '/en/blog/ai-agents-sql',
             image: '/blog/portada-sql.jpg',
           },
@@ -13567,7 +13303,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'What is the difference between an AI agent and a chatbot?',
-            a: 'A chatbot is built to hold a conversation. An AI agent can also use tools, query external systems and take actions. For example, understanding a request, querying a database and then logging an operation in a CRM.',
+            a: 'A script chatbot follows a fixed menu of options. An AI agent understands free text and can also use tools, query external systems and take actions. For example, understanding a request, querying a database and then logging an operation in a CRM.',
           },
           {
             q: 'Can artificial intelligence connect to an ERP, a CRM or a database?',
@@ -13595,7 +13331,7 @@ export const content: Record<Lang, SiteContent> = {
         kicker: 'Contact',
         title: 'Tell us about the process you want to improve.',
         p1: 'You do not need to know which model to use, which architecture you need or whether the problem calls for an AI agent. Tell us how the process works today, who is involved and which tools you use.',
-        p2: 'We will work out which part can be automated, where artificial intelligence makes sense and what it would take to turn it into a system that can work in production.',
+        p2: 'We’ll reply within one business day with a first read of your case.',
         message: 'How the process you want to improve works today',
         placeholder:
           'Describe it the way you would to a colleague. You do not need to know which technology solves it.',
@@ -13738,7 +13474,7 @@ export const content: Record<Lang, SiteContent> = {
               'We filter prospects before they reach your sales team, with your CRM and your pipeline.',
             proof: 'Like at Barceloneta Premium',
             pageLabel: 'AI for real estate',
-            href: '/en/real-estate',
+            href: '/en/sectors/real-estate',
           },
           {
             title: 'Support and maintenance',
@@ -13747,7 +13483,7 @@ export const content: Record<Lang, SiteContent> = {
               'We do not drop a system and leave. We run it with you, tune it and absorb new models as they ship.',
             proof: '103 controls in production',
             pageLabel: 'AI for small business',
-            href: '/en/smb',
+            href: '/en/guides/ai-for-small-business',
           },
         ],
       },
@@ -15068,11 +14804,11 @@ export const content: Record<Lang, SiteContent> = {
         {
           heading: 'Guides',
           links: [
-            { label: 'What an AI agent is', href: '/en/ai-agents' },
-            { label: 'What an AI agent costs', href: '/en/ai-agent-development-cost' },
-            { label: 'GDPR-compliant AI', href: '/en/gdpr-compliant-ai' },
-            { label: 'EU AI Act', href: '/en/eu-ai-act-compliance' },
-            { label: 'AI for small business', href: '/en/smb' },
+            { label: 'What an AI agent is', href: '/en/guides/ai-agents' },
+            { label: 'What an AI agent costs', href: '/en/guides/ai-agent-development-cost' },
+            { label: 'GDPR-compliant AI', href: '/en/guides/gdpr-compliant-ai' },
+            { label: 'EU AI Act', href: '/en/guides/eu-ai-act-compliance' },
+            { label: 'AI for small business', href: '/en/guides/ai-for-small-business' },
           ],
         },
       ],
@@ -15158,7 +14894,7 @@ export const content: Record<Lang, SiteContent> = {
               'The assistant runs on your infrastructure, your cloud or your own servers, with the call to the language model as the only external piece, with your organization’s accounts for access and your data wherever you decide. The repository is in your name from day one. And quality is measured all the time, with a battery of real cases that blocks any change that degrades the system and a weekly watch on what is live.',
               'A system of this size is quoted per project, because the cost depends on your sources, your systems and how much validation you demand. For how the rules of European data protection shape all of this, the full story is on its own page.',
             ],
-            link: { label: 'GDPR-compliant AI on infrastructure you own', href: '/en/gdpr-compliant-ai' },
+            link: { label: 'GDPR-compliant AI on infrastructure you own', href: '/en/guides/gdpr-compliant-ai' },
           },
           {
             heading: 'Technical capabilities',
@@ -15299,7 +15035,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: 'The pricing guide, range by range',
-              href: '/en/ai-agent-development-cost',
+              href: '/en/guides/ai-agent-development-cost',
             },
           },
           {
@@ -15438,7 +15174,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: 'How much an AI agent costs',
-              href: '/en/ai-agent-development-cost',
+              href: '/en/guides/ai-agent-development-cost',
             },
           },
           {
@@ -15607,7 +15343,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: 'How much an AI agent costs',
-              href: '/en/ai-agent-development-cost',
+              href: '/en/guides/ai-agent-development-cost',
             },
           },
         ],
@@ -15887,12 +15623,12 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'The European rules',
             part: 'For your company',
             paragraphs: [
-              'If you deploy in Europe, two regulations frame the work. The GDPR governs the personal data inside the system, and the <a class="link-inline" href="/en/eu-ai-act-compliance">EU AI Act</a> sorts systems by the risk of their use. Its transparency duties have applied since August 2026, while the Digital Omnibus of July 2026 pushed the heavy high-risk obligations to December 2027 and beyond. <strong>Neither forbids what this guide describes. Both reward the same architecture, records, oversight and restraint designed in from the start.</strong>',
+              'If you deploy in Europe, two regulations frame the work. The GDPR governs the personal data inside the system, and the <a class="link-inline" href="/en/guides/eu-ai-act-compliance">EU AI Act</a> sorts systems by the risk of their use. Its transparency duties have applied since August 2026, while the Digital Omnibus of July 2026 pushed the heavy high-risk obligations to December 2027 and beyond. <strong>Neither forbids what this guide describes. Both reward the same architecture, records, oversight and restraint designed in from the start.</strong>',
               'We keep a full page on each, written for the person who has to defend the project in front of legal.',
             ],
             link: {
               label: 'GDPR-compliant AI on infrastructure you own',
-              href: '/en/gdpr-compliant-ai',
+              href: '/en/guides/gdpr-compliant-ai',
             },
           },
           {
@@ -15910,7 +15646,7 @@ export const content: Record<Lang, SiteContent> = {
               'Tool. Each specific action an agent can carry out: querying a database, booking an appointment, sending an email.',
               'Structured contract. The fixed format the model uses to hand over what it understood, so code can check it before anything happens. Proposals will call it structured output or function calling.',
               'Test suite. Real cases with the right answer written beside them, which every change has to pass before it ships. Most vendors call these evals.',
-              'Telemetry. The measurements the system publishes about how it is running. Well designed, it only collects fields approved in advance, so that no personal data travels with it.',
+              'Telemetry. The measurements the system publishes about how it is running.',
               'Hallucination. A false answer with a flawless surface. You fight it with architecture, not by pleading with the model.',
               'RPA. Automation that imitates clicks and keystrokes on your existing screens. It works well as long as nothing changes and it is brittle the moment a screen moves. An agent attacks the same problem by understanding the content, which is why the two often coexist, each on its own ground.',
               'User identity. The credential that travels with every action, so the agent acts with that person’s permissions rather than with those of an account that can do everything.',
@@ -15924,7 +15660,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: 'How much does an AI agent cost, the full guide',
-              href: '/en/ai-agent-development-cost',
+              href: '/en/guides/ai-agent-development-cost',
             },
           },
         ],
@@ -16001,7 +15737,7 @@ export const content: Record<Lang, SiteContent> = {
               'Request qualification. Every incoming item is read, scored and routed. Your team receives only the ones worth its time. Of twenty quote requests arriving through the website, three deserve a call today and the rest can wait until tomorrow.',
               'Actions on your systems. The full transaction, executed inside a closed set of actions you approve. Registering the client, generating their contract and leaving it ready for signature, with nobody copying data from one screen to another.',
             ],
-            link: { label: 'If you are still working out what an AI agent actually is, start with the AI agents guide', href: '/en/ai-agents' },
+            link: { label: 'If you are still working out what an AI agent actually is, start with the AI agents guide', href: '/en/guides/ai-agents' },
           },
           {
             heading: 'What never used to be worth automating',
@@ -16109,7 +15845,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'A custom agent runs between €2,500 and €10,000 to build, depending on integrations and validation requirements, plus €150 to €500 a month to operate, which covers monitoring and maintenance. Model usage and infrastructure run in accounts under your company’s name, so those bills are yours and are not part of the fee. <strong>The monthly fee is agreed before anything starts and consumption is watched with caps. It is not an open meter you discover at the end of the month.</strong> Systems with an orchestrator and several agents are quoted per project. The full breakdown, what makes the build more expensive and where the monthly fee goes, is in the cost guide.',
             ],
-            link: { label: 'AI agent development cost, broken down', href: '/en/ai-agent-development-cost' },
+            link: { label: 'AI agent development cost, broken down', href: '/en/guides/ai-agent-development-cost' },
           },
         ],
         faqHeading: 'Frequently asked questions',
@@ -16140,7 +15876,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'What if the model provider raises prices or retires the model?',
-            a: 'The model sits behind an abstraction layer, so swapping it is a bounded change that has to pass the test suite before it ships. It sometimes means touching the system as well, because different models behave differently. We have tried it. We rejected a cheaper model because the suite showed it lost ten points of accuracy.',
+            a: 'Switching models is something we test, not something we promise. We run systems in production on models from different providers, and a switch has to pass the test suite before it ships. It sometimes means touching the system as well, because different models behave differently. We’ve seen it happen: we rejected a cheaper model because the suite showed it lost ten points of accuracy.',
           },
           {
             q: 'What if you conclude our case is not worth it?',
@@ -16274,7 +16010,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: 'Document automation for accounting firms',
-              href: '/en/accounting-firms',
+              href: '/en/sectors/accounting-firms',
             },
           },
           {
@@ -16320,7 +16056,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: 'How much does an AI agent cost, broken down',
-              href: '/en/ai-agent-development-cost',
+              href: '/en/guides/ai-agent-development-cost',
             },
           },
         ],
@@ -16439,7 +16175,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: 'The real estate agency case',
-              href: '/en/real-estate',
+              href: '/en/sectors/real-estate',
             },
           },
           {
@@ -16524,7 +16260,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: 'How much does an AI agent cost, broken down',
-              href: '/en/ai-agent-development-cost',
+              href: '/en/guides/ai-agent-development-cost',
             },
           },
         ],
@@ -16644,7 +16380,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               '<strong>A running agent has two costs, and they are worth keeping apart.</strong> One is what the system consumes to work, the model and the infrastructure, which sits in accounts under your company’s name. The other is our fee, which pays for the work of watching it.',
               'Every message that comes in triggers calls to the model provider. That is the raw running cost of having the agent live, your company pays it, and it goes up and down with usage, so we do not bury it inside our fee. Infrastructure works the same way. The cloud account is in your name, so its bill is too.',
-              'Keeping it separate has an upside for you. You can see it, so you can bring it down. <strong>Knowing how the spend splits is what lets you cut it by measuring instead of guessing.</strong> In Wazzy we meter it per layer: reading and structuring the incoming message takes 52 to 57 percent of the model spend, deciding what to do next takes 24 to 31 percent and writing the reply takes 16 to 19 percent.',
+              'Keeping it separate has an upside for you. You can see it, so you can bring it down. <strong>Knowing how the spend splits is what lets you cut it by measuring instead of guessing.</strong>',
               'With that map in front of you, the decision comes from data. In one of our systems we tried a cheaper model and the test battery rejected it, because overall quality fell ten points. The saving was real. It just was not worth what it cost in quality.',
               '<strong>Our fee pays for something else, which is the work of watching it.</strong> Every week we run a batch of anonymized test conversations against the live system from end to end. And before any change ships, the test battery has to pass. Two different things, kept separate on purpose. <strong>The battery gates changes, and the weekly batch watches what is already running.</strong>',
             ],
@@ -16740,7 +16476,7 @@ export const content: Record<Lang, SiteContent> = {
               'A company deploying AI in Europe now answers to two regulations at once. The GDPR governs what may happen to personal data, whoever processes it. The AI Act sorts systems by the risk of their use, from banned practices to minimal risk, and places concrete duties on companies that deploy the risky ones, oversight, monitoring and logs among them. Its calendar changed in July 2026. The Digital Omnibus, Regulation (EU) 2026/1744, pushed the high-risk obligations for Annex III systems to 2 December 2027 and those for AI embedded in regulated products under Annex I to 2 August 2028. What already applies is everything else, the prohibited practices and the AI literacy duty since February 2025, the general-purpose model rules since August 2025 and the Article 50 transparency duties since 2 August 2026. Fines at the top of the scale reach 35 million euros or 7 percent of turnover.',
               'We keep the full map of that second regulation on its own page, role by role and duty by duty, because it deserves the space. One piece belongs here, though, since it is about data rather than systems. In December 2024 the European Data Protection Board published Opinion 28/2024, its first word on AI models themselves, and two findings matter for a buyer. Whether a trained model is anonymous gets assessed case by case, and legitimate interest can only carry AI processing after a documented three-step assessment. Neither is a rubber stamp. Both reward providers who can show their homework, which is the approach this whole page describes.',
             ],
-            link: { label: 'The full guide: EU AI Act compliance for deployers', href: '/en/eu-ai-act-compliance' },
+            link: { label: 'The full guide: EU AI Act compliance for deployers', href: '/en/guides/eu-ai-act-compliance' },
           },
           {
             heading: 'Where your data actually goes',
@@ -16752,7 +16488,7 @@ export const content: Record<Lang, SiteContent> = {
               'Two paths lead out of the account and both have to be drawn. The first is the call to the model provider, the company that runs the language model itself. You approve which provider, under which agreement and with which settings, and you approve what is allowed to travel inside those calls. The second appears when the assistant lives in a messaging channel. If the conversation comes in over WhatsApp or Telegram, that channel receives the full content and is one more third party in the chain, with its own agreement and its own transfer assessment. A web or internal assistant has no second exit. Model providers sign data processing agreements, the contracts that bind a supplier to process data only on your instructions, and the serious ones offer European processing regions. Whether a given setup satisfies the rules on international transfers is your lawyers’ assessment to make. Our job is to hand them a complete map of what flows where, so the assessment takes days instead of months.',
               'Everything else in this page builds on that starting point. Isolation, records and health-data handling all assume the data already sits inside an account you control, because that is the only place from which the rest can be guaranteed.',
             ],
-            link: { label: 'What it costs to build and run one', href: '/en/ai-agent-development-cost' },
+            link: { label: 'What it costs to build and run one', href: '/en/guides/ai-agent-development-cost' },
           },
           {
             heading: 'What actually travels in a model call',
@@ -16969,7 +16705,7 @@ export const content: Record<Lang, SiteContent> = {
               'It is written by engineers. We build AI agents that run inside companies bound by these rules, which means our work sits on the receiving end of these reviews, and we are Spanish, so our national supervisor is AESIA, the first dedicated AI authority in Europe. What follows is the map we wish every client had before the first meeting. It is not legal advice, we do not classify your risk and the calls that need a lawyer are marked as such throughout.',
               'If you want the deeper story of how our systems handle data, isolation and records, that lives in our page on GDPR-compliant AI, which this guide extends on the AI Act side.',
             ],
-            link: { label: 'The pillar this guide extends: GDPR-compliant AI', href: '/en/gdpr-compliant-ai' },
+            link: { label: 'The pillar this guide extends: GDPR-compliant AI', href: '/en/guides/gdpr-compliant-ai' },
           },
           {
             heading: 'The whole Act in six sentences',
@@ -17134,7 +16870,7 @@ export const content: Record<Lang, SiteContent> = {
               'The transparency duties in Article 50 apply since August 2026 and they are refreshingly concrete. People interacting with an AI system must be informed they are doing so, unless it is obvious from context. Synthetic audio, image and video content must be marked as artificially generated, and that marking is the provider’s duty. Yours is to disclose a deepfake you publish, or AI-generated text you put out on a matter of public interest. Deployers of emotion recognition or biometric categorization must inform the people exposed to them.',
               'For the systems most companies actually run, this reduces to plain interface design. The assistant introduces itself as an assistant, the generated report says it was generated and the escalation path to a human is real. We covered how our own conversational systems present themselves and hand urgent cases to staff on the sovereignty page, and the same design serves this article without modification. By now the pattern is clear. These duties are cheap to meet when they are designed in and expensive to retrofit.',
             ],
-            link: { label: 'How our systems present themselves and escalate', href: '/en/gdpr-compliant-ai' },
+            link: { label: 'How our systems present themselves and escalate', href: '/en/guides/gdpr-compliant-ai' },
           },
           {
             heading: 'Most of Article 26 is an engineering property',
@@ -17145,7 +16881,7 @@ export const content: Record<Lang, SiteContent> = {
               'This is where our practice happens to line up with the regulation, not because we built for the Act but because production forced the same conclusions earlier. Our systems write down each decision as it happens, in a record that can be added to but never edited, and the system itself never reads that record back, so it documents behavior without influencing it. Oversight is not a name in a file. The people behind our assistants get real queues with real trails, and every action a system takes on someone’s behalf runs under that person’s own permissions, so the question "who could have done this" always has an answer your identity system already knew.',
               'Monitoring, the duty that sounds vaguest, is the one we can show most concretely. Before any change ships, a battery of annotated, anonymized cases must pass, and one of our systems carries 118 of them. After shipping, a weekly batch of scripted test conversations runs against the live system end to end. Two separate checks, kept apart on purpose, and together they are precisely the "monitor the operation of the system" evidence Article 26 asks a deployer to have.',
             ],
-            link: { label: 'The records, isolation and identity design in full', href: '/en/gdpr-compliant-ai' },
+            link: { label: 'The records, isolation and identity design in full', href: '/en/guides/gdpr-compliant-ai' },
           },
           {
             heading: 'What we hand you for the AI Act file',
@@ -17186,7 +16922,7 @@ export const content: Record<Lang, SiteContent> = {
               'The AI Act and the GDPR ask different questions about the same system. One regulates the use by risk, the other the personal data inside, and a system that answers both well tends to be one system, built once, with records, oversight and restraint designed in rather than promised. That architecture is what our sovereignty page describes mechanism by mechanism, and it is the standard everything we build inherits, whether or not a given system ever goes near Annex III.',
               'If you are deciding whether to build something under these rules, the same candor applies to prices, and we publish ours. And if what you need first is the map of duties turned into a working system, that is the actual job description of an AI agent development company working under these rules in 2026.',
             ],
-            link: { label: 'What an AI agent costs to build and run', href: '/en/ai-agent-development-cost' },
+            link: { label: 'What an AI agent costs to build and run', href: '/en/guides/ai-agent-development-cost' },
           },
         ],
         faqHeading: 'The questions committees actually ask',
@@ -17317,7 +17053,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Four layers between one company and the one next door',
             part: 'How it works today',
             paragraphs: [
-              'The agent answers managers from several companies in the same group, each one about their own, so keeping them apart is the guarantee that holds the whole system up. <strong>Separation is enforced in four places. The model is none of the four.</strong>',
+              'The agent works with data from several companies, and each manager can only ask about what is theirs, so keeping that data apart is the guarantee that holds the whole system up. <strong>Separation is enforced in four places. The model is none of the four.</strong>',
               'The information the model can read while it answers contains only the companies of whoever is asking, so the rest do not exist for it and it cannot leak what it never had.',
               'The name correction we just described searches only inside those same companies. Somebody who writes a name half finished or with a letter out of place lands on the site they meant, if that site is theirs. If it is not, they land nowhere.',
               'After that, the code validates the request against a closed list of allowed values before building anything. And the final query carries an unconditional filter that, if the permission list ever arrived empty, resolves into a condition no row can match. When something fails, the system fails closed, not open.',
@@ -17678,7 +17414,7 @@ export const content: Record<Lang, SiteContent> = {
               'The law sets how long a medical record has to be kept, but that duty belongs to the clinic and not to us. Wazzy deletes on request everything that has no legal period over it. What does have one is kept for as long as that period lasts.',
               '<strong>And the model does not talk to the database.</strong> The two things an assistant can get wrong here, inventing a fact or pulling up another patient’s record, do not depend on the model behaving well.',
             ],
-            link: { label: 'How we handle personal data, in detail', href: '/en/gdpr-compliant-ai' },
+            link: { label: 'How we handle personal data, in detail', href: '/en/guides/gdpr-compliant-ai' },
           },
           {
             heading: 'The emoji that closed a confirmation',

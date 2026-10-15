@@ -163,9 +163,9 @@ interface ServiceGroup { label: string; items: ServiceItem[] }
     privacy:     { es: '/politica-privacidad',           en: '/en/privacy-policy' },
     cookies:     { es: '/politica-cookies',              en: '/en/cookies-policy' },
     enterprise:  { es: '/servicios/conocimiento-corporativo', en: '/en/services/corporate-knowledge' },
-    smb:         { es: '/pymes',                         en: '/en/smb' },
-    realEstate:  { es: '/inmobiliarias',                 en: '/en/real-estate' },
-    accounting:  { es: '/gestorias',                     en: '/en/accounting-firms' },
+    smb:         { es: '/pymes',                         en: '/en/guides/ai-for-small-business' },
+    realEstate:  { es: '/inmobiliarias',                 en: '/en/sectors/real-estate' },
+    accounting:  { es: '/gestorias',                     en: '/en/sectors/accounting-firms' },
     kitDigital:  { es: '/kit-digital' /* ES only */ },
   };
   ```
@@ -416,11 +416,11 @@ the dual-file write.
 | `/servicios/conocimiento-corporativo` | ES | [enterprise page](src/pages/servicios/conocimiento-corporativo.astro) |
 | `/en/services/corporate-knowledge` | EN | [enterprise page](src/pages/en/services/corporate-knowledge.astro) |
 | `/pymes` | ES | [SMB packages](src/pages/pymes.astro) |
-| `/en/smb` | EN | [SMB packages](src/pages/en/smb.astro) |
+| `/en/guides/ai-for-small-business` | EN | [SMB packages](src/pages/en/guides/ai-for-small-business.astro) |
 | `/inmobiliarias` | ES | [real-estate vertical](src/pages/inmobiliarias.astro) |
-| `/en/real-estate` | EN | [real-estate vertical](src/pages/en/real-estate.astro) |
+| `/en/sectors/real-estate` | EN | [real-estate vertical](src/pages/en/sectors/real-estate.astro) |
 | `/gestorias` | ES | [accounting vertical](src/pages/gestorias.astro) |
-| `/en/accounting-firms` | EN | [accounting vertical](src/pages/en/accounting-firms.astro) |
+| `/en/sectors/accounting-firms` | EN | [accounting vertical](src/pages/en/sectors/accounting-firms.astro) |
 | `/kit-digital` | ES only | [Kit Digital](src/pages/kit-digital.astro) |
 | `/blog` | ES | [src/pages/blog/index.astro](src/pages/blog/index.astro) |
 | `/en/blog` | EN | [src/pages/en/blog/index.astro](src/pages/en/blog/index.astro) |

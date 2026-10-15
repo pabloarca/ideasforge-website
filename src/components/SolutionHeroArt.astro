@@ -329,17 +329,8 @@ const piezas = composiciones[clave]();
 
 <style is:global>
   /* Global a propósito: las piezas llevan la animación en su estilo en línea
-     y la buscan por nombre. Los colores son los tokens del sistema. */
-  .hero-art {
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-    aspect-ratio: 1;
-    overflow: hidden;
-  }
-  .hero-art span {
-    display: block;
-  }
+     y la buscan por nombre. Los colores son los tokens del sistema. La caja
+     `.hero-art` está en global.css, porque la comparten los sectores. */
 
   /* 1. Agentes */
   @keyframes if-gather {
@@ -550,15 +541,6 @@ const piezas = composiciones[clave]();
 
   /* Sin movimiento: cada composición, quieta en su estado ordenado. */
   @media (prefers-reduced-motion: reduce) {
-    .hero-art span {
-      animation: none !important;
-    }
-    .hero-art .ha-oculto {
-      opacity: 0 !important;
-    }
-    .hero-art .ha-visible {
-      opacity: 1 !important;
-    }
     .hero-art .ha-traza {
       transform: none !important;
     }

@@ -79,7 +79,7 @@
 # Estas siete direcciones eran de la web NUEVA, no del WordPress: estaban
 # publicadas y posicionando. Pasan a vivir bajo /guias/ y /sectores/. Las
 # reglas de arriba que apuntaban a tres de ellas ya llevan el destino nuevo,
-# para que nadie dé dos saltos. En inglés no cambia ninguna dirección.
+# para que nadie dé dos saltos. El inglés pasó a carpeta el 15 oct 2026 (más abajo).
 /agentes-de-ia                                      /guias/que-es-un-agente-de-ia          301
 /agentes-de-ia/                                     /guias/que-es-un-agente-de-ia          301
 /cuanto-cuesta-un-agente-de-ia                      /guias/cuanto-cuesta-un-agente-de-ia   301
@@ -126,12 +126,12 @@
 /en/automatizacion-de-procesos-con-ia/              /en/services/ai-workflow-automation     301
 /en/tareas-del-crm-sin-entrar-al-crm                /en/services/ai-workflow-automation     301
 /en/tareas-del-crm-sin-entrar-al-crm/               /en/services/ai-workflow-automation     301
-/en/agente-de-ia-inmobiliario                       /en/real-estate   301
-/en/agente-de-ia-inmobiliario/                      /en/real-estate   301
-/en/agente-de-ia-para-inmobiliaria                  /en/real-estate   301
-/en/agente-de-ia-para-inmobiliaria/                 /en/real-estate   301
-/en/alucinaciones-ai                                /en/ai-agents     301
-/en/alucinaciones-ai/                               /en/ai-agents     301
+/en/agente-de-ia-inmobiliario                       /en/sectors/real-estate   301
+/en/agente-de-ia-inmobiliario/                      /en/sectors/real-estate   301
+/en/agente-de-ia-para-inmobiliaria                  /en/sectors/real-estate   301
+/en/agente-de-ia-para-inmobiliaria/                 /en/sectors/real-estate   301
+/en/alucinaciones-ai                                /en/guides/ai-agents     301
+/en/alucinaciones-ai/                               /en/guides/ai-agents     301
 /en/analisis-de-sitios-web-con-ia                   /en              301
 /en/analisis-de-sitios-web-con-ia/                  /en              301
 /en/utiliza-la-ia-para-crear-contenido              /en/blog          301
@@ -146,6 +146,27 @@
 /en/proyectos/                                      /en/cases        301
 /en/category/proyectos                              /en/cases        301
 /en/category/proyectos/                             /en/cases        301
+
+# ── Guías y sectores en inglés, bajo carpeta (15 oct 2026) ─────────────────
+# Las direcciones tienen que ser espejo en los dos idiomas: si el español va
+# en carpetas, el inglés también. Eran páginas de la web NUEVA, publicadas y
+# posicionando. Conservan su nombre, elegido por palabra clave, salvo /en/smb,
+# que pasa a ai-for-small-business, su búsqueda principal. Las reglas de
+# arriba que apuntaban a dos de ellas ya llevan el destino nuevo.
+/en/ai-agents                                       /en/guides/ai-agents                   301
+/en/ai-agents/                                      /en/guides/ai-agents                   301
+/en/ai-agent-development-cost                       /en/guides/ai-agent-development-cost   301
+/en/ai-agent-development-cost/                      /en/guides/ai-agent-development-cost   301
+/en/gdpr-compliant-ai                               /en/guides/gdpr-compliant-ai           301
+/en/gdpr-compliant-ai/                              /en/guides/gdpr-compliant-ai           301
+/en/eu-ai-act-compliance                            /en/guides/eu-ai-act-compliance        301
+/en/eu-ai-act-compliance/                           /en/guides/eu-ai-act-compliance        301
+/en/smb                                             /en/guides/ai-for-small-business       301
+/en/smb/                                            /en/guides/ai-for-small-business       301
+/en/real-estate                                     /en/sectors/real-estate                301
+/en/real-estate/                                    /en/sectors/real-estate                301
+/en/accounting-firms                                /en/sectors/accounting-firms           301
+/en/accounting-firms/                               /en/sectors/accounting-firms           301
 
 # ══ LA VERSIÓN ANTERIOR EN www ═══════════════════════════════════════════════
 # Antes del WordPress hubo otra web en www.ideasforge.io con el español bajo
