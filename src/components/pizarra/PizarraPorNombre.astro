@@ -75,6 +75,8 @@ import PizarraDosNoes from './PizarraDosNoes.astro';
 import PizarraMismaPregunta from './PizarraMismaPregunta.astro';
 import PizarraCajero from './PizarraCajero.astro';
 import PizarraTransicionNoExiste from './PizarraTransicionNoExiste.astro';
+import PizarraCambioSeguro from './PizarraCambioSeguro.astro';
+import PizarraCicloDespues from './PizarraCicloDespues.astro';
 
 interface Props {
   grafico: keyof PizarrasContent;
@@ -152,6 +154,8 @@ const GRAFICOS = {
   mismaPregunta: PizarraMismaPregunta,
   cajero: PizarraCajero,
   transicionNoExiste: PizarraTransicionNoExiste,
+  cambioSeguro: PizarraCambioSeguro,
+  cicloDespues: PizarraCicloDespues,
 } satisfies Record<keyof PizarrasContent, unknown>;
 
 const Grafico = GRAFICOS[grafico];
