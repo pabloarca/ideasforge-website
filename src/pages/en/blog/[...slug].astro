@@ -2,6 +2,7 @@
 import { getImage } from 'astro:assets';
 import { foto } from '../../../lib/fotos';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostCover from '../../../components/PostCover.astro';
 import PageNav from '../../../components/PageNav.astro';
 import FaqList from '../../../components/FaqList.astro';
 import CuerpoDePost from '../../../components/pizarra/CuerpoDePost.astro';
@@ -134,6 +135,19 @@ const articleJsonLd = JSON.stringify({
       </div>
       <h1 class="t-display mt-5 max-w-[26ch]">{post.data.title}</h1>
       <p class="mt-6 max-w-[62ch] text-[17px] leading-[1.55] text-muted">{post.data.description}</p>
+      {/* Imagen destacada, bajo la entradilla (15 oct 2026). La misma pieza que
+          las miniaturas del índice del blog: la foto en blanco y negro o, si el
+          post aún no la tiene, el hueco gris del diseño. Se carga sin esperar
+          porque es lo primero que se ve. */}
+      <div class="relative mt-[clamp(32px,4vw,48px)] aspect-[2/1] overflow-hidden">
+        <PostCover
+          title={post.data.title}
+          image={post.data.heroImage}
+          compact
+          eager
+          sizes="(min-width: 1280px) 1232px, calc(100vw - 32px)"
+        />
+      </div>
     </header>
 
     <div class:list={['border-t-2 border-border', hasNav && 'lg:grid lg:grid-cols-[15rem_minmax(0,1fr)]']}>

@@ -22,14 +22,13 @@
   El dibujo animado del héroe es distinto en cada solución y vive en
   `SolutionHeroArt.astro`.
 */
-import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FaqList from './FaqList.astro';
+import GaleriaCasos from './GaleriaCasos.astro';
 import ContactForm from './home/ContactForm.astro';
 import SolutionHeroArt from './SolutionHeroArt.astro';
 import { type Lang, type SolutionKey, content } from '../i18n/ui';
 import { altsFor, routeMap } from '../i18n/utils';
-import { foto } from '../lib/fotos';
 
 interface Props {
   lang: Lang;
@@ -49,10 +48,11 @@ const otras = sol.order.filter((k) => k !== clave).map((k) => sol.pages[k]);
 const recursos = content[lang].home.resources.items;
 const guias = (d.guides ?? []).map((g) => ({ ...g, desc: recursos.find((r) => r.href === g.href)?.desc }));
 
-/* N columnas iguales en escritorio y una en móvil, sin puntos de corte: el
-   mínimo de cada columna es su parte exacta del ancho, descontado el hueco. */
+/* Cuántos pasos tiene el método. Van en una columna hasta 1.100 px y todos
+   en fila desde ahí (`.sol-pasos`). El cálculo anterior, sin punto de corte,
+   daba a cada columna su parte exacta del ancho y por eso salían cinco
+   columnas también en un móvil, ilegibles (15 oct 2026). */
 const n = d.method.steps.length;
-const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${Math.round((32 * (n - 1)) / n)}px)), 1fr))`;
 ---
 
 <BaseLayout lang={lang} title={d.metaTitle} description={d.metaDescription} alternates={altsFor(clave)}>
@@ -191,35 +191,14 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
         <h2 class="sol-h2">{d.cases.h2}</h2>
         <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{d.cases.lead}</p>
       </div>
-      <div class="sol-casos">
-        {
-          d.cases.items.map((k) => (
-            <a href={k.href} class="group grid grid-rows-[auto_1fr] bg-bg">
-              <figure class="bn aspect-video overflow-hidden border-b-2 border-border bg-neutral-200">
-                <Picture
-                  pictureAttributes={{ class: 'contents' }}
-                  src={foto(k.image)}
-                  alt=""
-                  formats={['avif', 'webp']}
-                  widths={[480, 800, 1200]}
-                  sizes="(min-width: 900px) 576px, 100vw"
-                  loading="lazy"
-                  decoding="async"
-                  class="h-full w-full object-cover"
-                />
-              </figure>
-              <div class="flex flex-col px-[clamp(24px,3vw,40px)] pb-9 pt-7">
-                <span class="text-[13px] text-muted">{k.client}</span>
-                <h3 class="mt-4 text-[clamp(22px,2.2vw,30px)] leading-[1.12] tracking-[-0.022em]">{k.title}</h3>
-                <p class="mt-4 text-[15px] leading-[1.6] text-muted">{k.desc}</p>
-                <span class="mt-auto self-start pt-7">
-                  <span class="link-arrow">{l.viewCase.replace('{client}', k.client)} →</span>
-                </span>
-              </div>
-            </a>
-          ))
-        }
-      </div>
+      {/* Galería, la misma de la portada (15 oct 2026). Con un solo caso
+          no lleva flechas ni barra; aparecen solas al añadir el segundo. */}
+      <GaleriaCasos
+        items={d.cases.items}
+        viewCase={l.viewCase}
+        prev={content[lang].home.cases.prev}
+        next={content[lang].home.cases.next}
+      />
     </section>
 
     <!-- 7. Método -->
@@ -228,7 +207,7 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
         <h2 class="sol-h2">{d.method.h2}</h2>
         <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{d.method.lead}</p>
       </div>
-      <div class="grid gap-x-8 border-t-2 border-border" style={`grid-template-columns:${columnasMetodo}`}>
+      <div class="sol-pasos border-t-2 border-border" style={`--pasos:${n}`}>
         {
           d.method.steps.map(([t, texto], i) => (
             <div class="sol-paso">
@@ -486,18 +465,26 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
   }
 
   /* ---- 6. Casos ---- */
-  .sol-casos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
-    gap: 2px;
-    background: var(--color-border);
-    border: 2px solid var(--color-border);
-  }
-
   /* ---- 7. Método ---- */
+  /* Una columna y, desde 1.100 px, todos los pasos en fila. Nunca un corte
+     intermedio: un paso huérfano en su propia fila se lee como distinto,
+     igual que en el método de la portada. */
+  .sol-pasos {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 32px;
+  }
   .sol-paso {
     padding-top: 32px;
     transition: transform 0.3s;
+  }
+  .sol-paso p {
+    max-width: 60ch;
+  }
+  @media (min-width: 1100px) {
+    .sol-pasos {
+      grid-template-columns: repeat(var(--pasos), minmax(0, 1fr));
+    }
   }
   .sol-paso:hover {
     transform: translateY(-4px);
@@ -516,9 +503,12 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
   .sol-control-rotulo {
     color: var(--color-neutral-400);
   }
+  /* Dos columnas por debajo de 1.100 px y cinco desde ahí. El mínimo de un
+     quinto exacto del ancho, sin punto de corte, dejaba cinco columnas
+     también en un móvil (15 oct 2026). */
   .sol-control-lista {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(20% - 2px)), 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2px;
     background: var(--color-neutral-900);
     border: 2px solid var(--color-neutral-900);
@@ -537,6 +527,18 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
   }
   .sol-control-lista > li:hover .sol-control-rotulo {
     color: var(--color-on-accent);
+  }
+  /* Con un número impar de controles, el último ocupa la fila entera en vez
+     de dejar una celda vacía a su lado (conocimiento corporativo tiene 11). */
+  @media (max-width: 1099px) {
+    .sol-control-lista > li:last-child:nth-child(odd) {
+      grid-column: span 2;
+    }
+  }
+  @media (min-width: 1100px) {
+    .sol-control-lista {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
   }
 
   /* ---- 9. Díptico ---- */

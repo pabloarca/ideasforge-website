@@ -833,6 +833,9 @@ export interface HomeContent {
     next: string;
     items: Array<{
       client: string;
+      /** Texto del botón cuando «Ver caso {client}» no encaja, porque el
+       *  cliente no tiene nombre propio («Empresa industrial»). */
+      cta?: string;
       title: string;
       desc: string;
       metric: string;
@@ -1349,7 +1352,9 @@ export interface SolutionPageContent {
   cases: {
     h2: string;
     lead: string;
-    items: { client: string; title: string; desc: string; image: string; href: string }[];
+    /** `cta`, igual que en los casos de la portada: el botón cuando el cliente
+     *  no tiene nombre propio. */
+    items: { client: string; cta?: string; title: string; desc: string; image: string; href: string }[];
   };
   method: { h2: string; lead: string; steps: [string, string][] };
   control: { kicker: string; h2: string; p: [string, string]; listLabel: string; items: string[] };
@@ -1758,6 +1763,7 @@ export const content: Record<Lang, SiteContent> = {
         items: [
           {
             client: 'Empresa industrial',
+            cta: 'Ver el caso del asistente de planta',
             title: 'Diagnóstico guiado para quien está delante de la máquina',
             desc: 'El conocimiento de planta vivía en manuales densos y en la cabeza de los más veteranos. Construimos un asistente sobre los sistemas de la propia empresa. Los operarios consultan datos de producción y averías y reciben el diagnóstico guiado paso a paso cuando una máquina se para.',
             metric: '6 agentes especializados, coordinados por un orquestador que dirige cada consulta.',
@@ -8058,6 +8064,7 @@ export const content: Record<Lang, SiteContent> = {
                 sub: 'Gestión de citas por WhatsApp',
                 paras: [
                   'Wazzy es producto nuestro, no un cliente. Permite que los pacientes gestionen sus citas directamente desde WhatsApp y hoy trabaja en clínicas dentales, de fisioterapia y de estética.',
+                  'Mueve cientos de citas al mes y en toda la historia del producto no ha reservado dos veces ninguna cita.',
                 ],
                 label: 'El sistema puede',
                 list: [
@@ -10141,6 +10148,7 @@ export const content: Record<Lang, SiteContent> = {
               items: [
                 {
                   client: 'Empresa industrial',
+                  cta: 'Ver el caso del asistente de planta',
                   title: 'Documentación técnica como fuente activa de un asistente de planta',
                   desc: 'Un orquestador interpreta cada pregunta y la envía al agente especializado que corresponde según el dominio. Coordina media docena de agentes, que combinan documentación técnica con datos de producción y averías. Quien hace la pregunta no ve nada de lo que pasa por detrás, solo recibe una respuesta.',
                   image: '/case-studies/industrial.jpg',
@@ -13094,6 +13102,7 @@ export const content: Record<Lang, SiteContent> = {
         items: [
           {
             client: 'Industrial company',
+            cta: 'See the plant assistant case',
             title: 'Guided troubleshooting for whoever is at the machine',
             desc: 'Plant knowledge lived in dense manuals and in the heads of the most experienced people. We built an assistant on the company’s own systems. Operators query production and fault data, and get step-by-step guided troubleshooting when a machine stops.',
             metric: '6 specialized agents, coordinated by an orchestrator that routes every query.',

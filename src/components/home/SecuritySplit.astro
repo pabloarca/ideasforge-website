@@ -52,14 +52,24 @@ const t = content[lang].home.security;
 </section>
 
 <style>
+  /* Una columna por defecto y dos desde 960 px. El salto va en una media
+     query y no en `auto-fit` porque la foto fija tiene que ir atada a él: con
+     `auto-fit` la cuadrícula pasaba a una columna sin avisar y la foto, que
+     va primero, se quedaba fija encima del texto al hacer scroll (15 oct
+     2026). En una columna la foto sube con la página. */
   .seguridad {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 48px clamp(32px, 6vw, 112px);
     align-items: start;
   }
-  .seguridad-foto {
-    position: sticky;
-    top: var(--sticky-offset);
+  @media (min-width: 960px) {
+    .seguridad {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .seguridad-foto {
+      position: sticky;
+      top: var(--sticky-offset);
+    }
   }
 </style>

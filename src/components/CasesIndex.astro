@@ -89,7 +89,7 @@ const lista = {
                 <p class="mt-4 text-[15px] leading-[1.6] text-muted">{k.desc}</p>
                 <p class="mt-5 text-[15px] leading-normal">{k.metric}</p>
                 <span class="mt-auto self-start pt-7">
-                  <span class="link-arrow">{t.viewCase.replace('{client}', k.client)} →</span>
+                  <span class="link-arrow">{k.cta ?? t.viewCase.replace('{client}', k.client)} →</span>
                 </span>
               </div>
             </a>

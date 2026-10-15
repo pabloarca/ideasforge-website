@@ -668,7 +668,7 @@ const reticula = (n: number, fijas?: number) => {
                 <h2 class="sec-h2 max-w-[22ch]">{b.h2}</h2>
                 {b.lead && <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{b.lead}</p>}
               </div>
-              <ol class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,calc(33.33%_-_22px)),1fr))] gap-x-8 border-t-2 border-border">
+              <ol class="sec-metodos border-t-2 border-border">
                 {b.steps.map(([t, texto], i) => (
                   <li class="sec-metodo">
                     <span class="sq mb-10" aria-hidden="true" />
@@ -977,6 +977,18 @@ const reticula = (n: number, fijas?: number) => {
       grid-column: span 2;
     }
   }
+  /* La tabla oscura de control («Automatización sin perder control…», «Control
+     y seguridad»…) lleva rótulos de una o dos palabras: va a dos columnas
+     también por debajo de 560 px, donde a una sola quedaba una tira larguísima
+     de celdas casi vacías (15 oct 2026). */
+  @media (max-width: 559px) {
+    .sec-grid-oscura {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .sec-grid-oscura.impar > :last-child {
+      grid-column: span 2;
+    }
+  }
   @media (min-width: 960px) {
     .sec-grid {
       grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
@@ -1206,9 +1218,25 @@ const reticula = (n: number, fijas?: number) => {
   }
 
   /* ---- Método ---- */
+  /* Una columna y, desde 900 px, tres en fila. Antes el mínimo de cada
+     columna era un tercio exacto del ancho y salían tres columnas también en
+     un móvil (15 oct 2026). */
+  .sec-metodos {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 32px;
+  }
   .sec-metodo {
     padding: 32px 0 24px;
     transition: transform 0.3s;
+  }
+  .sec-metodo p {
+    max-width: 60ch;
+  }
+  @media (min-width: 900px) {
+    .sec-metodos {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
   .sec-metodo:hover {
     transform: translateY(-4px);
