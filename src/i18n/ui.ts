@@ -1509,13 +1509,13 @@ export const content: Record<Lang, SiteContent> = {
       guides: 'Guías',
       sectors: 'Sectores',
       sectorLinks: [
-        { label: 'Real estate e inmobiliario', href: '/sectores/real-estate-e-inmobiliario' },
+        { label: 'Inmobiliarias', href: '/sectores/real-estate-e-inmobiliario' },
         { label: 'Gestorías y asesorías', href: '/sectores/gestorias-y-asesorias' },
         { label: 'Industria y manufactura', href: '/sectores/industria-y-manufactura' },
-        { label: 'Salud y grupos sanitarios', href: '/sectores/salud-y-grupos-sanitarios' },
+        { label: 'Salud y clínicas', href: '/sectores/salud-y-grupos-sanitarios' },
         { label: 'Logística y transporte', href: '/sectores/logistica-y-transporte' },
-        { label: 'Energía y utilities', href: '/sectores/energia-y-utilities' },
-        { label: 'Ecommerce y retail', href: '/sectores/ecommerce-y-retail' },
+        { label: 'Energía', href: '/sectores/energia-y-utilities' },
+        { label: 'Comercio electrónico', href: '/sectores/ecommerce-y-retail' },
       ],
       resources: 'Recursos',
       faqs: 'FAQs',
@@ -1641,10 +1641,10 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             client: 'Barceloneta Premium',
-            title: 'Más de 3 horas de trabajo administrativo ahorradas cada día',
-            desc: 'Analizamos distintos procesos internos que requerían tareas repetitivas y desarrollamos automatizaciones para eliminar parte de esa carga operativa.',
+            title: 'Más de 3 horas al día que ya no se gastan en cribar consultas de alquiler',
+            desc: 'Un agente atiende por WhatsApp las decenas de consultas de alquiler que recibe la agencia cada día. Reúne lo que la agencia necesita saber y envía al equipo un resumen por correo con el veredicto y el porqué. Antes, comprobar cada consulta costaba entre cinco y diez minutos.',
             metric:
-              'Más de tres horas de trabajo ahorradas cada día en procesos que antes necesitaban intervención manual.',
+              'Más de tres horas al día que el equipo ya no dedica a cribar solicitudes de alquiler.',
             image: '/case-studies/barceloneta.jpg',
             href: '/proyectos/barceloneta',
           },
@@ -1657,9 +1657,17 @@ export const content: Record<Lang, SiteContent> = {
             href: '/proyectos/savian',
           },
           {
+            client: 'Empresa industrial',
+            title: 'Un asistente de planta que responde con los datos de producción y averías',
+            desc: 'Construimos un asistente de planta para una empresa industrial. Operarios y supervisores le preguntan por la producción y las averías, reciben un diagnóstico guiado y el sistema lanza alertas automáticas.',
+            metric: 'Seis agentes especializados, coordinados por un orquestador que dirige cada consulta.',
+            image: '/case-studies/industrial.jpg',
+            href: '/proyectos/industrial',
+          },
+          {
             client: 'Wazzy',
-            title: 'Un agente de IA capaz de gestionar citas mediante una conversación',
-            desc: 'Gestión de citas directamente desde WhatsApp. El agente comprueba disponibilidad, propone horarios, reserva, modifica o cancela, y trabaja con distintos profesionales, calendarios y reglas de negocio.',
+            title: 'Un asistente de citas por WhatsApp, producto propio de Ideasforge',
+            desc: 'Wazzy es nuestro producto propio, no un cliente. Reserva, cambia y cancela citas por WhatsApp consultando la agenda real de la clínica y pasa la conversación al equipo cuando se complica.',
             metric:
               'Una conversación sencilla para el usuario. Detrás, una arquitectura que controla qué acciones puede ejecutar el agente y bajo qué condiciones.',
             image: '/case-studies/dentist.jpg',
@@ -1749,17 +1757,17 @@ export const content: Record<Lang, SiteContent> = {
       },
       sectors: {
         title: 'La tecnología puede ser similar. El contexto de cada empresa no lo es.',
-        lead: 'Hemos trabajado con sistemas de IA y automatización en industria, agricultura, inmobiliario, administración y servicios profesionales. La arquitectura cambia según los procesos, la información disponible, los sistemas existentes y las reglas de cada organización.',
+        lead: 'Tenemos sistemas de IA en producción en industria, agricultura, inmobiliaria, salud y servicios. Logística, energía y comercio electrónico son sectores en los que podemos ayudar, aunque todavía no tenemos clientes en ellos. La arquitectura cambia según los procesos, la información disponible, los sistemas existentes y las reglas de cada organización.',
         /* Los siete sectores del menú, con sus nombres (8 oct 2026). Los tres
            últimos no tienen fotografía todavía y salen con el hueco gris. */
         items: [
-          { title: 'Real estate e inmobiliario', image: '/case-studies/barceloneta.jpg', href: '/sectores/real-estate-e-inmobiliario' },
+          { title: 'Inmobiliarias', image: '/case-studies/barceloneta.jpg', href: '/sectores/real-estate-e-inmobiliario' },
           { title: 'Gestorías y asesorías', image: '/case-studies/stanton.jpg', href: '/sectores/gestorias-y-asesorias' },
           { title: 'Industria y manufactura', image: '/case-studies/industrial.jpg', href: '/sectores/industria-y-manufactura' },
-          { title: 'Salud y grupos sanitarios', image: '/case-studies/dentist.jpg', href: '/sectores/salud-y-grupos-sanitarios' },
+          { title: 'Salud y clínicas', image: '/case-studies/dentist.jpg', href: '/sectores/salud-y-grupos-sanitarios' },
           { title: 'Logística y transporte', href: '/sectores/logistica-y-transporte' },
-          { title: 'Energía y utilities', href: '/sectores/energia-y-utilities' },
-          { title: 'Ecommerce y retail', href: '/sectores/ecommerce-y-retail' },
+          { title: 'Energía', href: '/sectores/energia-y-utilities' },
+          { title: 'Comercio electrónico', href: '/sectores/ecommerce-y-retail' },
         ],
         links: [{ label: 'Ver proyectos', href: '/proyectos' }],
       },
@@ -1864,7 +1872,7 @@ export const content: Record<Lang, SiteContent> = {
         kicker: 'Contacto',
         title: 'Cuéntanos el proceso que quieres mejorar.',
         p1: 'No necesitas saber qué modelo utilizar, qué arquitectura necesitas o si el problema requiere un agente de IA. Cuéntanos cómo funciona hoy el proceso, qué personas intervienen y qué herramientas utilizáis.',
-        p2: 'Analizaremos qué parte puede automatizarse, dónde tiene sentido utilizar inteligencia artificial y qué sería necesario para convertirlo en un sistema capaz de trabajar en producción.',
+        p2: 'Te respondemos en un día laborable con una primera lectura de tu caso.',
         message: 'Cómo funciona hoy el proceso que quieres mejorar',
         placeholder:
           'Cuéntanoslo como se lo contarías a un compañero. No hace falta que sepas qué tecnología lo resuelve.',
@@ -5458,18 +5466,18 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             slug: 'real-estate-e-inmobiliario',
-            title: 'Real Estate e Inmobiliario',
-            h1: 'Preguntas frecuentes sobre IA en real estate e inmobiliario',
-            metaTitle: 'FAQ sobre IA en real estate e inmobiliario, Ideasforge',
-            metaDescription: '¿Cómo puede utilizarse la IA en Real Estate? ¿Puede una IA gestionar leads inmobiliarios? ¿Puede conectarse con software inmobiliario?',
+            title: 'Inmobiliarias',
+            h1: 'Preguntas frecuentes sobre IA en inmobiliarias',
+            metaTitle: 'FAQ sobre IA en inmobiliarias, Ideasforge',
+            metaDescription: '¿Cómo puede utilizarse la IA en una inmobiliaria? ¿Puede una IA gestionar a los interesados de una inmobiliaria? ¿Puede conectarse con software inmobiliario?',
             related: '/sectores/real-estate-e-inmobiliario',
             items: [
               {
-                q: '¿Cómo puede utilizarse la IA en Real Estate?',
-                a: 'Puede utilizarse en leads, atención, documentación, incidencias, conocimiento interno y automatización administrativa.',
+                q: '¿Cómo puede utilizarse la IA en una inmobiliaria?',
+                a: 'Puede utilizarse en la gestión de interesados, la atención, documentación, incidencias, conocimiento interno y automatización administrativa.',
               },
               {
-                q: '¿Puede una IA gestionar leads inmobiliarios?',
+                q: '¿Puede una IA gestionar a los interesados de una inmobiliaria?',
                 a: 'Sí. Puede interpretar requisitos, clasificar oportunidades y registrar información en CRM.',
               },
               {
@@ -5485,7 +5493,7 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'Sí. Puede clasificar y extraer datos desde contratos, formularios, facturas y otros documentos.',
               },
               {
-                q: '¿Puede ayudar a property managers?',
+                q: '¿Puede ayudar a las gestoras de alquiler?',
                 a: 'Sí. Puede automatizar solicitudes, incidencias, proveedores, documentación y acceso a información.',
               },
               {
@@ -5498,15 +5506,15 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede automatizarse la gestión de incidencias?',
-                a: 'Sí. La IA puede interpretar la incidencia y activar el workflow correspondiente.',
+                a: 'Sí. La IA puede interpretar la incidencia y activar el flujo correspondiente.',
               },
               {
-                q: '¿Cuándo compensa una solución a medida en Real Estate?',
+                q: '¿Cuándo compensa una solución a medida en una inmobiliaria?',
                 a: 'Cuando existe suficiente volumen, complejidad, integración o reglas propias que una herramienta estándar no cubre.',
               },
               {
                 q: '¿Puede la IA ayudar a gestionar múltiples promociones?',
-                a: 'Sí. Puede consultar datos, documentación, leads y procesos asociados a distintas promociones.',
+                a: 'Sí. Puede consultar datos, documentación, interesados y procesos asociados a distintas promociones.',
               },
               {
                 q: '¿Puede diferenciar permisos entre sociedades o activos?',
@@ -5518,10 +5526,10 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede detectar vencimientos de contratos?',
-                a: 'Sí. Puede extraer fechas o consultar bases de datos y generar alertas dentro de un workflow.',
+                a: 'Sí. Puede extraer fechas o consultar bases de datos y generar alertas dentro de un flujo.',
               },
               {
-                q: '¿Puede ayudar con procesos de property management?',
+                q: '¿Puede ayudar con la gestión de alquileres?',
                 a: 'Sí. Puede automatizar incidencias, documentación, proveedores y consultas internas.',
               },
               {
@@ -5597,7 +5605,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede extraer vencimientos de documentos?',
-                a: 'Sí. Puede identificar fechas y utilizarlas para alertas o workflows.',
+                a: 'Sí. Puede identificar fechas y utilizarlas para alertas o flujos.',
               },
               {
                 q: '¿Puede automatizar recordatorios de obligaciones?',
@@ -5655,7 +5663,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede gestionar incidencias industriales?',
-                a: 'Sí. Puede interpretarlas, clasificarlas y activar el workflow adecuado.',
+                a: 'Sí. Puede interpretarlas, clasificarlas y activar el flujo adecuado.',
               },
               {
                 q: '¿Puede utilizarse IA en calidad?',
@@ -5721,9 +5729,9 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             slug: 'salud-y-grupos-sanitarios',
-            title: 'Salud y Grupos Sanitarios',
-            h1: 'Preguntas frecuentes sobre IA en salud y grupos sanitarios',
-            metaTitle: 'FAQ sobre IA en salud y grupos sanitarios, Ideasforge',
+            title: 'Salud y clínicas',
+            h1: 'Preguntas frecuentes sobre IA en salud y clínicas',
+            metaTitle: 'FAQ sobre IA en salud y clínicas, Ideasforge',
             metaDescription: '¿Cómo puede utilizarse la IA en salud? ¿Puede gestionar citas automáticamente? ¿Puede funcionar con varias sedes? ¿Puede funcionar por WhatsApp?',
             related: '/sectores/salud-y-grupos-sanitarios',
             items: [
@@ -5737,7 +5745,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede funcionar con varias sedes?',
-                a: 'Sí. Puede gestionar diferentes centros, profesionales y agendas.',
+                a: 'Sí, en un desarrollo a medida. Puede gestionar diferentes centros, profesionales y agendas.',
               },
               { q: '¿Puede funcionar por WhatsApp?', a: 'Sí, si existe una integración adecuada.' },
               {
@@ -5746,7 +5754,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede rellenar huecos cancelados?',
-                a: 'Sí. Puede contactar con usuarios de una lista de espera según reglas definidas.',
+                a: 'Sí, en un desarrollo a medida. Puede contactar con usuarios de una lista de espera según reglas definidas.',
               },
               {
                 q: '¿Puede responder preguntas clínicas?',
@@ -5762,7 +5770,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede un agente gestionar agendas de varios profesionales?',
-                a: 'Sí. Puede aplicar reglas distintas por especialidad, profesional, centro o tipo de cita.',
+                a: 'Sí, en un desarrollo a medida. Puede aplicar reglas distintas por especialidad, profesional, centro o tipo de cita.',
               },
               {
                 q: '¿Puede gestionar citas con distinta duración?',
@@ -5774,7 +5782,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede gestionar listas de espera?',
-                a: 'Sí. Puede priorizar usuarios según criterios definidos y ofrecer huecos liberados.',
+                a: 'Sí, en un desarrollo a medida. Puede priorizar usuarios según criterios definidos y ofrecer huecos liberados.',
               },
               {
                 q: '¿Puede automatizar confirmaciones de asistencia?',
@@ -5816,7 +5824,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede gestionar incidencias logísticas?',
-                a: 'Sí. Puede interpretarlas, clasificarlas y activar el workflow correspondiente.',
+                a: 'Sí. Puede interpretarlas, clasificarlas y activar el flujo correspondiente.',
               },
               {
                 q: '¿Puede procesar albaranes?',
@@ -5879,13 +5887,18 @@ export const content: Record<Lang, SiteContent> = {
                 q: '¿Puede una solución de IA conectarse con TMS y WMS?',
                 a: 'Sí. Puede consultar o utilizar información de TMS y WMS cuando exista una vía de integración adecuada y se definan permisos, operaciones permitidas y gestión de errores.',
               },
+              {
+                q: '¿Ha trabajado Ideasforge con empresas de logística?',
+                a: 'Todavía no. Es un sector en el que podemos ayudar con lo que ya tenemos en producción en otros: agentes que leen documentos, asistentes que consultan datos en lenguaje natural y alertas automáticas.',
+                link: { label: 'Ver proyectos', href: '/proyectos' },
+              },
             ],
           },
           {
             slug: 'energia-y-utilities',
-            title: 'Energía y Utilities',
-            h1: 'Preguntas frecuentes sobre IA en energía y utilities',
-            metaTitle: 'FAQ sobre IA en energía y utilities, Ideasforge',
+            title: 'Energía',
+            h1: 'Preguntas frecuentes sobre IA en energía',
+            metaTitle: 'FAQ sobre IA en energía, Ideasforge',
             metaDescription: '¿Cómo puede utilizarse la IA en energía? ¿Puede ayudar en mantenimiento de activos? ¿Puede conectarse con sistemas de gestión de activos?',
             related: '/sectores/energia-y-utilities',
             items: [
@@ -5919,7 +5932,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede trabajar con infraestructura crítica?',
-                a: 'Los proyectos relacionados con infraestructura crítica requieren controles de ciberseguridad, segregación, permisos y evaluación de riesgos mucho más estrictos. La utilización de IA debe diseñarse caso por caso y limitar cuidadosamente qué sistemas puede consultar o modificar.',
+                a: [
+                  'Los proyectos relacionados con infraestructura crítica requieren controles de ciberseguridad, segregación, permisos y evaluación de riesgos mucho más estrictos. La utilización de IA debe diseñarse caso por caso y limitar cuidadosamente qué sistemas puede consultar o modificar.',
+                  'Además, el reglamento europeo de IA puede considerar de alto riesgo algunos usos en energía, porque es infraestructura crítica. Esas obligaciones se aplican desde el 2 de diciembre de 2027. Construimos el sistema para que ese cumplimiento sea posible y demostrable, pero no auditamos ni certificamos que una empresa cumpla.',
+                ],
+                link: { label: 'Guía del reglamento europeo de IA', href: '/guias/reglamento-europeo-de-ia' },
               },
               {
                 q: '¿Puede la IA ayudar a gestionar órdenes de trabajo?',
@@ -5957,13 +5974,18 @@ export const content: Record<Lang, SiteContent> = {
                 q: '¿Puede trabajar con múltiples instalaciones?',
                 a: 'Sí. Puede aplicar permisos, filtros y contexto por instalación, activo o región.',
               },
+              {
+                q: '¿Ha trabajado Ideasforge con empresas de energía?',
+                a: 'Todavía no. Es un sector en el que podemos ayudar con lo que ya tenemos en producción en otros: agentes que leen facturas de suministros, asistentes que consultan documentación técnica y datos de averías y alertas automáticas.',
+                link: { label: 'Ver proyectos', href: '/proyectos' },
+              },
             ],
           },
           {
             slug: 'ecommerce-y-retail',
-            title: 'Ecommerce y Retail',
-            h1: 'Preguntas frecuentes sobre IA en ecommerce y retail',
-            metaTitle: 'FAQ sobre IA en ecommerce y retail, Ideasforge',
+            title: 'Comercio electrónico',
+            h1: 'Preguntas frecuentes sobre IA en comercio electrónico',
+            metaTitle: 'FAQ sobre IA en comercio electrónico, Ideasforge',
             metaDescription: '¿Cómo puede utilizarse la IA en ecommerce? ¿Puede consultar el estado de un pedido? ¿Puede automatizar devoluciones? ¿Puede ayudar con catálogos grandes?',
             related: '/sectores/ecommerce-y-retail',
             items: [
@@ -5977,7 +5999,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede automatizar devoluciones?',
-                a: 'Sí. Puede interpretar la solicitud y ejecutar el workflow según reglas definidas.',
+                a: 'Sí. Puede interpretar la solicitud y ejecutar el flujo según reglas definidas.',
               },
               {
                 q: '¿Puede ayudar con catálogos grandes?',
@@ -6039,6 +6061,11 @@ export const content: Record<Lang, SiteContent> = {
               {
                 q: '¿Puede integrarse con Shopify, Magento o WooCommerce?',
                 a: 'Sí. Una solución puede conectarse con Shopify, Magento, WooCommerce o plataformas ecommerce propias mediante las APIs y mecanismos de integración disponibles en cada entorno.',
+              },
+              {
+                q: '¿Ha trabajado Ideasforge con empresas de comercio electrónico?',
+                a: 'Todavía no. Es un sector en el que podemos ayudar con lo que ya tenemos en producción en otros: agentes que atienden conversaciones por WhatsApp y actúan sobre los sistemas de la empresa.',
+                link: { label: 'Ver proyectos', href: '/proyectos' },
               },
             ],
           },
@@ -6469,7 +6496,7 @@ export const content: Record<Lang, SiteContent> = {
                 label: 'IA para Industria y Manufactura',
                 href: '/sectores/industria-y-manufactura',
               },
-              { t: 'link', label: 'IA para Energía y Utilities', href: '/sectores/energia-y-utilities' },
+              { t: 'link', label: 'IA para empresas de energía', href: '/sectores/energia-y-utilities' },
             ],
           },
           {
@@ -6638,11 +6665,11 @@ export const content: Record<Lang, SiteContent> = {
       */
       sectors: {
         realEstate: {
-          metaTitle: 'IA para Real Estate e Inmobiliario, Ideasforge',
-          metaDescription: 'Soluciones de inteligencia artificial para empresas inmobiliarias, promotoras, gestoras de activos y operadores de Real Estate.',
-          h1: 'IA para Real Estate e Inmobiliario',
+          metaTitle: 'IA para inmobiliarias, Ideasforge',
+          metaDescription: 'IA para inmobiliarias, promotoras y gestoras de activos. Dos casos reales en producción: Barceloneta Premium y Stanton.',
+          h1: 'IA para inmobiliarias',
           lead: [
-            'Ideasforge desarrolla soluciones de inteligencia artificial para empresas inmobiliarias, promotoras, gestoras de activos y operadores de Real Estate que necesitan automatizar procesos, conectar sistemas y reducir trabajo administrativo.',
+            'Ideasforge desarrolla soluciones de inteligencia artificial para empresas inmobiliarias, promotoras, gestoras de activos y operadores inmobiliarios que necesitan automatizar procesos, conectar sistemas y reducir trabajo administrativo.',
             'Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con CRM, ERP, bases de datos, documentación, portales, calendarios y aplicaciones internas.',
           ],
           statement: [
@@ -6654,12 +6681,12 @@ export const content: Record<Lang, SiteContent> = {
             {
               heading: 'Inteligencia artificial para organizaciones inmobiliarias con procesos complejos',
               blocks: [
-                'Una empresa de Real Estate puede trabajar al mismo tiempo con:',
+                'Una empresa inmobiliaria puede trabajar al mismo tiempo con:',
                 {
                   t: 'list',
                   items: [
                     'activos', 'inmuebles', 'propietarios', 'compradores', 'arrendatarios', 'proveedores',
-                    'leads', 'documentación', 'contratos', 'incidencias', 'agendas', 'CRM', 'ERP',
+                    'interesados', 'documentación', 'contratos', 'incidencias', 'agendas', 'CRM', 'ERP',
                     'portales inmobiliarios', 'software de gestión',
                   ],
                 },
@@ -6675,7 +6702,7 @@ export const content: Record<Lang, SiteContent> = {
               ],
               subsections: [
                 {
-                  heading: 'Gestión de leads',
+                  heading: 'Gestión de interesados',
                   blocks: [
                     'Un sistema puede recibir contactos desde diferentes canales, interpretar la solicitud y estructurar la información antes de incorporarla al CRM.',
                     'Puede identificar, por ejemplo:',
@@ -6754,6 +6781,29 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             {
+              heading: 'Dos casos reales: Barceloneta Premium y Stanton',
+              blocks: [],
+              subsections: [
+                {
+                  heading: 'Más de 3 horas al día que ya no se gastan en cribar consultas de alquiler',
+                  blocks: [
+                    'Barceloneta Premium, una agencia de Barcelona, recibe decenas de consultas de alquiler al día por WhatsApp. Comprobar cada una costaba entre cinco y diez minutos.',
+                    'Hoy un agente mantiene esa conversación, reúne el motivo, el presupuesto y la documentación y envía al equipo un resumen por correo que dice si cumple los requisitos de la agencia, con el porqué al lado. Quien decide sigue siendo una persona.',
+                    'La agencia cifra en <strong>más de tres horas al día</strong> lo que recupera. Su equipo dejó de cribar consultas y pasó a concertar visitas.',
+                    { t: 'link', label: 'Ver caso Barceloneta Premium', href: '/proyectos/barceloneta' },
+                  ],
+                },
+                {
+                  heading: 'El 98 % de las facturas de suministros, sin que nadie las toque',
+                  blocks: [
+                    'Stanton es una gestora de fincas. Las facturas de luz, gas y agua de sus inquilinos se pasaban a mano y cada una costaba un minuto de teclado.',
+                    'Ahora el equipo las sube a un chat de Telegram, un agente lee cada factura y devuelve los datos en filas de la hoja de cálculo que ya usaban. <strong>El 98 % pasa sin que nadie la toque.</strong>',
+                    { t: 'link', label: 'Ver caso Stanton', href: '/proyectos/stanton' },
+                  ],
+                },
+              ],
+            },
+            {
               heading: 'IA para inmobiliarias, promotoras y gestoras de activos',
               blocks: [
                 'El término “inmobiliaria” engloba organizaciones muy diferentes.',
@@ -6775,7 +6825,7 @@ export const content: Record<Lang, SiteContent> = {
                   blocks: ['Acceso a información sobre activos, contratos, incidencias, documentación y operaciones.'],
                 },
                 {
-                  heading: 'Property managers',
+                  heading: 'Gestoras de alquiler',
                   blocks: [
                     'Automatización de solicitudes, incidencias, proveedores, documentación y comunicación con usuarios.',
                   ],
@@ -6814,12 +6864,12 @@ export const content: Record<Lang, SiteContent> = {
             {
               heading: 'Automatización de procesos inmobiliarios con IA',
               blocks: [
-                'Muchos procesos de Real Estate no necesitan un agente autónomo.',
-                'Necesitan un workflow bien diseñado.',
+                'Muchos procesos inmobiliarios no necesitan un agente autónomo.',
+                'Necesitan un flujo bien diseñado.',
                 'Por ejemplo:',
                 {
                   t: 'flow',
-                  steps: ['Lead recibido', 'interpretación', 'clasificación', 'CRM', 'asignación', 'seguimiento'],
+                  steps: ['Solicitud recibida', 'interpretación', 'clasificación', 'CRM', 'asignación', 'seguimiento'],
                 },
                 'o:',
                 {
@@ -6872,7 +6922,7 @@ export const content: Record<Lang, SiteContent> = {
             {
               heading: 'Automatización sin perder control sobre las operaciones',
               blocks: [
-                'En Real Estate existen procesos donde una acción incorrecta puede tener consecuencias comerciales, operativas o legales.',
+                'En el sector inmobiliario existen procesos donde una acción incorrecta puede tener consecuencias comerciales, operativas o legales.',
                 'Por eso no diseñamos sistemas donde el modelo tenga libertad absoluta.',
                 'Podemos incorporar:',
                 {
@@ -6918,7 +6968,7 @@ export const content: Record<Lang, SiteContent> = {
                 {
                   t: 'list',
                   items: [
-                    'CRM', 'ERP', 'property management software', 'bases de datos',
+                    'CRM', 'ERP', 'software de gestión de alquileres', 'bases de datos',
                     'herramientas de ticketing', 'portales inmobiliarios', 'almacenamiento documental',
                     'calendarios', 'email', 'APIs', 'aplicaciones internas',
                   ],
@@ -6941,7 +6991,7 @@ export const content: Record<Lang, SiteContent> = {
                 {
                   t: 'list',
                   items: [
-                    'cientos de leads mensuales', 'grandes volúmenes de documentación', 'múltiples activos',
+                    'cientos de solicitudes al mes', 'grandes volúmenes de documentación', 'múltiples activos',
                     'incidencias recurrentes', 'equipos que trabajan con varias aplicaciones',
                     'consultas internas repetitivas', 'tareas administrativas de alta frecuencia',
                   ],
@@ -6961,7 +7011,7 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             {
-              heading: 'Cómo desarrollamos soluciones de IA para Real Estate',
+              heading: 'Cómo desarrollamos soluciones de IA para inmobiliarias',
               blocks: [],
               method: [
                 [
@@ -6991,7 +7041,7 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             {
-              heading: '¿Cuándo merece la pena desarrollar IA a medida en Real Estate?',
+              heading: '¿Cuándo merece la pena desarrollar IA a medida en una inmobiliaria?',
               blocks: [
                 'Un desarrollo a medida suele tener sentido cuando:',
                 {
@@ -7013,12 +7063,12 @@ export const content: Record<Lang, SiteContent> = {
             },
           ],
           faq: {
-            h2: 'Preguntas frecuentes sobre inteligencia artificial para inmobiliarias y Real Estate',
+            h2: 'Preguntas frecuentes sobre inteligencia artificial para inmobiliarias',
             items: [
               {
                 q: '¿Cómo puede utilizarse la IA en una inmobiliaria?',
                 a: [
-                  'La IA puede utilizarse para automatizar gestión de leads, atención, documentación, consultas internas, incidencias y procesos administrativos.',
+                  'La IA puede utilizarse para automatizar la gestión de interesados, la atención, documentación, consultas internas, incidencias y procesos administrativos.',
                   'También puede conectarse con CRM, ERP, bases de datos y otras aplicaciones para consultar información o ejecutar acciones.',
                 ],
               },
@@ -7030,9 +7080,9 @@ export const content: Record<Lang, SiteContent> = {
                 ],
               },
               {
-                q: '¿Puede utilizarse IA para gestionar leads inmobiliarios?',
+                q: '¿Puede utilizarse IA para gestionar a los interesados de una inmobiliaria?',
                 a: [
-                  'Sí. La IA puede interpretar la solicitud de un lead, extraer sus requisitos, clasificarla y registrar la información en el CRM.',
+                  'Sí. La IA puede interpretar la solicitud de un interesado, extraer sus requisitos, clasificarla y registrar la información en el CRM.',
                   'También puede iniciar procesos de seguimiento o derivar la oportunidad al equipo adecuado.',
                 ],
               },
@@ -7040,7 +7090,7 @@ export const content: Record<Lang, SiteContent> = {
                 q: '¿Puede automatizarse la documentación inmobiliaria?',
                 a: [
                   'Sí. La IA puede ayudar a clasificar documentos y extraer información desde contratos, formularios, facturas, presupuestos y otros archivos.',
-                  'Después, los datos pueden incorporarse a workflows o aplicaciones empresariales.',
+                  'Después, los datos pueden incorporarse a flujos o aplicaciones empresariales.',
                 ],
               },
               {
@@ -7078,13 +7128,13 @@ export const content: Record<Lang, SiteContent> = {
             p: [
               'No necesitas llegar con una solución de IA definida.',
               'Explícanos qué proceso consume tiempo, qué herramientas utiliza vuestro equipo y dónde aparecen las principales fricciones.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido utilizar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+              'Te respondemos en un día laborable con una primera lectura de tu caso.',
             ],
-            cta: 'Hablar con Ideasforge sobre Real Estate',
+            cta: 'Hablar con Ideasforge sobre inmobiliarias',
           },
         },
         accounting: {
-          metaTitle: 'IA para Gestorías y Asesorías, Ideasforge',
+          metaTitle: 'IA para gestorías y asesorías con OCR de facturas, Ideasforge',
           metaDescription: 'Soluciones de inteligencia artificial para gestorías, asesorías fiscales, despachos contables y firmas profesionales.',
           h1: 'IA para Gestorías y Asesorías',
           lead: [
@@ -7195,7 +7245,7 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             {
-              heading: 'Automatización de facturas y documentación contable',
+              heading: 'OCR de facturas y automatización de la documentación contable',
               blocks: [
                 'La documentación contable es uno de los procesos donde más valor puede aportar la automatización.',
                 'Las facturas pueden llegar:',
@@ -7226,8 +7276,8 @@ export const content: Record<Lang, SiteContent> = {
                 {
                   heading: '98 % de las facturas procesadas sin intervención humana',
                   blocks: [
-                    'Desarrollamos un sistema para automatizar un proceso de gestión de facturas que anteriormente requería varias tareas manuales.',
-                    'La solución interpreta la documentación, extrae la información necesaria, aplica validaciones y continúa el flujo mediante reglas e integraciones.',
+                    'Stanton es una gestora de fincas, no una gestoría. Lo contamos aquí porque su problema es el de cualquier despacho: las facturas de luz, gas y agua de sus inquilinos se pasaban a mano, una por una.',
+                    'El sistema lee cada factura, extrae los datos, aplica validaciones y los deja en la hoja de cálculo que el equipo ya usaba. No pasa por ningún programa de contabilidad.',
                     'Actualmente, <strong>el 98 % de las facturas completan el proceso sin intervención humana</strong>.',
                     'Los casos que no cumplen las condiciones pasan a una ruta de excepción para revisión.',
                     'Este tipo de arquitectura puede adaptarse a procesos administrativos con gran volumen documental.',
@@ -7255,6 +7305,7 @@ export const content: Record<Lang, SiteContent> = {
                   ],
                 },
                 'El objetivo no es delegar decisiones fiscales sensibles a un modelo.',
+                'No hacemos la contabilidad ni decidimos el asiento. Tampoco certificamos nada ante la Agencia Tributaria.',
                 'Es reducir el trabajo previo y posterior que consume tiempo del equipo.',
               ],
             },
@@ -7297,7 +7348,7 @@ export const content: Record<Lang, SiteContent> = {
               heading: 'Automatización de procesos administrativos',
               blocks: [
                 'Muchos procesos dentro de una gestoría no necesitan un agente complejo.',
-                'Necesitan un workflow bien diseñado.',
+                'Necesitan un flujo bien diseñado.',
                 'Por ejemplo:',
                 {
                   t: 'flow',
@@ -7387,7 +7438,7 @@ export const content: Record<Lang, SiteContent> = {
                     'iniciar procesos',
                   ],
                 },
-                'Una bandeja de entrada puede convertirse en el inicio de un workflow estructurado.',
+                'Una bandeja de entrada puede convertirse en el inicio de un flujo estructurado.',
               ],
             },
             {
@@ -7564,14 +7615,14 @@ export const content: Record<Lang, SiteContent> = {
             p: [
               'No necesitas llegar con una solución tecnológica definida.',
               'Explícanos qué tarea consume tiempo, qué documentación recibe vuestro equipo y qué sistemas utilizáis actualmente.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+              'Te respondemos en un día laborable con una primera lectura de tu caso.',
             ],
             cta: 'Hablar con Ideasforge sobre Gestorías y Asesorías',
           },
         },
         sectorIndustry: {
           metaTitle: 'IA para Industria y Manufactura, Ideasforge',
-          metaDescription: 'Soluciones de inteligencia artificial para empresas industriales y manufactureras que necesitan automatizar procesos y conectar datos y sistemas.',
+          metaDescription: 'IA para empresas industriales: documentación técnica, producción y averías consultadas en lenguaje natural, con un asistente de planta ya en producción.',
           h1: 'IA para Industria y Manufactura',
           lead: [
             'Ideasforge desarrolla soluciones de inteligencia artificial para empresas industriales y manufactureras que necesitan automatizar procesos, acceder mejor al conocimiento técnico y conectar datos, documentación y sistemas operativos.',
@@ -7663,6 +7714,21 @@ export const content: Record<Lang, SiteContent> = {
                         'validaciones', 'generación de informes', 'coordinación entre aplicaciones',
                       ],
                     },
+                  ],
+                },
+              ],
+            },
+            {
+              heading: 'Un caso real: un asistente de planta',
+              blocks: [],
+              subsections: [
+                {
+                  heading: 'Producción y averías, consultadas en lenguaje natural',
+                  blocks: [
+                    'Construimos un asistente de planta para una empresa industrial. Operarios y supervisores le preguntan por los datos de producción y por las averías. Cuando hace falta, reciben un diagnóstico guiado paso a paso.',
+                    'Además, el sistema lanza alertas automáticas en producción, sin esperar a que nadie pregunte.',
+                    'No publicamos el nombre de la empresa. En la página del caso contamos cómo medimos que el asistente acertaba.',
+                    { t: 'link', label: 'Ver caso del asistente de planta', href: '/proyectos/industrial' },
                   ],
                 },
               ],
@@ -7789,7 +7855,7 @@ export const content: Record<Lang, SiteContent> = {
                     'clasificar archivos', 'recuperar normativa', 'identificar información relevante',
                   ],
                 },
-                'También puede formar parte de workflows donde los documentos necesitan ser interpretados antes de continuar.',
+                'También puede formar parte de flujos donde los documentos necesitan ser interpretados antes de continuar.',
               ],
             },
             {
@@ -7828,7 +7894,7 @@ export const content: Record<Lang, SiteContent> = {
                   ],
                 },
                 'La IA puede ayudar a interpretar.',
-                'Las decisiones críticas pueden permanecer bajo reglas deterministas.',
+                'Las decisiones críticas las toma el código, nunca el modelo.',
               ],
             },
             {
@@ -7966,7 +8032,7 @@ export const content: Record<Lang, SiteContent> = {
               {
                 q: '¿Puede utilizarse IA para gestionar incidencias?',
                 a: [
-                  'Sí. El sistema puede interpretar una incidencia, clasificarla, recuperar información relacionada y activar el workflow correspondiente.',
+                  'Sí. El sistema puede interpretar una incidencia, clasificarla, recuperar información relacionada y activar el flujo correspondiente.',
                   'Los casos complejos pueden derivarse a una persona.',
                 ],
               },
@@ -7974,7 +8040,7 @@ export const content: Record<Lang, SiteContent> = {
                 q: '¿Es segura la IA en un entorno industrial?',
                 a: [
                   'Puede serlo si la arquitectura define correctamente permisos, validaciones, límites y trazabilidad.',
-                  'Las acciones críticas pueden mantenerse bajo control humano o reglas deterministas.',
+                  'Las decisiones críticas las toma el código, nunca el modelo. Las que lo necesitan pasan además por una persona.',
                 ],
               },
               {
@@ -7991,15 +8057,15 @@ export const content: Record<Lang, SiteContent> = {
             p: [
               'No necesitas llegar con una solución tecnológica definida.',
               'Explícanos qué proceso consume tiempo, dónde está el conocimiento y qué sistemas utiliza vuestro equipo.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido utilizar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+              'Te respondemos en un día laborable con una primera lectura de tu caso.',
             ],
             cta: 'Hablar con Ideasforge sobre Industria y Manufactura',
           },
         },
         sectorHealth: {
-          metaTitle: 'IA para Salud y Grupos Sanitarios, Ideasforge',
-          metaDescription: 'Soluciones de inteligencia artificial para grupos sanitarios, redes de clínicas, centros médicos y organizaciones de salud.',
-          h1: 'IA para Salud y Grupos Sanitarios',
+          metaTitle: 'IA para salud y clínicas, Ideasforge',
+          metaDescription: 'IA para clínicas y centros de salud: citas por WhatsApp, atención administrativa y documentación. Wazzy, nuestro producto propio, ya funciona en clínicas.',
+          h1: 'IA para salud y clínicas',
           lead: [
             'Ideasforge desarrolla soluciones de inteligencia artificial para grupos sanitarios, redes de clínicas, centros médicos y organizaciones de salud que necesitan automatizar procesos, mejorar la atención y conectar sistemas internos.',
             'Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con sistemas de citas, CRM, ERP, bases de datos, documentación, correo electrónico, mensajería y aplicaciones internas.',
@@ -8119,20 +8185,19 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             {
-              heading: 'Un caso real: Wazzy',
+              heading: 'Un caso real: Wazzy, nuestro producto propio',
               blocks: [],
               subsections: [
                 {
                   heading: 'Gestión de citas por WhatsApp',
                   blocks: [
-                    'Wazzy permite que pacientes y usuarios gestionen citas directamente desde WhatsApp.',
+                    'Wazzy es nuestro producto propio, no un cliente. Permite que pacientes y usuarios gestionen sus citas directamente desde WhatsApp y funciona en clínicas dentales, de fisioterapia y de estética.',
                     'El sistema puede:',
                     {
                       t: 'list',
                       items: [
-                        'comprobar disponibilidad', 'trabajar con distintos profesionales', 'reservar',
-                        'modificar', 'cancelar', 'aplicar reglas específicas', 'utilizar varios calendarios',
-                        'derivar a una persona cuando es necesario',
+                        'comprobar disponibilidad', 'reservar', 'modificar', 'cancelar',
+                        'mantener al día la agenda de la clínica', 'derivar a una persona cuando es necesario',
                       ],
                     },
                     'La conversación es sencilla.',
@@ -8143,7 +8208,7 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             {
-              heading: 'Atención al paciente sin convertir todo en un chatbot',
+              heading: 'Atención al paciente sin convertir todo en un chatbot de guion',
               blocks: [
                 'No todas las consultas necesitan una persona.',
                 'Y no todas deberían resolverlas automáticamente.',
@@ -8280,7 +8345,7 @@ export const content: Record<Lang, SiteContent> = {
                     'identificar prioridad', 'iniciar procesos', 'asignar casos', 'registrar datos',
                   ],
                 },
-                'Una bandeja de entrada puede convertirse en el inicio de un workflow estructurado.',
+                'Una bandeja de entrada puede convertirse en el inicio de un flujo estructurado.',
               ],
             },
             {
@@ -8420,7 +8485,7 @@ export const content: Record<Lang, SiteContent> = {
             },
           ],
           faq: {
-            h2: 'Preguntas frecuentes sobre inteligencia artificial para Salud y Grupos Sanitarios',
+            h2: 'Preguntas frecuentes sobre inteligencia artificial para salud y clínicas',
             items: [
               {
                 q: '¿Cómo puede utilizarse la IA en una clínica o grupo sanitario?',
@@ -8435,7 +8500,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede funcionar con varias sedes?',
-                a: 'Sí. El sistema puede trabajar con múltiples centros, profesionales, agendas y reglas diferentes.',
+                a: 'Sí, en un desarrollo a medida. El sistema puede trabajar con múltiples centros, profesionales, agendas y reglas diferentes.',
               },
               {
                 q: '¿Puede utilizarse WhatsApp para gestionar citas?',
@@ -8447,7 +8512,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede ayudar a reducir huecos por cancelaciones?',
-                a: 'Sí. Una automatización puede detectar huecos libres y contactar con pacientes o usuarios de una lista de espera según criterios definidos.',
+                a: 'Sí, en un desarrollo a medida. Una automatización puede detectar huecos libres y contactar con pacientes o usuarios de una lista de espera según criterios definidos.',
               },
               {
                 q: '¿Puede responder preguntas clínicas?',
@@ -8477,22 +8542,22 @@ export const content: Record<Lang, SiteContent> = {
             p: [
               'No necesitas llegar con una solución tecnológica definida.',
               'Explícanos qué proceso consume tiempo, qué canales utiliza vuestro equipo y qué sistemas forman parte de la operación.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+              'Te respondemos en un día laborable con una primera lectura de tu caso.',
             ],
-            cta: 'Hablar con Ideasforge sobre Salud y Grupos Sanitarios',
+            cta: 'Hablar con Ideasforge sobre salud y clínicas',
           },
         },
         sectorLogistics: {
           metaTitle: 'IA para Logística y Transporte, Ideasforge',
-          metaDescription: 'Soluciones de inteligencia artificial para operadores logísticos, empresas de transporte, distribución y organizaciones con cadenas operativas complejas.',
+          metaDescription: 'Un sector en el que podemos ayudar, aunque aún no tenemos clientes en él: incidencias, albaranes, correos de pedidos y consultas sobre envíos.',
           h1: 'IA para Logística y Transporte',
           lead: [
             'Ideasforge desarrolla soluciones de inteligencia artificial para operadores logísticos, empresas de transporte, distribución y organizaciones con cadenas operativas complejas.',
             'Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con TMS, ERP, CRM, bases de datos, documentación, correo electrónico, APIs y aplicaciones internas.',
           ],
           statement: [
-            'No aplicamos IA a la logística de forma genérica.',
-            'La integramos en los procesos donde puede reducir tiempos, errores y trabajo manual.',
+            'Todavía no tenemos clientes de logística.',
+            'Es un sector en el que podemos ayudar con lo que ya funciona en nuestros sistemas en producción.',
           ],
           cta: 'Cuéntanos qué proceso logístico quieres mejorar',
           sections: [
@@ -8510,6 +8575,21 @@ export const content: Record<Lang, SiteContent> = {
                 },
                 'Cuando la información está distribuida entre múltiples sistemas, gran parte del trabajo depende de personas que consultan datos, coordinan incidencias, actualizan estados y mueven información entre herramientas.',
                 'La inteligencia artificial puede ayudar a interpretar esa información y utilizarla dentro de procesos automatizados.',
+              ],
+            },
+            {
+              heading: 'Lo que ya tenemos en producción y sirve en logística',
+              blocks: [
+                'Estos sistemas nuestros resuelven problemas muy parecidos a los de una operación logística:',
+                {
+                  t: 'list',
+                  items: [
+                    'Un asistente en WhatsApp para Savian que da en segundos las cifras de su base de datos a quien está en el campo, sin abrir un panel',
+                    'Un agente para Stanton que lee facturas y deja los datos en una hoja de cálculo. El 98 % pasa sin que nadie las toque',
+                    'Un asistente de planta para una empresa industrial que lanza alertas automáticas en producción',
+                  ],
+                },
+                { t: 'link', label: 'Ver proyectos', href: '/proyectos' },
               ],
             },
             {
@@ -8630,7 +8710,6 @@ export const content: Record<Lang, SiteContent> = {
                 },
                 'La IA interpreta la información variable.',
                 'El software controla el proceso.',
-                { t: 'strong', text: 'IA donde hay variabilidad. Reglas donde necesitamos certeza.' },
               ],
             },
             {
@@ -8646,7 +8725,7 @@ export const content: Record<Lang, SiteContent> = {
                     'validar campos',
                     'relacionar documentos con pedidos o expediciones',
                     'detectar información faltante',
-                    'iniciar workflows',
+                    'iniciar flujos',
                   ],
                 },
                 'Esto puede aplicarse a:',
@@ -8692,7 +8771,7 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             {
-              heading: 'IA para planificación y operaciones',
+              heading: 'Consultar la operación sin abrir cinco aplicaciones',
               blocks: [
                 'La inteligencia artificial puede ayudar a interpretar información operativa y facilitar el acceso a datos.',
                 'Por ejemplo:',
@@ -8703,7 +8782,7 @@ export const content: Record<Lang, SiteContent> = {
                     'priorizar casos', 'detectar excepciones',
                   ],
                 },
-                'Cuando una decisión requiere reglas críticas, esas reglas pueden mantenerse fuera del modelo.',
+                'Las decisiones críticas las toma el código, nunca el modelo.',
               ],
             },
             {
@@ -8735,7 +8814,7 @@ export const content: Record<Lang, SiteContent> = {
                   t: 'list',
                   items: [
                     'identificar pedidos', 'clasificar solicitudes', 'extraer referencias',
-                    'detectar incidencias', 'registrar información', 'iniciar workflows',
+                    'detectar incidencias', 'registrar información', 'iniciar flujos',
                   ],
                 },
                 'Esto permite convertir mensajes no estructurados en procesos controlados.',
@@ -8875,7 +8954,7 @@ export const content: Record<Lang, SiteContent> = {
               {
                 q: '¿Puede automatizarse la gestión de incidencias?',
                 a: [
-                  'Sí. La IA puede interpretar una incidencia, clasificarla, recuperar información relacionada y activar el workflow correspondiente.',
+                  'Sí. La IA puede interpretar una incidencia, clasificarla, recuperar información relacionada y activar el flujo correspondiente.',
                   'Los casos complejos pueden derivarse a una persona.',
                 ],
               },
@@ -8895,7 +8974,7 @@ export const content: Record<Lang, SiteContent> = {
                 q: '¿Es segura la IA en operaciones logísticas?',
                 a: [
                   'Puede serlo si la arquitectura define correctamente permisos, validaciones, trazabilidad y límites de actuación.',
-                  'Las acciones críticas pueden requerir reglas o aprobación humana.',
+                  'Las decisiones críticas las toma el código, nunca el modelo. Las que lo necesitan pasan además por aprobación humana.',
                 ],
               },
               {
@@ -8912,29 +8991,29 @@ export const content: Record<Lang, SiteContent> = {
             p: [
               'No necesitas llegar con una solución tecnológica definida.',
               'Explícanos qué proceso consume tiempo, qué sistemas utiliza vuestro equipo y dónde aparecen incidencias o tareas manuales.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+              'Te respondemos en un día laborable con una primera lectura de tu caso.',
             ],
             cta: 'Hablar con Ideasforge sobre Logística y Transporte',
           },
         },
         sectorEnergy: {
-          metaTitle: 'IA para Energía y Utilities, Ideasforge',
-          metaDescription: 'Soluciones de inteligencia artificial para compañías energéticas, utilities y operadores de infraestructuras.',
-          h1: 'IA para Energía y Utilities',
+          metaTitle: 'IA para empresas de energía, Ideasforge',
+          metaDescription: 'Un sector en el que podemos ayudar, aunque aún no tenemos clientes en él: incidencias, documentación técnica, órdenes de trabajo y atención al cliente.',
+          h1: 'IA para empresas de energía',
           lead: [
-            'Ideasforge desarrolla soluciones de inteligencia artificial para compañías energéticas, utilities y operadores de infraestructuras que necesitan automatizar procesos, acceder mejor al conocimiento técnico y conectar información distribuida entre múltiples sistemas.',
+            'Ideasforge desarrolla soluciones de inteligencia artificial para compañías energéticas, empresas de suministro y operadores de infraestructuras que necesitan automatizar procesos, acceder mejor al conocimiento técnico y conectar información distribuida entre múltiples sistemas.',
             'Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con ERP, CRM, bases de datos, documentación técnica, sistemas de mantenimiento, APIs, correo electrónico y aplicaciones internas.',
           ],
           statement: [
-            'No aplicamos IA de forma genérica.',
-            'La integramos en procesos concretos donde puede reducir tiempos, mejorar el acceso a la información o eliminar trabajo manual.',
+            'Todavía no tenemos clientes del sector energético.',
+            'Es un sector en el que podemos ayudar con lo que ya funciona en nuestros sistemas en producción.',
           ],
           cta: 'Cuéntanos qué proceso quieres mejorar',
           sections: [
             {
               heading: 'Inteligencia artificial para organizaciones energéticas complejas',
               blocks: [
-                'Las empresas de energía y utilities trabajan con:',
+                'Las empresas de energía trabajan con:',
                 {
                   t: 'list',
                   items: [
@@ -8948,7 +9027,21 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             {
-              heading: '¿Qué puede automatizar la IA en energía y utilities?',
+              heading: 'Lo que ya tenemos en producción y sirve en energía',
+              blocks: [
+                'Estos sistemas nuestros resuelven problemas parecidos a los de una empresa de energía:',
+                {
+                  t: 'list',
+                  items: [
+                    'Un agente para Stanton, una gestora de fincas, que lee las facturas de luz, gas y agua de sus inquilinos. El 98 % pasa sin que nadie las toque',
+                    'Un asistente de planta para una empresa industrial donde operarios y supervisores consultan producción y averías y reciben alertas automáticas',
+                  ],
+                },
+                { t: 'link', label: 'Ver proyectos', href: '/proyectos' },
+              ],
+            },
+            {
+              heading: '¿Qué puede automatizar la IA en energía?',
               blocks: [
                 'La IA puede intervenir en procesos técnicos, operativos, administrativos, documentales y de atención.',
               ],
@@ -9050,7 +9143,7 @@ export const content: Record<Lang, SiteContent> = {
             {
               heading: 'Automatización de procesos con IA',
               blocks: [
-                'Muchos procesos en energía y utilities necesitan combinar interpretación y reglas.',
+                'Muchos procesos en energía necesitan combinar interpretación y reglas.',
                 'Por ejemplo:',
                 {
                   t: 'flow',
@@ -9066,7 +9159,6 @@ export const content: Record<Lang, SiteContent> = {
                 },
                 'La IA interpreta la información variable.',
                 'El software mantiene el control sobre reglas, permisos y acciones.',
-                { t: 'strong', text: 'IA donde hace falta entender. Software donde hace falta certeza.' },
               ],
             },
             {
@@ -9098,7 +9190,7 @@ export const content: Record<Lang, SiteContent> = {
                   t: 'list',
                   items: [
                     'interpretar incidencias', 'clasificarlas', 'recuperar antecedentes',
-                    'localizar documentación relacionada', 'priorizar casos', 'activar workflows',
+                    'localizar documentación relacionada', 'priorizar casos', 'activar flujos',
                   ],
                 },
                 'Los casos complejos pueden derivarse a una persona.',
@@ -9108,7 +9200,7 @@ export const content: Record<Lang, SiteContent> = {
             {
               heading: 'Atención al cliente conectada con sistemas reales',
               blocks: [
-                'Un chatbot para utilities puede hacer más que responder preguntas frecuentes.',
+                'Un chatbot para empresas de suministro puede hacer más que responder preguntas frecuentes.',
                 'Cuando está conectado con sistemas internos puede:',
                 {
                   t: 'list',
@@ -9130,7 +9222,7 @@ export const content: Record<Lang, SiteContent> = {
                   t: 'list',
                   items: [
                     'interpretar mensajes', 'clasificar solicitudes', 'identificar activos o contratos',
-                    'extraer información', 'iniciar workflows', 'asignar casos',
+                    'extraer información', 'iniciar flujos', 'asignar casos',
                   ],
                 },
                 'Esto permite convertir información no estructurada en procesos controlados.',
@@ -9177,7 +9269,7 @@ export const content: Record<Lang, SiteContent> = {
             {
               heading: 'Seguridad, permisos y trazabilidad',
               blocks: [
-                'En energía y utilities, una acción incorrecta puede tener impacto operativo o regulatorio.',
+                'En energía, una acción incorrecta puede tener impacto operativo o regulatorio.',
                 'Por eso no diseñamos sistemas con libertad ilimitada.',
                 'Podemos incorporar:',
                 {
@@ -9188,7 +9280,7 @@ export const content: Record<Lang, SiteContent> = {
                   ],
                 },
                 'La IA puede interpretar.',
-                'Las decisiones críticas pueden permanecer bajo reglas deterministas.',
+                'Las decisiones críticas las toma el código, nunca el modelo.',
               ],
             },
             {
@@ -9235,7 +9327,7 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             {
-              heading: 'Cómo desarrollamos soluciones de IA para Energía y Utilities',
+              heading: 'Cómo desarrollamos soluciones de IA para energía',
               blocks: [],
               method: [
                 [
@@ -9285,7 +9377,7 @@ export const content: Record<Lang, SiteContent> = {
             },
           ],
           faq: {
-            h2: 'Preguntas frecuentes sobre inteligencia artificial para Energía y Utilities',
+            h2: 'Preguntas frecuentes sobre inteligencia artificial para energía',
             items: [
               {
                 q: '¿Cómo puede utilizarse la IA en una empresa energética?',
@@ -9318,20 +9410,22 @@ export const content: Record<Lang, SiteContent> = {
               {
                 q: '¿Puede automatizarse la gestión de incidencias?',
                 a: [
-                  'Sí. La IA puede interpretar una incidencia, clasificarla, recuperar información relacionada y activar el workflow correspondiente.',
+                  'Sí. La IA puede interpretar una incidencia, clasificarla, recuperar información relacionada y activar el flujo correspondiente.',
                   'Los casos complejos pueden derivarse a una persona.',
                 ],
               },
               {
-                q: '¿Puede utilizarse IA para atención al cliente en utilities?',
+                q: '¿Puede utilizarse IA para atención al cliente en empresas de suministro?',
                 a: 'Sí. Un agente conversacional puede responder consultas administrativas, registrar incidencias y consultar información autorizada.',
               },
               {
                 q: '¿Es segura la IA en el sector energético?',
                 a: [
                   'Puede serlo si la arquitectura define correctamente permisos, validaciones, trazabilidad y límites de actuación.',
-                  'Las acciones críticas pueden permanecer bajo reglas o aprobación humana.',
+                  'Las decisiones críticas las toma el código, nunca el modelo. Las que lo necesitan pasan además por aprobación humana.',
+                  'Además, el reglamento europeo de IA puede considerar de alto riesgo algunos usos en energía, porque es infraestructura crítica. Esas obligaciones se aplican desde el 2 de diciembre de 2027. Construimos el sistema para que ese cumplimiento sea posible y demostrable, pero no auditamos ni certificamos que una empresa cumpla.',
                 ],
+                link: { label: 'Guía del reglamento europeo de IA', href: '/guias/reglamento-europeo-de-ia' },
               },
               {
                 q: '¿Cuánto cuesta implantar IA en una compañía energética?',
@@ -9347,29 +9441,29 @@ export const content: Record<Lang, SiteContent> = {
             p: [
               'No necesitas llegar con una solución tecnológica definida.',
               'Explícanos qué proceso consume tiempo, dónde está la información y qué sistemas utiliza vuestro equipo.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+              'Te respondemos en un día laborable con una primera lectura de tu caso.',
             ],
-            cta: 'Hablar con Ideasforge sobre Energía y Utilities',
+            cta: 'Hablar con Ideasforge sobre energía',
           },
         },
         sectorEcommerce: {
-          metaTitle: 'IA para Ecommerce y Retail, Ideasforge',
-          metaDescription: 'Soluciones de inteligencia artificial para empresas de ecommerce, retail y distribución.',
-          h1: 'IA para Ecommerce y Retail',
+          metaTitle: 'IA para comercio electrónico, Ideasforge',
+          metaDescription: 'Un sector en el que podemos ayudar, aunque aún no tenemos clientes en él: atención al cliente, pedidos, devoluciones y catálogo de producto.',
+          h1: 'IA para comercio electrónico',
           lead: [
             'Ideasforge desarrolla soluciones de inteligencia artificial para empresas de ecommerce, retail y distribución que necesitan automatizar operaciones, mejorar la atención y conectar sistemas comerciales, logísticos y administrativos.',
             'Diseñamos agentes de IA, automatizaciones y asistentes inteligentes conectados con ecommerce, ERP, CRM, PIM, bases de datos, herramientas de atención, logística, correo electrónico, APIs y aplicaciones internas.',
           ],
           statement: [
-            'No aplicamos IA para añadir una capa superficial a la tienda.',
-            'La integramos en procesos donde puede reducir trabajo manual, mejorar la experiencia del cliente o acelerar la operación.',
+            'Todavía no tenemos clientes de comercio electrónico.',
+            'Es un sector en el que podemos ayudar con lo que ya funciona en nuestros sistemas en producción.',
           ],
           cta: 'Cuéntanos qué proceso quieres mejorar',
           sections: [
             {
-              heading: 'Inteligencia artificial para operaciones de ecommerce y retail',
+              heading: 'Inteligencia artificial para operaciones de comercio electrónico',
               blocks: [
-                'Las empresas de ecommerce y retail trabajan con:',
+                'Las empresas de comercio electrónico trabajan con:',
                 {
                   t: 'list',
                   items: [
@@ -9383,7 +9477,21 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             {
-              heading: '¿Qué puede automatizar la IA en ecommerce y retail?',
+              heading: 'Lo que ya tenemos en producción y sirve en comercio electrónico',
+              blocks: [
+                'Estos sistemas nuestros atienden conversaciones de clientes y actúan sobre los sistemas de la empresa:',
+                {
+                  t: 'list',
+                  items: [
+                    'Un agente para Barceloneta Premium que atiende por WhatsApp las consultas de alquiler y le ahorra a la agencia más de tres horas al día',
+                    'Wazzy, nuestro producto propio, que reserva, cambia y cancela citas por WhatsApp consultando la agenda real de la clínica',
+                  ],
+                },
+                { t: 'link', label: 'Ver proyectos', href: '/proyectos' },
+              ],
+            },
+            {
+              heading: '¿Qué puede automatizar la IA en el comercio electrónico?',
               blocks: ['La IA puede intervenir en procesos comerciales, operativos, administrativos y de atención.'],
               subsections: [
                 {
@@ -9500,7 +9608,7 @@ export const content: Record<Lang, SiteContent> = {
             {
               heading: 'Automatización de procesos comerciales y operativos',
               blocks: [
-                'Muchos procesos de ecommerce y retail necesitan combinar IA con software convencional.',
+                'Muchos procesos de comercio electrónico necesitan combinar IA con software convencional.',
                 'Por ejemplo:',
                 {
                   t: 'flow',
@@ -9516,7 +9624,6 @@ export const content: Record<Lang, SiteContent> = {
                 },
                 'La IA ayuda a entender la entrada.',
                 'El software controla el proceso.',
-                { t: 'strong', text: 'IA para interpretar. Software para ejecutar con certeza.' },
               ],
             },
             {
@@ -9551,7 +9658,7 @@ export const content: Record<Lang, SiteContent> = {
             {
               heading: 'IA para soporte interno y operaciones',
               blocks: [
-                'Los equipos de ecommerce y retail también pueden utilizar asistentes internos para consultar:',
+                'Los equipos de comercio electrónico también pueden utilizar asistentes internos para consultar:',
                 {
                   t: 'list',
                   items: [
@@ -9576,14 +9683,14 @@ export const content: Record<Lang, SiteContent> = {
                   t: 'list',
                   items: [
                     'interpretar mensajes', 'identificar pedidos', 'clasificar motivos', 'extraer datos',
-                    'asignar prioridad', 'iniciar workflows', 'derivar casos',
+                    'asignar prioridad', 'iniciar flujos', 'derivar casos',
                   ],
                 },
                 'Esto permite convertir entradas no estructuradas en procesos controlados.',
               ],
             },
             {
-              heading: 'Ecommerce y retail omnicanal',
+              heading: 'Comercio electrónico y tiendas físicas',
               blocks: [
                 'En organizaciones con ecommerce, tiendas físicas y varios canales, la información puede estar repartida entre diferentes sistemas.',
                 'Un agente puede ayudar a consultar y coordinar información sobre:',
@@ -9624,7 +9731,7 @@ export const content: Record<Lang, SiteContent> = {
               heading: 'Control, reglas y excepciones',
               blocks: [
                 'En ecommerce, una acción incorrecta puede afectar a pedidos, stock, clientes o dinero.',
-                'Por eso no dejamos las reglas críticas únicamente en manos de un modelo.',
+                'Por eso las decisiones críticas las toma el código, nunca el modelo.',
                 'Podemos incorporar:',
                 {
                   t: 'list',
@@ -9664,7 +9771,7 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             {
-              heading: 'Cómo desarrollamos soluciones de IA para Ecommerce y Retail',
+              heading: 'Cómo desarrollamos soluciones de IA para comercio electrónico',
               blocks: [],
               method: [
                 [
@@ -9694,7 +9801,7 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             {
-              heading: '¿Cuándo merece la pena desarrollar IA a medida en ecommerce o retail?',
+              heading: '¿Cuándo merece la pena desarrollar IA a medida en comercio electrónico?',
               blocks: [
                 'Un desarrollo a medida suele tener sentido cuando:',
                 {
@@ -9714,7 +9821,7 @@ export const content: Record<Lang, SiteContent> = {
             },
           ],
           faq: {
-            h2: 'Preguntas frecuentes sobre inteligencia artificial para Ecommerce y Retail',
+            h2: 'Preguntas frecuentes sobre inteligencia artificial para comercio electrónico',
             items: [
               {
                 q: '¿Cómo puede utilizarse la IA en ecommerce?',
@@ -9729,7 +9836,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede automatizar devoluciones?',
-                a: 'Sí. El sistema puede interpretar la solicitud, comprobar condiciones y ejecutar el workflow correspondiente según las reglas definidas.',
+                a: 'Sí. El sistema puede interpretar la solicitud, comprobar condiciones y ejecutar el flujo correspondiente según las reglas definidas.',
               },
               {
                 q: '¿Puede conectarse con Shopify, Magento o WooCommerce?',
@@ -9750,11 +9857,11 @@ export const content: Record<Lang, SiteContent> = {
                 q: '¿Es segura la IA para ejecutar acciones sobre pedidos o clientes?',
                 a: [
                   'Puede serlo si la arquitectura define permisos, reglas, validaciones y trazabilidad.',
-                  'Las acciones críticas pueden requerir controles adicionales.',
+                  'Las decisiones críticas las toma el código, nunca el modelo.',
                 ],
               },
               {
-                q: '¿Cuánto cuesta implantar IA en ecommerce o retail?',
+                q: '¿Cuánto cuesta implantar IA en comercio electrónico?',
                 a: [
                   'El coste depende del proceso, el volumen, las integraciones, los sistemas implicados y la complejidad de las reglas.',
                   'Una automatización concreta y un sistema conectado con múltiples plataformas tienen alcances distintos.',
@@ -9767,9 +9874,9 @@ export const content: Record<Lang, SiteContent> = {
             p: [
               'No necesitas llegar con una solución tecnológica definida.',
               'Explícanos qué proceso consume tiempo, qué sistemas utiliza vuestro equipo y dónde aparecen más incidencias o trabajo manual.',
-              'Analizaremos qué puede automatizarse, dónde tiene sentido incorporar inteligencia artificial y qué arquitectura sería necesaria para llevarlo a producción.',
+              'Te respondemos en un día laborable con una primera lectura de tu caso.',
             ],
-            cta: 'Hablar con Ideasforge sobre Ecommerce y Retail',
+            cta: 'Hablar con Ideasforge sobre comercio electrónico',
           },
         },
       },
@@ -10197,8 +10304,8 @@ export const content: Record<Lang, SiteContent> = {
                 },
                 {
                   client: 'Barceloneta Premium',
-                  title: 'Más de 3 horas de trabajo administrativo ahorradas cada día',
-                  desc: 'Analizamos tareas que requerían intervención manual repetitiva y diseñamos automatizaciones para conectar herramientas y eliminar pasos innecesarios. No fue necesario convertir todo el proceso en IA: automatizamos exactamente las partes donde tenía sentido.',
+                  title: 'Más de 3 horas al día que ya no se gastan en cribar consultas de alquiler',
+                  desc: 'Un agente atiende por WhatsApp las consultas de alquiler, reúne el motivo, el presupuesto y la documentación y deja al equipo un resumen por correo que dice si cumple los requisitos de la agencia, con el porqué al lado. Comprobar cada consulta costaba entre cinco y diez minutos.',
                   image: '/case-studies/barceloneta.jpg',
                   href: '/proyectos/barceloneta',
                 },
@@ -10709,7 +10816,7 @@ export const content: Record<Lang, SiteContent> = {
                 {
                   client: 'Wazzy',
                   title: 'Gestión de citas mediante una conversación en WhatsApp',
-                  desc: 'El agente consulta disponibilidad, trabaja con diferentes profesionales y calendarios, propone horarios, reserva, modifica o cancela y aplica reglas específicas. El usuario mantiene una conversación sencilla. Detrás, el sistema controla las condiciones bajo las que cada acción puede ejecutarse.',
+                  desc: 'Wazzy es nuestro producto propio. El agente consulta la agenda real de la clínica, propone horarios, reserva, cambia o cancela y pasa la conversación al equipo cuando se complica. El usuario mantiene una conversación sencilla. Detrás, el sistema controla las condiciones bajo las que cada acción puede ejecutarse.',
                   image: '/case-studies/dentist.jpg',
                   href: '/proyectos/wazzy',
                 },
@@ -13407,10 +13514,10 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             client: 'Barceloneta Premium',
-            title: 'More than 3 hours of back-office work saved every day',
-            desc: 'We studied several internal processes that required repetitive tasks and built automations to remove part of that operational load.',
+            title: 'More than 3 hours a day no longer spent screening rental inquiries',
+            desc: 'An agent handles the dozens of rental inquiries the agency gets every day over WhatsApp. It gathers what the agency needs to know and emails the team a summary with the verdict and the reason. Checking each inquiry used to take five to ten minutes.',
             metric:
-              'More than three hours of work saved every day in processes that used to need manual intervention.',
+              'More than three hours a day the team no longer spends screening rental inquiries.',
             image: '/case-studies/barceloneta.jpg',
             href: '/en/cases/barceloneta',
           },
@@ -13424,8 +13531,8 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             client: 'Wazzy',
-            title: 'An AI agent that manages appointments through a conversation',
-            desc: 'Appointment management straight from WhatsApp. The agent checks availability, suggests times, books, changes or cancels, and works with different professionals, calendars and business rules.',
+            title: 'An appointment assistant on WhatsApp, built and owned by Ideasforge',
+            desc: 'Wazzy is our own product, not a client. It books, changes and cancels appointments over WhatsApp against the clinic’s real calendar and hands the conversation to the team when it gets complicated.',
             metric:
               'A simple conversation for the user. Behind it, an architecture that controls which actions the agent can take and under which conditions.',
             image: '/case-studies/dentist.jpg',

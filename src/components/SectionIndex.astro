@@ -33,9 +33,12 @@ const enlaces =
 
 /* La descripción de cada página, buscada por su ruta. */
 const paginas = t.pages as unknown as Record<string, { metaDescription?: string } | undefined>;
+/* Las páginas de sector nuevas viven en `pages.sectors`, no en `pages`: sin
+   esta segunda búsqueda sus tarjetas salían solo con el nombre. */
+const sectores = (t.pages.sectors ?? {}) as unknown as Record<string, { metaDescription?: string } | undefined>;
 const descripcionDe = (href: string) => {
   const clave = Object.keys(routeMap).find((k) => routeMap[k][lang] === href);
-  return clave ? paginas[clave]?.metaDescription : undefined;
+  return clave ? (paginas[clave]?.metaDescription ?? sectores[clave]?.metaDescription) : undefined;
 };
 const items = enlaces.map((e) => ({ ...e, desc: descripcionDe(e.href) }));
 
