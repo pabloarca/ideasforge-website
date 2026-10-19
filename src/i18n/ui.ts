@@ -10054,6 +10054,7 @@ export const content: Record<Lang, SiteContent> = {
               { tras: 'method', grafico: 'circuito' },
               { tras: 'control', grafico: 'validacion' },
               { tras: 'when', grafico: 'condiciones' },
+              { tras: 'when', grafico: 'montaje' },
             ],
           },
           enterprise: {
@@ -10595,6 +10596,7 @@ export const content: Record<Lang, SiteContent> = {
               { tras: 'capabilities', grafico: 'guion' },
               { tras: 'types', grafico: 'dependencias' },
               { tras: 'control', grafico: 'respuestas' },
+              { tras: 'when', grafico: 'contadores' },
             ],
           },
           consulting: {
