@@ -1,5 +1,6 @@
 ---
 title: 'Tú no desarrollas IA. El reglamento va contigo igual.'
+heroImage: '/blog/blog-reglamento.jpg'
 metaTitle: 'Reglamento europeo de IA para quien solo la usa'
 description: 'El reglamento europeo de inteligencia artificial no da deberes solo a quien fabrica modelos. Dos ya te aplican hoy. El aplazamiento del que todos hablan no los toca.'
 lang: 'es'

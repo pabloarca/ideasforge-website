@@ -7,7 +7,7 @@ pubDate: 2026-07-28
 updatedDate: 2026-08-31
 translationId: 'keeping-ai-alive'
 tags: ['Maintenance', 'Observability', 'Business']
-heroImage: '/blog/keeping-ai-alive.jpg'
+heroImage: '/blog/blog-mantener-viva.jpg'
 ---
 
 Starting flashy AI projects is easy. The demo goes well, the video circulates, everyone applauds. What is nearly impossible is keeping that project alive for six months. Profitable AI projects are easy to start and cheap to sustain, because the cost of maintaining them was paid before the first line of code. That asymmetry, what it costs to launch against what it costs to stay alive, is the filter we use to decide what to build.

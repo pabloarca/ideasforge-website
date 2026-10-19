@@ -7,7 +7,7 @@ pubDate: 2026-08-23
 updatedDate: 2026-08-31
 translationId: 'shiny-toy'
 tags: ['Negocio', 'Método']
-heroImage: '/blog/shiny-object-syndrome.jpg'
+heroImage: '/blog/blog-juguete.jpg'
 ---
 
 La escena se repite en cualquier empresa este año. Alguien enseña una demo con IA, la sala se enciende, las ideas salen a tres por minuto y alguien con presupuesto pronuncia la frase, *«tenemos que hacer algo con esto»*. Seis meses después, la herramienta que salió de aquella reunión acumula polvo digital. Nadie la abre y nadie la echa de menos. Nadie recuerda muy bien qué arreglaba.

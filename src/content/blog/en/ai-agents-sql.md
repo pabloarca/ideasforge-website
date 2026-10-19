@@ -7,7 +7,7 @@ pubDate: 2025-08-12
 updatedDate: 2026-08-31
 translationId: 'ai-agents-sql'
 tags: ['Data', 'Agents', 'Security']
-heroImage: '/blog/portada-sql.jpg'
+heroImage: '/blog/blog-sql.jpg'
 ---
 
 Text-to-SQL is one of the industry's most repeated promises. You ask in natural language, *"how many orders did we close last month?"*, and a model writes the query, runs it and hands you the figure. We built that experience for Savian, an agent through which owners and managers query their production data without waiting to get back to the office. And the central design decision was the opposite of what the pattern's name suggests. **Our model does not write SQL.**

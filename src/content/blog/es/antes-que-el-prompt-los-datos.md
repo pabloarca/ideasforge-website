@@ -1,5 +1,6 @@
 ---
 title: 'Antes que el prompt, los datos'
+heroImage: '/blog/blog-datos.jpg'
 metaTitle: 'Antes que el prompt, los datos que lo alimentan'
 description: 'El mercado entero vende ingeniería de instrucciones. Nuestra experiencia en producción dice que se gana más ordenando los datos que puliendo el prompt.'
 lang: 'es'

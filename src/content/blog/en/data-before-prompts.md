@@ -1,5 +1,6 @@
 ---
 title: 'Data before prompts'
+heroImage: '/blog/blog-datos.jpg'
 metaTitle: 'Data before prompts: what beats prompt engineering'
 description: 'An entire market sells prompt engineering. Our production experience says you gain more by organizing the data than by polishing the prompt.'
 lang: 'en'

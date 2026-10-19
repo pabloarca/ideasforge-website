@@ -1,5 +1,6 @@
 ---
 title: 'La firma del síntoma vale más que el arreglo'
+heroImage: '/blog/blog-firma-sintoma.jpg'
 description: 'Documentar cómo se reconoce un fallo desde fuera rinde más que documentar cómo se arregló. Tres firmas reales de un asistente de IA en producción.'
 lang: 'es'
 pubDate: 2026-07-21

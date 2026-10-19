@@ -1,5 +1,6 @@
 ---
 title: 'Medir la IA por las ganancias, no por la productividad'
+heroImage: '/blog/blog-ganancias.jpg'
 metaTitle: 'Medir la IA por las ganancias, no la productividad'
 description: 'La productividad es la métrica cómoda de la IA, siempre sale bien y no compromete a nada. Nosotros preferimos la incómoda, qué ganancia concreta dejó el sistema.'
 lang: 'es'

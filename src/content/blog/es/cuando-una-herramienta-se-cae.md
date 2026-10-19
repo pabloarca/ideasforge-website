@@ -7,7 +7,7 @@ pubDate: 2026-06-23
 updatedDate: 2026-08-31
 translationId: 'tool-goes-down'
 tags: ['Agentes', 'Fiabilidad', 'Mantenimiento']
-heroImage: '/blog/tool-goes-down.jpg'
+heroImage: '/blog/blog-herramienta-cae.jpg'
 ---
 
 Un asistente conversacional no se basta a sí mismo. Consulta bases de datos, sistemas internos y servicios de terceros. Cada una de esas piezas puede caerse y se caerá. **La pregunta que define la calidad del asistente no es si sus herramientas fallan. Es qué ve el usuario cuando fallan.**

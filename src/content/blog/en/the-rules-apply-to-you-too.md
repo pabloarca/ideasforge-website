@@ -1,5 +1,6 @@
 ---
 title: 'You do not build AI. The Act applies to you anyway.'
+heroImage: '/blog/blog-reglamento.jpg'
 metaTitle: 'The EU AI Act if you only use AI, not build it'
 description: 'The EU AI Act does not hand duties only to the people who make models. Two already apply to you today. The postponement everybody is talking about leaves them alone.'
 lang: 'en'

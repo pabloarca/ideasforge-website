@@ -6,7 +6,7 @@ lang: 'en'
 pubDate: 2026-09-01
 translationId: 'false-success'
 tags: ['Agents', 'Reliability', 'Architecture']
-heroImage: '/blog/false-success.jpg'
+heroImage: '/blog/blog-falso-exito.jpg'
 draft: false
 ---
 

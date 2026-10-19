@@ -1,5 +1,6 @@
 ---
 title: 'What happens after an AI chatbot or agent is delivered'
+heroImage: '/blog/blog-mantenimiento.jpg'
 metaTitle: 'AI chatbot maintenance after delivery'
 description: 'How we maintain an AI chatbot after delivery: a golden dataset of real conversations, monitoring, alerts and results every week.'
 lang: 'en'

@@ -1,5 +1,6 @@
 ---
 title: 'Measure AI by profit, not by productivity'
+heroImage: '/blog/blog-ganancias.jpg'
 description: 'Productivity is AI''s comfortable metric, it always looks good and commits to nothing. We prefer the uncomfortable one, which concrete gain the system delivered.'
 lang: 'en'
 pubDate: 2026-06-16

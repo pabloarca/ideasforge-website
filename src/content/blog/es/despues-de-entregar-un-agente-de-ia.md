@@ -1,5 +1,6 @@
 ---
 title: 'Qué pasa después de entregar un chatbot o agente de IA'
+heroImage: '/blog/blog-mantenimiento.jpg'
 metaTitle: 'Mantenimiento de un chatbot de IA tras la entrega'
 description: 'Así mantenemos un chatbot de IA después de entregarlo: un golden dataset con conversaciones reales, monitorización, alarmas y resultados cada semana.'
 lang: 'es'

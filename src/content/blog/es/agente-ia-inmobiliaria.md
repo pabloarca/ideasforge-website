@@ -7,7 +7,7 @@ pubDate: 2025-06-15
 updatedDate: 2026-08-31
 translationId: 'real-estate-agent'
 tags: ['Agentes', 'Inmobiliarias', 'Automatización']
-heroImage: '/blog/inmo.jpg'
+heroImage: '/blog/blog-inmobiliaria.jpg'
 ---
 
 Barceloneta Premium, una agencia de Barcelona, recibía decenas de mensajes de WhatsApp al día de personas interesadas en alquilar. Cada consulta exigía entre cinco y diez minutos de comprobación manual antes de saber si valía la pena seguir. Multiplica esos minutos por decenas de mensajes y sale el tiempo que se comía al equipo, varias horas al día repartidas en interrupciones de diez minutos.

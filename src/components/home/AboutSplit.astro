@@ -9,6 +9,8 @@
   cambiar el `div.photo-slot` por un `<Picture>` con `class="bn"`, como hacen
   CasesGallery y SectorSwitcher.
 */
+import { Picture } from 'astro:assets';
+import { foto } from '../../lib/fotos';
 import { type Lang, content } from '../../i18n/ui';
 
 interface Props {
@@ -29,7 +31,16 @@ const t = content[lang].home.about;
   </div>
 
   <figure class="border-t-2 border-fg pt-4">
-    <div class="photo-slot aspect-[4/5] max-h-[640px]" aria-hidden="true"></div>
+    <Picture
+      src={foto('/home/nosotros.jpg')}
+      alt=""
+      formats={['avif', 'webp']}
+      widths={[480, 800, 1024]}
+      sizes="(min-width: 900px) 40vw, 100vw"
+      loading="lazy"
+      decoding="async"
+      class="bn aspect-[4/5] max-h-[640px] w-full object-cover"
+    />
     <figcaption class="mt-3 text-[13px] text-muted">{t.imageCaption}</figcaption>
   </figure>
 </section>

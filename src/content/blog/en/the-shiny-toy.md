@@ -7,7 +7,7 @@ pubDate: 2026-08-23
 updatedDate: 2026-08-31
 translationId: 'shiny-toy'
 tags: ['Business', 'Method']
-heroImage: '/blog/shiny-object-syndrome.jpg'
+heroImage: '/blog/blog-juguete.jpg'
 ---
 
 The scene repeats in every company this year. Someone shows an AI demo, the room lights up, ideas fly three a minute and somebody with a budget says the line, *"we have to do something with this"*. Six months later, the tool that came out of that meeting gathers digital dust. Nobody opens it and nobody misses it. Nobody quite remembers what it was supposed to fix.

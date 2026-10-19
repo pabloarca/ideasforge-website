@@ -6,7 +6,7 @@ pubDate: 2025-08-12
 updatedDate: 2026-08-31
 translationId: 'ai-agents-sql'
 tags: ['Datos', 'Agentes', 'Seguridad']
-heroImage: '/blog/portada-sql.jpg'
+heroImage: '/blog/blog-sql.jpg'
 ---
 
 El patrón text-to-SQL es una de las promesas más repetidas del sector. Preguntas en lenguaje natural, *«¿cuántos pedidos cerramos el mes pasado?»*. Un modelo escribe la consulta, la ejecuta y te devuelve la cifra. Nosotros construimos exactamente eso para Savian, un agente con el que dueños y responsables de planta consultan sus datos de producción sin esperar a llegar a la oficina. Y la decisión central del diseño fue la contraria a la que el nombre del patrón sugiere. **Nuestro modelo no escribe SQL.**

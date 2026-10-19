@@ -1,5 +1,6 @@
 ---
 title: 'The symptom signature beats the fix'
+heroImage: '/blog/blog-firma-sintoma.jpg'
 description: 'Documenting how a failure is recognized from the outside pays more than documenting how it was fixed. Three real signatures from an AI assistant in production.'
 lang: 'en'
 pubDate: 2026-07-21

@@ -7,7 +7,7 @@ pubDate: 2026-07-28
 updatedDate: 2026-08-31
 translationId: 'keeping-ai-alive'
 tags: ['Mantenimiento', 'Observabilidad', 'Negocio']
-heroImage: '/blog/keeping-ai-alive.jpg'
+heroImage: '/blog/blog-mantener-viva.jpg'
 ---
 
 Es fácil iniciar proyectos de IA vistosos. La demostración sale bien, el vídeo circula, todo el mundo aplaude. Lo que es casi imposible es mantener ese proyecto con vida seis meses. Los proyectos de IA rentables son fáciles de empezar y baratos de sostener, porque el coste de mantenerlos se pagó antes de la primera línea de código. Esa asimetría, lo que cuesta arrancar frente a lo que cuesta seguir vivo, es el filtro con el que decidimos qué construir.

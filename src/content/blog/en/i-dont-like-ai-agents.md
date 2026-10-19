@@ -1,5 +1,6 @@
 ---
 title: 'Here is a secret: I don''t like agentic architectures'
+heroImage: '/blog/blog-agentes-tren.jpg'
 metaTitle: 'I don''t like agentic architectures'
 description: 'We sell AI agents, and we don''t like how almost everyone builds them. Business rules cannot live in the prompt, they have to live in the code.'
 lang: 'en'

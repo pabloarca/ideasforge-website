@@ -46,7 +46,7 @@
        azul de «La IA interpreta». Todo lo demás es tinta sobre gris.
     3. Reglas de 2 px en #c9c6c5. Cero radios, cero sombras, cero degradados,
        cero iconos decorativos.
-    4. Fotografía siempre con `filter: grayscale(1)`.
+    4. Fotografía en su color (desde el 19 oct 2026; antes, `grayscale(1)`).
     5. Texto alineado a la izquierda, también dentro de los botones.
     6. Maquetación fluida con `clamp()` y `auto-fit`. Nunca 3+1 huérfanos.
 
@@ -449,12 +449,13 @@ body {
   background: var(--color-neutral-200);
 }
 
-/* Toda fotografía, en blanco y negro. */
+/* Las fotos van en su color desde el 19 oct 2026: las generadas ya traen la
+   paleta fría y luminosa. La utilidad se conserva para volver al gris. */
 @utility bn {
-  filter: grayscale(1);
+  filter: none;
 }
 .bn img {
-  filter: grayscale(1);
+  filter: none;
 }
 
 /* ---- formulario ---- */

@@ -7,7 +7,7 @@ pubDate: 2025-07-03
 updatedDate: 2026-08-31
 translationId: 'invoice-ocr'
 tags: ['Automatización', 'OCR', 'Administración']
-heroImage: '/blog/ocr-ia.jpg'
+heroImage: '/blog/blog-facturas.jpg'
 ---
 
 La digitalización de facturas con IA consiste en que un documento escaneado se convierta por sí solo en una fila de datos limpia, sin que nadie teclee importes ni fechas. La tecnología para leer el papel existe desde hace décadas. Lo que ha cambiado es lo que viene después de leer, porque **el cuello de botella nunca fue leer la factura. Fue poder fiarse de lo leído.**

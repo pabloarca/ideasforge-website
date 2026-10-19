@@ -7,7 +7,7 @@ pubDate: 2025-07-03
 updatedDate: 2026-08-31
 translationId: 'invoice-ocr'
 tags: ['Automation', 'OCR', 'Back office']
-heroImage: '/blog/ocr-ia.jpg'
+heroImage: '/blog/blog-facturas.jpg'
 ---
 
 Invoice digitization with AI means a scanned document comes out the other end as a clean row of data, with nobody typing amounts or dates. The technology for reading paper has existed for decades. What changed is what comes after, because **the bottleneck was never reading the invoice. It was being able to trust what was read.**

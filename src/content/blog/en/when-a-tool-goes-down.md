@@ -6,7 +6,7 @@ pubDate: 2026-06-23
 updatedDate: 2026-08-31
 translationId: 'tool-goes-down'
 tags: ['Agents', 'Reliability', 'Maintenance']
-heroImage: '/blog/tool-goes-down.jpg'
+heroImage: '/blog/blog-herramienta-cae.jpg'
 ---
 
 A serious conversational assistant does not live alone. It queries databases, internal systems and third-party services. Every one of those pieces can go down, and will. **The question that defines the assistant's quality is not whether its tools fail. It is what the user sees when they do.**

@@ -1,5 +1,6 @@
 ---
 title: 'Te cuento un secreto: no me gustan las arquitecturas agénticas'
+heroImage: '/blog/blog-agentes-tren.jpg'
 metaTitle: 'No me gustan las arquitecturas agénticas'
 description: 'Vendemos agentes de IA y no nos gusta cómo los construye casi todo el mundo. Las reglas de negocio no pueden vivir en el prompt, tienen que vivir en el código.'
 lang: 'es'
