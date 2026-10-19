@@ -41,8 +41,14 @@ export async function postsForPillar(lang: Lang, pillar: string, limit = 8) {
     .slice(0, limit);
 }
 
-/** Ruta del pilar a partir de la URL de la página, sin barra final. */
+/**
+ * Ruta del pilar a partir de la URL de la página, sin barra final y sin
+ * `.html`. Con `build.format: 'file'` la ruta que llega al compilar acaba en
+ * `.html` (`/guias/ia-y-rgpd.html`), no casaba con ningún enlace de los posts
+ * y el bloque no salía en ninguna página publicada, aunque en `astro dev` sí
+ * (arreglado el 19 oct 2026).
+ */
 export function pillarFromUrl(pathname: string): string {
-  const limpio = pathname.replace(/\/+$/, '');
+  const limpio = pathname.replace(/\.html$/, '').replace(/\/index$/, '').replace(/\/+$/, '');
   return limpio === '' ? '/' : limpio;
 }
