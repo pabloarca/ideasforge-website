@@ -1,0 +1,61 @@
+---
+/*
+  Icono del set «Astilla». Un solo componente para los 33: son cadenas de
+  texto, no hacen falta 33 archivos ni una librería.
+
+  El color no se pasa por prop. `fill="currentColor"` hace que el icono herede
+  el color del texto que lo acompaña: dentro de un botón negro sale blanco,
+  dentro de un enlace sale azul. Para forzar el acento, se aplica la clase de
+  color al contenedor.
+
+  Tamaños canónicos: 16 (texto corrido, nav, metadatos), 20 (listas densas),
+  24 (tarjetas, formularios), 40 (cabeceras). Nunca valores intermedios: la
+  rejilla de 24 se rompe. Los iconos con `minSize` pierden los cortes por
+  debajo de ese tamaño.
+*/
+import { ICONS, type Icon, type IconName } from '../lib/icons';
+
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+  /** Si se pasa, el icono es semántico. Si no, decorativo. */
+  label?: string;
+}
+
+const { name, size = 24, class: className = '', label } = Astro.props;
+const icon = ICONS[name] as Icon;
+if (!icon) throw new Error(`Icon no encontrado: ${name}`);
+---
+
+<svg
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  class={className}
+  fill="currentColor"
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+>
+  {
+    /*
+      `data-piece` numera las piezas del icono. El set se construye con masas
+      separadas, así que poder dirigirse a una sola desde CSS permite animarlas
+      por separado sin sacar el dibujo del set ni duplicarlo en el componente
+      que lo usa. Lo estrena `expandir`, cuyas dos cuñas se apartan al pasar
+      por encima. Para el resto es un atributo inerte.
+    */
+    icon.rotate ? (
+      <g transform={`rotate(${icon.rotate} 12 12)`}>
+        {icon.paths.map((d, i) => (
+          <path d={d} data-piece={i} fill-rule={icon.evenodd ? 'evenodd' : undefined} />
+        ))}
+      </g>
+    ) : (
+      icon.paths.map((d, i) => (
+        <path d={d} data-piece={i} fill-rule={icon.evenodd ? 'evenodd' : undefined} />
+      ))
+    )
+  }
+</svg>

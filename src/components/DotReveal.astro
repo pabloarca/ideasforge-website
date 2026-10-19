@@ -1,0 +1,47 @@
+---
+/*
+  Enciende la cristalización de los puntos de los cruces y la dispara al bajar.
+
+  Va aparte de los componentes que dibujan los puntos porque hay dos
+  (`LatticeDots` y `RailDots`) repartidos por la página, y el observador tiene
+  que ser uno solo. Se incluye una vez desde la página.
+
+  Los estilos viven en `global.css`, bajo `.crystal-anim`.
+*/
+---
+
+{/*
+  Corre durante el análisis del documento, antes de que se pinte nada: si el
+  navegador no tiene IntersectionObserver, la clase no se pone y los puntos se
+  quedan visibles en su sitio en vez de desaparecer para siempre.
+*/}
+<script is:inline>
+  if ('IntersectionObserver' in window) {
+    document.documentElement.classList.add('crystal-anim');
+  }
+</script>
+
+<script>
+  const dots = document.querySelectorAll<HTMLElement>('[data-crystal]');
+
+  if (!('IntersectionObserver' in window)) {
+    dots.forEach((dot) => dot.classList.add('is-in'));
+  } else {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-in');
+          // Se cristaliza una vez. Al volver a subir no se deshace: repetirlo
+          // convertiria el detalle en un parpadeo constante.
+          observer.unobserve(entry.target);
+        });
+      },
+      // Se dispara con el punto ya dentro y no justo al asomar, para que la
+      // llegada ocurra donde el ojo esta mirando.
+      { rootMargin: '0px 0px -12% 0px', threshold: 0 }
+    );
+
+    dots.forEach((dot) => observer.observe(dot));
+  }
+</script>

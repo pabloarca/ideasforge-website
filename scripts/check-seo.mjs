@@ -55,14 +55,8 @@ const PRESUPUESTO = {
    * de verdad importaía es el peso por visita, y eso hoy no se mide. Anotado en
    * PENDIENTES. Mientras tanto se queda como red contra un descuido gordo, un
    * vídeo sin comprimir o una carpeta entera colada en `public/`.
-   *
-   * **Sube de 20 a 24 el 19 oct 2026** con la versión de Dani: el sitio pasa de
-   * 71 a 105 páginas (sectores, centro de preguntas frecuentes, seguridad,
-   * contacto) y dist/ llega a 20,3 MB después de recomprimir la foto
-   * industrial. Es crecimiento normal, no un descuido, y la regla sigue midiendo
-   * ocupación en disco y no peso por visita.
    */
-  sitioMB: 24,            // dist/ entero
+  sitioMB: 20,            // dist/ entero
   /*
    * Presupuesto propio para fotografías (28 sep 2026, cierra un pendiente del
    * 2 sep). El de 600 KB por fichero está calibrado para el vídeo del héroe y

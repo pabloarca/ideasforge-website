@@ -1,5 +1,9 @@
 ---
-import SolutionPage from '../../components/SolutionPage.astro';
+import LongFormPage from '../../components/LongFormPage.astro';
+import { content } from '../../i18n/ui';
+import { altsFor } from '../../i18n/utils';
+
+const lang = 'es' as const;
 ---
 
-<SolutionPage lang="es" clave="processAuto" />
+<LongFormPage lang={lang} page={content[lang].pages.processAuto} alternates={altsFor('processAuto')} />
