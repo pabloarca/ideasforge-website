@@ -20,6 +20,7 @@
 */
 import { Picture } from 'astro:assets';
 import { type Lang, content } from '../../i18n/ui';
+import { altFoto } from '../../lib/alt-fotos';
 import { foto } from '../../lib/fotos';
 
 interface Props {
@@ -46,7 +47,7 @@ const t = content[lang].home.resources;
                   <Picture
                     pictureAttributes={{ class: 'contents' }}
                     src={foto(p.image)}
-                    alt=""
+                    alt={altFoto(p.image, lang)}
                     formats={['avif', 'webp']}
                     widths={[320, 480, 640]}
                     sizes="(min-width: 1100px) 288px, (min-width: 640px) 50vw, 100vw"

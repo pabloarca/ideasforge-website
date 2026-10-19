@@ -10,6 +10,7 @@
   CasesGallery y SectorSwitcher.
 */
 import { Picture } from 'astro:assets';
+import { altFoto } from '../../lib/alt-fotos';
 import { foto } from '../../lib/fotos';
 import { type Lang, content } from '../../i18n/ui';
 
@@ -33,7 +34,7 @@ const t = content[lang].home.about;
   <figure class="border-t-2 border-fg pt-4">
     <Picture
       src={foto('/home/nosotros.jpg')}
-      alt=""
+      alt={altFoto('/home/nosotros.jpg', lang)}
       formats={['avif', 'webp']}
       widths={[480, 800, 1024]}
       sizes="(min-width: 900px) 40vw, 100vw"

@@ -14,6 +14,7 @@
 */
 import { Picture } from 'astro:assets';
 import { type Lang, content } from '../../i18n/ui';
+import { altFoto } from '../../lib/alt-fotos';
 import { foto } from '../../lib/fotos';
 
 interface Props {
@@ -27,7 +28,7 @@ const t = content[lang].home.security;
   <figure class="seguridad-foto border-t-2 border-fg pt-4">
     <Picture
       src={foto('/home/seguridad.jpg')}
-      alt=""
+      alt={altFoto('/home/seguridad.jpg', lang)}
       formats={['avif', 'webp']}
       widths={[480, 800, 1200]}
       sizes="(min-width: 900px) 40vw, 100vw"

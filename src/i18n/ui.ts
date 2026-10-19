@@ -14953,7 +14953,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'Does Ideasforge work with large companies?',
-                a: 'Yes. Many of the solutions are designed for organizations with several systems, teams, permissions, data sources and complex processes.',
+                a: 'Yes. Our solutions are designed for organizations with several systems, teams, permissions, data sources and complex processes.',
               },
               {
                 q: 'Can Ideasforge work on top of existing software?',
@@ -14973,7 +14973,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'Does Ideasforge only work in Spain?',
-                a: 'Not necessarily. Software development and consulting can be provided to companies in different markets as long as the project’s scope, language and conditions allow it.',
+                a: 'No. We work from Spain with companies subject to European regulation, wherever they are.',
               },
               {
                 q: 'Does Ideasforge work per project or through ongoing maintenance?',
@@ -15050,11 +15050,12 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'How do you measure whether an AI build works?',
-                a: 'It depends on the case, but it can be measured by time saved, percentage automated, fewer errors, answer quality, usage, cost per operation or commercial impact.',
+                a: 'By what the company gains, in euros: new revenue or avoided cost. After that come the percentage automated, errors avoided, answer quality, cost per operation and time saved.',
+                link: { label: 'Measure AI by profit, not by productivity', href: '/en/blog/measure-ai-by-profit' },
               },
               {
                 q: 'What are the advantages of custom AI development over a SaaS tool?',
-                a: 'It lets you adapt integrations, permissions, flows, experience and rules to your own processes. In return, it requires a larger upfront investment and maintenance.',
+                a: 'It lets you adapt integrations, permissions, flows, experience and rules to your own processes. On top of that, the repository and the cloud are in the client’s name from day one. In return, it requires a larger upfront investment and maintenance.',
               },
               {
                 q: 'Can custom development reuse existing technology?',
@@ -15258,7 +15259,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'What’s the difference between RPA and AI automation?',
-                a: 'RPA usually automates repetitive interactions with interfaces. AI adds the ability to interpret language, documents or variable inputs.',
+                a: 'RPA, or robotic process automation, repeats clicks and keystrokes on the screens of other programs. AI adds the ability to interpret language, documents or variable inputs.',
               },
               {
                 q: 'Can a process that spans several departments be automated?',
@@ -15320,7 +15321,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'What’s the difference between a chatbot and a conversational agent?',
-                a: 'A chatbot may only answer. A conversational agent can also connect to systems and complete processes.',
+                a: 'What matters is whether it acts, not what it’s called. A scripted chatbot sticks to prepared answers. A conversational agent, or an AI chatbot connected to the company’s systems, looks up information and completes processes.',
               },
               {
                 q: 'Can a chatbot query a CRM?',
@@ -15356,7 +15357,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'How do you stop a chatbot from making up answers?',
-                a: 'By limiting sources and using information retrieval, checks, rules and fallback mechanisms.',
+                a: 'By limiting sources and using information retrieval, checks and rules. For when it has no answer there is a planned alternative, such as handing the conversation to a person.',
               },
               {
                 q: 'Can a conversational agent replace a support team?',
@@ -15450,7 +15451,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'What happens when a document changes?',
-                a: 'Depending on the architecture, the system can sync, re-index or replace the old information.',
+                a: 'The new or changed document is processed again and replaces the old version. Before any answer changes in production, it goes through the test suite.',
               },
               {
                 q: 'Can it work with SharePoint?',
@@ -15732,7 +15733,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'Where is the data processed?',
-                a: 'It depends on the providers and the infrastructure chosen for the project.',
+                a: 'The application, the database and the logs run in a cloud account in the client’s name. The only thing that leaves it is the call to the model provider, with the provider, contract and configuration the client approves. If the assistant lives on WhatsApp or Telegram, that channel also receives the conversation.',
               },
               {
                 q: 'Can private infrastructure be used?',
@@ -15796,7 +15797,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'Can a solution be hosted in the client’s cloud?',
-                a: 'Yes, when the architecture and the selected providers allow it.',
+                a: 'Yes. The infrastructure is always set up in a cloud account in the client’s name, never in ours.',
               },
               {
                 q: 'Can it be deployed on-premise?',
@@ -15921,7 +15922,8 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'How is ROI calculated?',
-                a: 'By comparing the total cost of the system with the value it generates in time, errors, capacity, service or revenue.',
+                a: 'By comparing the total cost of the system with the gain it brings, in euros: new revenue or avoided cost.',
+                link: { label: 'Measure AI by profit, not by productivity', href: '/en/blog/measure-ai-by-profit' },
               },
               {
                 q: 'When is an automation considered profitable?',
@@ -15933,7 +15935,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'Does an AI solution have recurring costs?',
-                a: 'Usually yes. Infrastructure, models, maintenance, monitoring and integrations can generate ongoing costs.',
+                a: 'Yes, and there are two separate ones. Model usage and infrastructure are paid by the client in accounts in its own name, and they go up or down with use. Monitoring and maintenance go in a monthly fee of €150 to €500, with no minimum term.',
               },
               {
                 q: 'Is an agent more expensive than traditional automation?',
@@ -15949,11 +15951,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'Is there a cost for each query to a model?',
-                a: 'Usually yes, although it depends on the provider and the model used.',
+                a: 'Yes. Every call to the model has a price set by the provider, and that bill goes to the client’s account.',
               },
               {
                 q: 'Can model costs be optimized?',
-                a: 'Yes. Caching, smaller models, dynamic model selection or context reduction can be used.',
+                a: 'Yes. Repeated parts can be cached, smaller models used, the model chosen per task or less context sent. Every change goes through the test suite before it ships.',
               },
               {
                 q: 'When can a budget be estimated?',
@@ -15969,15 +15971,16 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'What metrics can be used to calculate ROI?',
-                a: 'Hours saved, errors avoided, capacity freed up, response times, conversions or additional revenue.',
+                a: 'First the concrete gain, in euros: new revenue or avoided cost. Then conversions, errors avoided, response times, capacity freed up and hours saved.',
+                link: { label: 'Measure AI by profit, not by productivity', href: '/en/blog/measure-ai-by-profit' },
               },
               {
                 q: 'How much maintenance does a system need?',
-                a: 'It depends on its complexity, number of integrations, criticality and how quickly the process changes.',
+                a: 'The work the monthly fee pays for, €150 to €500 with no minimum term: a weekly test run against the system in production, the test suite before every change and fixing whatever comes up. Within that range, the figure depends on complexity, integrations and how critical the process is.',
               },
               {
                 q: 'Can operating costs go down over time?',
-                a: 'Yes, especially if models, processes, prompts, infrastructure and integrations are optimized.',
+                a: 'Yes, by adjusting models, processes, prompts, infrastructure and integrations with real usage in view.',
               },
               {
                 q: 'Is it possible to estimate the cost per operation?',
@@ -16018,11 +16021,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'Can an agent get stuck?',
-                a: 'Yes. That’s why it makes sense to design limits, timeouts, retries and fallback routes.',
+                a: 'Yes. That’s why there are limits, a maximum wait time, a set number of retries and an alternative for when none of that works, such as handing the case to a person.',
               },
               {
                 q: 'What is a guardrail?',
-                a: 'It’s a mechanism that limits or validates the system’s behavior before or after an action.',
+                a: 'It’s a control that limits or validates the system’s behavior before or after an action. In our systems those limits are enforced by code, not by an instruction to the model.',
               },
               {
                 q: 'Can an agent’s tools be limited?',
@@ -16042,23 +16045,23 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: 'How is a system improved after launch?',
-                a: 'By analyzing usage, errors, exceptions, unresolved questions, costs and new real cases.',
+                a: 'With what we deliver to the client: the Phoenix dashboard, the results of each weekly golden dataset (test suite) run and the questions the agent couldn’t answer. That is what decides whether to add a glossary, change the prompt or change the architecture. If the client needs it, we also deliver a weekly report.',
               },
               {
-                q: 'What is an offline evaluation?',
-                a: 'It’s a test run on a set of known cases before or outside the system’s real use.',
+                q: 'What is a pre-release evaluation?',
+                a: 'It’s a test on a set of known cases, each with its correct answer recorded, before a change reaches users. In our projects it’s the golden dataset (test suite), and no change reaches production without passing it.',
               },
               {
-                q: 'What is an online evaluation?',
-                a: 'It’s the measurement of the system’s behavior while it operates with real users and data.',
+                q: 'What is an evaluation in production?',
+                a: 'It’s the measurement of the system’s behavior while it operates with real users and data. In our projects it includes a weekly test run against the system in production.',
               },
               {
                 q: 'Can one model be used to evaluate another model?',
                 a: 'We don’t do it. We measure against a golden dataset (test suite) with the correct answer recorded, and the checks are done by code, not by another model. In one of our systems a second model reviewed the first and we removed it, because it also made mistakes.',
               },
               {
-                q: 'What is an evaluation dataset?',
-                a: 'It’s a set of representative cases with expected results, used to measure the system.',
+                q: 'What is a golden dataset (test suite)?',
+                a: 'It’s a set of representative cases, taken from real conversations, with the correct answer recorded, used to measure the system.',
               },
               {
                 q: 'Should every change be evaluated again?',

@@ -24,6 +24,8 @@
   resolvería contra una caja que no tiene altura.
 */
 import { Picture } from 'astro:assets';
+import { altFoto } from '../lib/alt-fotos';
+import { getLangFromUrl } from '../i18n/utils';
 import { foto } from '../lib/fotos';
 
 interface Caso {
@@ -48,6 +50,7 @@ interface Props {
   primeraSinEspera?: boolean;
 }
 const { items, viewCase, prev, next, primeraSinEspera = false } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
 const varios = items.length > 1;
 const total = String(items.length).padStart(2, '0');
 ---
@@ -62,7 +65,7 @@ const total = String(items.length).padStart(2, '0');
               <Picture
                 pictureAttributes={{ class: 'contents' }}
                 src={foto(k.image)}
-                alt=""
+                alt={altFoto(k.image, lang)}
                 formats={['avif', 'webp']}
                 widths={[480, 800, 1200]}
                 sizes="(min-width: 900px) 576px, 100vw"
