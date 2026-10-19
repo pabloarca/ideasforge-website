@@ -1800,7 +1800,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             tag: 'guide',
             title: 'Reglamento Europeo de Inteligencia Artificial',
-            desc: 'Qué obligaciones introduce el AI Act para las empresas que desarrollan, implantan o utilizan sistemas de IA.',
+            desc: 'Qué obligaciones introduce el reglamento europeo de IA para las empresas que desarrollan, implantan o utilizan sistemas de IA.',
             href: '/guias/reglamento-europeo-de-ia',
           },
           {
@@ -6517,7 +6517,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
           },
           {
-            heading: 'Inteligencia artificial y AI Act',
+            heading: 'Inteligencia artificial y reglamento europeo de IA',
             blocks: [
               'El Reglamento Europeo de Inteligencia Artificial establece obligaciones diferentes según el sistema, su finalidad, el nivel de riesgo y el papel que desempeña cada organización.',
               'Desde el <strong>2 de agosto de 2026</strong> son aplicables, entre otras, las obligaciones de transparencia previstas en el artículo 50 para determinados sistemas de IA. Estas incluyen, en ciertos casos, informar a una persona cuando interactúa directamente con un sistema de inteligencia artificial.',
@@ -6631,7 +6631,7 @@ export const content: Record<Lang, SiteContent> = {
               a: 'Puede diseñarse teniendo en cuenta los requisitos aplicables de protección de datos, pero el cumplimiento depende del caso de uso, los datos, la base jurídica, los proveedores y la organización.',
             },
             {
-              q: '¿El AI Act afecta a los chatbots?',
+              q: '¿El reglamento europeo de IA afecta a los chatbots?',
               a: 'Puede hacerlo. Desde el 2 de agosto de 2026 el artículo 50 establece obligaciones de transparencia para determinados sistemas que interactúan directamente con personas.',
             },
             {
@@ -10684,7 +10684,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             contact: {
               h2: 'Cuéntanos dónde vive ahora el conocimiento de tu empresa',
-              p: 'Explícanos qué información necesita encontrar vuestro equipo, dónde está almacenada y quién debería poder consultarla. Analizaremos cómo hacerla accesible sin perder control sobre las fuentes, los permisos, las versiones y la seguridad.',
+              p: 'Explícanos qué información necesita encontrar vuestro equipo, dónde está almacenada y quién debería poder consultarla. Te respondemos en un día laborable con una primera lectura de tu caso.',
               cta: 'Crear un asistente sobre nuestro conocimiento',
             },
             pizarras: [
@@ -10955,7 +10955,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             contact: {
               h2: 'Cuéntanos qué debería poder resolver una conversación',
-              p: 'No necesitas decidir si necesitas un chatbot, un agente conversacional o una arquitectura concreta. Explícanos quién hablaría con el sistema, qué solicitudes recibe actualmente vuestro equipo y qué debería ocurrir después de cada conversación. Analizaremos qué puede automatizarse, qué sistemas habría que conectar y en qué situaciones debería intervenir una persona.',
+              p: 'No necesitas decidir si necesitas un chatbot, un agente conversacional o una arquitectura concreta. Explícanos quién hablaría con el sistema, qué solicitudes recibe actualmente vuestro equipo y qué debería ocurrir después de cada conversación. Te respondemos en un día laborable con una primera lectura de tu caso.',
               cta: 'Desarrollar un agente conversacional con Ideasforge',
             },
             pizarras: [
@@ -11121,7 +11121,7 @@ export const content: Record<Lang, SiteContent> = {
               ],
             },
             control: {
-              kicker: 'Seguridad, RGPD y AI Act',
+              kicker: 'Seguridad, RGPD y reglamento europeo de IA',
               h2: 'Seguridad y cumplimiento desde la estrategia',
               p: [
                 'Algunas decisiones de arquitectura afectan directamente a la privacidad, la exposición de información y el riesgo regulatorio. No deberían revisarse únicamente cuando el desarrollo está terminado.',
@@ -11206,7 +11206,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             contact: {
               h2: 'Cuéntanos qué quieres mejorar, aunque todavía no sepas cómo',
-              p: 'No necesitas llegar con un agente definido, una arquitectura diseñada ni una solución decidida. Explícanos qué proceso quieres mejorar, qué problemas encuentra vuestro equipo o qué oportunidades estáis valorando. Analizaremos qué tiene sentido hacer, qué no y cuál debería ser el siguiente paso.',
+              p: 'No necesitas llegar con un agente definido, una arquitectura diseñada ni una solución decidida. Explícanos qué proceso quieres mejorar, qué problemas encuentra vuestro equipo o qué oportunidades estáis valorando. Te respondemos en un día laborable con una primera lectura de tu caso.',
               cta: 'Analizar una oportunidad con Ideasforge',
             },
           },
@@ -11261,7 +11261,7 @@ export const content: Record<Lang, SiteContent> = {
               'utilizar una API',
               'registrar una operación',
               'enviar una comunicación',
-              'iniciar un workflow',
+              'iniciar un flujo de trabajo',
               'pedir intervención humana cuando el caso lo requiera',
             ],
             closing: [
@@ -11708,7 +11708,7 @@ export const content: Record<Lang, SiteContent> = {
           body: [
             'No necesitas decidir qué modelo utilizar, cuántos agentes hacen falta ni cómo debería ser la arquitectura.',
             'Explícanos qué proceso quieres mejorar, con qué herramientas tendría que trabajar el sistema y qué acciones debería poder realizar.',
-            'Analizaremos si realmente necesitas un agente de IA, qué partes deben permanecer bajo reglas de software y cómo podría construirse para trabajar en producción.',
+            'Te respondemos en un día laborable con una primera lectura de tu caso.',
           ],
           button: 'Hablar con Ideasforge',
         },
