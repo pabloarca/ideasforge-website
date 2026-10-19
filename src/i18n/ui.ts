@@ -8332,7 +8332,7 @@ export const content: Record<Lang, SiteContent> = {
                   },
                   {
                     q: '¿Puede funcionar con varias sedes?',
-                    a: 'Sí. El sistema puede trabajar con múltiples centros, profesionales, agendas y reglas diferentes.',
+                    a: 'Sí, en un desarrollo a medida. El sistema puede trabajar con múltiples centros, profesionales, agendas y reglas diferentes.',
                   },
                   {
                     q: '¿Puede utilizarse WhatsApp para gestionar citas?',
@@ -8344,7 +8344,7 @@ export const content: Record<Lang, SiteContent> = {
                   },
                   {
                     q: '¿Puede ayudar a reducir huecos por cancelaciones?',
-                    a: 'Sí. Una automatización puede detectar huecos libres y contactar con pacientes o usuarios de una lista de espera según criterios definidos.',
+                    a: 'Sí, en un desarrollo a medida. Una automatización puede detectar huecos libres y contactar con pacientes o usuarios de una lista de espera según criterios definidos.',
                   },
                   {
                     q: '¿Puede responder preguntas clínicas?',
