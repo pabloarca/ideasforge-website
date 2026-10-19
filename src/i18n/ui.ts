@@ -13571,7 +13571,7 @@ export const content: Record<Lang, SiteContent> = {
               heading: 'What we don’t promise',
               body: 'We don’t promise the system will always get it right. We promise we will find out before you do and leave a written record of why it failed, so the same error does not slip past twice.',
             },
-            cta: { label: 'Tell us what you’re up against', href: '/en/#contacto' },
+            cta: { label: 'Tell us what you’re up against', href: '/en#contacto' },
           },
         },
         {
@@ -13618,7 +13618,7 @@ export const content: Record<Lang, SiteContent> = {
               heading: 'What we don’t promise',
               body: 'We don’t promise you will never need us. We promise that the day you decide to move on you won’t have to ask us for anything, because you have had it all in-house since day one.',
             },
-            cta: { label: 'Tell us what you’re up against', href: '/en/#contacto' },
+            cta: { label: 'Tell us what you’re up against', href: '/en#contacto' },
           },
         },
         {
@@ -13672,7 +13672,7 @@ export const content: Record<Lang, SiteContent> = {
               heading: 'What we don’t promise',
               body: 'We don’t promise an invulnerable system, because there is no such thing. We promise to apply the highest security our AI architectures allow and to keep a tight grip on everything the language model can and cannot do.',
             },
-            cta: { label: 'Tell us what you’re up against', href: '/en/#contacto' },
+            cta: { label: 'Tell us what you’re up against', href: '/en#contacto' },
           },
         },
       ],

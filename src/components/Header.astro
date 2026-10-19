@@ -18,10 +18,11 @@ const home = localizedPath('/', lang);
   cambio de idioma y el CTA. Sin iconos y sin píldoras: el estado se dice con
   el color.
 
-  En español, «Sectores», «Casos» y «Guías» llevan a su índice y solo
-  «Soluciones» y «Recursos» son anclas de la portada, que desde una página
-  interior llevan a la portada y bajan a su sección. En inglés no hay índice
-  de sectores ni de guías, así que allí esos dos siguen siendo anclas.
+  «Sectores», «Casos» y «Guías» llevan a su índice y «Soluciones» es un ancla
+  de la portada, que desde una página interior lleva a la portada y baja a su
+  sección. «Recursos» no lleva a ninguna parte (19 oct 2026, por orden de
+  Dani): solo abre su desplegable. Antes bajaba al mismo bloque de la portada
+  que «Guías», y los dos hacían lo mismo.
 
   «Método» y «Blog» salieron de aquí el 7 oct 2026 por decisión del
   propietario. El método sigue siendo un bloque de la portada y el blog pasó
@@ -42,7 +43,8 @@ const home = localizedPath('/', lang);
   marcado `soloPie` (los verticales) sigue sin subir aquí.
 */
 type Enlace = { label: string; href?: string };
-type Entrada = { label: string; href: string; links?: Enlace[] };
+/* Sin `href`, la entrada es solo la cabecera de su desplegable. */
+type Entrada = { label: string; href?: string; links?: Enlace[] };
 
 const grupos = t.footer.navGroups.filter((g) => !g.soloPie);
 
@@ -51,7 +53,7 @@ const entradas: Entrada[] = [
   { label: t.nav.sectors, href: routeMap.sectors[lang] ?? localizedPath('/#sectores', lang), links: t.nav.sectorLinks },
   { label: t.nav.cases, href: routeMap.cases[lang] ?? localizedPath('/#casos', lang) },
   { label: t.nav.guides, href: routeMap.guides[lang] ?? localizedPath('/#recursos', lang), links: grupos[1]?.links },
-  { label: t.nav.resources, href: localizedPath('/#recursos', lang), links: t.nav.resourceLinks },
+  { label: t.nav.resources, links: t.nav.resourceLinks },
 ];
 const contacto = routeMap.contact[lang] ?? localizedPath('/#contacto', lang);
 ---
@@ -72,15 +74,27 @@ const contacto = routeMap.contact[lang] ?? localizedPath('/#contacto', lang);
         entradas.map((e) =>
           e.links ? (
             <div class="group" data-menu-grupo>
-              <a
-                href={e.href}
-                class="nav-link flex h-[72px] items-center"
-                aria-haspopup="true"
-                aria-expanded="false"
-                data-menu-raiz
-              >
-                {e.label}
-              </a>
+              {e.href ? (
+                <a
+                  href={e.href}
+                  class="nav-link flex h-[72px] items-center"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  data-menu-raiz
+                >
+                  {e.label}
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  class="nav-link flex h-[72px] cursor-default items-center"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  data-menu-raiz
+                >
+                  {e.label}
+                </button>
+              )}
               {/* El panel cuelga de la regla de la cabecera: se ancla a la
                   barra, no al enlace, y su borde superior cae justo encima de
                   esa regla. Por eso el grupo no es `relative` y el enlace
@@ -133,9 +147,13 @@ const contacto = routeMap.contact[lang] ?? localizedPath('/#contacto', lang);
             {
               entradas.map((e) => (
                 <li class="border-b-2 border-border">
-                  <a href={e.href} class="block py-4 text-[22px] leading-tight tracking-[-0.02em] hover:text-accent">
-                    {e.label}
-                  </a>
+                  {e.href ? (
+                    <a href={e.href} class="block py-4 text-[22px] leading-tight tracking-[-0.02em] hover:text-accent">
+                      {e.label}
+                    </a>
+                  ) : (
+                    <span class="block py-4 text-[22px] leading-tight tracking-[-0.02em]">{e.label}</span>
+                  )}
                   {e.links && (
                     <ul class="pb-4">
                       {e.links.map((s) => (

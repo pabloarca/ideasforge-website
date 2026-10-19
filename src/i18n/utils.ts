@@ -25,6 +25,8 @@ export function localizedPath(path: string, lang: Lang): string {
   // con `trailingSlash: 'never'` y salida en fichero, `/en/` da 404. Pasaba
   // en el logo de la cabecera, el del pie y el botón de la 404 (19 oct 2026).
   if (clean === '/') return `/${lang}`;
+  // Lo mismo con las anclas de la portada: `/en#soluciones`, no `/en/#soluciones`.
+  if (clean.startsWith('/#')) return `/${lang}${clean.slice(1)}`;
   return `/${lang}${clean}`;
 }
 
