@@ -4325,7 +4325,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Ideasforge trabaja con empresas grandes?',
-                a: 'Sí. Muchas de las soluciones están pensadas para organizaciones con varios sistemas, equipos, permisos, fuentes de datos y procesos complejos.',
+                a: 'Sí. Nuestras soluciones están pensadas para organizaciones con varios sistemas, equipos, permisos, fuentes de datos y procesos complejos.',
               },
               {
                 q: '¿Ideasforge puede trabajar sobre software existente?',
@@ -4345,11 +4345,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Ideasforge trabaja únicamente en España?',
-                a: 'No necesariamente. El desarrollo de software y consultoría puede prestarse a empresas de distintos mercados siempre que el alcance, idioma y condiciones del proyecto lo permitan.',
+                a: 'No. Trabajamos desde España, con empresas sujetas al reglamento europeo, estén donde estén.',
               },
               {
                 q: '¿Ideasforge trabaja por proyecto o mediante mantenimiento continuo?',
-                a: 'Ambas opciones son posibles. Algunos proyectos tienen un alcance cerrado y otros requieren mantenimiento, monitorización y evolución posterior.',
+                a: 'Las dos cosas. La construcción se presupuesta por proyecto, entre 2.500 y 10.000 €. Después, la vigilancia y el mantenimiento van en una cuota de 150 a 500 € al mes, sin permanencia.',
               },
               {
                 q: '¿Ideasforge puede trabajar junto al equipo técnico interno de una empresa?',
@@ -4373,7 +4373,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Ideasforge ofrece soporte después del lanzamiento?',
-                a: 'Puede hacerlo. El soporte puede incluir monitorización, resolución de incidencias, evaluación, mejoras e incorporación de nuevos casos de uso.',
+                a: 'Sí. La cuota mensual, de 150 a 500 € y sin permanencia, paga la vigilancia y el mantenimiento. Cada semana lanzamos una tanda de pruebas contra el sistema en producción y ningún cambio sale sin pasar la batería de pruebas. Las mejoras y los casos de uso nuevos se añaden sobre esa base.',
               },
             ],
           },
@@ -4414,23 +4414,24 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Se puede cambiar de modelo en el futuro?',
-                a: 'Sí, si la arquitectura se diseña para desacoplar el modelo del resto del sistema. Esto reduce dependencia de un único proveedor.',
+                a: 'Sí, pero cambiar de modelo se prueba, no se promete. Modelos distintos se comportan de forma distinta, y a veces el cambio obliga a tocar el sistema. Por eso el modelo nuevo pasa la misma batería de pruebas que el actual antes de sustituirlo.',
               },
               {
                 q: '¿El software con IA necesita mantenimiento?',
-                a: 'Sí. Conviene revisar errores, costes, cambios en integraciones, calidad de respuestas, datos y comportamiento en producción.',
+                a: 'Sí. Cada semana lanzamos una tanda de pruebas contra el sistema en producción y revisamos errores, costes, cambios en las integraciones y calidad de las respuestas. Ese trabajo lo paga una cuota de 150 a 500 € al mes, sin permanencia.',
               },
               {
                 q: '¿Cómo se mide si un desarrollo de IA funciona?',
-                a: 'Depende del caso, pero puede medirse mediante tiempo ahorrado, porcentaje automatizado, reducción de errores, calidad de respuesta, uso, coste por operación o impacto comercial.',
+                a: 'Por lo que gana la empresa, en euros: ingresos nuevos o coste evitado. Después vienen el porcentaje automatizado, los errores evitados, la calidad de las respuestas, el coste por operación y el tiempo ahorrado.',
+                link: { label: 'Medir la IA por las ganancias, no por la productividad', href: '/blog/medir-la-ia-por-las-ganancias' },
               },
               {
-                q: '¿Qué ventajas tiene un desarrollo de IA a medida frente a una herramienta SaaS?',
-                a: 'Permite adaptar integraciones, permisos, flujos, experiencia y reglas a procesos propios. A cambio, requiere mayor inversión inicial y mantenimiento.',
+                q: '¿Qué ventajas tiene un desarrollo de IA a medida frente a una herramienta SaaS (un programa de suscripción que se usa por internet)?',
+                a: 'Permite adaptar integraciones, permisos, flujos, experiencia y reglas a procesos propios. Además, el repositorio y la nube quedan a nombre del cliente desde el primer día. A cambio, requiere mayor inversión inicial y mantenimiento.',
               },
               {
                 q: '¿Un desarrollo a medida puede reutilizar tecnología existente?',
-                a: 'Sí. Lo habitual es combinar servicios, modelos, frameworks y APIs existentes con software propio.',
+                a: 'Sí. Lo habitual es combinar servicios, modelos, componentes estándar y APIs existentes con software propio.',
               },
               {
                 q: '¿Es necesario disponer de un equipo técnico interno?',
@@ -4445,7 +4446,7 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'Sí. Puede añadirse como una nueva capa o módulo sin reconstruir toda la aplicación.',
               },
               {
-                q: '¿Puede desarrollarse una solución white label?',
+                q: '¿Puede desarrollarse una solución de marca blanca?',
                 a: 'Sí, cuando el proyecto necesita que la herramienta se presente bajo la marca del cliente.',
               },
               {
@@ -4458,11 +4459,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Cómo se evita depender demasiado de un proveedor de modelos?',
-                a: 'Separando la lógica de negocio del proveedor y utilizando capas de abstracción que permitan sustituir modelos cuando sea necesario.',
+                a: 'Separando la lógica de negocio del proveedor, con la cuenta del modelo a nombre del cliente. Aun así, cambiar de modelo se prueba, no se promete: el modelo nuevo pasa la misma batería de pruebas antes de sustituir al anterior, y a veces el cambio obliga a tocar el sistema.',
               },
               {
                 q: '¿Qué ocurre si un proveedor cambia precios o condiciones?',
-                a: 'La arquitectura puede revisarse para cambiar de modelo, optimizar consumo o utilizar alternativas.',
+                a: 'Se prueban alternativas: otro modelo, otro proveedor o un consumo menor. Ninguna llega a producción sin pasar la batería de pruebas. Como el consumo se paga en una cuenta a nombre del cliente, el cambio de precio se ve directamente en su factura.',
               },
             ],
           },
@@ -4480,7 +4481,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Qué diferencia hay entre un agente de IA y un chatbot?',
-                a: 'Un chatbot se centra principalmente en conversar. Un agente puede además consultar sistemas, utilizar herramientas y ejecutar acciones.',
+                a: 'Lo que importa es si actúa, no cómo se llame. Un chatbot de guion se limita a respuestas preparadas. Un agente consulta sistemas, utiliza herramientas y ejecuta acciones, y un chatbot con IA conectado a los sistemas de la empresa puede hacer lo mismo.',
               },
               {
                 q: '¿Qué puede hacer un agente de IA en una empresa?',
@@ -4512,7 +4513,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Cómo se controla lo que puede hacer un agente?',
-                a: 'Mediante permisos, herramientas limitadas, validaciones, reglas de negocio, respuestas estructuradas, logs y supervisión.',
+                a: 'Mediante permisos, herramientas limitadas, validaciones, reglas de negocio, respuestas estructuradas, registros y supervisión.',
               },
               {
                 q: '¿Puede un agente equivocarse?',
@@ -4528,7 +4529,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Un agente de IA puede tomar decisiones?',
-                a: 'Sí, pero conviene limitar qué decisiones se delegan al modelo. Las reglas críticas deberían permanecer en software cuando sea posible.',
+                a: 'El modelo interpreta la petición y elige el camino. Las decisiones las toma y las ejecuta el código.',
               },
               {
                 q: '¿Qué herramientas puede usar un agente?',
@@ -4597,8 +4598,8 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'No. Las reglas claras y deterministas suelen ser mejores en software convencional.',
               },
               {
-                q: '¿Puede automatizarse un proceso que empieza con un email?',
-                a: 'Sí. La IA puede interpretar el mensaje, extraer información y activar el workflow correspondiente.',
+                q: '¿Puede automatizarse un proceso que empieza con un correo?',
+                a: 'Sí. La IA puede interpretar el mensaje, extraer información y activar el flujo correspondiente.',
               },
               {
                 q: '¿Puede automatizarse un proceso con documentos adjuntos?',
@@ -4630,11 +4631,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Qué diferencia hay entre RPA y automatización con IA?',
-                a: 'RPA suele automatizar interacciones repetitivas con interfaces. La IA añade capacidad para interpretar lenguaje, documentos o entradas variables.',
+                a: 'La RPA, o automatización robótica de procesos, repite clics y tecleo sobre las pantallas de otros programas. La IA añade capacidad para interpretar lenguaje, documentos o entradas variables.',
               },
               {
                 q: '¿Se puede automatizar un proceso que cruza varios departamentos?',
-                a: 'Sí. Puede diseñarse un workflow que coordine acciones entre diferentes equipos y sistemas.',
+                a: 'Sí. Puede diseñarse un flujo que coordine acciones entre diferentes equipos y sistemas.',
               },
               {
                 q: '¿Puede una automatización esperar aprobaciones humanas?',
@@ -4657,7 +4658,7 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'Sí. Puede activarse por eventos, APIs, formularios, mensajes o cambios en sistemas.',
               },
               {
-                q: '¿Puede una automatización decidir entre varios workflows?',
+                q: '¿Puede una automatización elegir entre varios flujos?',
                 a: 'Sí. Puede clasificar la entrada y seleccionar el flujo correspondiente.',
               },
               {
@@ -4670,11 +4671,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede una automatización enviar notificaciones internas?',
-                a: 'Sí. Puede avisar por email, mensajería corporativa u otros canales.',
+                a: 'Sí. Puede avisar por correo, mensajería corporativa u otros canales.',
               },
               {
                 q: '¿Puede una automatización generar informes?',
-                a: 'Sí. Puede recopilar datos del proceso y generar reportes periódicos o bajo demanda.',
+                a: 'Sí. Puede recopilar datos del proceso y generar informes periódicos o bajo demanda.',
               },
             ],
           },
@@ -4692,7 +4693,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Qué diferencia hay entre un chatbot y un agente conversacional?',
-                a: 'Un chatbot puede limitarse a responder. Un agente conversacional puede además conectarse con sistemas y completar procesos.',
+                a: 'Lo que importa es si actúa, no cómo se llame. Un chatbot de guion se limita a respuestas preparadas. Un agente conversacional, o un chatbot con IA conectado a los sistemas de la empresa, consulta información y completa procesos.',
               },
               {
                 q: '¿Puede un chatbot consultar un CRM?',
@@ -4700,7 +4701,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede un chatbot ejecutar acciones?',
-                a: 'Sí. Puede crear registros, iniciar workflows, modificar citas o realizar otras acciones dentro de los permisos definidos.',
+                a: 'Sí. Puede crear registros, iniciar flujos, modificar citas o realizar otras acciones dentro de los permisos definidos.',
               },
               {
                 q: '¿Puede un agente conversacional funcionar en WhatsApp?',
@@ -4728,7 +4729,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Cómo se evita que un chatbot invente respuestas?',
-                a: 'Limitando fuentes, utilizando recuperación de información, validaciones, reglas y mecanismos de fallback.',
+                a: 'Limitando fuentes y utilizando recuperación de información, validaciones y reglas. Para cuando no tiene respuesta hay una alternativa prevista, como pasar la conversación a una persona.',
               },
               {
                 q: '¿Un agente conversacional puede sustituir a un equipo de atención?',
@@ -4779,7 +4780,7 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'Puede iniciar un flujo de pago o generar un enlace, aunque las operaciones financieras deberían realizarse mediante proveedores seguros especializados.',
               },
               {
-                q: '¿Puede un agente conversacional cualificar leads?',
+                q: '¿Puede un agente conversacional cualificar interesados?',
                 a: 'Sí. Puede recopilar información, aplicar criterios y registrar la oportunidad en un CRM.',
               },
             ],
@@ -4810,7 +4811,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿RAG necesita siempre una base vectorial?',
-                a: 'No. Puede combinar búsqueda semántica, filtros, metadata, búsqueda tradicional, bases de datos y otros mecanismos.',
+                a: 'No. Puede combinar búsqueda semántica, filtros, metadatos, búsqueda tradicional, bases de datos y otros mecanismos.',
               },
               {
                 q: '¿Puede el sistema citar sus fuentes?',
@@ -4822,7 +4823,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Qué ocurre cuando un documento cambia?',
-                a: 'El sistema puede sincronizar, volver a indexar o sustituir la información antigua según la arquitectura.',
+                a: 'El documento nuevo o cambiado se vuelve a procesar y sustituye a la versión antigua. Antes de que cambie ninguna respuesta en producción, pasa la batería de pruebas.',
               },
               {
                 q: '¿Puede trabajar con SharePoint?',
@@ -4857,12 +4858,12 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'Sí. Un sistema puede recuperar información estructurada y no estructurada en la misma consulta.',
               },
               {
-                q: '¿Puede utilizar metadata para mejorar las respuestas?',
+                q: '¿Puede utilizar metadatos para mejorar las respuestas?',
                 a: 'Sí. Fecha, departamento, tipo de documento, versión o categoría pueden utilizarse para filtrar y priorizar resultados.',
               },
               {
                 q: '¿Puede diferenciar documentos vigentes y obsoletos?',
-                a: 'Sí, si existe metadata o reglas que permitan identificar versiones activas.',
+                a: 'Sí, si existen metadatos o reglas que permitan identificar versiones activas.',
               },
               {
                 q: '¿Qué es búsqueda híbrida?',
@@ -4890,7 +4891,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede detectar que dos documentos se contradicen?',
-                a: 'Puede identificar discrepancias, aunque definir cuál prevalece requiere reglas o metadata adecuadas.',
+                a: 'Puede identificar discrepancias, aunque definir cuál prevalece requiere reglas o metadatos adecuados.',
               },
               {
                 q: '¿Puede un sistema documental aprender de nuevas preguntas?',
@@ -4912,7 +4913,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Qué incluye una consultoría de IA?',
-                a: 'Puede incluir análisis de procesos, casos de uso, viabilidad, arquitectura, riesgos, priorización y roadmap.',
+                a: 'Puede incluir análisis de procesos, casos de uso, viabilidad, arquitectura, riesgos, priorización y hoja de ruta.',
               },
               {
                 q: '¿Necesito saber qué solución quiero antes de contratar consultoría?',
@@ -4927,7 +4928,7 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'Según impacto, complejidad, datos disponibles, integraciones, riesgo, coste y retorno esperado.',
               },
               {
-                q: '¿Qué es un roadmap de IA?',
+                q: '¿Qué es una hoja de ruta de IA?',
                 a: 'Es una secuencia priorizada de iniciativas con dependencias, alcance, riesgos y próximos pasos.',
               },
               {
@@ -4971,7 +4972,7 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'Sí. Las integraciones y limitaciones del software existente influyen directamente en la viabilidad.',
               },
               {
-                q: '¿La consultoría puede identificar quick wins?',
+                q: '¿La consultoría puede identificar primeras mejoras?',
                 a: 'Sí. Puede separar oportunidades de implantación rápida de proyectos más estratégicos.',
               },
               {
@@ -5017,7 +5018,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede consultar datos sin dar acceso SQL directo al modelo?',
-                a: 'Sí. Es recomendable utilizar herramientas controladas o capas intermedias cuando el riesgo lo justifica.',
+                a: 'Sí, y así lo hacemos siempre: el modelo rellena un formulario cerrado y el código construye la consulta.',
               },
               {
                 q: '¿Puede conectarse con varios sistemas a la vez?',
@@ -5056,7 +5057,7 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'Sí. Puede trabajar con Drive, Gmail, Calendar y otros servicios cuando el proyecto lo requiere.',
               },
               {
-                q: '¿Puede conectarse con sistemas legacy?',
+                q: '¿Puede conectarse con sistemas antiguos?',
                 a: 'En muchos casos sí, aunque puede requerir capas intermedias o integraciones específicas.',
               },
               {
@@ -5068,12 +5069,12 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'Sí. Puede integrarse con arquitecturas basadas en eventos o colas cuando el sistema lo requiere.',
               },
               {
-                q: '¿Puede consumir webhooks?',
-                a: 'Sí. Los webhooks son una forma habitual de activar automatizaciones en tiempo real.',
+                q: '¿Puede activarse con avisos automáticos de otros sistemas?',
+                a: 'Sí. Esos avisos, que en inglés se llaman webhooks, los envía otro sistema en el momento en que ocurre algo. Son una forma habitual de activar automatizaciones en tiempo real.',
               },
               {
                 q: '¿Puede exponer una API propia?',
-                a: 'Sí. Una solución desarrollada puede ofrecer endpoints para integrarse con otros sistemas.',
+                a: 'Sí. Una solución desarrollada puede ofrecer sus propias direcciones de acceso para que otros sistemas la consulten o le envíen datos.',
               },
               {
                 q: '¿Puede sincronizar datos entre aplicaciones?',
@@ -5081,7 +5082,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede integrarse con ERP y CRM como SAP, Microsoft Dynamics, Salesforce o HubSpot?',
-                a: 'Sí, siempre que la versión, configuración y permisos del sistema ofrezcan una vía de integración adecuada. La arquitectura concreta puede utilizar APIs, middleware, bases de datos u otros mecanismos disponibles, evitando accesos más amplios de los necesarios.',
+                a: 'Sí, siempre que la versión, configuración y permisos del sistema ofrezcan una vía de integración adecuada. La arquitectura concreta puede utilizar APIs, programas intermedios que traducen entre sistemas, bases de datos u otros mecanismos disponibles, evitando accesos más amplios de los necesarios.',
               },
             ],
           },
@@ -5103,7 +5104,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Dónde se procesan los datos?',
-                a: 'Depende de los proveedores y de la infraestructura elegida para el proyecto.',
+                a: 'La aplicación, la base de datos y los registros corren en una cuenta en la nube a nombre del cliente. Lo único que sale es la llamada al proveedor del modelo, con el proveedor, el contrato y la configuración que aprueba el cliente. Si el asistente vive en WhatsApp o Telegram, ese canal también recibe la conversación.',
               },
               {
                 q: '¿Puede usarse infraestructura privada?',
@@ -5135,7 +5136,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Ideasforge asesora sobre RGPD?',
-                a: 'Puede incorporar consideraciones de privacidad y arquitectura, aunque determinadas cuestiones legales pueden requerir asesoramiento jurídico especializado.',
+                a: 'No. Decidir si una empresa cumple el RGPD es trabajo de sus abogados y de su delegado de protección de datos. Lo que hacemos es construir el sistema para que el cumplimiento se pueda demostrar: qué datos viajan, quién pudo verlos y por qué el sistema respondió lo que respondió. La empresa es la responsable del tratamiento y nosotros el encargado, con un contrato de encargo por escrito. A sus abogados y a su delegado les entregamos la documentación técnica que necesitan.',
               },
               {
                 q: '¿La seguridad se añade al final?',
@@ -5163,15 +5164,15 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Puede alojarse una solución en la nube del cliente?',
-                a: 'Sí, cuando la arquitectura y proveedores seleccionados lo permiten.',
+                a: 'Sí. La infraestructura se monta siempre en una cuenta en la nube a nombre del cliente, nunca en la nuestra.',
               },
               {
-                q: '¿Puede desplegarse on-premise?',
+                q: '¿Puede desplegarse en servidores propios de la empresa?',
                 a: 'Algunos componentes pueden desplegarse en infraestructura propia si el proyecto lo requiere.',
               },
               {
                 q: '¿Puede evitarse que los datos se utilicen para entrenar modelos externos?',
-                a: 'Depende del proveedor y contrato seleccionado. Es un criterio que puede considerarse al elegir infraestructura.',
+                a: 'No con los proveedores y las configuraciones que desplegamos. Las llamadas al modelo corren bajo contratos y ajustes que excluyen entrenar con el contenido del cliente, y la elección de proveedor la aprueba el cliente.',
               },
               {
                 q: '¿Qué pasa si un usuario intenta acceder a información restringida?',
@@ -5193,22 +5194,22 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             slug: 'ai-act-y-cumplimiento',
-            title: 'AI Act y cumplimiento',
-            h1: 'Preguntas frecuentes sobre el AI Act y cumplimiento',
-            metaTitle: 'FAQ sobre el AI Act y cumplimiento, Ideasforge',
-            metaDescription: '¿Qué es el AI Act? ¿El AI Act ya está en vigor y qué obligaciones se aplican en 2026? ¿Qué exige el AI Act a un chatbot que interactúa directamente con personas?',
+            title: 'Reglamento europeo de IA y cumplimiento',
+            h1: 'Preguntas frecuentes sobre el reglamento europeo de IA y cumplimiento',
+            metaTitle: 'FAQ sobre el reglamento europeo de IA, Ideasforge',
+            metaDescription: '¿Qué es el reglamento europeo de IA? ¿Ya está en vigor y qué obligaciones se aplican en 2026? ¿Qué exige a un chatbot que habla directamente con personas?',
             related: '/guias/reglamento-europeo-de-ia',
             items: [
               {
-                q: '¿Qué es el AI Act?',
-                a: 'El AI Act es el Reglamento europeo que establece un marco común para el desarrollo, comercialización, despliegue y uso de sistemas de inteligencia artificial en la Unión Europea. Aplica un enfoque basado en el riesgo y asigna obligaciones diferentes según el sistema y el papel de cada organización.',
+                q: '¿Qué es el reglamento europeo de IA?',
+                a: 'Es la norma de la Unión Europea que establece un marco común para el desarrollo, comercialización, despliegue y uso de sistemas de inteligencia artificial. Aplica un enfoque basado en el riesgo y asigna obligaciones diferentes según el sistema y el papel de cada organización.',
               },
               {
-                q: '¿El AI Act ya está en vigor y qué obligaciones se aplican en 2026?',
+                q: '¿El reglamento europeo de IA ya está en vigor y qué obligaciones se aplican en 2026?',
                 a: 'Sí. El Reglamento entró en vigor en 2024 y su aplicación es progresiva. Desde el 2 de agosto de 2026 son aplicables, entre otras, las obligaciones de transparencia del artículo 50 para determinados sistemas de IA. Las obligaciones concretas deben revisarse según el sistema, el rol de la organización y el calendario aplicable.',
               },
               {
-                q: '¿Qué exige el AI Act a un chatbot que interactúa directamente con personas?',
+                q: '¿Qué exige el reglamento europeo de IA a un chatbot que interactúa directamente con personas?',
                 a: 'El artículo 50 exige, con determinadas excepciones, que las personas sean informadas de que están interactuando con un sistema de IA cuando no resulte evidente por las circunstancias y el contexto. Esta obligación de transparencia es aplicable desde el 2 de agosto de 2026.',
               },
               {
@@ -5217,15 +5218,15 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Qué son los sistemas de IA de alto riesgo?',
-                a: 'Son determinados sistemas clasificados por el AI Act como de alto riesgo por el contexto y el impacto potencial de su uso. Están sujetos a requisitos adicionales, cuya aplicación concreta debe analizarse según el caso.',
+                a: 'Son determinados sistemas que el reglamento europeo de IA clasifica como de alto riesgo por el contexto y el impacto potencial de su uso. Están sujetos a requisitos adicionales, cuya aplicación concreta debe analizarse según el caso.',
               },
               {
-                q: '¿El AI Act afecta solo a empresas que desarrollan IA?',
+                q: '¿El reglamento europeo de IA afecta solo a empresas que desarrollan IA?',
                 a: 'No. También puede imponer obligaciones a organizaciones que despliegan o utilizan determinados sistemas de IA.',
               },
               {
-                q: '¿RGPD y AI Act son lo mismo?',
-                a: 'No. El RGPD regula la protección de datos personales, mientras que el AI Act regula sistemas de inteligencia artificial desde una perspectiva más amplia. Un mismo proyecto puede estar sujeto a ambos marcos.',
+                q: '¿El RGPD y el reglamento europeo de IA son lo mismo?',
+                a: 'No. El RGPD regula la protección de datos personales, mientras que el reglamento europeo de IA regula sistemas de inteligencia artificial desde una perspectiva más amplia. Un mismo proyecto puede estar sujeto a las dos normas.',
               },
               {
                 q: '¿Hay que documentar los sistemas de IA?',
@@ -5233,14 +5234,14 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Es necesaria supervisión humana?',
-                a: 'Depende del sistema y de la categoría de riesgo. En determinados sistemas, especialmente de alto riesgo, el AI Act contempla requisitos específicos relacionados con supervisión humana.',
+                a: 'Depende del sistema y de la categoría de riesgo. En determinados sistemas, especialmente de alto riesgo, el reglamento europeo de IA contempla requisitos específicos relacionados con supervisión humana.',
               },
               {
-                q: '¿Ideasforge tiene en cuenta el AI Act al diseñar sistemas?',
-                a: 'Sí. La arquitectura puede incorporar desde el inicio trazabilidad, permisos, límites, intervención humana, transparencia y otros controles relevantes. La determinación jurídica de obligaciones concretas puede requerir asesoramiento legal especializado.',
+                q: '¿Ideasforge tiene en cuenta el reglamento europeo de IA al diseñar sistemas?',
+                a: 'Sí. La arquitectura puede incorporar desde el inicio trazabilidad, permisos, límites, intervención humana, transparencia y otros controles relevantes. La determinación jurídica de obligaciones concretas requiere asesoramiento legal especializado.',
               },
               {
-                q: '¿Puede cambiar la interpretación o aplicación práctica del AI Act?',
+                q: '¿Puede cambiar la interpretación o aplicación práctica del reglamento europeo de IA?',
                 a: 'Sí. La Comisión Europea y las autoridades competentes publican directrices, códigos y criterios de aplicación. Por eso el contenido regulatorio debe revisarse periódicamente en lugar de tratarse como documentación estática.',
               },
             ],
@@ -5259,7 +5260,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Cuánto cuesta desarrollar un agente de IA?',
-                a: 'Depende de las herramientas, fuentes de información, acciones, permisos y complejidad del proceso.',
+                a: 'Un agente a medida se mueve entre 2.500 y 10.000 € de construcción, según cuántos sistemas haya que tocar y cuánta validación exija. Después hay una cuota de 150 a 500 € al mes por la vigilancia y el mantenimiento. Los sistemas grandes con varios agentes se presupuestan por proyecto.',
               },
               {
                 q: '¿Cuánto cuesta automatizar un proceso?',
@@ -5275,7 +5276,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Cuánto tarda un proyecto de IA?',
-                a: 'Depende de la complejidad, integraciones, datos, validaciones y pruebas necesarias.',
+                a: 'Con los datos disponibles, los accesos concedidos y la tarea bien definida, un piloto en dos semanas es realista. Cuando falta alguna de esas condiciones lo que se alarga es la preparación y no la construcción.',
               },
               {
                 q: '¿Qué factores alargan un proyecto?',
@@ -5283,11 +5284,12 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Se puede empezar con un piloto?',
-                a: 'Sí. Puede ser útil para validar viabilidad, valor y comportamiento antes de ampliar el alcance.',
+                a: 'Sí, y es como empezamos. El piloto se paga y su precio entra dentro del proyecto final, así que lo que se compra es una decisión apoyada en los números de la propia empresa.',
               },
               {
                 q: '¿Cómo se calcula el ROI?',
-                a: 'Comparando el coste total del sistema con el valor generado en tiempo, errores, capacidad, servicio o ingresos.',
+                a: 'Comparando el coste total del sistema con la ganancia que deja, en euros: ingresos nuevos o coste evitado.',
+                link: { label: 'Medir la IA por las ganancias, no por la productividad', href: '/blog/medir-la-ia-por-las-ganancias' },
               },
               {
                 q: '¿Cuándo se considera rentable una automatización?',
@@ -5295,11 +5297,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿El coste de los modelos forma parte del proyecto?',
-                a: 'Sí. El uso de modelos puede generar costes variables según proveedor, volumen y arquitectura.',
+                a: 'No. El consumo del modelo y la infraestructura los paga el cliente, en cuentas a su nombre, y no entran en la cuota mensual de 150 a 500 €, que paga solo la vigilancia y el mantenimiento. La construcción va aparte, entre 2.500 y 10.000 €.',
               },
               {
                 q: '¿Una solución de IA tiene costes recurrentes?',
-                a: 'Normalmente sí: infraestructura, modelos, mantenimiento, monitorización e integraciones pueden generar costes continuos.',
+                a: 'Sí, y son dos distintos. El consumo del modelo y la infraestructura los paga el cliente en cuentas a su nombre, y suben o bajan con el uso. La vigilancia y el mantenimiento van en una cuota de 150 a 500 € al mes, sin permanencia.',
               },
               {
                 q: '¿Es más caro un agente que una automatización tradicional?',
@@ -5315,11 +5317,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Hay costes por cada consulta a un modelo?',
-                a: 'Normalmente sí, aunque dependen del proveedor y modelo utilizado.',
+                a: 'Sí. Cada llamada al modelo tiene un precio que fija el proveedor, y esa factura llega a la cuenta del cliente.',
               },
               {
                 q: '¿Se puede optimizar el coste de los modelos?',
-                a: 'Sí. Puede utilizarse caching, modelos más pequeños, selección dinámica o reducción de contexto.',
+                a: 'Sí. Se pueden guardar en caché las partes que se repiten, usar modelos más pequeños, elegir el modelo según la tarea o enviar menos contexto. Cada cambio pasa la batería de pruebas antes de salir.',
               },
               {
                 q: '¿Cuándo se puede estimar un presupuesto?',
@@ -5327,7 +5329,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Se puede trabajar con presupuesto por fases?',
-                a: 'Sí. Es habitual dividir descubrimiento, piloto, desarrollo e implantación.',
+                a: 'Sí. Trabajamos en cuatro pasos: Explorar, Priorizar, Implementar y Optimizar. Al terminar Priorizar queda elegido un primer caso pequeño, y ese piloto se paga y su precio entra dentro del proyecto final.',
               },
               {
                 q: '¿Puede un piloto reducir el riesgo económico?',
@@ -5335,15 +5337,16 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Qué métricas pueden utilizarse para calcular ROI?',
-                a: 'Horas ahorradas, errores evitados, capacidad liberada, tiempos de respuesta, conversiones o ingresos adicionales.',
+                a: 'Primero la ganancia concreta, en euros: ingresos nuevos o coste evitado. Después, conversiones, errores evitados, tiempos de respuesta, capacidad liberada y horas ahorradas.',
+                link: { label: 'Medir la IA por las ganancias, no por la productividad', href: '/blog/medir-la-ia-por-las-ganancias' },
               },
               {
                 q: '¿Cuánto mantenimiento necesita un sistema?',
-                a: 'Depende de su complejidad, número de integraciones, criticidad y velocidad de cambio del proceso.',
+                a: 'El que paga la cuota mensual, de 150 a 500 € y sin permanencia: una tanda de pruebas cada semana contra el sistema en producción, la batería de pruebas antes de cada cambio y la corrección de lo que aparezca. Dentro de ese rango, la cifra depende de la complejidad, las integraciones y lo crítico que sea el proceso.',
               },
               {
                 q: '¿Puede bajar el coste operativo con el tiempo?',
-                a: 'Sí, especialmente si se optimizan modelos, procesos, prompts, infraestructura e integraciones.',
+                a: 'Sí, ajustando modelos, procesos, prompts, infraestructura e integraciones con el consumo real a la vista.',
               },
               {
                 q: '¿Es posible estimar el coste por operación?',
@@ -5372,19 +5375,20 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Se pueden medir las respuestas incorrectas?',
-                a: 'Sí. Pueden registrarse y evaluarse mediante revisiones humanas, métricas o evaluadores automáticos.',
+                a: 'Sí. Se comparan con la respuesta correcta anotada en el golden dataset (batería de pruebas), y las preguntas que el agente no supo contestar se entregan al cliente cada semana.',
               },
               {
                 q: '¿Se pueden detectar errores en producción?',
-                a: 'Sí. Logs, alertas y monitorización ayudan a identificar comportamientos inesperados.',
+                a: 'Sí, aunque mirar los registros de error no basta, porque los fallos peligrosos no dan error: el sistema responde mal y parece que todo fue bien. Por eso cada semana lanzamos contra el sistema en producción una tanda de conversaciones de prueba con el modelo real y comparamos el resultado con la respuesta correcta anotada. En los proyectos a medida lo seguimos con Arize Phoenix, instalado en el servidor del cliente y no en la nube de Arize.',
+                link: { label: 'Qué pasa después de entregar un chatbot o agente de IA', href: '/blog/despues-de-entregar-un-agente-de-ia' },
               },
               {
                 q: '¿Puede un agente quedar bloqueado?',
-                a: 'Sí. Por eso conviene diseñar límites, timeouts, reintentos y rutas de fallback.',
+                a: 'Sí. Por eso se fijan límites, un tiempo máximo de espera, un número de reintentos y una alternativa para cuando nada de eso funciona, como pasar el caso a una persona.',
               },
               {
-                q: '¿Qué es un guardrail?',
-                a: 'Es un mecanismo que limita o valida el comportamiento del sistema antes o después de una acción.',
+                q: '¿Qué es un límite de seguridad en un sistema de IA?',
+                a: 'Es un control que limita o valida el comportamiento del sistema antes o después de una acción. En nuestros sistemas esos límites los aplica el código, no una instrucción al modelo.',
               },
               {
                 q: '¿Se pueden limitar las herramientas de un agente?',
@@ -5396,7 +5400,8 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Un modelo puede garantizar un 100 % de precisión?',
-                a: 'No en todos los casos. Los modelos probabilísticos requieren controles adicionales cuando el impacto del error es relevante.',
+                a: 'No, y no lo prometemos. Lo que prometemos es enterarnos antes que el usuario y dejar escrito por qué falló, para que el mismo error no vuelva a pasar desapercibido.',
+                link: { label: 'Qué pasa después de entregar un chatbot o agente de IA', href: '/blog/despues-de-entregar-un-agente-de-ia' },
               },
               {
                 q: '¿Puede intervenir una persona cuando el sistema no está seguro?',
@@ -5404,27 +5409,29 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Cómo se mejora un sistema después del lanzamiento?',
-                a: 'Analizando uso, errores, excepciones, preguntas no resueltas, costes y nuevos casos reales.',
+                a: 'Con lo que entregamos al cliente: el panel de Phoenix, los resultados de cada ejecución semanal del golden dataset (batería de pruebas) y las preguntas que el agente no supo contestar. Con eso se decide si se añade un glosario, se cambia el prompt o se cambia la arquitectura. Si el cliente lo necesita, también entregamos un informe semanal.',
               },
               {
-                q: '¿Qué es una evaluación offline?',
-                a: 'Es una prueba realizada sobre un conjunto de casos conocidos antes o fuera del uso real del sistema.',
+                q: '¿Qué es una evaluación antes de publicar?',
+                a: 'Es una prueba sobre un conjunto de casos conocidos, con su respuesta correcta anotada, antes de que un cambio llegue a los usuarios. En nuestros proyectos es el golden dataset (batería de pruebas), y ningún cambio llega a producción sin pasarlo.',
               },
               {
-                q: '¿Qué es una evaluación online?',
-                a: 'Es la medición del comportamiento del sistema mientras opera con usuarios y datos reales.',
+                q: '¿Qué es una evaluación en producción?',
+                a: 'Es la medición del comportamiento del sistema mientras opera con usuarios y datos reales. En nuestros proyectos incluye una tanda de pruebas cada semana contra el sistema en producción.',
               },
               {
                 q: '¿Puede utilizarse un modelo para evaluar a otro modelo?',
-                a: 'Sí. Los evaluadores automáticos pueden ayudar, aunque conviene validarlos y combinarlos con criterios humanos.',
+                a: 'Se puede, pero no lo hacemos, porque el modelo que evalúa también se equivoca. Medimos contra un golden dataset (batería de pruebas) con la respuesta correcta anotada, y los controles los hace el código, no otro modelo.',
+                link: { label: 'Qué pasa después de entregar un chatbot o agente de IA', href: '/blog/despues-de-entregar-un-agente-de-ia' },
               },
               {
-                q: '¿Qué es un dataset de evaluación?',
-                a: 'Es un conjunto de casos representativos con resultados esperados para medir el sistema.',
+                q: '¿Qué es un golden dataset (batería de pruebas)?',
+                a: 'Es un conjunto de casos representativos, sacados de conversaciones reales, con la respuesta correcta anotada para medir el sistema.',
               },
               {
                 q: '¿Cada cambio debería volver a evaluarse?',
-                a: 'Sí, especialmente cuando modifica prompts, modelos, recuperación, herramientas o reglas.',
+                a: 'Sí, y en nuestros proyectos es una regla. Un cambio de prompt, de modelo, de documentos, de herramientas o de reglas no llega a producción sin pasar el golden dataset (batería de pruebas). Antes de aplicarlo se hace copia de la base de datos y, si después el servicio no responde, se vuelve solo a la versión anterior.',
+                link: { label: 'Qué pasa después de entregar un chatbot o agente de IA', href: '/blog/despues-de-entregar-un-agente-de-ia' },
               },
               {
                 q: '¿Qué es una regresión en un sistema de IA?',
@@ -5448,10 +5455,11 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Qué ocurre si un nuevo modelo funciona peor?',
-                a: 'Puede mantenerse o restaurarse el modelo anterior si la arquitectura y despliegue permiten versionado.',
+                a: 'El modelo va fijado. Un cambio de modelo pasa las pruebas antes de salir y, si algo falla al aplicarlo, se vuelve solo a la versión anterior.',
+                link: { label: 'Qué pasa después de entregar un chatbot o agente de IA', href: '/blog/despues-de-entregar-un-agente-de-ia' },
               },
               {
-                q: '¿Se puede hacer A/B testing con IA?',
+                q: '¿Se pueden comparar dos versiones de un sistema de IA con usuarios reales?',
                 a: 'Sí. Puede compararse el comportamiento de dos configuraciones sobre tráfico controlado.',
               },
             ],
@@ -6099,15 +6107,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 q: '¿Qué diferencia hay entre una agencia de automatización y una empresa de desarrollo de IA?',
-                a: 'Depende del proveedor, pero una empresa de desarrollo suele tener mayor foco en arquitectura, software e integraciones a medida.',
-              },
-              {
-                q: '¿Qué riesgo existe al depender de herramientas no-code?',
-                a: 'No son necesariamente malas, pero pueden limitar escalabilidad, control o seguridad en ciertos proyectos.',
-              },
-              {
-                q: '¿Se puede empezar con no-code y migrar después?',
-                a: 'Sí, si el diseño inicial permite separar lógica y datos suficientemente.',
+                a: 'Lo que cuenta no es cómo se llame el proveedor. Cuenta si mide los resultados, si deja el código a nombre del cliente y si sigue con el sistema después de entregarlo.',
               },
               {
                 q: '¿Qué debería incluir una propuesta técnica?',
@@ -6118,7 +6118,7 @@ export const content: Record<Lang, SiteContent> = {
                 a: 'Sí. Tener una persona responsable facilita decisiones, acceso a datos y adopción.',
               },
               {
-                q: '¿Qué señales indican que un proveedor está vendiendo hype?',
+                q: '¿Qué señales indican que un proveedor está vendiendo humo?',
                 a: 'Promesas de automatización total, ausencia de métricas, poca atención a excepciones o falta de claridad sobre límites y seguridad.',
               },
               {
