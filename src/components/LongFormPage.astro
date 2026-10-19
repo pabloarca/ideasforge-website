@@ -38,6 +38,13 @@ const contacto = routeMap.contact[lang] ?? localizedPath('/#contacto', lang);
 const heroCta = page.hero.ctaHref ?? contacto;
 const hasFaq = Boolean(page.faq && page.faq.length > 0);
 
+/* Posts del blog que la página ya enlaza en su cuerpo (enlaces de sección,
+   de subsección o dentro del texto). El bloque «Lo contamos en detalle» los
+   omite para no repetir el mismo enlace dos veces en la misma página. */
+const enlacesAlBlog = [
+  ...new Set(JSON.stringify(page).match(/\/(?:en\/)?blog\/[a-z0-9-]+/g) ?? []),
+];
+
 /* Ancla estable para cada sección: la suya si la declara, y si no una salida
    del encabezado. Solo se usa dentro de la página, así que un encabezado que
    cambie mueve su ancla sin romper nada de fuera. */
@@ -354,7 +361,7 @@ const varios = (t: string | string[]) => (Array.isArray(t) ? t : [t]);
       URL, así que la página no tiene que declararse a sí misma, y el conjunto
       se deriva de los enlaces que los propios posts ya traen. Va detrás del
       cuerpo y delante de la FAQ, que junto al CTA forma el cierre. */}
-  <ClusterPosts lang={lang} pillar={pillarFromUrl(Astro.url.pathname)} />
+  <ClusterPosts lang={lang} pillar={pillarFromUrl(Astro.url.pathname)} exclude={enlacesAlBlog} />
 
   <!-- FAQ (skipped on pages without one, e.g. About) -->
   {

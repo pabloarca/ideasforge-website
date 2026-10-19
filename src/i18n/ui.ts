@@ -3752,7 +3752,7 @@ export const content: Record<Lang, SiteContent> = {
         faq: [
           {
             q: '¿No somos demasiado pequeños para esto?',
-            a: 'Lo que lo decide no es cuánta gente seáis, es si hay un proceso que se repita lo suficiente como para pagarse su propia automatización. La agencia de alquiler y la gestora que dan las cifras de esta página son equipos pequeños. Las clínicas donde funciona nuestro producto son negocios de barrio.',
+            a: 'Lo que lo decide no es cuánta gente seáis, es si hay un proceso que se repita lo suficiente como para pagarse su propia automatización. La agencia de alquiler y la gestora que dan las cifras de esta página son equipos pequeños.',
           },
           {
             q: '¿Hay que cambiar las herramientas que usamos?',
@@ -6386,7 +6386,7 @@ export const content: Record<Lang, SiteContent> = {
                 ],
               },
               'Por ejemplo, un asistente interno puede estar conectado con miles de documentos y devolver únicamente aquellos que el usuario tiene autorización para consultar.',
-              'La IA no debería convertirse en una vía alternativa para saltarse los permisos existentes.',
+              'La IA no debería convertirse en una vía alternativa para saltarse los permisos existentes. Por eso el asistente consulta los sistemas con la identidad y los permisos de la persona que pregunta, no con una cuenta de servicio con acceso global.',
               { t: 'strong', text: 'Debe respetarlos.' },
             ],
           },
@@ -6444,7 +6444,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Seguridad en agentes conectados con bases de datos',
             blocks: [
               'Un agente no necesita recibir acceso ilimitado a una base de datos.',
-              'Podemos diseñar capas intermedias que controlen:',
+              'Diseñamos capas intermedias que controlan:',
               {
                 t: 'list',
                 items: [
@@ -6453,8 +6453,8 @@ export const content: Record<Lang, SiteContent> = {
                   'qué usuarios pueden acceder', 'qué consultas quedan registradas',
                 ],
               },
-              'Cuando el riesgo lo justifica, evitamos que el modelo genere y ejecute SQL arbitrario directamente sobre sistemas de producción.',
-              'En su lugar, puede trabajar mediante herramientas específicas y consultas controladas.',
+              'No dejamos que el modelo escriba y ejecute consultas SQL sobre sistemas de producción.',
+              'El modelo interpreta la pregunta y el código construye la consulta, así que no puede salir ninguna consulta fuera de las que ese código sabe construir.',
             ],
           },
           {
@@ -6492,7 +6492,7 @@ export const content: Record<Lang, SiteContent> = {
                 ],
               },
               'También podemos diseñar arquitecturas que reduzcan la dependencia de un único proveedor.',
-              'La lógica de negocio puede mantenerse separada del modelo para facilitar cambios cuando sea necesario.',
+              'La lógica de negocio se mantiene separada del modelo. Aun así, cambiar de modelo se prueba, no se promete: modelos distintos se comportan distinto y cada cambio pasa la batería de pruebas antes de llegar a producción.',
             ],
           },
           {
@@ -6511,6 +6511,7 @@ export const content: Record<Lang, SiteContent> = {
                   'componentes desplegados dentro de la infraestructura corporativa',
                 ],
               },
+              'En todos los proyectos, la infraestructura se monta en una nube a nombre del cliente y el código es suyo desde el primer día.',
               'No todos los proyectos necesitan este nivel de complejidad.',
               'La arquitectura debe ser proporcional al riesgo, a los datos utilizados y al proceso que queremos automatizar.',
             ],
@@ -6542,7 +6543,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Observabilidad y monitorización en producción',
             blocks: [
               'El comportamiento de una solución debe seguir analizándose después del lanzamiento.',
-              'Podemos monitorizar:',
+              'Cada semana vigilamos:',
               {
                 t: 'list',
                 items: [
@@ -6551,7 +6552,7 @@ export const content: Record<Lang, SiteContent> = {
                 ],
               },
               'Los casos reales permiten detectar situaciones que no aparecen durante las pruebas.',
-              'Por eso llevar IA a producción implica también crear mecanismos para observarla.',
+              'Por eso llevar IA a producción implica también crear mecanismos para observarla. Y antes de publicar cualquier cambio, el sistema tiene que pasar una batería de pruebas.',
             ],
           },
           {
@@ -6714,7 +6715,7 @@ export const content: Record<Lang, SiteContent> = {
               ],
               [
                 'Monitorizamos',
-                'Una vez desplegado, analizamos comportamiento, incidencias, costes y nuevos riesgos.',
+                'Una vez desplegado, analizamos cada semana comportamiento, incidencias, costes y nuevos riesgos.',
               ],
             ],
           },
@@ -6764,7 +6765,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             {
               q: '¿La seguridad se revisa solo antes del lanzamiento?',
-              a: 'No. Los sistemas deben monitorizarse también en producción para detectar errores, nuevos casos, cambios de comportamiento y riesgos.',
+              a: 'No. Cada semana vigilamos el sistema en producción para detectar errores, nuevos casos, cambios de comportamiento y riesgos. Y antes de publicar cualquier cambio, tiene que pasar una batería de pruebas.',
             },
           ],
         },
@@ -9707,7 +9708,7 @@ export const content: Record<Lang, SiteContent> = {
                 label: 'Probablemente no sea necesario cuando',
                 items: [
                   'Existe un producto estándar que ya resuelve bien el problema',
-                  'El proceso está completamente definido mediante reglas',
+                  'El proceso está completamente definido mediante reglas (eso también lo construimos nosotros, sin modelo)',
                   'No existe suficiente información para que el sistema trabaje bien',
                   'El coste del desarrollo es superior al valor que puede generar',
                   'Solo queremos usar IA porque otras empresas la usan',
@@ -12688,12 +12689,12 @@ export const content: Record<Lang, SiteContent> = {
         tocHeading: 'Qué verás en esta página',
         metaTitle: 'Stanton: facturas que dejaron de teclearse, Ideasforge',
         metaDescription:
-          'Cómo automatizamos para Stanton la entrada de facturas de suministros, con el 98 % pasando sin que nadie las toque. Y el día que una cambió de formato sin avisar.',
+          'Cómo automatizamos para Stanton la entrada de facturas de suministros y qué se comprueba antes de dar un dato por bueno. Hoy el 98 % pasa sin que nadie las toque.',
         hero: {
           eyebrow: 'Caso en producción',
-          title: 'Stanton: dábamos por hecho que las facturas no cambian. Las facturas cambian',
+          title: 'Stanton: las facturas de suministros dejaron de teclearse a mano',
           subtitle:
-            'Stanton es una gestora de fincas que metía a mano las facturas de luz, gas y agua de cada inquilino, a un minuto de teclado por documento. Hoy el 98 % pasa sin que nadie las toque. Esta página cuenta cómo funciona, por qué entra por un chat de Telegram y qué tuvimos que añadirle después de que una comercializadora rediseñara su factura sin avisar a nadie.',
+            'Stanton es una gestora de fincas que metía a mano las facturas de luz, gas y agua de cada inquilino, a un minuto de teclado por documento. Hoy el 98 % pasa sin que nadie las toque. Esta página cuenta cómo funciona, por qué entra por un chat de Telegram y qué se comprueba antes de dar un dato por bueno.',
           cta: 'Empezar por el problema',
           ctaHref: '#problema',
         },
@@ -12909,7 +12910,7 @@ export const content: Record<Lang, SiteContent> = {
               'Esa decisión hay que medirla y medirla cuesta trabajo. Reunimos 118 consultas reales, de las que se hacen de verdad en la planta. Después comprobamos una por una si la pregunta había llegado al agente que le correspondía.',
               '¿Y cuántas habían llegado a donde debían? El 72,8 %. <strong>Algo más de una de cada cuatro consultas iba a parar al agente equivocado.</strong>',
               'Un número así es incómodo de enseñar y es la única puerta que hay para mejorar. <strong>Sin medir, lo que se tiene es la impresión de que funciona, que es justo lo que tiene todo el mundo antes de medir.</strong>',
-              'Con las 118 delante se ve dónde se rompe. Corregimos el enrutado y volvimos a pasar las mismas consultas, que dieron 89,3 %. Una segunda ronda de correcciones lo dejó en 91,5 %.',
+              'Con las 118 delante se ve dónde se rompe. Una primera ronda de correcciones del enrutado lo subió casi diecisiete puntos y una segunda lo dejó en 91,5 %.',
               'Las mismas 118 las tres veces. Cambiar el examen entre una medición y la siguiente convierte la comparación en un adorno.',
             ],
           },
@@ -21331,7 +21332,7 @@ export const content: Record<Lang, SiteContent> = {
         faq: [
           {
             q: 'Is our company too small for this?',
-            a: 'What decides it is not headcount, it is whether one process repeats often enough to pay for its own automation. The rental agency and the property manager behind the numbers on this page are small teams, and the clinics our product runs in are neighborhood businesses.',
+            a: 'What decides it is not headcount, it is whether one process repeats often enough to pay for its own automation. The rental agency and the property manager behind the numbers on this page are small teams.',
           },
           {
             q: 'Do we have to change the tools we use?',
@@ -22482,12 +22483,12 @@ export const content: Record<Lang, SiteContent> = {
         tocHeading: 'What this page covers',
         metaTitle: 'Stanton: bills that stopped being typed, Ideasforge',
         metaDescription:
-          'How we automated utility bill entry for Stanton, with 98% going through untouched. And the day one supplier redesigned its bill without telling anyone.',
+          'How we automated utility bill entry for Stanton, with 98% going through untouched, and what gets checked before a figure is accepted.',
         hero: {
           eyebrow: 'Live in production',
-          title: 'Stanton: we assumed bills do not change. Bills change',
+          title: 'Stanton: utility bills that are no longer typed in by hand',
           subtitle:
-            'Stanton is a property management company that used to key in every tenant’s electricity, gas and water bills by hand, at a minute of typing per document. Today 98% go through without anyone touching them. This page explains how it works, why it comes in through a Telegram chat and what we had to add after one utility company redesigned its bill without telling anyone.',
+            'Stanton is a property management company that used to key in every tenant’s electricity, gas and water bills by hand, at a minute of typing per document. Today 98% go through without anyone touching them. This page explains how it works, why it comes in through a Telegram chat and what gets checked before a figure is accepted.',
           cta: 'Start with the problem',
           ctaHref: '#problem',
         },
