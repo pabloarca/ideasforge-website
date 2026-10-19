@@ -237,11 +237,13 @@ const esServicio = /^\/(servicios|en\/services)\//.test(canonicalPath);
 const publicaPrecio =
   esServicio &&
   // Las páginas españolas dejaron de publicar el rango el 7 oct 2026, con la
-  // plantilla nueva de soluciones. Las inglesas conservan su texto anterior.
-  // Se mira la ruta y no `lang` para que el tipo no se estreche: las ofertas
-  // de abajo siguen escritas en los dos idiomas por si el rango vuelve.
-  /^\/en\/services\//.test(canonicalPath) &&
-  !/corporate-knowledge$/.test(canonicalPath);
+  // plantilla nueva de soluciones, y lo recuperan el 19 oct 2026 en la
+  // pregunta frecuente del precio (decisión del propietario: el español da
+  // los mismos rangos que el inglés). Conocimiento corporativo y consultoría
+  // no los publican. Se mira la ruta y no `lang` para que el tipo no se
+  // estreche.
+  (/^\/en\/services\//.test(canonicalPath) || /^\/servicios\//.test(canonicalPath)) &&
+  !/(corporate-knowledge|conocimiento-corporativo|consultoria-de-ia)$/.test(canonicalPath);
 const ofertas = publicaPrecio
   ? [
       {

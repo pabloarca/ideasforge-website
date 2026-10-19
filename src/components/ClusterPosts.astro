@@ -21,13 +21,21 @@ interface Props {
   lang: Lang;
   /** Ruta de la página pilar, tal como la enlazan los posts. */
   pillar: string;
+  /** Rutas de posts que la página ya enlaza en su cuerpo. No se repiten aquí. */
+  exclude?: string[];
 }
-const { lang, pillar } = Astro.props;
+const { lang, pillar, exclude = [] } = Astro.props;
 
 const t = content[lang].blog;
-const posts = await postsForPillar(lang, pillar);
-
 const slugOf = (id: string) => id.replace(/^(es|en)\//, '');
+const hrefOf = (id: string) => localizedPath(`/blog/${slugOf(id)}`, lang);
+
+/* Un post que la página ya enlaza más arriba no vuelve a salir en este bloque:
+   la misma página no repite el mismo enlace (revisión del 8 oct 2026). */
+const yaEnlazados = new Set(exclude.map((h) => h.replace(/\/+$/, '')));
+const posts = (await postsForPillar(lang, pillar)).filter(
+  (post) => !yaEnlazados.has(hrefOf(post.id).replace(/\/+$/, ''))
+);
 ---
 
 {
@@ -42,7 +50,7 @@ const slugOf = (id: string) => id.replace(/^(es|en)\//, '');
           {posts.map((post) => (
             <li class="border-b-2 border-border">
               <a
-                href={localizedPath(`/blog/${slugOf(post.id)}`, lang)}
+                href={hrefOf(post.id)}
                 class="group grid grid-cols-[minmax(0,1fr)_24px] gap-6 py-[22px]"
               >
                 <span>

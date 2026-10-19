@@ -1,7 +1,7 @@
 ---
 title: 'It says it is done and it is not'
 metaTitle: 'False success in AI agents'
-description: 'When an AI agent fails, almost half the time it also tells you it went fine. What the studies measure, why another AI misses it and who gets to say done.'
+description: 'In tests where nobody else can contradict the agent, almost half of its failures come with a claim that it went fine. What the studies measure and who says done.'
 lang: 'en'
 pubDate: 2026-09-01
 translationId: 'false-success'

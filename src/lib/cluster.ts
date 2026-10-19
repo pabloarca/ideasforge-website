@@ -41,8 +41,12 @@ export async function postsForPillar(lang: Lang, pillar: string, limit = 8) {
     .slice(0, limit);
 }
 
-/** Ruta del pilar a partir de la URL de la página, sin barra final. */
+/**
+ * Ruta del pilar a partir de la URL de la página, sin barra final. Con
+ * `build.format: 'file'` la URL del compilado acaba en `.html`, y sin quitarlo
+ * ningún post casaba y el bloque no salía en ninguna página.
+ */
 export function pillarFromUrl(pathname: string): string {
-  const limpio = pathname.replace(/\/+$/, '');
+  const limpio = pathname.replace(/\.html$/, '').replace(/\/+$/, '');
   return limpio === '' ? '/' : limpio;
 }
