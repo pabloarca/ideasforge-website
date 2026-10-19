@@ -20184,6 +20184,13 @@ export const content: Record<Lang, SiteContent> = {
               p: 'You don’t need to decide which model to use, how many agents you need or what the architecture should look like. Tell us which process you want to improve, which tools the system would have to work with and which actions it should be able to take.',
               cta: 'Talk to Ideasforge',
             },
+            pizarras: [
+              { tras: 'intro', grafico: 'entradaSucia' },
+              { tras: 'capabilities', grafico: 'sinSupervision' },
+              { tras: 'poster', grafico: 'contratoCerca' },
+              { tras: 'method', grafico: 'peldanos' },
+              { tras: 'control', grafico: 'cuatroCapas' },
+            ],
           },
           processAuto: {
             href: '/en/services/ai-workflow-automation',
@@ -20454,6 +20461,16 @@ export const content: Record<Lang, SiteContent> = {
               p: 'You don’t need to decide which tools to use or which part should involve artificial intelligence. Tell us how the process works today, which applications your team uses and where manual work is still needed.',
               cta: 'Analyze a process with Ideasforge',
             },
+            pizarras: [
+              { tras: 'capabilities', grafico: 'facturas' },
+              { tras: 'poster', grafico: 'frontera' },
+              { tras: 'types', grafico: 'sistemas' },
+              { tras: 'cases', grafico: 'cifras' },
+              { tras: 'method', grafico: 'circuito' },
+              { tras: 'control', grafico: 'validacion' },
+              { tras: 'when', grafico: 'condiciones' },
+              { tras: 'when', grafico: 'montaje' },
+            ],
           },
           enterprise: {
             href: '/en/services/corporate-knowledge',
@@ -20715,6 +20732,13 @@ export const content: Record<Lang, SiteContent> = {
               p: 'Tell us what information your team needs to find, where it’s stored and who should be able to look it up. We’ll look at how to make it reachable without losing control over sources, permissions, versions and security.',
               cta: 'Build an assistant over our knowledge',
             },
+            pizarras: [
+              { tras: 'capabilities', grafico: 'diezDocumentos' },
+              { tras: 'types', grafico: 'dosFuentes' },
+              { tras: 'cases', grafico: 'orquestador' },
+              { tras: 'method', grafico: 'dosNoes' },
+              { tras: 'control', grafico: 'mismaPregunta' },
+            ],
           },
           conversational: {
             href: '/en/services/conversational-ai',
@@ -20983,6 +21007,12 @@ export const content: Record<Lang, SiteContent> = {
               p: 'You don’t need to decide whether you need a chatbot, a conversational agent or a specific architecture. Tell us who would talk to the system, which requests your team receives today and what should happen after each conversation. We’ll look at what can be automated, which systems would need connecting and in which situations a person should step in.',
               cta: 'Build a conversational agent with Ideasforge',
             },
+            pizarras: [
+              { tras: 'capabilities', grafico: 'guion' },
+              { tras: 'types', grafico: 'dependencias' },
+              { tras: 'control', grafico: 'respuestas' },
+              { tras: 'when', grafico: 'contadores' },
+            ],
           },
           consulting: {
             href: '/en/services/ai-consulting',
