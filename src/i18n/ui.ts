@@ -1160,9 +1160,9 @@ export interface SiteContent {
   /** Content blocks for the dedicated landing pages. */
   pages: {
     /** Migrada a LongFormPage el 21 ago 2026: partes, FAQ y satélites de serie. */
-    enterprise: LongFormPageContent;
+    enterprise?: LongFormPageContent;
     smb: LongFormPageContent;
-    realEstate: LongFormPageContent;
+    realEstate?: LongFormPageContent;
     /**
      * Vertical de gestorías y asesorías, página larga en los dos idiomas desde
      * el 31 ago 2026. Dejó de ser plantilla corta porque Search Console mide
@@ -1170,25 +1170,25 @@ export interface SiteContent {
      * más de 900 impresiones en posiciones 24 a 95 contra una página de 225
      * palabras que no podía competir por ninguna.
      */
-    accounting: LongFormPageContent;
+    accounting?: LongFormPageContent;
     /** Credibility page. Reuses the long-form renderer without the FAQ block. */
     about: LongFormPageContent;
     /** Keyword architecture: guide + three service clusters (EN-led). */
     aiGuide: LongFormPageContent;
-    agentDev: LongFormPageContent;
-    processAuto: LongFormPageContent;
-    conversational: LongFormPageContent;
+    agentDev?: LongFormPageContent;
+    processAuto?: LongFormPageContent;
+    conversational?: LongFormPageContent;
     /**
-     * Las cinco páginas de solución con la plantilla de octubre de 2026. Solo
-     * español: en inglés las páginas de servicio siguen saliendo de los cuatro
-     * bloques de arriba, que en español ya no pinta ninguna página.
+     * Las cinco páginas de solución con la plantilla de octubre de 2026, en los
+     * dos idiomas desde el 19 oct 2026. Los bloques largos de arriba ya no los
+     * pinta ninguna página: los ingleses salieron a `.private/` ese día y los
+     * españoles siguen aquí, por eso son opcionales.
      */
     solutions?: SolutionsContent;
     /**
      * Las siete páginas de sector, con la plantilla del paquete de diseño del
-     * 8 oct 2026. Las pinta `SectorPage.astro`. Solo español: las dos
-     * inglesas que existen siguen saliendo de `realEstate` y `accounting`,
-     * que en español ya no pinta ninguna página.
+     * 8 oct 2026. Las pinta `SectorPage.astro`, en los dos idiomas desde el
+     * 19 oct 2026. `realEstate` y `accounting` ya no los pinta ninguna página.
      */
     sectors?: SectorsContent;
     /**
@@ -1388,7 +1388,8 @@ export interface SolutionsContent {
   };
   /** Orden en que se listan en «Otras soluciones». */
   order: SolutionKey[];
-  pages: Record<SolutionKey, SolutionPageContent>;
+  /** Parcial porque el inglés las estrena de una en una (16 oct 2026). */
+  pages: Partial<Record<SolutionKey, SolutionPageContent>>;
 }
 
 /**
@@ -1575,6 +1576,12 @@ export interface SectorPageContent {
   cta: string;
   /** Rótulo del enlace del héroe a los usos, si no vale el común. */
   heroLink?: string;
+  /**
+   * Foto de la banda a sangre que va justo encima del bloque de control, a
+   * mitad de página (15 oct 2026). Ruta para `foto()`, como las de los casos.
+   * Sin ella se pinta el hueco gris del diseño hasta que llegue la imagen.
+   */
+  photo?: string;
   blocks: SectorBlock[];
 }
 
@@ -1596,7 +1603,8 @@ export interface SectorsContent {
   };
   /** Orden en que se listan en «Otros sectores». */
   order: SectorKey[];
-  pages: Record<SectorKey, SectorPageContent>;
+  /** Parcial porque el inglés las estrena de una en una (16 oct 2026). */
+  pages: Partial<Record<SectorKey, SectorPageContent>>;
 }
 
 /** Los siete sectores. Las claves son las del `routeMap`. */
@@ -1741,8 +1749,7 @@ export const content: Record<Lang, SiteContent> = {
             href: '/servicios/agentes-conversacionales',
           },
           /* Quinto servicio, añadido el 7 oct 2026 con el texto literal del
-             propietario. Solo en español, porque el espejo inglés espera a su
-             visto bueno. */
+             propietario. Su espejo inglés llegó el 16 oct 2026. */
           {
             title: 'Consultoría de IA',
             short: 'Consultoría',
@@ -13005,17 +13012,22 @@ export const content: Record<Lang, SiteContent> = {
       cases: 'Cases',
       method: 'Method',
       guides: 'Guides',
-      sectors: 'Sectors',
+      sectors: 'Industries',
       sectorLinks: [
-        { label: 'Real estate', href: '/en/sectors/real-estate' },
-        { label: 'Accounting firms', href: '/en/sectors/accounting-firms' },
+        { label: 'Real estate', href: '/en/industries/real-estate' },
+        { label: 'Accounting firms', href: '/en/industries/accounting-firms' },
+        { label: 'Manufacturing', href: '/en/industries/manufacturing' },
+        { label: 'Healthcare', href: '/en/industries/healthcare' },
+        { label: 'Logistics and transportation', href: '/en/industries/logistics' },
+        { label: 'Energy and utilities', href: '/en/industries/energy-and-utilities' },
+        { label: 'Ecommerce and retail', href: '/en/industries/ecommerce-and-retail' },
       ],
       resources: 'Resources',
       faqs: 'FAQs',
       resourceLinks: [
         { label: 'Blog', href: '/en/blog' },
-        { label: 'Help center' },
-        { label: 'Security' },
+        { label: 'FAQs', href: '/en/faqs' },
+        { label: 'Security', href: '/en/security' },
         { label: 'About us' },
       ],
       cta: 'Tell us what you want to improve',
@@ -13090,6 +13102,16 @@ export const content: Record<Lang, SiteContent> = {
               'Beyond answering questions, they can look up information, collect data and take actions such as booking an appointment, changing a reservation, logging information in a CRM or checking the status of a process.',
             cta: 'Conversational agent development',
             href: '/en/services/conversational-ai',
+          },
+          /* Quinto servicio, espejo del español (16 oct 2026). */
+          {
+            title: 'AI consulting',
+            short: 'Consulting',
+            desc: 'We analyze your processes, data and systems to find real opportunities to apply artificial intelligence.',
+            detail:
+              'We define what’s worth building, what impact it can have and what architecture each project needs before you invest in building it.',
+            cta: 'AI consulting',
+            href: '/en/services/ai-consulting',
           },
         ],
       },
@@ -13226,18 +13248,19 @@ export const content: Record<Lang, SiteContent> = {
       },
       sectors: {
         title: 'The technology may be similar. Each company’s context is not.',
-        lead: 'We have built AI and automation systems in manufacturing, agriculture, real estate, healthcare and services. Logistics, energy and ecommerce are sectors where we can help, although we don’t have a case of our own in them yet. The architecture changes with the processes, the information available, the existing systems and the rules of each organization.',
+        lead: 'We have built AI and automation systems in manufacturing, agriculture, real estate, healthcare and services. Logistics, energy and ecommerce are industries where we can help, although we don’t have a case of our own in them yet. The architecture changes with the processes, the information available, the existing systems and the rules of each organization.',
+        /* Los siete sectores del menú, espejo del español (16 oct 2026). Cada
+           uno enlaza a su página inglesa desde el 19 oct 2026. */
         items: [
-          { title: 'Manufacturing', image: '/case-studies/industrial.jpg' },
-          { title: 'Agriculture', image: '/case-studies/harvest.jpg' },
-          { title: 'Real estate', image: '/case-studies/barceloneta.jpg' },
-          { title: 'Administration', image: '/case-studies/stanton.jpg' },
-          { title: 'Professional services', image: '/case-studies/dentist.jpg' },
+          { title: 'Real estate', image: '/case-studies/barceloneta.jpg', href: '/en/industries/real-estate' },
+          { title: 'Accounting firms', image: '/case-studies/stanton.jpg', href: '/en/industries/accounting-firms' },
+          { title: 'Manufacturing', image: '/case-studies/industrial.jpg', href: '/en/industries/manufacturing' },
+          { title: 'Healthcare', image: '/case-studies/dentist.jpg', href: '/en/industries/healthcare' },
+          { title: 'Logistics and transportation', href: '/en/industries/logistics' },
+          { title: 'Energy and utilities', href: '/en/industries/energy-and-utilities' },
+          { title: 'Ecommerce and retail', href: '/en/industries/ecommerce-and-retail' },
         ],
-        links: [
-          { label: 'AI for real estate', href: '/en/sectors/real-estate' },
-          { label: 'See projects', href: '#casos' },
-        ],
+        links: [{ label: 'See projects', href: '/en/cases' }],
       },
       resources: {
         title: 'Resources on artificial intelligence for companies.',
@@ -13483,7 +13506,7 @@ export const content: Record<Lang, SiteContent> = {
               'We filter prospects before they reach your sales team, with your CRM and your pipeline.',
             proof: 'Like at Barceloneta Premium',
             pageLabel: 'AI for real estate',
-            href: '/en/sectors/real-estate',
+            href: '/en/industries/real-estate',
           },
           {
             title: 'Support and maintenance',
@@ -13572,7 +13595,7 @@ export const content: Record<Lang, SiteContent> = {
               },
               {
                 heading: 'And meanwhile the ground moves',
-                body: 'Providers retire models regularly and they do it in writing. Anthropic publishes its <a class="link-inline" href="https://platform.claude.com/docs/en/about-claude/model-deprecations" rel="noopener noreferrer" target="_blank">deprecation schedule</a> and gives sixty days of notice. On 15 June 2026 Claude Sonnet 4 and Opus 4 stopped working, so from that date any call to those identifiers fails. This is not an accident or bad practice, it is how the sector works. The question is what each of those retirements costs you, because <u class="text-fg">when a provider retires a model, that should not affect you</u>.',
+                body: 'Providers retire models regularly and they do it in writing. Anthropic publishes its <a class="link-inline" href="https://platform.claude.com/docs/en/about-claude/model-deprecations" rel="noopener noreferrer" target="_blank">deprecation schedule</a> and gives sixty days of notice. On 15 June 2026 Claude Sonnet 4 and Opus 4 stopped working, so from that date any call to those identifiers fails. This is not an accident or bad practice, it is how the industry works. The question is what each of those retirements costs you, because <u class="text-fg">when a provider retires a model, that should not affect you</u>.',
               },
               {
                 heading: 'What is inside the repository',
@@ -14800,6 +14823,7 @@ export const content: Record<Lang, SiteContent> = {
             { label: 'AI workflow automation', href: '/en/services/ai-workflow-automation' },
             { label: 'Conversational AI', href: '/en/services/conversational-ai' },
             { label: 'Internal documentation', href: '/en/services/corporate-knowledge' },
+            { label: 'AI consulting', href: '/en/services/ai-consulting' },
           ],
         },
         /* «Sectors» sale de `nav.sectorLinks`, igual que en español. */
@@ -14823,140 +14847,6349 @@ export const content: Record<Lang, SiteContent> = {
       ],
     },
     pages: {
-      enterprise: {
-        tocHeading: 'What this page covers',
-        metaTitle: 'AI Assistant over Your Internal Documentation, Ideasforge',
-        metaDescription:
-          'An assistant that answers in natural language by querying your documentation, wikis and systems. With the proof of an industrial case in production.',
-        hero: {
-          eyebrow: 'Enterprise offering',
-          title: 'An AI assistant over your internal documentation and knowledge',
-          subtitle:
-            'A custom conversational assistant that understands natural-language questions and answers by querying your documentation and internal systems, with a reference to where each answer came from. When an answer is not enough, it walks the person through a step-by-step diagnosis or runs the action in the right system.',
-        },
+      /* Las preguntas frecuentes en inglés, espejo de las españolas (19 oct
+         2026). Los bloques van en el mismo orden que en español, porque cada
+         página enlaza con su gemela por la posición (`FaqBlockPage.astro`). */
+      faqs: {
+        metaTitle: 'Frequently asked questions, Ideasforge',
+        title: 'Frequently asked questions',
+        lead: 'Answers about Ideasforge, its artificial intelligence solutions, integrations, security, costs and industries, organized by topic.',
+        count: '{n} questions',
+        blocksLabel: 'Topics',
+        blocks: [
+          {
+            slug: 'about-ideasforge',
+            title: 'About Ideasforge',
+            h1: 'Frequently asked questions about Ideasforge',
+            metaTitle: 'Frequently asked questions about Ideasforge',
+            metaDescription: 'What is Ideasforge? What kinds of companies work with Ideasforge? Does Ideasforge sell off-the-shelf software? Does Ideasforge build projects from scratch?',
+            items: [
+              {
+                q: 'What is Ideasforge?',
+                a: 'Ideasforge is a company that builds custom artificial intelligence for businesses. It designs AI agents, automations, conversational assistants, internal knowledge systems and architectures connected to real processes and systems.',
+              },
+              {
+                q: 'What kinds of companies work with Ideasforge?',
+                a: 'Ideasforge works mainly with companies that need AI solutions integrated with their data, tools and processes. The best fit usually shows up in organizations with volume, several applications, a lot of documentation or repetitive processes.',
+              },
+              {
+                q: 'Does Ideasforge sell off-the-shelf software?',
+                a: 'No. Ideasforge builds custom solutions when an off-the-shelf tool doesn’t properly cover the process. If a suitable market solution exists, building from scratch isn’t always the best option.',
+              },
+              {
+                q: 'Does Ideasforge build projects from scratch?',
+                a: 'Yes. It can take part from identifying the use case and the architecture through to development, integration, deployment and monitoring of the system.',
+              },
+              {
+                q: 'Does Ideasforge also do AI consulting?',
+                a: 'Yes. Consulting can be used to analyze processes, data and systems, identify use cases, prioritize projects and decide what’s worth building.',
+              },
+              {
+                q: 'Does Ideasforge only build AI agents?',
+                a: 'No. Ideasforge also builds automations, assistants over documentation, conversational agents, integrations and other AI software solutions.',
+              },
+              {
+                q: 'Does Ideasforge work with generative AI?',
+                a: 'Yes, when it makes sense for the problem. It also combines language models with conventional software, business rules, databases, APIs and other technologies.',
+              },
+              {
+                q: 'Does Ideasforge work with large companies?',
+                a: 'Yes. Many of the solutions are designed for organizations with several systems, teams, permissions, data sources and complex processes.',
+              },
+              {
+                q: 'Can Ideasforge work on top of existing software?',
+                a: 'Yes. A large part of the projects involves connecting AI to ERPs, CRMs, databases, internal applications, APIs, document management systems and other systems already in place.',
+              },
+              {
+                q: 'Does Ideasforge replace existing tools?',
+                a: 'Not necessarily. In many projects AI is added as a layer on top of the current infrastructure to make access, interpretation or automation easier.',
+              },
+              {
+                q: 'Does Ideasforge only work on artificial intelligence projects?',
+                a: 'No. Although AI is part of many projects, we also build integrations, automations and conventional software logic when they’re needed for the system to work properly.',
+              },
+              {
+                q: 'Can Ideasforge take charge of a project’s full architecture?',
+                a: 'Yes. It can take part in defining the architecture, integrations, models, permissions, storage, observability and business rules.',
+              },
+              {
+                q: 'Does Ideasforge only work in Spain?',
+                a: 'Not necessarily. Software development and consulting can be provided to companies in different markets as long as the project’s scope, language and conditions allow it.',
+              },
+              {
+                q: 'Does Ideasforge work per project or through ongoing maintenance?',
+                a: 'Both. The build is paid once and, if you want us to stay on, a monthly fee of €150 to €500 pays for weekly monitoring and maintenance. The fee has no minimum term and the system doesn’t shut down if you cancel it, because the repository and the infrastructure are already in your name.',
+              },
+              {
+                q: 'Can Ideasforge work alongside a company’s in-house technical team?',
+                a: 'Yes. It can work with IT, product, data or operations teams or outside vendors to integrate the solution into the existing architecture.',
+              },
+              {
+                q: 'Can Ideasforge take on only one technical part of the project?',
+                a: 'Yes. It can step in on architecture, development, integration, evaluation or automation without having to take on every phase.',
+              },
+              {
+                q: 'Does Ideasforge use one specific technology in every project?',
+                a: 'No. The technology is chosen based on the problem, the existing systems, the security requirements and the operating cost.',
+              },
+              {
+                q: 'Does Ideasforge build prototypes?',
+                a: 'Yes, when a prototype makes it possible to validate a hypothesis before building the full solution. The prototype’s goal must be clearly defined.',
+              },
+              {
+                q: 'Can Ideasforge turn an existing prototype into a production system?',
+                a: 'Yes, if the architecture allows it. In some cases parts of the prototype may need to be redesigned to add controls, traceability, permissions or scalability.',
+              },
+              {
+                q: 'Does Ideasforge offer support after launch?',
+                a: 'Yes. What’s in production is reviewed every week and every change passes a test suite before it goes out. That monitoring and the maintenance are paid for by the monthly fee, which has no minimum term.',
+              },
+            ],
+          },
+          {
+            slug: 'custom-ai-development',
+            title: 'Custom AI development',
+            h1: 'Frequently asked questions about custom AI development',
+            metaTitle: 'FAQ about custom AI development, Ideasforge',
+            metaDescription: 'What does custom AI development mean? When is custom AI development worth it? When isn’t custom AI development worth it?',
+            items: [
+              {
+                q: 'What does custom AI development mean?',
+                a: 'It means designing a solution around a company’s specific processes, data, rules and integrations instead of adapting the business to an off-the-shelf tool.',
+              },
+              {
+                q: 'When is custom AI development worth it?',
+                a: 'It usually makes sense when there are specific processes, several integrations, in-house rules, internal data or needs that an off-the-shelf platform can’t cover.',
+              },
+              {
+                q: 'When isn’t custom AI development worth it?',
+                a: 'When an existing tool solves the problem properly, the volume is very low or the expected benefit doesn’t justify the cost of development and maintenance.',
+              },
+              {
+                q: 'What can be built with custom AI?',
+                a: 'Agents, automations, internal assistants, RAG systems, conversational tools, document processing, interfaces over data and specialized applications.',
+              },
+              {
+                q: 'Can a custom solution integrate with internal systems?',
+                a: 'Yes. It can connect to ERPs, CRMs, databases, APIs, proprietary software, document management systems, calendars, email and other systems.',
+              },
+              {
+                q: 'Does custom development give you better control over permissions?',
+                a: 'Yes. The architecture can define what each user can look up, which actions they can carry out and which information is restricted.',
+              },
+              {
+                q: 'Does a custom AI solution need to train its own model?',
+                a: 'Not necessarily. Many projects use existing models combined with data, tools, RAG, rules and integrations.',
+              },
+              {
+                q: 'Can the model be swapped in the future?',
+                a: 'Yes, with the test suite run first. Swapping models is proven, not promised: different models behave differently and sometimes the switch means making changes to the system.',
+              },
+              {
+                q: 'Does AI software need maintenance?',
+                a: 'Yes. We review what’s in production every week, because a system with a model inside can get worse without throwing any error. Every change also passes the test suite before it goes out.',
+              },
+              {
+                q: 'How do you measure whether an AI build works?',
+                a: 'It depends on the case, but it can be measured by time saved, percentage automated, fewer errors, answer quality, usage, cost per operation or commercial impact.',
+              },
+              {
+                q: 'What are the advantages of custom AI development over a SaaS tool?',
+                a: 'It lets you adapt integrations, permissions, flows, experience and rules to your own processes. In return, it requires a larger upfront investment and maintenance.',
+              },
+              {
+                q: 'Can custom development reuse existing technology?',
+                a: 'Yes. The usual approach is to combine existing services, models, frameworks and APIs with in-house software.',
+              },
+              {
+                q: 'Do you need an in-house technical team?',
+                a: 'Not always. It can make integrations and maintenance easier, but the project can be designed for organizations without a large technical team.',
+              },
+              {
+                q: 'Can a custom solution grow in phases?',
+                a: 'Yes. It’s common to start with one specific process and later expand to new integrations, departments or features.',
+              },
+              {
+                q: 'Can AI be integrated into an existing application?',
+                a: 'Yes. It can be added as a new layer or module without rebuilding the whole application.',
+              },
+              {
+                q: 'Can a white-label solution be built?',
+                a: 'Yes, when the project needs the tool to appear under the client’s brand.',
+              },
+              {
+                q: 'Can a multi-company or multi-client architecture be designed?',
+                a: 'Yes. Isolation between organizations, permissions and separate data can be set up when the product or process requires it.',
+              },
+              {
+                q: 'Can a custom solution use several AI providers?',
+                a: 'Yes. An architecture can pick different models or providers depending on the task, cost, accuracy or privacy requirements.',
+              },
+              {
+                q: 'How do you avoid depending too much on one model provider?',
+                a: 'The model version is pinned, so a change on the provider’s side doesn’t reach production on its own. And the repository and the infrastructure are in your name from day one, so you aren’t dependent on us either.',
+              },
+              {
+                q: 'What happens if a provider changes its prices or terms?',
+                a: 'Model usage runs on accounts in your company’s name, so you see any price change on your own bill and it doesn’t go through us. If switching models is worth it, the switch is tested against the test suite before any decision is made.',
+              },
+            ],
+          },
+          {
+            slug: 'ai-agents',
+            title: 'AI agents',
+            h1: 'Frequently asked questions about AI agents',
+            metaTitle: 'FAQ about AI agents, Ideasforge',
+            metaDescription: 'What is an AI agent? What’s the difference between an AI agent and a chatbot? What can an AI agent do in a company?',
+            related: '/en/services/ai-agent-development',
+            items: [
+              {
+                q: 'What is an AI agent?',
+                a: 'An AI agent is a system that can interpret information, use tools and carry out actions within a process.',
+              },
+              {
+                q: 'What’s the difference between an AI agent and a chatbot?',
+                a: 'A scripted chatbot follows a fixed menu of options. An agent understands free text and can also query systems, use tools and carry out actions.',
+              },
+              {
+                q: 'What can an AI agent do in a company?',
+                a: 'It can query databases, use APIs, retrieve documentation, update systems, create records, handle requests or coordinate several tools.',
+              },
+              {
+                q: 'Can an AI agent carry out actions automatically?',
+                a: 'Yes, as long as it has the necessary tools and permissions. Sensitive actions may require checks or human approval.',
+              },
+              {
+                q: 'Can an agent connect to an ERP or CRM?',
+                a: 'Yes. It can do so through APIs, databases or other available integration methods.',
+              },
+              {
+                q: 'Can an agent work with internal data?',
+                a: 'Yes. The architecture can connect it to databases, documentation, CRMs, ERPs and other authorized sources.',
+              },
+              {
+                q: 'Can an agent use several tools?',
+                a: 'Yes. It can choose between different tools depending on the request and the context, always within the defined limits.',
+              },
+              {
+                q: 'Do you need to use several agents?',
+                a: 'No. A multi-agent architecture only makes sense when splitting responsibilities improves control, specialization or maintainability.',
+              },
+              {
+                q: 'What is a multi-agent system?',
+                a: 'It’s an architecture where several agents or specialized components work together to handle different parts of a process.',
+              },
+              {
+                q: 'How do you control what an agent can do?',
+                a: 'Through permissions, limited tools, checks, business rules, structured outputs, logs and supervision.',
+              },
+              {
+                q: 'Can an agent make mistakes?',
+                a: 'Yes. Models are probabilistic. The risk can be reduced with evaluations, rules, checks, controlled sources and ways for a person to step in.',
+              },
+              {
+                q: 'Can an agent work 24/7?',
+                a: 'Yes, if the process and the infrastructure are designed to run continuously.',
+              },
+              {
+                q: 'What’s the difference between an AI agent and an automation?',
+                a: 'An automation usually follows a defined flow. An agent can interpret context and choose between different tools or actions within set limits.',
+              },
+              {
+                q: 'Can an AI agent make decisions?',
+                a: 'The model interprets the request and chooses the path. The decisions are made and carried out by the code, with the rules you approve, and sensitive actions ask a person for confirmation.',
+              },
+              {
+                q: 'What tools can an agent use?',
+                a: 'APIs, databases, search engines, calendars, CRMs, ERPs, email, internal systems and functions built specifically for the project.',
+              },
+              {
+                q: 'Can an agent call other agents?',
+                a: 'Yes. It can be part of an architecture where different agents work together, although that isn’t always necessary.',
+              },
+              {
+                q: 'What does giving an agent tools mean?',
+                a: 'It means exposing specific functions the system can use to look up or change information.',
+              },
+              {
+                q: 'Can an agent access the internet?',
+                a: 'Yes, if the project allows it and a controlled browsing or web lookup tool is designed for it.',
+              },
+              {
+                q: 'Can an agent take irreversible actions?',
+                a: 'Technically it can, but high-impact actions should include checks or human approval.',
+              },
+              {
+                q: 'What happens if the agent misreads a request?',
+                a: 'The system can ask for clarification, block the action or hand off the case according to the defined rules.',
+              },
+              {
+                q: 'Can an agent work in several languages?',
+                a: 'Yes, if the model used and the information sources properly support those languages.',
+              },
+              {
+                q: 'Can an agent’s behavior be customized for each user?',
+                a: 'Yes. Permissions, tools, tone, context or sources can vary by identity, role or department.',
+              },
+              {
+                q: 'What is an autonomous agent?',
+                a: 'It’s an agent that can chain decisions and actions with less human involvement. Its level of autonomy should match the risk of the process.',
+              },
+              {
+                q: 'When is an agent not a good idea?',
+                a: 'When the flow can be handled with simple rules, the margin for error is minimal or the process varies little.',
+              },
+            ],
+          },
+          {
+            slug: 'ai-workflow-automation',
+            title: 'AI workflow automation',
+            h1: 'Frequently asked questions before automating a process with AI',
+            metaTitle: 'Questions before automating a process with AI, Ideasforge',
+            metaDescription: 'What is AI process automation? What’s the difference between traditional automation and AI automation?',
+            related: '/en/services/ai-workflow-automation',
+            items: [
+              {
+                q: 'What is AI process automation?',
+                a: 'It’s the combination of artificial intelligence, software and integrations to carry out parts of a business process automatically.',
+              },
+              {
+                q: 'What’s the difference between traditional automation and AI automation?',
+                a: 'Traditional automation works best with rules and predictable inputs. AI makes it possible to bring in variable information such as natural language, documents or unstructured content.',
+              },
+              {
+                q: 'Which processes can be automated with AI?',
+                a: 'Administrative, document, sales, operations and customer service processes, as well as coordination between systems.',
+              },
+              {
+                q: 'Does AI replace all the rules in the process?',
+                a: 'No. Clear, deterministic rules usually work better in conventional software.',
+              },
+              {
+                q: 'Can a process that starts with an email be automated?',
+                a: 'Yes. AI can interpret the message, extract information and trigger the matching flow.',
+              },
+              {
+                q: 'Can a process with attached documents be automated?',
+                a: 'Yes. The system can identify documents, extract data, apply checks and continue the flow automatically.',
+              },
+              {
+                q: 'What happens if an automation hits an exception?',
+                a: 'It can stop, ask for information, raise an alert, retry or hand the case to a person.',
+              },
+              {
+                q: 'Do you need to change your ERP or CRM to automate?',
+                a: 'Not necessarily. Many automations are built by connecting the existing tools.',
+              },
+              {
+                q: 'How do you measure the return on an automation?',
+                a: 'By comparing the cost and time of the process before and after, along with errors, exceptions and the percentage automated.',
+              },
+              {
+                q: 'When isn’t automation worth it?',
+                a: 'When the process happens very rarely, the savings are minimal or the complexity clearly outweighs the expected benefit.',
+              },
+              {
+                q: 'Can automation be combined with AI agents?',
+                a: 'Yes. An agent can interpret or decide which tool to use and the automation can apply the rules that follow.',
+              },
+              {
+                q: 'Can an automation work without AI?',
+                a: 'Yes. Many processes are better solved with conventional rules and integrations.',
+              },
+              {
+                q: 'What’s the difference between RPA and AI automation?',
+                a: 'RPA usually automates repetitive interactions with interfaces. AI adds the ability to interpret language, documents or variable inputs.',
+              },
+              {
+                q: 'Can a process that spans several departments be automated?',
+                a: 'Yes. A flow can be designed to coordinate actions across different teams and systems.',
+              },
+              {
+                q: 'Can an automation wait for human approval?',
+                a: 'Yes. It can pause the flow until it receives a sign-off and then continue.',
+              },
+              {
+                q: 'Can an automation resume after an error?',
+                a: 'Yes, if the flow is designed with states and recovery.',
+              },
+              {
+                q: 'Can an automation process thousands of operations?',
+                a: 'Yes, as long as the infrastructure, the integrations and the limits of the systems involved can handle the volume.',
+              },
+              {
+                q: 'Can overnight or batch processes be automated?',
+                a: 'Yes. Some processes work better as scheduled runs than in real time.',
+              },
+              {
+                q: 'Can an automation run in real time?',
+                a: 'Yes. It can be triggered by events, APIs, forms, messages or changes in systems.',
+              },
+              {
+                q: 'Can an automation choose between several workflows?',
+                a: 'Yes. It can classify the input and select the matching flow.',
+              },
+              {
+                q: 'How do you handle an external error, such as an API that’s down?',
+                a: 'You can set up retries, alerts, queues, pending states and exception paths.',
+              },
+              {
+                q: 'Can you see what percentage of the process is still manual?',
+                a: 'Yes. You can measure the percentage of cases automated versus those that need a person to step in.',
+              },
+              {
+                q: 'Can an automation send internal notifications?',
+                a: 'Yes. It can send alerts by email, corporate messaging or other channels.',
+              },
+              {
+                q: 'Can an automation generate reports?',
+                a: 'Yes. It can gather process data and generate reports on a schedule or on demand.',
+              },
+            ],
+          },
+          {
+            slug: 'conversational-agents-and-chatbots',
+            title: 'Conversational agents and chatbots',
+            h1: 'Frequently asked questions about conversational agents and chatbots',
+            metaTitle: 'FAQ about conversational agents and chatbots, Ideasforge',
+            metaDescription: 'What is a conversational agent? What’s the difference between a chatbot and a conversational agent? Can a chatbot query a CRM?',
+            related: '/en/services/conversational-ai',
+            items: [
+              {
+                q: 'What is a conversational agent?',
+                a: 'It’s an AI system that uses conversation as the interface to look up information, use tools or carry out actions.',
+              },
+              {
+                q: 'What’s the difference between a chatbot and a conversational agent?',
+                a: 'A chatbot may only answer. A conversational agent can also connect to systems and complete processes.',
+              },
+              {
+                q: 'Can a chatbot query a CRM?',
+                a: 'Yes. It can retrieve authorized information from a CRM and use it within the conversation.',
+              },
+              {
+                q: 'Can a chatbot carry out actions?',
+                a: 'Yes. It can create records, start workflows, change appointments or carry out other actions within the defined permissions.',
+              },
+              {
+                q: 'Can a conversational agent work on WhatsApp?',
+                a: 'Yes, as long as there’s a proper integration with the channel.',
+              },
+              {
+                q: 'Can it work on a website?',
+                a: 'Yes. It can also be integrated into applications, internal portals or other channels.',
+              },
+              {
+                q: 'Can it remember the context of a conversation?',
+                a: 'Yes. It can keep relevant information within the session or use additional mechanisms when the case requires it.',
+              },
+              {
+                q: 'What happens if the chatbot doesn’t know the answer?',
+                a: 'It can ask for clarification, say it doesn’t have enough information or hand the conversation to a person.',
+              },
+              {
+                q: 'Can it transfer a conversation to a human?',
+                a: 'Yes. It can do so while keeping the context, the data collected and the status of the process.',
+              },
+              {
+                q: 'Can it use internal documentation to answer?',
+                a: 'Yes. It can connect to RAG systems, knowledge bases or other authorized sources.',
+              },
+              {
+                q: 'How do you stop a chatbot from making up answers?',
+                a: 'By limiting sources and using information retrieval, checks, rules and fallback mechanisms.',
+              },
+              {
+                q: 'Can a conversational agent replace a support team?',
+                a: 'Not necessarily. It’s usually more useful for automating repetitive questions and leaving complex cases to the human team.',
+              },
+              {
+                q: 'Can a chatbot identify a user?',
+                a: 'Yes, if the channel or system has an authentication or identification mechanism.',
+              },
+              {
+                q: 'Can a chatbot show personalized information?',
+                a: 'Yes. Once the user is identified, it can look up authorized information linked to their account.',
+              },
+              {
+                q: 'Can a conversational agent work with voice?',
+                a: 'Yes, if it’s integrated with speech recognition and speech synthesis.',
+              },
+              {
+                q: 'Can a chatbot handle forms through conversation?',
+                a: 'Yes. It can collect the data one field at a time and structure it automatically.',
+              },
+              {
+                q: 'Can a conversational agent understand ambiguous messages?',
+                a: 'It can try, and ask for clarification when the intent isn’t clear enough.',
+              },
+              {
+                q: 'Can it detect changes of intent during a conversation?',
+                a: 'Yes. It can update the flow when the user changes their goal.',
+              },
+              {
+                q: 'Can a chatbot handle several languages?',
+                a: 'Yes, as long as the models and sources are prepared for it.',
+              },
+              {
+                q: 'Can a conversational agent pick up a previous conversation?',
+                a: 'Yes, if the design includes persistent memory and it’s allowed from a privacy and product standpoint.',
+              },
+              {
+                q: 'Can a chatbot send files or links?',
+                a: 'Yes, if the channel used supports that type of content.',
+              },
+              {
+                q: 'Can a chatbot check availability in real time?',
+                a: 'Yes. It can do so by connecting to calendars, inventory or other systems.',
+              },
+              {
+                q: 'Can a chatbot take a payment or start one?',
+                a: 'It can start a payment flow or generate a link, although financial transactions should go through specialized secure providers.',
+              },
+              {
+                q: 'Can a conversational agent qualify leads?',
+                a: 'Yes. It can collect information, apply criteria and log the opportunity in a CRM.',
+              },
+            ],
+          },
+          {
+            slug: 'internal-documentation-rag-and-knowledge',
+            title: 'Internal documentation, RAG and knowledge',
+            h1: 'Frequently asked questions about internal documentation, RAG and business knowledge',
+            metaTitle: 'FAQ about internal documentation and RAG, Ideasforge',
+            metaDescription: 'Can AI search internal documentation? What is RAG? How is RAG different from training a model? What is a vector database?',
+            related: '/en/services/corporate-knowledge',
+            items: [
+              {
+                q: 'Can AI search internal documentation?',
+                a: 'Yes. It can use manuals, procedures, regulations, knowledge bases and other sources to answer in natural language.',
+              },
+              {
+                q: 'What is RAG?',
+                a: 'RAG is an architecture that retrieves relevant information before asking the model to generate an answer.',
+              },
+              {
+                q: 'How is RAG different from training a model?',
+                a: 'RAG uses external information at the moment it answers. Training or fine-tuning a model changes its internal behavior.',
+              },
+              {
+                q: 'What is a vector database?',
+                a: 'It’s a technology that stores semantic representations and retrieves related content by meaning.',
+              },
+              {
+                q: 'Does RAG always need a vector database?',
+                a: 'No. It can combine semantic search, filters, metadata, traditional search, databases and other mechanisms.',
+              },
+              {
+                q: 'Can the system cite its sources?',
+                a: 'Yes. It can return the documents, excerpts or references it used to generate the answer.',
+              },
+              {
+                q: 'Can it respect per-user permissions?',
+                a: 'Yes. Retrieval can be limited to the sources each user, role or department is authorized to see.',
+              },
+              {
+                q: 'What happens when a document changes?',
+                a: 'Depending on the architecture, the system can sync, re-index or replace the old information.',
+              },
+              {
+                q: 'Can it work with SharePoint?',
+                a: 'Yes, if there’s a suitable way to access and integrate it.',
+              },
+              {
+                q: 'Can it work with Google Drive?',
+                a: 'Yes, as long as there’s a compatible integration and sufficient permissions.',
+              },
+              {
+                q: 'Can it work with PDFs?',
+                a: 'Yes. It can also use other formats depending on the project’s needs.',
+              },
+              {
+                q: 'Can it work with sensitive documentation?',
+                a: 'Yes, but permissions, infrastructure and suitable providers have to be defined.',
+              },
+              {
+                q: 'How do you reduce the risk of hallucinations?',
+                a: 'By limiting answers to retrieved sources, evaluating retrieval and defining what should happen when information is missing.',
+              },
+              {
+                q: 'Can the system say it doesn’t know an answer?',
+                a: 'Yes. In fact, in some contexts it’s better to admit missing information than to generate incorrect content.',
+              },
+              {
+                q: 'What types of documents can a RAG system search?',
+                a: 'PDFs, text documents, internal pages, wikis, knowledge bases and other formats that can be processed properly.',
+              },
+              {
+                q: 'Can it combine documents and databases?',
+                a: 'Yes. A system can retrieve structured and unstructured information in the same query.',
+              },
+              {
+                q: 'Can it use metadata to improve answers?',
+                a: 'Yes. Date, department, document type, version or category can be used to filter and prioritize results.',
+              },
+              {
+                q: 'Can it tell current documents from outdated ones?',
+                a: 'Yes, if there’s metadata or rules that identify the active versions.',
+              },
+              {
+                q: 'What is hybrid search?',
+                a: 'It’s the combination of semantic search with keyword search or other retrieval methods.',
+              },
+              {
+                q: 'Can a RAG system give a wrong answer even if it finds the right document?',
+                a: 'Yes. That’s why retrieval and generation have to be evaluated separately.',
+              },
+              {
+                q: 'How do you evaluate a RAG system?',
+                a: 'By checking whether it retrieves the right sources, whether it answers faithfully and whether it cites properly.',
+              },
+              {
+                q: 'Can answers be limited to internal documents only?',
+                a: 'Yes. It can be set up so it doesn’t use outside knowledge when the query calls for company sources only.',
+              },
+              {
+                q: 'Can it show several sources for one answer?',
+                a: 'Yes. It can cite one or more documents when the answer depends on different sources.',
+              },
+              {
+                q: 'Can it use a hierarchy of sources?',
+                a: 'Yes. Some sources can take priority over others based on their authority or how current they are.',
+              },
+              {
+                q: 'Can it detect that two documents contradict each other?',
+                a: 'It can spot discrepancies, although deciding which one prevails requires suitable rules or metadata.',
+              },
+              {
+                q: 'Can a documentation system learn from new questions?',
+                a: 'It can use real queries to find content gaps and improve retrieval, although it shouldn’t retrain itself without control.',
+              },
+            ],
+          },
+          {
+            slug: 'ai-consulting',
+            title: 'AI consulting',
+            h1: 'Frequently asked questions about artificial intelligence consulting',
+            metaTitle: 'FAQ about AI consulting, Ideasforge',
+            metaDescription: 'What does an artificial intelligence consultancy do? What does AI consulting include? Do I need to know what solution I want before hiring a consultant?',
+            related: '/en/services/ai-consulting',
+            items: [
+              {
+                q: 'What does an artificial intelligence consultancy do?',
+                a: 'It analyzes processes, data and systems to identify where AI can add value and how it should be implemented.',
+              },
+              {
+                q: 'What does AI consulting include?',
+                a: 'It can include process analysis, use cases, feasibility, architecture, risks, prioritization and a roadmap.',
+              },
+              {
+                q: 'Do I need to know what solution I want before hiring a consultant?',
+                a: 'No. Consulting exists precisely to define which problem is worth solving and with what approach.',
+              },
+              {
+                q: 'How do you identify AI use cases?',
+                a: 'By analyzing processes with manual work, unstructured information, multiple systems or variable decisions.',
+              },
+              {
+                q: 'How do you prioritize AI projects?',
+                a: 'By impact, complexity, available data, integrations, risk, cost and expected return.',
+              },
+              {
+                q: 'What is an AI roadmap?',
+                a: 'It’s a prioritized sequence of initiatives with dependencies, scope, risks and next steps.',
+              },
+              {
+                q: 'How do you know if an AI project will pay off?',
+                a: 'By comparing the cost of building and maintaining the system with the expected value in time, capacity, errors or revenue.',
+              },
+              {
+                q: 'Does consulting include technical architecture?',
+                a: 'It can. It depends on the scope and on how much needs to be defined before development.',
+              },
+              {
+                q: 'Does consulting include development?',
+                a: 'It can be hired separately or followed by development afterward.',
+              },
+              {
+                q: 'What’s the difference between AI consulting and AI development?',
+                a: 'Consulting defines what’s worth building and how to approach it. Development turns that decision into software.',
+              },
+              {
+                q: 'Do I need consulting if I already know what I want to build?',
+                a: 'Not always. If the scope, integrations and goal are clear, it can make sense to go straight to development.',
+              },
+              {
+                q: 'Can consulting focus on a single process?',
+                a: 'Yes. You don’t need to analyze the whole company to evaluate a specific case.',
+              },
+              {
+                q: 'Can AI consulting cover several departments?',
+                a: 'Yes. It can cover a single unit or different areas of the organization.',
+              },
+              {
+                q: 'Which departments usually have the most automation opportunities?',
+                a: 'Operations, administration, customer service, finance, sales, support and areas with a high volume of documents tend to have frequent opportunities.',
+              },
+              {
+                q: 'Does AI consulting include interviews with employees?',
+                a: 'It can include them when they’re needed to understand real processes and exceptions.',
+              },
+              {
+                q: 'Are current tools analyzed during consulting?',
+                a: 'Yes. The integrations and limitations of existing software directly affect feasibility.',
+              },
+              {
+                q: 'Can consulting identify quick wins?',
+                a: 'Yes. It can separate opportunities that can be put in place quickly from more strategic projects.',
+              },
+              {
+                q: 'What happens if the conclusion is that AI isn’t worth it?',
+                a: 'That’s a useful conclusion too. It keeps you from investing in a project with little return.',
+              },
+              {
+                q: 'Can consulting help choose AI providers?',
+                a: 'Yes. It can evaluate models, infrastructure and services against the project’s requirements.',
+              },
+              {
+                q: 'Can it help define an internal AI policy?',
+                a: 'Yes, when the scope includes governance, security, usage and internal control.',
+              },
+              {
+                q: 'Can AI consulting estimate costs and return?',
+                a: 'Yes. When there’s enough data, the required investment can be estimated and compared with time, volume, errors, freed-up capacity or expected financial impact. The estimate should be treated as a business hypothesis that’s validated with real data.',
+              },
+            ],
+          },
+          {
+            slug: 'integrations-and-systems',
+            title: 'Integrations and systems',
+            h1: 'Frequently asked questions about integrations and systems',
+            metaTitle: 'FAQ about integrations and systems, Ideasforge',
+            metaDescription: 'Which systems can an AI solution integrate with? Do you need an API to integrate a system? Can it integrate with in-house software?',
+            items: [
+              {
+                q: 'Which systems can an AI solution integrate with?',
+                a: 'With ERP, CRM, databases, APIs, document management systems, calendars, email, ecommerce, TMS, MES, WMS, CMMS and in-house software.',
+              },
+              {
+                q: 'Do you need an API to integrate a system?',
+                a: 'Not always. It depends on the technical options available and on how secure each alternative is.',
+              },
+              {
+                q: 'Can it integrate with in-house software?',
+                a: 'Yes. A custom integration can be built when there’s suitable access to the system.',
+              },
+              {
+                q: 'Can it connect to a database?',
+                a: 'Yes. Access has to be designed with suitable permissions and control layers.',
+              },
+              {
+                q: 'Can it query data without giving the model direct SQL access?',
+                a: 'Yes, and that’s how we always do it. The model fills in a closed form and the code builds the query, so the model never writes the queries that reach your systems.',
+                link: { label: 'The agent that queries your data doesn’t write SQL', href: '/en/blog/ai-agents-sql' },
+              },
+              {
+                q: 'Can it connect to several systems at once?',
+                a: 'Yes. Many projects coordinate information across several applications.',
+              },
+              {
+                q: 'Can it write data to an ERP or CRM?',
+                a: 'Yes, if the integration and permissions allow that operation.',
+              },
+              {
+                q: 'Can it read and send emails?',
+                a: 'Yes, when the use case needs it and there’s a suitable integration.',
+              },
+              {
+                q: 'Can it work with calendars?',
+                a: 'Yes. It can check availability, create events or manage appointments according to the defined rules.',
+              },
+              {
+                q: 'Can it use third-party APIs?',
+                a: 'Yes. It can use external services as long as they’re compatible with the architecture.',
+              },
+              {
+                q: 'What happens if an integration fails?',
+                a: 'Depending on how critical it is, the system can log the error, retry, stop the flow or hand off the case.',
+              },
+              {
+                q: 'Can an integration be changed in the future?',
+                a: 'Yes. A modular architecture makes it easier to replace or add systems without rebuilding the whole project.',
+              },
+              {
+                q: 'Can it connect to Microsoft 365?',
+                a: 'Yes. It can work with compatible services such as Outlook, SharePoint or other components through suitable integrations.',
+              },
+              {
+                q: 'Can it connect to Google Workspace?',
+                a: 'Yes. It can work with Drive, Gmail, Calendar and other services when the project requires it.',
+              },
+              {
+                q: 'Can it connect to legacy systems?',
+                a: 'In many cases, yes, although it may require intermediate layers or custom integrations.',
+              },
+              {
+                q: 'Can a solution read files from SFTP?',
+                a: 'Yes. It can bring files received over SFTP into an automated process.',
+              },
+              {
+                q: 'Can it connect to message queues?',
+                a: 'Yes. It can integrate with event-based or queue-based architectures when the system requires it.',
+              },
+              {
+                q: 'Can it consume webhooks?',
+                a: 'Yes. Webhooks are a common way to trigger automations in real time.',
+              },
+              {
+                q: 'Can it expose its own API?',
+                a: 'Yes. A custom-built solution can offer endpoints to integrate with other systems.',
+              },
+              {
+                q: 'Can it sync data between applications?',
+                a: 'Yes. It can run real-time or scheduled syncs depending on the case.',
+              },
+              {
+                q: 'Can it integrate with ERP and CRM systems such as SAP, Microsoft Dynamics, Salesforce or HubSpot?',
+                a: 'Yes, as long as the system’s version, configuration and permissions offer a suitable integration path. The specific architecture can use APIs, middleware, databases or other available mechanisms, avoiding broader access than necessary.',
+              },
+            ],
+          },
+          {
+            slug: 'security-privacy-and-gdpr',
+            title: 'Security, privacy and GDPR',
+            h1: 'Frequently asked questions about security, privacy and GDPR',
+            metaTitle: 'FAQ about security, privacy and GDPR, Ideasforge',
+            metaDescription: 'Can AI be used with personal data? Can AI be used with sensitive data? Where is the data processed? Can private infrastructure be used?',
+            related: '/en/guides/gdpr-compliant-ai',
+            items: [
+              {
+                q: 'Can AI be used with personal data?',
+                a: 'Yes, but the architecture has to take into account purpose, access, providers, storage and protective measures.',
+              },
+              {
+                q: 'Can AI be used with sensitive data?',
+                a: 'It may be possible, but it requires a stricter assessment of architecture, risks and providers.',
+              },
+              {
+                q: 'Where is the data processed?',
+                a: 'It depends on the providers and the infrastructure chosen for the project.',
+              },
+              {
+                q: 'Can private infrastructure be used?',
+                a: 'Yes. Some projects can deploy components in controlled or private environments.',
+              },
+              {
+                q: 'Can a private model be used?',
+                a: 'Yes, when security, cost or control requirements justify it.',
+              },
+              {
+                q: 'How are permissions controlled?',
+                a: 'Through identity, roles, authorized sources, allowed tools and access rules.',
+              },
+              {
+                q: 'Can the system’s actions be logged?',
+                a: 'Yes. Traceability can include the tools used, decisions, states and results.',
+              },
+              {
+                q: 'Can there be human approval before an action?',
+                a: 'Yes. Human sign-off can be required for sensitive operations.',
+              },
+              {
+                q: 'How do you minimize the information sent to a model?',
+                a: 'By selecting only the necessary context and leaving out data that isn’t relevant to the task.',
+              },
+              {
+                q: 'Can an AI system comply with GDPR?',
+                a: 'It can be designed to operate within the applicable requirements, but compliance depends on the case, the data, the providers and the processes.',
+              },
+              {
+                q: 'Does Ideasforge advise on GDPR?',
+                a: [
+                  'No. Saying whether a company complies with the law is the job of its lawyers, not ours.',
+                  'What we do is build the system so compliance can be demonstrated, process the data on your behalf under a data processing agreement and give your data protection officer and your lawyers the material they need to assess it.',
+                ],
+                link: { label: 'Artificial intelligence, privacy and GDPR', href: '/en/guides/gdpr-compliant-ai' },
+              },
+              {
+                q: 'Is security added at the end?',
+                a: 'No. Permissions, traceability, providers and limits should be defined from the design stage.',
+              },
+              {
+                q: 'Can information be anonymized before it’s sent to the model?',
+                a: 'Yes. Anonymization or techniques that separate the data from the person can be applied when appropriate.',
+              },
+              {
+                q: 'Can you limit how long information is kept?',
+                a: 'Yes. The retention policy can be part of the system’s design.',
+              },
+              {
+                q: 'Can the information be encrypted?',
+                a: 'Yes. Encryption in transit and at rest can be used depending on the architecture.',
+              },
+              {
+                q: 'Can you control which users see each conversation?',
+                a: 'Yes. Access can be limited by identity and permissions.',
+              },
+              {
+                q: 'Can you audit who carried out an action?',
+                a: 'Yes. The system can log the user, tool, action and result.',
+              },
+              {
+                q: 'Can a solution be hosted in the client’s cloud?',
+                a: 'Yes, when the architecture and the selected providers allow it.',
+              },
+              {
+                q: 'Can it be deployed on-premise?',
+                a: 'Some components can be deployed on your own infrastructure if the project requires it.',
+              },
+              {
+                q: 'Can you prevent the data from being used to train external models?',
+                a: 'With the providers and configuration we deploy, yes. Calls to the model run under agreements and settings that exclude training on your content, and you approve the choice of provider.',
+                link: { label: 'Artificial intelligence, privacy and GDPR', href: '/en/guides/gdpr-compliant-ai' },
+              },
+              {
+                q: 'What happens if a user tries to access restricted information?',
+                a: 'The system should block retrieval and log the attempt when necessary.',
+              },
+              {
+                q: 'Can a company set different policies by data type?',
+                a: 'Yes. Different rules can apply to public, internal, confidential or sensitive data.',
+              },
+              {
+                q: 'Can a system meet internal security requirements in addition to GDPR?',
+                a: 'Yes. The architecture can be adapted to company policies, as long as they’re technically feasible.',
+              },
+              {
+                q: 'Is security testing recommended?',
+                a: 'Yes, especially when the system accesses sensitive data or carries out actions on critical systems.',
+              },
+            ],
+          },
+          {
+            slug: 'eu-ai-act',
+            title: 'EU AI Act',
+            h1: 'Frequently asked questions about the EU AI Act and compliance',
+            metaTitle: 'FAQ about the EU AI Act, Ideasforge',
+            metaDescription: 'What the EU AI Act is, which obligations already apply in 2026 and what it requires of a chatbot that talks to people.',
+            related: '/en/guides/eu-ai-act-compliance',
+            items: [
+              {
+                q: 'What is the EU AI Act?',
+                a: 'The EU AI Act is the regulation that sets a common framework for the development, placing on the market, deployment and use of artificial intelligence systems in the European Union. It takes a risk-based approach and assigns different obligations depending on the system and the role of each organization.',
+              },
+              {
+                q: 'Is the EU AI Act already in force, and which obligations apply in 2026?',
+                a: 'Yes. The Act entered into force in 2024 and applies in stages. Since 2 August 2026, the transparency obligations of Article 50 for certain AI systems apply, among others. The specific obligations have to be reviewed according to the system, the organization’s role and the applicable timeline.',
+              },
+              {
+                q: 'What does the EU AI Act require of a chatbot that interacts directly with people?',
+                a: 'Article 50 requires, with certain exceptions, that people be informed they’re interacting with an AI system when this isn’t obvious from the circumstances and context. This transparency obligation applies from 2 August 2026.',
+              },
+              {
+                q: 'Do all AI applications have the same obligations?',
+                a: 'No. The obligations depend on the type of system, its purpose, the level of risk and the role the organization plays, for example as provider or deployer.',
+              },
+              {
+                q: 'What are high-risk AI systems?',
+                a: 'They’re certain systems that the EU AI Act classifies as high-risk because of the context and potential impact of their use. They’re subject to additional requirements, and how those apply has to be analyzed case by case.',
+              },
+              {
+                q: 'Does the EU AI Act only affect companies that develop AI?',
+                a: 'No. It can also impose obligations on organizations that deploy or use certain AI systems.',
+              },
+              {
+                q: 'Are GDPR and the EU AI Act the same thing?',
+                a: 'No. GDPR regulates the protection of personal data, while the EU AI Act regulates artificial intelligence systems from a broader perspective. The same project can be subject to both frameworks.',
+              },
+              {
+                q: 'Do AI systems have to be documented?',
+                a: 'In certain cases there are specific documentation and record-keeping obligations. Even when there’s no specific obligation, keeping an inventory and a record of architecture, providers, purposes and controls is good governance practice.',
+              },
+              {
+                q: 'Is human oversight required?',
+                a: 'It depends on the system and the risk category. For certain systems, especially high-risk ones, the EU AI Act sets out specific requirements related to human oversight.',
+              },
+              {
+                q: 'Does Ideasforge take the EU AI Act into account when designing systems?',
+                a: 'Yes. The architecture can build in traceability, permissions, limits, human intervention, transparency and other relevant controls from the start. Determining the specific legal obligations requires specialized legal advice, and we don’t make that assessment.',
+              },
+              {
+                q: 'Can the interpretation or practical application of the EU AI Act change?',
+                a: 'Yes. The European Commission and the competent authorities publish guidelines, codes and application criteria. That’s why regulatory content should be reviewed regularly rather than treated as static documentation.',
+              },
+            ],
+          },
+          {
+            slug: 'costs-timelines-and-roi',
+            title: 'Costs, timelines and ROI',
+            h1: 'Frequently asked questions about costs, timelines and ROI',
+            metaTitle: 'FAQ about costs, timelines and ROI, Ideasforge',
+            metaDescription: 'How much does it cost to develop an AI solution? To develop an AI agent? To automate a process? How much does a custom chatbot cost?',
+            related: '/en/guides/ai-agent-development-cost',
+            items: [
+              {
+                q: 'How much does it cost to develop an AI solution?',
+                a: 'The build costs €2,500 to €10,000 depending on integrations and how much validation is required. Operation costs €150 to €500 a month, with no minimum term. Model usage and infrastructure are billed separately, in accounts in your company’s name.',
+              },
+              {
+                q: 'How much does it cost to develop an AI agent?',
+                a: 'Between €2,500 and €10,000 to build and between €150 and €500 a month to operate. What moves it within that range is the tools, the information sources, the actions and the validation the process requires. Systems with an orchestrator and several agents are quoted per project.',
+              },
+              {
+                q: 'How much does it cost to automate a process?',
+                a: 'A single-process workflow starts at around €2,500 to build, and those that touch several of your systems get close to €10,000. Monthly operation runs between €150 and €500.',
+              },
+              {
+                q: 'How much does a custom chatbot cost?',
+                a: 'The same as the rest of our agents, between €2,500 and €10,000 to build and between €150 and €500 a month to operate. On WhatsApp there are also two variable costs: the model calls in each conversation and the templates that Meta charges for separately.',
+              },
+              {
+                q: 'How much does AI consulting cost?',
+                a: 'It depends on the number of processes analyzed, the scope and the level of detail required.',
+              },
+              {
+                q: 'How long does an AI project take?',
+                a: 'It depends on three things: that the data exists, that access has been granted and that the task is well defined. With all three, a pilot in two weeks is realistic. If any of them is missing, the first part of the project is getting it.',
+              },
+              {
+                q: 'What makes a project take longer?',
+                a: 'Complex integrations, incomplete data, permissions, disorganized documentation and poorly defined processes.',
+              },
+              {
+                q: 'Can we start with a pilot?',
+                a: 'Yes. It’s what we recommend. The pilot covers part of the problem with a metric agreed before starting. It’s paid, and its price counts toward the final project.',
+              },
+              {
+                q: 'How is ROI calculated?',
+                a: 'By comparing the total cost of the system with the value it generates in time, errors, capacity, service or revenue.',
+              },
+              {
+                q: 'When is an automation considered profitable?',
+                a: 'When the expected benefit exceeds the cost of building, operating and maintaining the system over a reasonable time frame.',
+              },
+              {
+                q: 'Is the cost of the models part of the project?',
+                a: 'No. Model usage and infrastructure are billed separately, in accounts in your company’s name, so you see what you spend and it doesn’t go through us. Neither the build nor the monthly fee includes them.',
+              },
+              {
+                q: 'Does an AI solution have recurring costs?',
+                a: 'Usually yes. Infrastructure, models, maintenance, monitoring and integrations can generate ongoing costs.',
+              },
+              {
+                q: 'Is an agent more expensive than traditional automation?',
+                a: 'Not necessarily. It depends on scope, integrations and complexity. An agent can be simple and a conventional automation can be very complex.',
+              },
+              {
+                q: 'What usually drives up the cost of a project the most?',
+                a: 'Complex integrations, extensive rules, disorganized data, security, multiple systems and a high level of customization.',
+              },
+              {
+                q: 'Does usage volume affect cost?',
+                a: 'Yes. It can increase infrastructure, model, storage and operating costs.',
+              },
+              {
+                q: 'Is there a cost for each query to a model?',
+                a: 'Usually yes, although it depends on the provider and the model used.',
+              },
+              {
+                q: 'Can model costs be optimized?',
+                a: 'Yes. Caching, smaller models, dynamic model selection or context reduction can be used.',
+              },
+              {
+                q: 'When can a budget be estimated?',
+                a: 'When the process, the integrations and the scope are defined well enough.',
+              },
+              {
+                q: 'Can we work with a budget in phases?',
+                a: 'Yes, that’s how we work. There are four steps: Explore, which delivers a yes or a no, Prioritize, which picks the first case with its figure, Implement, which puts it into production with its test suite, and Optimize, which provides the data to decide the next step. Each one is decided with what the previous one delivered.',
+              },
+              {
+                q: 'Can a pilot reduce financial risk?',
+                a: 'Yes. It lets you validate a hypothesis before committing to a larger investment.',
+              },
+              {
+                q: 'What metrics can be used to calculate ROI?',
+                a: 'Hours saved, errors avoided, capacity freed up, response times, conversions or additional revenue.',
+              },
+              {
+                q: 'How much maintenance does a system need?',
+                a: 'It depends on its complexity, number of integrations, criticality and how quickly the process changes.',
+              },
+              {
+                q: 'Can operating costs go down over time?',
+                a: 'Yes, especially if models, processes, prompts, infrastructure and integrations are optimized.',
+              },
+              {
+                q: 'Is it possible to estimate the cost per operation?',
+                a: 'Yes. It can be calculated by combining infrastructure, model usage and the costs associated with the workflow.',
+              },
+            ],
+          },
+          {
+            slug: 'reliability-evaluation-and-observability',
+            title: 'Reliability, evaluation and observability',
+            h1: 'Frequently asked questions about reliability, evaluation and observability',
+            metaTitle: 'FAQ about reliability and observability, Ideasforge',
+            metaDescription: 'How do you test an AI system? What is AI system evaluation? What is observability in AI? Can incorrect answers be measured?',
+            items: [
+              {
+                q: 'How do you test an AI system?',
+                a: 'With real cases, edge cases, expected errors, ambiguous inputs and scenarios where it should refuse to act.',
+              },
+              {
+                q: 'What is AI system evaluation?',
+                a: 'It’s the process of measuring whether the system answers, retrieves information or carries out actions with the quality required.',
+              },
+              {
+                q: 'What is observability in AI?',
+                a: 'It’s the ability to analyze what happened inside the system: calls, tools, errors, costs, timings and results.',
+              },
+              {
+                q: 'Can incorrect answers be measured?',
+                a: 'Yes. Before each change, every answer is compared with the correct one, recorded in the test suite. In production, the questions the system couldn’t answer are logged and reviewed every week.',
+              },
+              {
+                q: 'Can errors be detected in production?',
+                a: [
+                  'Yes, but checking the error logs isn’t enough. The dangerous failures in an AI system don’t trigger an error: the system gives a wrong answer as if everything were normal.',
+                  'That’s why every week we run a batch of test conversations on the live system and review the dashboard in Phoenix, a monitoring tool installed on a self-hosted server, along with the questions the agent couldn’t answer. Those three things are also what we deliver to the client.',
+                ],
+                link: { label: 'What happens after an AI chatbot is delivered', href: '/en/blog/ai-chatbot-maintenance' },
+              },
+              {
+                q: 'Can an agent get stuck?',
+                a: 'Yes. That’s why it makes sense to design limits, timeouts, retries and fallback routes.',
+              },
+              {
+                q: 'What is a guardrail?',
+                a: 'It’s a mechanism that limits or validates the system’s behavior before or after an action.',
+              },
+              {
+                q: 'Can an agent’s tools be limited?',
+                a: 'Yes. An agent should only have the tools it needs for its job.',
+              },
+              {
+                q: 'Can you find out why an automation failed?',
+                a: 'Yes, if the system keeps enough traceability of states, calls and errors.',
+              },
+              {
+                q: 'Can a model guarantee 100% accuracy?',
+                a: 'No, and we don’t promise it. What we do promise is to find out before the user does when something fails and to record in writing why it failed. In one of our systems we accept a ceiling of close to 92%, because chasing a hundred ends up tuning the tests instead of improving the system.',
+              },
+              {
+                q: 'Can a person step in when the system isn’t sure?',
+                a: 'Yes. Human intervention can be part of the normal workflow.',
+              },
+              {
+                q: 'How is a system improved after launch?',
+                a: 'By analyzing usage, errors, exceptions, unresolved questions, costs and new real cases.',
+              },
+              {
+                q: 'What is an offline evaluation?',
+                a: 'It’s a test run on a set of known cases before or outside the system’s real use.',
+              },
+              {
+                q: 'What is an online evaluation?',
+                a: 'It’s the measurement of the system’s behavior while it operates with real users and data.',
+              },
+              {
+                q: 'Can one model be used to evaluate another model?',
+                a: 'We don’t do it. We measure against a golden dataset (test suite) with the correct answer recorded, and the checks are done by code, not by another model. In one of our systems a second model reviewed the first and we removed it, because it also made mistakes.',
+              },
+              {
+                q: 'What is an evaluation dataset?',
+                a: 'It’s a set of representative cases with expected results, used to measure the system.',
+              },
+              {
+                q: 'Should every change be evaluated again?',
+                a: 'Yes, and in our systems it’s a rule, not a suggestion. No change to the prompt, model, retrieval, tools or rules reaches production without passing the test suite. Before it’s applied, the database is backed up, and if the service doesn’t respond afterward, it automatically rolls back to the previous version.',
+              },
+              {
+                q: 'What is a regression in an AI system?',
+                a: 'It’s a loss of quality in cases that used to work correctly, after changes are introduced.',
+              },
+              {
+                q: 'Can cost per user be monitored?',
+                a: 'Yes, if usage is logged per session, user or workflow.',
+              },
+              {
+                q: 'Can tool usage be monitored?',
+                a: 'Yes. You can log which functions the agent runs and with what parameters.',
+              },
+              {
+                q: 'Can an abnormal rise in errors be detected?',
+                a: 'Yes. Alerts and metrics make it possible to detect changes in failure rates.',
+              },
+              {
+                q: 'Can performance be compared between models?',
+                a: 'Yes. Evaluations can be run on the same cases to compare accuracy, cost and latency.',
+              },
+              {
+                q: 'What happens if a new model performs worse?',
+                a: 'It doesn’t reach production. The model is pinned, and a model change passes the tests before it goes out. If something fails when any change is applied, it automatically rolls back to the previous version, because the database is backed up first.',
+              },
+              {
+                q: 'Can you do A/B testing with AI?',
+                a: 'Yes. The behavior of two configurations can be compared on controlled traffic.',
+              },
+            ],
+          },
+          {
+            slug: 'real-estate',
+            title: 'Real estate',
+            h1: 'Frequently asked questions about AI for real estate agencies',
+            metaTitle: 'FAQ about AI for real estate agencies, Ideasforge',
+            metaDescription: 'How can AI be used in a real estate agency? Can AI handle leads? Can it connect to real estate software?',
+            related: '/en/industries/real-estate',
+            items: [
+              {
+                q: 'How can AI be used in a real estate agency?',
+                a: 'It can be used for leads, customer service, documentation, incidents, internal knowledge and administrative automation.',
+              },
+              {
+                q: 'Can AI handle a real estate agency’s leads?',
+                a: 'Yes. It can interpret requirements, classify opportunities and record information in the CRM.',
+              },
+              {
+                q: 'Can it connect to real estate software?',
+                a: 'Yes, as long as there’s a suitable way to integrate.',
+              },
+              {
+                q: 'Can it look up information about assets?',
+                a: 'Yes. It can retrieve information from databases, CRM, ERP and other authorized systems.',
+              },
+              {
+                q: 'Can it automate real estate paperwork?',
+                a: 'Yes. It can classify documents and extract data from contracts, forms, invoices and other documents.',
+              },
+              {
+                q: 'Can it help rental management companies?',
+                a: 'Yes. It can automate requests, incidents, suppliers, documentation and access to information.',
+              },
+              {
+                q: 'Can it be used in groups with many assets?',
+                a: 'Yes. The architecture can adapt to multiple companies, assets, permissions and teams.',
+              },
+              {
+                q: 'Can a real estate chatbot book appointments?',
+                a: 'Yes, if it’s connected to calendars and availability rules.',
+              },
+              {
+                q: 'Can incident management be automated?',
+                a: 'Yes. AI can interpret the incident and trigger the corresponding workflow.',
+              },
+              {
+                q: 'When is a custom solution worth it for a real estate agency?',
+                a: 'When there’s enough volume, complexity, integration or in-house rules that a standard tool doesn’t cover.',
+              },
+              {
+                q: 'Can AI help manage multiple developments?',
+                a: 'Yes. It can look up data, documentation, leads and processes associated with different developments.',
+              },
+              {
+                q: 'Can it apply different permissions by company or asset?',
+                a: 'Yes. The architecture can apply permissions by company, portfolio, asset, team or user.',
+              },
+              {
+                q: 'Can an agent look up rental agreements?',
+                a: 'Yes, if the documents are available and the user has permission to access them.',
+              },
+              {
+                q: 'Can it detect contract expirations?',
+                a: 'Yes. It can extract dates or query databases and generate alerts within a workflow.',
+              },
+              {
+                q: 'Can it help manage rental properties?',
+                a: 'Yes. It can automate incidents, documentation, suppliers and internal queries.',
+              },
+              {
+                q: 'Can it integrate with real estate portals?',
+                a: 'Yes, when the portals offer APIs or other compatible integration mechanisms.',
+              },
+              {
+                q: 'Can it help distributed sales teams?',
+                a: 'Yes. It can centralize access to information and automate follow-up tasks.',
+              },
+              {
+                q: 'Can it help property developers with documentation for their developments?',
+                a: 'Yes. It can make related documentation easier to look up, classify and access.',
+              },
+              {
+                q: 'Can it automate maintenance requests?',
+                a: 'Yes. It can interpret the request, identify the asset and trigger the right workflow.',
+              },
+              {
+                q: 'Can it help asset managers look up portfolios?',
+                a: 'Yes. It can create conversational interfaces over asset and transaction data.',
+              },
+            ],
+          },
+          {
+            slug: 'accounting-firms',
+            title: 'Accounting firms',
+            h1: 'Frequently asked questions about AI in accounting and advisory firms',
+            metaTitle: 'FAQ about AI in accounting and advisory firms, Ideasforge',
+            metaDescription: 'How can AI be used in an accounting firm? Can invoice entry be automated? Can it read tax documents? Can it connect to accounting software?',
+            related: '/en/industries/accounting-firms',
+            items: [
+              {
+                q: 'How can AI be used in an accounting firm?',
+                a: 'It can automate documentation, invoices, emails, data entry, follow-up and recurring queries.',
+              },
+              {
+                q: 'Can invoice entry be automated?',
+                a: 'Yes. The system can extract data, validate it and record the information in accounting software or an ERP.',
+              },
+              {
+                q: 'Can it read tax documents?',
+                a: 'It can interpret and extract information from documents within the defined scope.',
+              },
+              { q: 'Can it connect to accounting software?', a: 'Yes, if a suitable integration exists.' },
+              {
+                q: 'Can it manage outstanding documentation?',
+                a: 'Yes. It can detect missing documents, send reminders and update statuses.',
+              },
+              {
+                q: 'Can it automate client emails?',
+                a: 'Yes. It can interpret and classify them and trigger processes based on their content.',
+              },
+              {
+                q: 'Can it answer clients’ frequently asked questions?',
+                a: 'Yes. A conversational agent can resolve recurring queries and hand off the complex ones.',
+              },
+              {
+                q: 'Can AI be used in tax advisory firms?',
+                a: 'Yes, mainly in administrative and document processes and in access to information.',
+              },
+              {
+                q: 'Can it work with confidential data?',
+                a: 'Yes, if the architecture and providers are chosen with the right controls.',
+              },
+              {
+                q: 'Can AI sort documentation by client?',
+                a: 'Yes. It can use information in the document and rules to assign it to the corresponding client file.',
+              },
+              {
+                q: 'Can it detect duplicate documents?',
+                a: 'Yes, if suitable comparison mechanisms are put in place.',
+              },
+              {
+                q: 'Can it extract due dates from documents?',
+                a: 'Yes. It can identify dates and use them for alerts or workflows.',
+              },
+              {
+                q: 'Can it automate reminders for obligations?',
+                a: 'Yes, as long as the dates and rules are correctly defined.',
+              },
+              {
+                q: 'Can it organize documentation received by email?',
+                a: 'Yes. It can identify attachments, client, document type and associated process.',
+              },
+              {
+                q: 'Can it generate draft replies?',
+                a: 'Yes. It can prepare drafts based on context and authorized sources.',
+              },
+              {
+                q: 'Can it help payroll and labor teams?',
+                a: 'Yes. It can make documentation, internal queries and administrative tasks easier.',
+              },
+              {
+                q: 'Can it help accounting teams?',
+                a: 'Yes. It can automate document processing, classification and data entry.',
+              },
+              {
+                q: 'Can it help with onboarding new clients?',
+                a: 'Yes. It can collect documentation, check for missing items and update statuses.',
+              },
+              {
+                q: 'Can it be used in large firms with several departments?',
+                a: 'Yes. Permissions and workflows can be adapted to tax, payroll, accounting and other areas.',
+              },
+            ],
+          },
+          {
+            slug: 'manufacturing',
+            title: 'Manufacturing',
+            h1: 'Frequently asked questions about AI in industry and manufacturing',
+            metaTitle: 'FAQ about AI in industry and manufacturing, Ideasforge',
+            metaDescription: 'How can AI be used in industry? Can it look up production data? Can it connect to an ERP or MES? Can it look up technical documentation?',
+            related: '/en/industries/manufacturing',
+            items: [
+              {
+                q: 'How can AI be used in industry?',
+                a: 'It can be used for technical documentation, maintenance, incidents, data access and process automation.',
+              },
+              {
+                q: 'Can it look up production data?',
+                a: 'Yes, if there’s a suitable integration with the data sources.',
+              },
+              {
+                q: 'Can it connect to an ERP or MES?',
+                a: 'Yes. It can do so through APIs, databases or other mechanisms.',
+              },
+              {
+                q: 'Can it look up technical documentation?',
+                a: 'Yes. It can use manuals, procedures and technical data sheets as a knowledge source.',
+              },
+              {
+                q: 'Can it manage industrial incidents?',
+                a: 'Yes. It can interpret them, classify them and trigger the right workflow.',
+              },
+              {
+                q: 'Can AI be used in quality?',
+                a: 'Yes. It can help locate procedures and documentation and manage related information.',
+              },
+              {
+                q: 'Can AI be used on the plant floor?',
+                a: 'Yes, as long as the use case, security and access to systems allow it.',
+              },
+              {
+                q: 'Does AI replace the technician?',
+                a: 'No. It’s usually more useful for improving access to information and automating repetitive tasks.',
+              },
+              {
+                q: 'When is custom AI worth it in industry?',
+                a: 'When there are multiple systems, in-house documentation, scattered knowledge and enough operational impact.',
+              },
+              {
+                q: 'Can AI help reduce reliance on tribal knowledge?',
+                a: 'Yes. It can make information that today depends on highly experienced employees easier to access.',
+              },
+              {
+                q: 'Can it look up maintenance history?',
+                a: 'Yes. It can retrieve past interventions and link them to documentation.',
+              },
+              {
+                q: 'Can it summarize shift incidents?',
+                a: 'Yes. It can generate summaries from the available logs and events.',
+              },
+              {
+                q: 'Can it help field technicians?',
+                a: 'Yes. It can make manuals, procedures and history easier to access through a simpler interface.',
+              },
+              {
+                q: 'Can it help engineering?',
+                a: 'Yes. It can make it easier to search documentation, specifications and project information.',
+              },
+              {
+                q: 'Can it be used in preventive maintenance?',
+                a: 'It can help with accessing and analyzing information, although prediction requires data and models suited to the case.',
+              },
+              {
+                q: 'Can it help with predictive maintenance?',
+                a: 'It can be part of a predictive maintenance solution, but failure prediction normally requires specific models built on sensor data, time series and historical data. Generative AI is especially useful for looking up manuals, history and incidents, not as an automatic substitute for those predictive models.',
+              },
+              {
+                q: 'Can it integrate with SCADA systems?',
+                a: 'It may be technically possible to use information from SCADA systems through suitable integration layers. In OT or critical environments, access must be designed with particular care: segregation, least-privilege permissions, intermediate controls, traceability and no direct model access to sensitive actions unless there’s a specific justification and security architecture.',
+              },
+              {
+                q: 'Can it work with sensor data?',
+                a: 'Yes, if the case requires analyzing or querying sensor information through a suitable architecture.',
+              },
+              {
+                q: 'Can it generate plant reports?',
+                a: 'Yes. It can gather the available data and prepare structured reports.',
+              },
+              {
+                q: 'What’s the difference between generative AI and predictive maintenance?',
+                a: 'Generative AI is especially useful for interpreting language, looking up documentation, summarizing history or assisting technicians. Predictive maintenance usually uses specific models that analyze sensors, time series and failure patterns. Both approaches can coexist within the same system.',
+              },
+            ],
+          },
+          {
+            slug: 'healthcare',
+            title: 'Healthcare and healthcare groups',
+            h1: 'Frequently asked questions about AI in healthcare and healthcare groups',
+            metaTitle: 'FAQ about AI in healthcare and healthcare groups, Ideasforge',
+            metaDescription: 'How can AI be used in healthcare? Can it manage appointments automatically? Can it work across several locations? Can it work over WhatsApp?',
+            related: '/en/industries/healthcare',
+            items: [
+              {
+                q: 'How can AI be used in healthcare?',
+                a: 'It can automate appointments, administrative support, reminders, documentation and internal processes.',
+              },
+              {
+                q: 'Can it manage appointments automatically?',
+                a: 'Yes. It can check availability and book, change and cancel appointments according to defined rules.',
+              },
+              {
+                q: 'Can it work across several locations?',
+                a: 'Yes. It can manage different centers, practitioners and calendars.',
+              },
+              { q: 'Can it work over WhatsApp?', a: 'Yes, if there’s a suitable integration.' },
+              {
+                q: 'Can it reduce no-shows?',
+                a: 'It can help through reminders, confirmations and cancellation handling.',
+              },
+              {
+                q: 'Can it fill canceled slots?',
+                a: 'Yes. It can contact people on a waiting list according to defined rules.',
+              },
+              {
+                q: 'Can it answer clinical questions?',
+                a: 'It can be set up to answer only administrative or document-related questions and refer any clinical query that falls outside its scope. At Ideasforge, this vertical is aimed mainly at administrative and operational processes and access to information, not at replacing diagnosis or clinical judgment.',
+              },
+              {
+                q: 'Can it work with health data?',
+                a: 'A system can be designed to process health-related data when there’s an appropriate legal basis and the architecture meets the applicable privacy and security requirements. Health data needs an especially high level of protection, so access, vendors, data minimization, traceability and control mechanisms must be reviewed with particular care.',
+              },
+              {
+                q: 'Can it connect to scheduling systems?',
+                a: 'Yes, as long as there’s a suitable integration.',
+              },
+              {
+                q: 'Can an agent manage the calendars of several practitioners?',
+                a: 'Yes. It can apply different rules by specialty, practitioner, center or appointment type.',
+              },
+              {
+                q: 'Can it handle appointments of different lengths?',
+                a: 'Yes. Duration can be part of the availability rules.',
+              },
+              {
+                q: 'Can it manage resources as well as practitioners?',
+                a: 'Yes. It can take rooms, equipment or other resources into account when the scheduling system allows it.',
+              },
+              {
+                q: 'Can it manage waiting lists?',
+                a: 'Yes. It can prioritize people according to defined criteria and offer freed-up slots.',
+              },
+              {
+                q: 'Can it automate attendance confirmations?',
+                a: 'Yes. It can send messages and record replies automatically.',
+              },
+              {
+                q: 'Can it handle last-minute changes?',
+                a: 'Yes. It can look for alternatives and update the calendar following the defined rules.',
+              },
+              {
+                q: 'Can it integrate with practice management software?',
+                a: 'Yes, when there’s a compatible way to integrate.',
+              },
+              {
+                q: 'Can it tell administrative information apart from clinical information?',
+                a: 'Yes. The architecture can restrict which types of data and functions are available to each flow.',
+              },
+              {
+                q: 'Can it be used for patient onboarding?',
+                a: 'Yes, for administrative tasks such as collecting details, documentation and instructions.',
+              },
+              {
+                q: 'Can it help healthcare call centers?',
+                a: 'Yes. It can automate repetitive queries and support operators with contextual information.',
+              },
+            ],
+          },
+          {
+            slug: 'logistics',
+            title: 'Logistics and transportation',
+            h1: 'Frequently asked questions about AI in logistics and transportation',
+            metaTitle: 'FAQ about AI in logistics and transportation, Ideasforge',
+            metaDescription: 'How can AI be used in logistics? Can it handle logistics incidents? Can it process delivery notes? Can it process waybills?',
+            related: '/en/industries/logistics',
+            items: [
+              {
+                q: 'How can AI be used in logistics?',
+                a: 'It can handle incidents, documentation, orders, queries and coordination between systems.',
+              },
+              {
+                q: 'Can it handle logistics incidents?',
+                a: 'Yes. It can interpret them, classify them and trigger the matching workflow.',
+              },
+              {
+                q: 'Can it process delivery notes?',
+                a: 'Yes. It can extract information and use it in automated processes.',
+              },
+              { q: 'Can it process waybills?', a: 'Yes, within the defined document scope.' },
+              {
+                q: 'Can it answer questions about a shipment’s status?',
+                a: 'Yes. A conversational agent can query authorized systems and reply with up-to-date information.',
+              },
+              {
+                q: 'Can it automate order emails?',
+                a: 'Yes. It can interpret messages, extract references and trigger processes.',
+              },
+              {
+                q: 'Can it help prioritize incidents?',
+                a: 'Yes. It can classify them by rules, context or defined criteria.',
+              },
+              {
+                q: 'Can AI automatically identify the shipment number in an email?',
+                a: 'Yes. It can extract references and use them to query systems.',
+              },
+              {
+                q: 'Can it classify incidents by severity?',
+                a: 'Yes. It can do so based on established rules, context and criteria.',
+              },
+              {
+                q: 'Can it look up routes?',
+                a: 'Yes, if route information is available in integrated systems.',
+              },
+              {
+                q: 'Can it look up proof of delivery?',
+                a: 'Yes. It can retrieve PODs or other documents when they’re accessible.',
+              },
+              {
+                q: 'Can it automate claims?',
+                a: 'Yes. It can classify them, gather data and start a claims process.',
+              },
+              {
+                q: 'Can it work with several carriers?',
+                a: 'Yes. It can coordinate information from different providers if integrations exist.',
+              },
+              {
+                q: 'Can it help with international documentation?',
+                a: 'It can classify and extract information, although customs or regulatory requirements must be validated case by case.',
+              },
+              {
+                q: 'Can it automate delay alerts?',
+                a: 'Yes. It can detect conditions and generate messages or tasks.',
+              },
+              {
+                q: 'Can it summarize daily incidents?',
+                a: 'Yes. It can produce operational summaries from logged cases.',
+              },
+              {
+                q: 'Can it help logistics customer service teams?',
+                a: 'Yes. It can provide context, shipment status and draft replies.',
+              },
+              {
+                q: 'Can an AI solution connect to a TMS and WMS?',
+                a: 'Yes. It can query or use TMS and WMS information when there’s a suitable way to integrate and permissions, allowed operations and error handling are defined.',
+              },
+            ],
+          },
+          {
+            slug: 'energy-and-utilities',
+            title: 'Energy and utilities',
+            h1: 'Frequently asked questions about AI in energy and utilities',
+            metaTitle: 'FAQ about AI in energy and utilities, Ideasforge',
+            metaDescription: 'How can AI be used in energy? Can it help with asset maintenance? Can it connect to asset management systems?',
+            related: '/en/industries/energy-and-utilities',
+            items: [
+              {
+                q: 'How can AI be used in energy?',
+                a: 'It can be applied to incidents, technical documentation, maintenance, customer support and administrative automation.',
+              },
+              {
+                q: 'Can it help with asset maintenance?',
+                a: 'Yes. It can retrieve histories, manuals, work orders and technical information.',
+              },
+              {
+                q: 'Can it connect to asset management systems?',
+                a: 'Yes, when there’s a suitable way to integrate.',
+              },
+              {
+                q: 'Can it consult regulatory documentation?',
+                a: 'Yes. It can use authorized documentation as a knowledge source.',
+              },
+              {
+                q: 'Can it handle incidents?',
+                a: 'Yes. It can interpret them, classify them and trigger processes.',
+              },
+              {
+                q: 'Can it be used in field operations?',
+                a: 'Yes, mainly to make documentation, histories and asset information easier to access.',
+              },
+              {
+                q: 'Can it connect to an ERP or CRM?',
+                a: 'Yes. It can do so through APIs, databases or other mechanisms.',
+              },
+              {
+                q: 'Can it work with critical infrastructure?',
+                a: 'Projects involving critical infrastructure require much stricter cybersecurity controls, segregation, permissions and risk assessment. The use of AI must be designed case by case, with careful limits on which systems it can query or change.',
+              },
+              {
+                q: 'Can AI help manage work orders?',
+                a: 'Yes. It can interpret incidents, look up context and create or update work orders according to rules.',
+              },
+              {
+                q: 'Can it look up information on a specific asset?',
+                a: 'Yes. It can retrieve the data, histories and documentation linked to the asset.',
+              },
+              {
+                q: 'Can it help with inspections?',
+                a: 'It can help with preparation, documentation and organizing results, depending on the process.',
+              },
+              {
+                q: 'Can it summarize the incidents at a facility?',
+                a: 'Yes. It can gather and summarize information from available records.',
+              },
+              {
+                q: 'Can it help with fault reporting?',
+                a: 'Yes. It can classify requests, check statuses and route cases.',
+              },
+              {
+                q: 'Can it work with supply contracts?',
+                a: 'Yes. It can consult contract documentation within the established permissions.',
+              },
+              {
+                q: 'Can it generate maintenance reports?',
+                a: 'Yes. It can structure and summarize data from work orders, incidents and histories.',
+              },
+              {
+                q: 'Can it help field teams on phones or tablets?',
+                a: 'Yes. It can offer a conversational interface built into compatible apps.',
+              },
+              {
+                q: 'Can it work across multiple facilities?',
+                a: 'Yes. It can apply permissions, filters and context by facility, asset or region.',
+              },
+            ],
+          },
+          {
+            slug: 'ecommerce-and-retail',
+            title: 'Ecommerce and retail',
+            h1: 'Frequently asked questions about AI in ecommerce and retail',
+            metaTitle: 'FAQ about AI in ecommerce and retail, Ideasforge',
+            metaDescription: 'How can AI be used in ecommerce? Can it check an order’s status? Can it automate returns? Can it help with large catalogs?',
+            related: '/en/industries/ecommerce-and-retail',
+            items: [
+              {
+                q: 'How can AI be used in ecommerce?',
+                a: 'It can be applied to customer support, orders, returns, catalog, incidents and internal operations.',
+              },
+              {
+                q: 'Can it check an order’s status?',
+                a: 'Yes. It can connect to authorized systems and reply with up-to-date information.',
+              },
+              {
+                q: 'Can it automate returns?',
+                a: 'Yes. It can interpret the request and run the workflow according to defined rules.',
+              },
+              {
+                q: 'Can it help with large catalogs?',
+                a: 'Yes. It can classify, structure and enrich product information and detect inconsistencies in it.',
+              },
+              { q: 'Can it connect to a PIM or WMS?', a: 'Yes, if there’s a suitable way to integrate.' },
+              {
+                q: 'Can it work in an omnichannel setup?',
+                a: 'Yes. It can query information spread across ecommerce, stores, ERP, CRM and logistics.',
+              },
+              {
+                q: 'Can AI help reduce support tickets?',
+                a: 'Yes. It can resolve repetitive queries and leave complex cases to the human team.',
+              },
+              {
+                q: 'Can it check stock?',
+                a: 'Yes. It can access inventory information if it’s available through an integration.',
+              },
+              {
+                q: 'Can it check stock by store?',
+                a: 'Yes. It can return availability by location when the systems hold that level of detail.',
+              },
+              {
+                q: 'Can it help with product recommendations?',
+                a: 'Yes, although the architecture will depend on the catalog, customer behavior and business goals.',
+              },
+              {
+                q: 'Can it generate answers about return policies?',
+                a: 'Yes. It can use up-to-date documentation as its source.',
+              },
+              {
+                q: 'Can it help with payment issues?',
+                a: 'It can classify them and guide the process, although payment operations should stay in specialized systems.',
+              },
+              {
+                q: 'Can it automate order cancellations?',
+                a: 'Yes, if the rules and the order’s status allow it.',
+              },
+              {
+                q: 'Can it help with fraud prevention?',
+                a: 'It can be part of the process, although fraud detection usually requires specific models and signals.',
+              },
+              {
+                q: 'Can it help with marketplace operations?',
+                a: 'Yes. It can automate classification, catalog work, customer support and coordination with external systems.',
+              },
+              {
+                q: 'Can it work across several countries and languages?',
+                a: 'Yes, as long as the architecture, catalog and systems are ready for it.',
+              },
+              {
+                q: 'Can it generate product content automatically?',
+                a: 'Yes, although there must be a quality control strategy and reliable data sources.',
+              },
+              {
+                q: 'Can it help merchandising teams?',
+                a: 'Yes. It can make it easier to look up catalog, performance and availability.',
+              },
+              {
+                q: 'Can it integrate with Shopify, Magento or WooCommerce?',
+                a: 'Yes. A solution can connect to Shopify, Magento, WooCommerce or in-house ecommerce platforms through the APIs and integration mechanisms each environment offers.',
+              },
+            ],
+          },
+          {
+            slug: 'buying-decision-and-vendor-choice',
+            title: 'Buying decision and vendor choice',
+            h1: 'Frequently asked questions about choosing an AI vendor',
+            metaTitle: 'FAQ about choosing an AI vendor, Ideasforge',
+            metaDescription: 'How do you choose an AI development company? What should you ask an AI vendor before hiring? Is a standard platform or custom development better?',
+            items: [
+              {
+                q: 'How do you choose an AI development company?',
+                a: 'It’s worth assessing real experience, integration capability, security, architecture, evaluation, maintenance and understanding of the process.',
+              },
+              {
+                q: 'What should I ask an AI vendor before hiring?',
+                a: 'A clear explanation of the problem, the proposed architecture, the data needed, risks, integrations, success criteria and maintenance.',
+              },
+              {
+                q: 'Is a standard platform or custom development better?',
+                a: 'It depends on the process. If a platform covers the need well, it’s usually more efficient. Custom development makes sense when there are specific requirements.',
+              },
+              {
+                q: 'What questions should I ask before implementing AI?',
+                a: 'What problem it solves, what data it uses, what mistakes it can make, which systems it touches, who supervises it and how the result is measured.',
+              },
+              {
+                q: 'Does it matter that the vendor understands business processes?',
+                a: 'Yes. The quality of a solution depends as much on understanding the process as on choosing the technology.',
+              },
+              {
+                q: 'Should a company start with a small project?',
+                a: 'It can be a good idea when there’s uncertainty and you want to prove value before scaling up.',
+              },
+              {
+                q: 'What signs show a project is badly scoped?',
+                a: 'Starting from a technology without a defined problem, not measuring results, ignoring exceptions or not defining permissions and limits.',
+              },
+              {
+                q: 'What does taking AI to production mean?',
+                a: 'It means building it into a real process, with users, data, controls, monitoring and maintenance.',
+              },
+              {
+                q: 'What’s the difference between a demo and a system in production?',
+                a: 'A demo tests an idea. A system in production has to handle errors, exceptions, permissions, security, costs and real use.',
+              },
+              {
+                q: 'What should happen after launch?',
+                a: 'Monitor behavior, fix errors, review costs, analyze new needs and improve the system with real data.',
+              },
+              {
+                q: 'What experience should an AI vendor be able to show?',
+                a: 'Experience with real systems, integrations, error handling, security, evaluation and maintenance.',
+              },
+              {
+                q: 'Is knowing how to write prompts enough?',
+                a: 'No. A business system requires architecture, software, integrations, permissions, data and monitoring.',
+              },
+              {
+                q: 'What’s the difference between an automation agency and an AI development company?',
+                a: 'What sets a vendor apart isn’t what it calls itself. Ask whether it measures quality before every change, whether the code is owned by your company and whether it keeps monitoring the system after delivery.',
+              },
+              {
+                q: 'What should a technical proposal include?',
+                a: 'Goal, scope, integrations, architecture, risks, success criteria, maintenance and costs.',
+              },
+              {
+                q: 'Does it matter to name an internal project owner?',
+                a: 'Yes. Having one person in charge makes decisions, data access and adoption easier.',
+              },
+              {
+                q: 'What signs show a vendor is selling hype?',
+                a: 'Promises of total automation, no metrics, little attention to exceptions or no clarity on limits and security.',
+              },
+              {
+                q: 'Should a good vendor advise against using AI in some cases?',
+                a: 'Yes. Choosing conventional software when it’s enough usually signals better technical judgment.',
+              },
+              {
+                q: 'How can I tell if a vendor understands the business?',
+                a: 'It should be able to explain the process, its exceptions and the success criteria before talking only about technology.',
+              },
+              {
+                q: 'What happens if a project changes scope?',
+                a: 'The technical impact, budget, timelines and integrations must be reviewed before expanding it.',
+              },
+              {
+                q: 'Is it a good idea to document the architecture?',
+                a: 'Yes. It makes maintenance, auditing, evolution and knowledge transfer easier.',
+              },
+            ],
+          },
+        ],
+      },
+      /* La página de seguridad en inglés, espejo de la española (19 oct 2026). */
+      security: {
+        metaTitle: 'Security and Privacy in AI Systems, Ideasforge',
+        metaDescription: 'We build artificial intelligence systems for companies where security, privacy and control are part of the architecture from the start.',
+        h1: 'Security and privacy in artificial intelligence systems',
+        lead: [
+          'We build artificial intelligence systems for companies where security, privacy and control are part of the architecture from the start.',
+          'We define which information each component can use, who can access it, which actions the AI can take and what should happen when an exception comes up.',
+        ],
+        statement: [
+          'Because taking artificial intelligence to production isn’t only about getting a model to work.',
+          'It’s also about controlling what it can see, what it can do and what happens when it gets something wrong.',
+        ],
+        cta: 'Tell us which system you want to build',
         sections: [
           {
-            heading: 'Trapped knowledge costs money every day',
-            part: 'Who this happens to',
-            paragraphs: [
-              'The symptom is familiar. Someone needs a technical fact, a procedure or the history of a problem, and the answer exists but is buried. They ask a colleague, the colleague asks the most senior person in the company and the veteran knows it by heart because nobody else is going to read the two hundred pages that hold it. Each of these queries steals minutes from two or three people at once, always the same ones.',
-              'The real cost is not only the minutes. It is the dependence on a few people, which turns every absence and every retirement into an operational risk.',
+            heading: 'Security isn’t added at the end',
+            blocks: [
+              'A business AI system can interact with:',
+              {
+                t: 'list',
+                items: [
+                  'internal documentation', 'databases', 'CRM', 'ERP', 'email',
+                  'customer information', 'internal applications', 'APIs',
+                  'operational business systems',
+                ],
+              },
+              'That’s why security decisions have to be part of the design.',
+              'Before building we analyze:',
+              {
+                t: 'list',
+                items: [
+                  'which information the system really needs',
+                  'which data it doesn’t need',
+                  'who can access it',
+                  'which systems it can query',
+                  'which operations it can carry out',
+                  'which actions need validation',
+                  'what has to be logged',
+                  'what happens when something fails',
+                ],
+              },
+              'The architecture is designed around those limits.',
             ],
           },
           {
-            heading: 'A search box gives you ten documents, this gives you the answer',
-            pizarra: { grafico: 'diezDocumentos', tras: 0 },
-            part: 'What we build',
-            paragraphs: [
-              'The difference from a search box is who does the final work. A search box returns ten documents where the answer might be, and the person still has to read them. This assistant answers the question, in the language of whoever asked, and attaches the reference of where the answer came from, so verifying costs one click instead of one afternoon.',
-              'Underneath sits production-grade retrieval over your documentation, what the industry calls RAG, a search that feeds relevant fragments to the model so it answers from your sources rather than from its memory. A demo RAG finds the easy things. A production one has to find the hard things, dense documents, in-house vocabulary and half-formed questions typed between two tasks.',
+            heading: 'Privacy and data minimization',
+            blocks: [
+              'An AI system shouldn’t receive more information than it needs to solve a task.',
+              'We apply the minimization principle to limit the context sent to models and external services.',
+              'Depending on the project we can:',
+              {
+                t: 'list',
+                items: [
+                  'select only the fields needed',
+                  'exclude sensitive information',
+                  'anonymize data or separate it from the person',
+                  'limit retention',
+                  'keep different sources apart',
+                  'apply access controls',
+                  'set different policies by type of information',
+                ],
+              },
+              'This cuts unnecessary exposure and makes the system easier to control.',
+              'The principles of data minimization, purpose limitation, and integrity and confidentiality are part of the GDPR and of data protection by design.',
             ],
           },
           {
-            heading: 'When the answer needs live data',
-            pizarra: { grafico: 'dosFuentes', tras: 1 },
-            part: 'What we build',
-            paragraphs: [
-              'Some questions no document answers well, because the answer changes every hour. The state of a machine, the recent history of a fault, a production figure. For those, the assistant does not quote a two-year-old document. It queries the internal system that holds the fact and answers with what is true right now.',
-              'That mix is what makes the assistant useful in real work, documentation for the knowledge that gets written once, systems for the knowledge that changes daily. And when the query calls for it, the assistant guides step by step, a diagnosis, a procedure, or executes the action directly on the systems you approve.',
+            heading: 'Access control and permissions',
+            blocks: [
+              'Not every user should be able to look up the same information.',
+              'We can apply permissions by:',
+              {
+                t: 'list',
+                items: [
+                  'user', 'role', 'department', 'organization', 'company', 'location', 'project', 'asset',
+                  'type of documentation',
+                ],
+              },
+              'For example, an internal assistant can be connected to thousands of documents and return only the ones the user is authorized to see.',
+              'AI shouldn’t become a back door around existing permissions.',
+              { t: 'strong', text: 'It has to respect them.' },
             ],
           },
           {
-            heading: 'Half a dozen agents, one conversation',
-            pizarra: { grafico: 'orquestador', tras: 0 },
-            part: 'What we build',
-            paragraphs: [
-              'Past a certain size, a single agent that does everything becomes one huge piece nobody can maintain. Our architecture for these cases is different. An orchestrator understands the intent of each question and routes it to the specialized agent for that domain, one per area of knowledge. In the industrial case behind this page, that orchestrator coordinates half a dozen specialized agents and the whole adds up to some 86 connected pieces. That case is told in full on <a class="link-inline" href="/en/cases/industrial">its own page</a>.',
-              'The person asking sees none of this. They write their question and get their answer. The architecture matters for what it allows, adding a new domain without touching the others, measuring each agent separately and keeping a failure in one from dragging down the rest.',
+            heading: 'Control over the actions of AI agents',
+            blocks: [
+              'An agent can look up information.',
+              'But it can also use tools and take actions.',
+              'For example:',
+              {
+                t: 'list',
+                items: [
+                  'create a record', 'change an appointment', 'update a CRM', 'open an incident',
+                  'send a message', 'run a query', 'start a workflow',
+                ],
+              },
+              'Not all those actions carry the same risk.',
+              'That’s why we define levels of action.',
+              'A low-impact operation can run automatically.',
+              'A sensitive action can require:',
+              {
+                t: 'list',
+                items: [
+                  'additional checks', 'business rules', 'limits', 'user confirmation',
+                  'human approval',
+                ],
+              },
+              { t: 'strong', text: 'AI interprets. Software executes.' },
+              'And the rules decide when an action is allowed.',
             ],
           },
           {
-            heading: 'The two kinds of "no" a serious assistant tells apart',
-            pizarra: { grafico: 'dosNoes', tras: 0 },
-            part: 'How the assistant earns trust',
-            paragraphs: [
-              'Trust is not earned by answering well alone. It is earned by answering well and refusing well. There are two different kinds of "no". The "this is outside the product", answered instantly with catalog text, no search spent. And the "this should be documented and is not", said only after genuinely searching, and leaving a trace, because it is a task for whoever owns the documentation.',
-              'Confusing them is expensive in both directions, and separating them takes more engineering than it seems.',
+            heading: 'We don’t give a model unlimited freedom',
+            blocks: [
+              'A language model is probabilistic.',
+              'It can misread a request or produce a wrong answer.',
+              'That’s why we avoid architectures where the model directly controls critical processes with no mechanisms in between.',
+              'We can build in:',
+              {
+                t: 'list',
+                items: [
+                  'limited tools', 'structured responses', 'validations',
+                  'lists of allowed operations', 'limits on amount or scope', 'states', 'permissions',
+                  'confirmations', 'human intervention',
+                ],
+              },
+              'The goal isn’t to get a model that never makes mistakes.',
+              {
+                t: 'strong',
+                text: 'It’s to design the system so a model error doesn’t automatically turn into an operational error.',
+              },
             ],
           },
           {
-            heading: 'When the clarification does not need the model',
-            part: 'How the assistant earns trust',
-            paragraphs: [
-              'One design detail that shows how we think. When the assistant offers several options, the person’s short reply, a number, a bare term, a "the second one", is resolved without calling the model, through a simple rule that recognizes those terms and those numbers and that expires after fifteen minutes. It looks like a minor saving and is three things at once, an instant response, one less call to pay for and one less message exposed to malicious instructions hidden in text.',
-              'The general rule behind the detail is that the model gets used where it earns its place, understanding open language, and avoided where an ordinary program does the same job faster, cheaper and without surprises.',
+            heading: 'Security in agents connected to databases',
+            blocks: [
+              'An agent doesn’t need unlimited access to a database.',
+              'We can design intermediate layers that control:',
+              {
+                t: 'list',
+                items: [
+                  'which tables it can query', 'which fields it can use',
+                  'which operations are available', 'which filters have to apply',
+                  'which users can access it', 'which queries get logged',
+                ],
+              },
+              'When the risk justifies it, we prevent the model from generating and running arbitrary SQL directly against production systems.',
+              'Instead, it can work through specific tools and controlled queries.',
             ],
           },
           {
-            heading: 'Everyone sees what their job allows',
-            pizarra: { grafico: 'mismaPregunta', tras: 0 },
-            part: 'How the assistant earns trust',
-            paragraphs: [
-              'An assistant that reads all of the company’s documentation raises an obvious question, who may ask it what. Our answer is that the assistant inherits the permissions that already exist. Retrieval respects the role of whoever asks, so nobody receives in an answer a fragment they could not open by hand. And when the assistant queries an internal system, it travels with the person’s identity, not with an all-seeing robot account.',
-              'Every decision is recorded as well, what was understood, where it was routed, what was answered. That record is never consulted during execution.',
+            heading: 'Security in RAG systems and internal documentation',
+            blocks: [
+              'A system connected to business documentation has to control both <strong>what it retrieves</strong> and <strong>who can retrieve it</strong>.',
+              'We can apply:',
+              {
+                t: 'list',
+                items: [
+                  'filters by user', 'permissions by document', 'metadata',
+                  'separation between organizations', 'version control', 'authorized sources',
+                  'references to the original document',
+                ],
+              },
+              'A RAG system shouldn’t assume that every indexed document can be shown to anyone.',
+              'Retrieval has to respect the same restrictions as the rest of the organization.',
+              {
+                t: 'link',
+                label: 'AI for internal documentation and corporate knowledge',
+                href: '/en/services/corporate-knowledge',
+              },
             ],
           },
           {
-            heading: 'Enterprise guarantees',
-            part: 'Guarantees, capabilities and cost',
-            paragraphs: [
-              'The assistant runs on your infrastructure, your cloud or your own servers, with the call to the language model as the only external piece, with your organization’s accounts for access and your data wherever you decide. The repository is in your name from day one. And quality is measured all the time, with a battery of real cases that blocks any change that degrades the system and a weekly watch on what is live.',
-              'A system of this size is quoted per project, because the cost depends on your sources, your systems and how much validation you demand. For how the rules of European data protection shape all of this, the full story is on its own page.',
+            heading: 'AI models and providers',
+            blocks: [
+              'Not every project needs the same model or the same provider.',
+              'The choice can depend on:',
+              {
+                t: 'list',
+                items: [
+                  'privacy', 'where processing happens', 'how data is handled', 'performance',
+                  'cost', 'latency', 'technical capability', 'corporate requirements',
+                ],
+              },
+              'We can also design architectures that reduce dependence on a single provider.',
+              'Business logic can be kept separate from the model to make changes easier when they’re needed.',
             ],
-            link: { label: 'GDPR-compliant AI on infrastructure you own', href: '/en/guides/gdpr-compliant-ai' },
           },
           {
-            heading: 'Technical capabilities',
-            part: 'Guarantees, capabilities and cost',
-            kind: 'lattice',
-            paragraphs: [
-              'For the technical review, this is what sits underneath, one line per piece.',
+            heading: 'Private infrastructure and controlled environments',
+            blocks: [
+              'Some projects require a higher level of isolation.',
+              'Depending on the case, these can be used:',
+              {
+                t: 'list',
+                items: [
+                  'controlled cloud environments',
+                  'the client’s own infrastructure',
+                  'private networks',
+                  'separate storage',
+                  'private models',
+                  'components deployed inside the corporate infrastructure',
+                ],
+              },
+              'Not every project needs this level of complexity.',
+              'The architecture has to be proportionate to the risk, the data used and the process we want to automate.',
             ],
-            bullets: [
-              'Multi-agent architecture. An orchestrator understands intent and routes to specialized agents. It grows domain by domain instead of turning into one unmanageable piece.',
-              'Reliable retrieval. The search that feeds the model is designed for complete, correct answers, without letting internal detail reach the wrong reader.',
-              'Measurable quality. Test batteries verify before every change that the assistant still understands and answers correctly.',
-              'Integration with your systems. ERP, databases, your organization’s accounts and industrial systems, under each person’s own permissions.',
-              'Decision log. Every interaction leaves a written record of what was understood and why the answer was given, auditable afterwards.',
-              'Data sovereignty. Your cloud or your servers, your identity, your data where you decide and the repository in your name.',
+          },
+          {
+            heading: 'Traceability: knowing what happened inside the system',
+            blocks: [
+              'When an automation makes decisions or takes actions, we need to be able to reconstruct what happened.',
+              'We can log:',
+              {
+                t: 'list',
+                items: [
+                  'user', 'request', 'tools used', 'information consulted',
+                  'actions taken', 'errors', 'states', 'times', 'results',
+                ],
+              },
+              'This makes it easier to handle:',
+              {
+                t: 'list',
+                items: [
+                  'audits', 'incident resolution', 'evaluation', 'system improvement',
+                  'analysis of unexpected behavior',
+                ],
+              },
+              'A business AI system shouldn’t be a black box nobody can investigate.',
+            ],
+          },
+          {
+            heading: 'Observability and monitoring in production',
+            blocks: [
+              'A solution’s behavior has to keep being analyzed after launch.',
+              'We can monitor:',
+              {
+                t: 'list',
+                items: [
+                  'errors', 'exceptions', 'latency', 'tool usage', 'model cost',
+                  'wrong answers', 'handovers to people', 'share automated',
+                ],
+              },
+              'Real cases reveal situations that don’t show up during testing.',
+              'That’s why taking AI to production also means building ways to observe it.',
+            ],
+          },
+          {
+            heading: 'Human intervention when it’s really needed',
+            blocks: [
+              'Human oversight doesn’t mean a person has to review every operation.',
+              'It means defining <strong>when</strong> a person has to step in.',
+              'For example:',
+              {
+                t: 'list',
+                items: [
+                  'not enough information', 'an ambiguous result', 'a sensitive operation',
+                  'an unforeseen exception', 'a request outside the scope', 'high risk',
+                  'an amount above a set limit',
+                ],
+              },
+              'The rest of the process can continue automatically.',
+              'Human intervention should be used where it adds control, not as a stand-in for a badly designed automation.',
+            ],
+          },
+          {
+            heading: 'Handling errors and exceptions',
+            blocks: [
+              'A business system has to be ready to fail.',
+              'An API can stop responding.',
+              'A document can be incomplete.',
+              'A user can enter wrong data.',
+              'A model can misread a request.',
+              'That’s why we design paths to:',
+              {
+                t: 'list',
+                items: [
+                  'retry', 'stop', 'log', 'alert', 'ask for information', 'hand over',
+                  'restore the previous state',
+                ],
+              },
+              'The difference between a demo and a system in production usually shows up exactly when something goes wrong.',
+            ],
+          },
+          {
+            heading: 'Security in integrations',
+            blocks: [
+              'Every integration widens what the system can do, and also its exposure to risk.',
+              'Before connecting an application we analyze:',
+              {
+                t: 'list',
+                items: [
+                  'authentication', 'permissions', 'available operations', 'reachable information',
+                  'usage limits', 'credential management', 'behavior when errors occur',
+                ],
+              },
+              'We apply the principle of least privilege.',
+              'If an integration only needs to read certain information, it shouldn’t have permissions to change the whole system.',
+            ],
+          },
+          {
+            heading: 'OT, SCADA and critical infrastructure environments',
+            blocks: [
+              'In manufacturing, energy and other critical environments, integration calls for an extra level of caution.',
+              'It may be technically possible to use information from OT or SCADA systems, but the architecture has to analyze specifically:',
+              {
+                t: 'list',
+                items: [
+                  'segregation', 'cybersecurity', 'permissions', 'intermediate controls', 'isolation',
+                  'the potential impact of each action',
+                ],
+              },
+              'We don’t give a model direct access to critical systems without a specific architecture that limits and controls what it can do.',
+              {
+                t: 'link',
+                label: 'AI for manufacturing and industry',
+                href: '/en/industries/manufacturing',
+              },
+              { t: 'link', label: 'AI for energy and utilities', href: '/en/industries/energy-and-utilities' },
+            ],
+          },
+          {
+            heading: 'Artificial intelligence and the GDPR',
+            blocks: [
+              'When a system processes personal data, the design has to take into account the applicable data protection principles and obligations.',
+              'Among them:',
+              {
+                t: 'list',
+                items: [
+                  'lawfulness and transparency', 'purpose limitation', 'data minimization', 'accuracy',
+                  'storage limitation', 'integrity and confidentiality',
+                  'accountability',
+                ],
+              },
+              'The technical architecture can help put these principles into practice, but determining the legal basis and the specific obligations of each processing activity requires legal advice, and that assessment isn’t something we do.',
+            ],
+          },
+          {
+            heading: 'Artificial intelligence and the EU AI Act',
+            blocks: [
+              'The EU Artificial Intelligence Act sets different obligations depending on the system, its purpose, its level of risk and the role each organization plays.',
+              'Since <strong>2 August 2026</strong>, among others, the transparency obligations in Article 50 apply to certain AI systems. In some cases these include telling a person when they’re interacting directly with an artificial intelligence system.',
+              'That’s why we can build in elements such as these from the design stage:',
+              {
+                t: 'list',
+                items: [
+                  'transparency', 'traceability', 'human oversight', 'permissions', 'documentation',
+                  'limits on actions',
+                ],
+              },
+              'The specific obligations have to be assessed according to the use case and the organization’s role.',
+              {
+                t: 'strong',
+                text: 'Architecture can make compliance easier. It doesn’t replace legal analysis when that’s needed.',
+              },
+            ],
+          },
+          {
+            heading: 'Security in industries with sensitive information',
+            blocks: [
+              'Not every project carries the same level of risk.',
+              'The architecture has to adapt especially when we work with:',
+              {
+                t: 'list',
+                items: [
+                  'health', 'infrastructure', 'financial information', 'confidential documentation',
+                  'personal data', 'contract information', 'strategic knowledge',
+                ],
+              },
+              'For example, in healthcare we mainly aim our systems at administrative, operational and information-access processes.',
+              'We don’t use an agent to replace diagnosis or clinical judgment.',
+            ],
+          },
+          {
+            heading: 'How we design the security of an AI system',
+            blocks: [],
+            method: [
+              [
+                'We analyze the data',
+                'We identify which information the process uses and how sensitive it is.',
+              ],
+              [
+                'We define users and permissions',
+                'We set who can look up each source and take each action.',
+              ],
+              [
+                'We review integrations',
+                'We analyze which operations each system allows and which permissions the solution really needs.',
+              ],
+              [
+                'We limit what the model can do',
+                'We define tools, rules, validations and allowed actions.',
+              ],
+              [
+                'We design exceptions',
+                'We set what happens when information is missing, an error appears or an operation needs approval.',
+              ],
+              [
+                'We add traceability',
+                'We log the information needed to understand and audit how the system behaves.',
+              ],
+              [
+                'We evaluate before production',
+                'We test common cases, edge cases, attempts at improper access and error scenarios.',
+              ],
+              [
+                'We monitor',
+                'Once deployed, we analyze behavior, incidents, costs and new risks.',
+              ],
             ],
           },
         ],
-        faqHeading: 'What gets asked before starting',
-        faq: [
-          {
-            q: 'How much does a corporate knowledge assistant cost?',
-            a: 'It is quoted per project, because the cost depends on the volume and state of your sources, how many systems get integrated and how much validation you demand before going live. Multi-agent systems of this size sit outside the standard ranges we publish for single-job agents. The price structure, build plus monthly operation, is the same, and the cost guide breaks it down.',
-          },
-          {
-            q: 'What about questions the documentation does not cover?',
-            a: 'The assistant says so, plainly and with a trace. We separate "outside the product" from "missing documentation", each with its own answer and its own work queue, so real gaps end up as tasks for whoever owns the documentation. An assistant that fills gaps with false confidence is exactly what we refuse to build.',
-          },
-          {
-            q: 'Will employees see documents that are not theirs to see?',
-            a: 'No. The search that feeds the assistant respects each role’s permissions, so a restricted document never enters the context the model sees before answering. And system queries travel with the identity of the person asking, under their usual permissions. If someone cannot open a record by hand, their assistant cannot either.',
-          },
-          {
-            q: 'How does it stay current when documentation changes?',
-            a: 'Documents are processed again whenever they change, and quality is watched in two ways, a battery of real cases before every change we ship and a weekly batch of test conversations on the live system. When something stops being found or understood, it shows in the metrics before it becomes a complaint.',
-          },
-          {
-            q: 'Does it handle our in-house vocabulary, and several languages?',
-            a: 'Your jargon is exactly what we calibrate retrieval against, using real questions from your people, with real cases from your people rather than lab examples. The languages you need are defined during exploration.',
-          },
-          {
-            q: 'Can it run without leaving our infrastructure?',
-            a: 'The full system runs on infrastructure you own, cloud or on-premise servers. The call to the language model is the only external piece, it runs under agreements and settings you approve, with training on your content excluded. Deploying the model itself on your hardware is a different project we have not done in production, and if it is a requirement it belongs in the first conversation.',
-          },
-          {
-            q: 'How long does it take?',
-            a: 'Exploration, which is the first phase of the project, answers that with your sources in front of us, not before. The shape of the project is constant though, a first bounded knowledge domain that reaches production with its measurement in place, then growth domain by domain. The industrial case grew exactly that way.',
-          },
+        faq: {
+          h2: 'Frequently asked questions about security and artificial intelligence',
+          items: [
+            {
+              q: 'Can AI be used with personal data?',
+              a: 'Yes, as long as there’s an appropriate basis for the processing and the necessary controls are designed over purpose, access, providers, storage and security.',
+            },
+            {
+              q: 'Can AI be used with confidential information?',
+              a: 'It may be possible. The design has to assess which information the model really needs, where it’s processed and which providers are involved.',
+            },
+            {
+              q: 'Can we limit which documents each user can look up?',
+              a: 'Yes. Retrieval systems can apply permissions by user, role, department or organization.',
+            },
+            {
+              q: 'Can an agent be prevented from taking certain actions?',
+              a: 'Yes. The tools and permissions available to the agent can be explicitly limited.',
+            },
+            {
+              q: 'Can human approval be required before an operation?',
+              a: 'Yes. An automation can stop and wait for approval before it continues.',
+            },
+            {
+              q: 'Can what an AI agent does be logged?',
+              a: 'Yes. It’s possible to log the tools used, actions, errors, states and other relevant events.',
+            },
+            {
+              q: 'Can the model be kept from accessing a database directly?',
+              a: 'Yes. An intermediate layer can expose only the operations that are needed.',
+            },
+            {
+              q: 'Can private infrastructure be used?',
+              a: 'Yes, when the project’s requirements justify a private or more controlled architecture.',
+            },
+            {
+              q: 'Can an AI system comply with the GDPR?',
+              a: 'It can be designed with the applicable data protection requirements in mind, but compliance depends on the use case, the data, the legal basis, the providers and the organization.',
+            },
+            {
+              q: 'Does the EU AI Act affect chatbots?',
+              a: 'It can. Since 2 August 2026, Article 50 sets transparency obligations for certain systems that interact directly with people.',
+            },
+            {
+              q: 'Is security only reviewed before launch?',
+              a: 'No. Systems also have to be monitored in production to detect errors, new cases, changes in behavior and risks.',
+            },
+          ],
+        },
+        contact: {
+          h2: 'Let’s design a system that can really be used',
+          p: [
+            'A proof of concept can show that an idea works.',
+            'The challenge starts when that AI has to access data, use tools and become part of a real process.',
+            'Tell us what you want to automate, what information the system needs and which applications it has to work with.',
+            'We’ll design an architecture that combines artificial intelligence, software, permissions and controls to take it to production.',
+          ],
+          cta: 'Talk to Ideasforge about your project',
+        },
+      },
+      /* Las páginas de sector en inglés, con la plantilla de octubre de 2026
+         (`SectorPage.astro`). Traducidas del español una a una desde el 16
+         oct 2026. Mientras falte alguna no sale en «Other industries», y si ya
+         tenía página inglesa, su ruta sigue con la larga de `pages.<clave>`. */
+      sectors: {
+        labels: {
+          whatAI: 'What AI can do',
+          sources: '{n} sources',
+          integration: 'Integration',
+          control: 'Control',
+          aiReads: 'AI interprets',
+          softwareRuns: 'Software executes',
+          custom: 'Custom',
+          faq: 'Frequently asked questions',
+          contact: 'Contact',
+          others: 'Other industries',
+          viewSector: 'See industry',
+        },
+        order: [
+          'realEstate', 'accounting', 'sectorIndustry', 'sectorHealth', 'sectorLogistics', 'sectorEnergy',
+          'sectorEcommerce',
         ],
-        cta: {
-          heading: 'Interested in this for your company?',
-          body: 'Tell us what you’re up against. If we don’t think it will pay for itself, we’ll tell you.',
-          button: 'Tell us what you’re up against',
+        pages: {
+          realEstate: {
+            metaTitle: 'AI for Real Estate and Property Management, Ideasforge',
+            metaDescription: 'Artificial intelligence solutions for real estate agencies, developers, asset managers and property management companies.',
+            name: 'Real estate',
+            short: 'Leads, properties, paperwork and management.',
+            h1: 'AI for real estate and property management',
+            lead: 'Ideasforge builds artificial intelligence solutions for real estate companies, developers, asset managers and property operators that need to automate processes, connect systems and cut administrative work. We design AI agents, automations and intelligent assistants connected to CRM, ERP, databases, documentation, listing portals, calendars and internal applications.',
+            statement: [
+              'We don’t apply AI to real estate in a generic way.',
+              'We build it into the processes where it can have a measurable impact.',
+            ],
+            cta: 'Tell us which process you want to improve',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Artificial intelligence for real estate organizations with complex processes',
+                after: [
+                  'When information is spread across different tools, much of the work ends up depending on people who look for data, copy information or coordinate processes between systems by hand.',
+                  'Artificial intelligence can help interpret that information and use it inside automations connected to the company’s real operations.',
+                ],
+                label: 'A real estate company can be working at the same time with',
+                list: [
+                  'Assets', 'Properties', 'Owners', 'Buyers', 'Tenants', 'Suppliers',
+                  'Leads', 'Documentation', 'Contracts', 'Maintenance requests', 'Calendars', 'CRM', 'ERP',
+                  'Listing portals', 'Management software',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: 'What can AI automate in a real estate company?',
+                lead: 'Artificial intelligence can step into sales, administrative, document and operational processes. Not all of them need the same architecture.',
+                subs: [
+                  {
+                    t: 'Lead management',
+                    d: 'A system can receive contacts from different channels, interpret the request and structure the information before adding it to the CRM. The information can be recorded automatically so the team picks up the process with more context.',
+                    label: 'It can identify, for example',
+                    items: [
+                      'What type of property they’re looking for', 'Area', 'Budget', 'Features', 'Urgency',
+                      'Contact details', 'Whether they want to buy or rent',
+                    ],
+                  },
+                  {
+                    t: 'Buyer and tenant support',
+                    d: 'A conversational agent can answer questions about properties, features, availability or processes. It can also use information from the CRM or other sources to give answers in context. When the question needs someone from sales, the system can pass it on along with the information it has collected.',
+                  },
+                  {
+                    t: 'Document management',
+                    d: 'Real estate generates a large amount of paperwork. Once structured, that information can be added automatically to the right system.',
+                    label: 'AI can help interpret, classify and extract information from',
+                    items: [
+                      'Contracts', 'Title deeds', 'Land registry extracts', 'Property documentation', 'Invoices',
+                      'Quotes', 'Forms', 'Technical documentation', 'Emails',
+                    ],
+                  },
+                  {
+                    t: 'Internal information lookup',
+                    d: 'Teams can use natural language to reach information spread across different sources. The system can retrieve authorized information from databases, documentation or internal applications.',
+                    q: 'Which contracts for this property expire in the next six months?',
+                    label: 'Another common question',
+                    items: ['What’s the procedure for approving a repair above a certain amount?'],
+                  },
+                  {
+                    t: 'Maintenance requests',
+                    d: 'A request can come in by email, form or conversation. AI can interpret the problem, gather the information needed, classify it and send it to the right process.',
+                    label: 'Then the software can',
+                    items: [
+                      'Open a ticket', 'Assign it', 'Notify a supplier', 'Update a system',
+                      'Send a confirmation',
+                    ],
+                  },
+                  {
+                    t: 'Administrative automation',
+                    d: 'Processes such as validations, data entry, system updates, document generation or coordination between departments can be automated when they follow well-defined logic. AI is used only in the steps that need interpretation.',
+                  },
+                ],
+              },
+              {
+                type: 'areas',
+                h2: 'AI for real estate agents, developers and asset managers',
+                paras: [
+                  '“Real estate” covers very different organizations.',
+                  'The architecture has to fit the business model.',
+                ],
+                items: [
+                  {
+                    t: 'Agencies and brokerage networks',
+                    d: 'Automating lead capture, inquiries, CRM, documentation and sales processes.',
+                  },
+                  {
+                    t: 'Developers',
+                    d: 'Handling requests, development documentation, sales support and coordination between systems.',
+                  },
+                  {
+                    t: 'Asset managers',
+                    d: 'Access to information on assets, contracts, maintenance requests, documentation and operations.',
+                  },
+                  {
+                    t: 'Property managers',
+                    d: 'Automating requests, maintenance, suppliers, documentation and communication with residents.',
+                  },
+                  {
+                    t: 'Real estate groups',
+                    d: 'Systems that can work across different companies, departments, information sources and permissions.',
+                  },
+                ],
+                after: [
+                  'The system’s complexity grows with the organization.',
+                  'That’s why we don’t propose the same solution for a local agency and for a group managing hundreds or thousands of properties.',
+                ],
+              },
+              {
+                type: 'case',
+                h2: 'A real case: Barceloneta Premium',
+                sub: 'More than 3 hours a day recovered screening rental inquiries',
+                paras: [
+                  'Barceloneta Premium, an agency in Barcelona, gets dozens of WhatsApp messages a day from people interested in renting. Checking each inquiry took five to ten minutes of someone’s attention.',
+                  'Now an agent holds the conversation, gathers reason, budget and paperwork, and sends the team an email summary saying whether the applicant meets the agency’s requirements and why. The decision is still made by a person.',
+                  'The agency recovered more than three hours a day and its team now only books viewings.',
+                ],
+                link: { label: 'See the Barceloneta Premium case', href: '/en/cases/barceloneta' },
+              },
+              {
+                type: 'case',
+                h2: 'A real case: Stanton',
+                sub: '98% of utility bills, with nobody touching them',
+                paras: [
+                  'Stanton, a property management company, keyed in each tenant’s electricity, gas and water bills by hand, at a minute of typing per document.',
+                  'Today the team forwards them on Telegram, a model reads each bill, the code checks that it adds up and the result lands in the spreadsheet they already used. 98% go through with nobody touching them.',
+                ],
+                link: { label: 'See the Stanton case', href: '/en/cases/stanton' },
+              },
+              {
+                type: 'poster',
+                h2: 'AI agents connected to CRM, ERP and real estate software',
+                paras: [
+                  'An AI agent can act as an access layer over the systems the organization already uses.',
+                ],
+                after: [
+                  'The agent can query the authorized sources and return an answer without making the user check different systems by hand.',
+                  'Depending on permissions, it can also take follow-up actions.',
+                ],
+                quotes: [
+                  'Which open opportunities do we have for this development, and which have had no activity for more than seven days?',
+                ],
+                label: 'It can query or use information from',
+                list: [
+                  'CRM', 'ERP', 'Databases', 'Real estate software', 'Listing portals', 'Calendars',
+                  'Document management systems', 'APIs', 'In-house applications',
+                ],
+              },
+              {
+                type: 'flow',
+                h2: 'Real estate process automation with AI',
+                paras: [
+                  'Many real estate processes don’t need an autonomous agent.',
+                  'They need a well-designed flow.',
+                  'AI can interpret the information.',
+                  'Business rules control what happens next.',
+                ],
+                flows: [
+                  {
+                    steps: [
+                      ['Request received', false],
+                      ['interpretation', true],
+                      ['classification', true],
+                      ['CRM', false],
+                      ['assignment', false],
+                      ['follow-up', false],
+                    ],
+                  },
+                  {
+                    steps: [
+                      ['Document received', false],
+                      ['data extraction', true],
+                      ['validation', false],
+                      ['ERP', false],
+                      ['filing', false],
+                      ['exception', false],
+                    ],
+                  },
+                ],
+                emph: 'AI where there’s variability. Software where we need certainty.',
+              },
+              {
+                type: 'split',
+                h2: 'AI for real estate documentation',
+                paras: [
+                  'Documents often hold information that matters to several processes.',
+                  'A system can help extract and use data from documents even when they don’t all have exactly the same structure.',
+                ],
+                after: [
+                  'We can also build internal assistants connected to document repositories so teams can look up information in natural language.',
+                ],
+                label: 'This can apply to',
+                list: [
+                  'Contracts', 'Property documentation', 'Quotes', 'Reports', 'Invoices',
+                  'Technical documentation', 'Forms',
+                ],
+                link: {
+                  label: 'AI for internal documentation and corporate knowledge',
+                  href: '/en/services/corporate-knowledge',
+                },
+              },
+              {
+                type: 'cells',
+                h2: 'Conversational support connected to the business',
+                paras: ['A real estate chatbot can do much more than answer frequently asked questions.'],
+                after: ['The conversation becomes an interface over the organization’s real processes.'],
+                label: 'When it’s connected to the company’s systems it can',
+                list: [
+                  'Look up properties', 'Retrieve information', 'Gather requirements',
+                  'Spot an opportunity', 'Record data in the CRM', 'Suggest an appointment',
+                  'Check availability', 'Start processes', 'Hand over to a person',
+                ],
+                link: { label: 'Conversational agents', href: '/en/services/conversational-ai' },
+              },
+              {
+                type: 'dark',
+                h2: 'Automation without losing control over operations',
+                paras: [
+                  'In real estate there are processes where a wrong action can have commercial, operational or legal consequences.',
+                  'That’s why we don’t design systems where the model has complete freedom.',
+                ],
+                after: [
+                  'For example, a model can interpret a request.',
+                  'But a rule can decide whether a given operation needs approval before it continues.',
+                ],
+                label: 'We can build in',
+                list: [
+                  'Permissions', 'Validations', 'Business rules', 'Limits on actions',
+                  'Human approval', 'Logs', 'Traceability', 'States', 'Exception handling',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Access to knowledge for distributed teams',
+                paras: [
+                  'In large organizations, knowledge tends to be spread across departments and tools.',
+                ],
+                after: [
+                  'The system can respect permissions so each user only reaches the sources that apply to them.',
+                ],
+                label: 'An internal assistant can help look up',
+                list: [
+                  'Procedures', 'Manuals', 'Property documentation', 'Internal rules', 'Policies',
+                  'Sales information', 'Technical documentation',
+                ],
+                label2: 'This is especially useful in organizations with',
+                list2: [
+                  'Several offices', 'Different companies', 'Specialized teams',
+                  'Large volumes of documentation', 'Processes that vary from team to team',
+                ],
+              },
+              {
+                type: 'integration',
+                h2: 'Integration with existing systems',
+                paras: [
+                  'You don’t need to replace your whole infrastructure to apply artificial intelligence.',
+                  'We can design solutions around your current software.',
+                ],
+                label: 'Depending on the project we can connect',
+                list: [
+                  'CRM', 'ERP', 'Property management software', 'Databases', 'Ticketing tools',
+                  'Listing portals', 'Document storage', 'Calendars', 'Email', 'APIs',
+                  'Internal applications',
+                ],
+                label2: 'Before integrating any system we analyze',
+                list2: [
+                  'What information we need', 'What permissions exist', 'Which operations are safe',
+                  'What should happen when something fails', 'Which actions need validation',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: 'Where does the biggest return usually show up?',
+                paras: ['AI tends to add the most value in processes with volume and repetition.'],
+                emph: [
+                  'We don’t look to automate more processes. We look to automate the ones that really justify the investment.',
+                ],
+                label: 'For example',
+                list: [
+                  'Hundreds of requests a month', 'Large volumes of documentation', 'Many properties',
+                  'Recurring maintenance issues', 'Teams working across several applications',
+                  'Repetitive internal questions', 'High-frequency administrative tasks',
+                ],
+                label2: 'Before building we analyze',
+                list2: [
+                  'Frequency', 'Current cost', 'Time spent', 'Errors', 'Volume', 'Complexity',
+                  'Share that could be automated',
+                ],
+              },
+              {
+                type: 'steps',
+                h2: 'How we build AI solutions for real estate',
+                steps: [
+                  [
+                    'We analyze the process',
+                    'We study how it works today and which teams, applications and information sources are involved.',
+                  ],
+                  [
+                    'We identify opportunities',
+                    'We look for repetitive tasks, friction points, document processes and decisions where artificial intelligence can add value.',
+                  ],
+                  [
+                    'We review data and integrations',
+                    'We analyze CRM, ERP, databases, documentation, APIs and any other system needed.',
+                  ],
+                  [
+                    'We design the architecture',
+                    'We decide which part needs AI, which part should stay in conventional software and which permissions or validations the system needs.',
+                  ],
+                  [
+                    'We build and evaluate',
+                    'We test the solution with real cases, exceptions and edge cases.',
+                  ],
+                  [
+                    'We deploy and monitor',
+                    'Once in production we measure behavior, usage, errors, costs and results.',
+                  ],
+                ],
+              },
+              {
+                type: 'when',
+                h2: 'When is custom AI worth building for a real estate company?',
+                after: [
+                  'If an off-the-shelf tool solves the problem well, building your own solution won’t always be the best option.',
+                  'Part of our job is spotting that difference.',
+                ],
+                label: 'Custom development usually makes sense when',
+                list: [
+                  'Several systems have to work together',
+                  'The process depends on your own documentation',
+                  'There are business-specific rules',
+                  'There’s enough volume',
+                  'An off-the-shelf platform doesn’t cover the whole flow',
+                  'You need control over data and permissions',
+                  'The system has to take actions',
+                  'Processes differ between departments or companies',
+                ],
+              },
+              {
+                type: 'faq',
+                h2: 'Artificial intelligence for real estate companies',
+                items: [
+                  {
+                    q: 'How can AI be used in a real estate company?',
+                    a: [
+                      'AI can automate lead management, customer support, documentation, internal questions, maintenance requests and administrative processes.',
+                      'It can also connect to CRM, ERP, databases and other applications to look up information or take actions.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI connect to our real estate CRM?',
+                    a: [
+                      'Yes. An AI solution can connect to a CRM and other systems as long as there’s a suitable integration path.',
+                      'The system can look up information or update data within the permissions and rules that have been defined.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI be used to manage a real estate agency’s leads?',
+                    a: [
+                      'Yes. AI can interpret a lead’s request, extract their requirements, classify it and record the information in the CRM.',
+                      'It can also start follow-up processes or pass the opportunity to the right team.',
+                    ],
+                  },
+                  {
+                    q: 'Can real estate paperwork be automated?',
+                    a: [
+                      'Yes. AI can help classify documents and extract information from contracts, forms, invoices, quotes and other files.',
+                      'The data can then feed into workflows or business applications.',
+                    ],
+                  },
+                  {
+                    q: 'Can a chatbot look up information about properties?',
+                    a: [
+                      'Yes. A conversational agent can connect to internal sources and answer using the information available on properties, availability or other authorized data.',
+                      'It can also collect information from the user and then record the interaction.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI be used in a company that manages many properties?',
+                    a: [
+                      'Yes. In organizations with many properties, AI can make information easier to reach, automate document processes and connect different operational tools.',
+                      'The architecture has to take into account permissions, companies, departments and information sources.',
+                    ],
+                  },
+                  {
+                    q: 'What’s the difference between using AI software and building a custom solution?',
+                    a: [
+                      'An off-the-shelf tool solves a set of cases defined in advance, while custom development can adapt to the organization’s specific processes, rules and integrations.',
+                      'Building your own usually makes more sense when there’s enough complexity or volume to justify it.',
+                    ],
+                  },
+                  {
+                    q: 'How much does it cost to bring AI into a real estate company?',
+                    a: [
+                      'The cost depends on the process, the integrations needed, the data, the volume, the architecture and the security requirements.',
+                      'A single automation and a system connected to several CRMs, ERPs and document sources have very different scopes.',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'contact',
+                h2: 'Tell us which process you want to improve in your organization',
+                p: 'You don’t need to arrive with a defined AI solution. Tell us which process eats up time, which tools your team uses and where the main friction shows up. We’ll look at what can be automated, where artificial intelligence makes sense and what architecture it would take to get it into production.',
+                cta: 'Talk to Ideasforge about real estate',
+              },
+            ],
+          },
+          accounting: {
+            metaTitle: 'Invoice OCR and AI for Accounting Firms, Ideasforge',
+            metaDescription: 'Artificial intelligence solutions for accounting firms, tax advisors, bookkeeping practices and professional services firms.',
+            name: 'Accounting firms',
+            short: 'Client paperwork, deadlines and repetitive tasks.',
+            h1: 'AI for accounting firms and tax advisors',
+            lead: 'Ideasforge builds artificial intelligence solutions for accounting firms, tax advisors, bookkeeping practices and professional services firms that need to cut administrative load, automate paperwork and connect processes that depend on manual work today. We design AI agents, automations and intelligent assistants connected to accounting software, ERP, CRM, email, document management systems, databases and internal applications.',
+            statement: [
+              'We’re not trying to replace professional expertise.',
+              'We use AI to cut the repetitive work that surrounds it.',
+            ],
+            cta: 'Tell us which process you want to automate',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Artificial intelligence for firms with a heavy administrative load',
+                after: [
+                  'As volume grows, a large share of the time goes into receiving, reviewing, classifying, copying and moving information between systems.',
+                  'Artificial intelligence can help interpret that information and turn it into data that automated processes can use.',
+                ],
+                label: 'Accounting and advisory firms work with a large amount of information arriving from many sources',
+                list: [
+                  'Invoices', 'Payslips', 'Contracts', 'Tax forms', 'Receipts', 'Emails',
+                  'Client documents', 'Questions', 'Case files', 'Databases', 'Accounting software',
+                  'ERP', 'CRM',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: 'What can AI automate in an accounting or advisory firm?',
+                lead: 'AI can step into administrative, document, client service and internal management processes.',
+                subs: [
+                  {
+                    t: 'Receiving and classifying documents',
+                    d: 'A system can receive documents by email, forms, portals or shared folders and classify them automatically. It can then send them on to the right process.',
+                    label: 'For example',
+                    items: [
+                      'Invoices', 'Payslips', 'Contracts', 'Certificates', 'Receipts',
+                      'Tax forms', 'Payroll and employment documents', 'Company records',
+                    ],
+                  },
+                  {
+                    t: 'Data extraction',
+                    d: 'AI can extract data from documents that don’t always have exactly the same structure. The information can then become structured data so the process continues automatically.',
+                    label: 'For example',
+                    items: [
+                      'Tax ID', 'Company name', 'Dates', 'Amounts', 'Invoice numbers', 'Line items',
+                      'Due dates', 'Bank details', 'References',
+                    ],
+                  },
+                  {
+                    t: 'Invoice handling',
+                    d: 'AI takes care of interpreting the part that varies. The software keeps control of the rules and validations.',
+                  },
+                  {
+                    t: 'Email handling',
+                    d: 'A system can analyze incoming emails, identify what each message is about, extract information and trigger the right flow.',
+                    label: 'For example',
+                    items: [
+                      'Request for documents', 'Invoice sent in', 'Administrative question',
+                      'Change of details', 'Problem report', 'Certificate request',
+                    ],
+                  },
+                  {
+                    t: 'Data entry',
+                    d: 'The information received can be entered automatically into ERP, CRM, accounting software or internal applications. That cuts manual copying and the risk of errors.',
+                  },
+                  {
+                    t: 'Client service and recurring questions',
+                    d: 'A conversational agent can answer frequent questions about processes, required documents, statuses or procedures. It can also gather information before passing the case to a professional.',
+                  },
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Invoice OCR and accounting document automation',
+                paras: [
+                  'Accounting paperwork is one of the processes where automation can add the most value.',
+                ],
+                steps: [
+                  'Receive the document', 'Identify its type', 'Extract the data', 'Validate fields',
+                  'Check rules', 'Record the information', 'File the document',
+                  'Route exceptions',
+                ],
+                after: [
+                  'Not every case has to be completed automatically.',
+                  'Documents that are incomplete, inconsistent or out of the ordinary can be sent for review.',
+                ],
+                label: 'Invoices can arrive',
+                list: [
+                  'By email', 'From portals', 'Through shared folders', 'As PDFs', 'As images',
+                  'In different formats',
+                ],
+              },
+              {
+                type: 'case',
+                h2: 'A real case: Stanton',
+                sub: '98% of invoices processed with no human intervention',
+                paras: [
+                  'Stanton is a property management company, not an accounting firm. Each tenant’s electricity, gas and water bills were keyed in by hand, document by document, and each one took a minute of typing.',
+                  'Today the team forwards them on Telegram, a model reads each bill, the code checks that it adds up and the result lands as rows in the spreadsheet they already worked with.',
+                  '98% of the bills go through with nobody touching them and the rest reach a person with the document beside it.',
+                  'We don’t do the bookkeeping or decide the journal entry. The system leaves the checked data with its link to the original document.',
+                  'We don’t certify anything with the tax authorities. This isn’t invoicing software and doesn’t replace it.',
+                ],
+                link: { label: 'See the Stanton case', href: '/en/cases/stanton' },
+              },
+              {
+                type: 'split',
+                h2: 'AI for tax and accounting advisors',
+                paras: [
+                  'Artificial intelligence can help cut the administrative tasks that surround tax and accounting work.',
+                ],
+                after: [
+                  'The goal isn’t to hand sensitive tax decisions to a model.',
+                  'It’s to cut the work before and after them that eats up the team’s time.',
+                ],
+                label: 'For example',
+                list: [
+                  'Document classification',
+                  'Data extraction',
+                  'Organizing case files',
+                  'Internal lookup of regulations and procedures',
+                  'Preparing information',
+                  'Following up on missing documents',
+                  'Automating communications',
+                  'Updating systems',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: 'AI for payroll and employment practices',
+                paras: ['Payroll and employment departments handle sensitive information and highly structured processes.'],
+                after: [
+                  'Critical rules have to stay under clear controls.',
+                  'AI is used mainly where information or natural language needs interpreting.',
+                ],
+                label: 'AI can help with tasks such as',
+                list: [
+                  'Classifying documents', 'Gathering data', 'Looking up procedures',
+                  'Organizing case files', 'Answering recurring questions',
+                  'Following up on missing documents',
+                ],
+              },
+              {
+                type: 'poster',
+                h2: 'AI agents connected to accounting software, ERP and CRM',
+                paras: ['An AI agent can work on top of the systems the firm already uses.'],
+                after: [
+                  'The agent can query the authorized sources and return an answer without making the user check several systems by hand.',
+                  'Depending on permissions, it could also take follow-up actions.',
+                ],
+                quotes: ['Which clients still have documents outstanding this month?'],
+                label: 'It can query or use information from',
+                list: [
+                  'Accounting software', 'ERP', 'CRM', 'Databases', 'Internal applications',
+                  'Document management systems', 'Email', 'APIs', 'Cloud storage',
+                ],
+              },
+              {
+                type: 'flow',
+                h2: 'Administrative process automation',
+                paras: [
+                  'Many processes inside an accounting firm don’t need a complex agent.',
+                  'They need a well-designed flow.',
+                  'AI interprets the information that varies.',
+                  'Business rules control what happens next.',
+                ],
+                flows: [
+                  {
+                    steps: [
+                      ['Document received', false],
+                      ['classification', true],
+                      ['extraction', true],
+                      ['validation', false],
+                      ['accounting system', false],
+                      ['filing', false],
+                    ],
+                  },
+                  {
+                    steps: [
+                      ['Email received', false],
+                      ['interpretation', true],
+                      ['classification', true],
+                      ['assignment', false],
+                      ['CRM', false],
+                      ['reply', false],
+                    ],
+                  },
+                ],
+                emph: 'AI where there’s variability. Software where we need certainty.',
+              },
+              {
+                type: 'cells',
+                h2: 'Internal assistants for regulations and procedures',
+                paras: [
+                  'Accounting and advisory firms work with a large amount of regulation, technical documentation and internal procedures.',
+                ],
+                after: [
+                  'The user asks a question in natural language and the system retrieves the relevant information from the authorized sources.',
+                  'It can also show which document the answer comes from.',
+                ],
+                label: 'We can build assistants that look up',
+                list: [
+                  'Manuals', 'Procedures', 'Internal documentation', 'Regulations', 'Instructions',
+                  'Policies', 'Knowledge bases',
+                ],
+                link: {
+                  label: 'AI for internal documentation and corporate knowledge',
+                  href: '/en/services/corporate-knowledge',
+                },
+              },
+              {
+                type: 'split',
+                h2: 'Client service automation',
+                paras: ['Many of the questions an accounting firm receives are repetitive.'],
+                after: [
+                  'A conversational agent can answer part of those questions automatically.',
+                  'Requests that need professional judgment can be passed on along with the context gathered.',
+                ],
+                emph: [
+                  'The goal isn’t to replace the advisor. It’s to stop them spending time on questions that don’t need them.',
+                ],
+                label: 'For example',
+                list: [
+                  'Which documents are needed', 'When a deadline falls', 'How to send a document',
+                  'Status of a request', 'Which details are missing', 'How to start a procedure',
+                ],
+                link: { label: 'Conversational agents', href: '/en/services/conversational-ai' },
+              },
+              {
+                type: 'cells',
+                h2: 'Automatic follow-up on missing documents',
+                paras: [
+                  'A large part of administrative work is reminding clients which documents are still missing.',
+                  'That process can be automated.',
+                ],
+                after: ['It cuts repetitive tasks and makes follow-up more reliable.'],
+                label: 'The system can',
+                list: [
+                  'Detect missing documents', 'Generate reminders', 'Send messages',
+                  'Record replies', 'Update statuses', 'Escalate cases with no reply',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Processing emails and attachments',
+                paras: ['Email is usually one of the main ways information comes in.'],
+                after: ['An inbox can become the start of a structured flow.'],
+                label: 'AI can help to',
+                list: [
+                  'Interpret the content', 'Identify the client', 'Classify the message',
+                  'Detect attachments', 'Extract information', 'Record data',
+                  'Start processes',
+                ],
+              },
+              {
+                type: 'dark',
+                h2: 'Control, validation and traceability',
+                paras: [
+                  'Administrative and tax processes shouldn’t depend only on the decisions of a model.',
+                ],
+                after: [
+                  'For example, AI can interpret a document.',
+                  'But a rule can decide whether the amount, supplier or type of transaction meets the necessary conditions before anything is recorded.',
+                ],
+                label: 'That’s why we design controls such as',
+                list: [
+                  'Validations', 'Permissions', 'Business rules', 'Limits on actions',
+                  'Human approval', 'Logs', 'Traceability', 'Exception handling',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Security and data protection',
+                paras: ['Accounting and advisory firms work with confidential information and personal data.'],
+                after: [
+                  'When the project calls for it we can design systems on private infrastructure or in controlled environments.',
+                ],
+                label: 'The architecture has to define',
+                list: [
+                  'What information each model receives',
+                  'Where it’s processed',
+                  'Which providers are involved',
+                  'Who can access it',
+                  'What gets logged',
+                  'What information has to be anonymized or limited',
+                ],
+                link: { label: 'Artificial intelligence, privacy and GDPR', href: '/en/guides/gdpr-compliant-ai' },
+              },
+              {
+                type: 'cells',
+                h2: 'Where does the biggest return usually show up?',
+                paras: ['We prioritize the processes where the savings and operational improvement justify the investment.'],
+                emph: ['Not everything that can be automated is worth building.'],
+                label: 'Automation usually brings the most value in processes with',
+                list: [
+                  'High document volume', 'Repetitive administrative tasks',
+                  'Information that has to be copied between systems', 'Recurring emails', 'Many clients',
+                  'Missing documents', 'Frequent validations', 'Manual errors',
+                  'Processes that take hours every week',
+                ],
+                label2: 'Before building we analyze',
+                list2: [
+                  'Volume', 'Frequency', 'Current time', 'Number of people involved', 'Cost',
+                  'Errors', 'Share that could be automated',
+                ],
+              },
+              {
+                type: 'steps',
+                h2: 'How we build AI solutions for accounting firms',
+                steps: [
+                  [
+                    'We analyze the current process',
+                    'We study what happens from the moment the information arrives until the process ends.',
+                  ],
+                  [
+                    'We identify repetitive tasks',
+                    'We find manual steps, validations, data moving between systems and friction points.',
+                  ],
+                  [
+                    'We review systems and documentation',
+                    'We analyze accounting software, ERP, CRM, email, databases and document sources.',
+                  ],
+                  [
+                    'We design the architecture',
+                    'We define which part needs AI and what should be solved with conventional rules.',
+                  ],
+                  [
+                    'We build and test the exceptions',
+                    'We test common cases, incomplete documents, errors and edge cases.',
+                  ],
+                  [
+                    'We deploy and measure',
+                    'We look at the share automated, time saved, errors, exceptions and running cost.',
+                  ],
+                ],
+              },
+              {
+                type: 'when',
+                h2: 'When is custom AI worth building for an accounting firm?',
+                after: [
+                  'If an existing tool already solves the problem well, building from scratch won’t always be the best option.',
+                ],
+                label: 'Custom development usually makes sense when',
+                list: [
+                  'There’s a high volume of documents',
+                  'Several applications have to work together',
+                  'The process has its own specific rules',
+                  'An off-the-shelf platform doesn’t cover the whole flow',
+                  'You need control over data and permissions',
+                  'There are high-frequency repetitive processes',
+                  'You want to automate across several systems',
+                ],
+              },
+              {
+                type: 'faq',
+                h2: 'Artificial intelligence for accounting firms',
+                items: [
+                  {
+                    q: 'How can AI be used in an accounting firm?',
+                    a: [
+                      'AI can automate document classification, data extraction, invoice processing, email handling, client questions and administrative tasks.',
+                      'It can also connect to accounting software, ERP, CRM and other applications.',
+                    ],
+                  },
+                  {
+                    q: 'Can invoice entry be automated?',
+                    a: [
+                      'Yes. A system can receive invoices, extract information, apply validations and record the data in the right software.',
+                      'Cases that don’t meet the rules can be sent for review.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI read accounting and tax documents?',
+                    a: [
+                      'Yes. AI can interpret documents and extract the relevant information as long as their quality and format allow proper processing.',
+                      'The data can then be used inside automated processes.',
+                    ],
+                  },
+                  {
+                    q: 'Can it connect to our accounting software?',
+                    a: [
+                      'Yes, as long as there’s a suitable integration path.',
+                      'The connection can be made through APIs, databases or other available mechanisms.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI be used to answer client questions?',
+                    a: [
+                      'Yes. A conversational agent can answer recurring questions, gather information and look up internal sources.',
+                      'Cases that need professional judgment can be passed to a person.',
+                    ],
+                  },
+                  {
+                    q: 'Can follow-up on missing documents be automated?',
+                    a: 'Yes. The system can detect which documents are missing, send reminders and update the status when new information comes in.',
+                  },
+                  {
+                    q: 'Is AI safe for working with confidential documents?',
+                    a: [
+                      'It can be, if the architecture is designed with the right controls over data, permissions, providers and infrastructure.',
+                      'Security has to be defined from the start of the project.',
+                    ],
+                  },
+                  {
+                    q: 'How much does it cost to bring AI into an accounting firm?',
+                    a: [
+                      'The cost depends on the process, the volume, the integrations, the documents, how complex the rules are and the security requirements.',
+                      'A single automation and a firm-wide system connected to many applications have different scopes.',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'contact',
+                h2: 'Tell us which process you want to cut down or automate',
+                p: 'You don’t need to arrive with a defined technology solution. Tell us which task eats up time, what documents your team receives and which systems you use today. We’ll look at what can be automated, where it makes sense to bring in artificial intelligence and what architecture it would take to get it into production.',
+                cta: 'Talk to Ideasforge about accounting firms',
+              },
+            ],
+          },
+          sectorIndustry: {
+            metaTitle: 'AI for Manufacturing and Industrial Companies, Ideasforge',
+            metaDescription: 'Artificial intelligence solutions for industrial and manufacturing companies that need to automate processes and connect data and systems.',
+            name: 'Manufacturing',
+            short: 'Technical knowledge, incidents and plant data.',
+            h1: 'AI for manufacturing and industry',
+            lead: 'Ideasforge builds artificial intelligence solutions for industrial and manufacturing companies that need to automate processes, make technical knowledge easier to reach and connect data, documentation and operational systems. AI agents, automations and assistants connected to ERP, MES, databases, technical documentation, in-house software and APIs.',
+            statement: [
+              'We don’t apply AI in a generic way.',
+              'We build it in where it cuts time, makes information easier to reach or removes manual work.',
+            ],
+            cta: 'Tell us which industrial process you want to improve',
+            heroLink: 'What AI can do on the plant floor',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Artificial intelligence for complex industrial environments.',
+                after: [
+                  'When information is spread across several tools, much of the knowledge ends up depending on people who know where to look or how to read each system.',
+                  'Artificial intelligence can become a layer of access and automation over that existing infrastructure.',
+                ],
+                label: 'Industrial companies work with',
+                list: [
+                  'Operational data', 'Technical documentation', 'Procedures', 'Work orders',
+                  'Incidents', 'Maintenance', 'ERP', 'MES', 'Databases', 'In-house systems',
+                  'Manuals', 'Spreadsheets', 'Email',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: 'What can AI do in an industrial company?',
+                lead: 'Artificial intelligence can step into technical, operational, document and administrative processes.',
+                subs: [
+                  {
+                    t: 'Technical documentation lookup',
+                    d: 'The user asks a question in natural language and the system retrieves the relevant information from the authorized sources.',
+                    label: 'An assistant can search through',
+                    items: [
+                      'Manuals', 'Procedures', 'Technical data sheets', 'Protocols',
+                      'Maintenance documentation', 'Product documentation', 'Internal instructions',
+                    ],
+                  },
+                  {
+                    t: 'Access to operational data',
+                    d: 'An agent can query information stored in databases, ERP, MES or other industrial applications, without making the user click through several screens.',
+                    q: 'Which maintenance orders are still open on line 3?',
+                    label: 'Another common question',
+                    items: ['Which incidents have come up most often this quarter?'],
+                  },
+                  {
+                    t: 'Incident management',
+                    d: 'AI can help interpret an incident, classify it, retrieve related documentation and send it to the right process.',
+                    label: 'Then the software can',
+                    items: [
+                      'Create an order', 'Record information', 'Assign owners', 'Raise alerts',
+                      'Update statuses',
+                    ],
+                  },
+                  {
+                    t: 'Internal technical support',
+                    d: 'An assistant can help employees find procedures, past cases and documentation related to a specific problem. Especially useful where part of the knowledge sits with a few very experienced people.',
+                    label: 'It helps find',
+                    items: ['Procedures', 'Past cases', 'Related documentation'],
+                  },
+                  {
+                    t: 'Administrative process automation',
+                    d: 'AI can also step into the administrative processes around operations.',
+                    label: 'For example',
+                    items: [
+                      'Document handling', 'Data entry', 'Email classification',
+                      'Validations', 'Report generation', 'Coordination between applications',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'poster',
+                h2: 'Technical and operational knowledge',
+                quotes: ['Has something like this happened before, and which procedure was followed?'],
+                paras: [
+                  'In industry, knowledge isn’t always organized in a single source. It can be spread across manuals, procedures, manufacturer documentation, incident history, databases, maintenance systems and internal know-how.',
+                  'An AI system can connect those sources and, when an incident comes up, build an answer based on real documentation and operational information.',
+                ],
+                link: {
+                  label: 'AI for internal documentation and corporate knowledge',
+                  href: '/en/services/corporate-knowledge',
+                },
+              },
+              {
+                type: 'integration',
+                kicker: 'Connected agents',
+                h2: 'AI agents connected to industrial systems.',
+                paras: [
+                  'An agent can become an access layer over different systems. The goal isn’t to replace them.',
+                  'It’s to make information easier to reach and automate actions between them.',
+                ],
+                list: [
+                  'ERP', 'MES', 'CMMS', 'Databases', 'APIs', 'In-house software', 'Document management systems',
+                  'Maintenance systems', 'Quality applications',
+                ],
+                link: { label: 'AI agent development', href: '/en/services/ai-agent-development' },
+              },
+              {
+                type: 'flow',
+                h2: 'Industrial process automation with AI.',
+                paras: [
+                  'Many industrial processes need to combine AI with conventional rules. AI interprets the part that varies. The software keeps control of rules, permissions and actions.',
+                ],
+                flows: [
+                  {
+                    label: 'Incident',
+                    steps: [
+                      ['Incident received', false],
+                      ['Interpretation', true],
+                      ['Classification', true],
+                      ['Documentation lookup', true],
+                      ['Order created', false],
+                      ['Assignment', false],
+                    ],
+                  },
+                  {
+                    label: 'Technical document',
+                    steps: [
+                      ['Document received', false],
+                      ['Extraction', true],
+                      ['Validation', false],
+                      ['ERP', false],
+                      ['Filing', false],
+                      ['Exception', false],
+                    ],
+                  },
+                ],
+                emph: 'AI to understand. Software to execute safely.',
+                link: {
+                  label: 'AI workflow automation',
+                  href: '/en/services/ai-workflow-automation',
+                },
+              },
+              {
+                type: 'areas',
+                h2: 'Where it applies on the plant floor and in the technical office.',
+                paras: [
+                  'Four areas where AI tends to cut the time spent looking for information and moving data between systems.',
+                ],
+                items: [
+                  {
+                    t: 'Maintenance and operational support',
+                    d: 'Faster access to the information that matters for the first diagnosis.',
+                    items: [
+                      'Procedures', 'History', 'Machine documentation', 'Previous interventions',
+                      'Spare parts', 'Similar incidents',
+                    ],
+                    k: 'It doesn’t replace technical experience. It makes it easier to reach.',
+                  },
+                  {
+                    t: 'Incidents and historical knowledge',
+                    d: 'Incidents generate valuable information that, stored as free text, is hard to reuse.',
+                    items: [
+                      'Classify incidents', 'Group similar cases', 'Retrieve past cases',
+                      'Find patterns', 'Link documentation', 'Summarize history',
+                    ],
+                    k: 'Accumulated information turned into reusable operational knowledge.',
+                  },
+                  {
+                    t: 'Assistants for the plant floor and technical office',
+                    d: 'An interface to look up technical information without knowing which system it’s stored in.',
+                    items: [
+                      'Look up procedures', 'Find documentation', 'Retrieve data',
+                      'Review history', 'Product information', 'Previous incidents',
+                    ],
+                    k: 'Conversation as a layer over industrial knowledge.',
+                  },
+                  {
+                    t: 'Quality and documentation',
+                    d: 'Large volumes of documentation and workflows where documents have to be interpreted before the process continues.',
+                    items: [
+                      'Find procedures', 'Compare versions', 'Summarize documentation',
+                      'Classify files', 'Retrieve standards', 'Identify relevant information',
+                    ],
+                    k: 'Documents interpreted before they enter the flow.',
+                  },
+                ],
+              },
+              {
+                type: 'case',
+                h2: 'A real case: a plant assistant',
+                sub: 'Guided troubleshooting for whoever is at the machine',
+                paras: [
+                  'In an industrial company, plant knowledge lived in dense manuals and in the heads of the most experienced people.',
+                  'We built an assistant on the company’s own systems. Operators and supervisors query production and fault data, and get step-by-step guided troubleshooting when a machine stops.',
+                  'Underneath, an orchestrator routes each query to one of half a dozen specialized agents. The accuracy of choosing which agent answers went from 72% to 91%, measured on 118 real cases.',
+                ],
+                link: { label: 'See the plant assistant case', href: '/en/cases/industrial' },
+              },
+              {
+                type: 'dark',
+                kicker: 'Control and security',
+                h2: 'In industry, a wrong action can have serious operational consequences.',
+                paras: [
+                  'That’s why we don’t design agents with unlimited freedom. AI interprets and critical decisions are made by the code, never by the model.',
+                  'You don’t need to replace your current infrastructure to apply artificial intelligence.',
+                ],
+                label: 'We can build in',
+                list: [
+                  'Permissions', 'Validations', 'Limits on actions', 'Business rules',
+                  'Human approval', 'Logs', 'Traceability', 'States', 'Error recovery',
+                ],
+                label2: 'Before integrating we analyze',
+                list2: [
+                  'Permissions', 'Data quality', 'Update frequency', 'Allowed operations',
+                  'Impact of errors', 'Need for human validation',
+                ],
+              },
+              {
+                type: 'diptych',
+                h2: 'Not every industrial process needs AI.',
+                paras: [
+                  'Part of our job is identifying where artificial intelligence really adds value. When a rule can be expressed clearly in software, we usually prefer to solve it that way.',
+                ],
+                yesLabel: 'It makes sense when there is',
+                yes: [
+                  'Natural language', 'Unstructured documentation', 'Decisions that vary',
+                  'Large volumes of information', 'A need to retrieve knowledge',
+                  'Several sources',
+                ],
+                roiLabel: 'Biggest return in processes with',
+                roi: [
+                  'Plenty of documentation', 'Frequent incidents', 'Scattered knowledge',
+                  'Repetitive administrative tasks', 'Several applications', 'Large teams',
+                  'Long search times', 'Dependence on specific people',
+                ],
+                emph: ['A good industrial system doesn’t use more AI. It uses the right amount.'],
+              },
+              {
+                type: 'steps',
+                h2: 'How we build AI solutions for industry.',
+                lead: 'Before building we analyze frequency, current time, volume, errors, number of users, operational impact, complexity and the share that could be automated. The goal is to improve the process, not to add technology.',
+                steps: [
+                  [
+                    'We analyze the process',
+                    'We study how it works today and which systems, people and sources are involved.',
+                  ],
+                  [
+                    'We identify friction points',
+                    'We look for repetitive tasks, information searches, incidents and manual steps.',
+                  ],
+                  [
+                    'We review data and documentation',
+                    'We analyze ERP, MES, databases, technical documentation and in-house software.',
+                  ],
+                  [
+                    'We design the architecture',
+                    'We define which part needs AI, which part should stay in conventional software and which controls are needed.',
+                  ],
+                  [
+                    'We build and evaluate',
+                    'We test real cases, errors, exceptions and edge cases.',
+                  ],
+                  [
+                    'We deploy and monitor',
+                    'We measure usage, errors, times, answer quality and results.',
+                  ],
+                ],
+              },
+              {
+                type: 'faq',
+                h2: 'Artificial intelligence for industry.',
+                lead: 'Custom development usually makes sense when several systems have to work together, knowledge is scattered and an off-the-shelf tool doesn’t cover the whole flow.',
+                items: [
+                  {
+                    q: 'How can AI be used in an industrial company?',
+                    a: [
+                      'To look up technical documentation, reach operational data, manage incidents, automate processes and make internal knowledge easier to reach.',
+                      'It can also connect to ERP, MES, databases and in-house software.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI query production data?',
+                    a: [
+                      'Yes. A system can query operational data as long as there’s an integration path and the right permissions are defined.',
+                      'The information can be retrieved from databases, ERP, MES or other applications.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI be used for maintenance?',
+                    a: [
+                      'Yes. AI can help find documentation, retrieve history, classify incidents and reach information related to maintenance.',
+                      'It doesn’t replace technical judgment, but it can cut search times.',
+                    ],
+                  },
+                  {
+                    q: 'Can it connect to our ERP or MES?',
+                    a: [
+                      'Yes, as long as there’s a suitable integration.',
+                      'The connection can be made through APIs, databases or other available mechanisms.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI be used on technical documentation?',
+                    a: [
+                      'Yes. An assistant can look up manuals, procedures, technical data sheets and other sources in natural language.',
+                      'It can also show the sources it used.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI be used to manage incidents?',
+                    a: [
+                      'Yes. The system can interpret an incident, classify it, retrieve related information and trigger the right flow.',
+                      'Complex cases can be passed to a person.',
+                    ],
+                  },
+                  {
+                    q: 'Is AI safe in an industrial environment?',
+                    a: [
+                      'It can be, if the architecture properly defines permissions, validations, limits and traceability.',
+                      'Critical actions can stay under human control or deterministic rules.',
+                    ],
+                  },
+                  {
+                    q: 'How much does it cost to bring AI into an industrial company?',
+                    a: [
+                      'The cost depends on the process, the integrations, the systems involved, the data, the architecture and the security requirements.',
+                      'A documentation assistant and a system connected to several operational environments have different scopes.',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'contact',
+                h2: 'Tell us which industrial process you want to improve.',
+                p: 'You don’t need to arrive with a defined technology solution. Tell us which process eats up time, where the knowledge lives and which systems your team uses. We’ll look at what can be automated, where artificial intelligence makes sense and what architecture it would take to get it into production.',
+                cta: 'Talk to Ideasforge about manufacturing',
+              },
+            ],
+          },
+          sectorHealth: {
+            metaTitle: 'AI for Healthcare Groups and Clinic Networks, Ideasforge',
+            metaDescription: 'Artificial intelligence solutions for healthcare groups, clinic networks, medical centers and health organizations.',
+            name: 'Healthcare',
+            short: 'Appointments, clinical paperwork and administrative processes.',
+            h1: 'AI for healthcare and healthcare groups',
+            lead: 'Ideasforge builds artificial intelligence solutions for healthcare groups, clinic networks, medical centers and health organizations that need to automate processes, improve patient service and connect internal systems. We design AI agents, automations and intelligent assistants connected to booking systems, CRM, ERP, databases, documentation, email, messaging and internal applications.',
+            statement: [
+              'We don’t use AI to replace clinical judgment.',
+              'We apply it to administrative, operational and information-access processes where it can have a measurable impact.',
+            ],
+            cta: 'Tell us which process you want to improve',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Artificial intelligence for healthcare organizations with complex operations',
+                after: [
+                  'When information is spread across different tools, part of the daily work ends up depending on manual tasks, repetitive searches or coordination between teams.',
+                  'Artificial intelligence can help interpret that information and use it inside more efficient processes.',
+                ],
+                label: 'Healthcare groups work with',
+                list: [
+                  'Several centers', 'Calendars', 'Practitioners', 'Patients', 'Documentation',
+                  'Authorizations', 'Billing', 'Patient service', 'Incidents', 'CRM', 'ERP',
+                  'Booking systems', 'Email', 'Internal applications',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: 'What can AI automate in a healthcare organization?',
+                lead: 'AI can step into administrative, patient service, documentation and internal coordination processes.',
+                subs: [
+                  {
+                    t: 'Appointment management',
+                    d: 'The conversation can become an interface over the booking system.',
+                    label: 'An agent can help to',
+                    items: [
+                      'Check availability', 'Book', 'Change', 'Cancel', 'Reschedule',
+                      'Work with different practitioners', 'Follow scheduling rules',
+                      'Pass on exceptional cases',
+                    ],
+                  },
+                  {
+                    t: 'Administrative support',
+                    d: 'Cases that need a person can be passed on with the context already gathered.',
+                    label: 'A conversational agent can answer questions about',
+                    items: [
+                      'Opening hours', 'Required documents', 'Locations', 'Processes', 'Appointments', 'Services',
+                      'Pre-visit instructions', 'Administrative requests',
+                    ],
+                  },
+                  {
+                    t: 'Reminders and follow-up',
+                    label: 'Systems can automate',
+                    items: [
+                      'Appointment reminders', 'Confirmations', 'Changes', 'Cancellations',
+                      'Follow-up messages', 'Refilling freed-up slots',
+                    ],
+                  },
+                  {
+                    t: 'Document management',
+                    d: 'AI can help classify, interpret and extract information from administrative documents.',
+                  },
+                  {
+                    t: 'Internal processes',
+                    label: 'We can automate tasks such as',
+                    items: [
+                      'Coordination', 'System updates', 'Data entry',
+                      'Request handling', 'Message classification', 'Notifications',
+                      'Follow-up',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'poster',
+                h2: 'Appointment management with AI',
+                paras: [
+                  'Managing the calendar is one of the processes best suited to conversational automation.',
+                  'A system can interpret a request written in natural language.',
+                ],
+                steps: [
+                  'Identify the appointment', 'Check availability', 'Apply scheduling rules',
+                  'Suggest alternatives', 'Change the booking', 'Confirm the change',
+                ],
+                after: ['The experience is conversational.', 'The business rules stay under control.'],
+                quotes: ['I need to move my Friday appointment to any afternoon next week.'],
+              },
+              {
+                type: 'case',
+                h2: 'Our own product: Wazzy',
+                sub: 'Appointment management on WhatsApp',
+                paras: [
+                  'Wazzy is our own product, not a client. It lets patients manage their appointments straight from WhatsApp and today it works in dental, physiotherapy and aesthetic clinics.',
+                  'It handles hundreds of appointments a month and in the product’s entire history it has never double-booked a single one.',
+                ],
+                label: 'The system can',
+                list: [
+                  'Check availability in the real calendar', 'Book', 'Change', 'Cancel',
+                  'Apply the clinic’s rules', 'Hand over to a person when needed',
+                ],
+                after: [
+                  'The conversation is simple.',
+                  'Behind it there’s an architecture that controls what the agent can do and under which conditions.',
+                ],
+                link: { label: 'See the Wazzy case', href: '/en/cases/wazzy' },
+              },
+              {
+                type: 'split',
+                h2: 'Patient service without turning everything into a scripted chatbot',
+                paras: [
+                  'Not every question needs a person.',
+                  'And not every question should be resolved automatically.',
+                ],
+                after: [
+                  'When a clinical or sensitive question comes up, or one outside the defined scope, the system can stop and pass the case on.',
+                ],
+                emph: ['The goal is to automate administrative support, not to replace medical decisions.'],
+                label: 'An agent can take care of',
+                list: [
+                  'Frequent questions', 'Instructions', 'Administrative requests',
+                  'Availability checks', 'Information about centers', 'Collecting details',
+                  'Handing cases over',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: 'AI for clinic networks and groups with several locations',
+                paras: ['An AI system can work with that complexity.'],
+                after: ['That makes it possible to design solutions that fit organizations with a complex structure.'],
+                label: 'A healthcare network can have',
+                list: [
+                  'Several centers', 'Practitioners', 'Calendars', 'Specialties', 'Different rules',
+                  'Different systems', 'Distributed teams',
+                ],
+                label2: 'For example, the system can',
+                list2: [
+                  'Identify the right center', 'Check calendars', 'Follow specific rules',
+                  'Work across several locations', 'Adapt answers to the location',
+                  'Use different permissions',
+                ],
+              },
+              {
+                type: 'flow',
+                h2: 'Administrative process automation',
+                paras: [
+                  'There are many other repetitive processes besides appointment management.',
+                  'AI interprets the information that varies.',
+                  'The software keeps control of the flow.',
+                ],
+                flows: [
+                  {
+                    steps: [
+                      ['Request received', false],
+                      ['interpretation', true],
+                      ['classification', true],
+                      ['internal system', false],
+                      ['assignment', false],
+                      ['reply', false],
+                    ],
+                  },
+                  {
+                    steps: [
+                      ['Cancellation', false],
+                      ['slot freed up', false],
+                      ['search for an alternative', false],
+                      ['message', false],
+                      ['new booking', false],
+                    ],
+                  },
+                ],
+                emph: 'Judgment lives in the code, interpretation of language lives in the model and knowledge lives in the data.',
+              },
+              {
+                type: 'split',
+                h2: 'Handling cancellations and free slots',
+                paras: ['Cancellations create administrative work and a potential loss of capacity.'],
+                after: ['That can cut handling time and make better use of the calendar.'],
+                label: 'A system can',
+                list: [
+                  'Detect a cancellation',
+                  'Free up the slot',
+                  'Check a waiting list',
+                  'Identify suitable patients',
+                  'Send an offer',
+                  'Book automatically if the person accepts',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: 'Conversational agents for patient channels',
+                paras: ['The channel changes.'],
+                after: [
+                  'The system’s logic can stay the same.',
+                  'That keeps rules, integrations and information sources in one place.',
+                ],
+                label: 'Depending on the project, an agent can work from',
+                list: ['The web', 'WhatsApp', 'Apps', 'Internal tools', 'Other channels with an integration'],
+                link: { label: 'Conversational agents', href: '/en/services/conversational-ai' },
+              },
+              {
+                type: 'split',
+                h2: 'AI for internal documentation and procedures',
+                paras: ['Healthcare teams also work with a large amount of internal documentation.'],
+                after: [
+                  'The user can ask in natural language and get an answer based on authorized sources.',
+                ],
+                label: 'An assistant can help look up',
+                list: [
+                  'Procedures', 'Protocols', 'Manuals', 'Administrative documentation',
+                  'Internal policies', 'Instructions', 'Operational documentation',
+                ],
+                link: {
+                  label: 'AI for internal documentation and corporate knowledge',
+                  href: '/en/services/corporate-knowledge',
+                },
+              },
+              {
+                type: 'cells',
+                h2: 'Email and request automation',
+                paras: ['Email is still an important way in.'],
+                after: ['An inbox can become the start of a structured flow.'],
+                label: 'AI can help to',
+                list: [
+                  'Interpret messages', 'Classify requests', 'Extract information',
+                  'Identify priority', 'Start processes', 'Assign cases', 'Record data',
+                ],
+              },
+              {
+                type: 'integration',
+                h2: 'Integration with existing systems',
+                paras: ['You don’t need to replace your whole infrastructure to apply artificial intelligence.'],
+                label: 'We can design solutions connected to',
+                list: [
+                  'Booking systems', 'CRM', 'ERP', 'Databases', 'In-house software', 'Calendars',
+                  'Messaging platforms', 'Email', 'Document management systems', 'APIs',
+                ],
+                label2: 'Before integrating we analyze',
+                list2: [
+                  'Permissions', 'Available information', 'Allowed operations', 'Traceability',
+                  'Impact of errors', 'Security requirements',
+                ],
+              },
+              {
+                type: 'dark',
+                h2: 'Privacy, data and control',
+                paras: ['Healthcare works with sensitive information.'],
+                label: 'That’s why the architecture has to define with particular care',
+                list: [
+                  'What information each model receives', 'Which data is processed', 'Where it’s stored',
+                  'Which providers are involved', 'Who can access it',
+                  'Which operations the system can carry out', 'What has to be logged',
+                ],
+                label2: 'We can also apply',
+                list2: [
+                  'Permissions', 'Data minimization', 'Logs', 'Validations', 'Limits',
+                  'Human intervention', 'Controlled infrastructure',
+                ],
+                link: { label: 'Artificial intelligence, privacy and GDPR', href: '/en/guides/gdpr-compliant-ai' },
+              },
+              {
+                type: 'diptych',
+                h2: 'Not every healthcare process needs artificial intelligence',
+                paras: [
+                  'Part of our job is identifying where AI adds value and where it doesn’t.',
+                  'When a task can be solved with conventional rules, we usually prefer to do it that way.',
+                ],
+                yesLabel: 'It can make sense when there is',
+                yes: [
+                  'Natural language', 'Documentation', 'Requests that vary', 'Several systems',
+                  'A high volume of questions', 'A need to interpret context',
+                ],
+                roiLabel: 'AI usually brings the most value in organizations with',
+                roi: [
+                  'Several centers', 'A high volume of appointments', 'Many administrative questions',
+                  'Frequent cancellations', 'Distributed teams', 'Repetitive tasks',
+                  'Poorly connected systems', 'Large amounts of documentation',
+                ],
+                note: 'Before building we analyze volume, administrative time, errors, number of practitioners, number of centers, the share that could be automated and running cost.',
+                emph: [
+                  'A good healthcare system doesn’t use more AI. It uses AI only where it improves the process.',
+                  'The goal is to free up capacity without losing control.',
+                ],
+              },
+              {
+                type: 'steps',
+                h2: 'How we build AI solutions for healthcare',
+                steps: [
+                  [
+                    'We analyze the process',
+                    'We study how it works today, which teams are involved and which tools they use.',
+                  ],
+                  [
+                    'We identify opportunities',
+                    'We look for repetitive processes, frequent questions and administrative tasks.',
+                  ],
+                  [
+                    'We review systems and data',
+                    'We analyze calendars, CRM, ERP, databases, documentation and channels.',
+                  ],
+                  [
+                    'We design the architecture',
+                    'We define which part needs AI, which part should stay in conventional software and which controls are needed.',
+                  ],
+                  [
+                    'We build and evaluate',
+                    'We test real conversations, exceptions, errors and edge cases.',
+                  ],
+                  [
+                    'We deploy and monitor',
+                    'We measure usage, errors, handovers, time saved and results.',
+                  ],
+                ],
+              },
+              {
+                type: 'when',
+                h2: 'When is custom AI worth building for a healthcare group?',
+                after: [
+                  'If an off-the-shelf tool solves the problem well, building your own solution won’t always be necessary.',
+                ],
+                label: 'Custom development usually makes sense when',
+                list: [
+                  'There are several centers', 'Different systems are in use',
+                  'There are specific scheduling rules', 'There’s a high volume of patient service',
+                  'Deep integration is needed', 'An off-the-shelf platform doesn’t cover the process',
+                  'You need control over data and permissions', 'There are high-frequency repetitive processes',
+                ],
+              },
+              {
+                type: 'faq',
+                h2: 'Artificial intelligence for healthcare and healthcare groups',
+                items: [
+                  {
+                    q: 'How can AI be used in a clinic or healthcare group?',
+                    a: [
+                      'AI can automate appointments, administrative support, reminders, request classification, documentation and internal processes.',
+                      'It can also connect to booking systems, CRM, ERP and in-house applications.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI manage appointments automatically?',
+                    a: 'Yes. An agent can check availability, book, change and cancel appointments following the rules defined for each center or practitioner.',
+                  },
+                  {
+                    q: 'Can it work across several locations?',
+                    a: 'Yes. The system can work with several centers, practitioners, calendars and different rules.',
+                  },
+                  {
+                    q: 'Can WhatsApp be used to manage appointments?',
+                    a: 'Yes. A conversational agent can be integrated with WhatsApp when the project and the channel’s infrastructure allow it.',
+                  },
+                  {
+                    q: 'Can it automate reminders and cancellations?',
+                    a: 'Yes. The system can send reminders, record replies and update the calendar according to the rules that have been set.',
+                  },
+                  {
+                    q: 'Can it help reduce gaps left by cancellations?',
+                    a: 'Yes. An automation can detect free slots and contact patients or people on a waiting list according to defined criteria.',
+                  },
+                  {
+                    q: 'Can it answer clinical questions?',
+                    a: [
+                      'The system can be limited to administrative or documentary information and pass on any clinical question when that’s how it’s defined.',
+                      'There’s no need to let the model answer outside its scope.',
+                    ],
+                  },
+                  {
+                    q: 'Is AI safe for working in healthcare?',
+                    a: [
+                      'It can be, if the architecture is designed with the right controls over data, permissions, providers, traceability and infrastructure.',
+                      'Privacy has to be part of the design from the start.',
+                    ],
+                  },
+                  {
+                    q: 'How much does it cost to bring AI into a healthcare group?',
+                    a: [
+                      'The cost depends on the process, the number of centers, the integrations, the volume, the architecture and the security requirements.',
+                      'An agent for a single calendar and a system connected to many centers have very different scopes.',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'contact',
+                h2: 'Tell us which process you want to improve in your healthcare organization',
+                p: 'You don’t need to arrive with a defined technology solution. Tell us which process eats up time, which channels your team uses and which systems are part of the operation. We’ll look at what can be automated, where it makes sense to bring in artificial intelligence and what architecture it would take to get it into production.',
+                cta: 'Talk to Ideasforge about healthcare',
+              },
+            ],
+          },
+          sectorLogistics: {
+            metaTitle: 'AI for Logistics and Transportation, Ideasforge',
+            metaDescription: 'Artificial intelligence solutions for logistics operators, transportation and distribution companies, and organizations with complex supply chains.',
+            name: 'Logistics and transportation',
+            short: 'Shipments, incidents, paperwork and tracking.',
+            h1: 'AI for logistics and transportation',
+            lead: 'Ideasforge builds artificial intelligence solutions for logistics operators, transportation and distribution companies, and organizations with complex supply chains. We design AI agents, automations and intelligent assistants connected to TMS, ERP, CRM, databases, documentation, email, APIs and internal applications. It’s an industry where we can help, although we don’t have a client in it yet: this page describes what we would build, with the method behind the five systems we already have in production.',
+            statement: [
+              'We don’t apply AI to logistics in a generic way.',
+              'We build it into the processes where it can cut time, errors and manual work.',
+            ],
+            cta: 'Tell us which logistics process you want to improve',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Artificial intelligence for complex logistics operations',
+                after: [
+                  'When information is spread across many systems, much of the work depends on people who look up data, coordinate incidents, update statuses and move information between tools.',
+                  'Artificial intelligence can help interpret that information and use it inside automated processes.',
+                ],
+                label: 'Logistics and transportation companies work with',
+                list: [
+                  'Orders', 'Shipments', 'Routes', 'Warehouses', 'Incidents', 'Carriers',
+                  'Suppliers', 'Documentation', 'Billing', 'Customers', 'TMS', 'ERP', 'CRM',
+                  'Email', 'Internal applications',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: 'What can AI automate in logistics and transportation?',
+                lead: 'AI can step into operational, administrative, document and customer service processes.',
+                subs: [
+                  {
+                    t: 'Incident management',
+                    d: 'A system can receive an incident, interpret it and classify it. It can then look up data, update systems or pass the case to the right team.',
+                    label: 'For example',
+                    items: [
+                      'Delays', 'Failed deliveries', 'Damaged goods', 'Paperwork problems',
+                      'Wrong addresses', 'Picking errors', 'Order discrepancies',
+                    ],
+                  },
+                  {
+                    t: 'Order processing',
+                    d: 'AI can interpret information received from emails, forms, documents or integrations and turn it into structured data. The process can then continue automatically into the ERP, TMS or in-house software.',
+                  },
+                  {
+                    t: 'Document management',
+                    label: 'We can automate classification and data extraction from',
+                    items: [
+                      'Delivery notes', 'Bills of lading', 'Invoices', 'Orders', 'Receipts',
+                      'Proof of delivery', 'Forms', 'Supplier documentation',
+                    ],
+                  },
+                  {
+                    t: 'Customer service',
+                    d: 'A conversational agent can answer questions about statuses, deliveries, incidents or documentation. When a request needs a person, it can be passed on with the context already gathered.',
+                  },
+                  {
+                    t: 'Coordination between systems',
+                    label: 'AI can be part of processes that connect',
+                    items: [
+                      'TMS', 'ERP', 'CRM', 'Databases', 'Email', 'APIs',
+                      'Internal applications',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'AI for logistics incident management',
+                paras: [
+                  'Incidents are one of the processes where a logistics organization can lose the most time.',
+                ],
+                steps: [
+                  'Interpret the problem', 'Identify the shipment or order', 'Classify the incident',
+                  'Retrieve related information', 'Apply rules', 'Update the system',
+                  'Assign the case', 'Report the status',
+                ],
+                after: ['Cases that don’t fit the rules can go to review.'],
+                label: 'An incident can arrive by',
+                list: ['Email', 'Form', 'Transcribed phone call', 'Portal', 'Chat', 'Internal system'],
+              },
+              {
+                type: 'poster',
+                h2: 'AI agents connected to TMS, ERP and CRM',
+                paras: [
+                  'An agent can become an access layer over existing logistics systems.',
+                ],
+                after: [
+                  'The system can retrieve the authorized information without making the user check several applications.',
+                  'Depending on permissions, it can also take actions.',
+                ],
+                quotes: [
+                  'Which shipments have had no update for more than 24 hours?',
+                  'Which open incidents affect priority customers?',
+                ],
+                label: 'It can query information from',
+                list: ['TMS', 'ERP', 'CRM', 'WMS', 'Databases', 'APIs', 'In-house applications'],
+              },
+              {
+                type: 'flow',
+                h2: 'Logistics process automation with AI',
+                paras: [
+                  'Many logistics processes need to combine interpretation and rules.',
+                  'AI interprets the information that varies.',
+                  'The software controls the process.',
+                ],
+                flows: [
+                  {
+                    steps: [
+                      ['Email received', false],
+                      ['interpretation', true],
+                      ['shipment identified', true],
+                      ['classification', true],
+                      ['TMS', false],
+                      ['assignment', false],
+                      ['reply', false],
+                    ],
+                  },
+                  {
+                    steps: [
+                      ['Document received', false],
+                      ['extraction', true],
+                      ['validation', false],
+                      ['ERP', false],
+                      ['filing', false],
+                      ['exception', false],
+                    ],
+                  },
+                ],
+                emph: 'Judgment lives in the code, interpretation of language lives in the model and knowledge lives in the data.',
+              },
+              {
+                type: 'cells',
+                h2: 'Automatic processing of logistics paperwork',
+                paras: ['Logistics generates a large volume of documents.'],
+                after: ['Once the information is structured, the rest of the process can continue automatically.'],
+                label: 'AI can help to',
+                list: [
+                  'Identify the type of document',
+                  'Extract data',
+                  'Validate fields',
+                  'Match documents to orders or shipments',
+                  'Detect missing information',
+                  'Start workflows',
+                ],
+                label2: 'This can apply to',
+                list2: [
+                  'Delivery notes', 'Receipts', 'Invoices', 'Transport documents', 'Orders',
+                  'Proof of delivery',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Customer service connected to real data',
+                paras: ['A logistics chatbot can do much more than answer frequently asked questions.'],
+                after: ['The conversation becomes an interface over the logistics process.'],
+                label: 'When it’s connected to the company’s systems it can',
+                list: [
+                  'Check statuses', 'Retrieve order information', 'Log incidents',
+                  'Collect details', 'Start requests', 'Hand cases over', 'Send confirmations',
+                ],
+                link: { label: 'Conversational agents', href: '/en/services/conversational-ai' },
+              },
+              {
+                type: 'cells',
+                h2: 'AI for warehousing and distribution',
+                paras: ['Not every task needs AI.'],
+                after: ['Structured operations are still better candidates for deterministic software.'],
+                label: 'In warehouse and distribution operations, AI can help to',
+                list: [
+                  'Look up incidents', 'Reach procedures', 'Interpret documentation',
+                  'Retrieve order information', 'Automate communications', 'Coordinate systems',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Looking up operational information without jumping between applications',
+                paras: [
+                  'Artificial intelligence can help interpret operational information and make data easier to reach.',
+                ],
+                after: [
+                  'When a decision depends on critical rules, it’s made by the code, never by the model.',
+                ],
+                label: 'For example',
+                list: [
+                  'Identify shipments at risk', 'Summarize incidents', 'Look up history',
+                  'Prioritize cases', 'Detect exceptions',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: 'Internal assistants for procedures and logistics knowledge',
+                paras: ['An assistant can let people look up that information in natural language.'],
+                after: ['It can also show the sources it used and respect permissions.'],
+                label: 'Logistics teams work with',
+                list: [
+                  'Procedures', 'Manuals', 'Instructions', 'Customer documentation', 'Policies',
+                  'Regulations', 'Internal processes',
+                ],
+                link: {
+                  label: 'AI for internal documentation and corporate knowledge',
+                  href: '/en/services/corporate-knowledge',
+                },
+              },
+              {
+                type: 'split',
+                h2: 'Email automation',
+                paras: ['Email is still one of the main ways information comes in.'],
+                after: ['That turns unstructured messages into controlled processes.'],
+                label: 'AI can help to',
+                list: [
+                  'Identify orders', 'Classify requests', 'Extract references',
+                  'Detect incidents', 'Record information', 'Start workflows',
+                ],
+              },
+              {
+                type: 'integration',
+                h2: 'Integration with existing systems',
+                paras: ['You don’t need to replace your current infrastructure.'],
+                label: 'We can design solutions connected to',
+                list: [
+                  'TMS', 'WMS', 'ERP', 'CRM', 'Databases', 'APIs', 'In-house software',
+                  'Email', 'Document storage', 'Portals',
+                ],
+                label2: 'Before integrating we analyze',
+                list2: [
+                  'Permissions', 'Data quality', 'Allowed operations', 'Impact of errors',
+                  'Traceability', 'Need for human validation',
+                ],
+              },
+              {
+                type: 'dark',
+                h2: 'Control, traceability and exception handling',
+                paras: ['In logistics, an exception can affect deliveries, customers and costs.'],
+                after: ['AI can interpret.', 'The system has to stay in control.'],
+                label: 'That’s why an automation has to be able to',
+                list: [
+                  'Record statuses', 'Raise alerts', 'Stop processes', 'Escalate cases',
+                  'Retry operations', 'Hand over to a person', 'Keep traceability',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: 'Where does the biggest return usually show up?',
+                emph: ['We don’t look to automate everything. We look to automate what has the most impact.'],
+                label: 'AI usually adds the most value when there is',
+                list: [
+                  'A high volume of orders', 'Many incidents', 'Repetitive paperwork',
+                  'Several systems', 'Constant customer contact', 'Heavy administrative processes',
+                  'Unstructured information', 'A need to coordinate teams',
+                ],
+                label2: 'Before building we analyze',
+                list2: [
+                  'Volume', 'Frequency', 'Current time', 'Number of people involved',
+                  'Running cost', 'Errors', 'Share that could be automated',
+                ],
+              },
+              {
+                type: 'steps',
+                h2: 'How we build AI solutions for logistics',
+                steps: [
+                  [
+                    'We analyze the process',
+                    'We study how it works today and which systems, people and sources are involved.',
+                  ],
+                  [
+                    'We identify friction points',
+                    'We look for incidents, repetitive tasks, data moving between systems and manual steps.',
+                  ],
+                  [
+                    'We review systems and documentation',
+                    'We analyze TMS, WMS, ERP, CRM, databases and channels.',
+                  ],
+                  [
+                    'We design the architecture',
+                    'We define which part needs AI and which part should stay under conventional rules.',
+                  ],
+                  [
+                    'We build and evaluate',
+                    'We test common cases, errors, exceptions and edge cases.',
+                  ],
+                  [
+                    'We deploy and monitor',
+                    'We measure usage, times, errors, exceptions and results.',
+                  ],
+                ],
+              },
+              {
+                type: 'when',
+                h2: 'When is custom AI worth building for logistics?',
+                after: [
+                  'If an off-the-shelf solution solves the problem well, building from scratch won’t always be necessary.',
+                ],
+                label: 'Custom development usually makes sense when',
+                list: [
+                  'Several systems have to work together',
+                  'There’s a high volume of operations',
+                  'The process receives unstructured information',
+                  'There are specific rules',
+                  'There are many exceptions',
+                  'An off-the-shelf tool doesn’t cover the whole flow',
+                  'You need control over data and actions',
+                ],
+              },
+              {
+                type: 'faq',
+                h2: 'Artificial intelligence for logistics and transportation',
+                items: [
+                  {
+                    q: 'How can AI be used in logistics?',
+                    a: [
+                      'AI can manage incidents, process documentation, automate orders, answer questions and connect information across logistics systems.',
+                      'It can also work with TMS, WMS, ERP, CRM and databases.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI connect to a TMS?',
+                    a: [
+                      'Yes. An AI system can connect to a TMS as long as there’s a suitable integration path.',
+                      'It can look up information or take actions according to the permissions defined.',
+                    ],
+                  },
+                  {
+                    q: 'Can incident management be automated?',
+                    a: [
+                      'Yes. AI can interpret an incident, classify it, retrieve related information and trigger the right flow.',
+                      'Complex cases can be passed to a person.',
+                    ],
+                  },
+                  {
+                    q: 'Can it process delivery notes and transport documents?',
+                    a: 'Yes. AI can help classify documents and extract the relevant information so it feeds into automated processes.',
+                  },
+                  {
+                    q: 'Can it answer questions about an order’s status?',
+                    a: 'Yes. A conversational agent can look up current information from the authorized systems and answer the user.',
+                  },
+                  {
+                    q: 'Can it automate emails about orders and deliveries?',
+                    a: 'Yes. The system can interpret emails, extract references, identify what they’re about and trigger the right process.',
+                  },
+                  {
+                    q: 'Is AI safe in logistics operations?',
+                    a: [
+                      'It can be, if the architecture properly defines permissions, validations, traceability and limits on actions.',
+                      'Critical actions are decided by the code, with human approval when needed.',
+                    ],
+                  },
+                  {
+                    q: 'How much does it cost to bring AI into a logistics company?',
+                    a: [
+                      'The cost depends on the process, the volume, the systems involved, the integrations and how complex the rules are.',
+                      'A single automation and a system connected to many platforms have different scopes.',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'contact',
+                h2: 'Tell us which logistics process you want to improve',
+                p: 'You don’t need to arrive with a defined technology solution. Tell us which process eats up time, which systems your team uses and where incidents or manual tasks show up. We’ll look at what can be automated, where it makes sense to bring in artificial intelligence and what architecture it would take to get it into production.',
+                cta: 'Talk to Ideasforge about logistics',
+              },
+            ],
+          },
+          sectorEnergy: {
+            metaTitle: 'AI for Energy and Utilities, Ideasforge',
+            metaDescription: 'Artificial intelligence solutions for energy companies, utilities and infrastructure operators.',
+            name: 'Energy and utilities',
+            short: 'Assets, maintenance, regulation and customer service.',
+            h1: 'AI for energy and utilities',
+            lead: 'Ideasforge builds artificial intelligence solutions for energy companies, utilities and infrastructure operators that need to automate processes, make technical knowledge easier to reach and connect information spread across many systems. We design AI agents, automations and intelligent assistants connected to ERP, CRM, databases, technical documentation, maintenance systems, APIs, email and internal applications. It’s an industry where we can help, although we don’t have a client in it yet: this page describes what we would build, with the method behind the five systems we already have in production.',
+            statement: [
+              'We don’t apply AI in a generic way.',
+              'We build it into specific processes where it can cut time, make information easier to reach or remove manual work.',
+            ],
+            cta: 'Tell us which process you want to improve',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Artificial intelligence for complex energy organizations',
+                after: [
+                  'When information is spread across many platforms, part of the daily work depends on people who look for data, review documentation, coordinate incidents or update systems by hand.',
+                  'Artificial intelligence can help interpret that information and use it inside more efficient processes.',
+                ],
+                label: 'Energy and utility companies work with',
+                list: [
+                  'Assets', 'Infrastructure', 'Maintenance', 'Incidents', 'Contracts', 'Customers',
+                  'Suppliers', 'Technical documentation', 'Regulations', 'Management systems', 'ERP', 'CRM',
+                  'Databases', 'Internal applications',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: 'What can AI automate in energy and utilities?',
+                lead: 'AI can step into technical, operational, administrative, document and customer service processes.',
+                subs: [
+                  {
+                    t: 'Incident management',
+                    d: 'A system can receive an incident, interpret it and classify it. It can then retrieve information, update systems or pass the case to the right team.',
+                    label: 'For example',
+                    items: [
+                      'Faults', 'Outages', 'Anomalies', 'Supply problems',
+                      'Maintenance issues', 'Billing problems', 'Document errors',
+                    ],
+                  },
+                  {
+                    t: 'Technical documentation lookup',
+                    label: 'An assistant can help find information in',
+                    items: [
+                      'Manuals', 'Procedures', 'Technical data sheets', 'Maintenance documentation',
+                      'Protocols', 'Regulatory documentation', 'Internal instructions',
+                    ],
+                  },
+                  {
+                    t: 'Access to operational data',
+                    d: 'An agent can query information stored in databases, ERP, maintenance systems or other applications.',
+                    q: 'Which incidents are still open at this site?',
+                    label: 'Another common question',
+                    items: ['Which assets have maintenance due this month?'],
+                  },
+                  {
+                    t: 'Administrative processes',
+                    label: 'AI can help automate',
+                    items: [
+                      'Data entry', 'Email classification', 'Validations',
+                      'Document generation', 'System updates',
+                      'Coordination between applications',
+                    ],
+                  },
+                  {
+                    t: 'Customer service',
+                    d: 'A conversational agent can answer administrative questions, retrieve information and log requests. Cases that need a person can be passed on with the context already gathered.',
+                  },
+                ],
+              },
+              {
+                type: 'poster',
+                h2: 'AI for maintenance and infrastructure',
+                paras: [
+                  'Energy organizations manage assets with complex documentation, history and maintenance processes.',
+                ],
+                after: ['The system can retrieve information from the authorized sources.'],
+                quotes: ['What work has been done on this equipment before?'],
+                label: 'AI can help reach',
+                list: [
+                  'Work orders', 'History', 'Manuals', 'Procedures', 'Previous incidents',
+                  'Manufacturer documentation', 'Technical information',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'AI agents connected to energy systems',
+                paras: ['An agent can become an access layer over different business systems.'],
+                after: [
+                  'The goal isn’t to replace those tools.',
+                  'It’s to make information easier to reach and automate processes between them.',
+                ],
+                label: 'Depending on the project it can work with',
+                list: [
+                  'ERP', 'CRM', 'CMMS', 'Databases', 'APIs', 'Maintenance systems',
+                  'In-house software', 'Document management systems', 'Custom applications',
+                ],
+              },
+              {
+                type: 'flow',
+                h2: 'Process automation in energy and utilities',
+                paras: [
+                  'Many processes in energy and utilities need to combine interpretation and rules.',
+                  'AI interprets the information that varies.',
+                  'The software keeps control of rules, permissions and actions.',
+                ],
+                flows: [
+                  {
+                    steps: [
+                      ['Incident received', false],
+                      ['interpretation', true],
+                      ['classification', true],
+                      ['data lookup', false],
+                      ['order created', false],
+                      ['assignment', false],
+                    ],
+                  },
+                  {
+                    steps: [
+                      ['Document received', false],
+                      ['extraction', true],
+                      ['validation', false],
+                      ['ERP', false],
+                      ['filing', false],
+                      ['exception', false],
+                    ],
+                  },
+                ],
+                emph: 'Judgment lives in the code, interpretation of language lives in the model and knowledge lives in the data.',
+              },
+              {
+                type: 'cells',
+                h2: 'AI for technical documentation and regulations',
+                paras: ['Energy companies work with large volumes of documentation.'],
+                after: [
+                  'The user can ask in natural language and get an answer based on authorized sources.',
+                  'The original document used can be shown as well.',
+                ],
+                label: 'An assistant can help look up',
+                list: [
+                  'Procedures', 'Manuals', 'Regulations', 'Policies', 'Safety documentation',
+                  'Asset documentation', 'Reports', 'Specifications',
+                ],
+                link: {
+                  label: 'AI for internal documentation and corporate knowledge',
+                  href: '/en/services/corporate-knowledge',
+                },
+              },
+              {
+                type: 'split',
+                h2: 'Incident management and operational support',
+                after: [
+                  'Complex cases can be passed to a person.',
+                  'That cuts the time spent on classifying and searching.',
+                ],
+                label: 'AI can help to',
+                list: [
+                  'Interpret incidents', 'Classify them', 'Retrieve past cases',
+                  'Find related documentation', 'Prioritize cases', 'Trigger workflows',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: 'Customer service connected to real systems',
+                paras: ['A utility chatbot can do more than answer frequently asked questions.'],
+                after: ['The conversation can become an interface over real processes.'],
+                label: 'When it’s connected to internal systems it can',
+                list: [
+                  'Check statuses', 'Retrieve contract information', 'Log incidents',
+                  'Collect details', 'Start requests', 'Hand cases over', 'Send confirmations',
+                ],
+                link: { label: 'Conversational agents', href: '/en/services/conversational-ai' },
+              },
+              {
+                type: 'split',
+                h2: 'Email and request automation',
+                paras: [
+                  'Email is still an important way in for internal and external processes.',
+                ],
+                after: ['That turns unstructured information into controlled processes.'],
+                label: 'AI can help to',
+                list: [
+                  'Interpret messages', 'Classify requests', 'Identify assets or contracts',
+                  'Extract information', 'Start workflows', 'Assign cases',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: 'AI for field operations',
+                paras: [
+                  'An assistant can help retrieve that information without making the user click through several applications.',
+                ],
+                after: ['AI doesn’t replace technical judgment.', 'It makes knowledge easier to reach.'],
+                label: 'Field teams may need quick access to',
+                list: [
+                  'Procedures', 'Technical documentation', 'History', 'Asset information',
+                  'Work orders', 'Previous incidents',
+                ],
+              },
+              {
+                type: 'integration',
+                h2: 'Integration with existing systems',
+                paras: ['You don’t need to replace your current infrastructure to apply artificial intelligence.'],
+                label: 'We can design solutions connected to',
+                list: [
+                  'ERP', 'CRM', 'CMMS', 'Databases', 'Asset management software', 'Document management systems',
+                  'APIs', 'Email', 'Internal applications',
+                ],
+                label2: 'Before integrating we analyze',
+                list2: [
+                  'Permissions', 'Data quality', 'Allowed operations', 'Impact of errors',
+                  'Traceability', 'Need for human validation',
+                ],
+              },
+              {
+                type: 'dark',
+                h2: 'Security, permissions and traceability',
+                paras: [
+                  'In energy and utilities, a wrong action can have an operational or regulatory impact.',
+                  'That’s why we don’t design systems with unlimited freedom.',
+                ],
+                after: [
+                  'AI interprets.',
+                  'Critical decisions are made by the code, never by the model.',
+                ],
+                label: 'We can build in',
+                list: [
+                  'Permissions', 'Validations', 'Limits on actions', 'Business rules',
+                  'Human approval', 'Logs', 'Traceability', 'States', 'Error recovery',
+                ],
+              },
+              {
+                type: 'diptych',
+                h2: 'Not every energy process needs AI',
+                paras: [
+                  'Part of our job is identifying where artificial intelligence adds value and where it doesn’t.',
+                  'When a task can be solved with clear rules, we usually prefer conventional software.',
+                ],
+                yesLabel: 'It makes sense when there is',
+                yes: [
+                  'Unstructured documentation', 'Natural language', 'Several sources',
+                  'A need to retrieve knowledge', 'A high volume of incidents', 'Processes that vary',
+                ],
+                roiLabel: 'AI usually adds the most value when there are',
+                roi: [
+                  'Many incidents', 'Plenty of documentation', 'Many assets',
+                  'Distributed teams', 'Poorly connected systems', 'Repetitive administrative tasks',
+                  'Long search times', 'Frequent questions',
+                ],
+                note: 'Before building we analyze volume, frequency, current time, running cost, number of users, errors, impact and the share that could be automated.',
+                emph: [
+                  'A good system doesn’t use more AI. It uses AI exactly where it’s needed.',
+                  'The goal is to improve operations, not to add technology.',
+                ],
+              },
+              {
+                type: 'steps',
+                h2: 'How we build AI solutions for energy and utilities',
+                steps: [
+                  [
+                    'We analyze the process',
+                    'We study how it works today and which systems, people and sources are involved.',
+                  ],
+                  [
+                    'We identify opportunities',
+                    'We look for repetitive tasks, incidents, information searches and manual processes.',
+                  ],
+                  [
+                    'We review systems and documentation',
+                    'We analyze ERP, CRM, CMMS, databases, technical documentation and internal applications.',
+                  ],
+                  [
+                    'We design the architecture',
+                    'We define which part needs AI, which part should stay in conventional software and which controls are needed.',
+                  ],
+                  [
+                    'We build and evaluate',
+                    'We test real cases, errors, exceptions and edge cases.',
+                  ],
+                  [
+                    'We deploy and monitor',
+                    'We measure usage, times, errors, answer quality and results.',
+                  ],
+                ],
+              },
+              {
+                type: 'when',
+                h2: 'When is custom AI worth building for an energy company?',
+                after: [
+                  'If an off-the-shelf solution solves the problem well, building from scratch won’t always be necessary.',
+                ],
+                label: 'Custom development usually makes sense when',
+                list: [
+                  'Several systems have to work together',
+                  'There’s documentation of your own',
+                  'Many assets are managed',
+                  'There are specific rules',
+                  'An off-the-shelf platform doesn’t cover the whole flow',
+                  'You need control over data and permissions',
+                  'There’s enough volume to justify the development',
+                ],
+              },
+              {
+                type: 'faq',
+                h2: 'Artificial intelligence for energy and utilities',
+                items: [
+                  {
+                    q: 'How can AI be used in an energy company?',
+                    a: [
+                      'AI can manage incidents, look up technical documentation, reach operational data, automate administrative processes and support customer service.',
+                      'It can also connect to ERP, CRM, CMMS and databases.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI help with maintenance?',
+                    a: [
+                      'Yes. AI can help find documentation, retrieve history, look up previous incidents and reach information about assets.',
+                      'It doesn’t replace technical judgment, but it can cut search times.',
+                    ],
+                  },
+                  {
+                    q: 'Can it connect to asset management systems?',
+                    a: [
+                      'Yes, as long as there’s a suitable integration path.',
+                      'It can look up information or take actions according to the permissions defined.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI be used on technical documentation and regulations?',
+                    a: [
+                      'Yes. An assistant can look up manuals, procedures, regulations and other documentation in natural language.',
+                      'It can also show the sources it used.',
+                    ],
+                  },
+                  {
+                    q: 'Can incident management be automated?',
+                    a: [
+                      'Yes. AI can interpret an incident, classify it, retrieve related information and trigger the right flow.',
+                      'Complex cases can be passed to a person.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI be used for customer service in utilities?',
+                    a: 'Yes. A conversational agent can answer administrative questions, log incidents and look up authorized information.',
+                  },
+                  {
+                    q: 'Is AI safe in the energy industry?',
+                    a: [
+                      'Yes, if the architecture defines permissions, validations, traceability and limits on actions. Critical actions are decided by the code, with human approval when needed.',
+                      'There’s one more thing an industry committee needs to know. Energy is critical infrastructure, and the EU AI Act can treat some uses in that area as high-risk, with obligations that apply from 2 December 2027. Which specific use falls there is for your lawyers to assess, not us.',
+                    ],
+                    link: { label: 'The EU AI Act for companies that use AI', href: '/en/guides/eu-ai-act-compliance' },
+                  },
+                  {
+                    q: 'How much does it cost to bring AI into an energy company?',
+                    a: [
+                      'The cost depends on the process, the integrations, the systems involved, the data, the architecture and the security requirements.',
+                      'A documentation assistant and a system connected to several operational environments have different scopes.',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'contact',
+                h2: 'Tell us which process you want to improve',
+                p: 'You don’t need to arrive with a defined technology solution. Tell us which process eats up time, where the information lives and which systems your team uses. We’ll look at what can be automated, where it makes sense to bring in artificial intelligence and what architecture it would take to get it into production.',
+                cta: 'Talk to Ideasforge about energy and utilities',
+              },
+            ],
+          },
+          sectorEcommerce: {
+            metaTitle: 'AI for Ecommerce and Retail, Ideasforge',
+            metaDescription: 'Artificial intelligence solutions for ecommerce, retail and distribution companies.',
+            name: 'Ecommerce and retail',
+            short: 'Orders, catalog, returns and customer service.',
+            h1: 'AI for ecommerce and retail',
+            lead: 'Ideasforge builds artificial intelligence solutions for ecommerce, retail and distribution companies that need to automate operations, improve customer service and connect sales, logistics and administrative systems. We design AI agents, automations and intelligent assistants connected to ecommerce platforms, ERP, CRM, PIM, databases, customer service tools, logistics, email, APIs and internal applications. It’s an industry where we can help, although we don’t have a client in it yet: this page describes what we would build, with the method behind the five systems we already have in production.',
+            statement: [
+              'We don’t apply AI to add a surface layer to the store.',
+              'We build it into processes where it can cut manual work, improve the customer experience or speed up operations.',
+            ],
+            cta: 'Tell us which process you want to improve',
+            blocks: [
+              {
+                type: 'landscape',
+                h2: 'Artificial intelligence for ecommerce and retail operations',
+                after: [
+                  'When information is spread across several tools, part of the daily work depends on people who look for data, update systems, answer questions or coordinate incidents.',
+                  'Artificial intelligence can help interpret that information and use it inside automated processes.',
+                ],
+                label: 'Ecommerce and retail companies work with',
+                list: [
+                  'Products', 'Catalog', 'Orders', 'Customers', 'Returns', 'Incidents',
+                  'Promotions', 'Suppliers', 'Inventory', 'Customer service', 'ERP', 'CRM', 'PIM', 'Ecommerce',
+                  'Logistics', 'Databases', 'Internal applications',
+                ],
+              },
+              {
+                type: 'uses',
+                h2: 'What can AI automate in ecommerce and retail?',
+                lead: 'AI can step into sales, operational, administrative and customer service processes.',
+                subs: [
+                  {
+                    t: 'Customer service',
+                    d: 'Questions that need a person can be passed on with the context already gathered.',
+                    label: 'A conversational agent can answer questions about',
+                    items: [
+                      'Products', 'Orders', 'Returns', 'Availability', 'Shipping', 'Incidents',
+                      'Policies', 'Promotions',
+                    ],
+                  },
+                  {
+                    t: 'Order management',
+                    d: 'AI can help interpret requests, detect incidents and coordinate actions between the ecommerce platform, ERP, logistics and customer service.',
+                  },
+                  {
+                    t: 'Catalog and product',
+                    label: 'A system can help to',
+                    items: [
+                      'Structure information', 'Enrich product pages', 'Classify products',
+                      'Detect missing data', 'Summarize features', 'Adapt internal content',
+                    ],
+                  },
+                  {
+                    t: 'Incident management',
+                    d: 'AI can interpret an incident, identify the order or customer, classify it and trigger the right process.',
+                  },
+                  {
+                    t: 'Administrative processes',
+                    label: 'It can also step into',
+                    items: [
+                      'Validations', 'Data entry', 'Coordination between systems',
+                      'Email classification', 'Document generation', 'Status updates',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Customer service connected to orders and catalog',
+                paras: ['An ecommerce chatbot can do much more than answer frequently asked questions.'],
+                after: ['The conversation becomes an interface over the business’s real processes.'],
+                label: 'When it’s connected to the company’s systems it can',
+                list: [
+                  'Look up orders', 'Check statuses', 'Retrieve product information',
+                  'Check availability', 'Log incidents', 'Start returns',
+                  'Collect details', 'Hand cases over',
+                ],
+                link: { label: 'Conversational agents', href: '/en/services/conversational-ai' },
+              },
+              {
+                type: 'poster',
+                h2: 'AI agents connected to ecommerce, ERP and CRM',
+                paras: ['An agent can work on top of the infrastructure the company already uses.'],
+                after: [
+                  'The system can retrieve the authorized information and return an answer without making the user check several tools.',
+                  'Depending on permissions, it can also take actions.',
+                ],
+                quotes: [
+                  'Which delayed orders belong to VIP customers?',
+                  'Which products are low on stock and selling above average this week?',
+                ],
+                label: 'It can query or use information from',
+                list: [
+                  'Ecommerce platform', 'ERP', 'CRM', 'PIM', 'WMS', 'Databases', 'APIs',
+                  'Customer service systems', 'Internal applications',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Automating incidents and returns',
+                paras: ['Returns and incident processes tend to create repetitive work.'],
+                after: [
+                  'AI interprets the part that varies.',
+                  'Business rules control which operations are allowed.',
+                ],
+                list: [
+                  'Interpret the request', 'Identify the order', 'Check conditions',
+                  'Apply rules', 'Ask for more information', 'Create the return',
+                  'Update systems', 'Send a confirmation',
+                ],
+              },
+              {
+                type: 'flow',
+                h2: 'Sales and operational process automation',
+                paras: [
+                  'Many ecommerce and retail processes need to combine AI with conventional software.',
+                  'AI helps understand the input.',
+                  'The software controls the process.',
+                ],
+                flows: [
+                  {
+                    steps: [
+                      ['Question received', false],
+                      ['interpretation', true],
+                      ['order identified', true],
+                      ['status lookup', false],
+                      ['reply', false],
+                    ],
+                  },
+                  {
+                    steps: [
+                      ['Incident', false],
+                      ['classification', true],
+                      ['ERP', false],
+                      ['logistics', false],
+                      ['update', false],
+                      ['message', false],
+                    ],
+                  },
+                ],
+                emph: 'Judgment lives in the code, interpretation of language lives in the model and knowledge lives in the data.',
+              },
+              {
+                type: 'split',
+                h2: 'AI for catalog and product management',
+                paras: ['Large catalogs can create a lot of operational work.'],
+                after: [
+                  'It can also use information from the PIM, ERP or databases to keep product processes more consistent.',
+                ],
+                label: 'AI can help to',
+                list: [
+                  'Classify products', 'Detect inconsistencies', 'Generate internal descriptions',
+                  'Summarize attributes', 'Normalize information', 'Identify incomplete fields',
+                ],
+              },
+              {
+                type: 'text',
+                h2: 'Searching and looking up product information',
+                paras: [
+                  'A conversational system can let customers or employees look up products in natural language.',
+                  'The same technology can be adapted to different users and sources.',
+                ],
+                quotes: [
+                  'I need a waterproof winter jacket for under 150 euros.',
+                  'Which items in this category haven’t sold for more than 60 days?',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'AI for internal support and operations',
+                after: ['The system can respect permissions and show the sources it used.'],
+                label: 'Ecommerce and retail teams can also use internal assistants to look up',
+                list: [
+                  'Procedures', 'Policies', 'Product documentation', 'Logistics processes',
+                  'Return protocols', 'Manuals', 'Sales information',
+                ],
+                link: {
+                  label: 'AI for internal documentation and corporate knowledge',
+                  href: '/en/services/corporate-knowledge',
+                },
+              },
+              {
+                type: 'cells',
+                h2: 'Email and ticket automation',
+                paras: ['Many incidents arrive by email or through ticketing systems.'],
+                after: ['That turns unstructured input into controlled processes.'],
+                label: 'AI can help to',
+                list: [
+                  'Interpret messages', 'Identify orders', 'Classify reasons', 'Extract data',
+                  'Set priority', 'Start workflows', 'Hand cases over',
+                ],
+              },
+              {
+                type: 'split',
+                h2: 'Omnichannel ecommerce and retail',
+                paras: [
+                  'In organizations with an online store, physical stores and several channels, information can be spread across different systems.',
+                ],
+                after: ['The architecture has to respect which system is the right source for each piece of data.'],
+                label: 'An agent can help look up and coordinate information about',
+                list: [
+                  'Orders', 'Inventory', 'Customers', 'Returns', 'Promotions', 'Incidents',
+                  'Availability',
+                ],
+              },
+              {
+                type: 'integration',
+                h2: 'Integration with existing systems',
+                paras: ['You don’t need to replace your current infrastructure.'],
+                label: 'We can design solutions connected to',
+                list: [
+                  'Shopify', 'Magento', 'WooCommerce', 'Custom ecommerce platforms', 'ERP', 'CRM', 'PIM',
+                  'WMS', 'Databases', 'APIs', 'Customer service tools', 'Email',
+                  'Internal applications',
+                ],
+                label2: 'Before integrating we analyze',
+                list2: [
+                  'Permissions', 'Data quality', 'Allowed operations', 'Impact of errors',
+                  'Traceability', 'Need for human validation',
+                ],
+              },
+              {
+                type: 'dark',
+                h2: 'Control, rules and exceptions',
+                paras: [
+                  'In ecommerce, a wrong action can affect orders, stock, customers or money.',
+                  'That’s why critical decisions are made by the code, never by the model.',
+                ],
+                after: [
+                  'AI can interpret a request.',
+                  'The software decides whether the operation meets the conditions.',
+                ],
+                label: 'We can build in',
+                list: [
+                  'Validations', 'Permissions', 'Limits', 'Business rules', 'Human approval', 'Logs',
+                  'Traceability', 'States', 'Exception handling',
+                ],
+              },
+              {
+                type: 'cells',
+                h2: 'Where does the biggest return usually show up?',
+                emph: ['We don’t look to automate more. We look to automate what has the most impact.'],
+                label: 'AI usually adds the most value when there are',
+                list: [
+                  'High order volumes', 'Many customer questions', 'A large catalog', 'Frequent incidents',
+                  'Returns', 'Several systems', 'Repetitive administrative processes',
+                  'Large teams',
+                ],
+                label2: 'Before building we analyze',
+                list2: [
+                  'Volume', 'Frequency', 'Current time', 'Running cost', 'Errors',
+                  'Number of users', 'Share that could be automated',
+                ],
+              },
+              {
+                type: 'steps',
+                h2: 'How we build AI solutions for ecommerce and retail',
+                steps: [
+                  [
+                    'We analyze the process',
+                    'We study how it works today and which systems, people and channels are involved.',
+                  ],
+                  [
+                    'We identify friction points',
+                    'We look for repetitive tasks, incidents, questions and data moving between systems.',
+                  ],
+                  [
+                    'We review systems and data',
+                    'We analyze the ecommerce platform, ERP, CRM, PIM, WMS, databases and APIs.',
+                  ],
+                  [
+                    'We design the architecture',
+                    'We define which part needs AI, which part should stay in conventional software and which controls are needed.',
+                  ],
+                  [
+                    'We build and evaluate',
+                    'We test common cases, errors, exceptions and edge cases.',
+                  ],
+                  [
+                    'We deploy and monitor',
+                    'We measure usage, times, errors, handovers and results.',
+                  ],
+                ],
+              },
+              {
+                type: 'when',
+                h2: 'When is custom AI worth building for ecommerce or retail?',
+                after: [
+                  'If an off-the-shelf solution solves the problem well, building from scratch won’t always be necessary.',
+                ],
+                label: 'Custom development usually makes sense when',
+                list: [
+                  'Several systems have to work together',
+                  'There’s a high volume of orders or questions',
+                  'The catalog is complex',
+                  'There are specific rules',
+                  'An off-the-shelf tool doesn’t cover the whole flow',
+                  'You need control over data and actions',
+                  'There are high-frequency repetitive processes',
+                ],
+              },
+              {
+                type: 'faq',
+                h2: 'Artificial intelligence for ecommerce and retail',
+                items: [
+                  {
+                    q: 'How can AI be used in ecommerce?',
+                    a: [
+                      'AI can handle customer service, order management, incidents, returns, the catalog, product search and internal process automation.',
+                      'It can also connect to ecommerce platforms, ERP, CRM, PIM and other applications.',
+                    ],
+                  },
+                  {
+                    q: 'Can AI look up an order’s status?',
+                    a: 'Yes. A conversational agent can look up current information from the authorized systems and answer the user.',
+                  },
+                  {
+                    q: 'Can it automate returns?',
+                    a: 'Yes. The system can interpret the request, check conditions and run the right flow according to the rules defined.',
+                  },
+                  {
+                    q: 'Can it connect to Shopify, Magento or WooCommerce?',
+                    a: [
+                      'Yes, as long as there’s a suitable integration path.',
+                      'It can also connect to custom ecommerce platforms.',
+                    ],
+                  },
+                  {
+                    q: 'Can it help manage a large catalog?',
+                    a: 'Yes. AI can help classify, structure and enrich product information, and detect inconsistencies or incomplete fields.',
+                  },
+                  {
+                    q: 'Can AI be used for customer service?',
+                    a: 'Yes. An agent can answer questions, look up orders, log incidents and hand cases over when needed.',
+                  },
+                  {
+                    q: 'Is AI safe for taking actions on orders or customers?',
+                    a: [
+                      'It can be, if the architecture defines permissions, rules, validations and traceability.',
+                      'Critical actions are decided by the code, with human approval when needed.',
+                    ],
+                  },
+                  {
+                    q: 'How much does it cost to bring AI into ecommerce or retail?',
+                    a: [
+                      'The cost depends on the process, the volume, the integrations, the systems involved and how complex the rules are.',
+                      'A single automation and a system connected to many platforms have different scopes.',
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'contact',
+                h2: 'Tell us which process you want to improve',
+                p: 'You don’t need to arrive with a defined technology solution. Tell us which process eats up time, which systems your team uses and where most incidents or manual work show up. We’ll look at what can be automated, where it makes sense to bring in artificial intelligence and what architecture it would take to get it into production.',
+                cta: 'Talk to Ideasforge about ecommerce and retail',
+              },
+            ],
+          },
+        },
+      },
+      /* Las páginas de solución en inglés, con la plantilla de octubre de 2026
+         (`SolutionPage.astro`). Traducidas del español una a una desde el 16
+         oct 2026. Las cinco tienen espejo desde el 19 oct 2026. */
+      solutions: {
+        labels: {
+          seeCases: 'See real cases',
+          examples: '{n} examples',
+          faqKicker: 'Frequently asked questions',
+          others: 'Other solutions',
+          viewSolution: 'See solution',
+          viewCase: 'See the {client} case',
+          contactKicker: 'Contact',
+          guides: 'Related guides',
+          readGuide: 'Read the guide',
+        },
+        order: [
+          'agentDev',
+          'processAuto',
+          'enterprise',
+          'conversational',
+          'consulting',
+        ],
+        pages: {
+          agentDev: {
+            href: '/en/services/ai-agent-development',
+            guides: [
+              { title: 'What is an AI agent?', href: '/en/guides/ai-agents' },
+              { title: 'How much does an AI agent cost?', href: '/en/guides/ai-agent-development-cost' },
+            ],
+            metaTitle: 'Custom AI agent development for enterprises, Ideasforge',
+            metaDescription: 'Ideasforge offers custom AI agent development for companies that need more than a chatbot, a basic automation or an off-the-shelf tool.',
+            nav: {
+              name: 'AI agent development',
+              short: 'Agents that look up information, use tools and take actions.',
+            },
+            h1: 'Custom AI agent development',
+            lead: 'Ideasforge builds custom AI agents for companies that need more than a chatbot, a basic automation or an off-the-shelf tool. Systems that can look up information, use tools and take actions on databases, ERP, CRM, APIs, internal documentation and in-house applications.',
+            statement: [
+              'They run on your infrastructure, in a cloud under your company’s name.',
+              'And they’re measured before every change.',
+            ],
+            cta: 'Tell us what the agent would have to do',
+            intro: {
+              h2: 'What we build',
+              p: [
+                'Custom AI agents that handle specific tasks: they query your documentation and your databases, guide diagnostics, qualify requests and take actions on the systems you approve. Each agent is built for one specific task and connects only to the tools that task needs.',
+                'When a single agent can’t cover the whole process, we build a system that coordinates several specialized agents. One of our production systems works this way and coordinates six.',
+              ],
+              listLabel: 'For example, an agent can',
+              list: [
+                'Query a database',
+                'Retrieve information from internal documentation',
+                'Check data in an ERP',
+                'Update a CRM',
+                'Check availability in a calendar',
+                'Use an API',
+                'Record a transaction',
+                'Send a message',
+                'Start a workflow',
+                'Ask a person to step in when the case calls for it',
+              ],
+            },
+            capabilities: {
+              h2: 'What can an AI agent do inside a company?',
+              lead: 'These are some of the briefs we get most often.',
+              items: [
+                [
+                  'Queries on your data',
+                  'The question is written in plain language and the system turns it into a validated query against your database. The answer comes from that data, not from the model’s memory. “How much did we invoice in March in the northern region?”, asked exactly like that, the way you’d ask a colleague.',
+                ],
+                [
+                  'Assistant on your documentation',
+                  'The agent searches manuals, wikis and internal systems and answers in a single conversation, saying which source each answer came from. The returns policy that today lives spread across three manuals gets answered in one sentence, with its source beside it.',
+                ],
+                [
+                  'Guided diagnostics',
+                  'The agent asks questions, rules out possible causes and walks the user step by step to the problem, the way our plant assistant does when a machine stops.',
+                ],
+                [
+                  'Request qualification',
+                  'The agent reviews every incoming request, checks it against the criteria you’ve defined and sends it to the right team. Of twenty quote requests arriving through the website, three deserve a call today and the rest can wait until tomorrow.',
+                ],
+                [
+                  'Actions on your systems',
+                  'The agent can complete a task using only the actions you’ve approved. Registering the client, generating their contract and leaving it ready for signature, with nobody copying data from one screen to another.',
+                ],
+              ],
+            },
+            poster: {
+              kicker: 'We don’t build generic agents',
+              h2: [
+                'AI ',
+                'interprets',
+                '. Software ',
+                'controls',
+                '.',
+              ],
+              p: [
+                'The model proposes an action, but the code decides whether it can run. The model chooses from a closed set of actions, so the limits don’t depend only on an instruction written for the model.',
+                'If the rules of your process are clear and stable, a custom automation solves it cheaper, faster and without the monitoring a model demands. We build that too.',
+              ],
+            },
+            types: {
+              h2: 'Enterprise AI agents for different business processes',
+              lead: 'No single type of agent fits every situation. We design the architecture around the job the system has to do.',
+              items: [
+                [
+                  'Data agents',
+                  'They look up information stored in databases or business applications using natural language, with controlled tools to retrieve it.',
+                ],
+                [
+                  'Documentation agents',
+                  'They work with manuals, procedures, regulations or technical documentation. When needed, with RAG architectures that retrieve only the relevant information.',
+                ],
+                [
+                  'Operational agents',
+                  'Beyond looking things up, they take actions on ERP, CRM, APIs or internal applications: recording information, updating statuses, creating transactions.',
+                ],
+                [
+                  'Conversational agents',
+                  'They use a conversation as the way in to information or actions, on the web, in internal applications, on WhatsApp or on other channels.',
+                ],
+                [
+                  'Multi-agent systems',
+                  'They split responsibilities across specialized agents. Not by default, only when the split brings a real advantage in control, specialization or maintainability.',
+                ],
+              ],
+            },
+            cases: {
+              h2: 'AI agents already working on real processes',
+              lead: 'We don’t approach agent development from theory alone. We’ve already built systems that work with real business information, tools and rules.',
+              items: [
+                {
+                  client: 'Savian',
+                  title: 'Querying business data in natural language',
+                  desc: 'The model has no direct access to the database. It interprets the question and hands over a form with fixed fields. From there the code, which does behave the same way every time, builds the query.',
+                  image: '/case-studies/harvest.jpg',
+                  href: '/en/cases/savian',
+                },
+                {
+                  client: 'Wazzy',
+                  title: 'An AI agent that manages appointments on WhatsApp',
+                  desc: 'Wazzy is our own product. It books, changes or cancels an appointment through a conversation: the agent checks the real calendar and takes the actions following the clinic’s rules. The conversation is flexible and the scheduling rules are not.',
+                  image: '/case-studies/dentist.jpg',
+                  href: '/en/cases/wazzy',
+                },
+              ],
+            },
+            method: {
+              h2: 'How we build a custom AI agent',
+              lead: 'We don’t start by looking for places to fit AI into your company. We look for the problems already costing you money and assess whether an agent solves them with a gain you can demonstrate.',
+              steps: [
+                [
+                  'We map the process',
+                  'With the people who live the process, not only with whoever buys the technology. Step by step, with its people, its systems and its timings.',
+                ],
+                [
+                  'We measure what it costs today',
+                  'Each candidate gets translated into its expected gain, starting from what it costs today in hours, errors or waiting. Most of that list gets discarded.',
+                ],
+                [
+                  'We design tools, permissions and rules',
+                  'What it can look up, which tools it can use and which actions it can take. Validations, limits and conditions before sensitive operations.',
+                ],
+                [
+                  'We start with a pilot',
+                  'One part of the problem, a small group of users and a metric agreed before starting. The pilot is paid and its price counts toward the final project.',
+                ],
+                [
+                  'We widen autonomy in stages',
+                  'At first the agent proposes and a person reviews every output. When the tests and real use show it works in the expected cases, we widen the actions it can take without review.',
+                ],
+              ],
+            },
+            control: {
+              kicker: 'Control',
+              h2: 'A useful agent also has to be controllable',
+              p: [
+                'Every agent ships with a test suite, a set of real cases with their correct answer recorded, which runs in full before every change. If quality drops, the change doesn’t ship.',
+                'What runs in production gets reviewed every week, because a system with a model inside can get worse without a single error showing up in any log.',
+              ],
+              listLabel: 'The controls we put around the agent',
+              items: [
+                'Tools limited to specific functions',
+                'Parameters validated before actions run',
+                'Structured responses',
+                'Business rules outside the model',
+                'Different permissions by user or context',
+                'Limits on certain operations',
+                'Extra validation before sensitive actions',
+                'A log of the tools used and the actions taken',
+                'Test suite before every change',
+                'A person steps in when the system can’t continue safely',
+              ],
+            },
+            when: {
+              h2: 'When is custom AI agent development worth it?',
+              lead: 'Telling you whether it pays off is part of our service. An agent pays off when the process requires interpreting information that changes from one case to the next, such as emails, documents or requests written in different ways.',
+              yes: {
+                label: 'It usually makes sense when',
+                items: [
+                  'It has to work with several company systems',
+                  'It needs internal information',
+                  'There are specific business rules',
+                  'It has to take actions',
+                  'Its behavior changes with the context',
+                  'It needs its own permissions or limits',
+                  'It has to integrate with in-house software',
+                  'An off-the-shelf solution doesn’t cover the whole process',
+                ],
+              },
+              no: {
+                label: 'It’s probably not needed when',
+                items: [
+                  'An off-the-shelf product already solves the problem well',
+                  'The process is fully defined by rules',
+                  'There isn’t enough information for the system to work well',
+                  'Building it costs more than the value it can generate',
+                  'The only reason is that other companies use AI',
+                ],
+              },
+            },
+            faq: {
+              h2: 'Frequently asked questions about AI agent development',
+              items: [
+                {
+                  q: 'What does “for enterprise” mean in practice?',
+                  a: 'Your infrastructure or your cloud, your organization’s accounts, your data where you decide, and quality measured continuously. The guarantees your security committee will ask about, answered before the meeting.',
+                },
+                {
+                  q: 'Isn’t ChatGPT enough for us?',
+                  a: 'For helping people with their work, maybe it is, and we don’t charge for telling you so. A chat is a helper tool where whoever asked reviews every output. An agent is a system that produces the outcome on its own, on your data and under your permissions. That demands the engineering this page describes. They’re different purchases for different problems.',
+                },
+                {
+                  q: 'Can the agent connect to our internal systems?',
+                  a: 'Yes, that’s exactly what it’s for. ERP, databases, industrial systems, documentation. The agent only talks to the systems you approve, under each person’s own permissions.',
+                },
+                {
+                  q: 'Does the agent act on its own?',
+                  a: 'It decides inside a perimeter. The possible actions are a closed list you approve, the code validates each one before running it, and the sensitive ones require a person’s confirmation. Autonomy is rationed by cost and reliability, not by faith in the model.',
+                },
+                {
+                  q: 'What if our data is a mess?',
+                  a: 'It’s one of the first things we look at. If the data the case needs is missing or unreliable, we tell you, and the first phase becomes fixing it, because an agent on top of broken data only automates the error faster.',
+                },
+                {
+                  q: 'How much does it cost to build an AI agent?',
+                  a: [
+                    'A custom agent runs between €2,500 and €10,000 to build, depending on integrations and validation requirements, plus €150 to €500 a month to operate, which covers monitoring and maintenance of the system. The monthly fee has no minimum term.',
+                    'The model and the infrastructure run in accounts under your company’s name, so those bills are yours and aren’t part of the fee. Systems with an orchestrator and several agents are quoted per project.',
+                  ],
+                  link: { label: 'AI agent development cost, broken down', href: '/en/guides/ai-agent-development-cost' },
+                },
+                {
+                  q: 'How long does it take to build an AI agent?',
+                  a: 'It depends on three things: that the data exists, that access has been granted and that the task is well defined. With all three, a pilot in two weeks is realistic. If one is missing, getting it is the first part of the project.',
+                },
+                {
+                  q: 'Who owns the agent when the project ends?',
+                  a: 'You do. The repository is under your name from day one: code, documentation, operations manuals, the model’s instructions and the test suite. So is the infrastructure, set up in a cloud under your company’s name.',
+                },
+                {
+                  q: 'Who maintains the agent afterwards?',
+                  a: 'Your call. We can run the measured maintenance, or train your team and hand over the operations manual so they run it. The documentation is written for that second case even if you choose the first.',
+                },
+                {
+                  q: 'What if the model provider raises prices or retires the model?',
+                  a: 'Swapping models is proven, not promised. We run systems in production on models from different providers, and a switch has to pass the test suite before it ships. Sometimes it also means touching the system, because different models behave differently. We’ve seen it happen: we rejected a cheaper model because the tests showed it lost ten points of accuracy.',
+                },
+                {
+                  q: 'What if you conclude our case isn’t worth it?',
+                  a: 'We tell you before charging for it, and you keep the process map with its numbers, which is worth having even if the agent never gets built. Discarding early is part of the method, not a failure of it.',
+                },
+              ],
+            },
+            contact: {
+              h2: 'Tell us what the agent would have to do',
+              p: 'You don’t need to decide which model to use, how many agents you need or what the architecture should look like. Tell us which process you want to improve, which tools the system would have to work with and which actions it should be able to take.',
+              cta: 'Talk to Ideasforge',
+            },
+          },
+          processAuto: {
+            href: '/en/services/ai-workflow-automation',
+            metaTitle: 'AI Workflow Automation for Business Processes, Ideasforge',
+            metaDescription: 'Ideasforge builds AI workflow automation for companies that want to cut manual work and get rid of repetitive tasks.',
+            nav: {
+              name: 'AI workflow automation',
+              short: 'Less manual work, processes connected from start to finish.',
+            },
+            h1: 'AI workflow automation',
+            lead: 'Ideasforge builds automation systems with artificial intelligence for companies that want to cut manual work, get rid of repetitive tasks and connect processes that today depend on several tools and people. We combine AI, integrations and business rules so each part of the process is solved with the right technology.',
+            statement: [
+              'We don’t automate for the sake of it.',
+              'We study the process first and then decide what’s worth automating.',
+            ],
+            cta: 'Tell us which process you want to improve',
+            intro: {
+              h2: 'What AI workflow automation solves',
+              p: [
+                'The processes that classic tools couldn’t automate share one trait. At some point, a person has to read and decide. An invoice arrives and someone types it in. A request arrives and someone qualifies it. A question arrives and someone looks for the answer.',
+                'That step, reading something that doesn’t come in a fixed format and deciding what to do with it, was the limit of automation. Language models take over exactly that step, and with it the whole family of processes that contained it opens up.',
+              ],
+              listLabel: 'We can combine',
+              list: [
+                'Artificial intelligence',
+                'Conventional software',
+                'OCR',
+                'APIs',
+                'Databases',
+                'ERP and CRM',
+                'Email',
+                'Internal applications',
+                'Business rules',
+                'Validations',
+                'Human intervention',
+              ],
+            },
+            capabilities: {
+              h2: 'Which processes can artificial intelligence automate?',
+              lead: 'Almost everything we’re asked for fits into four types of process. The fifth point isn’t a type of process, it’s what happens when a case needs a person to step in.',
+              items: [
+                [
+                  'Document intake',
+                  'Invoices, receipts and scanned forms that get read, validated and recorded in your systems without anyone typing them in.',
+                ],
+                [
+                  'Request handling',
+                  'Incoming requests that get classified, qualified and sent to the right person, with the data needed to decide already extracted.',
+                ],
+                [
+                  'Queries on data',
+                  'Business questions that become safe queries against the database and come back with the answer in seconds.',
+                ],
+                [
+                  'Writing from data',
+                  'Emails, summaries and notices that the flow writes using data it has already retrieved and validated. The ones going to someone on your team can go out on their own. The ones going to a customer come from a template you approve, filled in with data that’s already validated.',
+                ],
+                [
+                  'Escalation with context',
+                  'Cases that need a human decision reach your team with the data, documents and checks the system has already done.',
+                ],
+              ],
+            },
+            poster: {
+              kicker: 'Not every part of the process needs artificial intelligence',
+              h2: [
+                'AI ',
+                'interprets',
+                '. Software ',
+                'executes',
+                '.',
+              ],
+              p: [
+                'The code moves data between systems, takes the actions and controls the order in which each step happens. The model comes in only when a document has to be read, a request understood or a case classified. It returns a result with a fixed structure that the code can check.',
+                'If your process has clear rules on data that always arrives the same way, classic automation solves it cheaper and faster, with no model to monitor. We build that too.',
+              ],
+            },
+            types: {
+              h2: 'We automate across the systems your company already uses',
+              lead: 'The automation connects to what you already use: ERP, CRM, databases, email, messaging and, yes, that spreadsheet that runs half the department.',
+              items: [
+                [
+                  'ERP',
+                  'Look up information, create transactions, update statuses or bring in data from other systems.',
+                ],
+                [
+                  'CRM',
+                  'Record contacts, update opportunities, add information or start sales flows.',
+                ],
+                [
+                  'Databases',
+                  'Look up and update structured information within the permissions defined for the process.',
+                ],
+                [
+                  'APIs',
+                  'Connect applications and services so they exchange information automatically.',
+                ],
+                [
+                  'Email',
+                  'Receive messages, interpret their content and use it as the starting point of automated processes.',
+                ],
+                [
+                  'In-house software',
+                  'Integrate automations with applications built specifically for the company.',
+                ],
+                [
+                  'Storage systems',
+                  'Process files that arrive in folders, cloud storage or internal repositories.',
+                ],
+                [
+                  'Forms and external applications',
+                  'Capture information and feed it automatically into the right flow.',
+                ],
+              ],
+            },
+            cases: {
+              h2: 'Automations already working in production',
+              lead: 'The two cases have two things in common: they came in through a channel the team already used and they had a measurable figure before and after.',
+              items: [
+                {
+                  client: 'Stanton',
+                  title: '98% of invoices processed with no human intervention',
+                  desc: 'At Stanton, a property management company, each tenant’s electricity, water and gas bills were keyed in by hand and each one took a minute of typing. Today the team forwards them on Telegram, a model reads the bill and the result lands as rows in the spreadsheet they already worked with. 98% go through with nobody touching them and the rest escalate with the document beside them.',
+                  image: '/case-studies/stanton.jpg',
+                  href: '/en/cases/stanton',
+                },
+                {
+                  client: 'Barceloneta Premium',
+                  title: 'More than 3 hours a day saved screening rental inquiries',
+                  desc: 'At Barceloneta Premium, a real estate agency in Barcelona, each rental inquiry arriving on WhatsApp took five to ten minutes of manual checking. Now the flow extracts the reason, the budget and the paperwork from each conversation. The team gets an email saying whether the applicant meets the requirements the agency set, with the reason beside it. The decision is still made by a person.',
+                  image: '/case-studies/barceloneta.jpg',
+                  href: '/en/cases/barceloneta',
+                },
+              ],
+            },
+            method: {
+              h2: 'AI business process automation, step by step',
+              lead: 'There’s no need to start with a big project. The first thing is to pick one specific process that’s worth automating.',
+              steps: [
+                [
+                  'We map the process',
+                  'Step by step with whoever runs it every day: what comes in, who touches it, which systems it goes through and where it gets stuck.',
+                ],
+                [
+                  'We measure what it costs today',
+                  'Measuring that starting point lets us compare the result later with data, not impressions.',
+                ],
+                [
+                  'We separate rules from interpretation',
+                  'We ask for three real examples of the input, from three different sources. If they look alike, your problem is about rules. If each one comes in a different way, that’s where the model is needed.',
+                ],
+                [
+                  'We start with a pilot',
+                  'It covers only part of the volume, with the figure that should move agreed before starting. The pilot is paid and its price counts toward the final project.',
+                ],
+                [
+                  'We scale up or stop',
+                  'If the pilot delivers, it’s extended in phases. If it doesn’t, the project stops with a limited investment and specific information about what didn’t work.',
+                ],
+              ],
+            },
+            control: {
+              kicker: 'Exceptions',
+              h2: 'Validating every result before it reaches your systems',
+              p: [
+                'A model can get things wrong, so its results have to be checked before the process continues. What passes validation flows on its own. What doesn’t isn’t thrown away or made up, it goes to a person with the case ready.',
+                'Some steps we deliberately leave with human confirmation: the ones that move real money, the irreversible ones and the ones that decide about people. The system prepares all the information and a person confirms the action before it runs.',
+              ],
+              listLabel: 'When something falls outside the usual flow, the system knows how to',
+              items: [
+                'Stop the process',
+                'Ask for more information',
+                'Pass the case to a person',
+                'Log an incident',
+                'Retry an operation',
+                'Send an alert',
+                'Keep the state of the process',
+                'Continue once the problem is solved',
+              ],
+            },
+            when: {
+              h2: 'When is a process worth automating?',
+              lead: 'We don’t automate processes without volume, because a flow that runs three times a month doesn’t pay for its maintenance, or processes that need redesigning before they’re sped up. If your case falls into one of those groups, we tell you before we start.',
+              yes: {
+                label: 'It usually makes sense when the process',
+                items: [
+                  'Repeats often',
+                  'Takes a significant amount of time',
+                  'Forces people to copy information between applications',
+                  'Produces manual errors',
+                  'Delays other tasks',
+                  'Follows fairly stable rules',
+                  'Can be measured before and after',
+                  'Has enough volume to justify the development',
+                ],
+              },
+              no: {
+                label: 'Before building we analyze',
+                items: [
+                  'How much time the process takes today',
+                  'How often it happens',
+                  'How many people are involved',
+                  'What errors it produces',
+                  'How much it costs to keep doing it by hand',
+                  'Which part can really be automated',
+                ],
+              },
+            },
+            faq: {
+              h2: 'Frequently asked questions about AI workflow automation',
+              items: [
+                {
+                  q: 'What is AI workflow automation?',
+                  a: 'Automation where a language model handles the steps that require reading or interpretation, inside a flow validated by code. The model interprets. The code checks and executes.',
+                },
+                {
+                  q: 'Is this RPA?',
+                  a: 'Not the same thing, although plenty of RPA suites now bundle AI-based reading inside them. RPA repeats clicks and rules over screens and breaks when something changes place or format. What we add is a model that interprets the content, so variation doesn’t break the flow. They work well together, RPA moving the stable parts and the model reading the variable ones.',
+                },
+                {
+                  q: 'What if the AI misreads a document?',
+                  a: 'A validation layer checks the result before it’s recorded: totals, formats, required fields. Doubtful cases go to a person, so review happens exactly where judgment is needed.',
+                },
+                {
+                  q: 'How much of the process really gets automated?',
+                  a: 'It depends how many edge cases it has, so it gets measured rather than estimated. The system records what it resolves on its own and what it escalates to a person, and you see that share from the first month.',
+                },
+                {
+                  q: 'Do we have to replace our ERP or our tools?',
+                  a: 'No. The flow connects to what you already use and the result lands where your team already works, be it an ERP or a spreadsheet. One of our clients manages invoices by forwarding them over Telegram, without having to learn a single new tool.',
+                },
+                {
+                  q: 'Can we start with just one process?',
+                  a: 'That’s exactly what we recommend. One process with measurable pain, a pilot with its metric, and growth in phases if it delivers. The pilot is paid and its price counts toward the final project. That’s how our automation clients started. The longest-running one keeps adding processes.',
+                },
+                {
+                  q: 'Does it work with bad scans or phone photos?',
+                  a: 'The legible ones pass and the doubtful ones escalate to a person with the image right there, instead of getting half-recorded. We don’t promise up front what share falls on each side. It gets measured in your pilot with your real documents.',
+                },
+                {
+                  q: 'Does the flow only read, or does it write into our systems too?',
+                  a: 'It reads and writes, with a safety net. Writes go through validation, and the sensitive ones require a person’s confirmation before they run. What each flow may touch is defined with you, per system and per action.',
+                },
+                {
+                  q: 'How long until the first flow is running?',
+                  a: 'It depends on three things: that the data exists, that access has been granted and that the task to automate is well defined. With all three, a pilot in two weeks is realistic. If one is missing, getting it is the first part of the project. That timeline isn’t ours to set.',
+                },
+                {
+                  q: 'What happens to the cases the flow can’t resolve?',
+                  a: 'They escalate to your team with all the context the system has already gathered. This also covers the cases the flow understands perfectly well but has no business deciding. The goal isn’t one hundred percent. It’s human review sitting where it adds judgment, with the resolved share measured rather than assumed.',
+                },
+                {
+                  q: 'How much does it cost to automate a process?',
+                  a: [
+                    'A single-process flow starts at around €2,500 to build, flows that touch several of your systems get closer to €10,000, and monthly operation runs between €150 and €500, which covers weekly monitoring and maintenance. The monthly fee has no minimum term.',
+                    'The model and the infrastructure run in accounts under your company’s name, so those bills are yours and aren’t part of the fee. What moves those figures here is specific: how many systems have to be connected, how much validation the process needs and how much volume runs through it.',
+                  ],
+                  link: { label: 'AI agent development cost, broken down', href: '/en/guides/ai-agent-development-cost' },
+                },
+                {
+                  q: 'Who owns the flow you build?',
+                  a: 'You do. The repository is yours from day one, with its documentation and its operations manuals. If one day you want to run it with your own team or another provider, you take the whole flow with its documentation and its tests, not a subscription. What is a service while we work together is the operation, the weekly monitoring and the alerts.',
+                },
+              ],
+            },
+            contact: {
+              h2: 'Tell us which process still depends on manual work',
+              p: 'You don’t need to decide which tools to use or which part should involve artificial intelligence. Tell us how the process works today, which applications your team uses and where manual work is still needed.',
+              cta: 'Analyze a process with Ideasforge',
+            },
+          },
+          enterprise: {
+            href: '/en/services/corporate-knowledge',
+            metaTitle: 'AI Assistant over Your Internal Documentation, Ideasforge',
+            metaDescription: 'Ideasforge builds artificial intelligence systems connected to companies’ internal documentation and knowledge.',
+            nav: {
+              name: 'AI for internal documentation',
+              short: 'Knowledge you can query in natural language, with sources.',
+            },
+            h1: 'AI for internal documentation and corporate knowledge',
+            lead: 'Ideasforge builds artificial intelligence systems connected to companies’ internal documentation and knowledge: assistants that can look up manuals, procedures, regulations, technical documentation and knowledge bases in natural language.',
+            statement: [
+              'The goal isn’t to upload documents to a chatbot.',
+              'It’s to build a layer of access to knowledge that controls which information is retrieved, who can look it up and where each answer comes from.',
+            ],
+            cta: 'Tell us where your company’s knowledge lives',
+            intro: {
+              h2: 'Knowledge nobody can find costs time and money',
+              p: [
+                'The problem is a common one. Someone needs a technical detail, a procedure or the history of a problem, and the answer exists but it’s buried. They ask a colleague, the colleague asks the company’s longest-serving person, and that person knows it by heart because the document that explains it runs to two hundred pages.',
+                'The cost isn’t only the lost minutes. It’s the dependence on a few people, which turns every sick leave and every retirement into a risk for operations.',
+              ],
+              listLabel: 'The information exists, but it’s spread across',
+              list: [
+                'Shared folders',
+                'SharePoint',
+                'Google Drive',
+                'PDFs',
+                'Word documents',
+                'Wikis',
+                'Manuals',
+                'Procedures',
+                'Emails',
+                'Knowledge bases',
+                'Internal applications',
+                'Technical documentation',
+              ],
+            },
+            capabilities: {
+              h2: 'What can AI do with a company’s documentation?',
+              lead: 'A search engine returns ten documents where the answer might be, and the person still has to read them. This assistant answers the question and adds the reference to where the answer came from.',
+              items: [
+                [
+                  'Answer questions',
+                  '“What’s the procedure for approving a purchase over €10,000?” The system looks for the information and builds an answer based on the internal sources available.',
+                ],
+                [
+                  'Find relevant information',
+                  'Locate the right passage in large amounts of documentation even when the question doesn’t use the same words as the document.',
+                ],
+                [
+                  'Query live data',
+                  'Some questions no document answers well, because the answer changes every hour. For those, the assistant queries the internal system that holds the data and answers with what’s there right now.',
+                ],
+                [
+                  'Summarize documentation',
+                  'Produce summaries of documents, procedures or specific sets of information.',
+                ],
+                [
+                  'Guide processes',
+                  'Explain which steps an employee has to follow according to internal documentation, or walk them step by step through a diagnosis.',
+                ],
+                [
+                  'Cite the sources',
+                  'Include references to the documents used so the user can check the original information.',
+                ],
+              ],
+            },
+            poster: {
+              kicker: 'AI doesn’t need to memorize all your documentation',
+              h2: [
+                'Question → search → ',
+                'retrieval',
+                ' → answer → ',
+                'sources',
+                '.',
+              ],
+              p: [
+                'We don’t train a model on your documents. When the user asks, the system first looks for the relevant information in the authorized sources and then gives it to the model so it answers from your sources, not from its general knowledge. This approach is known as RAG.',
+                'A demo RAG can handle the easy questions. A production one has to find relevant information even in dense documents, with in-house vocabulary and badly phrased questions.',
+              ],
+            },
+            types: {
+              h2: 'We connect AI to the sources where knowledge already lives',
+              lead: 'It isn’t always necessary to move documentation to a new platform. The architecture decides whether the information has to be copied, indexed, synced or queried directly.',
+              items: [
+                [
+                  'Documents',
+                  'PDF, Word and other document formats.',
+                ],
+                [
+                  'Knowledge bases',
+                  'Wikis, structured documentation or internal platforms.',
+                ],
+                [
+                  'SharePoint and corporate storage',
+                  'Retrieve and sync information stored in business environments.',
+                ],
+                [
+                  'Google Drive',
+                  'When documentation is managed in the Google ecosystem.',
+                ],
+                [
+                  'Databases',
+                  'When part of the knowledge is stored as structured information.',
+                ],
+                [
+                  'APIs',
+                  'Retrieve up-to-date information from other applications.',
+                ],
+                [
+                  'In-house software',
+                  'Integration with tools built specifically for the company.',
+                ],
+              ],
+            },
+            cases: {
+              h2: 'AI applied to real technical knowledge',
+              lead: 'The plant assistant splits the work across specialized agents. That way new domains can be added without changing the agents that already work, each agent can be measured on its own, and a failure in one doesn’t drag down the rest.',
+              items: [
+                {
+                  client: 'Industrial company',
+                  cta: 'See the plant assistant case',
+                  title: 'Technical documentation as a live source for a plant assistant',
+                  desc: 'An orchestrator interprets each question and sends it to the specialized agent that matches its domain. It coordinates half a dozen agents, which combine technical documentation with production and fault data. Whoever asks sees none of what happens behind the scenes, they just get an answer.',
+                  image: '/case-studies/industrial.jpg',
+                  href: '/en/cases/industrial',
+                },
+              ],
+            },
+            method: {
+              h2: 'How we build an AI system over corporate knowledge',
+              lead: 'Development starts by understanding what information the user needs to find.',
+              steps: [
+                [
+                  'We identify the questions',
+                  'Which questions employees, customers or users ask today. That defines what kind of knowledge has to be reachable.',
+                ],
+                [
+                  'We analyze the sources',
+                  'Where the information is, which formats exist, how good it is and how it gets updated. We identify duplicates, versions and outdated content.',
+                ],
+                [
+                  'We design the retrieval',
+                  'How to find the right information for each query: semantic search, metadata, filters, databases and other mechanisms.',
+                ],
+                [
+                  'We define permissions and sources',
+                  'Which information each user can look up and which sources the system can use to answer.',
+                ],
+                [
+                  'We evaluate answers',
+                  'Real questions: whether it retrieves the right thing, whether the answer is backed by sources, whether it cites properly, whether it respects permissions and what happens when there isn’t enough information.',
+                ],
+                [
+                  'We measure in production',
+                  'A battery of real cases before every change and a weekly batch of test conversations on the live system. Unanswered questions end up as tasks for whoever owns the documentation.',
+                ],
+              ],
+            },
+            control: {
+              kicker: 'Permissions and sources',
+              h2: 'Each person can only look up what their permissions allow',
+              p: [
+                'The assistant uses the same permissions the person already has in the company’s systems, so nobody gets a passage in an answer that they couldn’t open by hand. When it queries an internal system, it does so with the person’s identity and permissions, not with a service account that has global access.',
+                'And when the answer isn’t in the sources, the assistant says so, plainly and with a trace. An assistant that fills gaps with false confidence is exactly what we don’t build.',
+              ],
+              listLabel: 'The assistant’s permissions and controls',
+              items: [
+                'User',
+                'Role',
+                'Department',
+                'Source',
+                'Document',
+                'Type of information',
+                'Sources cited in every answer',
+                'Answers limited to the retrieved content',
+                'A warning when something isn’t documented',
+                'A log of unanswered questions',
+                'Test suite before every change',
+              ],
+            },
+            when: {
+              h2: 'Not every knowledge problem needs RAG',
+              lead: 'RAG is a useful architecture, not an automatic fix for any documentation problem. We don’t implement RAG because it’s popular. We use it when it improves knowledge retrieval.',
+              yes: {
+                label: 'Types of knowledge where it adds value',
+                items: [
+                  'Technical documentation',
+                  'Internal procedures',
+                  'Regulations and compliance',
+                  'Product and service',
+                  'Internal support',
+                  'Training and onboarding',
+                  'Scattered operational knowledge',
+                ],
+              },
+              no: {
+                label: 'Depending on the case we combine',
+                items: [
+                  'Semantic search',
+                  'Keyword search',
+                  'Filters and metadata',
+                  'Hybrid retrieval',
+                  'Databases',
+                  'APIs',
+                  'Specific rules',
+                  'RAG',
+                ],
+              },
+            },
+            faq: {
+              h2: 'Frequently asked questions about AI and internal documentation',
+              items: [
+                {
+                  q: 'What is a RAG system?',
+                  a: 'An architecture that looks for relevant information before asking the model to generate an answer. Instead of relying on the model’s own knowledge, it retrieves information from specific sources and uses it as context.',
+                },
+                {
+                  q: 'What’s the difference between RAG and training a model?',
+                  a: 'RAG retrieves outside information when it answers. Training or fine-tuning a model changes its internal knowledge. For business documentation, RAG makes it easy to update the sources without retraining.',
+                },
+                {
+                  q: 'How much does a corporate knowledge assistant cost?',
+                  a: 'It’s quoted per project, because the cost depends on the volume and state of your sources, how many systems get integrated and how much validation you demand before going live. Multi-agent systems of this size sit outside the standard ranges we publish for single-job agents. The price structure, build plus monthly operation, is the same, and the cost guide breaks it down.',
+                  link: { label: 'AI agent development cost, broken down', href: '/en/guides/ai-agent-development-cost' },
+                },
+                {
+                  q: 'What about questions the documentation doesn’t cover?',
+                  a: 'The assistant says so, plainly and with a trace. We separate “outside the product” from “missing documentation”, each with its own answer and its own work queue, so real gaps end up as tasks for whoever owns the documentation. An assistant that fills gaps with false confidence is exactly what we don’t build.',
+                },
+                {
+                  q: 'Will employees see documents that aren’t theirs to see?',
+                  a: 'No. The search that feeds the assistant respects each role’s permissions, so a restricted document never even reaches what the model reads before answering. And system queries travel with the identity of the person asking, under their usual permissions. If someone can’t open a record by hand, their assistant can’t either.',
+                },
+                {
+                  q: 'How does it stay current when documentation changes?',
+                  a: 'Documents are processed again whenever they change, and quality is watched in two ways, a battery of real cases before every change we ship and a weekly batch of test conversations on the live system. When something stops being found or understood, it shows in the metrics before it becomes a complaint.',
+                },
+                {
+                  q: 'Does it handle our in-house vocabulary, and several languages?',
+                  a: 'Your in-house vocabulary is exactly the hard case retrieval gets calibrated for, with real cases from your people rather than lab examples. The languages you need are defined during exploration, which is the first phase of the project.',
+                },
+                {
+                  q: 'Can it run without leaving our infrastructure?',
+                  a: [
+                    'The full system runs on infrastructure you own, cloud or your own servers. The code is yours from day one, in your repository. The call to the language model is the only external piece, and it runs under the agreements and settings you approve, without your content being used for training.',
+                    'Deploying the model itself on your machines is a different project, with other costs and a different quality trade-off. If it’s a requirement it needs to come up in the first conversation, because it changes the architecture from the ground up.',
+                  ],
+                },
+                {
+                  q: 'How long does it take?',
+                  a: 'Exploration, which is the first phase of the project, answers that with your sources in front of us, not before. The shape of the project is constant though, a first bounded knowledge domain that reaches production with its measurement in place, then growth domain by domain. The industrial case grew exactly that way.',
+                },
+              ],
+            },
+            contact: {
+              h2: 'Tell us where your company’s knowledge lives today',
+              p: 'Tell us what information your team needs to find, where it’s stored and who should be able to look it up. We’ll look at how to make it reachable without losing control over sources, permissions, versions and security.',
+              cta: 'Build an assistant over our knowledge',
+            },
+          },
+          conversational: {
+            href: '/en/services/conversational-ai',
+            metaTitle: 'AI Chatbot Development Services for Business, Ideasforge',
+            metaDescription: 'Ideasforge builds custom chatbots and conversational agents for companies that need more than automatic replies.',
+            nav: {
+              name: 'Chatbots and conversational agents',
+              short: 'Conversations that query systems and take actions.',
+            },
+            h1: 'Chatbot and conversational agent development for companies',
+            lead: 'Ideasforge builds custom chatbots and conversational agents for companies that need more than automatic replies. Systems that can hold a conversation, look up information, use tools and take actions on CRM, ERP, databases, calendars, documentation, APIs and internal applications.',
+            statement: [
+              'A conversational agent can answer.',
+              'But it can also act.',
+            ],
+            cta: 'Tell us what a conversation should be able to resolve',
+            intro: {
+              h2: 'What we build',
+              p: [
+                'AI chatbots for the channels where your customers or your team already are: WhatsApp on Meta’s official API, the web and internal tools. The agent understands natural language, queries your real systems (calendar, CRM, database) and completes the task without taking the user out of the conversation.',
+                'The difference is in what happens after the answer. A traditional chatbot can explain how to book an appointment, but leaves the booking to you. These agents complete the task inside the conversation.',
+              ],
+              listLabel: 'A conversation can become',
+              list: [
+                'A query about business information',
+                'A request logged in a CRM',
+                'A booking created in a calendar',
+                'A change inside a process',
+                'A question about documentation',
+                'An operation in an internal application',
+                'A case passed to the right team',
+              ],
+            },
+            capabilities: {
+              h2: 'What can a conversational agent do?',
+              lead: 'These are the tasks we’re asked for most. The first four are specific types of work and the last one is part of every agent.',
+              items: [
+                [
+                  'Customer service',
+                  'Answers based on your data and documentation, with the matching source, at any hour.',
+                ],
+                [
+                  'Complete transactions',
+                  'Book, change, cancel or check, with the calendar and the record updated on the spot.',
+                ],
+                [
+                  'Conversation screening',
+                  'The ones with sales potential reach your team already qualified, and the rest get handled without taking anyone’s time.',
+                ],
+                [
+                  'Internal queries',
+                  'The same engineering pointed inward, with employees asking their data or their documentation.',
+                ],
+                [
+                  'Handover to a person',
+                  'When a conversation needs a person, it reaches the right team member with the full history.',
+                ],
+              ],
+            },
+            poster: {
+              kicker: 'Scripted chatbot versus conversational agent',
+              h2: [
+                'The conversation is the ',
+                'interface',
+                '. The process happens ',
+                'behind it',
+                '.',
+              ],
+              p: [
+                'These agents no longer depend on a closed tree of options. They can understand a request written in many ways, but they can only take the actions we’ve defined in advance.',
+                'The model interprets the request and chooses among the actions we define with you: book, look up, change or escalate. The code runs the chosen action and validates the result before replying.',
+              ],
+            },
+            types: {
+              h2: 'WhatsApp Business API integration and the systems behind the conversation',
+              lead: 'Conversational agents connect to the tools your company already uses, for customers (web, app, WhatsApp) or for internal teams. Instead of clicking through several screens, a request in natural language becomes the operations needed inside those systems.',
+              items: [
+                [
+                  'CRM',
+                  'Look up customers, opportunities and interactions, or record new information.',
+                ],
+                [
+                  'ERP',
+                  'Retrieve operational information, check statuses or run allowed operations.',
+                ],
+                [
+                  'Databases',
+                  'Search structured information without the user needing to know technical queries.',
+                ],
+                [
+                  'Calendars and bookings',
+                  'Check availability and manage appointments or resources.',
+                ],
+                [
+                  'APIs',
+                  'Use features from external applications or your own services.',
+                ],
+                [
+                  'Documentation',
+                  'Retrieve information from manuals, procedures, regulations or knowledge bases, with RAG and permissions when the project calls for it.',
+                ],
+                [
+                  'In-house software',
+                  'Specific tools so the agent can work on the company’s own applications.',
+                ],
+                [
+                  'Channels',
+                  'Web, your own app, WhatsApp or internal tools. Logic, sources and rules are shared. The experience of each channel changes.',
+                ],
+              ],
+            },
+            cases: {
+              h2: 'Conversational agents already working on real processes',
+              lead: 'The best examples of a conversational system show up when the conversation is connected to a process.',
+              items: [
+                {
+                  client: 'Wazzy',
+                  title: 'Managing appointments through a WhatsApp conversation',
+                  desc: 'Wazzy is our own product. The agent checks the real calendar, suggests times, books, changes or cancels, and applies the clinic’s rules. The user has a simple conversation. Behind it, the system controls the conditions under which each action can run.',
+                  image: '/case-studies/dentist.jpg',
+                  href: '/en/cases/wazzy',
+                },
+                {
+                  client: 'Savian',
+                  title: 'Querying business information in natural language',
+                  desc: 'The conversation acts as an interface over business data. The user asks. The system works out which information it needs and uses controlled tools to retrieve it, without anyone needing to know SQL or click through dashboards.',
+                  image: '/case-studies/harvest.jpg',
+                  href: '/en/cases/savian',
+                },
+              ],
+            },
+            method: {
+              h2: 'How we build a custom conversational agent',
+              lead: 'We don’t put it on every conversation from day one. It starts small, on one channel, at certain hours or with a group of customers, with its categories measured from the first conversation.',
+              steps: [
+                [
+                  'We analyze the use cases',
+                  'Who will talk to the agent, which requests the team gets today and what the conversation should achieve. Also which cases it shouldn’t resolve automatically.',
+                ],
+                [
+                  'We define the information sources',
+                  'What the agent needs to look up to answer correctly: documentation, CRM, ERP, databases, APIs or other systems.',
+                ],
+                [
+                  'We design actions and integrations',
+                  'What the agent can do beyond talking. Each action becomes a controlled tool inside the architecture.',
+                ],
+                [
+                  'We set rules and limits',
+                  'Which information it can use, which actions are allowed, when it needs validation or approval and when it has to hand over to a person.',
+                ],
+                [
+                  'We evaluate real conversations',
+                  'Ambiguous messages, incomplete data, changes of intent, errors, unexpected requests and situations where the agent should refuse to act. Not just the perfect conversation.',
+                ],
+                [
+                  'We measure in production',
+                  'We pin the model version and every change goes through a test suite before it ships. Every conversation leaves a record that can be reconstructed.',
+                ],
+              ],
+            },
+            control: {
+              kicker: 'Control',
+              h2: 'What the agent can answer and when the conversation goes to a person',
+              p: [
+                'Knowledge answers come from your data and your documentation, with the source beside them. Sensitive texts, such as a returns policy, a legal condition or a price, aren’t written by the model. They’re texts you approved that the system delivers as they are.',
+                'And when there’s no data to answer with, the agent says so and offers the way to a person, who receives the whole conversation without making anyone repeat themselves.',
+              ],
+              listLabel: 'The controls we put around the agent',
+              items: [
+                'Controlled knowledge sources',
+                'Information retrieval',
+                'Structured responses',
+                'Validations',
+                'Limited tools',
+                'Business rules',
+                'Permissions',
+                'Test suite before every change',
+                'Conversation log',
+                'Human intervention with context',
+              ],
+            },
+            when: {
+              h2: 'When is a custom chatbot worth building?',
+              lead: 'Telling you when it doesn’t pay off is part of the job too. A conversational agent pays off when there’s volume, when the information exists and when a real share of the tasks can be completed inside the conversation.',
+              yes: {
+                label: 'It usually makes sense when it',
+                items: [
+                  'Needs to look up the company’s own information',
+                  'Has to work with several sources',
+                  'Has to connect to CRM, ERP or other systems',
+                  'Has to take actions',
+                  'Faces specific business rules',
+                  'Needs different permissions',
+                  'Works with private information',
+                  'Has to hand cases over in a controlled way',
+                  'Covers a process an off-the-shelf platform can’t handle end to end',
+                ],
+              },
+              no: {
+                label: 'It’s probably not needed when',
+                items: [
+                  'It only has to answer a small set of frequent questions',
+                  'An off-the-shelf platform already solves the problem well',
+                  'The volume of conversations is very low',
+                  'There’s no clear process to automate',
+                  'Building it would cost more than the expected benefit',
+                ],
+              },
+            },
+            faq: {
+              h2: 'Frequently asked questions about chatbots and conversational agents',
+              items: [
+                {
+                  q: 'What’s the difference between a scripted chatbot and a conversational agent?',
+                  a: 'A scripted chatbot follows a tree of buttons and breaks the moment you step outside it. A conversational agent understands free text and picks from the available actions, so the same question asked twenty different ways lands in the same place.',
+                },
+                {
+                  q: 'Which channels does it work on?',
+                  a: 'WhatsApp on Meta’s official API, the web and internal tools. Wherever your customers or your team already are.',
+                },
+                {
+                  q: 'Can it book, change or cancel appointments on its own?',
+                  a: 'Yes. We run it in production with Wazzy, an appointment assistant that’s our own product, with real-time availability, immediate confirmation and the calendar kept up to date.',
+                },
+                {
+                  q: 'What if my customer wants to talk to a person?',
+                  a: 'They always can. The way to a person is in plain sight and whoever picks it up receives the whole conversation, without making anyone repeat themselves. Outside working hours the case waits with its history and gets handled first thing. A bot that traps people is expensive in customers, so we don’t build one.',
+                },
+                {
+                  q: 'Will it make up answers in front of my customers?',
+                  a: 'Knowledge answers come from your data with their source, and the delicate lines are texts you approved that the system delivers as they are. When there’s no data it says so and offers a person. That brings the risk down a long way. What’s left gets measured per type of task, so a failure shows up in its own category instead of getting lost in an average.',
+                },
+                {
+                  q: 'Can we change what it says without calling you?',
+                  a: 'You edit the approved texts yourself without touching code. No edit reaches production without passing its check. A new document doesn’t change answers either until the test suite approves it. To change what the agent is able to do, we step in, also with the tests in front of us.',
+                },
+                {
+                  q: 'Who answers for the GDPR?',
+                  a: 'Your company is the controller and we are the processor. What we hand over is a processing agreement, technical measures and retention periods in writing. When special category data is involved, such as health data, that also includes field-by-field encryption and deletion on request of anything without a legal retention period over it.',
+                },
+                {
+                  q: 'How much does an AI chatbot cost?',
+                  a: [
+                    'Build and operation prices are the same as for the rest of our agents, between €2,500 and €10,000 to build and between €150 and €500 a month to operate. The monthly fee has no minimum term and model usage runs in accounts under your company’s name.',
+                    'On WhatsApp there are two variable costs to keep in mind. Each conversation uses its own model calls. Meta charges separately for each template it sends, according to its pricing policy. An appointment reminder is a template, so each reminder has its own cost. Both are itemized.',
+                  ],
+                  link: { label: 'AI agent development cost, broken down', href: '/en/guides/ai-agent-development-cost' },
+                },
+                {
+                  q: 'What if WhatsApp changes its rules or its prices?',
+                  a: 'The official API protects you from Meta cutting off unofficial shortcuts, not from Meta raising its rates. Theirs are passed on itemized and separate from our part, so you always see which is which. And the agent’s logic doesn’t live in the channel, the same conversation can be handled on the web or in an internal tool with the same brain behind it.',
+                },
+                {
+                  q: 'Is it for selling or only for support?',
+                  a: 'The two overlap. An agent that filters and qualifies hands your team qualified leads, like the real estate agency that now only books viewings. What we don’t do is bulk messaging on WhatsApp, with or without AI.',
+                },
+                {
+                  q: 'How many conversations does it take to pay off?',
+                  a: 'We don’t give a magic number, because it depends on what handling those messages by hand costs you today. The pilot measures it with your real conversations, it’s paid and its price counts toward the final project. If the numbers don’t work, we’re the ones who tell you before you expand.',
+                },
+              ],
+            },
+            contact: {
+              h2: 'Tell us what a conversation should be able to resolve',
+              p: 'You don’t need to decide whether you need a chatbot, a conversational agent or a specific architecture. Tell us who would talk to the system, which requests your team receives today and what should happen after each conversation. We’ll look at what can be automated, which systems would need connecting and in which situations a person should step in.',
+              cta: 'Build a conversational agent with Ideasforge',
+            },
+          },
+          consulting: {
+            href: '/en/services/ai-consulting',
+            metaTitle: 'AI consulting for companies, Ideasforge',
+            metaDescription: 'Ideasforge offers artificial intelligence consulting for companies that need to turn AI opportunities into specific, viable and measurable projects.',
+            nav: {
+              name: 'AI consulting',
+              short: 'What’s worth building, what isn’t, and how.',
+            },
+            h1: 'Artificial intelligence consulting for companies',
+            lead: 'Ideasforge offers artificial intelligence consulting for companies that need to turn AI opportunities into specific, viable and measurable projects. We study processes, data and systems to find where AI can add value, what’s worth building and what architecture each case needs.',
+            statement: [
+              'We don’t start from a technology.',
+              'We start from the problem.',
+            ],
+            cta: 'Assess an opportunity with Ideasforge',
+            intro: {
+              h2: 'You don’t need to know which model or agent you need',
+              p: [
+                'Many companies know they want to use artificial intelligence but aren’t yet sure where to apply it. That’s normal. We start from the process and decide which technology makes sense: sometimes an agent, sometimes an automation, sometimes a conventional integration. And sometimes the conclusion is that nothing is worth building.',
+                'That’s exactly what consulting is for, making that decision before you invest in development.',
+              ],
+              listLabel: 'Before talking about agents, RAG or models, we need to understand',
+              list: [
+                'Which process we want to improve',
+                'How much time it takes',
+                'Who is involved',
+                'Which tools it uses',
+                'What data exists',
+                'Which decisions are part of the flow',
+                'What result we want to achieve',
+              ],
+            },
+            capabilities: {
+              h2: 'What do we analyze in an AI consulting engagement?',
+              lead: 'Consulting shouldn’t stop at a list of ideas. We analyze the company’s real context. The question isn’t only whether something can be done. It’s whether it’s worth doing.',
+              items: [
+                [
+                  'Processes',
+                  'How each flow works: repetitive tasks, bottlenecks, manual errors, waiting, duplicated work and processes that depend on too much administrative work.',
+                ],
+                [
+                  'Data',
+                  'What information exists, where it lives, who can access it and whether its quality is good enough to support an AI solution.',
+                ],
+                [
+                  'Systems',
+                  'ERP, CRM, databases, APIs, documentation, in-house software, storage and external applications the solution would have to work with.',
+                ],
+                [
+                  'Use cases',
+                  'Where artificial intelligence can add value and where it’s probably not needed.',
+                ],
+                [
+                  'Feasibility',
+                  'Whether the project can be built with the current data, integrations and constraints.',
+                ],
+                [
+                  'Impact',
+                  'What improvement it could bring in time, cost, errors, speed, operational capacity, service quality or access to information.',
+                ],
+              ],
+            },
+            poster: {
+              kicker: 'We design the architecture before building',
+              h2: [
+                'The architecture is a ',
+                'consequence',
+                ' of the problem. Not the ',
+                'starting point',
+                '.',
+              ],
+              p: [
+                'When a case makes sense, we define the architecture it needs: models, agents, RAG, automations, APIs, integrations, conventional software, permissions, infrastructure, observability and human intervention.',
+                'We also define which parts have to stay outside the model. Critical rules, permissions and validations stay in code so the system behaves predictably.',
+              ],
+            },
+            types: {
+              h2: 'From “we want to use AI” to specific use cases',
+              lead: 'We turn generic ideas into defined cases. Each case should answer at least these questions.',
+              items: [
+                [
+                  'What problem do we want to solve?',
+                  'What happens today and why it causes friction.',
+                ],
+                [
+                  'Who will use the system?',
+                  'Employees, customers, the sales team, operations, administration or other users.',
+                ],
+                [
+                  'What information does it need?',
+                  'Documentation, data, history, messages, internal systems or external sources.',
+                ],
+                [
+                  'What should it be able to do?',
+                  'Answer, look things up, classify, validate, take actions or automate a flow.',
+                ],
+                [
+                  'Which systems does it need?',
+                  'ERP, CRM, databases, APIs, in-house software or external services.',
+                ],
+                [
+                  'What benefit do we expect?',
+                  'Time saved, fewer errors, more capacity, better access to information or a new capability.',
+                ],
+                [
+                  'What risks are there?',
+                  'Privacy, errors, permissions, dependence on providers or the impact of a wrong decision.',
+                ],
+              ],
+            },
+            cases: {
+              h2: 'The strategy can end in a real system',
+              lead: 'Ideasforge isn’t only a consultancy. We also build the solutions we design. The strategy doesn’t end in a slide deck: it can become software running inside the company.',
+              items: [
+                {
+                  client: 'Stanton',
+                  title: 'From a minute per invoice to 98% of invoices untouched',
+                  desc: 'Each utility invoice took a minute of typing. Today 98% go through without anyone touching them and the rest reach a person with the document beside it. Separating which part of a process needs a model and which part rules can handle is exactly what consulting studies.',
+                  image: '/case-studies/stanton.jpg',
+                  href: '/en/cases/stanton',
+                },
+                {
+                  client: 'Savian',
+                  title: 'Correcting course in time: the model stopped writing SQL',
+                  desc: 'The first version let the model write the query and run it. It made mistakes that went through without any error and returned a different figure from the one asked for, so we replaced it. Today the model only interprets the question and the code builds the query.',
+                  image: '/case-studies/harvest.jpg',
+                  href: '/en/cases/savian',
+                },
+              ],
+            },
+            method: {
+              h2: 'An AI roadmap you can actually execute',
+              lead: 'The result of consulting should let you make decisions. A useful roadmap isn’t a list of ideas: it’s a sequence of decisions you can execute.',
+              steps: [
+                [
+                  'Prioritized use cases',
+                  'By expected impact, technical complexity, data availability, integrations, risk, cost and ease of adoption.',
+                ],
+                [
+                  'Quick-win projects',
+                  'A case with high impact and low complexity can be a good first implementation.',
+                ],
+                [
+                  'Dependencies and requirements',
+                  'Which data has to be put in order, which API has to be built or which process has to change before building.',
+                ],
+                [
+                  'Proposed architecture',
+                  'Which technology solves each part and what stays as conventional software.',
+                ],
+                [
+                  'Phases and success criteria',
+                  'How to measure whether the development generates enough value, with data from the real process.',
+                ],
+              ],
+            },
+            control: {
+              kicker: 'Security, GDPR and the AI Act',
+              h2: 'Security and compliance from the strategy stage',
+              p: [
+                'Some architecture decisions directly affect privacy, information exposure and regulatory risk. They shouldn’t be reviewed only once development is finished.',
+                'We also identify requirements related to the General Data Protection Regulation and the EU Artificial Intelligence Act.',
+              ],
+              listLabel: 'During consulting we analyze',
+              items: [
+                'What data the system will process',
+                'Whether there is personal or sensitive information',
+                'Which providers are involved',
+                'Where the data is processed',
+                'Which permissions are needed',
+                'Which actions the AI can take',
+                'Which decisions need human oversight',
+                'What traceability has to exist',
+              ],
+            },
+            when: {
+              h2: 'When does AI consulting make sense?',
+              lead: 'It adds value when the company knows there are opportunities but still needs to decide which ones to tackle. It can focus on a single process. And sometimes the next step is simply to build.',
+              yes: {
+                label: 'It can make sense if',
+                items: [
+                  'You don’t know where to start',
+                  'There are too many ideas and you need to prioritize them',
+                  'You want to identify processes that can be automated',
+                  'You need to validate whether a project is viable',
+                  'You want to work out whether the investment pays off',
+                  'You’re torn between off-the-shelf software and custom development',
+                  'You need to define an architecture',
+                  'There are security or privacy requirements',
+                ],
+              },
+              no: {
+                label: 'You don’t need it if you’ve already defined',
+                items: [
+                  'What problem you want to solve',
+                  'What the system has to do',
+                  'Which tools it has to work with',
+                  'What data it will use',
+                  'Which rules it has to follow',
+                  'What the project’s scope is',
+                ],
+              },
+            },
+            faq: {
+              h2: 'Frequently asked questions about AI consulting',
+              items: [
+                {
+                  q: 'What does an artificial intelligence consultancy do?',
+                  a: 'It analyzes processes, data and systems to find where AI can add value and how to implement each opportunity: use cases, feasibility, architecture, prioritization and impact.',
+                },
+                {
+                  q: 'What does AI consulting include?',
+                  a: 'Process analysis, identifying use cases, reviewing data and systems, prioritization, architecture, risk assessment and building a roadmap. The scope depends on whether we’re analyzing one process or a broader strategy.',
+                },
+                {
+                  q: 'How much does AI consulting cost?',
+                  a: 'It depends on the scope, the number of processes, the complexity of the systems and the level of detail. Assessing one specific case and a company-wide engagement have very different scopes.',
+                },
+                {
+                  q: 'How do you identify AI use cases?',
+                  a: 'By analyzing processes with manual work, information that’s hard to process, decisions that vary or a need to access knowledge. Then each one is assessed by impact, complexity, available data and risk.',
+                },
+                {
+                  q: 'How do you know whether an AI project will pay off?',
+                  a: 'By comparing the cost of building and maintaining the system with the value it can generate: time saved, fewer errors, extra capacity or better service.',
+                },
+                {
+                  q: 'Do I need my data ready before starting?',
+                  a: 'Not necessarily. Part of the consulting can be assessing what data exists and what would have to change before development.',
+                },
+                {
+                  q: 'Does consulting include development?',
+                  a: 'They can be hired as separate phases. Ideasforge can do only the analysis or go on to build the solution.',
+                },
+                {
+                  q: 'What’s the difference between AI consulting and AI development?',
+                  a: 'Consulting defines what’s worth building and how to approach it. Development turns that decision into working software.',
+                },
+              ],
+            },
+            contact: {
+              h2: 'Tell us what you want to improve, even if you don’t know how yet',
+              p: 'You don’t need to arrive with a defined agent, a designed architecture or a chosen solution. Tell us which process you want to improve, what problems your team runs into or which opportunities you’re weighing. We’ll look at what makes sense to do, what doesn’t and what the next step should be.',
+              cta: 'Assess an opportunity with Ideasforge',
+            },
+          },
         },
       },
       smb: {
@@ -15085,313 +21318,6 @@ export const content: Record<Lang, SiteContent> = {
         cta: {
           heading: 'What would you stop doing by hand first?',
           body: 'Describe the task that repeats most and how often it comes around, and leave the technology to us. We answer within one business day.',
-          button: 'Tell us what you’re up against',
-        },
-      },
-      realEstate: {
-        metaTitle: 'AI for Real Estate and Property Management, Ideasforge',
-        metaDescription:
-          'AI for real-estate agencies and property managers. An agent qualifies rental requests 24/7 and the utility bills tenants send in stop being typed by hand.',
-        hero: {
-          title: 'AI for real estate, from the first inquiry to the last bill',
-          subtitle:
-            'An agency has two bottlenecks, the inquiries arriving at all hours and the paperwork piling up in the back office. We have built for both, and both are running in production.',
-          cta: 'Tell us what you’re up against',
-        },
-        stats: [
-          {
-            value: '5 to 10 min',
-            label: 'was what checking a single incoming inquiry used to cost, dozens of times a day',
-          },
-          {
-            value: '+3 hours',
-            label: 'a day the agency got back, on handling incoming requests alone',
-          },
-          {
-            value: '98%',
-            label: 'of the utility bills go through untouched at the property management company we built for',
-          },
-        ],
-        sections: [
-          {
-            heading: 'Two bottlenecks at opposite ends of the agency',
-            id: 'the-problem',
-            paragraphs: [
-              'The two bottlenecks of an agency sit at opposite ends of the same business. One faces outward, the inquiries arriving at all hours from people who want to see an apartment. The other faces inward, the paperwork that piles up once they have moved in.',
-              'The industry is trying things. AppFolio, a property management software company, surveyed more than two thousand professionals for its 2025 benchmark report and found AI use up from 21% to 34% in a single year, with the share saying they had no plans at all dropping from 51% to 37%.',
-              'An adoption figure tells you the industry is buying. It does not tell you which of the two bottlenecks anybody cleared.',
-              '<strong>We build for one bottleneck at a time, and we measure what it costs you today before anything gets built.</strong> The two systems on this page are exactly that, one at an agency that was drowning in inquiries and one at a property management company that was drowning in bills.',
-            ],
-          },
-          {
-            heading: 'The inquiries, and what an hour of silence costs',
-            paragraphs: [
-              'Someone looking for an apartment is not writing only to you. They write to every listing that fits, at the same time, and the conversation goes to whoever comes back first with something useful.',
-              'That an inquiry goes cold is not a hunch, it was measured back in 2011 across more than a million of them, and the numbers are in the blog. What matters on this page is the arithmetic on your side of it.',
-              'Barceloneta Premium, an agency in Barcelona, was receiving dozens of WhatsApp messages a day. Checking each one took five to ten minutes before anybody knew whether it was worth a viewing.',
-              '<strong>Those minutes were not spent selling. They were spent finding out whether there was anything to sell.</strong>',
-            ],
-            link: {
-              label: 'The numbers on a cooling inquiry',
-              href: '/en/blog/ai-agent-real-estate',
-            },
-          },
-          {
-            heading: 'What the agent does with an inquiry',
-            paragraphs: [
-              'It holds the conversation in the language the person wrote in, and gathers what the agency needs to know: why they are asking, what budget they have and what documentation they can produce.',
-              '<strong>The criteria are not ours and they are not buried inside the system.</strong> They live in a spreadsheet on the agency’s own drive and the agency edits them. When the rules for a suitable applicant change, nobody has to call us first.',
-              'What the team receives is an email with the verdict and a paragraph explaining it. Somebody reads three lines and decides whether to book the viewing. <strong>The judgment stays with a person, which is the right way round and also what the rules on automated decisions require.</strong>',
-              'The person who wrote in gets an answer straight away, at any hour, including the rental peaks where they used to sit waiting. The agency got back more than three hours a day.',
-            ],
-          },
-          {
-            heading: 'The version we threw away',
-            paragraphs: [
-              'The first one we built followed the pattern almost everything sold as an agent is built on, a model with tools available to it and instructions to use them when needed.',
-              '<strong>It often did not use them.</strong> Nothing failed in a way anyone could look up afterwards. The model decided it could answer without checking, so it either made the answer up or told a real applicant it could not proceed when it perfectly well could.',
-              'The rebuild moved the tallying into code. A state machine tracks what has already been gathered and which phase the questions are in, and the model routes to whatever tool that phase calls for. <strong>The code keeps track and the model reads people.</strong>',
-              'We tell you this because it is the failure that a demonstration never shows. An agent that answers confidently without checking looks better in a meeting than one that stops.',
-            ],
-          },
-          {
-            heading: 'AI for property management, behind the door',
-            paragraphs: [
-              'The second bottleneck has no conversation in it at all. Stanton manages rental property, and the electricity, gas and water bills their tenants sent in were typed into a spreadsheet by hand, one document at a time.',
-              'Each one cost a minute of typing. Today they arrive through the chat the team already used, a reading layer with a language model turns each into a checked row in that same spreadsheet, and <strong>98% go through without anybody touching them</strong>.',
-              'The rest stops and reaches a person with the document alongside and the reason flagged. <strong>Stopping is by design, not a failure.</strong> A new format read with the old template does not throw an error, it hands you a wrong number that looks convincing, and we have watched that happen.',
-              'Nobody had to learn a new tool. The client has kept commissioning more back-office processes since, which is the signal that counts, because what gets used gets extended.',
-            ],
-            link: {
-              label: 'The document flow, step by step',
-              href: '/en/services/ai-workflow-automation',
-            },
-          },
-          {
-            heading: 'What it will not do',
-            paragraphs: [
-              '<strong>If someone stops replying, the conversation stays where it is.</strong> There is no follow-up sequence. That was the agency’s decision and we think it was the right one, because pursuing somebody who has gone cold is rarely worth the irritation it causes.',
-              'It does not write into your CRM when your CRM only lets you read. That is the case at Barceloneta, so the verdict goes out by email, which is where the team opens things anyway.',
-              'And it does not decide who gets the apartment. It gathers, applies the criteria you wrote and explains its reasoning, and a person signs it off.',
-            ],
-          },
-          {
-            heading: 'What it costs',
-            paragraphs: [
-              'A system of this size falls between €2,500 and €10,000 to build, with monthly operation between €150 and €500. The full breakdown of what moves those figures is in the pricing guide.',
-              '<strong>That monthly fee pays for the monitoring and the maintenance, not the usage.</strong> Model usage and infrastructure run in accounts under your company’s name, so those bills are yours to see and they do not pass through us. There is no lock-in on the fee, and the repository is yours from the first day.',
-            ],
-            link: {
-              label: 'How much an AI agent costs',
-              href: '/en/guides/ai-agent-development-cost',
-            },
-          },
-          {
-            heading: 'Where you start',
-            paragraphs: [
-              'With whichever of the two bottlenecks is costing you more this month. Count the minutes one inquiry takes and multiply by how many arrive, or count the documents somebody retypes in a week. That number is the budget ceiling and the yardstick at the same time.',
-              'With the data, the access and the task defined, two weeks for a pilot is realistic. The pilot is paid and its price counts toward the project if you carry on, so what you are buying at that point is a decision backed by your own numbers.',
-            ],
-          },
-        ],
-        faqHeading: 'Questions from agencies and property managers',
-        faq: [
-          {
-            q: 'Do we have to change our CRM or our property management software?',
-            a: 'No. We connect to what you already run and the results land where your team already works, which in the two systems on this page means a chat they already used and a spreadsheet they already had. Where a system only allows reading and not writing, we say so and the output goes somewhere else.',
-          },
-          {
-            q: 'Who decides whether an applicant is suitable?',
-            a: 'A person at your agency, with the summary and its reasoning in front of them. The agent gathers the information and applies the criteria you wrote, and it never issues the final word on its own. Beyond being the sensible arrangement, it is what the rules on decisions taken purely by automated means expect.',
-          },
-          {
-            q: 'Can we change the qualifying criteria ourselves?',
-            a: 'Yes, and that was deliberate. They live in a spreadsheet on your own drive rather than inside the system, so your team edits them the day the requirements change without opening a ticket with us.',
-          },
-          {
-            q: 'What happens with the inquiries that arrive at three in the morning?',
-            a: 'They get answered. That is most of the point, because the person writing at three in the morning is writing to several listings at once and the useful reply is the one that arrives first. Anything that needs judgment waits for your team in the morning, already gathered and summarized.',
-          },
-          {
-            q: 'Does this work for sales as well as rentals?',
-            a: 'The agency behind this page is extending the same base from rentals to sales and to internal processes. That is the pattern we recommend, start with the process eating the most hours, measure it and grow from there once it has proved itself.',
-          },
-          {
-            q: 'We are a small agency. Is this overkill for us?',
-            a: 'Both systems on this page are running in small teams. What decides it is not headcount, it is whether the same task repeats often enough to pay for its own automation, and dozens of inquiries a day at five to ten minutes each answers that question quickly.',
-          },
-        ],
-        cta: {
-          heading: 'Which of the two is costing you more?',
-          body: 'Tell us where the hours go, the inquiries or the paperwork, and we will tell you whether we see a return. We reply within one business day.',
-          button: 'Tell us what you’re up against',
-        },
-      },
-      accounting: {
-        metaTitle: 'AI for Accounting Firms: invoices read and checked, Ideasforge',
-        metaDescription:
-          'Invoices, receipts and delivery notes your team stops typing. A system that reads them, checks they add up and only escalates what is doubtful.',
-        hero: {
-          eyebrow: 'Accounting firms',
-          title: 'Your clients’ invoices, read and checked without typing',
-          subtitle:
-            'A system that reads every document coming in, checks the data adds up before treating it as valid and only escalates to a person what needs judgment.',
-          cta: 'Tell us about your case',
-        },
-        stats: [
-          {
-            value: '98%',
-            label: 'of invoices go through untouched, in the system we run in production',
-          },
-          {
-            value: '1 minute',
-            label: 'of typing was what each of those invoices cost before the system existed',
-          },
-          { value: '2 weeks', label: 'for a pilot, with the data and the access ready' },
-        ],
-        sections: [
-          {
-            heading: 'The bottleneck was never reading the invoice',
-            id: 'the-problem',
-            paragraphs: [
-              'An accounting firm does not receive one kind of document, it receives all of them. Utility bills, supplier invoices, expense receipts, delivery notes that have to be matched against an order. Every client brings their own issuers and every supplier puts the total wherever they feel like putting it.',
-              'Reading that paper stopped being hard a long time ago. OCR, optical character recognition, has been turning images into text for decades. A language model now interprets that text the way someone who knows the job would.',
-              '<strong>What still costs you is being able to trust what was read without opening the document again.</strong> An amount extracted wrong that nobody catches does not save you a minute, it costs you a correcting entry three months later.',
-              'That work is easy to measure. In the case behind this page each invoice cost a minute of typing, so a firm handling four hundred invoices a month spends close to seven hours every month copying data that was already written down. Put your own number in and you get your own figure.',
-            ],
-          },
-          {
-            heading: 'Why the demo always works',
-            paragraphs: [
-              'Any vendor will show you an invoice read without a single error. And it will genuinely work, because the invoice in the demo is usually a native PDF, clean, generated by a program.',
-              'Yours are not always like that. They arrive scanned from a folded original, photographed on a phone in a badly lit hallway, forwarded three times and compressed along the way.',
-              'That gap has been measured. <strong>PureDocBench</strong>, a benchmark published in May 2026 by researchers at the Institute of Automation of the Chinese Academy of Sciences, took 1,475 annotated pages across ten domains and presented each one in three versions, from clean to degraded the way it arrives in real life.',
-              'On the genuinely degraded ones, systems specialized in documents lost more than fourteen points against their score on clean pages. And the headline of the study is worth keeping. <strong>The best system measured scores 74 out of 100.</strong> Its authors conclude that evaluating only on clean documents misleads you when the decision is whether something can be deployed.',
-              'We do not tell you this to put anyone off. We tell you because it points at where the real work is, which is not the reading but what the system does when the read comes back poor.',
-            ],
-          },
-          {
-            heading: 'What AI for accounting firms covers, and what it does not',
-            paragraphs: ['What we automate in an accounting firm and what we leave where it is.'],
-            kind: 'checklist',
-            bullets: [
-              'Utility bills and supplier invoices. They come in through the channel your team already uses and come out as normalized rows wherever you work.',
-              'Receipts and expense slips, photographed by whoever spent the money.',
-              'Delivery notes that have to be matched against an order before anything is treated as valid.',
-              'Scanned forms that someone types in field by field today.',
-              'We do not do the bookkeeping or decide how it is posted. The system leaves the data checked, with its link back to the original document.',
-              'We do not replace your practice management software. We connect to what you already have. If the destination is a spreadsheet, it is a spreadsheet.',
-              'We do not file anything with a tax authority. This is not invoicing software and it does not replace it.',
-            ],
-          },
-          {
-            heading: 'Supplier invoices, receipts and delivery notes break differently',
-            paragraphs: [
-              'The list above reads as though the three were the same job on different paper. They are not, and anyone who has tried to automate them knows it. <strong>Each type fails for a different reason, so each one gets handled differently.</strong>',
-              'A <strong>supplier invoice</strong> arrives in a hundred layouts with the total wherever its issuer decided to put it. There the problem is interpretation. It is where a language model brings what no template ever could.',
-              'An <strong>expense receipt</strong> is almost never a PDF. It is a photograph of a crumpled thermal slip, taken in a hurry in a building entrance with half the light you would want. The problem stops being interpretation and goes back to being reading, which is exactly where tools fall over and where the checking afterwards matters most.',
-              'A <strong>delivery note</strong> is like neither of them, because the question to answer is not what it says. It is whether what it says matches what was ordered. That is not extraction, it is matching two documents. A system that only knows how to extract will wave it through without having checked anything.',
-            ],
-          },
-          {
-            heading: 'From OCR to the ledger, and where we stop',
-            paragraphs: [
-              'The data comes out checked, with its link back to the original document, in the place your team already works from. That is as far as we go.',
-              '<strong>The journal entry is yours to make. That is not a limitation on our side, it is a line drawn on purpose.</strong> Classifying an expense is a decision with tax judgment behind it, one that changes from client to client and that sometimes rests on a conversation the machine was never part of.',
-              'A wrong entry also has an unpleasant property: it does not show up when you make it. It shows up months later, sometimes in the middle of an audit. We would rather leave the data spotless at the door and have the decision signed by whoever answers for it.',
-              'What you do save is everything that came before, which is where the hours were. Nobody keys in amounts, nobody looks up the same invoice number twice and nobody finds out at month-end close that a document was missing.',
-            ],
-          },
-          {
-            heading: 'What happens when something does not add up',
-            paragraphs: [
-              'A system that always answers is a system you cannot trust. Ours checks before treating a value as valid. What does not pass the check stops.',
-              'Stopping is not the failure, it is the design. <strong>A new format processed with the old template produces data that looks fine.</strong> That is worse than not processing it, because nobody reviews what looks fine, and we have watched it happen.',
-              'When something stops, it reaches a person with the document in front of them and the reason flagged. Not as a stray alert mid-afternoon that somebody then has to go and investigate.',
-            ],
-            link: {
-              label: 'The full flow, step by step',
-              href: '/en/services/ai-workflow-automation',
-            },
-          },
-          {
-            heading: 'And if e-invoicing makes all this obsolete',
-            paragraphs: [
-              'It is the first objection from anyone who works with tax paperwork every day. And it is a fair one, so the answer comes in two halves.',
-              'Outside Spain the direction is the same. Council Directive (EU) 2025/516, adopted in March 2025, sets July 2030 for structured electronic invoicing and digital reporting on trade between EU countries.',
-              'Spain, where we build, is further along and makes a useful preview. VeriFactu becomes mandatory for companies on 1 January 2027 and for everyone else on 1 July that year. The regulation for business-to-business electronic invoicing already exists, Royal Decree 238/2026, but its deadlines do not start counting until a ministerial order that is still a draft. <strong>Anyone giving you a firm date for that is quoting a proposal, not the law.</strong>',
-              'The first half of the answer is yes, for part of the paper this expires in the medium term. Anyone telling you otherwise is selling you something. The obligation covers invoices between businesses and professionals, and those will end up arriving structured at source.',
-              'The second half is everything else. Invoices issued to individuals fall outside it. So do receipts, delivery notes, the supplier abroad and the transition years when both worlds will live side by side.',
-              'And when the data does arrive clean at source, it will still need checking that it adds up, because clean in format is not the same as correct.',
-            ],
-            link: {
-              label: 'We go into it in the blog',
-              href: '/en/blog/invoice-automation-ocr-ai',
-            },
-          },
-          {
-            heading: 'What we have measured',
-            paragraphs: [
-              'Stanton manages rental property and it was the first place we built this. The electricity, gas and water bills for each tenant were entered by hand, document by document. Each one cost a minute of typing.',
-              'Today the team forwards them through the chat they already used, the system reads them and each one lands as a normalized row in the same spreadsheet they always had. <strong>98% goes through untouched.</strong> The rest escalates with the document alongside.',
-              'Nobody had to learn a new tool. And the client has already commissioned more back-office processes, which is the signal that actually counts, because what gets used gets extended.',
-            ],
-          },
-          {
-            heading: 'Where you start',
-            paragraphs: [
-              'With one process, not all of them. The one that hurts most and repeats most, which in an accounting firm tends to be the same one across almost every client.',
-              'With the data, the access and the task properly defined, a pilot in two weeks is realistic. Before we start it we tell you what we expect it to save and how we are going to measure it, so the word “automated” comes with a number behind it.',
-            ],
-          },
-          {
-            heading: 'What it costs',
-            paragraphs: [
-              'A system this size falls in the range we break down in the pricing guide, with a fixed build and a monthly fee while it is running.',
-              '<strong>That fee pays for the monitoring and the maintenance, not the usage.</strong> The model calls and the infrastructure go into accounts in your name, so you see what you spend and it does not go through us.',
-            ],
-            link: {
-              label: 'How much an AI agent costs',
-              href: '/en/guides/ai-agent-development-cost',
-            },
-          },
-        ],
-        faqHeading: 'Questions from accounting firms',
-        faq: [
-          {
-            q: 'Does it work if every client sends us invoices a different way?',
-            a: [
-              'Yes, and that is the normal case. The entry point is the channel your team already uses, a forwarded email or a chat, so nobody has to change what they do today.',
-              'The variety of issuers is not the problem either. What gets fixed is not the input format, it is the output structure, the fields that have to come out of every document for the data to be usable.',
-            ],
-          },
-          {
-            q: 'What happens the day a supplier changes the format of their invoice?',
-            a: [
-              'The system checks the document matches what is expected before extracting anything. If it does not match, it is not processed. It stops and a person gets the alert with the document in front of them.',
-              'Stopping is the right answer. A new format read with the old template does not throw an error, it hands you a wrong value that looks convincing.',
-            ],
-          },
-          {
-            q: 'Do we have to change our practice management software?',
-            a: 'No. We connect to what you already have and the data lands where your team works today, whether that is an accounting package or a spreadsheet. Forcing people to learn a new tool is the fastest way for an automation to end up unused.',
-          },
-          {
-            q: 'Does this replace our invoicing software?',
-            a: 'No, and it is worth saying plainly. What we build reads the documents coming in and leaves their data checked in your systems. Issuing invoices that meet your tax authority’s requirements is your invoicing software’s job, and this neither replaces nor certifies it.',
-          },
-          {
-            q: 'How long until it is running?',
-            a: 'Two weeks for a pilot is realistic when the process is scoped and the access is ready. A pilot is not a demo, it is the real process with real documents and its measurement alongside, so the decision to extend comes with a number.',
-          },
-          {
-            q: 'And if it turns out not to be worth it?',
-            a: 'We tell you before charging for it. If we look at the process and cannot see a return, we say so and we stop. A project that does not save measurable hours ends up abandoned, and that costs more than never having built it.',
-          },
-        ],
-        cta: {
-          heading: 'How many invoices does your team type today?',
-          body: 'Tell us which process eats the most hours, not the technology you think fixes it. We reply within one business day with a first read on your case.',
           button: 'Tell us what you’re up against',
         },
       },
@@ -15718,610 +21644,6 @@ export const content: Record<Lang, SiteContent> = {
           button: 'Tell us what you’re up against',
         },
       },
-      agentDev: {
-        tocHeading: 'On this page',
-        metaTitle: 'Custom AI agent development for enterprises, Ideasforge',
-        metaDescription:
-          'Custom AI agent development services for mid-size and large companies: enterprise AI agents on your infrastructure, measured before every change.',
-        hero: {
-          eyebrow: 'Custom AI agent development',
-          title: 'Enterprise AI agents, built to reach production and stay there.',
-          subtitle:
-            'We design, build and maintain custom AI agents for mid-size and large companies. On your infrastructure, measured before every change.',
-          cta: 'Tell us what you’re up against',
-        },
-        sections: [
-          {
-            heading: 'What custom AI agent development covers',
-            part: 'The service',
-            paragraphs: [
-              'Custom AI agents that do real work: they answer questions against your documentation and databases, run guided diagnostics, qualify requests and execute actions on the systems you approve. <strong>Each agent is built for one concrete task and connects only to the tools that task needs.</strong> When one agent is not enough, we build the architecture that coordinates several. An orchestrator understands each query and routes it to the specialist. One of our production systems runs this way, with half a dozen specialized agents behind the orchestrator.',
-              'These are some of the briefs we get most often:',
-            ],
-            kind: 'lattice',
-            bullets: [
-              'Queries on your data. The question is written in plain language and the answer comes out of your database through a validated path, never from the model’s memory. “How much did we invoice in March in the northern region?”, asked exactly like that, the way you would ask a colleague.',
-              'Assistant on your documentation. Manuals, wikis and internal systems answering in a single conversation, citing where each answer came from. The returns policy that today lives spread across three manuals gets answered in one sentence, with its source beside it.',
-              'Guided diagnostics. The agent asks, rules out and walks step by step to the cause, the way our plant-floor assistant does when a machine stops.',
-              'Request qualification. Every incoming item is read, scored and routed. Your team receives only the ones worth its time. Of twenty quote requests arriving through the website, three deserve a call today and the rest can wait until tomorrow.',
-              'Actions on your systems. The full transaction, executed inside a closed set of actions you approve. Registering the client, generating their contract and leaving it ready for signature, with nobody copying data from one screen to another.',
-            ],
-            link: { label: 'If you are still working out what an AI agent actually is, start with the AI agents guide', href: '/en/guides/ai-agents' },
-          },
-          {
-            heading: 'What never used to be worth automating',
-            pizarra: { grafico: 'entradaSucia', tras: 1 },
-            part: 'The service',
-            paragraphs: [
-              'Processes with clear rules have been automated for decades. What stayed out of reach was everything arriving with no fixed format, say one client sends the order as a PDF, another writes it in the body of an email and a third asks for “the same as last month, but for the new warehouse”. Automating that took either a person keying data in or a rules project that broke with the first supplier or user who phrased the request differently.',
-              '<strong>Language models, or LLMs, changed the rules of the game, because the expensive part is no longer reading input that arrives messy or unstructured.</strong> The model understands the order however it was written and turns it into something the rest of the system can process.',
-            ],
-          },
-          {
-            heading: 'Autonomy is earned in stages',
-            pizarra: { grafico: 'peldanos', tras: 2 },
-            part: 'The service',
-            paragraphs: [
-              'We usually recommend that no agent of ours starts out acting on its own. For the first few days it should only propose, and a person should review every answer before it reaches the end user. Once the test suite and a few weeks of use show where it gets things right, it is given the autonomy you want.',
-              'An example makes it clearer. An agent that replies to suppliers starts by writing drafts the team approves. Weeks later it sends the acknowledgements itself, while a complaint or a price negotiation still goes through a person.',
-              'And there is one rule we never break. <strong>We never widen what the agent touches and what it decides on its own at the same time.</strong> If we give it access to a new system, in that system it goes back to review mode, even after months working alone on the others.',
-            ],
-          },
-          {
-            heading: 'Security is the starting point',
-            pizarra: { grafico: 'cuatroCapas', tras: 2 },
-            part: 'The guarantees',
-            paragraphs: [
-              '<strong>The model chooses, but it does not decide.</strong> It picks from a closed set of actions, and it is the code that reviews that choice before anything runs. A workshop’s agent can look up a vehicle’s history, propose an appointment and send a quote. Deleting it cannot do, because that action does not exist in its list and asking for it in writing does not create it. That is why the limit does not live in an instruction the model can ignore, and that is the difference between a guarantee and a polite request, a perfectly written prompt that can still fail at any moment.',
-              'We split the work the same way in every system: judgment lives in the code, interpretation of language lives in the model and knowledge lives in your data. Everything ordinary code can solve, ordinary code solves, because every model call in production adds cost, waiting time and a variability someone has to watch. Working out a due date or applying a tax rate with code (a script) will come out the same the millionth time it runs, whereas an LLM, not being deterministic, will not always give the same result. Understanding that “the one from the other day for the new warehouse” means order 4512 with a different delivery address, that is the model. What comes out of the split is systems that are cheaper to run and easier to audit, not less capable.',
-              'And when data from several companies or several departments lives side by side, isolation is not something we ask the model for in a prompt. It is built in layers that end in a filter the model cannot touch, and the agent only ever receives the context of the person asking, so it cannot even phrase a query about anyone else’s data. It is what an accounting firm already demands of its own team, that each manager sees their clients and no others.',
-            ],
-          },
-          {
-            heading: 'The model interprets, the code decides',
-            pizarra: { grafico: 'contratoCerca', tras: 0 },
-            part: 'The guarantees',
-            paragraphs: [
-              '<strong>The model (LLM, AI, or whatever you want to call it) never gets to touch your systems.</strong> It interprets the question and hands over a fixed-field form, what we call a contract. From there the code decides, and code does behave the same way every time. The worst a malicious message can achieve is a bad pick from a list we already reviewed. A system built this way, with everything we stopped letting the model do along the way, is on <a class="link-inline" href="/en/cases/savian">the Savian page</a>.',
-            ],
-          },
-          {
-            heading: 'How an agent earns its place in production',
-            part: 'The guarantees',
-            paragraphs: [
-              'A demo takes days. Production takes discipline. Every agent ships with a test suite, a set of anonymized cases with their correct answers annotated, which runs in full before every change. Inside it there are deliberately difficult, awkward or ambiguous cases, the invoice that arrives with no order number, the question with two possible readings, the message full of typos written from a phone. <strong>If quality drops, the change never ships.</strong> In one of our agents that suite is 118 real cases, and with it we took routing accuracy from 72% to 91%, routing being the piece that decides which agent handles each question.',
-              'Every answer is recorded with its context: what the agent consulted, what it decided and what it cost. When a complaint arrives, we reconstruct exactly what happened. And what runs in production gets reviewed weekly, because a system with a model inside can get worse without a single error showing up in any log.',
-            ],
-          },
-          {
-            heading: 'The trust perimeter',
-            pizarra: { grafico: 'sinSupervision', tras: 0 },
-            part: 'The guarantees',
-            paragraphs: [
-              'The suite does more than watch quality. It draws the map of what the agent has actually proven, and we call that map the trust perimeter. <strong>Inside the perimeter, the agent acts alone. Outside it, it sets the case aside and hands it to a person.</strong> That map does not come out of a meeting, it comes out of the cases the agent has already passed. An agent that has spent months processing domestic orders receives its first order that involves customs. The right move is not improvising an answer, it is recognizing that this ground has not been proven and passing it to someone who knows, until it enters the suite with cases of its own.',
-              'This asks us to build something people get for free. A new employee is taught to ask when unsure. The doubt has to be engineered around the model, because on its own it does not raise a hand, it fills the gap with something that sounds right. If a request is missing the tax ID, the agent registers nothing and asks for it. That stop is not the model’s decision, the code imposes it.',
-            ],
-          },
-          {
-            heading: 'How much supervision it needs',
-            part: 'The guarantees',
-            paragraphs: [
-              'An agent in production needs someone inside who answers for it. The person who today reads every request in full moves to reviewing the queue of doubts, where each case arrives with the data already extracted and the reason for the doubt flagged. They decide at a glance what used to take a while. <strong>What the agent cannot resolve alone does not vanish, it gets handed over.</strong> Before anything starts, we agree which cases escalate, which queue they land in and who attends them.',
-            ],
-          },
-          {
-            heading: 'We start from the problem, not the model',
-            part: 'Deciding with judgment',
-            paragraphs: [
-              '<strong>We do not look for ways to use AI in your company. We look for the problems already costing you money</strong> and evaluate whether an agent solves them with a gain you can demonstrate. It sounds the same and it is the opposite. The first search produces toys that demo well and get abandoned soon. The second produces systems a manager defends in front of the board with numbers.',
-              'The first phase happens with the people who live the process every day, not only with the people who buy the technology. We map the process step by step with its actors, its systems and its timings. Then we separate the problems that hurt today, the ones already costing hours or customers, from the bottlenecks that will hold only until volume grows. Each candidate gets translated into its expected gain against a measured baseline, what it costs today in hours, errors or waiting.',
-              'Most of that list gets discarded. With what survives we do not start a big rollout but a bounded pilot: one slice of the problem, a small group of users and a metric agreed in advance. Narrow and deep before wide and shallow, because a cheap pilot that fails is information and an expensive rollout that fails is a hole.',
-            ],
-          },
-          {
-            heading: 'What we bring and what you bring',
-            part: 'Deciding with judgment',
-            paragraphs: [
-              '<strong>Technology is no longer the bottleneck, and we say that having built the technology.</strong> Projects fall over on the organizational side, when nobody has time to review the pilot or access to the data drags on forever. So we ask for three things before starting: a named owner who decides and answers, real hours from their team to review the pilot cases, and access to the data the agent needs. Without those hours there is no suite to calibrate and nobody with the authority to sign off on the result.',
-              'And there is a part that cannot be bought, only earned. Whoever does the task by hand today will be the one watching the agent tomorrow. If they join the project last, they will experience it as a threat and will find reasons why it does not work. It is the silliest way for a good system to die and it costs nothing to avoid. The process mapping happens with those people in the room from day one, and with a new role on the table for them.',
-            ],
-          },
-          {
-            heading: 'When an agent is not worth it',
-            part: 'Deciding with judgment',
-            paragraphs: [
-              '<strong>Telling you is part of our service at Ideasforge.</strong> If the rules of your process are clear and stable, a custom automation solves it cheaper, faster and without the supervision a model demands. We build that too. An agent pays off when somewhere in the middle something has to be read, interpreted or judged on inputs that keep changing, an email written any which way, a crooked scanned document, a question with three possible readings.',
-              'Two quick tests expose it. If the process can be written as a checklist, the file arrives, it gets loaded, it gets confirmed, always in the same format, then rules are what you need and the model is surplus. And if you have spent months stacking conditions for each new way people write an address, the problem is no longer about rules, it is about reading. That is where an agent’s ground begins.',
-              'It is also not worth it when nobody can point at the gain, or when the data the agent needs does not exist, or when the team that should use it does not want to. In those cases the sensible move is to start by fixing the data or the process, not by building the agent. The market is paying dearly for that lesson. Gartner reckons that by the end of 2027 more than 40% of agentic AI projects will have been canceled. Our way of staying out of that figure is discarding early, with numbers.',
-              'Discarding the agent does not leave you with nothing. A process with clear rules gets automated all the same and comes out cheaper to build and to run. That is the other half of what we do.',
-            ],
-            link: {
-              label: 'If your rules are clear, AI workflow automation is your page',
-              href: '/en/services/ai-workflow-automation',
-            },
-          },
-          {
-            heading: 'What you take home on the last day',
-            part: 'Deciding with judgment',
-            paragraphs: [
-              '<strong>The repository is under your name from day one</strong>: code, documentation, operations manuals, the model’s instructions and the test suites. So is the infrastructure, set up in a cloud under your company’s name. We have systems running on more than one model provider. Switching yours is possible and it happens with the test suite in front of us, because different models behave differently and the change gets measured.',
-              'With the system we hand over the incident catalog, written so each failure can be recognized from the outside before anyone knows its cause. If you decide to operate it yourself, we train your team. The day you choose to walk away from us, you already have everything.',
-            ],
-          },
-          {
-            heading: 'What it costs',
-            part: 'Deciding with judgment',
-            paragraphs: [
-              'A custom agent runs between €2,500 and €10,000 to build, depending on integrations and validation requirements, plus €150 to €500 a month to operate, which covers monitoring and maintenance. Model usage and infrastructure run in accounts under your company’s name, so those bills are yours and are not part of the fee. <strong>The monthly fee is agreed before anything starts and consumption is watched with caps. It is not an open meter you discover at the end of the month.</strong> Systems with an orchestrator and several agents are quoted per project. The full breakdown, what makes the build more expensive and where the monthly fee goes, is in the cost guide.',
-            ],
-            link: { label: 'AI agent development cost, broken down', href: '/en/guides/ai-agent-development-cost' },
-          },
-        ],
-        faqHeading: 'Frequently asked questions',
-        faq: [
-          {
-            q: 'What does “for enterprise” mean in practice?',
-            a: 'Your infrastructure or your cloud, your organization’s accounts, your data where you decide, and quality measured continuously. The guarantees your security committee will ask about, answered before the meeting.',
-          },
-          {
-            q: 'Is ChatGPT not enough for us?',
-            a: 'For helping people with their work, maybe it is, and we do not charge for telling you so. A chat is a helper tool where whoever asked reviews every output. An agent is a system that produces the outcome on its own, on your data and under your permissions, and that demands the engineering this page describes. They are different purchases for different problems.',
-          },
-          {
-            q: 'Can the agent connect to our internal systems?',
-            a: 'That is the point. ERP, databases, industrial systems, documentation. The agent only talks to the systems you approve, under each person’s own permissions.',
-          },
-          {
-            q: 'Does the agent act on its own?',
-            a: 'It decides inside a perimeter. The possible actions are a closed list you approve, the code validates each one before running it, and the sensitive ones require a person’s confirmation. Autonomy is rationed by cost and reliability, not by faith in the model.',
-          },
-          {
-            q: 'What if our data is a mess?',
-            a: 'That is among the first things we look at. If the data the case needs is missing or unreliable, we tell you, and the first phase becomes fixing it, because an agent on top of broken data only automates the error faster.',
-          },
-          {
-            q: 'Who maintains the agent afterwards?',
-            a: 'Your call. We can run the measured maintenance, or train your team and hand over the operations manual so they run it. The documentation is written for that second case even if you choose the first.',
-          },
-          {
-            q: 'What if the model provider raises prices or retires the model?',
-            a: 'Switching models is something we test, not something we promise. We run systems in production on models from different providers, and a switch has to pass the test suite before it ships. It sometimes means touching the system as well, because different models behave differently. We’ve seen it happen: we rejected a cheaper model because the suite showed it lost ten points of accuracy.',
-          },
-          {
-            q: 'What if you conclude our case is not worth it?',
-            a: 'We tell you before charging for it, and you keep the process map with its numbers, which is worth having even if the agent never gets built. Discarding early is part of the method, not a failure of it.',
-          },
-        ],
-        cta: {
-          heading: 'Interested in this for your company?',
-          body: 'Tell us what you’re up against. If we don’t think it will pay for itself, we’ll say so.',
-          button: 'Tell us what you’re up against',
-        },
-      },
-      processAuto: {
-        tocHeading: 'What you will see on this page',
-        metaTitle: 'AI Workflow Automation for Business Processes, Ideasforge',
-        metaDescription:
-          'AI workflow automation for the processes classic tools could never close: documents, requests and decisions, carried end to end on the systems you already run.',
-        hero: {
-          eyebrow: 'AI workflow automation',
-          title: 'AI workflow automation, from start to finish',
-          subtitle:
-            'How far AI business process automation goes, which processes it can take on now and how to build them so they actually work. We look at where AI adds value, where code is still needed and how to decide what is worth automating.',
-          cta: 'Tell us what you’re up against',
-        },
-        sections: [
-          {
-            heading: 'What AI workflow automation actually solves',
-            part: 'What opens up now',
-            pizarra: { grafico: 'frontera', tras: 0 },
-            kind: 'lattice',
-            paragraphs: [
-              'The processes classic tools could never automate share one trait. At some point, a person has to read and decide. An invoice arrives and somebody keys it in. A request arrives and somebody qualifies it. A question arrives and somebody goes looking for the answer. <strong>That step, reading something that does not come in a fixed format and deciding what to do with it, was the frontier of automation.</strong> Language models absorb exactly that step, and with it the whole family of processes built around it opens up.',
-              'These processes rarely have a name on the org chart. They live in an inbox somebody empties every morning, in the spreadsheet bridging two systems that do not talk to each other, in the copy and paste of every new account. If your team has one of those daily rituals, you have a candidate.',
-              'Almost everything we get asked for fits into four types of process. The fifth item is not a type of process, it is what happens when a case needs a person to step in.',
-            ],
-            bullets: [
-              'Document intake. Invoices, receipts and scanned forms that get read, validated and filed in your systems without anyone typing them.',
-              'Request handling. Incoming inquiries that get classified, qualified and sent to the right person, with the data needed to decide already extracted.',
-              'Questions to your data. Business questions turned into safe database queries and answered in seconds.',
-              'Writing from data. Emails, summaries and notices the flow drafts using the data it has already gathered and validated. The ones going to someone on your team can go out on their own. The ones going to a customer come from a template you approved, filled with data already validated.',
-              'Escalation with context. Cases that need a human decision reach your team with the data, documents and checks the system has already done.',
-            ],
-          },
-          {
-            heading: 'What changes compared with classic automation',
-            part: 'What opens up now',
-            paragraphs: [
-              'Classic automation, based on rules and screen automation, works very well when the input always follows the same format. Anyone who has maintained it knows the weakness. A rule designed to read supplier A’s invoice can fail on supplier B’s, and a robot that fills in a form can stop working when the application changes. Every new variation is another rule to write and the list never ends.',
-              'With AI, the system can interpret inputs that do not always follow the same format, but more work has to go into checking that the interpretation is correct. The model reads the input even when it arrives in another format, another wording or another order, so small differences in format no longer force a new rule for every case. Does your process need rules or interpretation? There is a quick test we run on the first call, asking for three real examples of the input and from three different sources, because three invoices from the same supplier always look alike and prove nothing. If the three look the same, yours is a rules problem. If each one arrives its own way, that is where the model earns its place (the LLM, the AI call, or whatever you prefer to call it). In exchange it demands what this whole page describes, validation and measurement, because interpreting is not infallible.',
-              'The opposite also happens: there are processes where AI adds nothing. <strong>If your process has clear rules over data that always arrives the same, classic automation solves it cheaper and faster, with no model to watch.</strong> We build that too. We will tell you on the first call, because putting AI where it is not needed adds cost and supervision without any real improvement. And when you already have classic automation running, we do not throw it out. They coexist well, rules moving what is stable and the model reading what varies, each piece in its own role.',
-            ],
-          },
-          {
-            heading: 'Automating a step is pointless if the outcome does not change',
-            part: 'What opens up now',
-            paragraphs: [
-              'A system can produce summaries, drafts and records all day long without generating any real saving. <strong>What matters is not how much it produces, but what work or cost it removes.</strong> That is why the unit of work here is not the individual task but the whole process, from input to outcome, with its metric in front: the hours you stop paying for typing, the errors that stop needing correction, the delay that disappears.',
-              'An example makes it clearer. A system that writes up every meeting produces output daily. If nobody decides anything differently because of it, the gain is zero and the cost is not. A flow that leaves every invoice filed without anyone touching it turns its output into hours you can count. The technology matters less than the effect on the process: fewer hours of work, fewer errors or less waiting time.',
-              'That criterion changes design decisions. Sometimes the step that saves the most does not get faster, it disappears, because reorganizing the process makes the thing we were about to automate unnecessary. A flow that resolves most cases with little effort is usually more useful than trying to automate every possible case from the start. On the blog we explain how we measure that gain and why we do not call it productivity.',
-            ],
-            link: {
-              label: 'Measure AI by the gains, not by productivity',
-              href: '/en/blog/measure-ai-by-profit',
-            },
-          },
-          {
-            heading: 'Code runs the process and the model interprets what rules cannot',
-            part: 'How we build it',
-            paragraphs: [
-              'Our flows always follow the same steps and only turn to the model when information has to be interpreted and no rule can resolve it. <strong>The code moves the data between systems, carries out the actions and controls the order in which each step happens.</strong> The model only comes in at those stops: reading a document, understanding a request, classifying a case. And it returns a result in a fixed shape the code can check. Why not let AI control the whole process? Every model call in production costs money, takes time and can vary, so the fewer and the more bounded the calls, the cheaper the flow is to run and the more stable it is.',
-              'We are not the only ones saying it. Anthropic, one of the leading model developers, recommends in <a class="link-inline" href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener noreferrer" target="_blank">Building effective agents</a> starting with flows the code orchestrates and saving agent autonomy for the few cases that justify it.',
-            ],
-          },
-          {
-            heading: 'An invoice flow, step by step',
-            part: 'How we build it',
-            pizarra: { grafico: 'facturas', tras: 0 },
-            kind: 'checklist',
-            paragraphs: [
-              'So none of this stays abstract. Here is how an invoice travels through the system from arrival to filing. Six steps. <strong>If an invoice fails validation at step four, it is not filed: it goes to a person with the case prepared and the reason for the rejection.</strong>',
-            ],
-            bullets: [
-              'It arrives. The invoice comes in through the channel the team already uses, a forwarded email or a chat. It is filed exactly as it arrived.',
-              'It gets classified. The code works out what type it is and which flow it belongs to, without spending a model call when a rule is enough.',
-              'It gets read. The model extracts the fields in a fixed shape: supplier, dates, amounts, taxes.',
-              'It gets validated. The code checks that everything adds up: the total sums, the tax adds up, the supplier exists, the amount is in range.',
-              'It gets filed. What passed lands in your system, an ERP or a spreadsheet, with its reference back to the original document.',
-              'It leaves a trail. Every step records what was read and what was decided, so the run can be reconstructed later.',
-            ],
-          },
-          {
-            heading: 'Validating every result before it reaches your systems',
-            part: 'How we build it',
-            pizarra: { grafico: 'validacion', tras: 1 },
-            paragraphs: [
-              'A model can get things wrong, so its results have to be checked before the process moves on. That is why the validation step is neither optional nor left until the end: every model result is checked before it touches your systems, with the rules of the validation step you just saw and with whatever each process adds. What passes flows on its own. What does not pass is neither discarded nor invented, it goes to a person with the case prepared.',
-              '<strong>Validating at the end, once the data is already filed, turns every error into an accounting correction. Validating before the data is filed turns the error into a case to review, instead of forcing a correction later to data that has already entered the system.</strong> That way, people step in when a decision needs to be made and stop stepping in on repetitive tasks the system can handle on its own. The goal is not a system that never asks, it is one that asks rarely and always with a reason. And the share of cases it resolves without human intervention has to be measured, to know how much has really been automated.',
-            ],
-          },
-          {
-            heading: 'Two real processes in production',
-            part: 'How we build it',
-            pizarra: { grafico: 'cifras', tras: 1 },
-            paragraphs: [
-              'At Stanton, a property management firm, the electricity, water and gas bills for every tenant used to be keyed in by hand. Today the team forwards them over Telegram, an AI step reads and extracts the data and the result lands as normalized rows in the same spreadsheet they already worked with. Each invoice cost a minute of typing. <strong>Today 98% goes through without anyone touching it</strong> and the rest escalates with the document alongside. Two automated processes running on the tools the team already used, without introducing a new application. The client has already commissioned more administrative processes, which is the success signal that matters most to us. The whole case, with what we had to add to it afterwards, has <a class="link-inline" href="/en/cases/stanton">its own page</a>.',
-              'At Barceloneta Premium, a real estate agency in Barcelona, the team gets dozens of WhatsApp inquiries a day from people looking to rent. Each inquiry took five to ten minutes to check by hand. Now the flow pulls the reason, the budget and the paperwork out of every conversation. What reaches the team is an email saying whether the requirements the agency set are met, budget and paperwork, with the why beside it. The decision is still a person’s, with that email in front of them. The agency estimates it wins back over three hours a day for the work that does need people.',
-              'The two cases are alike in two ways: they came in through a channel the team already used, and their gain could be measured before and after. That is what we look for in every new process.',
-            ],
-            link: {
-              label: 'See the projects',
-              href: '/en#projects',
-            },
-          },
-          {
-            heading: 'Measured like the software it is',
-            part: 'How we build it',
-            pizarra: { grafico: 'circuito', tras: 0 },
-            paragraphs: [
-              'A flow with a model inside can degrade without throwing a single error, because the model changes or the documents change. That is why we pin the model version, so updating it is our decision rather than a surprise from the provider. Every change goes through a suite of real test cases before it ships, and every run records what was read, what was decided and what was filed. When something does not add up weeks later, we reconstruct the exact run instead of arguing from memory. And when a real error does slip through, the circuit is always the same: reproduce the run, fix it, and the case joins the test suite so it never slips through quietly again. Our flows age by learning from their own near misses.',
-              'And if one day a figure is missing or a source is down, in the questions-to-your-data case the system answers with what it has and says what got left out, rather than returning an incomplete number that looks complete. In a document flow it is the other way around, what does not add up is not half filed, it escalates. Having this data lets you explain in figures how much the automated process contributes and spot when it stops working as it should.',
-              'The monthly operation comes down to three numbers: how much the flow resolved on its own, how much it escalated and for which reasons, and what each run cost. Those three decide where to sharpen, which new rule to add and whether the next expansion pays. <strong>Without those three numbers, you cannot know whether the flow is working well or whether it is worth expanding.</strong> Every flow also includes our operational alerts, so if an external service goes down or a quota runs out, we know before your team suffers it.',
-            ],
-          },
-          {
-            heading: 'Your systems stay where they are',
-            part: 'How we build it',
-            pizarra: { grafico: 'sistemas', tras: 0 },
-            paragraphs: [
-              '<strong>The automation connects to what you already use</strong>: ERP, CRM, databases, email, messaging and, yes, that spreadsheet that governs half a department. The entry point can be the channel your team already has in its pocket, a Telegram or WhatsApp chat or an email inbox. That is why we prefer to build the process into the tools your team already uses, instead of making it learn another application.',
-              'And the repository is yours from day one, with its documentation and its operating manuals. If one day you want to run it with your own team or another provider, you take the whole flow with its documentation and its tests, not a subscription. What is a service while we work together is the operation, the weekly check and our standard alerting. That is stated in the quote.',
-            ],
-            link: {
-              label: 'Document automation for accounting firms',
-              href: '/en/sectors/accounting-firms',
-            },
-          },
-          {
-            heading: 'Where your data lives',
-            part: 'How we build it',
-            paragraphs: [
-              'A flow like these reads your tenants’ invoices, requests carrying a candidate’s paperwork, or questions with names inside them. In all those cases we are processing personal data and, depending on the process, that can include specially protected data too.',
-              'The legal split is worth saying plainly and up front. <strong>Your company is the controller and we are the processor.</strong> What we hand over is what Article 28 of the regulation requires, a processing agreement with its purposes, its terms and its obligations. And we document the technical and organizational measures needed to meet the security obligations of Article 32.',
-              'In practice that means infrastructure built in a cloud account in your name, every action traveling with the permissions of whoever asked, sensitive data encrypted, retention periods agreed in writing, and model calls running under agreements that exclude training on your content. We apply these same controls in processes that handle especially sensitive data, such as health data.',
-            ],
-          },
-          {
-            heading: 'From the first process to the next ones',
-            part: 'How we build it',
-            pizarra: { grafico: 'montaje', tras: 0 },
-            paragraphs: [
-              '<strong>The first process takes on a good share of the initial integration and setup work</strong>: the connection to your systems, the logging, the test suite, the operation. The ones after reuse it, so each expansion costs less than the last and gets decided with the numbers of the flow already running. That is how Stanton grew: we automated one process first and then added others, reusing the same connections, tests and operations tooling.',
-            ],
-          },
-          {
-            heading: 'The process to start with',
-            part: 'Deciding with judgment',
-            pizarra: { grafico: 'condiciones', tras: 0 },
-            paragraphs: [
-              '<strong>You do not need to start with a big project. The first step is to choose a specific process worth automating.</strong> The right process usually meets three conditions: it generates a cost you can measure, it repeats with enough volume, and there is a person or team who wants to stop doing it by hand. With that process in front of us, we map it step by step with whoever runs it every day, what arrives, who touches it, which systems it passes through and where it jams. Then we measure what it costs today. Measuring that starting point lets you compare the result later with data, not perceptions.',
-              'How much has to be built before you know whether the process is worth it? It starts with a pilot covering only part of the volume, with the figure that should move agreed in advance. Sometimes we even validate it in mixed mode, a person supported by the half-built tool, because that confirms the gain before building the rest. The mapping also changes decisions before a line of code gets written. Automating for the rental agency taught us the time was not going on answering messages but on checking each applicant, so the flow was designed around that check rather than around the inbox. Without that map we would have automated the wrong part of the process.',
-              'If the pilot delivers, it grows in phases. If it does not, the project stops with a limited investment and concrete information about what did not work.',
-            ],
-          },
-          {
-            heading: 'What we keep under human control',
-            part: 'Deciding with judgment',
-            paragraphs: [
-              'There are steps we deliberately leave with human confirmation: the ones that move real money, the irreversible ones and the ones that decide about people. <strong>The system prepares all the information and a person confirms the action before it runs.</strong> It is not a technical limitation but a design choice, because automating a reversible action does not carry the same risk as automating one that is hard to undo.',
-              'We also do not automate processes without volume, because a flow that runs three times a month does not pay for its upkeep, nor processes better redesigned than accelerated. If your case falls into one of those groups, we tell you before we start and you save yourself the entire project.',
-            ],
-          },
-          {
-            heading: 'What it costs',
-            part: 'Deciding with judgment',
-            paragraphs: [
-              'A single-process flow starts around €2,500 to build, the ones touching several of your systems approach €10,000, and monthly operation runs between €150 and €500, covering monitoring and maintenance. Model usage and infrastructure run in accounts under your company’s name, so those bills are yours and are not part of the fee. What moves those figures here is concrete: how many systems have to be connected, how much validation the process demands and how much volume runs through it. <strong>The current cost of the process should set how much it makes sense to invest, and the pilot should confirm the expected saving is real before the project grows.</strong> The full breakdown is in the cost guide.',
-            ],
-            link: {
-              label: 'How much does an AI agent cost, broken down',
-              href: '/en/guides/ai-agent-development-cost',
-            },
-          },
-        ],
-        faqHeading: 'Frequently asked questions',
-        faq: [
-          {
-            q: 'What is AI workflow automation?',
-            a: 'Automation where a language model handles the steps that require reading or interpretation, inside a flow validated by code. The model interprets. The code checks and executes.',
-          },
-          {
-            q: 'Is this RPA?',
-            a: 'Not the same thing, although plenty of RPA suites now bundle AI-based reading inside them. RPA repeats clicks and rules over screens and breaks when something changes place or format. What we add is a model that interprets the content, so variation does not break the flow. They coexist well, RPA moving the stable parts and the model reading the variable ones.',
-          },
-          {
-            q: 'What if the AI misreads a document?',
-            a: 'A validation layer checks the result before it is registered: totals, formats, required fields. Doubtful cases go to a person, so review happens exactly where judgment is needed.',
-          },
-          {
-            q: 'How much of the process really gets automated?',
-            a: 'It depends how many edge cases it has, so it gets measured rather than estimated. The system records what it resolves on its own and what it escalates to a person, and you see that share from the first month.',
-          },
-          {
-            q: 'Do we have to replace our ERP or our tools?',
-            a: 'No. The flow connects to what you already use and the result lands where your team already works, be it an ERP or a spreadsheet. One of our clients manages invoices by forwarding them over Telegram, without having to learn a single new tool.',
-          },
-          {
-            q: 'Can we start with just one process?',
-            a: 'That is exactly what we recommend. One process with measurable pain, a pilot with its metric, and growth in phases if it delivers. That is how our automation clients started. The longest-running one keeps adding processes.',
-          },
-          {
-            q: 'Does it work with bad scans or phone photos?',
-            a: 'The legible ones pass and the doubtful ones escalate to a person with the image right there, instead of getting half-registered. What share falls on each side is not something we promise up front, it gets measured in your pilot with your real documents.',
-          },
-          {
-            q: 'Does the flow only read, or does it write into our systems too?',
-            a: 'It reads and writes, with a net. Writes go through validation, and the sensitive ones require a person’s confirmation before executing. What each flow may touch is defined with you, per system and per action.',
-          },
-          {
-            q: 'How long until the first flow is running?',
-            a: 'It depends on three things: that the data exists, that the access is granted and that the task to automate is well defined. With all three, a pilot in two weeks is realistic. If one is missing, the first job of the project is getting it, and that timeline is not ours to set.',
-          },
-          {
-            q: 'What happens to the cases the flow cannot resolve?',
-            a: 'They escalate to your team with all the context the system already gathered, and that split is what separates this from the question about scans, which is about a doubtful reading. Here also belong the cases the flow understands perfectly well but has no business deciding. The goal is not one hundred percent. It is human review sitting where it adds judgment, with the resolved share measured rather than assumed.',
-          },
-        ],
-        cta: {
-          heading: 'Which process is costing you hours?',
-          body: 'Tell us what you’re up against. If we don’t think it will pay for itself, we’ll say so.',
-          button: 'Tell us what you’re up against',
-        },
-      },
-      conversational: {
-        tocHeading: 'What you will see on this page',
-        metaTitle: 'AI Chatbot Development Services for Business, Ideasforge',
-        metaDescription:
-          'Conversational AI agents that answer, qualify requests and carry out transactions inside the chat, connected to the systems you already use.',
-        hero: {
-          eyebrow: 'Conversational agents',
-          title: 'AI chatbots that complete the whole transaction',
-          subtitle:
-            'Conversational agents that answer, qualify requests and carry out transactions inside the chat. They book appointments, filter inquiries and look up your data by connecting to the systems you already use.',
-          cta: 'Tell us what you’re up against',
-        },
-        sections: [
-          {
-            heading: 'What we build',
-            part: 'The brief',
-            kind: 'lattice',
-            paragraphs: [
-              'AI chatbots for the channels where your customers or your team already are: WhatsApp on the official Meta API, the web and internal tools. The agent understands plain language, queries your real systems (calendar, CRM, database) and carries out the transaction without taking the user out of the conversation. <strong>The difference is in what happens after the answer.</strong> A traditional chatbot can explain how to book an appointment, but it leaves the booking to you. These agents handle it inside the conversation: they book an appointment, look up a piece of data or leave a request ready for the team.',
-              'These are the transactions we get asked for most. The first four are specific types of work and the last one is part of every agent.',
-            ],
-            bullets: [
-              'Customer service. Answers based on your data and documentation, with the matching source, at any hour.',
-              'Complete transactions. Book, change, cancel or check, with the calendar and the record updated on the spot.',
-              'Conversation filter. The ones worth it reach your team already qualified and the rest get handled without stealing anyone’s time.',
-              'Internal queries. The same agent, pointed at your team instead of your customers, with staff asking their own data or their own documentation.',
-              'Escalation to a person. When a conversation needs human intervention, it reaches the right team member with the whole history.',
-            ],
-            link: {
-              label: 'An assistant over your internal documentation',
-              href: '/en/services/corporate-knowledge',
-            },
-          },
-          {
-            heading: 'Why traditional chatbots fail in real conversations',
-            part: 'How it works and why to trust it',
-            paragraphs: [
-              'Almost everyone has suffered one: the bot that goes around its script, does not understand the second question and hides the way out to a human. And when the human finally arrives, you have to tell the whole story again. That experience has two distinct problems. The first was technical: those menus failed when the user wrote a question or a request nobody had anticipated. The second is still around: measuring the bot’s success by how many conversations it keeps from reaching a person. Plenty of bots are measured by how many conversations they hold on to without passing them to the team, rather than by how many transactions they manage to resolve.',
-              'We measure it the other way around. <strong>A conversation counts as resolved when the transaction is complete or when it has been handed to the right person with all the information they need.</strong> That is why the way out is never hidden and the handover carries the full history, so nobody repeats what they already typed. A customer who asked for a human and got one quickly comes back. One who fought a script for ten minutes does not. And does not recommend you either.',
-            ],
-          },
-          {
-            heading: 'From offering options to carrying out transactions',
-            pizarra: { grafico: 'guion', tras: 0 },
-            part: 'How it works and why to trust it',
-            paragraphs: [
-              'The chatbots of a few years ago were button menus. They worked until the customer wrote the way people write, adding context, packing two questions into one or asking for the option the menu did not have. <strong>These agents no longer depend on a closed tree of options. They can understand a request written in many different ways, but they can only carry out the actions we’ve defined beforehand.</strong> The model reads the request and picks from the actions we define with you: book, check, change or escalate. The code runs the chosen action and validates the result before answering.',
-            ],
-          },
-          {
-            heading: 'Few transactions, but complete ones',
-            part: 'How it works and why to trust it',
-            paragraphs: [
-              'A common problem is trying to make the bot answer on any topic without managing to complete a single transaction. <strong>We prefer the opposite, an agent that handles few transactions and finishes them, with every category measured on its own.</strong> If eighty percent of your conversations are three procedures, an agent that completes those three processes end to end can deliver more than one that gives mediocre answers to a hundred kinds of question. Two things get confused here and it is worth pulling them apart. The actions an agent executes are few and closed. The questions it answers from your documentation can be many. Both get measured, but they do not grow the same way.',
-              'In practice each transaction is a named category with its test cases and its number. “Change an appointment” is measured separately, so if its accuracy drops it shows up in its own row rather than buried in a general average. We add new categories when the data shows they’re worth it, not simply because they work well in a demo.',
-            ],
-          },
-          {
-            heading: 'AI customer service',
-            part: 'How it works and why to trust it',
-            paragraphs: [
-              'Customer service is usually one of the areas where the savings from a conversational agent can be measured soonest. It answers the routine, qualifies the rest and escalates what needs judgment, so simple inquiries can get an immediate reply and the others reach the team already prepared. The real estate agency we work with takes in dozens of rental inquiries a day over WhatsApp. Each one used to take five to ten minutes to check by hand, and today the agency puts the saving at over three hours a day. Their team now spends its time on viewings instead of filtering. There the inquiry is answered and qualified in the same conversation, so the team only receives the cases that meet the agency’s criteria. That case is told in full on <a class="link-inline" href="/en/cases/barceloneta">its own page</a>.',
-              '<strong>A good part of the value is in the hour you reply.</strong> Inquiries do not arrive only in office hours, they also arrive when the customer has the phone in their hand. The longer the reply takes, the less inclined they are to write again. An agent that answers within the first minute makes it possible to handle those inquiries too and turn the ones that meet the criteria into opportunities to arrange a viewing.',
-            ],
-            link: {
-              label: 'The real estate agency case',
-              href: '/en/sectors/real-estate',
-            },
-          },
-          {
-            heading: 'How an appointment gets booked inside the chat',
-            part: 'How it works and why to trust it',
-            kind: 'checklist',
-            paragraphs: [
-              'Six steps. <strong>At any of them the conversation can pass to a person, who receives the full history and can see what the agent has done.</strong>',
-            ],
-            bullets: [
-              'The customer writes. “Any slot on Thursday afternoon?”, just as they’d normally ask it.',
-              'The agent understands. It works out which transaction is being asked for, for whom and under what conditions, even when it all arrives in one sentence.',
-              'It checks the real calendar. Availability comes from the calendar right then, not from yesterday’s copy.',
-              'It offers times and adjusts the appointment. Concrete slots, and it absorbs the changes, not Thursday, better Friday first thing.',
-              'It confirms and writes. The appointment lands in the calendar and in the record, with its confirmation inside the chat.',
-              'It leaves a trail. The conversation and what the agent did can be reconstructed afterwards, step by step.',
-            ],
-          },
-          {
-            heading: 'WhatsApp Business API integration, and what it has to connect to',
-            pizarra: { grafico: 'dependencias', tras: 1 },
-            part: 'How it works and why to trust it',
-            paragraphs: [
-              'An agent that only answers messages has limited reach. The value is in the connections: the calendar it checks before offering a time, the CRM where it writes, the database the answer comes from. Each connection also introduces a possible point of failure: <strong>any external system can become unavailable</strong>.',
-              '<strong>When that happens, the agent doesn’t make up an answer or try to complete a transaction it can no longer verify.</strong> It says that particular transaction is unavailable right now, carries on with the rest, and your team hears it from an alarm rather than from complaints. How that is built, with a mechanism that automatically sets aside the failing piece, we tell in full on the blog.',
-              'Integration is where a WhatsApp project stops being a chatbot and becomes software. The official Meta API is the easy half. The hard half is on the other side, and it depends on what you already run. In our own appointment assistant the agent writes to the calendar and to the patient record. At the rental agency the CRM only allows reading, so the qualified summary reaches the team by email and a person decides. Neither case is a limit of the model. Both are decisions about what you already have in place.',
-            ],
-            link: {
-              label: 'What happens when a connected system stops working',
-              href: '/en/blog/when-a-tool-goes-down',
-            },
-          },
-          {
-            heading: 'What the agent can answer and when it should hand the conversation to a person',
-            pizarra: { grafico: 'respuestas', tras: 1 },
-            part: 'How it works and why to trust it',
-            paragraphs: [
-              'The reasonable fear of anyone in charge is a bot improvising in front of a customer. Nobody can guarantee that a model will never get it wrong. The risk is reduced by limiting what the model can do, validating its results and measuring the errors that occur. Knowledge answers come from your data and your documentation, with the source beside them. Sensitive texts, such as a returns policy, a legal condition or a price, are not written by the model. They are texts you approved that the system delivers as they are. You edit them without touching code, and no edit reaches production without passing its check.',
-              'When a wrong piece of data can have serious consequences, we limit what the model can do even further. A language model can produce an answer even when it doesn’t have the data it needs. That’s why we don’t let it make up certain data or answers directly. How do we prevent that? There, the model doesn’t write the answer. It reads the request, identifies which of the allowed options applies and returns that decision in a fixed format. From there, the code looks up the real data and builds the reply the user receives. <strong>If what they asked for fits none of the outputs, there is nothing to invent, there is a stop.</strong>',
-              'And when there is no data to answer with, the agent says so and offers the way to a person. It’s better to admit that a piece of data is missing and offer human help than to give a wrong answer the customer might take as valid. That is why answers are measured by category, so a failure shows up in its own row instead of getting lost in an average.',
-            ],
-          },
-          {
-            heading: 'When the chatbot handles sensitive data',
-            part: 'How it works and why to trust it',
-            paragraphs: [
-              'Some conversations contain special categories of personal data, which the GDPR subjects to specific requirements. Health data is the clearest example and it sits in the same group as political views, biometrics and sexual orientation. If your business touches them, building an assistant stops being only a product question.',
-              '<strong>In these cases we apply specific security and data protection measures.</strong> Field-by-field encryption, meaning each sensitive value is encrypted on its own inside the database rather than in one block with everything else. Retention periods agreed in writing and deletion on request of anything not held by a legal retention duty. And the split of responsibilities said from the start, your company answers for the processing and we are the processor, with the contract that goes with it.',
-              'This is not theory. Wazzy, the appointment assistant we run ourselves, works with health data every day and has had these controls since day one, so when a sector with compliance requirements turns up we are not starting from zero.',
-            ],
-          },
-          {
-            heading: 'Measuring how it works, not taking it for granted',
-            part: 'How it works and why to trust it',
-            paragraphs: [
-              '<strong>A chatbot can start answering worse without showing any technical error.</strong> A model update or a new document changes answers without a single visible error. That is why we pin the model version, so updating it is our decision rather than a surprise from the provider. Every change goes through a test suite before it ships and every conversation leaves a record that can be reconstructed.',
-              'The operation has its numbers too: what share ends in the task done, what share escalates and for which reasons, what each conversation costs. Those are what decide which category to sharpen and which to add. How those numbers get read on a system of our own, with its errors and the fixes they required, is on <a class="link-inline" href="/en/cases/wazzy">the Wazzy page</a>.',
-            ],
-          },
-          {
-            heading: 'How we start a conversational agent',
-            part: 'Deciding with judgment',
-            paragraphs: [
-              '<strong>We don’t have it handle every conversation from day one.</strong> It launches bounded, what we call the pilot, on one channel, in one time slot or with one group of customers, with its categories measured from the first conversation. The delicate texts come approved by you before anyone reads them, and your team knows how an escalation arrives and what to do with it.',
-              'A few weeks in we can judge whether the pilot is ready to expand: what finishes inside the conversation, what escalates and why, and what people ask that we had not anticipated. That is what decides the expansion, category by category. That way we only expand the functions that have already proven they work in production.',
-            ],
-          },
-          {
-            heading: 'When a conversational agent does not pay off',
-            part: 'Deciding with judgment',
-            paragraphs: [
-              '<strong>Telling you when it doesn’t pay off is also part of the job.</strong> If you get a handful of conversations a day, a well-written questions page and one person answering quickly come out cheaper. If the information the agent needs isn’t documented or available in any system, it first has to be organized and made accessible. And if for whatever reason your customer needs to talk to a person, the right thing is to make direct access to a person easier, not to add a chatbot as a middle step.',
-              'A conversational agent pays off when there is volume, when the information exists and when a real share of the transactions can be finished inside the conversation. Filtering and qualifying count as finished, even when a person closes the deal afterwards. If your case fails any of the three, we say so on the first call.',
-            ],
-          },
-          {
-            heading: 'What it costs',
-            pizarra: { grafico: 'contadores', tras: 0 },
-            part: 'Deciding with judgment',
-            paragraphs: [
-              'Build and running prices are the same as for the rest of our agents, between €2,500 and €10,000 to build and between €150 and €500 a month to run. With conversational agents, the volume of conversations has a direct impact on cost. <strong>On WhatsApp there are two variable costs to keep in mind.</strong> Each conversation spends its model calls. Meta charges separately for every template it sends, according to its pricing policy. An appointment reminder is a template, so every notice carries its own cost. Both arrive itemized. Before you commission anything you will have an estimate, built from what we already measure on comparable systems and applied to your volume. The pilot lets you check that estimate against real conversations from your business. The full breakdown is in the cost guide.',
-            ],
-            link: {
-              label: 'How much does an AI agent cost, broken down',
-              href: '/en/guides/ai-agent-development-cost',
-            },
-          },
-        ],
-        faqHeading: 'Frequently asked questions about conversational agents',
-        faq: [
-          {
-            q: 'What is the difference between a script chatbot and a conversational agent?',
-            a: 'A script chatbot follows a tree of buttons and breaks the moment you step outside it. A conversational agent understands free text and picks from the available actions, so the same question asked twenty different ways lands in the same place.',
-          },
-          {
-            q: 'Which channels does it work on?',
-            a: 'WhatsApp on the official API, the web and internal tools. Wherever your customers or your team already are.',
-          },
-          {
-            q: 'Can it book, change or cancel appointments on its own?',
-            a: 'Yes. We run it in production with Wazzy, an appointment assistant that is our own product, with real-time availability, immediate confirmation and the calendar kept up to date.',
-          },
-          {
-            q: 'What if my customer wants to talk to a person?',
-            a: 'The way to a person is always in plain sight, and whoever picks it up receives the whole conversation without making anyone repeat themselves. Outside working hours the handover waits in the queue and your team finds it first thing, with the history attached. A bot that traps people is expensive in customers, so we do not build one.',
-          },
-          {
-            q: 'Will it make up answers in front of my customers?',
-            a: 'Knowledge answers come from your data with their source, and the delicate lines are texts you approved that the system delivers as they are. When there is no data it says so and offers a person. That brings the risk down a long way. What is left gets measured per type of transaction, so a failure shows up in its own category instead of getting lost in an average.',
-          },
-          {
-            q: 'Can we change what it says without calling you?',
-            a: 'You edit the approved texts yourself without touching code. No edit reaches production without passing its check, and a new document does not change answers either until the test suite approves it. To change what the agent is able to do, that is where we come in, also with the tests in front of us.',
-          },
-          {
-            q: 'Who answers for the GDPR?',
-            a: 'Your company is the controller and we are the processor. What we hand over is a processing agreement, technical measures and retention periods in writing. When special category data is involved, health for instance, that also includes field-by-field encryption and deletion on request of anything without a legal retention duty over it.',
-          },
-          {
-            q: 'What if WhatsApp changes its rules or its prices?',
-            a: 'The official API protects you from Meta cutting off unofficial shortcuts, not from Meta raising its rates. Theirs are passed on itemized and separate from our part, so you always see which is which. And the agent logic does not live in the channel, the same conversation can be handled on the web or in an internal tool with the same brain behind it.',
-          },
-          {
-            q: 'Is it for selling or only for support?',
-            a: 'The two touch. An agent that filters and qualifies hands your team qualified leads, like the real estate agency that now only books viewings. What we do not do is bulk messaging on WhatsApp, with or without AI.',
-          },
-          {
-            q: 'How many conversations does it take to pay off?',
-            a: 'We do not give a magic number, because it depends on what your channel costs you today. The pilot measures it with your real conversations. It is paid for and its price counts toward the final project. If the math does not work, we are the ones who tell you before you expand.',
-          },
-        ],
-        cta: {
-          heading: 'A conversational agent for your business?',
-          body: 'Tell us what you’re up against and we’ll reply within one business day. If we don’t think it will pay for itself, we’ll tell you.',
-          button: 'Tell us what you’re up against',
-        },
-      },
       cost: {
         tocHeading: 'What this guide covers',
         metaTitle: 'How much does an AI agent cost, Ideasforge',
@@ -16493,7 +21815,7 @@ export const content: Record<Lang, SiteContent> = {
           part: 'Where your data goes',
             id: 'infrastructure',
             paragraphs: [
-              'The infrastructure runs in a cloud account that belongs to you, not to us, and the repository is in your name from the first day. We do not host your assistant on our side and hand you a login. This is unusual in the sector and it is deliberate, because it removes a whole family of questions your DPO would otherwise have to chase. While we maintain the system we act as your processor, under a data processing agreement and with named access you can revoke. What disappears is the vendor database holding a copy of your records, and the exit negotiation over who keeps what. The system stays where it always was, with its documentation and its history.',
+              'The infrastructure runs in a cloud account that belongs to you, not to us, and the repository is in your name from the first day. We do not host your assistant on our side and hand you a login. This is unusual in the industry and it is deliberate, because it removes a whole family of questions your DPO would otherwise have to chase. While we maintain the system we act as your processor, under a data processing agreement and with named access you can revoke. What disappears is the vendor database holding a copy of your records, and the exit negotiation over who keeps what. The system stays where it always was, with its documentation and its history.',
               'Two paths lead out of the account and both have to be drawn. The first is the call to the model provider, the company that runs the language model itself. You approve which provider, under which agreement and with which settings, and you approve what is allowed to travel inside those calls. The second appears when the assistant lives in a messaging channel. If the conversation comes in over WhatsApp or Telegram, that channel receives the full content and is one more third party in the chain, with its own agreement and its own transfer assessment. A web or internal assistant has no second exit. Model providers sign data processing agreements, the contracts that bind a supplier to process data only on your instructions, and the serious ones offer European processing regions. Whether a given setup satisfies the rules on international transfers is your lawyers’ assessment to make. Our job is to hand them a complete map of what flows where, so the assessment takes days instead of months.',
               'Everything else in this page builds on that starting point. Isolation, records and health-data handling all assume the data already sits inside an account you control, because that is the only place from which the rest can be guaranteed.',
             ],

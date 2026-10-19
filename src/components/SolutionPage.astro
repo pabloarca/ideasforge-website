@@ -38,10 +38,15 @@ const { lang, clave } = Astro.props;
 const sol = content[lang].pages.solutions;
 if (!sol) throw new Error(`No hay páginas de solución en «${lang}».`);
 const d = sol.pages[clave];
+if (!d) throw new Error(`La solución «${clave}» no tiene página en «${lang}».`);
 const l = sol.labels;
 
 const dos = (i: number) => String(i + 1).padStart(2, '0');
-const otras = sol.order.filter((k) => k !== clave).map((k) => sol.pages[k]);
+/* Solo las que ya existen en este idioma: el inglés las estrena de una en una. */
+const otras = sol.order
+  .filter((k) => k !== clave)
+  .map((k) => sol.pages[k])
+  .filter((p): p is NonNullable<typeof p> => !!p);
 
 /* Guías relacionadas. El texto de apoyo es el de la tarjeta de esa misma guía
    en los recursos de la portada: una sola redacción para las dos. */
@@ -305,24 +310,26 @@ const n = d.method.steps.length;
       </div>
     </section>
 
-    <!-- 11. Otras soluciones -->
-    <section class="section-y">
-      <h2 class="kicker mb-6">{l.others}</h2>
-      <div class="ruled-grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))]">
-        {
-          otras.map((o) => (
-            <a href={o.href} class="sol-otra">
-              <span class="block text-[17px] font-medium leading-[1.25] tracking-[-0.015em]">{o.nav.name}</span>
-              <span class="mt-2 block text-[13px] leading-normal opacity-75">{o.nav.short}</span>
-              <span class="mt-auto flex items-center justify-between pt-7 text-[13px]">
-                <span class="border-b-2 border-current pb-0.5">{l.viewSolution}</span>
-                <span class="text-lg leading-none" aria-hidden="true">→</span>
-              </span>
-            </a>
-          ))
-        }
-      </div>
-    </section>
+    <!-- 11. Otras soluciones. Sin ninguna en este idioma, el bloque no sale. -->
+    {otras.length > 0 && (
+      <section class="section-y">
+        <h2 class="kicker mb-6">{l.others}</h2>
+        <div class="ruled-grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))]">
+          {
+            otras.map((o) => (
+              <a href={o.href} class="sol-otra">
+                <span class="block text-[17px] font-medium leading-[1.25] tracking-[-0.015em]">{o.nav.name}</span>
+                <span class="mt-2 block text-[13px] leading-normal opacity-75">{o.nav.short}</span>
+                <span class="mt-auto flex items-center justify-between pt-7 text-[13px]">
+                  <span class="border-b-2 border-current pb-0.5">{l.viewSolution}</span>
+                  <span class="text-lg leading-none" aria-hidden="true">→</span>
+                </span>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+    )}
   </div>
 
   <!-- 12. Contacto -->

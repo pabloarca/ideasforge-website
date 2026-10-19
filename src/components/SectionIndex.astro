@@ -39,7 +39,9 @@ const paginas = t.pages as unknown as ConDescripcion;
 const sectores = (t.pages as unknown as { sectors?: { pages?: ConDescripcion } }).sectors?.pages ?? {};
 const descripcionDe = (href: string) => {
   const clave = Object.keys(routeMap).find((k) => routeMap[k][lang] === href);
-  return clave ? (paginas[clave]?.metaDescription ?? sectores[clave]?.metaDescription) : undefined;
+  /* El sector primero: es el texto de la plantilla que la página pinta hoy. Las
+     páginas largas viejas siguen en `pages` sin uso (16 oct 2026). */
+  return clave ? (sectores[clave]?.metaDescription ?? paginas[clave]?.metaDescription) : undefined;
 };
 const items = enlaces.map((e) => ({ ...e, desc: descripcionDe(e.href) }));
 

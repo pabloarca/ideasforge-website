@@ -177,8 +177,11 @@ const ramas: Record<string, { name: string; href: string }> = {
   guias: { name: nav.guides, href: '/guias' },
   sectores: { name: nav.sectors, href: '/sectores' },
   guides: { name: nav.guides, href: '/en/guides' },
-  sectors: { name: nav.sectors, href: '/en/sectors' },
+  /* El tramo inglés se llama `industries` desde el 16 oct 2026. Con la clave
+     vieja, `sectors`, las páginas de sector inglesas perdían su tramo. */
+  industries: { name: nav.sectors, href: '/en/industries' },
   'preguntas-frecuentes': { name: nav.faqs, href: '/preguntas-frecuentes' },
+  faqs: { name: nav.faqs, href: '/en/faqs' },
   servicios: { name: nav.solutions, href: `${inicio}#soluciones` },
   services: { name: nav.solutions, href: `${inicio}#soluciones` },
   proyectos: { name: nav.cases, href: '/proyectos' },
@@ -242,7 +245,7 @@ const publicaPrecio =
   // plantilla nueva de soluciones, y lo recuperaron el 15 oct 2026 en su
   // pregunta de coste. Conocimiento corporativo y consultoría no lo publican:
   // la primera se presupuesta por proyecto y la segunda no tiene rango.
-  !/(corporate-knowledge|conocimiento-corporativo|consultoria-de-ia)$/.test(canonicalPath);
+  !/(corporate-knowledge|conocimiento-corporativo|consultoria-de-ia|ai-consulting)$/.test(canonicalPath);
 const ofertas = publicaPrecio
   ? [
       {

@@ -10,7 +10,7 @@ tags: ['Data', 'Agents', 'Security']
 heroImage: '/blog/portada-sql.jpg'
 ---
 
-Text-to-SQL is one of the sector's most repeated promises. You ask in natural language, *"how many orders did we close last month?"*, and a model writes the query, runs it and hands you the figure. We built that experience for Savian, an agent through which owners and managers query their production data without waiting to get back to the office. And the central design decision was the opposite of what the pattern's name suggests. **Our model does not write SQL.**
+Text-to-SQL is one of the industry's most repeated promises. You ask in natural language, *"how many orders did we close last month?"*, and a model writes the query, runs it and hands you the figure. We built that experience for Savian, an agent through which owners and managers query their production data without waiting to get back to the office. And the central design decision was the opposite of what the pattern's name suggests. **Our model does not write SQL.**
 
 ## Why we do not let it
 
@@ -28,7 +28,7 @@ Does that change our decision? No, because the objection was never aim. An accur
 
 <div data-pizarra="diezConsultas"></div>
 
-There is also something no accuracy exam measures, security. OWASP, the sector's reference on application security, devotes a whole category of its list for language-model applications to improper output handling, which means passing what the model generates to another system without validating it.
+There is also something no accuracy exam measures, security. OWASP, the industry's reference on application security, devotes a whole category of its list for language-model applications to improper output handling, which means passing what the model generates to another system without validating it.
 
 Its textbook example is exactly this one, the generated query that reaches the database with nobody scrutinizing it. **Our closed contract is not a stylistic preference, it is the design answer to that category.**
 

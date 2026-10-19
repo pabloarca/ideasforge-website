@@ -31,12 +31,14 @@
   debajo de otro. Con él queda uno a la vista, que cambia al pasar por la
   lista y avanza solo, con el mismo carrusel de la portada.
 */
+import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FaqList from './FaqList.astro';
 import ContactForm from './home/ContactForm.astro';
 import SectorHeroArt from './SectorHeroArt.astro';
 import { type Lang, type SectorKey, content } from '../i18n/ui';
 import { altsFor, routeMap } from '../i18n/utils';
+import { foto } from '../lib/fotos';
 
 interface Props {
   lang: Lang;
@@ -46,11 +48,20 @@ const { lang, clave } = Astro.props;
 const sec = content[lang].pages.sectors;
 if (!sec) throw new Error(`No hay páginas de sector en «${lang}».`);
 const d = sec.pages[clave];
+if (!d) throw new Error(`El sector «${clave}» no tiene página en «${lang}».`);
 const l = sec.labels;
 
 const contacto = routeMap.contact[lang];
 const dos = (i: number) => String(i + 1).padStart(2, '0');
-const otros = sec.order.filter((k) => k !== clave).map((k) => ({ ...sec.pages[k], href: routeMap[k][lang] }));
+
+/* La foto de cada caso sale de su ficha en la portada, buscada por el enlace:
+   una sola fuente, así que un caso que cambia de foto cambia en todas partes
+   (15 oct 2026). Un caso que no esté en la portada sale sin foto. */
+const fotoDeCaso = (href: string) => content[lang].home.cases.items.find((k) => k.href === href)?.image;
+/* Solo los que ya existen en este idioma: el inglés los estrena de uno en uno. */
+const otros = sec.order
+  .filter((k) => k !== clave && sec.pages[k])
+  .map((k) => ({ ...sec.pages[k]!, href: routeMap[k][lang] }));
 
 /* Columnas de una retícula de N celdas: las que dividan N entre 4, 3 y 5, y
    si ninguna lo divide, la última celda ocupa lo que falte. */
@@ -168,7 +179,7 @@ const reticula = (n: number, fijas?: number) => {
               <div class="sec-sangre-dentro grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] items-center gap-[clamp(32px,5vw,96px)]">
                 <div>
                   <span class="mb-5 block text-xs uppercase leading-[1.4] tracking-[0.12em]">{b.h2}</span>
-                  <h2 class="sec-h2-poster max-w-[18ch]">{`«${b.quotes?.[0] ?? ''}»`}</h2>
+                  <h2 class="sec-h2-poster max-w-[18ch]">{lang === 'en' ? `“${b.quotes?.[0] ?? ''}”` : `«${b.quotes?.[0] ?? ''}»`}</h2>
                 </div>
                 <div>
                   <div class="space-y-4">
@@ -524,6 +535,21 @@ const reticula = (n: number, fijas?: number) => {
                   <a href={b.link.href} class="link-arrow mt-7">
                     {b.link.label} →
                   </a>
+                  {fotoDeCaso(b.link.href) && (
+                    <a href={b.link.href} class="sec-caso-foto" tabindex="-1" aria-hidden="true">
+                      <Picture
+                        pictureAttributes={{ class: 'contents' }}
+                        src={foto(fotoDeCaso(b.link.href)!)}
+                        alt=""
+                        formats={['avif', 'webp']}
+                        widths={[480, 800, 1200]}
+                        sizes="(min-width: 960px) 560px, calc(100vw - 32px)"
+                        loading="lazy"
+                        decoding="async"
+                        class="h-full w-full object-cover"
+                      />
+                    </a>
+                  )}
                 </div>
                 <div>
                   <div class="space-y-4">
@@ -558,6 +584,27 @@ const reticula = (n: number, fijas?: number) => {
         if (b.type === 'dark') {
           const r = reticula(b.list?.length ?? 0);
           return (
+            <>
+            {/* Banda de foto a sangre, pegada encima del bloque de control: el
+                respiro visual a mitad de una página que hasta aquí es todo
+                texto (15 oct 2026). Sin `photo`, el hueco gris del diseño. */}
+            <figure class="sec-sangre sec-banda" aria-hidden="true">
+              {d.photo ? (
+                <Picture
+                  pictureAttributes={{ class: 'contents' }}
+                  src={foto(d.photo)}
+                  alt=""
+                  formats={['avif', 'webp']}
+                  widths={[640, 1024, 1440, 1920]}
+                  sizes="100vw"
+                  loading="lazy"
+                  decoding="async"
+                  class="bn absolute inset-0 h-full w-full object-cover"
+                />
+              ) : (
+                <div class="photo-slot absolute inset-0 h-full" />
+              )}
+            </figure>
             <section class="sec-sangre sec-oscuro">
               <div class="sec-sangre-dentro">
                 <div class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,360px),1fr))] items-end gap-x-[clamp(32px,5vw,96px)] gap-y-6">
@@ -607,6 +654,7 @@ const reticula = (n: number, fijas?: number) => {
                 )}
               </div>
             </section>
+            </>
           );
         }
 
@@ -736,24 +784,26 @@ const reticula = (n: number, fijas?: number) => {
       })
     }
 
-    <!-- Otros sectores -->
-    <section class="section-y">
-      <h2 class="kicker mb-6">{l.others}</h2>
-      <div class="ruled-grid sm:grid-cols-2 lg:grid-cols-3">
-        {
-          otros.map((o) => (
-            <a href={o.href} class="sec-otro">
-              <span class="block text-[17px] font-medium leading-tight tracking-[-0.015em]">{o.name}</span>
-              <span class="mt-2 block text-[13px] leading-normal opacity-75">{o.short}</span>
-              <span class="mt-auto flex items-center justify-between pt-5 text-[13px]">
-                <span class="border-b-2 border-current pb-0.5">{l.viewSector}</span>
-                <span class="text-lg leading-none" aria-hidden="true">→</span>
-              </span>
-            </a>
-          ))
-        }
-      </div>
-    </section>
+    <!-- Otros sectores. Sin ninguno en este idioma, el bloque no sale. -->
+    {otros.length > 0 && (
+      <section class="section-y">
+        <h2 class="kicker mb-6">{l.others}</h2>
+        <div class="ruled-grid sm:grid-cols-2 lg:grid-cols-3">
+          {
+            otros.map((o) => (
+              <a href={o.href} class="sec-otro">
+                <span class="block text-[17px] font-medium leading-tight tracking-[-0.015em]">{o.name}</span>
+                <span class="mt-2 block text-[13px] leading-normal opacity-75">{o.short}</span>
+                <span class="mt-auto flex items-center justify-between pt-5 text-[13px]">
+                  <span class="border-b-2 border-current pb-0.5">{l.viewSector}</span>
+                  <span class="text-lg leading-none" aria-hidden="true">→</span>
+                </span>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+    )}
   </div>
 
   <!-- Contacto: el formulario del sitio, con el texto del sector. En el
@@ -894,6 +944,25 @@ const reticula = (n: number, fijas?: number) => {
     background: currentColor;
   }
   /* Pastilla pequeña. */
+  /* Foto del caso, bajo su enlace. Blanco y negro como toda la fotografía
+     del sitio y el mismo acercamiento lento que la galería de casos. */
+  .sec-caso-foto {
+    position: relative;
+    display: block;
+    margin-top: clamp(28px, 3vw, 40px);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-neutral-200);
+  }
+  .sec-caso-foto :global(img) {
+    position: absolute;
+    inset: 0;
+    filter: grayscale(1);
+    transition: transform 6s linear;
+  }
+  .sec-caso-foto:hover :global(img) {
+    transform: scale(1.06);
+  }
   .sec-chip {
     border: 2px solid var(--color-border);
     padding: 6px 12px;
@@ -1117,6 +1186,22 @@ const reticula = (n: number, fijas?: number) => {
   .sec-sangre-dentro {
     max-width: 1152px;
     margin-inline: auto;
+  }
+  /* La banda de foto: a sangre como el bloque oscuro y pegada a él, sin el
+     margen de sección entre los dos. 3:2 en móvil y 21:9 desde 900 px. */
+  .sec-banda {
+    position: relative;
+    margin-bottom: 0;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+  }
+  .sec-banda + .sec-oscuro {
+    margin-top: 0;
+  }
+  @media (min-width: 900px) {
+    .sec-banda {
+      aspect-ratio: 21 / 9;
+    }
   }
   .sec-poster {
     background: var(--color-accent);

@@ -126,10 +126,10 @@
 /en/automatizacion-de-procesos-con-ia/              /en/services/ai-workflow-automation     301
 /en/tareas-del-crm-sin-entrar-al-crm                /en/services/ai-workflow-automation     301
 /en/tareas-del-crm-sin-entrar-al-crm/               /en/services/ai-workflow-automation     301
-/en/agente-de-ia-inmobiliario                       /en/sectors/real-estate   301
-/en/agente-de-ia-inmobiliario/                      /en/sectors/real-estate   301
-/en/agente-de-ia-para-inmobiliaria                  /en/sectors/real-estate   301
-/en/agente-de-ia-para-inmobiliaria/                 /en/sectors/real-estate   301
+/en/agente-de-ia-inmobiliario                       /en/industries/real-estate   301
+/en/agente-de-ia-inmobiliario/                      /en/industries/real-estate   301
+/en/agente-de-ia-para-inmobiliaria                  /en/industries/real-estate   301
+/en/agente-de-ia-para-inmobiliaria/                 /en/industries/real-estate   301
 /en/alucinaciones-ai                                /en/guides/ai-agents     301
 /en/alucinaciones-ai/                               /en/guides/ai-agents     301
 /en/analisis-de-sitios-web-con-ia                   /en              301
@@ -163,10 +163,10 @@
 /en/eu-ai-act-compliance/                           /en/guides/eu-ai-act-compliance        301
 /en/smb                                             /en/guides/ai-for-small-business       301
 /en/smb/                                            /en/guides/ai-for-small-business       301
-/en/real-estate                                     /en/sectors/real-estate                301
-/en/real-estate/                                    /en/sectors/real-estate                301
-/en/accounting-firms                                /en/sectors/accounting-firms           301
-/en/accounting-firms/                               /en/sectors/accounting-firms           301
+/en/real-estate                                     /en/industries/real-estate                301
+/en/real-estate/                                    /en/industries/real-estate                301
+/en/accounting-firms                                /en/industries/accounting-firms           301
+/en/accounting-firms/                               /en/industries/accounting-firms           301
 
 # ══ LA VERSIÓN ANTERIOR EN www ═══════════════════════════════════════════════
 # Antes del WordPress hubo otra web en www.ideasforge.io con el español bajo
@@ -204,3 +204,13 @@
 # `/`, `/blog`, `/politica-privacidad`, `/politica-cookies`, `/en/` y
 # `/en/blog` existen igual en la web nueva, así que no necesitan regla. La
 # barra final la resuelve el propio hosting.
+
+# ── /en/sectors pasó a /en/industries (16 oct 2026) ──────────────────────────
+# Por orden de Dani, «Sectors» se traduce «Industries». Las de /en/sectors
+# vivieron solo en la rama dani; la red es por si alguien las enlazó.
+/en/sectors                                         /en/industries                         301
+/en/sectors/                                        /en/industries                         301
+/en/sectors/real-estate                             /en/industries/real-estate             301
+/en/sectors/real-estate/                            /en/industries/real-estate             301
+/en/sectors/accounting-firms                        /en/industries/accounting-firms        301
+/en/sectors/accounting-firms/                       /en/industries/accounting-firms        301

@@ -62,19 +62,18 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   // cada página conserva su nombre por palabra clave, salvo `/en/smb`, que
   // pasó a `ai-for-small-business`. Redirecciones en `public/_redirects`.
   guides:      { es: '/guias',                         en: '/en/guides' },
-  sectors:     { es: '/sectores',                      en: '/en/sectors' },
+  sectors:     { es: '/sectores',                      en: '/en/industries' },
   // Preguntas frecuentes (8 oct 2026). La portada va aquí. Las páginas de
   // bloque salen de `pages.faqs.blocks` y cuelgan de esta ruta.
-  faqs:        { es: '/preguntas-frecuentes' },
-  // Seguridad y privacidad (8 oct 2026). Solo en español.
-  security:    { es: '/seguridad' },
+  faqs:        { es: '/preguntas-frecuentes', en: '/en/faqs' },
+  // Seguridad y privacidad (8 oct 2026). Su espejo inglés, el 19 oct 2026.
+  security:    { es: '/seguridad', en: '/en/security' },
   aiGuide:     { es: '/guias/que-es-un-agente-de-ia',                 en: '/en/guides/ai-agents' },
   agentDev:    { es: '/servicios/desarrollo-de-agentes-de-ia', en: '/en/services/ai-agent-development' },
   processAuto: { es: '/servicios/automatizacion-de-procesos-con-ia', en: '/en/services/ai-workflow-automation' },
   conversational: { es: '/servicios/agentes-conversacionales', en: '/en/services/conversational-ai' },
-  // Solo en español (7 oct 2026): el espejo inglés no se escribe hasta que el
-  // propietario dé por bueno el texto español.
-  consulting:  { es: '/servicios/consultoria-de-ia' },
+  // Nació solo en español el 7 oct 2026. Su espejo inglés, el 16 oct 2026.
+  consulting:  { es: '/servicios/consultoria-de-ia', en: '/en/services/ai-consulting' },
   smb:         { es: '/guias/ia-para-pymes',                        en: '/en/guides/ai-for-small-business' },
   // El espejo español se añadió el 21 ago 2026: las tandas comerciales dieron
   // `cuanto cuesta un agente de ia` con crecimiento interanual infinito, o sea
@@ -105,15 +104,15 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   caseBarceloneta: { es: '/proyectos/barceloneta', en: '/en/cases/barceloneta' },
   caseIndustrial: { es: '/proyectos/industrial',   en: '/en/cases/industrial' },
   caseWazzy: { es: '/proyectos/wazzy',         en: '/en/cases/wazzy' },
-  realEstate:  { es: '/sectores/real-estate-e-inmobiliario',                 en: '/en/sectors/real-estate' },
-  accounting:  { es: '/sectores/gestorias-y-asesorias',                     en: '/en/sectors/accounting-firms' },
-  // Sectores nacidos el 7 oct 2026, con contenido desde el día 8. Solo en
-  // español hasta que se escriba su espejo.
-  sectorIndustry:  { es: '/sectores/industria-y-manufactura' },
-  sectorHealth:    { es: '/sectores/salud-y-grupos-sanitarios' },
-  sectorLogistics: { es: '/sectores/logistica-y-transporte' },
-  sectorEnergy:    { es: '/sectores/energia-y-utilities' },
-  sectorEcommerce: { es: '/sectores/ecommerce-y-retail' },
+  realEstate:  { es: '/sectores/real-estate-e-inmobiliario',                 en: '/en/industries/real-estate' },
+  accounting:  { es: '/sectores/gestorias-y-asesorias',                     en: '/en/industries/accounting-firms' },
+  // Sectores nacidos el 7 oct 2026, con contenido desde el día 8. Su espejo
+  // inglés llegó entre el 16 y el 19 oct 2026.
+  sectorIndustry:  { es: '/sectores/industria-y-manufactura', en: '/en/industries/manufacturing' },
+  sectorHealth:    { es: '/sectores/salud-y-grupos-sanitarios', en: '/en/industries/healthcare' },
+  sectorLogistics: { es: '/sectores/logistica-y-transporte', en: '/en/industries/logistics' },
+  sectorEnergy:    { es: '/sectores/energia-y-utilities', en: '/en/industries/energy-and-utilities' },
+  sectorEcommerce: { es: '/sectores/ecommerce-y-retail', en: '/en/industries/ecommerce-and-retail' },
 };
 
 /**

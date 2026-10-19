@@ -32,6 +32,16 @@ if (!faqs || !bloque) throw new Error(`No hay bloque de preguntas «${slug}» en
 const base = routeMap.faqs[lang];
 const ruta = `${base}/${bloque.slug}`;
 
+/* Su gemelo en el otro idioma es el bloque en la misma posición: las dos
+   listas van en el mismo orden (19 oct 2026). */
+const indice = faqs.blocks.indexOf(bloque);
+const alternativas: Partial<Record<Lang, string>> = {};
+for (const l of Object.keys(content) as Lang[]) {
+  const otro = content[l].pages.faqs?.blocks[indice];
+  const raiz = routeMap.faqs[l];
+  if (otro && raiz && content[l].pages.faqs?.blocks.length === faqs.blocks.length) alternativas[l] = `${raiz}/${otro.slug}`;
+}
+
 const menu = [...t.footer.navGroups.flatMap((g) => g.links), ...t.nav.sectorLinks];
 const relacionada = bloque.related && menu.find((e) => e.href === bloque.related);
 ---
@@ -40,7 +50,7 @@ const relacionada = bloque.related && menu.find((e) => e.href === bloque.related
   lang={lang}
   title={bloque.metaTitle}
   description={bloque.metaDescription}
-  alternates={{ [lang]: ruta }}
+  alternates={{ ...alternativas, [lang]: ruta }}
   breadcrumbName={bloque.title}
 >
   <div class="wrap">

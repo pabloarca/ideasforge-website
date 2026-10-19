@@ -58,4 +58,4 @@ The signal that a system works is what happens next. The agency is extending the
 
 You can do this math this afternoon. *How many minutes does each incoming inquiry cost, and how many arrive per day?* Multiply. You are already paying that number, just without an invoice.
 
-If your agency looks like this, the [AI for real estate](/en/sectors/real-estate) page explains the full system with its proof in production. And if you are in another sector with the same bottleneck, the conversation starts the same way, telling us where the hours go.
+If your agency looks like this, the [AI for real estate](/en/industries/real-estate) page explains the full system with its proof in production. And if you are in another industry with the same bottleneck, the conversation starts the same way, telling us where the hours go.
