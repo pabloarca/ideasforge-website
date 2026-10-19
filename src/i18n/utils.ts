@@ -21,8 +21,11 @@ export function otherLang(lang: Lang): Lang {
 export function localizedPath(path: string, lang: Lang): string {
   const clean = path.startsWith('/') ? path : `/${path}`;
   if (lang === defaultLang && !showDefaultLang) return clean === '/' ? '/' : clean;
-  const prefixed = `/${lang}${clean}`;
-  return prefixed;
+  // La raíz de un idioma con prefijo va sin barra final (`/en`, no `/en/`):
+  // con `trailingSlash: 'never'` y salida en fichero, `/en/` da 404. Pasaba
+  // en el logo de la cabecera, el del pie y el botón de la 404 (19 oct 2026).
+  if (clean === '/') return `/${lang}`;
+  return `/${lang}${clean}`;
 }
 
 /**
