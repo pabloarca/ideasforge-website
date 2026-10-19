@@ -1817,7 +1817,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             tag: 'blog',
             title: 'El agente que consulta tus datos no escribe SQL',
-            desc: 'Por qué construimos Savian con la decisión contraria al text-to-SQL, que es la que lo hace seguro.',
+            desc: 'Por qué construimos el agente de datos de Savian con la decisión contraria al text-to-SQL, que es la que lo hace seguro.',
             href: '/blog/ai-agents-sql',
             image: '/blog/portada-sql.jpg',
           },
@@ -3601,7 +3601,7 @@ export const content: Record<Lang, SiteContent> = {
         faq: [
           {
             q: '¿No somos demasiado pequeños para esto?',
-            a: 'Lo que lo decide no es cuánta gente seáis, es si hay un proceso que se repita lo suficiente como para pagarse su propia automatización. La agencia de alquiler y la gestora que dan las cifras de esta página son equipos pequeños. Las clínicas donde funciona nuestro producto son negocios de barrio.',
+            a: 'Lo que lo decide no es cuánta gente seáis, es si hay un proceso que se repita lo suficiente como para pagarse su propia automatización. La agencia de alquiler y la gestora que dan las cifras de esta página son equipos pequeños.',
           },
           {
             q: '¿Hay que cambiar las herramientas que usamos?',
@@ -4208,7 +4208,7 @@ export const content: Record<Lang, SiteContent> = {
               'Herramienta. Cada acción concreta que un agente puede ejecutar: consultar una base de datos, reservar una cita, enviar un correo.',
               'Contrato estructurado. El formato fijo con el que el modelo entrega lo que entendió, para que un código lo valide antes de actuar. En las propuestas lo verás como salida estructurada o function calling.',
               'Batería de pruebas. Casos reales, con su respuesta correcta escrita al lado, que todo cambio debe superar antes de publicarse. En inglés lo verás como evals.',
-              'Telemetría. Las mediciones que el propio sistema publica sobre cómo está funcionando. Bien diseñada, solo recoge los campos que se han aprobado, para que no viajen datos personales.',
+              'Telemetría. Las mediciones que el propio sistema publica sobre cómo está funcionando.',
               'Alucinación. Respuesta falsa con apariencia impecable. Se combate con arquitectura, no con ruegos al modelo.',
               'Identidad del usuario. La credencial que viaja con cada acción, para que el agente actúe con los permisos de esa persona y no con los de una cuenta que lo puede todo.',
             ],
@@ -6230,7 +6230,7 @@ export const content: Record<Lang, SiteContent> = {
                 ],
               },
               'Por ejemplo, un asistente interno puede estar conectado con miles de documentos y devolver únicamente aquellos que el usuario tiene autorización para consultar.',
-              'La IA no debería convertirse en una vía alternativa para saltarse los permisos existentes.',
+              'La IA no debería convertirse en una vía alternativa para saltarse los permisos existentes. Por eso el asistente consulta los sistemas con la identidad y los permisos de la persona que pregunta, no con una cuenta de servicio con acceso global.',
               { t: 'strong', text: 'Debe respetarlos.' },
             ],
           },
@@ -6244,7 +6244,7 @@ export const content: Record<Lang, SiteContent> = {
                 t: 'list',
                 items: [
                   'crear un registro', 'modificar una cita', 'actualizar un CRM', 'generar una incidencia',
-                  'enviar un mensaje', 'ejecutar una consulta', 'iniciar un workflow',
+                  'enviar un mensaje', 'ejecutar una consulta', 'iniciar un flujo de trabajo',
                 ],
               },
               'No todas esas acciones tienen el mismo riesgo.',
@@ -6288,7 +6288,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Seguridad en agentes conectados con bases de datos',
             blocks: [
               'Un agente no necesita recibir acceso ilimitado a una base de datos.',
-              'Podemos diseñar capas intermedias que controlen:',
+              'Diseñamos capas intermedias que controlan:',
               {
                 t: 'list',
                 items: [
@@ -6297,8 +6297,8 @@ export const content: Record<Lang, SiteContent> = {
                   'qué usuarios pueden acceder', 'qué consultas quedan registradas',
                 ],
               },
-              'Cuando el riesgo lo justifica, evitamos que el modelo genere y ejecute SQL arbitrario directamente sobre sistemas de producción.',
-              'En su lugar, puede trabajar mediante herramientas específicas y consultas controladas.',
+              'No dejamos que el modelo escriba y ejecute consultas SQL sobre sistemas de producción.',
+              'El modelo interpreta la pregunta y el código construye la consulta, así que no puede salir ninguna consulta fuera de las que ese código sabe construir.',
             ],
           },
           {
@@ -6336,7 +6336,7 @@ export const content: Record<Lang, SiteContent> = {
                 ],
               },
               'También podemos diseñar arquitecturas que reduzcan la dependencia de un único proveedor.',
-              'La lógica de negocio puede mantenerse separada del modelo para facilitar cambios cuando sea necesario.',
+              'La lógica de negocio se mantiene separada del modelo. Aun así, cambiar de modelo se prueba, no se promete: modelos distintos se comportan distinto y cada cambio pasa la batería de pruebas antes de llegar a producción.',
             ],
           },
           {
@@ -6355,6 +6355,7 @@ export const content: Record<Lang, SiteContent> = {
                   'componentes desplegados dentro de la infraestructura corporativa',
                 ],
               },
+              'En todos los proyectos, la infraestructura se monta en una nube a nombre del cliente y el código es suyo desde el primer día.',
               'No todos los proyectos necesitan este nivel de complejidad.',
               'La arquitectura debe ser proporcional al riesgo, a los datos utilizados y al proceso que queremos automatizar.',
             ],
@@ -6386,7 +6387,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Observabilidad y monitorización en producción',
             blocks: [
               'El comportamiento de una solución debe seguir analizándose después del lanzamiento.',
-              'Podemos monitorizar:',
+              'Cada semana vigilamos:',
               {
                 t: 'list',
                 items: [
@@ -6395,7 +6396,7 @@ export const content: Record<Lang, SiteContent> = {
                 ],
               },
               'Los casos reales permiten detectar situaciones que no aparecen durante las pruebas.',
-              'Por eso llevar IA a producción implica también crear mecanismos para observarla.',
+              'Por eso llevar IA a producción implica también crear mecanismos para observarla. Y antes de publicar cualquier cambio, el sistema tiene que pasar una batería de pruebas.',
             ],
           },
           {
@@ -6558,7 +6559,7 @@ export const content: Record<Lang, SiteContent> = {
               ],
               [
                 'Monitorizamos',
-                'Una vez desplegado, analizamos comportamiento, incidencias, costes y nuevos riesgos.',
+                'Una vez desplegado, analizamos cada semana comportamiento, incidencias, costes y nuevos riesgos.',
               ],
             ],
           },
@@ -6608,7 +6609,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             {
               q: '¿La seguridad se revisa solo antes del lanzamiento?',
-              a: 'No. Los sistemas deben monitorizarse también en producción para detectar errores, nuevos casos, cambios de comportamiento y riesgos.',
+              a: 'No. Cada semana vigilamos el sistema en producción para detectar errores, nuevos casos, cambios de comportamiento y riesgos. Y antes de publicar cualquier cambio, tiene que pasar una batería de pruebas.',
             },
           ],
         },
@@ -9848,7 +9849,7 @@ export const content: Record<Lang, SiteContent> = {
                 'Utilizar una API',
                 'Registrar una operación',
                 'Enviar una comunicación',
-                'Iniciar un workflow',
+                'Iniciar un flujo de trabajo',
                 'Pedir intervención humana cuando el caso lo requiera',
               ],
             },
@@ -9936,7 +9937,7 @@ export const content: Record<Lang, SiteContent> = {
                 {
                   client: 'Wazzy',
                   title: 'Un agente de IA que gestiona citas desde WhatsApp',
-                  desc: 'Reservar, modificar o cancelar una cita mediante una conversación. El agente consulta disponibilidad, trabaja con diferentes profesionales y calendarios y ejecuta las acciones siguiendo reglas definidas. La conversación es flexible. Las reglas de agenda no lo son.',
+                  desc: 'Wazzy es nuestro producto propio. Reserva, modifica o cancela una cita mediante una conversación. El agente consulta disponibilidad y ejecuta las acciones siguiendo reglas definidas. La conversación es flexible. Las reglas de agenda no lo son.',
                   image: '/case-studies/dentist.jpg',
                   href: '/proyectos/wazzy',
                 },
@@ -9964,7 +9965,7 @@ export const content: Record<Lang, SiteContent> = {
                 ],
                 [
                   'Desplegamos y monitorizamos',
-                  'Medimos utilización, errores, costes, latencia y llamadas a herramientas. El objetivo no es desplegarlo: es poder observarlo, corregirlo y mejorarlo.',
+                  'Medimos cada semana utilización, errores, costes, latencia y llamadas a herramientas. Antes de publicar cualquier cambio, el sistema tiene que pasar una batería de pruebas.',
                 ],
               ],
             },
@@ -10009,7 +10010,7 @@ export const content: Record<Lang, SiteContent> = {
                 label: 'Probablemente no sea necesario cuando',
                 items: [
                   'Existe un producto estándar que ya resuelve bien el problema',
-                  'El proceso está completamente definido mediante reglas',
+                  'El proceso está completamente definido mediante reglas (eso también lo construimos nosotros, sin modelo)',
                   'No existe suficiente información para que el sistema trabaje bien',
                   'El coste del desarrollo es superior al valor que puede generar',
                   'Solo queremos usar IA porque otras empresas la usan',
@@ -10025,7 +10026,7 @@ export const content: Record<Lang, SiteContent> = {
                 },
                 {
                   q: '¿Cuánto cuesta desarrollar un agente de IA?',
-                  a: 'Depende de las integraciones, los datos, la complejidad del proceso, los modelos utilizados, los requisitos de seguridad y las acciones que debe ejecutar. Un agente que consulta una única fuente y uno que trabaja con varios sistemas requieren niveles de desarrollo muy diferentes.',
+                  a: 'La construcción cuesta entre 2.500 y 10.000 € y la cuota mensual de vigilancia y mantenimiento, entre 150 y 500 €, sin permanencia. El consumo del modelo y la infraestructura los pagas aparte, en cuentas a tu nombre. Dónde cae dentro de esos rangos depende de las integraciones, los datos, la complejidad del proceso, los requisitos de seguridad y las acciones que debe ejecutar. Un agente que consulta una única fuente y uno que trabaja con varios sistemas requieren niveles de desarrollo muy diferentes.',
                 },
                 {
                   q: '¿Cuánto tarda en desarrollarse un agente de IA?',
@@ -10124,7 +10125,7 @@ export const content: Record<Lang, SiteContent> = {
                 ],
                 [
                   'Procesos comerciales',
-                  'Tareas alrededor de leads, oportunidades, seguimiento, registro de información y actualización del CRM.',
+                  'Tareas alrededor de interesados, oportunidades, seguimiento, registro de información y actualización del CRM.',
                 ],
                 [
                   'Operaciones internas',
@@ -10142,7 +10143,7 @@ export const content: Record<Lang, SiteContent> = {
                 '.',
               ],
               p: [
-                'La IA es útil cuando hay que interpretar información variable: un email escrito de distintas formas, una factura con otra estructura, una solicitud en lenguaje natural. Cuando existe una regla clara y conocida, preferimos que la ejecute software convencional.',
+                'La IA es útil cuando hay que interpretar información variable: un email escrito de distintas formas, una factura con otra estructura, una solicitud en lenguaje natural. Cuando existe una regla clara y conocida, preferimos que la ejecute software convencional, sin modelo. Eso también lo construimos nosotros.',
                 '"Si el importe supera un límite, solicitar aprobación" no necesita inteligencia artificial. Es una regla determinista, mucho más fácil de probar y controlar. En muchos de nuestros proyectos ambas tecnologías trabajan juntas.',
               ],
             },
@@ -10156,7 +10157,7 @@ export const content: Record<Lang, SiteContent> = {
                 ],
                 [
                   'CRM',
-                  'Registrar contactos, actualizar oportunidades, añadir información o iniciar workflows comerciales.',
+                  'Registrar contactos, actualizar oportunidades, añadir información o iniciar flujos comerciales.',
                 ],
                 [
                   'Bases de datos',
@@ -10197,8 +10198,8 @@ export const content: Record<Lang, SiteContent> = {
                 },
                 {
                   client: 'Barceloneta Premium',
-                  title: 'Más de 3 horas de trabajo administrativo ahorradas cada día',
-                  desc: 'Analizamos tareas que requerían intervención manual repetitiva y diseñamos automatizaciones para conectar herramientas y eliminar pasos innecesarios. No fue necesario convertir todo el proceso en IA: automatizamos exactamente las partes donde tenía sentido.',
+                  title: 'Más de 3 horas al día ahorradas filtrando consultas de alquiler',
+                  desc: 'La agencia recibe por WhatsApp decenas de consultas de alquiler al día y comprobar cada una costaba entre cinco y diez minutos. Hoy un agente mantiene esa conversación, reúne los datos y deja al equipo el veredicto preparado, apto o no apto, con su justificación.',
                   image: '/case-studies/barceloneta.jpg',
                   href: '/proyectos/barceloneta',
                 },
@@ -10306,7 +10307,7 @@ export const content: Record<Lang, SiteContent> = {
                 },
                 {
                   q: '¿Cuánto cuesta automatizar un proceso?',
-                  a: 'Depende de la complejidad del flujo, las integraciones, el volumen de operaciones, el uso de IA y el número de excepciones. Antes de estimar es necesario entender cómo funciona el proceso.',
+                  a: 'La construcción cuesta entre 2.500 y 10.000 € y la cuota mensual de vigilancia y mantenimiento, entre 150 y 500 €, sin permanencia. El consumo del modelo y la infraestructura los pagas aparte, en cuentas a tu nombre. Dónde cae dentro de esos rangos depende de la complejidad del flujo, las integraciones, el volumen de operaciones y el número de excepciones. Antes de dar una cifra cerrada entendemos cómo funciona el proceso.',
                 },
                 {
                   q: '¿Cuándo compensa automatizar un proceso?',
@@ -10406,7 +10407,7 @@ export const content: Record<Lang, SiteContent> = {
                 '.',
               ],
               p: [
-                'En muchos proyectos no entrenamos un modelo nuevo con los documentos internos. Cuando el usuario pregunta, el sistema busca primero la información relevante dentro de las fuentes autorizadas y después proporciona ese contexto al modelo. Este enfoque se conoce como RAG, Retrieval-Augmented Generation.',
+                'No entrenamos un modelo con tus documentos: cuando el usuario pregunta, el sistema busca primero la información relevante dentro de las fuentes autorizadas y después proporciona ese contexto al modelo. Este enfoque se conoce como RAG, Retrieval-Augmented Generation.',
                 'Mantiene separado el modelo del conocimiento específico de la empresa y permite actualizar la información sin volver a entrenar nada cada vez que cambia un documento.',
               ],
             },
@@ -10491,10 +10492,10 @@ export const content: Record<Lang, SiteContent> = {
               kicker: 'Permisos y fuentes',
               h2: 'No todos los empleados deberían poder consultar la misma información',
               p: [
-                'Un asistente no debería mostrar información solo porque existe en el sistema. Debe tener en cuenta quién pregunta. Recursos Humanos, dirección, un equipo técnico o un proveedor externo pueden tener accesos distintos. La búsqueda también debe respetar la estructura de permisos de la empresa.',
+                'Un asistente no debería mostrar información solo porque existe en el sistema. Debe tener en cuenta quién pregunta. Recursos Humanos, dirección, un equipo técnico o un proveedor externo pueden tener accesos distintos. El asistente utiliza los mismos permisos que ya tiene la persona en los sistemas de la empresa. La recuperación de documentos respeta el rol de quien pregunta, así que nadie recibe en una respuesta un fragmento que no podría abrir a mano. Cuando el asistente consulta un sistema interno, lo hace con la identidad y los permisos de la persona, no con una cuenta de servicio con acceso global.',
                 'Y cuando la respuesta no está en las fuentes, el sistema debería saber decirlo. Decir "no encuentro esa información" puede ser mejor que responder con seguridad algo incorrecto.',
               ],
-              listLabel: 'Podemos diseñar permisos y controles por',
+              listLabel: 'Sobre esos permisos se pueden añadir controles por',
               items: [
                 'Usuario',
                 'Rol',
@@ -10503,10 +10504,9 @@ export const content: Record<Lang, SiteContent> = {
                 'Documento',
                 'Tipo de información',
                 'Fuentes citadas en cada respuesta',
-                'Umbrales de recuperación',
                 'Respuestas limitadas al contenido recuperado',
                 'Registro de preguntas sin respuesta',
-                'Reindexado al cambiar documentos',
+                'Reindexado y pruebas al cambiar documentos',
               ],
             },
             when: {
@@ -10559,11 +10559,11 @@ export const content: Record<Lang, SiteContent> = {
                 },
                 {
                   q: '¿Cómo se controlan los permisos?',
-                  a: 'Se aplican antes de recuperar la información, para que el sistema solo use fuentes autorizadas para cada usuario: por rol, departamento, documento, fuente o identidad.',
+                  a: 'El asistente usa los permisos que ya tiene cada persona en los sistemas de la empresa y los aplica antes de recuperar la información. Consulta con la identidad de quien pregunta, no con una cuenta de servicio con acceso global. Sobre esa base se pueden añadir filtros por rol, departamento, documento o fuente.',
                 },
                 {
                   q: '¿Qué ocurre cuando los documentos cambian?',
-                  a: 'El sistema puede sincronizar o reindexar las fuentes cuando detecta documentos nuevos, modificaciones o versiones actualizadas.',
+                  a: 'Los documentos se vuelven a procesar cuando cambian, y un documento nuevo no cambia ninguna respuesta hasta que pasa la batería de pruebas. La calidad se vigila de dos maneras: una batería de casos reales antes de cada cambio y una tanda semanal de conversaciones de prueba sobre el sistema en marcha. Cuando algo deja de encontrarse o de entenderse bien, lo vemos en las métricas antes de que se convierta en queja.',
                 },
                 {
                   q: '¿Puede funcionar con SharePoint o Google Drive?',
@@ -10606,7 +10606,7 @@ export const content: Record<Lang, SiteContent> = {
             intro: {
               h2: 'Conversaciones conectadas con procesos reales',
               p: [
-                'Un chatbot tradicional suele responder preguntas. Un agente conversacional puede formar parte de un proceso: el usuario explica lo que necesita en lenguaje natural y el sistema interpreta la solicitud, recupera información, consulta otras aplicaciones y ejecuta las acciones necesarias.',
+                'Un chatbot de guion suele responder preguntas. Un agente conversacional puede formar parte de un proceso: el usuario explica lo que necesita en lenguaje natural y el sistema interpreta la solicitud, recupera información, consulta otras aplicaciones y ejecuta las acciones necesarias.',
                 'El usuario no necesita conocer qué sistema hay detrás. Solo necesita explicar qué quiere hacer.',
               ],
               listLabel: 'Una conversación puede convertirse en',
@@ -10638,7 +10638,7 @@ export const content: Record<Lang, SiteContent> = {
                 ],
                 [
                   'Ejecutar acciones',
-                  'La conversación puede terminar en una operación real: crear un registro, actualizar información, reservar una cita, cancelar una solicitud, enviar una comunicación o iniciar un workflow.',
+                  'La conversación puede terminar en una operación real: crear un registro, actualizar información, reservar una cita, cancelar una solicitud, enviar una comunicación o iniciar un flujo de trabajo.',
                 ],
                 [
                   'Mantener contexto',
@@ -10660,7 +10660,7 @@ export const content: Record<Lang, SiteContent> = {
                 '.',
               ],
               p: [
-                'Un chatbot se centra en responder mensajes: "¿Cuál es vuestro horario?". Un agente conversacional puede recibir "Quiero cambiar mi cita del jueves por la tarde" y continuar el proceso: identificar la cita, consultar el calendario, comprobar alternativas, aplicar las reglas de agenda, ofrecer opciones, modificar la reserva y confirmar el cambio.',
+                'Un chatbot de guion se centra en responder mensajes: "¿Cuál es vuestro horario?". Un agente conversacional puede recibir "Quiero cambiar mi cita del jueves por la tarde" y continuar el proceso: identificar la cita, consultar el calendario, comprobar alternativas, aplicar las reglas de agenda, ofrecer opciones, modificar la reserva y confirmar el cambio.',
                 'La automatización no tiene por qué terminar en una respuesta. Puede continuar dentro de los sistemas de la empresa, y liberar al equipo para las situaciones que requieren criterio, negociación o atención personal.',
               ],
             },
@@ -10709,7 +10709,7 @@ export const content: Record<Lang, SiteContent> = {
                 {
                   client: 'Wazzy',
                   title: 'Gestión de citas mediante una conversación en WhatsApp',
-                  desc: 'El agente consulta disponibilidad, trabaja con diferentes profesionales y calendarios, propone horarios, reserva, modifica o cancela y aplica reglas específicas. El usuario mantiene una conversación sencilla. Detrás, el sistema controla las condiciones bajo las que cada acción puede ejecutarse.',
+                  desc: 'Wazzy es nuestro producto propio. El agente consulta disponibilidad, propone horarios, reserva, modifica o cancela y aplica las reglas de agenda de cada clínica. El usuario mantiene una conversación sencilla. Detrás, el sistema controla las condiciones bajo las que cada acción puede ejecutarse.',
                   image: '/case-studies/dentist.jpg',
                   href: '/proyectos/wazzy',
                 },
@@ -10748,7 +10748,7 @@ export const content: Record<Lang, SiteContent> = {
                 ],
                 [
                   'Desplegamos y monitorizamos',
-                  'Conversaciones, errores, derivaciones y herramientas utilizadas para entender dónde funciona y dónde necesita mejorar.',
+                  'Cada semana una tanda de conversaciones de prueba recorre el sistema en marcha y revisamos errores, derivaciones y herramientas utilizadas para ver dónde necesita mejorar. Antes de publicar cualquier cambio, el sistema tiene que pasar una batería de pruebas.',
                 ],
               ],
             },
@@ -10809,8 +10809,8 @@ export const content: Record<Lang, SiteContent> = {
                   a: 'Un sistema de inteligencia artificial que utiliza una conversación como interfaz para consultar información, utilizar herramientas o ejecutar acciones. Puede responder mensajes, pero también conectarse con sistemas empresariales y participar en procesos reales.',
                 },
                 {
-                  q: '¿Cuál es la diferencia entre un chatbot y un agente de IA?',
-                  a: 'Un chatbot se centra en mantener una conversación. Un agente de IA puede utilizar herramientas y ejecutar acciones además de responder. Un chatbot informa del horario. Un agente consulta un calendario y reserva una cita.',
+                  q: '¿Cuál es la diferencia entre un chatbot de guion y un agente de IA?',
+                  a: 'Un chatbot de guion sigue un menú fijo de respuestas y se centra en mantener la conversación. Un agente de IA puede utilizar herramientas y ejecutar acciones además de responder. Un chatbot de guion informa del horario. Un agente consulta un calendario y reserva una cita.',
                 },
                 {
                   q: '¿Puede un chatbot conectarse con nuestro CRM o ERP?',
@@ -10826,7 +10826,11 @@ export const content: Record<Lang, SiteContent> = {
                 },
                 {
                   q: '¿Puede funcionar en WhatsApp?',
-                  a: 'Sí, cuando el proyecto y la infraestructura del canal lo permiten. La misma lógica puede utilizarse en una web, una aplicación u otros canales compatibles.',
+                  a: 'Sí, con la API oficial de Meta. Tenemos tres sistemas en producción en WhatsApp: el agente de datos de Savian, el que filtra las consultas de alquiler de Barceloneta Premium y Wazzy, nuestro asistente de citas. La misma lógica sirve para una web, una aplicación o herramientas internas.',
+                },
+                {
+                  q: '¿Sirve para vender o solo para atender?',
+                  a: 'Las dos cosas se tocan. Un agente que filtra y cualifica entrega a tu equipo interesados cualificados, como la inmobiliaria que ya solo concierta visitas. Lo que no hacemos es envío masivo por WhatsApp, ni con IA ni sin ella.',
                 },
                 {
                   q: '¿Qué ocurre si el chatbot no sabe responder?',
@@ -10838,7 +10842,7 @@ export const content: Record<Lang, SiteContent> = {
                 },
                 {
                   q: '¿Cuánto cuesta desarrollar un chatbot a medida?',
-                  a: 'Depende del número de casos de uso, las integraciones, las fuentes de información, los canales, las acciones disponibles y los requisitos de seguridad y control. Un chatbot informativo y un agente conectado con varios sistemas tienen complejidades muy distintas.',
+                  a: 'La construcción cuesta entre 2.500 y 10.000 € y la cuota mensual de vigilancia y mantenimiento, entre 150 y 500 €, sin permanencia. El consumo del modelo y la infraestructura los pagas aparte, en cuentas a tu nombre. En WhatsApp, además, Meta cobra aparte cada plantilla que envía, según su política de precios. Un recordatorio de cita es una plantilla, así que cada aviso tiene su propio coste. El piloto se paga y su precio entra dentro del proyecto final.',
                 },
               ],
             },
@@ -10969,15 +10973,15 @@ export const content: Record<Lang, SiteContent> = {
               items: [
                 {
                   client: 'Stanton',
-                  title: 'De un análisis de proceso a un 98 % de facturas sin intervención',
-                  desc: 'El análisis del flujo de facturas permitió separar qué parte necesitaba interpretación y qué parte eran reglas. El resultado es un sistema que hoy procesa el 98 % de las facturas de forma automática.',
+                  title: 'Del minuto por factura al 98 % sin intervención',
+                  desc: 'Antes, cada factura de suministros costaba un minuto de teclado. Hoy el 98 % pasa sin que nadie la toque y el resto llega a una persona con el documento al lado.',
                   image: '/case-studies/stanton.jpg',
                   href: '/proyectos/stanton',
                 },
                 {
                   client: 'Savian',
-                  title: 'Decidir qué no hacer: el modelo no escribe SQL',
-                  desc: 'La decisión de arquitectura más importante fue una restricción: el agente interpreta la pregunta pero nunca ejecuta consultas arbitrarias. Esa decisión es la que hace el sistema seguro.',
+                  title: 'El modelo dejó de escribir SQL',
+                  desc: 'La primera versión dejaba que el modelo escribiera la consulta SQL y la ejecutara. La sustituimos porque cometía fallos que se ejecutaban sin error y devolvían una cifra distinta de la preguntada. Hoy el modelo solo interpreta la pregunta y el código construye la consulta.',
                   image: '/case-studies/harvest.jpg',
                   href: '/proyectos/savian',
                 },
@@ -12119,7 +12123,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               '<strong>Un agente en producción tiene dos costes distintos que conviene separar.</strong> Uno es lo que el sistema consume para funcionar, el modelo y la infraestructura, que va en cuentas a nombre de tu empresa. El otro es nuestra cuota, que cubre la supervisión y el mantenimiento.',
               'Cada interacción puede generar llamadas al proveedor del modelo. Ese es el coste bruto de tener el agente en marcha, lo paga tu empresa y sube o baja con el uso, así que no lo escondemos dentro de nuestra cuota. La infraestructura funciona igual. La cuenta en la nube está a tu nombre, así que su factura también.',
-              'Separar este coste te permite verlo y optimizarlo. <strong>Conocer cómo se reparte el gasto permite reducirlo con datos, en lugar de hacerlo a ciegas.</strong> En Wazzy lo medimos por capas: leer y estructurar el mensaje que entra se lleva entre el 52 y el 57 % del gasto de modelo, decidir qué hacer a continuación entre el 24 y el 31 % y escribir la respuesta entre el 16 y el 19 %.',
+              'Separar este coste te permite verlo y optimizarlo. <strong>Conocer cómo se reparte el gasto permite reducirlo con datos, en lugar de hacerlo a ciegas.</strong> En los sistemas que mantenemos, cada llamada al modelo queda registrada con su coste, así que se ve qué parte del trabajo gasta más.',
               'Con ese desglose podemos decidir qué cambios compensan y cuáles no. En uno de nuestros sistemas probamos un modelo más barato y la batería de pruebas lo descartó, porque la calidad general bajaba diez puntos. El ahorro era real. No compensaba.',
               '<strong>Nuestra cuota cubre la supervisión y el mantenimiento del sistema.</strong> Cada semana lanzamos contra el sistema vivo una tanda de conversaciones de prueba anonimizadas, de principio a fin. Y antes de publicar cualquier cambio tiene que pasar la batería de pruebas. Son dos cosas distintas y separadas a propósito. <strong>La batería de pruebas evita publicar cambios que empeoren el sistema y la revisión semanal comprueba que el sistema que ya está en producción sigue funcionando correctamente.</strong>',
             ],
@@ -12296,7 +12300,7 @@ export const content: Record<Lang, SiteContent> = {
               'Una versión temprana de uno de nuestros asistentes mantenía separadas a las empresas diciéndole al modelo, en sus instrucciones, que no se saltara nunca el filtro. Funcionaba en todas las pruebas que hicimos.',
               'Aunque funcionara en las pruebas, seguía teniendo un problema: una instrucción a un modelo de lenguaje es una petición. Un modelo puede dejar de atender una petición por motivos que nadie predice desde fuera.',
               'Lo explicamos como la diferencia entre una garantía técnica y una instrucción que el modelo puede incumplir. Cambió nuestra manera de construir. <strong>La seguridad tiene que aguantar incluso cuando el modelo falla.</strong>',
-              'El sistema donde mejor se ve es el de Savian, un agente que responde a los responsables de varias empresas del mismo grupo, cada uno sobre las suyas. Corre en la cuenta de Savian, que es quien lo encarga. Ahí la separación se impone en cuatro sitios. Ninguna de esas capas depende del modelo.',
+              'El sistema donde mejor se ve es el de Savian, un agente que responde sobre datos de varias empresas, y cada responsable solo consulta las suyas. Corre en la cuenta de Savian, que es quien lo encarga. Ahí la separación se impone en cuatro sitios. Ninguna de esas capas depende del modelo.',
             ],
             bullets: [
               'El contexto, la información que el modelo puede leer mientras responde, solo contiene lo que la persona que pregunta tiene derecho a ver. El asistente no puede acceder a información que nunca recibió y no puede construir una consulta sobre una empresa fuera de su ámbito.',
@@ -12880,7 +12884,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Cuatro capas entre una empresa y la de al lado',
             part: 'Cómo funciona hoy',
             paragraphs: [
-              'El agente responde a los responsables de varias empresas del mismo grupo, cada uno sobre las suyas, así que la separación entre unas y otras es la garantía que sostiene el sistema entero. <strong>La separación se impone en cuatro sitios. El modelo no es ninguno de los cuatro.</strong>',
+              'El agente responde sobre datos de varias empresas y cada responsable solo puede consultar las suyas, así que la separación entre unas y otras es la garantía que sostiene el sistema entero. <strong>La separación se impone en cuatro sitios. El modelo no es ninguno de los cuatro.</strong>',
               'La información que el modelo puede leer mientras responde contiene solo las empresas de quien pregunta, así que las demás no existen para él y no puede filtrar lo que nunca tuvo.',
               'La corrección de nombres que acabamos de contar busca solo dentro de esas mismas empresas. Quien escribe un nombre a medias o con una letra bailada acaba en el centro que quería, si ese centro es suyo. Si no lo es, no llega a ninguna parte.',
               'Después, el código valida la petición contra una lista cerrada de valores permitidos antes de construir nada. Y la consulta final lleva un filtro incondicional que, si la lista de permisos llegara vacía, la resuelve en una condición que no encaja con ninguna fila. Cuando algo falla, el sistema se cierra en vez de abrirse.',
@@ -12939,12 +12943,12 @@ export const content: Record<Lang, SiteContent> = {
         tocHeading: 'Qué verás en esta página',
         metaTitle: 'Stanton: facturas que dejaron de teclearse, Ideasforge',
         metaDescription:
-          'Cómo automatizamos para Stanton la entrada de facturas de suministros, con el 98 % pasando sin que nadie las toque. Y el día que una cambió de formato sin avisar.',
+          'Cómo automatizamos para Stanton la entrada de facturas de suministros y qué se comprueba antes de dar un dato por bueno. Hoy el 98 % pasa sin que nadie las toque.',
         hero: {
           eyebrow: 'Caso en producción',
-          title: 'Stanton: dábamos por hecho que las facturas no cambian. Las facturas cambian',
+          title: 'Stanton: las facturas de suministros dejaron de teclearse a mano',
           subtitle:
-            'Stanton es una gestora de fincas que metía a mano las facturas de luz, gas y agua de cada inquilino, a un minuto de teclado por documento. Hoy el 98 % pasa sin que nadie las toque. Esta página cuenta cómo funciona, por qué entra por un chat de Telegram y qué tuvimos que añadirle después de que una comercializadora rediseñara su factura sin avisar a nadie.',
+            'Stanton es una gestora de fincas que metía a mano las facturas de luz, gas y agua de cada inquilino, a un minuto de teclado por documento. Hoy el 98 % pasa sin que nadie las toque. Esta página cuenta cómo funciona, por qué entra por un chat de Telegram y qué se comprueba antes de dar un dato por bueno.',
           cta: 'Empezar por el problema',
           ctaHref: '#problema',
         },
@@ -13160,7 +13164,7 @@ export const content: Record<Lang, SiteContent> = {
               'Esa decisión hay que medirla y medirla cuesta trabajo. Reunimos 118 consultas reales, de las que se hacen de verdad en la planta. Después comprobamos una por una si la pregunta había llegado al agente que le correspondía.',
               '¿Y cuántas habían llegado a donde debían? El 72,8 %. <strong>Algo más de una de cada cuatro consultas iba a parar al agente equivocado.</strong>',
               'Un número así es incómodo de enseñar y es la única puerta que hay para mejorar. <strong>Sin medir, lo que se tiene es la impresión de que funciona, que es justo lo que tiene todo el mundo antes de medir.</strong>',
-              'Con las 118 delante se ve dónde se rompe. Corregimos el enrutado y volvimos a pasar las mismas consultas, que dieron 89,3 %. Una segunda ronda de correcciones lo dejó en 91,5 %.',
+              'Con las 118 delante se ve dónde se rompe. Una primera ronda de correcciones del enrutado lo subió casi diecisiete puntos y una segunda lo dejó en 91,5 %.',
               'Las mismas 118 las tres veces. Cambiar el examen entre una medición y la siguiente convierte la comparación en un adorno.',
             ],
           },
@@ -13582,7 +13586,7 @@ export const content: Record<Lang, SiteContent> = {
           {
             tag: 'blog',
             title: 'The agent that queries your data does not write SQL',
-            desc: 'Why we built Savian on the opposite decision to text-to-SQL, which is what makes it safe.',
+            desc: 'Why we built Savian’s data agent on the opposite decision to text-to-SQL, which is what makes it safe.',
             href: '/en/blog/ai-agents-sql',
             image: '/blog/portada-sql.jpg',
           },
@@ -13601,7 +13605,7 @@ export const content: Record<Lang, SiteContent> = {
           },
           {
             q: 'What is the difference between an AI agent and a chatbot?',
-            a: 'A chatbot is built to hold a conversation. An AI agent can also use tools, query external systems and take actions. For example, understanding a request, querying a database and then logging an operation in a CRM.',
+            a: 'A script chatbot follows a fixed menu. An AI agent can also use tools, query external systems and take actions. For example, understanding a request, querying a database and then logging an operation in a CRM.',
           },
           {
             q: 'Can artificial intelligence connect to an ERP, a CRM or a database?',
@@ -15348,7 +15352,7 @@ export const content: Record<Lang, SiteContent> = {
         faq: [
           {
             q: 'Is our company too small for this?',
-            a: 'What decides it is not headcount, it is whether one process repeats often enough to pay for its own automation. The rental agency and the property manager behind the numbers on this page are small teams, and the clinics our product runs in are neighborhood businesses.',
+            a: 'What decides it is not headcount, it is whether one process repeats often enough to pay for its own automation. The rental agency and the property manager behind the numbers on this page are small teams.',
           },
           {
             q: 'Do we have to change the tools we use?',
@@ -15944,7 +15948,7 @@ export const content: Record<Lang, SiteContent> = {
               'Tool. Each specific action an agent can carry out: querying a database, booking an appointment, sending an email.',
               'Structured contract. The fixed format the model uses to hand over what it understood, so code can check it before anything happens. Proposals will call it structured output or function calling.',
               'Test suite. Real cases with the right answer written beside them, which every change has to pass before it ships. Most vendors call these evals.',
-              'Telemetry. The measurements the system publishes about how it is running. Well designed, it only collects fields approved in advance, so that no personal data travels with it.',
+              'Telemetry. The measurements the system publishes about how it is running.',
               'Hallucination. A false answer with a flawless surface. You fight it with architecture, not by pleading with the model.',
               'RPA. Automation that imitates clicks and keystrokes on your existing screens. It works well as long as nothing changes and it is brittle the moment a screen moves. An agent attacks the same problem by understanding the content, which is why the two often coexist, each on its own ground.',
               'User identity. The credential that travels with every action, so the agent acts with that person’s permissions rather than with those of an account that can do everything.',
@@ -16285,7 +16289,7 @@ export const content: Record<Lang, SiteContent> = {
             ],
             link: {
               label: 'See the projects',
-              href: '/en#projects',
+              href: '/en/cases',
             },
           },
           {
@@ -16678,7 +16682,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               '<strong>A running agent has two costs, and they are worth keeping apart.</strong> One is what the system consumes to work, the model and the infrastructure, which sits in accounts under your company’s name. The other is our fee, which pays for the work of watching it.',
               'Every message that comes in triggers calls to the model provider. That is the raw running cost of having the agent live, your company pays it, and it goes up and down with usage, so we do not bury it inside our fee. Infrastructure works the same way. The cloud account is in your name, so its bill is too.',
-              'Keeping it separate has an upside for you. You can see it, so you can bring it down. <strong>Knowing how the spend splits is what lets you cut it by measuring instead of guessing.</strong> In Wazzy we meter it per layer: reading and structuring the incoming message takes 52 to 57 percent of the model spend, deciding what to do next takes 24 to 31 percent and writing the reply takes 16 to 19 percent.',
+              'Keeping it separate has an upside for you. You can see it, so you can bring it down. <strong>Knowing how the spend splits is what lets you cut it by measuring instead of guessing.</strong> In the systems we maintain, every model call is logged with its cost, so you can see which part of the work spends the most.',
               'With that map in front of you, the decision comes from data. In one of our systems we tried a cheaper model and the test battery rejected it, because overall quality fell ten points. The saving was real. It just was not worth what it cost in quality.',
               '<strong>Our fee pays for something else, which is the work of watching it.</strong> Every week we run a batch of anonymized test conversations against the live system from end to end. And before any change ships, the test battery has to pass. Two different things, kept separate on purpose. <strong>The battery gates changes, and the weekly batch watches what is already running.</strong>',
             ],
@@ -17351,7 +17355,7 @@ export const content: Record<Lang, SiteContent> = {
             heading: 'Four layers between one company and the one next door',
             part: 'How it works today',
             paragraphs: [
-              'The agent answers managers from several companies in the same group, each one about their own, so keeping them apart is the guarantee that holds the whole system up. <strong>Separation is enforced in four places. The model is none of the four.</strong>',
+              'The agent answers questions about data from several companies, and each manager can only see their own, so keeping them apart is the guarantee that holds the whole system up. <strong>Separation is enforced in four places. The model is none of the four.</strong>',
               'The information the model can read while it answers contains only the companies of whoever is asking, so the rest do not exist for it and it cannot leak what it never had.',
               'The name correction we just described searches only inside those same companies. Somebody who writes a name half finished or with a letter out of place lands on the site they meant, if that site is theirs. If it is not, they land nowhere.',
               'After that, the code validates the request against a closed list of allowed values before building anything. And the final query carries an unconditional filter that, if the permission list ever arrived empty, resolves into a condition no row can match. When something fails, the system fails closed, not open.',
@@ -17410,12 +17414,12 @@ export const content: Record<Lang, SiteContent> = {
         tocHeading: 'What this page covers',
         metaTitle: 'Stanton: bills that stopped being typed, Ideasforge',
         metaDescription:
-          'How we automated utility bill entry for Stanton, with 98% going through untouched. And the day one supplier redesigned its bill without telling anyone.',
+          'How we automated utility bill entry for Stanton, with 98% going through untouched, and what gets checked before a figure is accepted.',
         hero: {
           eyebrow: 'Live in production',
-          title: 'Stanton: we assumed bills do not change. Bills change',
+          title: 'Stanton: utility bills that are no longer typed in by hand',
           subtitle:
-            'Stanton is a property management company that used to key in every tenant’s electricity, gas and water bills by hand, at a minute of typing per document. Today 98% go through without anyone touching them. This page explains how it works, why it comes in through a Telegram chat and what we had to add after one utility company redesigned its bill without telling anyone.',
+            'Stanton is a property management company that used to key in every tenant’s electricity, gas and water bills by hand, at a minute of typing per document. Today 98% go through without anyone touching them. This page explains how it works, why it comes in through a Telegram chat and what gets checked before a figure is accepted.',
           cta: 'Start with the problem',
           ctaHref: '#problem',
         },

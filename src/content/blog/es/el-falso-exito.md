@@ -1,7 +1,7 @@
 ---
 title: 'Dice que lo ha hecho y no lo ha hecho'
 metaTitle: 'El falso éxito de los agentes de IA'
-description: 'Casi la mitad de las veces que un agente de IA falla, además te dice que ha ido bien. Qué miden los estudios, por qué otra IA no lo ve y quién puede decir «hecho».'
+description: 'En las pruebas donde nadie más puede desmentir al agente, casi la mitad de sus fallos llegan con un «ha ido bien». Qué miden los estudios y quién dice «hecho».'
 lang: 'es'
 pubDate: 2026-09-01
 translationId: 'false-success'
