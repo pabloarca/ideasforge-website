@@ -1361,7 +1361,13 @@ export interface SolutionPageContent {
   };
   faq: { h2: string; items: Faq[] };
   contact: { h2: string; p: string; cta: string };
+  /** Pizarras de la casa, cada una detrás del bloque que explica. Las páginas
+   *  de servicio las tenían antes del diseño de octubre (19 oct 2026). */
+  pizarras?: { tras: BloqueSolucion; grafico: keyof PizarrasContent }[];
 }
+
+/** Bloques de la plantilla de solución detrás de los que puede ir una pizarra. */
+export type BloqueSolucion = 'intro' | 'capabilities' | 'poster' | 'types' | 'cases' | 'method' | 'control' | 'when';
 
 /** Las cinco soluciones. Las claves son las del `routeMap`. */
 export type SolutionKey = 'agentDev' | 'processAuto' | 'enterprise' | 'conversational' | 'consulting';
@@ -10052,6 +10058,13 @@ export const content: Record<Lang, SiteContent> = {
               p: 'No necesitas decidir qué modelo utilizar, cuántos agentes hacen falta ni cómo debería ser la arquitectura. Explícanos qué proceso quieres mejorar, con qué herramientas tendría que trabajar el sistema y qué acciones debería poder realizar.',
               cta: 'Hablar con Ideasforge',
             },
+            pizarras: [
+              { tras: 'intro', grafico: 'entradaSucia' },
+              { tras: 'capabilities', grafico: 'sinSupervision' },
+              { tras: 'poster', grafico: 'contratoCerca' },
+              { tras: 'method', grafico: 'peldanos' },
+              { tras: 'control', grafico: 'cuatroCapas' },
+            ],
           },
           processAuto: {
             href: '/servicios/automatizacion-de-procesos-con-ia',
@@ -10306,6 +10319,15 @@ export const content: Record<Lang, SiteContent> = {
               p: 'No necesitas decidir qué herramientas utilizar ni qué parte debería llevar inteligencia artificial. Explícanos cómo funciona actualmente el proceso, qué aplicaciones utiliza vuestro equipo y dónde sigue siendo necesaria la intervención manual.',
               cta: 'Analizar un proceso con Ideasforge',
             },
+            pizarras: [
+              { tras: 'capabilities', grafico: 'facturas' },
+              { tras: 'poster', grafico: 'frontera' },
+              { tras: 'types', grafico: 'sistemas' },
+              { tras: 'cases', grafico: 'cifras' },
+              { tras: 'method', grafico: 'circuito' },
+              { tras: 'control', grafico: 'validacion' },
+              { tras: 'when', grafico: 'condiciones' },
+            ],
           },
           enterprise: {
             href: '/servicios/conocimiento-corporativo',
@@ -10558,6 +10580,13 @@ export const content: Record<Lang, SiteContent> = {
               p: 'Explícanos qué información necesita encontrar vuestro equipo, dónde está almacenada y quién debería poder consultarla. Analizaremos cómo hacerla accesible sin perder control sobre las fuentes, los permisos, las versiones y la seguridad.',
               cta: 'Crear un asistente sobre nuestro conocimiento',
             },
+            pizarras: [
+              { tras: 'capabilities', grafico: 'diezDocumentos' },
+              { tras: 'types', grafico: 'dosFuentes' },
+              { tras: 'cases', grafico: 'orquestador' },
+              { tras: 'method', grafico: 'dosNoes' },
+              { tras: 'control', grafico: 'mismaPregunta' },
+            ],
           },
           conversational: {
             href: '/servicios/agentes-conversacionales',
@@ -10818,6 +10847,11 @@ export const content: Record<Lang, SiteContent> = {
               p: 'No necesitas decidir si necesitas un chatbot, un agente conversacional o una arquitectura concreta. Explícanos quién hablaría con el sistema, qué solicitudes recibe actualmente vuestro equipo y qué debería ocurrir después de cada conversación. Analizaremos qué puede automatizarse, qué sistemas habría que conectar y en qué situaciones debería intervenir una persona.',
               cta: 'Desarrollar un agente conversacional con Ideasforge',
             },
+            pizarras: [
+              { tras: 'capabilities', grafico: 'guion' },
+              { tras: 'types', grafico: 'dependencias' },
+              { tras: 'control', grafico: 'respuestas' },
+            ],
           },
           consulting: {
             href: '/servicios/consultoria-de-ia',

@@ -27,7 +27,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import FaqList from './FaqList.astro';
 import ContactForm from './home/ContactForm.astro';
 import SolutionHeroArt from './SolutionHeroArt.astro';
-import { type Lang, type SolutionKey, content } from '../i18n/ui';
+import PizarraPorNombre from './pizarra/PizarraPorNombre.astro';
+import { type BloqueSolucion, type Lang, type SolutionKey, content } from '../i18n/ui';
 import { altsFor, routeMap } from '../i18n/utils';
 import { foto } from '../lib/fotos';
 
@@ -40,6 +41,9 @@ const sol = content[lang].pages.solutions;
 if (!sol) throw new Error(`No hay páginas de solución en «${lang}».`);
 const d = sol.pages[clave];
 const l = sol.labels;
+
+/* Pizarras de la casa: cada una va detrás del bloque que explica. */
+const pizarrasTras = (b: BloqueSolucion) => (d.pizarras ?? []).filter((p) => p.tras === b).map((p) => p.grafico);
 
 const dos = (i: number) => String(i + 1).padStart(2, '0');
 const otras = sol.order.filter((k) => k !== clave).map((k) => sol.pages[k]);
@@ -113,7 +117,6 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
       </div>
       <div class="flex items-baseline justify-between gap-x-8 gap-y-4 pt-6">
         <span class="kicker">{d.intro.listLabel}</span>
-        <span class="num shrink-0">{l.examples.replace('{n}', String(d.intro.list.length))}</span>
       </div>
       <ul class="mt-6 flex flex-wrap gap-2.5">
         {
@@ -126,6 +129,10 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
         }
       </ul>
     </section>
+
+    {pizarrasTras('intro').map((g) => (
+      <div class="sol-pizarra section-y"><PizarraPorNombre grafico={g} lang={lang} /></div>
+    ))}
 
     <!-- 3. Capacidades -->
     <section class="section-y">
@@ -146,6 +153,10 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
       </div>
     </section>
 
+    {pizarrasTras('capabilities').map((g) => (
+      <div class="sol-pizarra section-y"><PizarraPorNombre grafico={g} lang={lang} /></div>
+    ))}
+
     <!-- 4. Póster azul a sangre -->
     <section class="sol-sangre sol-poster">
       <div class="sol-sangre-dentro grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] items-center gap-[clamp(32px,5vw,96px)]">
@@ -163,6 +174,10 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
         </div>
       </div>
     </section>
+
+    {pizarrasTras('poster').map((g) => (
+      <div class="sol-pizarra section-y"><PizarraPorNombre grafico={g} lang={lang} /></div>
+    ))}
 
     <!-- 5. Tipos -->
     <section class="section-y">
@@ -182,6 +197,10 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
         }
       </div>
     </section>
+
+    {pizarrasTras('types').map((g) => (
+      <div class="sol-pizarra section-y"><PizarraPorNombre grafico={g} lang={lang} /></div>
+    ))}
 
     <!-- 6. Casos -->
     <section id="casos" class="section-y">
@@ -220,6 +239,10 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
       </div>
     </section>
 
+    {pizarrasTras('cases').map((g) => (
+      <div class="sol-pizarra section-y"><PizarraPorNombre grafico={g} lang={lang} /></div>
+    ))}
+
     <!-- 7. Método -->
     <section class="section-y">
       <div class="section-head" data-reveal>
@@ -241,6 +264,10 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
         }
       </div>
     </section>
+
+    {pizarrasTras('method').map((g) => (
+      <div class="sol-pizarra section-y"><PizarraPorNombre grafico={g} lang={lang} /></div>
+    ))}
 
     <!-- 8. Control: campo en tinta a sangre -->
     <section class="sol-sangre sol-control">
@@ -270,6 +297,10 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
         </ol>
       </div>
     </section>
+
+    {pizarrasTras('control').map((g) => (
+      <div class="sol-pizarra section-y"><PizarraPorNombre grafico={g} lang={lang} /></div>
+    ))}
 
     <!-- 9. Cuándo merece la pena -->
     <section class="section-y">
@@ -313,6 +344,10 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
       </div>
     </section>
 
+    {pizarrasTras('when').map((g) => (
+      <div class="sol-pizarra section-y"><PizarraPorNombre grafico={g} lang={lang} /></div>
+    ))}
+
     <!-- 10. FAQ -->
     <section class="mt-(--section-y) border-t-2 border-fg pt-[clamp(48px,6vw,80px)]">
       <div class="grid items-start gap-x-[clamp(32px,5vw,96px)] gap-y-8 lg:grid-cols-3">
@@ -352,6 +387,10 @@ const columnasMetodo = `repeat(auto-fit, minmax(min(100%, calc(${100 / n}% - ${M
 </BaseLayout>
 
 <style>
+  /* Pizarra intercalada: el ancho de lectura de las guías, no el de la retícula. */
+  .sol-pizarra {
+    max-width: 52rem;
+  }
   /*
     Titulares de sección. Van un escalón claro por debajo del h1 (34 a 56 px):
     con los tamaños del prototipo (32 a 56) se confundían con él. El del póster
