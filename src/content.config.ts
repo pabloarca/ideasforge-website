@@ -34,6 +34,17 @@ const blog = defineCollection({
     draft: z.boolean().default(false),
     // Path inside /public, used as the card thumbnail on the blog index/preview.
     heroImage: z.string().optional(),
+    /*
+      Preguntas frecuentes de la entrada (5 oct 2026). Se pintan al final con
+      la misma pieza que las guías y los servicios (`FaqList`), que además
+      publica el FAQPage. Van en el frontmatter y no en el markdown porque esa
+      pieza recibe pares pregunta-respuesta: escritas como titulares del
+      cuerpo saldrían como una sección más, sin acordeón y sin schema.
+      Texto plano, como en ui.ts: ni negritas ni enlaces.
+    */
+    faq: z
+      .array(z.object({ q: z.string(), a: z.union([z.string(), z.array(z.string())]) }))
+      .optional(),
   }),
 });
 
