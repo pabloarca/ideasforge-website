@@ -8,9 +8,9 @@
   bajaba; en páginas de 2.000 palabras eso obliga a volver arriba para saber
   qué queda. Este acompaña toda la lectura y además dice dónde estás.
 
-  Identidad, no plantilla: sin redondeos, numeración en monoespaciada, y el
-  marcador de cada entrada es el cuadrado de 3px de LatticeDots, que se pinta
-  en acento cuando su sección está en pantalla. Las partes hacen de rótulos.
+  Identidad, no plantilla: sin redondeos, y el marcador de cada entrada es un
+  cuadrado pequeño que se pinta en acento cuando su sección está en pantalla.
+  Las partes hacen de rótulos, con el mismo `kicker` del resto del sitio.
 
   El seguimiento del scroll es un IntersectionObserver sobre las secciones
   reales. Si el script no llega a ejecutarse, los enlaces siguen funcionando:
@@ -34,7 +34,7 @@ const { items, heading, class: extraClass = '' } = Astro.props;
 <nav class:list={['page-nav', extraClass]} aria-label={heading}>
   {
     heading && (
-      <p class="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-faint">{heading}</p>
+      <p class="mb-4 text-[13px] text-muted">{heading}</p>
     )
   }
   <ul>
@@ -42,7 +42,7 @@ const { items, heading, class: extraClass = '' } = Astro.props;
       items.map((item) => (
         <li>
           {item.part && (
-            <p class="mt-6 border-t border-border pb-1 pt-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-accent first:mt-0 first:border-t-0 first:pt-0">
+            <p class="kicker pb-1 pt-5">
               {`${String((item.partIndex ?? 0) + 1).padStart(2, '0')} · ${item.part}`}
             </p>
           )}
@@ -64,7 +64,7 @@ const { items, heading, class: extraClass = '' } = Astro.props;
   }
   .pn-link {
     display: grid;
-    grid-template-columns: 3px 1fr;
+    grid-template-columns: 4px 1fr;
     align-items: start;
     gap: 0.75rem;
     padding: 0.4rem 0;
@@ -74,12 +74,11 @@ const { items, heading, class: extraClass = '' } = Astro.props;
     transition: color 200ms ease;
   }
   .pn-dot {
-    /* El mismo cuadrado de 3px que siembra LatticeDots por el sitio. Aquí
-       hace de viñeta y de indicador: apagado en el borde, encendido en
-       acento cuando su sección esta en pantalla. */
+    /* Hace de viñeta y de indicador: apagado en el gris de las reglas,
+       encendido en acento cuando su sección está en pantalla. */
     margin-top: 0.5rem;
-    width: 3px;
-    height: 3px;
+    width: 4px;
+    height: 4px;
     background: var(--color-border);
     transition:
       background-color 200ms ease,
@@ -93,11 +92,11 @@ const { items, heading, class: extraClass = '' } = Astro.props;
   }
   .pn-link.is-active {
     color: var(--color-fg);
-    font-weight: 600;
+    font-weight: 500;
   }
   .pn-link.is-active .pn-dot {
     background: var(--color-accent);
-    transform: scale(1.9);
+    transform: scale(1.5);
   }
   @media (prefers-reduced-motion: reduce) {
     .pn-link,

@@ -1,5 +1,6 @@
 ---
 title: 'La firma del síntoma vale más que el arreglo'
+heroImage: '/blog/blog-firma-sintoma.jpg'
 description: 'Documentar cómo se reconoce un fallo desde fuera rinde más que documentar cómo se arregló. Tres firmas reales de un asistente de IA en producción.'
 lang: 'es'
 pubDate: 2026-07-21
@@ -42,4 +43,4 @@ Por eso, cuando entregamos un sistema, el catálogo de incidencias que acompaña
 
 Empieza tu catálogo hoy, con una sola entrada. La próxima vez que el sistema haga algo raro, escribe primero cómo lo reconociste, antes de saber la causa y antes de arreglarlo. Esa página se reutiliza. El arreglo, no.
 
-Si quieres entender qué más hace falta para que un asistente aguante producción, sigue por la [guía de agentes de IA](/agentes-de-ia) o mira cómo trabajamos el [desarrollo de agentes a medida](/servicios/desarrollo-de-agentes-de-ia).
+Si quieres entender qué más hace falta para que un asistente aguante producción, sigue por la [guía de agentes de IA](/guias/que-es-un-agente-de-ia) o mira cómo trabajamos el [desarrollo de agentes a medida](/servicios/desarrollo-de-agentes-de-ia).

@@ -7,7 +7,7 @@ pubDate: 2026-07-28
 updatedDate: 2026-08-31
 translationId: 'keeping-ai-alive'
 tags: ['Maintenance', 'Observability', 'Business']
-heroImage: '/blog/keeping-ai-alive.jpg'
+heroImage: '/blog/blog-mantener-viva.jpg'
 ---
 
 Starting flashy AI projects is easy. The demo goes well, the video circulates, everyone applauds. What is nearly impossible is keeping that project alive for six months. Profitable AI projects are easy to start and cheap to sustain, because the cost of maintaining them was paid before the first line of code. That asymmetry, what it costs to launch against what it costs to stay alive, is the filter we use to decide what to build.
@@ -50,4 +50,4 @@ The difference between the flashy project and the profitable one is not talent o
 
 If you are evaluating an AI project, the question that will tell you the most is not about the model or the demo. *What happens on day 180?* Who watches the alarms, who runs the tests, who finds out if the system degrades in silence? A flashy project cannot answer that. A profitable one answers with names.
 
-Our answer is what we call observability by default, and it sits at the center of how we do [AI agent development](/en/services/ai-agent-development). If you would rather start with the general map, it is in the [AI agents guide](/en/ai-agents). Maintenance has a price too, and what moves that monthly fee is broken down in the [cost guide](/en/ai-agent-development-cost).
+Our answer is what we call observability by default, and it sits at the center of how we do [AI agent development](/en/services/ai-agent-development). If you would rather start with the general map, it is in the [AI agents guide](/en/guides/ai-agents). Maintenance has a price too, and what moves that monthly fee is broken down in the [cost guide](/en/guides/ai-agent-development-cost).

@@ -1,0 +1,113 @@
+---
+/*
+  Portada de las preguntas frecuentes (8 oct 2026). Ocupa el sitio del «Centro
+  de ayuda» del menú «Recursos», que nunca llegó a existir: no responde nada
+  por sí misma, reparte hacia los bloques, y cada bloque tiene su página
+  (`FaqBlockPage.astro`).
+
+  Es la misma retícula de los índices de guías y sectores. Cada celda lleva el
+  número de orden del bloque, su nombre, sus tres primeras preguntas como
+  muestra de lo que hay dentro y cuántas tiene en total.
+
+  Se declara como `CollectionPage` con un `ItemList`, igual que esos índices.
+  El `FAQPage` estructurado va en las páginas de bloque, que es donde están
+  las respuestas.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from './home/ContactForm.astro';
+import { type Lang, content } from '../i18n/ui';
+import { altsFor, routeMap } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].pages.faqs;
+if (!t) throw new Error(`No hay preguntas frecuentes en «${lang}».`);
+
+const base = routeMap.faqs[lang];
+const dos = (i: number) => String(i + 1).padStart(2, '0');
+const bloques = t.blocks.map((b) => ({ ...b, href: `${base}/${b.slug}` }));
+
+const site = Astro.site ?? new URL('https://ideasforge.io');
+const lista = {
+  '@type': 'ItemList',
+  numberOfItems: bloques.length,
+  itemListElement: bloques.map((b, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: b.title,
+    url: new URL(b.href, site).href,
+  })),
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={t.metaTitle}
+  description={t.lead}
+  alternates={altsFor('faqs')}
+  pageType="CollectionPage"
+  mainEntity={lista}
+>
+  <div class="wrap">
+    <section class="pt-[clamp(56px,7vw,96px)]">
+      <h1 class="t-display faq-in max-w-[20ch]" style="--d:.08s">{t.title}</h1>
+      <p class="faq-in mt-6 max-w-[62ch] text-[17px] leading-[1.55] text-muted" style="--d:.16s">{t.lead}</p>
+    </section>
+
+    <section class="pt-[clamp(48px,6vw,80px)]">
+      {/* Una, dos o cuatro columnas, y no `auto-fit`: los bloques son veinte, y
+          con tres columnas quedaría una celda vacía al final. */}
+      <div class="ruled-grid sm:grid-cols-2 lg:grid-cols-4">
+        {
+          bloques.map((b, i) => (
+            <a href={b.href} class="faq-celda">
+              <span class="faq-suave mb-6 block text-[13px] [font-feature-settings:'tnum'_1]">{dos(i)}</span>
+              <h2 class="text-[clamp(20px,2vw,26px)] leading-[1.15] tracking-[-0.02em]">{b.title}</h2>
+              <ul class="faq-suave mt-5 space-y-2 text-[14px] leading-[1.45]">
+                {b.items.slice(0, 3).map((f) => (
+                  <li>{f.q}</li>
+                ))}
+              </ul>
+              <span class="mt-auto flex items-center justify-between pt-8 text-[13px]">
+                <span class="border-b-2 border-current pb-0.5">{t.count.replace('{n}', String(b.items.length))}</span>
+                <span class="text-lg leading-none" aria-hidden="true">→</span>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+
+  <ContactForm lang={lang} />
+</BaseLayout>
+
+<style>
+  .faq-in {
+    animation: if-up 0.8s var(--d, 0s) var(--ease-out) both;
+  }
+  .faq-celda {
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+    padding: 24px;
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
+  /* El texto secundario va en gris en reposo y hereda el color de la celda al
+     posarse, para que se lea sobre el azul. */
+  .faq-suave {
+    color: var(--color-muted);
+    transition: color 0.3s;
+  }
+  .faq-celda:hover {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+  .faq-celda:hover .faq-suave {
+    color: inherit;
+  }
+</style>

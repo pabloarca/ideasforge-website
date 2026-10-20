@@ -1,5 +1,6 @@
 ---
 title: 'You do not build AI. The Act applies to you anyway.'
+heroImage: '/blog/blog-reglamento.jpg'
 metaTitle: 'The EU AI Act if you only use AI, not build it'
 description: 'The EU AI Act does not hand duties only to the people who make models. Two already apply to you today. The postponement everybody is talking about leaves them alone.'
 lang: 'en'
@@ -64,4 +65,4 @@ If the answer is the second, it does not exist. A file assembled after the quest
 
 It is the same question, incidentally, that separates a system you can maintain from one you can only hope keeps working. The Act is not asking you for anything strange. It is asking you, with the force of law, for what you should already want on your own.
 
-The full detail, with the eight domains one by one, Article 26 duty by duty and a first self-assessment you can run in an afternoon, is in [the EU AI Act guide](/en/eu-ai-act-compliance).
+The full detail, with the eight domains one by one, Article 26 duty by duty and a first self-assessment you can run in an afternoon, is in [the EU AI Act guide](/en/guides/eu-ai-act-compliance).

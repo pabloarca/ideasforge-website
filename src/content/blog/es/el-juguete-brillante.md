@@ -7,7 +7,7 @@ pubDate: 2026-08-23
 updatedDate: 2026-08-31
 translationId: 'shiny-toy'
 tags: ['Negocio', 'Método']
-heroImage: '/blog/shiny-object-syndrome.jpg'
+heroImage: '/blog/blog-juguete.jpg'
 ---
 
 La escena se repite en cualquier empresa este año. Alguien enseña una demo con IA, la sala se enciende, las ideas salen a tres por minuto y alguien con presupuesto pronuncia la frase, *«tenemos que hacer algo con esto»*. Seis meses después, la herramienta que salió de aquella reunión acumula polvo digital. Nadie la abre y nadie la echa de menos. Nadie recuerda muy bien qué arreglaba.
@@ -36,7 +36,7 @@ Lo que hacemos antes de proponer nada es mapear qué duele, con quien lo sufre d
 
 <div data-pizarra="ardeHumea"></div>
 
-Dos de nuestros proyectos de automatización empezaron exactamente así. En [Barceloneta Premium](/casos/barceloneta), una agencia inmobiliaria de Barcelona, el dolor eran decenas de consultas diarias con entre cinco y diez minutos de comprobación cada una, un incendio con número. En [Stanton](/casos/stanton), una gestora de fincas, el papeleo de suministros que alguien metía a mano factura a factura. Ninguno de los dos empezó con una demo. Los dos empezaron con alguien harto y una cifra delante.
+Dos de nuestros proyectos de automatización empezaron exactamente así. En [Barceloneta Premium](/proyectos/barceloneta), una agencia inmobiliaria de Barcelona, el dolor eran decenas de consultas diarias con entre cinco y diez minutos de comprobación cada una, un incendio con número. En [Stanton](/proyectos/stanton), una gestora de fincas, el papeleo de suministros que alguien metía a mano factura a factura. Ninguno de los dos empezó con una demo. Los dos empezaron con alguien harto y una cifra delante.
 
 ## El coste que no sale en la factura
 
@@ -44,4 +44,4 @@ Un juguete no solo quema su presupuesto. Quema la credibilidad del siguiente pro
 
 El test se aplica en la próxima demo que te enseñen. Deja que termine, aplaude si hace falta y haz una sola pregunta. *¿Qué nos duele que esto arregla?* Si la sala tarda en contestar, ya tienes el diagnóstico. El brillo es de quien vende. El dolor tiene que ser tuyo.
 
-Si ya tienes el mapa de dolores y un candidato con su cuenta, así lo trabajamos en [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia). Y si estás construyendo el criterio todavía, la [guía de agentes de IA](/agentes-de-ia) recorre los casos que compensan y los que no.
+Si ya tienes el mapa de dolores y un candidato con su cuenta, así lo trabajamos en [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia). Y si estás construyendo el criterio todavía, la [guía de agentes de IA](/guias/que-es-un-agente-de-ia) recorre los casos que compensan y los que no.

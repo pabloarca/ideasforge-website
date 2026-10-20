@@ -7,7 +7,7 @@ pubDate: 2025-07-03
 updatedDate: 2026-08-31
 translationId: 'invoice-ocr'
 tags: ['Automation', 'OCR', 'Back office']
-heroImage: '/blog/ocr-ia.jpg'
+heroImage: '/blog/blog-facturas.jpg'
 ---
 
 Invoice digitization with AI means a scanned document comes out the other end as a clean row of data, with nobody typing amounts or dates. The technology for reading paper has existed for decades. What changed is what comes after, because **the bottleneck was never reading the invoice. It was being able to trust what was read.**
@@ -60,4 +60,4 @@ Three questions separate a pretty demo from a system that holds. What happens wh
 
 The yardstick is still the one from the opening. *Can you trust what was read without looking at the paper?* The day the answer is yes, that process is off your desk.
 
-If your paperwork looks like this, see how we approach it in [AI workflow automation](/en/services/ai-workflow-automation) or go straight to the [accounting firms](/en/accounting-firms) vertical. And if you want to know why we always start by ordering the data, that story is in [data before prompts](/en/blog/data-before-prompts).
+If your paperwork looks like this, see how we approach it in [AI workflow automation](/en/services/ai-workflow-automation) or go straight to the [accounting firms](/en/industries/accounting-firms) vertical. And if you want to know why we always start by ordering the data, that story is in [data before prompts](/en/blog/data-before-prompts).

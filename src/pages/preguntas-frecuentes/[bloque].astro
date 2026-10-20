@@ -1,0 +1,11 @@
+---
+import FaqBlockPage from '../../components/FaqBlockPage.astro';
+import { content } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return (content.es.pages.faqs?.blocks ?? []).map((b) => ({ params: { bloque: b.slug } }));
+}
+const { bloque } = Astro.params;
+---
+
+<FaqBlockPage lang="es" slug={bloque} />

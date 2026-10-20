@@ -1,0 +1,158 @@
+---
+/*
+  «¿Por qué Ideasforge?»: tres compromisos y una ventana con el desarrollo de
+  cada uno. Volvió a la portada el 15 oct 2026, porque el propietario no
+  autorizó quitarlo al rediseñar (revisión de la versión de Dani, 8 oct 2026).
+
+  El TEXTO está congelado salvo orden expresa del propietario y se pinta tal
+  cual sale de `content[lang].whyUs`. Lo que cambia es la presentación, que
+  sigue el diseño de octubre: retícula con reglas de 2 px, cuadrado de acento
+  y ventana nativa <dialog>, sin radios ni sombras. Los dos diagramas que
+  llevaban las ventanas en la versión anterior no se trajeron: dependían de
+  componentes del diseño viejo.
+
+  Los cuerpos admiten HTML en línea (<u>, <a class="link-inline">), por eso
+  van con `set:html`. Es texto nuestro de `ui.ts`, nunca del usuario.
+*/
+import { type Lang, content } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].whyUs;
+const rotulos =
+  lang === 'es'
+    ? { abrir: 'Leer el compromiso', cerrar: 'Cerrar' }
+    : { abrir: 'Read the commitment', cerrar: 'Close' };
+const dos = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+<section id="compromisos" class="wrap section-y">
+  <div class="section-head" data-reveal>
+    <div>
+      <span class="kicker mb-5">{t.eyebrow}</span>
+      <h2 class="t-h2">{t.title}</h2>
+    </div>
+    <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{t.subtitle}</p>
+  </div>
+
+  <ul class="ruled-grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))]">
+    {
+      t.items.map((item, i) => (
+        <li class="flex flex-col px-6 pb-8 pt-7">
+          <span class="num mb-7 block">{dos(i)}</span>
+          <h3 class="mb-3 text-[clamp(20px,2vw,26px)] leading-[1.15] tracking-[-0.02em]">{item.title}</h3>
+          <p class="text-[15px] leading-[1.6] text-muted">{item.body}</p>
+          <button type="button" class="link-arrow mt-auto self-start pt-7 text-left" data-compromiso={`compromiso-${i}`}>
+            {rotulos.abrir} →
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+
+  {
+    t.items.map((item, i) => {
+      const m = item.modal;
+      const parrafos = m.paragraphs.map((p) => (typeof p === 'string' ? { heading: '', body: p } : p));
+      return (
+        <dialog id={`compromiso-${i}`} class="compromiso" aria-labelledby={`compromiso-${i}-titulo`}>
+          <div class="compromiso-dentro">
+            <form method="dialog" class="flex justify-end">
+              <button class="link-arrow">{rotulos.cerrar} ×</button>
+            </form>
+            <span class="kicker mb-5">{m.eyebrow}</span>
+            <h2 id={`compromiso-${i}-titulo`} class="t-h2 max-w-[22ch]">{m.title}</h2>
+            <p class="mt-5 max-w-[62ch] text-[17px] leading-[1.55] text-muted">{m.subtitle}</p>
+
+            <ul class="mt-10 grid gap-x-8 border-t-2 border-border sm:grid-cols-2">
+              {m.bullets.map((b) => (
+                <li class="flex gap-3 border-b-2 border-border py-4">
+                  <span class="sq mt-[7px] shrink-0" aria-hidden="true" />
+                  <span>
+                    <strong class="font-medium">{b.title}.</strong>{' '}
+                    <span class="text-muted">{b.body}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            <p class="mt-12 max-w-[40ch] text-[clamp(22px,2.4vw,30px)] leading-[1.2] tracking-[-0.02em]">{m.openingLine}</p>
+
+            <div class="mt-8 max-w-[64ch] space-y-6 text-base leading-[1.65]">
+              {parrafos.map((p, k) => (
+                <>
+                  <div>
+                    {p.heading && <h3 class="mb-2 text-lg font-medium leading-tight">{p.heading}</h3>}
+                    <p set:html={p.body} />
+                  </div>
+                  {k === 1 && m.stats && (
+                    <dl class="grid gap-x-8 border-t-2 border-border sm:grid-cols-[repeat(auto-fit,minmax(180px,1fr))]">
+                      {m.stats.map((s) => (
+                        <div class="border-b-2 border-border py-4">
+                          <dt class="text-[clamp(24px,2.6vw,34px)] leading-none tracking-[-0.02em]">{s.value}</dt>
+                          <dd class="mt-2 text-[14px] leading-[1.45] text-muted">{s.label}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+                </>
+              ))}
+            </div>
+
+            {m.closingLine && (
+              <p class="mt-10 max-w-[40ch] text-[clamp(20px,2vw,26px)] leading-[1.25] tracking-[-0.015em]">{m.closingLine}</p>
+            )}
+
+            <div class="mt-12 border-t-2 border-fg pt-6">
+              <h3 class="kicker mb-3">{m.notPromised.heading}</h3>
+              <p class="max-w-[64ch] text-base leading-[1.65]" set:html={m.notPromised.body} />
+            </div>
+
+            <a href={m.cta.href} class="link-arrow mt-10 inline-block" data-cerrar-compromiso>
+              {m.cta.label} →
+            </a>
+          </div>
+        </dialog>
+      );
+    })
+  }
+</section>
+
+<script>
+  /* Abre la ventana de cada compromiso y la cierra al pulsar fuera o al
+     seguir su llamada a la acción, que lleva al formulario de esta misma
+     portada. */
+  for (const boton of document.querySelectorAll<HTMLButtonElement>('[data-compromiso]')) {
+    const ventana = document.getElementById(boton.dataset.compromiso!) as HTMLDialogElement | null;
+    if (!ventana) continue;
+    boton.addEventListener('click', () => ventana.showModal());
+    ventana.addEventListener('click', (e) => {
+      if (e.target === ventana) ventana.close();
+    });
+    for (const enlace of ventana.querySelectorAll('[data-cerrar-compromiso]')) {
+      enlace.addEventListener('click', () => ventana.close());
+    }
+  }
+</script>
+
+<style>
+  .compromiso {
+    width: min(920px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    margin: auto;
+    padding: 0;
+    border: 2px solid var(--color-fg);
+    background: var(--color-bg);
+    color: var(--color-fg);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .compromiso::backdrop {
+    background: rgb(32 30 29 / 0.55);
+  }
+  .compromiso-dentro {
+    padding: clamp(20px, 4vw, 48px);
+  }
+</style>

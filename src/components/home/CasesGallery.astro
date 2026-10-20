@@ -1,0 +1,24 @@
+---
+/*
+  Casos de la portada: la cabecera de sección y la galería compartida
+  (`GaleriaCasos.astro`), que desde el 15 oct 2026 usan también las páginas
+  de solución. El comportamiento de la galería está descrito allí.
+*/
+import GaleriaCasos from '../GaleriaCasos.astro';
+import { type Lang, content } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.cases;
+---
+
+<section id="casos" class="wrap section-y">
+  <div class="section-head" data-reveal>
+    <h2 class="t-h2">{t.title}</h2>
+    <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{t.lead}</p>
+  </div>
+
+  <GaleriaCasos items={t.items} viewCase={t.viewCase} prev={t.prev} next={t.next} primeraSinEspera />
+</section>

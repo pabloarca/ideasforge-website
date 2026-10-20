@@ -7,7 +7,7 @@ pubDate: 2026-08-23
 updatedDate: 2026-08-31
 translationId: 'shiny-toy'
 tags: ['Business', 'Method']
-heroImage: '/blog/shiny-object-syndrome.jpg'
+heroImage: '/blog/blog-juguete.jpg'
 ---
 
 The scene repeats in every company this year. Someone shows an AI demo, the room lights up, ideas fly three a minute and somebody with a budget says the line, *"we have to do something with this"*. Six months later, the tool that came out of that meeting gathers digital dust. Nobody opens it and nobody misses it. Nobody quite remembers what it was supposed to fix.
@@ -44,4 +44,4 @@ A toy does not just burn its own budget. It burns the credibility of the next pr
 
 The test fits in the next demo you get shown. Let it finish, applaud if you must and ask one question. *What pain of ours does this fix?* If the room takes too long to answer, you have your diagnosis. The shine belongs to the vendor. The pain has to be yours.
 
-If you already have the map of pains and a candidate with its math, this is how we work in [AI workflow automation](/en/services/ai-workflow-automation). And if you are still building the judgment, the [AI agents guide](/en/ai-agents) walks through the cases that pay off and the ones that do not.
+If you already have the map of pains and a candidate with its math, this is how we work in [AI workflow automation](/en/services/ai-workflow-automation). And if you are still building the judgment, the [AI agents guide](/en/guides/ai-agents) walks through the cases that pay off and the ones that do not.

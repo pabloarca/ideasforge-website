@@ -17,7 +17,7 @@ import type { Lang } from '../i18n/ui';
  */
 /**
  * El tope es 8 porque ese es hoy el tamaño del grupo más grande, el de
- * `/agentes-de-ia`. Con 4 se quedaban fuera las dos entradas de 2025 que
+ * `/guias/que-es-un-agente-de-ia`. Con 4 se quedaban fuera las dos entradas de 2025 que
  * enlazan a un solo pilar: al ordenar por fecha eran siempre las últimas y
  * ningún otro pilar las recogía, así que quedaban sin enlace entrante desde
  * ningún grupo. Si algún grupo pasa de ocho, el corte vuelve a actuar y caen
@@ -31,7 +31,7 @@ export async function postsForPillar(lang: Lang, pillar: string, limit = 8) {
   );
 
   // El enlace se busca en markdown, `](/ruta)`, que es como se escriben en el
-  // cuerpo. El `$` del final evita que `/gestorias` case con `/gestorias-algo`.
+  // cuerpo. El `$` del final evita que `/sectores/gestorias-y-asesorias` case con `/gestorias-algo`.
   const escapada = pillar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const enlace = new RegExp(`\\]\\(${escapada}\\)`);
 
@@ -41,8 +41,14 @@ export async function postsForPillar(lang: Lang, pillar: string, limit = 8) {
     .slice(0, limit);
 }
 
-/** Ruta del pilar a partir de la URL de la página, sin barra final. */
+/**
+ * Ruta del pilar a partir de la URL de la página, sin barra final y sin
+ * `.html`. Con `build.format: 'file'` la ruta que llega al compilar acaba en
+ * `.html` (`/guias/ia-y-rgpd.html`), no casaba con ningún enlace de los posts
+ * y el bloque no salía en ninguna página publicada, aunque en `astro dev` sí
+ * (arreglado el 19 oct 2026).
+ */
 export function pillarFromUrl(pathname: string): string {
-  const limpio = pathname.replace(/\/+$/, '');
+  const limpio = pathname.replace(/\.html$/, '').replace(/\/index$/, '').replace(/\/+$/, '');
   return limpio === '' ? '/' : limpio;
 }

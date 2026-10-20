@@ -1,0 +1,827 @@
+---
+/*
+  El dibujo animado del héroe de cada página de sector. Son las siete
+  composiciones del paquete de diseño del 8 oct 2026
+  (`.private/paginas-sectores-2/`), hermanas de las de las soluciones
+  (`SolutionHeroArt.astro`) y en su mismo lenguaje: gris para lo que está en
+  bruto, tinta para lo ordenado y el acento para la IA actuando.
+
+    sectorIndustry   una retícula de sistemas se enciende y un nodo traza
+                     enlaces entre ellos;
+    sectorEnergy     ocho barras oscilan hasta que una regla las barre y las
+                     fija, y las que pasan del umbral quedan en azul;
+    sectorEcommerce  entran pedidos, cada uno recibe su estado y la
+                     incidencia se aparta a una bandeja;
+    sectorLogistics  un envío recorre una ruta de cinco paradas y cada una
+                     queda registrada a su paso;
+    realEstate       unas solicitudes caen sobre una fachada y ocupan su
+                     unidad, y tres caen fuera;
+    sectorHealth     una agenda se va llenando y una solicitud busca hueco
+                     hasta encajar en el libre;
+    accounting       una pila de documentos se reparte en tres bandejas, y
+                     cada bandeja se sella.
+
+  Igual que las de las soluciones, se calculan al compilar y salen como
+  `<span>` con su estilo en línea, sin JavaScript en la página. Dos de ellas
+  necesitan fotogramas propios por pieza (cada barra oscila a su altura y cada
+  tramo de la ruta se dibuja a su hora), que se generan aquí y van en una
+  hoja de estilo aparte, al final.
+*/
+import { type SectorKey } from '../i18n/ui';
+
+interface Props {
+  clave: SectorKey;
+}
+const { clave } = Astro.props;
+
+type Estilo = Record<string, string | number>;
+type Pieza = { cls?: string; style: string; hijos?: Pieza[] };
+
+const S = 400;
+const EASE = 'var(--ease-in-out)';
+const GRIS = 'var(--color-neutral-400)';
+const TINTA = 'var(--color-fg)';
+const AZUL = 'var(--color-accent)';
+const REGLA = 'var(--color-border)';
+const FONDO = 'var(--color-bg)';
+
+const pc = (v: number) => `${((v / S) * 100).toFixed(3)}%`;
+/* Porcentaje de una medida respecto a otra: las traslaciones van en tanto
+   por ciento de la propia pieza, para que el dibujo encoja con su caja. */
+const pct = (v: number, ref: number) => `${((v / ref) * 100).toFixed(1)}%`;
+const css = (o: Estilo) =>
+  Object.entries(o)
+    .map(([k, v]) => `${k}:${v}`)
+    .join(';');
+/* Azar estable: el mismo dibujo en cada compilación. */
+const azar = (i: number, n: number) => {
+  const x = Math.sin(i * 12.9898 + n * 78.233) * 43758.5453;
+  return x - Math.floor(x);
+};
+const caja = (x: number, y: number, w: number, h: number, extra: Estilo = {}, cls?: string): Pieza => ({
+  cls,
+  style: css({ position: 'absolute', left: pc(x), top: pc(y), width: pc(w), height: pc(h), ...extra }),
+});
+
+/* Fotogramas que dependen de cada pieza. */
+const fotogramas: string[] = [];
+
+/* Industria: una capa sobre los sistemas que ya existen. */
+function industria(): Pieza[] {
+  const G = 4;
+  const C = 56;
+  const GAP = 32;
+  const T = 9;
+  const x0 = (S - (G * C + (G - 1) * GAP)) / 2;
+  const piezas: Pieza[] = [];
+  for (let f = 0; f < G; f++) {
+    for (let c = 0; c < G; c++) {
+      const x = x0 + c * (C + GAP);
+      const y = x0 + f * (C + GAP);
+      const nodo = f === 1 && c === 2;
+      const retraso = `${((f * G + c) * 0.05).toFixed(2)}s`;
+      piezas.push(
+        caja(
+          x,
+          y,
+          C,
+          C,
+          nodo
+            ? { background: TINTA, animation: `if-hub ${T}s ${retraso} ${EASE} infinite` }
+            : { background: GRIS, opacity: 0.25, animation: `if-cell ${T}s ${retraso} ${EASE} infinite` }
+        )
+      );
+      if (c < G - 1) {
+        piezas.push(
+          caja(x + C, y + C / 2 - 1, GAP, 0, {
+            height: '2px',
+            background: AZUL,
+            'transform-origin': '0 50%',
+            transform: 'scaleX(0)',
+            animation: `if-link ${T}s ${(f * 0.3 + c * 0.12).toFixed(2)}s ${EASE} infinite`,
+          })
+        );
+      }
+    }
+  }
+  return piezas;
+}
+
+/* Energía: de la oscilación sin control a cada barra fijada en su nivel. */
+function energia(): Pieza[] {
+  const N = 8;
+  const W = 26;
+  const G = 18;
+  const T = 10;
+  const x0 = (S - (N * W + (N - 1) * G)) / 2;
+  const base = 300;
+  const H = 220;
+  const umbral = 0.68;
+  const ancho = N * W + (N - 1) * G + 48;
+  const piezas: Pieza[] = [];
+  for (let i = 0; i < N; i++) {
+    const a = 0.3 + azar(i, 1) * 0.6;
+    const b = Math.min(1, a + 0.15 + azar(i, 2) * 0.2);
+    /* Punto del ciclo en que la regla alcanza esta barra. Hasta ahí da tres
+       vaivenes entre sus dos alturas, y desde ahí se queda en la suya. */
+    const toque = 28 + (i / (N - 1)) * 32;
+    const nombre = `if-en-b${i}`;
+    const en = (f: number, v: number) => `${(toque * f).toFixed(1)}%{transform:scaleY(${v.toFixed(2)})}`;
+    fotogramas.push(
+      `@keyframes ${nombre}{0%{transform:scaleY(${a.toFixed(2)})}${en(1 / 6, b)}${en(1 / 3, a)}${en(1 / 2, b)}${en(2 / 3, a)}${en(5 / 6, b)}${toque.toFixed(1)}%,100%{transform:scaleY(${a.toFixed(2)})}}`
+    );
+    piezas.push({
+      style: css({
+        position: 'absolute',
+        left: pc(x0 + i * (W + G)),
+        top: pc(base - H),
+        width: pc(W),
+        height: pc(H),
+        'transform-origin': '50% 100%',
+        animation: `${nombre} ${T}s ease-in-out infinite`,
+      }),
+      hijos: [
+        {
+          style: css({
+            position: 'absolute',
+            inset: 0,
+            background: GRIS,
+            '--hc': a > umbral ? AZUL : TINTA,
+            animation: `if-en-fix ${T}s ${((toque / 100) * T).toFixed(2)}s linear infinite`,
+          }),
+        },
+      ],
+    });
+  }
+  piezas.push(caja(x0 - 24, base, ancho, 0, { height: '2px', background: TINTA }));
+  piezas.push(caja(x0 - 24, base - H * umbral, ancho, 0, { height: '2px', background: REGLA }));
+  piezas.push(
+    caja(x0 - 24, base - H - 18, ancho, 0, {
+      height: '2px',
+      background: AZUL,
+      'transform-origin': '0 50%',
+      transform: 'scaleX(0)',
+      opacity: 0,
+      animation: `if-en-sweep ${T}s linear infinite`,
+    })
+  );
+  return piezas;
+}
+
+/* Ecommerce: pedidos con su estado, y la incidencia apartada. */
+function ecommerce(): Pieza[] {
+  const N = 6;
+  const H = 26;
+  const G = 20;
+  const x0 = 56;
+  const W = 210;
+  const lado = 26;
+  const T = 10;
+  const alto = N * H + (N - 1) * G;
+  const y0 = (S - alto) / 2;
+  const incidencia = 3;
+  const xEstado = x0 + W + 16;
+  const piezas: Pieza[] = [];
+  for (let i = 0; i < N; i++) {
+    const y = y0 + i * (H + G);
+    const d = `${(i * 0.5).toFixed(2)}s`;
+    const w = W * (0.55 + azar(i, 1) * 0.45);
+    const entra = `if-ec-in ${T}s ${d} ${EASE} infinite`;
+    const mala = i === incidencia;
+    piezas.push(
+      caja(
+        x0,
+        y,
+        w,
+        H,
+        {
+          background: TINTA,
+          opacity: 0,
+          ...(mala ? { '--ox': pct(xEstado + lado + 20 - x0, w) } : {}),
+          animation: mala ? `${entra}, if-ec-out ${T}s ${d} ${EASE} infinite` : entra,
+        },
+        'ha-visible'
+      )
+    );
+    piezas.push(
+      caja(
+        xEstado,
+        y,
+        lado,
+        H,
+        { background: REGLA, opacity: 0, '--hc': mala ? AZUL : TINTA, animation: `${entra}, if-ec-st ${T}s ${d} linear infinite` },
+        'ha-visible'
+      )
+    );
+  }
+  piezas.push(caja(xEstado - 10, y0 - 14, 0, alto + 28, { width: '2px', background: REGLA }));
+  piezas.push(caja(xEstado + lado + 30, y0 - 14, 0, alto + 28, { width: '2px', background: AZUL, opacity: 0.35 }));
+  return piezas;
+}
+
+/* Logística: el envío y su ruta. Aquí las medidas ya vienen en porcentaje. */
+function logistica(): Pieza[] {
+  const paradas: [number, number][] = [
+    [12, 70],
+    [34, 70],
+    [34, 36],
+    [62, 36],
+    [86, 58],
+  ];
+  /* Punto del ciclo en que el envío llega a cada parada. */
+  const llegada = [6, 22, 40, 58, 78];
+  const T = 9;
+  const piezas: Pieza[] = [];
+  for (let i = 0; i < paradas.length - 1; i++) {
+    const [x1, y1] = paradas[i];
+    const [x2, y2] = paradas[i + 1];
+    const tramo: Estilo = {
+      position: 'absolute',
+      left: `${x1}%`,
+      top: `${y1}%`,
+      width: `${Math.hypot(x2 - x1, y2 - y1).toFixed(3)}%`,
+      height: '2px',
+      'margin-top': '-1px',
+      'transform-origin': '0 50%',
+      transform: `rotate(${((Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI).toFixed(3)}deg)`,
+    };
+    piezas.push({ style: css({ ...tramo, background: REGLA }) });
+    /* El tramo recorrido: se dibuja en tinta mientras el envío lo cruza. */
+    const nombre = `if-lg-s${i}`;
+    fotogramas.push(
+      `@keyframes ${nombre}{0%,${llegada[i] + 4}%{transform:scaleX(0)}${llegada[i + 1]}%,88%{transform:scaleX(1)}94%,100%{transform:scaleX(0)}}`
+    );
+    piezas.push({
+      style: css(tramo),
+      hijos: [
+        {
+          style: css({
+            position: 'absolute',
+            inset: 0,
+            background: TINTA,
+            'transform-origin': '0 50%',
+            transform: 'scaleX(0)',
+            animation: `${nombre} ${T}s linear infinite`,
+          }),
+        },
+      ],
+    });
+  }
+  paradas.forEach(([x, y], i) =>
+    piezas.push({
+      style: css({
+        position: 'absolute',
+        left: `${x}%`,
+        top: `${y}%`,
+        width: '6.5%',
+        height: '6.5%',
+        transform: 'translate(-50%,-50%)',
+        background: TINTA,
+        animation: `if-lg-stop ${T}s ${((llegada[i] / 100) * T).toFixed(2)}s linear infinite`,
+      }),
+    })
+  );
+  piezas.push({
+    cls: 'ha-oculto',
+    style: css({
+      position: 'absolute',
+      width: '4%',
+      height: '4%',
+      transform: 'translate(-50%,-50%)',
+      background: AZUL,
+      'z-index': 1,
+      /* Un cerco del color del fondo, para que el envío se despegue de la
+         línea que pisa. No es una sombra: no tiene desenfoque. */
+      'box-shadow': `0 0 0 4px ${FONDO}`,
+      animation: `if-lg-route ${T}s ${EASE} infinite`,
+    }),
+  });
+  return piezas;
+}
+
+/* Real estate: solicitudes que ocupan su unidad en una fachada vacía. */
+function realEstate(): Pieza[] {
+  const C = 4;
+  const R = 5;
+  const U = 44;
+  const G = 10;
+  const T = 10;
+  const x0 = (S - (C * U + (C - 1) * G)) / 2;
+  const suelo = 330;
+  const arriba = suelo - R * U - (R - 1) * G;
+  const piezas: Pieza[] = [];
+  for (let f = 0; f < R; f++) {
+    for (let c = 0; c < C; c++) {
+      piezas.push(caja(x0 + c * (U + G), arriba + f * (U + G), U, U, { border: `2px solid ${REGLA}`, 'box-sizing': 'border-box' }));
+    }
+  }
+  piezas.push(caja(x0 - 32, suelo + 8, C * U + (C - 1) * G + 64, 0, { height: '2px', background: TINTA }));
+  /* Fila y columna de cada solicitud que encaja. La quinta es la mejor. */
+  const encajan: [number, number][] = [
+    [4, 1],
+    [3, 0],
+    [4, 2],
+    [2, 3],
+    [3, 2],
+    [4, 0],
+    [1, 1],
+    [2, 0],
+    [3, 3],
+    [4, 3],
+    [0, 2],
+    [1, 3],
+  ];
+  encajan.forEach(([f, c], i) =>
+    piezas.push(
+      caja(x0 + c * (U + G), arriba + f * (U + G), U, U, {
+        opacity: 0,
+        background: GRIS,
+        '--r': `${((azar(i, 1) - 0.5) * 30).toFixed(0)}deg`,
+        '--hc': i === 4 ? AZUL : TINTA,
+        animation: `if-re-drop ${T}s ${(i * 0.42).toFixed(2)}s ${EASE} infinite`,
+      })
+    )
+  );
+  /* Las tres que caen fuera del edificio. */
+  [x0 - 70, x0 + C * (U + G) + 20, x0 - 70].forEach((x, j) =>
+    piezas.push(
+      caja(x, arriba + 60, U, U, {
+        opacity: 0,
+        background: GRIS,
+        '--r': `${((azar(j, 2) - 0.5) * 40).toFixed(0)}deg`,
+        '--r2': `${((azar(j, 3) - 0.5) * 90).toFixed(0)}deg`,
+        '--fy': pct(suelo - arriba - 60 - U + 8, U),
+        animation: `if-re-miss ${T}s ${(1.2 + j * 2.6).toFixed(2)}s ${EASE} infinite`,
+      })
+    )
+  );
+  return piezas;
+}
+
+/* Salud: una agenda que se llena y una solicitud que busca su hueco. */
+function salud(): Pieza[] {
+  const C = 6;
+  const R = 6;
+  const U = 38;
+  const G = 12;
+  const T = 10;
+  const x0 = (S - (C * U + (C - 1) * G)) / 2;
+  const y0 = (S - (R * U + (R - 1) * G)) / 2;
+  const libre: [number, number] = [2, 3];
+  const intentos: [number, number][] = [
+    [2, 1],
+    [3, 2],
+  ];
+  const ocupados = new Set(['1,0', '2,1', '3,2', '0,2', '4,4', '5,1', '1,3', '3,0', '2,5', '4,2', '0,4', '5,5', '1,5', '3,4', '4,0', '0,0', '2,0', '5,3']);
+  const piezas: Pieza[] = [];
+  for (let f = 0; f < R; f++) {
+    for (let c = 0; c < C; c++) {
+      const estilo: Estilo = { border: `2px solid ${REGLA}`, 'box-sizing': 'border-box', background: 'transparent' };
+      if (f === libre[0] && c === libre[1]) estilo.animation = `if-sa-slot ${T}s linear infinite`;
+      else if (ocupados.has(`${f},${c}`)) {
+        estilo.animation = `if-sa-fill ${T}s ${(0.3 + azar(f * C + c, 7) * 3.2).toFixed(2)}s ${EASE} infinite`;
+      }
+      piezas.push(caja(x0 + c * (U + G), y0 + f * (U + G), U, U, estilo));
+    }
+  }
+  piezas.push(caja(x0, y0 - 16, C * U + (C - 1) * G, 0, { height: '2px', background: TINTA }));
+  const sitio = ([f, c]: [number, number]) => [pc(x0 + c * (U + G) + 8), pc(y0 + f * (U + G) + 8)];
+  const [x1, y1] = sitio(intentos[0]);
+  const [x2, y2] = sitio(intentos[1]);
+  const [x3, y3] = sitio(libre);
+  piezas.push({
+    cls: 'ha-oculto',
+    style: css({
+      position: 'absolute',
+      left: x1,
+      top: y1,
+      width: pc(U - 16),
+      height: pc(U - 16),
+      background: AZUL,
+      opacity: 0,
+      'z-index': 1,
+      '--x1': x1,
+      '--y1': y1,
+      '--x2': x2,
+      '--y2': y2,
+      '--x3': x3,
+      '--y3': y3,
+      animation: `if-sa-seek ${T}s ${EASE} infinite`,
+    }),
+  });
+  return piezas;
+}
+
+/* Gestorías: una pila que se clasifica en tres bandejas. */
+function gestorias(): Pieza[] {
+  const W = 60;
+  const H = 78;
+  const px = 48;
+  const py = 150;
+  const T = 10;
+  const bandejas = [170, 250, 330];
+  const alturas = [250, 176, 102];
+  const urgente = 4;
+  const piezas: Pieza[] = [];
+  for (let i = 0; i < 9; i++) {
+    const bandeja = i === urgente ? 2 : i % 3;
+    const altura = i === urgente ? 0 : Math.floor(i / 3);
+    const y = py - i * 3;
+    piezas.push(
+      caja(px, y, W, H, {
+        background: GRIS,
+        'z-index': 9 - i,
+        border: `2px solid ${FONDO}`,
+        'box-sizing': 'border-box',
+        '--tx': pct(bandejas[bandeja] - px, W),
+        '--ty': pct(alturas[altura] - y, H),
+        '--r': `${((azar(i, 1) - 0.5) * 22).toFixed(1)}deg`,
+        '--hc': i === urgente ? AZUL : TINTA,
+        animation: `if-ge-sort ${T}s ${(i * 0.22).toFixed(2)}s ${EASE} infinite`,
+      })
+    );
+  }
+  bandejas.forEach((x, i) => {
+    piezas.push(caja(x - 6, 340, W + 12, 0, { height: '2px', background: REGLA }));
+    piezas.push(
+      caja(x - 6, 340, W + 12, 0, {
+        height: '2px',
+        background: AZUL,
+        'transform-origin': '0 50%',
+        transform: 'scaleX(0)',
+        animation: `if-ge-seal ${T}s ${(i * 0.2).toFixed(2)}s ${EASE} infinite`,
+      })
+    );
+  });
+  return piezas;
+}
+
+const composiciones: Record<SectorKey, () => Pieza[]> = {
+  sectorIndustry: industria,
+  sectorEnergy: energia,
+  sectorEcommerce: ecommerce,
+  sectorLogistics: logistica,
+  realEstate,
+  sectorHealth: salud,
+  accounting: gestorias,
+};
+const piezas = composiciones[clave]();
+---
+
+<div class="hero-art">
+  {
+    piezas.map((p) => (
+      <span class={p.cls} style={p.style}>
+        {p.hijos?.map((h) => <span class={h.cls} style={h.style} />)}
+      </span>
+    ))
+  }
+</div>
+{fotogramas.length > 0 && <style is:inline set:html={fotogramas.join('\n')} />}
+
+<style is:global>
+  /* Global a propósito: las piezas llevan la animación en su estilo en línea
+     y la buscan por nombre. La caja `.hero-art` y sus reglas para quien pide
+     menos movimiento están en global.css. `--hc` es el color en que queda
+     cada pieza, que se le pasa en su propio estilo. */
+
+  /* Industria */
+  @keyframes if-cell {
+    0%,
+    6% {
+      opacity: 0.25;
+      background: var(--color-neutral-400);
+    }
+    14%,
+    70% {
+      opacity: 1;
+      background: var(--color-fg);
+    }
+    84%,
+    100% {
+      opacity: 0.25;
+      background: var(--color-neutral-400);
+    }
+  }
+  @keyframes if-hub {
+    0%,
+    30% {
+      background: var(--color-fg);
+    }
+    42%,
+    72% {
+      background: var(--color-accent);
+    }
+    84%,
+    100% {
+      background: var(--color-fg);
+    }
+  }
+  @keyframes if-link {
+    0%,
+    30% {
+      transform: scaleX(0);
+    }
+    42%,
+    72% {
+      transform: scaleX(1);
+    }
+    84%,
+    100% {
+      transform: scaleX(0);
+    }
+  }
+
+  /* Energía */
+  @keyframes if-en-fix {
+    0% {
+      background: var(--color-neutral-400);
+    }
+    1%,
+    72% {
+      background: var(--hc);
+    }
+    82%,
+    100% {
+      background: var(--color-neutral-400);
+    }
+  }
+  @keyframes if-en-sweep {
+    0%,
+    26% {
+      transform: scaleX(0);
+      opacity: 0;
+    }
+    28% {
+      opacity: 1;
+    }
+    60% {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+    72% {
+      opacity: 1;
+    }
+    76%,
+    100% {
+      transform: scaleX(1);
+      opacity: 0;
+    }
+  }
+
+  /* Ecommerce */
+  @keyframes if-ec-in {
+    0% {
+      transform: translateX(-40px);
+      opacity: 0;
+    }
+    6% {
+      opacity: 1;
+      transform: none;
+    }
+    84% {
+      opacity: 1;
+    }
+    92%,
+    100% {
+      opacity: 0;
+      transform: none;
+    }
+  }
+  @keyframes if-ec-st {
+    0%,
+    12% {
+      background: var(--color-border);
+    }
+    14%,
+    84% {
+      background: var(--hc);
+    }
+    92%,
+    100% {
+      background: var(--color-border);
+    }
+  }
+  @keyframes if-ec-out {
+    0%,
+    40% {
+      transform: none;
+      background: var(--color-fg);
+    }
+    52%,
+    84% {
+      transform: translate(var(--ox), 0);
+      background: var(--color-accent);
+    }
+    92%,
+    100% {
+      transform: translate(var(--ox), 0);
+      background: var(--color-accent);
+      opacity: 0;
+    }
+  }
+
+  /* Logística */
+  @keyframes if-lg-route {
+    0%,
+    6% {
+      left: 12%;
+      top: 70%;
+    }
+    22% {
+      left: 34%;
+      top: 70%;
+    }
+    26% {
+      left: 34%;
+      top: 70%;
+    }
+    40% {
+      left: 34%;
+      top: 36%;
+    }
+    44% {
+      left: 34%;
+      top: 36%;
+    }
+    58% {
+      left: 62%;
+      top: 36%;
+    }
+    62% {
+      left: 62%;
+      top: 36%;
+    }
+    78%,
+    100% {
+      left: 86%;
+      top: 58%;
+    }
+  }
+  @keyframes if-lg-stop {
+    0% {
+      background: var(--color-fg);
+      transform: translate(-50%, -50%) scale(1);
+    }
+    3% {
+      transform: translate(-50%, -50%) scale(1.35);
+    }
+    6%,
+    86% {
+      background: var(--color-accent);
+      transform: translate(-50%, -50%) scale(1);
+    }
+    94%,
+    100% {
+      background: var(--color-fg);
+    }
+  }
+
+  /* Real estate */
+  @keyframes if-re-drop {
+    0%,
+    4% {
+      transform: translateY(-140%) rotate(var(--r));
+      opacity: 0;
+      background: var(--color-neutral-400);
+    }
+    10% {
+      opacity: 1;
+    }
+    24%,
+    78% {
+      transform: none;
+      opacity: 1;
+      background: var(--hc);
+    }
+    90%,
+    100% {
+      transform: none;
+      opacity: 0;
+      background: var(--hc);
+    }
+  }
+  @keyframes if-re-miss {
+    0%,
+    4% {
+      transform: translateY(-140%) rotate(var(--r));
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.6;
+    }
+    30% {
+      transform: translateY(var(--fy)) rotate(var(--r2));
+      opacity: 0.6;
+    }
+    40%,
+    100% {
+      transform: translateY(var(--fy)) rotate(var(--r2));
+      opacity: 0;
+    }
+  }
+
+  /* Salud */
+  @keyframes if-sa-fill {
+    0%,
+    2% {
+      background: transparent;
+      border-color: var(--color-border);
+    }
+    6%,
+    84% {
+      background: var(--color-fg);
+      border-color: var(--color-fg);
+    }
+    94%,
+    100% {
+      background: transparent;
+      border-color: var(--color-border);
+    }
+  }
+  @keyframes if-sa-seek {
+    0%,
+    46% {
+      left: var(--x1);
+      top: var(--y1);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    58% {
+      left: var(--x1);
+      top: var(--y1);
+    }
+    64% {
+      left: var(--x2);
+      top: var(--y2);
+    }
+    70% {
+      left: var(--x2);
+      top: var(--y2);
+    }
+    76%,
+    86% {
+      left: var(--x3);
+      top: var(--y3);
+      opacity: 1;
+    }
+    94%,
+    100% {
+      left: var(--x3);
+      top: var(--y3);
+      opacity: 0;
+    }
+  }
+  @keyframes if-sa-slot {
+    0%,
+    76% {
+      background: transparent;
+      border-color: var(--color-border);
+    }
+    80%,
+    86% {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+    94%,
+    100% {
+      background: transparent;
+      border-color: var(--color-border);
+    }
+  }
+
+  /* Gestorías */
+  @keyframes if-ge-sort {
+    0%,
+    8% {
+      transform: translate(0, 0) rotate(var(--r));
+      background: var(--color-neutral-400);
+    }
+    30%,
+    86% {
+      transform: translate(var(--tx), var(--ty)) rotate(0deg);
+      background: var(--hc);
+    }
+    96%,
+    100% {
+      transform: translate(0, 0) rotate(var(--r));
+      background: var(--color-neutral-400);
+    }
+  }
+  @keyframes if-ge-seal {
+    0%,
+    34% {
+      transform: scaleX(0);
+    }
+    44%,
+    86% {
+      transform: scaleX(1);
+    }
+    96%,
+    100% {
+      transform: scaleX(0);
+    }
+  }
+</style>

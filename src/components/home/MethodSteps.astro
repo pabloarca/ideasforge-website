@@ -1,0 +1,77 @@
+---
+/*
+  Método: cinco pasos en una fila bajo una regla, cada uno con su cuadrado de
+  acento, su número y su explicación.
+
+  Cinco columnas a partir de 1.100 px y UNA por debajo. Nunca cuatro y una
+  suelta, ni tres y dos: el handoff lo pide expresamente, porque un paso
+  huérfano en su propia fila se lee como un paso distinto de los demás.
+
+  El número va dentro del encabezado, en su propia línea, para que un lector
+  de pantalla lea «01 Entendemos el proceso» y el orden no dependa de la vista.
+*/
+import { type Lang, content } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang].home.method;
+---
+
+<section id="metodo" class="wrap section-y">
+  <div class="section-head" data-reveal>
+    <h2 class="t-h2">{t.title}</h2>
+    <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{t.lead}</p>
+  </div>
+
+  <ol class="pasos">
+    {
+      t.steps.map((paso, i) => (
+        <li class="paso">
+          <span class="sq paso-sq" aria-hidden="true" />
+          <h3 class="mb-3 text-lg leading-tight tracking-[-0.015em]">
+            <span class="num mb-2.5 block font-normal tracking-normal">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            {paso.title}
+          </h3>
+          <p class="text-[15px] leading-[1.6] text-muted">{paso.body}</p>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .pasos {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 32px;
+    border-top: 2px solid var(--color-border);
+  }
+  .paso {
+    padding: 32px 0 0;
+    transition: transform 0.3s;
+  }
+  .paso:hover {
+    transform: translateY(-4px);
+  }
+  .paso-sq {
+    margin-bottom: 20px;
+  }
+  /* En una columna los pasos van seguidos: se separan con aire y texto a un
+     ancho de lectura, no con cinco reglas más. */
+  .paso p {
+    max-width: 60ch;
+  }
+
+  @media (min-width: 1100px) {
+    .pasos {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+    .paso-sq {
+      margin-bottom: 40px;
+    }
+  }
+</style>

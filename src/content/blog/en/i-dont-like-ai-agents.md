@@ -1,5 +1,6 @@
 ---
 title: 'Here is a secret: I don''t like agentic architectures'
+heroImage: '/blog/blog-agentes-tren.jpg'
 metaTitle: 'I don''t like agentic architectures'
 description: 'We sell AI agents, and we don''t like how almost everyone builds them. Business rules cannot live in the prompt, they have to live in the code.'
 lang: 'en'
@@ -131,4 +132,4 @@ Because "AI agent" is how the market names this category, and arguing with your 
 
 **An agent like that is less spectacular on day one. It holds up better for the next three years.**
 
-If you are still working out the concept, start with our [AI agents guide](/en/ai-agents). And if you want to see what this looks like from the inside, we cover it in [AI agent development](/en/services/ai-agent-development).
+If you are still working out the concept, start with our [AI agents guide](/en/guides/ai-agents). And if you want to see what this looks like from the inside, we cover it in [AI agent development](/en/services/ai-agent-development).

@@ -6,7 +6,7 @@ pubDate: 2026-06-23
 updatedDate: 2026-08-31
 translationId: 'tool-goes-down'
 tags: ['Agents', 'Reliability', 'Maintenance']
-heroImage: '/blog/tool-goes-down.jpg'
+heroImage: '/blog/blog-herramienta-cae.jpg'
 ---
 
 A serious conversational assistant does not live alone. It queries databases, internal systems and third-party services. Every one of those pieces can go down, and will. **The question that defines the assistant's quality is not whether its tools fail. It is what the user sees when they do.**
@@ -39,4 +39,4 @@ None of this gets improvised the day a third-party service goes down at eleven i
 
 There is a test you can run this week. Deliberately kill one of your assistant's tools in a test environment and look at the user's screen. *A technical trace, or a graceful degradation?* Whatever you see is your answer to the question this article opened with.
 
-If you are considering an assistant that depends on your real systems, this is part of what we call [conversational AI](/en/services/conversational-ai). And if you want the full map before deciding, start with the [AI agents guide](/en/ai-agents).
+If you are considering an assistant that depends on your real systems, this is part of what we call [conversational AI](/en/services/conversational-ai). And if you want the full map before deciding, start with the [AI agents guide](/en/guides/ai-agents).

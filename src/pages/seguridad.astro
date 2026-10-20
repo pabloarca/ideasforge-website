@@ -1,0 +1,7 @@
+---
+import SecurityPage from '../components/SecurityPage.astro';
+import { content } from '../i18n/ui';
+import { altsFor } from '../i18n/utils';
+---
+
+<SecurityPage lang="es" page={content.es.pages.security} alternates={altsFor('security')} />

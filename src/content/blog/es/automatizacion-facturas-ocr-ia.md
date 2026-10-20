@@ -7,7 +7,7 @@ pubDate: 2025-07-03
 updatedDate: 2026-08-31
 translationId: 'invoice-ocr'
 tags: ['Automatización', 'OCR', 'Administración']
-heroImage: '/blog/ocr-ia.jpg'
+heroImage: '/blog/blog-facturas.jpg'
 ---
 
 La digitalización de facturas con IA consiste en que un documento escaneado se convierta por sí solo en una fila de datos limpia, sin que nadie teclee importes ni fechas. La tecnología para leer el papel existe desde hace décadas. Lo que ha cambiado es lo que viene después de leer, porque **el cuello de botella nunca fue leer la factura. Fue poder fiarse de lo leído.**
@@ -34,7 +34,7 @@ La primera versión de ese sistema daba por hecho algo que parecía seguro, que 
 
 Un día una comercializadora rediseñó su factura sin avisar a nadie, que es como llegan estos cambios. Desde entonces el flujo verifica el formato antes de extraer nada. Si una factura no encaja con lo esperado, no se procesa. Se detiene y una persona recibe el aviso con el documento delante.
 
-Detenerse ahí no es un fallo del sistema, es el sistema funcionando. **Un formato nuevo procesado con la plantilla vieja produce datos que parecen buenos.** Eso es peor que no procesar, porque nadie revisa lo que parece bien. El caso entero, con lo que hubo que añadirle después de esa factura, está en [su propia página](/casos/stanton).
+Detenerse ahí no es un fallo del sistema, es el sistema funcionando. **Un formato nuevo procesado con la plantilla vieja produce datos que parecen buenos.** Eso es peor que no procesar, porque nadie revisa lo que parece bien. El caso entero, con lo que hubo que añadirle después de esa factura, está en [su propia página](/proyectos/stanton).
 
 ## La validación es el verdadero producto
 
@@ -66,4 +66,4 @@ Tres preguntas separan una demostración bonita de un sistema que aguanta. Qué 
 
 La prueba sigue siendo la misma. *¿Puedes fiarte de lo leído sin mirar el papel?* El día que la respuesta sea sí, ese proceso habrá desaparecido de tu lista.
 
-Si tu papeleo se parece a esto, mira cómo lo trabajamos en [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia) o directamente la página para [gestorías y asesorías](/gestorias). Y si quieres entender por qué empezamos siempre por ordenar los datos, está contado en [antes que el prompt, los datos](/blog/antes-que-el-prompt-los-datos).
+Si tu papeleo se parece a esto, mira cómo lo trabajamos en [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia) o directamente la página para [gestorías y asesorías](/sectores/gestorias-y-asesorias). Y si quieres entender por qué empezamos siempre por ordenar los datos, está contado en [antes que el prompt, los datos](/blog/antes-que-el-prompt-los-datos).

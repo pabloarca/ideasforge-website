@@ -7,7 +7,7 @@ pubDate: 2025-06-15
 updatedDate: 2026-08-31
 translationId: 'real-estate-agent'
 tags: ['Agents', 'Real estate', 'Automation']
-heroImage: '/blog/inmo.jpg'
+heroImage: '/blog/blog-inmobiliaria.jpg'
 ---
 
 Barceloneta Premium, a Barcelona agency, received dozens of WhatsApp messages a day from people interested in renting. Each inquiry demanded five to ten minutes of manual checking before anyone knew whether it was worth pursuing. Multiply those minutes by dozens of messages and you get the number that was eating the team, a full working day scattered across ten-minute interruptions.
@@ -58,4 +58,4 @@ The signal that a system works is what happens next. The agency is extending the
 
 You can do this math this afternoon. *How many minutes does each incoming inquiry cost, and how many arrive per day?* Multiply. You are already paying that number, just without an invoice.
 
-If your agency looks like this, the [AI for real estate](/en/real-estate) page explains the full system with its proof in production. And if you are in another sector with the same bottleneck, the conversation starts the same way, telling us where the hours go.
+If your agency looks like this, the [AI for real estate](/en/industries/real-estate) page explains the full system with its proof in production. And if you are in another industry with the same bottleneck, the conversation starts the same way, telling us where the hours go.

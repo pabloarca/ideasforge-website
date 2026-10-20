@@ -1,5 +1,6 @@
 ---
 title: 'Data before prompts'
+heroImage: '/blog/blog-datos.jpg'
 metaTitle: 'Data before prompts: what beats prompt engineering'
 description: 'An entire market sells prompt engineering. Our production experience says you gain more by organizing the data than by polishing the prompt.'
 lang: 'en'
@@ -45,4 +46,4 @@ Our internal motto sums it up: **judgment lives in the code, interpretation of l
 
 Next time a failure begs for a prompt tweak, look first at what the model received. *Was the data clean, organized and complete?* If the answer is no, you already know where the fix is not.
 
-That is why our [workflow automation](/en/services/ai-workflow-automation) projects start by looking at the data before the model. And if you are still forming a view before you commit, the [AI agents guide](/en/ai-agents) is the best starting point.
+That is why our [workflow automation](/en/services/ai-workflow-automation) projects start by looking at the data before the model. And if you are still forming a view before you commit, the [AI agents guide](/en/guides/ai-agents) is the best starting point.

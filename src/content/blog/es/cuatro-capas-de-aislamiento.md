@@ -47,4 +47,4 @@ El efecto se notó en la lista de preocupaciones. Una comparación poco estricta
 
 Si estás evaluando un asistente que va a tocar datos de verdad, hay una sola pregunta que lo destapa. *¿Qué pasa cuando la lista de permisos llega vacía?* Quien construyó bien contesta en una frase, la puerta se cierra. Quien no, empieza a hablarte del prompt.
 
-Así construimos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia), la historia larga de los datos, los registros y la soberanía vive en [IA conforme al RGPD](/ia-y-rgpd) y las dos salen de los mismos sistemas. Si prefieres empezar por el terreno completo, la [guía de agentes de IA](/agentes-de-ia) lo recorre entero.
+Así construimos en [desarrollo de agentes de IA](/servicios/desarrollo-de-agentes-de-ia), la historia larga de los datos, los registros y la soberanía vive en [IA conforme al RGPD](/guias/ia-y-rgpd) y las dos salen de los mismos sistemas. Si prefieres empezar por el terreno completo, la [guía de agentes de IA](/guias/que-es-un-agente-de-ia) lo recorre entero.

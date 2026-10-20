@@ -29,8 +29,10 @@ function familiaDe(ruta) {
   if (ruta === '/' || ruta === '/en') return 'home';
   if (/^\/(en\/)?blog\//.test(ruta)) return 'blog';
   if (/^\/(servicios|en\/services)\//.test(ruta)) return 'servicio';
-  if (/^\/casos\//.test(ruta)) return 'caso';
-  if (/^\/(pymes|gestorias|inmobiliarias|en\/(smb|accounting-firms|real-estate))$/.test(ruta)) {
+  if (/^\/(proyectos|en\/cases)\//.test(ruta)) return 'caso';
+  // Los sectores españoles viven bajo `/sectores/` desde el 7 oct 2026. Pymes
+  // pasó a guía ese día, así que en español cae en el caso por defecto.
+  if (/^\/(sectores(\/[a-z-]+)?|en\/(smb|accounting-firms|real-estate))$/.test(ruta)) {
     return 'vertical';
   }
   // Las legales caían en el saco de «guía» por defecto y se anunciaban como

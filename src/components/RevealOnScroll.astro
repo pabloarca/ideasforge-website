@@ -1,0 +1,41 @@
+---
+/*
+  Aparición al hacer scroll, para todo el sitio.
+
+  Cualquier elemento con `data-reveal` parte invisible y 24 px más abajo, y
+  entra en 800 ms la primera vez que asoma un 15 % en pantalla. Una sola vez:
+  después se deja de observar, así que volver a subir no repite la entrada.
+
+  El estilo vive en `global.css` y solo se activa con `reveal-anim` en <html>,
+  que pone un script en línea de la cabecera si hay IntersectionObserver. Sin
+  JavaScript esa clase no existe y el contenido está en su sitio desde el
+  principio.
+
+  Úsese en bloques cortos (cabeceras de sección, columnas de texto). Un bloque
+  más alto que seis pantallas nunca llega a enseñar su 15 % y no entraría.
+*/
+---
+
+<script>
+  function revelar() {
+    const pendientes = document.querySelectorAll<HTMLElement>('[data-reveal]:not(.is-in)');
+    if (!pendientes.length) return;
+
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        for (const e of entradas) {
+          if (!e.isIntersecting) continue;
+          e.target.classList.add('is-in');
+          observador.unobserve(e.target);
+        }
+      },
+      { threshold: 0.15 }
+    );
+    pendientes.forEach((el) => observador.observe(el));
+  }
+
+  if ('IntersectionObserver' in window) {
+    revelar();
+    document.addEventListener('astro:page-load', revelar);
+  }
+</script>

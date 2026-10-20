@@ -105,6 +105,10 @@ const PALABRAS_VETADAS = [
   'fascinante', 'aprovech', 'sumergir', 'profundiz', 'desbloque', 'elevar',
   'en constante evolución', 'punto de inflexión', 'retrofit', 'deprec',
   'no es solo', 'no se trata de',
+  // Anglicismos que volvieron con la versión de Dani (15 oct 2026). En
+  // castellano se dice «flujo», «interesados» o «solicitudes» y «gestoras de
+  // alquiler» (decisiones del 19 ago 2026 y revisión del 8 oct 2026).
+  'workflow', 'leads', 'property manag',
 ];
 
 /*
@@ -212,6 +216,14 @@ const METAFORAS_RETIRADAS = [
  * Cuando se retire un hecho nuevo, su huella entra AQUÍ en el mismo cambio.
  */
 const HECHOS_RETIRADOS = [
+  // Decisiones del propietario del 8 oct 2026, sobre la versión de Dani.
+  ['52 y el 57', 'reparto del gasto de Wazzy por capas: no se publica cómo funciona Wazzy por dentro (8 oct 2026)'],
+  ['52 to 57', 'el mismo reparto de Wazzy, retirado (8 oct 2026)'],
+  ['capas de abstracción', 'promesa anulada (8 oct 2026): «Cambiar de modelo se prueba, no se promete»'],
+  ['abstraction layer', 'promesa anulada (8 oct 2026): switching models is tested, not promised'],
+  ['solo recoge los campos que se han aprobado', 'nuestros registros sí guardan datos personales (20 ago y 8 oct 2026)'],
+  ['only collects fields approved', 'nuestros registros sí guardan datos personales (20 ago y 8 oct 2026)'],
+  ['empresas del mismo grupo', 'de Savian se dice «datos de varias empresas» (8 oct 2026)'],
   ['19 % más barato', 'hecho retirado por el propietario (5 oct 2026): el modelo no decide, así que no pudo ofrecer lo que el asistente no hace'],
   ['19% cheaper', 'fact withdrawn by the owner (5 Oct 2026): the model does not decide'],
   ['24 horas laborables', 'pasó a «un día laborable» (27 ago 2026)'],
@@ -652,12 +664,12 @@ for (const o of objetivosEn) {
 
 // ── Páginas de caso huérfanas ──────────────────────────────────────────────
 // Una corrección de texto puede llevarse por delante un enlace sin que se
-// note: pasó el 29 ago 2026 con `/casos/savian`, cuyo enlace desde la página
+// note: pasó el 29 ago 2026 con `/casos/savian` (hoy `/proyectos/savian`), cuyo enlace desde la página
 // de servicio murió dentro del párrafo que lo alojaba. El estándar de la casa
 // es dos entradas por caso, la ficha del carrusel y una editorial desde su
 // página de servicio.
 const RUTAS = 'src/i18n/utils.ts';
-const casos = [...readFileSync(RUTAS, 'utf8').matchAll(/'(\/casos\/[a-z-]+)'/g)].map((m) => m[1]);
+const casos = [...readFileSync(RUTAS, 'utf8').matchAll(/'(\/proyectos\/[a-z-]+)'/g)].map((m) => m[1]);
 const uiEntero = readFileSync(UI, 'utf8');
 const huerfanas = [];
 for (const ruta of casos) {

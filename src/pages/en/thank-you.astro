@@ -25,11 +25,11 @@ const t = content[lang].thanks;
   alternates={altsFor('thanks')}
   noindex
 >
-  <section class="mx-auto max-w-3xl px-5 py-24 sm:px-8 sm:py-32">
-    <p class="font-mono text-sm uppercase tracking-wide text-accent">{t.eyebrow}</p>
-    <h1 class="mt-4 text-4xl font-bold tracking-tight text-fg sm:text-5xl">{t.title}</h1>
+  <section class="wrap pt-[clamp(56px,7vw,96px)]">
+    <span class="kicker mb-7">{t.eyebrow}</span>
+    <h1 class="t-display max-w-[22ch]">{t.title}</h1>
 
-    <div class="mt-8 space-y-5 text-lg text-muted">
+    <div class="mt-8 max-w-[62ch] space-y-5 text-[17px] leading-[1.6] text-muted">
       {t.body.map((p) => <p>{p}</p>)}
       <p>
         {t.extraPre}<a href={`mailto:${EMPRESA.correo}`} class="link-inline">{EMPRESA.correo}</a
@@ -37,7 +37,7 @@ const t = content[lang].thanks;
       </p>
     </div>
 
-    <p class="mt-10 border-t border-border-soft pt-8 text-lg text-muted">
+    <p class="mt-10 max-w-[62ch] border-t-2 border-border pt-8 text-[17px] leading-[1.6] text-muted">
       {t.blogPre}<a href="/en/blog" class="link-inline">{t.blogLink}</a>{t.blogPost}
     </p>
   </section>

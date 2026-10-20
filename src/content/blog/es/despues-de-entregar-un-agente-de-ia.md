@@ -1,5 +1,6 @@
 ---
 title: 'Qué pasa después de entregar un chatbot o agente de IA'
+heroImage: '/blog/blog-mantenimiento.jpg'
 metaTitle: 'Mantenimiento de un chatbot de IA tras la entrega'
 description: 'Así mantenemos un chatbot de IA después de entregarlo: un golden dataset con conversaciones reales, monitorización, alarmas y resultados cada semana.'
 lang: 'es'
@@ -53,7 +54,7 @@ También hace falta un listón claro: qué parte de los casos tiene que acertar 
 
 **Cada vez que el chatbot trabaja queda una traza en Arize Phoenix: qué le llegó, qué hizo paso a paso, cuánto costó, cuánto tardó y qué modelo respondió de verdad.** Phoenix es una herramienta de la empresa Arize para ver por dentro lo que hace un agente de IA. La usamos en los chatbots y agentes que mantenemos.
 
-Las trazas no salen a la nube de un tercero. En los proyectos a medida, Phoenix va instalado en tu propio servidor, como contamos en la [guía de IA y RGPD](/ia-y-rgpd).
+Las trazas no salen a la nube de un tercero. En los proyectos a medida, Phoenix va instalado en tu propio servidor, como contamos en la [guía de IA y RGPD](/guias/ia-y-rgpd).
 
 Con las trazas se ve qué cuesta el chatbot y si algo se está ralentizando. También se ve si el proveedor ha contestado con un modelo de respaldo sin avisar. En uno de nuestros chatbots, un control revisa este punto y no ha encontrado ningún modelo de respaldo en 29.041 llamadas.
 
@@ -96,7 +97,7 @@ La versión del modelo, además, está fijada. Actualizarla es una decisión nue
 - **Las preguntas que el chatbot no supo contestar**, para decidir juntos qué ajustar.
 - **Un informe semanal que lo resume**, si lo necesitas.
 
-En los proyectos a medida, el código y la infraestructura quedan a tu nombre desde el primer día. El mantenimiento va en una cuota mensual sin permanencia, y los precios están en la guía [cuánto cuesta un agente de IA](/cuanto-cuesta-un-agente-de-ia).
+En los proyectos a medida, el código y la infraestructura quedan a tu nombre desde el primer día. El mantenimiento va en una cuota mensual sin permanencia, y los precios están en la guía [cuánto cuesta un agente de IA](/guias/cuanto-cuesta-un-agente-de-ia).
 
 No vas a tener un chatbot que nunca se equivoque, porque eso no existe. **Vas a tener uno que se mide cada semana, que se prueba antes de cada cambio y que mejora con lo que no supo responder.**
 

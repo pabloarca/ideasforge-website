@@ -35,19 +35,19 @@ const { migas, label } = Astro.props;
 
 {
   migas.length > 1 && (
-    <nav aria-label={label} class="border-b border-border-soft">
-      <ol class="mx-auto flex max-w-7xl items-center gap-1.5 px-5 py-3 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-faint sm:px-8">
+    <nav aria-label={label} class="border-b-2 border-border">
+      <ol class="wrap flex items-center gap-2 py-3 text-[13px] text-faint">
         {migas.map((miga, i) => {
           const ultimo = i === migas.length - 1;
           return (
-            <li class="flex min-w-0 items-center gap-1.5">
-              {i > 0 && <span aria-hidden="true" class="select-none text-border">/</span>}
+            <li class="flex min-w-0 items-center gap-2">
+              {i > 0 && <span aria-hidden="true" class="select-none text-neutral-400">/</span>}
               {ultimo ? (
                 <span aria-current="page" class="truncate text-muted">
                   {miga.name}
                 </span>
               ) : (
-                <a href={miga.href} class="whitespace-nowrap transition hover:text-accent">
+                <a href={miga.href} class="whitespace-nowrap transition-colors hover:text-accent">
                   {miga.name}
                 </a>
               )}

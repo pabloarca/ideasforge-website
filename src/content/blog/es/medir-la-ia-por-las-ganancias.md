@@ -1,5 +1,6 @@
 ---
 title: 'Medir la IA por las ganancias, no por la productividad'
+heroImage: '/blog/blog-ganancias.jpg'
 metaTitle: 'Medir la IA por las ganancias, no la productividad'
 description: 'La productividad es la métrica cómoda de la IA, siempre sale bien y no compromete a nada. Nosotros preferimos la incómoda, qué ganancia concreta dejó el sistema.'
 lang: 'es'
@@ -53,4 +54,4 @@ La productividad llega igualmente, no la despreciamos. Pero llega como consecuen
 
 La pregunta cabe en cualquier reunión. *¿Qué ganancia concreta dejó este sistema el mes pasado?* Si la respuesta empieza por «productividad», estás oyendo otra vez la frase que no se puede facturar ni refutar.
 
-Si tienes un proceso concreto donde la ganancia se puede señalar con el dedo, empieza por [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia). Si todavía estás decidiendo dónde aplicarla, en la [guía de agentes de IA](/agentes-de-ia) contamos cómo separar los casos que compensan de los que no. La otra mitad de esa cuenta es lo que cuesta el sistema y la desglosamos en la [guía de coste](/cuanto-cuesta-un-agente-de-ia).
+Si tienes un proceso concreto donde la ganancia se puede señalar con el dedo, empieza por [automatización de procesos con IA](/servicios/automatizacion-de-procesos-con-ia). Si todavía estás decidiendo dónde aplicarla, en la [guía de agentes de IA](/guias/que-es-un-agente-de-ia) contamos cómo separar los casos que compensan de los que no. La otra mitad de esa cuenta es lo que cuesta el sistema y la desglosamos en la [guía de coste](/guias/cuanto-cuesta-un-agente-de-ia).
