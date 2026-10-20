@@ -24,9 +24,9 @@
       "staticDistDir": "./dist",
       "url": [
         "http://localhost/index.html",
-        "http://localhost/agentes-de-ia.html",
+        "http://localhost/guias/que-es-un-agente-de-ia.html",
         "http://localhost/blog/automatizacion-facturas-ocr-ia.html",
-        "http://localhost/gestorias.html"
+        "http://localhost/sectores/gestorias-y-asesorias.html"
       ],
       "numberOfRuns": 3,
       "settings": {
