@@ -3,7 +3,7 @@
   Cuándo usamos IA: el campo azul. Es el único bloque de la portada con fondo
   de acento y el único sitio donde el azul deja de ser un detalle.
 
-  A la izquierda, la tesis en dos frases: «La IA interpreta. El software
+  A la izquierda, la tesis en una frase: «La IA interpreta y el código
   ejecuta». A la derecha, las dos listas que la desarrollan.
 
   La interacción une las dos mitades y es CSS puro, con `:has()`. Al pasar por
@@ -28,7 +28,7 @@ const t = content[lang].home.whenAI;
     <div>
       <span class="azul-rotulo mb-5">{t.kicker}</span>
       <h2 class="t-poster max-w-[14ch]">
-        {t.titlePre}<span class="azul-marca mix-ia">{t.titleIa}</span>.<br />{t.titleMid}<span
+        {t.titlePre}<span class="azul-marca mix-ia">{t.titleIa}</span><br />{t.titleMid}<span
           class="azul-marca mix-auto">{t.titleSoftware}</span
         >{t.titlePost}
       </h2>
