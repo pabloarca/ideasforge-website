@@ -416,7 +416,8 @@ for (const f of ficheros) {
     la tentación de recortarlo para que pase un límite que no le corresponde.
     Sí cuenta para el total del sitio, que ahí sí ocupa disco de verdad.
   */
-  if (r === '/llms-full.txt') continue;
+  // Desde el 21 oct 2026 son dos, uno por idioma.
+  if (r === '/llms-full.txt' || r === '/llms-full-en.txt') continue;
   if (kb > PRESUPUESTO.ficheroKB) {
     error('peso', `${r} pesa ${Math.round(kb)} KB`, `el presupuesto por fichero son ${PRESUPUESTO.ficheroKB} KB`);
   } else if (/\.(jpe?g|png|webp)$/i.test(r) && kb > PRESUPUESTO.imagenKB) {
@@ -580,7 +581,8 @@ for (const [f, motivo] of [
   ['robots.txt', 'sin él los rastreadores van a ciegas'],
   ['og-default.png', 'es el respaldo de og:image de casi todas las páginas'],
   ['llms.txt', 'el índice del sitio para modelos de lenguaje'],
-  ['llms-full.txt', 'el texto completo del sitio para modelos de lenguaje'],
+  ['llms-full.txt', 'el texto completo del sitio en español para modelos de lenguaje'],
+  ['llms-full-en.txt', 'el texto completo del sitio en inglés para modelos de lenguaje'],
 ]) {
   if (!existsSync(join(DIST, f))) error('ficheros', `falta ${f}`, motivo);
 }

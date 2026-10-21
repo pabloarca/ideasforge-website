@@ -8,7 +8,7 @@
 # historial quién lo decidió y cuándo.
 #
 # Por qué se permiten los de IA, y no es descuido: esta casa publica además
-# /llms.txt y /llms-full.txt, o sea que ya ha decidido que quiere que la lean
+# /llms.txt, /llms-full.txt y /llms-full-en.txt, o sea que ya ha decidido que quiere que la lean
 # las máquinas. Prohibirles el sitio y a la vez servirles un índice sería
 # contradecirse. Y la citación por asistentes es hoy un canal de entrada, no una
 # fuga: quien pregunta a un modelo por agentes de IA no iba a teclear nuestra
