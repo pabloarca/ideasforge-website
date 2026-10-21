@@ -49,8 +49,8 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
      llega después del visto bueno, como cualquier redacción. Mientras tanto
      la entrada no lleva `en` para que el hreflang no apunte a una página que
      no existe. Cuando exista `src/pages/en/about.astro`, se añade
-     `en: '/en/about'`. El enlace en `sueltos` de Header y en `menu` de Footer
-     sigue pendiente. */
+     `en: '/en/about'`, y su `href` a «About us» en `resourceLinks` de ui.ts.
+     En español ya enlazan la cabecera («Recursos») y el pie («Empresa»). */
   about:       { es: '/quienes-somos' },
   // Acuse de los dos formularios. Va `noindex` y fuera del sitemap, pero la
   // entrada hace falta igual: el par de hreflang y el selector de idioma se

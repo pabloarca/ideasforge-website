@@ -1667,7 +1667,7 @@ export const content: Record<Lang, SiteContent> = {
         { label: 'Blog', href: '/blog' },
         { label: 'FAQs', href: '/preguntas-frecuentes' },
         { label: 'Seguridad', href: '/seguridad' },
-        { label: 'Sobre nosotros' },
+        { label: 'Sobre nosotros', href: '/quienes-somos' },
       ],
       cta: 'Cuéntanos qué quieres mejorar',
       menu: 'Menú',
