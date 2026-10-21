@@ -121,6 +121,7 @@ const LEXICO_VETADO = [
   [/Fráncfort/g, 'Frankfurt'],
   [/\brendible/g, 'capaz de rendir cuentas'],
   [/harina de otro costal/g, 'otra cosa, dicho llano'],
+  [/letras? bailad/g, 'con una errata (no es expresión hecha en español)'],
   [/por lo bajo/g, 'en silencio, o como mínimo, según el caso'],
   [/cuenta de nube/g, 'cuenta en la nube'],
   [/parada a parada/g, 'paso a paso («parada» es solo la de modelo)'],

@@ -21,7 +21,7 @@ Esta familia de amenazas tiene nombre propio en la lista OWASP para aplicaciones
 
 ## Un error de tecleo no cruza la valla
 
-La segunda capa protege el caso más humano que existe, el nombre escrito a medias o con una letra bailada. El asistente corrige nombres de centros para que la gente no tenga que teclear denominaciones exactas, pero esa corrección busca solo dentro de los centros autorizados de quien escribe. Un parecido razonable con el centro de otra empresa no llega ni a candidato. **La comodidad de corregir no abre puertas, se mueve entera dentro del perímetro de cada uno.**
+La segunda capa protege el caso más humano que existe, el nombre escrito a medias o con una errata. El asistente corrige nombres de centros para que la gente no tenga que teclear denominaciones exactas, pero esa corrección busca solo dentro de los centros autorizados de quien escribe. Un parecido razonable con el centro de otra empresa no llega ni a candidato. **La comodidad de corregir no abre puertas, se mueve entera dentro del perímetro de cada uno.**
 
 ## Una lista blanca tiene la última palabra
 

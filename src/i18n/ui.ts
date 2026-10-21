@@ -12645,7 +12645,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'El agente trabaja con datos de varias empresas y cada responsable solo puede preguntar por lo que le corresponde, así que la separación entre unos datos y otros es la garantía que sostiene el sistema entero. <strong>La separación se impone en cuatro sitios. El modelo no es ninguno de los cuatro.</strong>',
               'La información que el modelo puede leer mientras responde contiene solo las empresas de quien pregunta, así que las demás no existen para él y no puede filtrar lo que nunca tuvo.',
-              'La corrección de nombres que acabamos de contar busca solo dentro de esas mismas empresas. Quien escribe un nombre a medias o con una letra bailada acaba en el centro que quería, si ese centro es suyo. Si no lo es, no llega a ninguna parte.',
+              'La corrección de nombres que acabamos de contar busca solo dentro de esas mismas empresas. Quien escribe un nombre a medias o con una errata acaba en el centro que quería, si ese centro es suyo. Si no lo es, no llega a ninguna parte.',
               'Después, el código valida la petición contra una lista cerrada de valores permitidos antes de construir nada. Y la consulta final lleva un filtro incondicional que, si la lista de permisos llegara vacía, la resuelve en una condición que no encaja con ninguna fila. Cuando algo falla, el sistema se cierra en vez de abrirse.',
             ],
           },
