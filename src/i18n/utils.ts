@@ -45,13 +45,13 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   // Página de contacto (7 oct 2026): destino de los botones «Cuéntanos…».
   contact:     { es: '/contacto',                      en: '/en/contact' },
   start:       { es: '/empezar',                       en: '/en/get-started' },
-  /* EN LA NEVERA (31 ago 2026, decisión del propietario). La entrada se
-     conserva porque el contenido sigue entero en `pages.about` de ui.ts y
-     porque el bloque «El equipo» esperaba datos suyos que nunca llegaron.
-     Para revivirla: recrear `src/pages/quienes-somos.astro` y
-     `src/pages/en/about.astro` (nueve líneas cada uno, en el historial de
-     git) y devolver la línea a `sueltos` de Header y a `menu` de Footer. */
-  about:       { es: '/quienes-somos',                 en: '/en/about' },
+  /* Vuelve de la nevera el 21 oct 2026, solo en español: el espejo inglés
+     llega después del visto bueno, como cualquier redacción. Mientras tanto
+     la entrada no lleva `en` para que el hreflang no apunte a una página que
+     no existe. Cuando exista `src/pages/en/about.astro`, se añade
+     `en: '/en/about'`. El enlace en `sueltos` de Header y en `menu` de Footer
+     sigue pendiente. */
+  about:       { es: '/quienes-somos' },
   // Acuse de los dos formularios. Va `noindex` y fuera del sitemap, pero la
   // entrada hace falta igual: el par de hreflang y el selector de idioma se
   // construyen desde aquí, y una página sin par manda al visitante a la portada.
