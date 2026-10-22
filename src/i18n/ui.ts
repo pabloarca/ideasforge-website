@@ -13113,9 +13113,9 @@ export const content: Record<Lang, SiteContent> = {
         { label: 'Blog', href: '/en/blog' },
         { label: 'FAQs', href: '/en/faqs' },
         { label: 'Security', href: '/en/security' },
-        /* «About us» sale del menú el 22 oct 2026 (propietario): se pintaba
-           apagado porque /en/about no existe. Vuelve con su href cuando se
-           escriba el espejo de /quienes-somos. */
+        /* «About us» salió del menú el 22 oct 2026 porque /en/about no
+           existía, y volvió el mismo día con su página. */
+        { label: 'About us', href: '/en/about' },
       ],
       cta: 'Tell us what you want to improve',
       menu: 'Menu',
@@ -21462,6 +21462,9 @@ export const content: Record<Lang, SiteContent> = {
           button: 'Tell us what you’re up against',
         },
       },
+      /* Espejo de /quienes-somos (22 oct 2026), traducido del texto que el
+         propietario revisó en local el 21 oct. Sustituye al «What we do» de
+         antes de la nevera. */
       about: {
         nav: false,
         metaTitle: 'About us, Ideasforge',
@@ -21470,21 +21473,42 @@ export const content: Record<Lang, SiteContent> = {
         hero: {
           title: 'A team that maintains what it builds',
           subtitle:
-            'If your idea is not viable, we will say so before we invoice it. If it has legs, we work alongside you until it runs in production.',
+            'We don’t disappear once the system works. We stay on, review it every week and change it when something changes in your business.',
           cta: 'Tell us what you’re up against',
         },
         sections: [
           {
-            heading: 'What we do',
+            heading: 'Who we are',
             paragraphs: [
-              'At Ideasforge we design, build and maintain AI agents and process automation. We work with what you already have and connect to your systems and to the tools your people use every day, rather than asking you to change how you work so it fits how we work. The repository and the infrastructure are in your name from day one, because a system you depend on has to be yours. Five of our systems run today with real users across industry, agriculture, real estate, healthcare and services. The test we judge them by has not changed, what the business gains rather than what looks good in a demo.',
+              'We’re a team of engineers working from Spain. The person you talk to on the first call is the one who designs your system and the one who maintains it afterwards.',
             ],
-            link: { label: 'See the services', href: '/en/#soluciones' },
+          },
+          {
+            heading: 'What’s worth automating and what isn’t, seen from the inside',
+            paragraphs: [
+              'We’ve been right inside a lot of companies. We’ve sat with people who type in invoices one by one and with people who need a figure out in the field, with no computer in front of them. What strikes us most is that these people know very well which part of their work is unnecessary, and they almost never have the time to get rid of it.',
+              'That’s where we learned to tell what works from what only looks good in a demo, and what’s worth automating from what isn’t. Sometimes the answer is an AI agent and sometimes a simple automation with no model at all. When doing nothing is the better deal, we tell you before we charge for it.',
+            ],
+          },
+          {
+            heading: 'How we run a project, from the first test to maintenance',
+            paragraphs: [
+              'Before connecting any software, we test the AI on your real cases. If it doesn’t get enough right, the project stops there. If it does, we start with a pilot, which is paid and whose price counts toward the final project.',
+              'The split is always the same: AI interprets and code executes. The model understands the request and the code decides which action runs.',
+              'No change reaches production without passing the test suite, not even a new version of the model. Before applying it we back up the database, and if the service then stops responding, it rolls back to the previous version on its own. On top of that, every week a batch of test conversations runs through every system we maintain.',
+            ],
+          },
+          {
+            heading: 'What stays in your name and what we don’t do',
+            paragraphs: [
+              'The repository and the cloud where the system runs are in your name from day one, and model usage is paid through your own accounts. The monthly fee covers only monitoring and maintenance, has no lock-in, and if you cancel it, what was built keeps working.',
+              'We don’t audit or certify that your company complies with the GDPR or the EU AI Act, because that’s your lawyers’ job. We build the system so that compliance can be demonstrated.',
+            ],
           },
         ],
         cta: {
           heading: 'Shall we talk about your case?',
-          body: 'Write to us about the problem you have right now, not the technology you think fixes it. We reply within one working day.',
+          body: 'Write to us about the problem you have now, not the technology you think fixes it. We reply within one business day.',
           button: 'Tell us what you’re up against',
         },
       },

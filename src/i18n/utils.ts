@@ -45,13 +45,10 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   // Página de contacto (7 oct 2026): destino de los botones «Cuéntanos…».
   contact:     { es: '/contacto',                      en: '/en/contact' },
   start:       { es: '/empezar',                       en: '/en/get-started' },
-  /* Vuelve de la nevera el 21 oct 2026, solo en español: el espejo inglés
-     llega después del visto bueno, como cualquier redacción. Mientras tanto
-     la entrada no lleva `en` para que el hreflang no apunte a una página que
-     no existe. Cuando exista `src/pages/en/about.astro`, se añade
-     `en: '/en/about'`, y su `href` a «About us» en `resourceLinks` de ui.ts.
-     En español ya enlazan la cabecera («Recursos») y el pie («Empresa»). */
-  about:       { es: '/quienes-somos' },
+  /* Vuelve de la nevera el 21 oct 2026 en español y el 22 oct en inglés
+     (`/en/about`, espejo del texto revisado). Enlazan la cabecera («Recursos»)
+     y el pie («Empresa») en los dos idiomas. */
+  about:       { es: '/quienes-somos', en: '/en/about' },
   // Acuse de los dos formularios. Va `noindex` y fuera del sitemap, pero la
   // entrada hace falta igual: el par de hreflang y el selector de idioma se
   // construyen desde aquí, y una página sin par manda al visitante a la portada.
