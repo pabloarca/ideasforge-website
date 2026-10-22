@@ -684,7 +684,7 @@ const datos = JSON.stringify({ locale: qa.locale, pasos: qa.pasos, ui: qa.ui, t:
   const revT = document.getElementById('qa-revt')!;
   const rmsg = document.getElementById('qa-rmsg')!;
 
-  const state: { procs: P[]; last: P | null; a: A; i: number } = { procs: [], last: null, a: {}, i: 0 };
+  const state: { procs: P[]; last: P | null; a: A; i: number; empezada: boolean } = { procs: [], last: null, a: {}, i: 0, empezada: false };
   /* Las tareas se guardan en este navegador para que sigan ahí al probar otra
      o al recargar. Solo nombre y respuestas: el resultado se recalcula al
      cargar, así que un cambio en las reglas llega también a lo guardado.
@@ -814,6 +814,12 @@ const datos = JSON.stringify({ locale: qa.locale, pasos: qa.pasos, ui: qa.ui, t:
       return;
     }
     if (state.i < vs.length - 1) {
+      /* Empezar es pasar de la primera pregunta (22 oct 2026). Con el final,
+         `herramienta_veredicto`, dice cuánta gente abandona por el camino. */
+      if (state.i === 0 && !state.empezada) {
+        state.empezada = true;
+        track('herramienta_empieza', { pagina: String(state.procs.length + 1) });
+      }
       state.i++;
       pinta();
     } else termina();
@@ -829,6 +835,7 @@ const datos = JSON.stringify({ locale: qa.locale, pasos: qa.pasos, ui: qa.ui, t:
   function empieza() {
     state.a = {};
     state.i = 0;
+    state.empezada = false;
     cargado.hidden = true;
     out.hidden = true;
     wiz.hidden = false;

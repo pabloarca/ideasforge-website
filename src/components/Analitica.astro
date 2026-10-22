@@ -46,6 +46,23 @@ const PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID?.trim();
     var CAMPOS = ['seccion', 'destino', 'idioma', 'valor', 'pagina'];
     var cola = [];
     var concedido = false;
+    /*
+      Consent Mode v2 (22 oct 2026). Nada se carga antes del sí, igual que
+      siempre, pero Google Ads exige en Europa que la etiqueta diga QUÉ se ha
+      consentido. El aviso de cookies pide permiso solo para medir con Google
+      Analytics, así que los permisos de publicidad van en «denied». Pasarlos a
+      «granted» exige antes cambiar el aviso y la política de cookies para que
+      nombren Google Ads: si no, se mandaría un consentimiento que nadie dio.
+    */
+    var ANUNCIOS = 'denied';
+    function permisos(medir) {
+      return {
+        analytics_storage: medir,
+        ad_storage: medir === 'granted' ? ANUNCIOS : 'denied',
+        ad_user_data: medir === 'granted' ? ANUNCIOS : 'denied',
+        ad_personalization: medir === 'granted' ? ANUNCIOS : 'denied',
+      };
+    }
 
     function limpia(params) {
       var salida = {};
@@ -74,6 +91,7 @@ const PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID?.trim();
       window.gtag = function () {
         window.dataLayer.push(arguments);
       };
+      window.gtag('consent', 'default', permisos('granted'));
       window.gtag('js', new Date());
     }
 
@@ -136,12 +154,15 @@ const PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID?.trim();
           */
           if (GA_ID) window['ga-disable-' + GA_ID] = true;
           if (ADS_ID) window['ga-disable-' + ADS_ID] = true;
+          if (window.gtag) window.gtag('consent', 'update', permisos('denied'));
           return;
         }
         if (GA_ID) window['ga-disable-' + GA_ID] = false;
         if (ADS_ID) window['ga-disable-' + ADS_ID] = false;
         concedido = true;
         cargaTerceros();
+        // Volver a aceptar en la misma visita, después de haber revocado.
+        if (window.gtag) window.gtag('consent', 'update', permisos('granted'));
         for (var i = 0; i < cola.length; i++) envia(cola[i][0], cola[i][1]);
         cola = [];
       },
@@ -192,7 +213,9 @@ const PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID?.trim();
         var a = ev.target.closest ? ev.target.closest('a[href]') : null;
         if (!a) return;
         var destino = a.getAttribute('href') || '';
-        if (!/^\/(en\/get-started|empezar)(\?|#|$)/.test(destino)) return;
+        // /contacto y /en/contact desde el 7 oct 2026, cuando los «Cuéntanos…»
+        // dejaron de ir a /empezar. Hasta el 22 oct no se medían.
+        if (!/^\/(en\/get-started|empezar|contacto|en\/contact)(\?|#|$)/.test(destino)) return;
         forge.track('cta_formulario', {
           destino: destino,
           pagina: location.pathname,
