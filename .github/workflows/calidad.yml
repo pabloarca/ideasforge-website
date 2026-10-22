@@ -53,6 +53,11 @@ jobs:
       - name: Redacción (check:copy)
         run: npm run check:copy
 
+      # Las reglas y los casos de referencia de /que-automatizar: que la
+      # herramienta no recomiende un chat para cuentas ni dé cifras rotas.
+      - name: Herramienta (check:herramienta)
+        run: npm run check:herramienta
+
       - name: Compilar
         run: npm run build
 

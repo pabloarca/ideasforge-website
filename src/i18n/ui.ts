@@ -1345,7 +1345,8 @@ export interface SolutionPageContent {
   statement: [string, string];
   cta: string;
   intro: { h2: string; p: [string, string]; listLabel: string; list: string[] };
-  capabilities: { h2: string; lead: string; items: [string, string][] };
+  /** `link`: enlace con flecha bajo la entradilla (21 oct 2026, para llevar a la herramienta de qué automatizar). */
+  capabilities: { h2: string; lead: string; link?: { label: string; href: string }; items: [string, string][] };
   /** El titular llega en cinco trozos: el segundo y el cuarto van subrayados. */
   poster: { kicker: string; h2: [string, string, string, string, string]; p: [string, string] };
   types: { h2: string; lead: string; items: [string, string][] };
@@ -1361,6 +1362,7 @@ export interface SolutionPageContent {
   when: {
     h2: string;
     lead: string;
+    link?: { label: string; href: string };
     yes: { label: string; items: string[] };
     no: { label: string; items: string[] };
   };
@@ -1522,6 +1524,8 @@ export type SectorBlock =
       type: 'uses';
       h2: string;
       lead: string;
+      /** Enlace con flecha bajo la entradilla: la herramienta de qué automatizar, con un ejemplo del sector ya cargado (21 oct 2026). */
+      prueba?: { label: string; href: string };
       subs: { t: string; d?: string; q?: string; label?: string; items?: string[] }[];
     }
   /** Procesos paso a paso. El segundo valor de cada paso dice si lo hace la IA. */
@@ -3505,6 +3509,9 @@ export const content: Record<Lang, SiteContent> = {
             /* Pymes pasó aquí desde «Sectores» el 7 oct 2026, por decisión del
                propietario, con este nombre. */
             { label: 'IA para Pymes', href: '/guias/ia-para-pymes' },
+            /* La herramienta entra aquí el 21 oct 2026: no es una guía, pero
+               es el sitio del menú donde se busca por dónde empezar. */
+            { label: 'Qué automatizar primero', href: '/que-automatizar' },
           ],
         },
       ],
@@ -3687,7 +3694,7 @@ export const content: Record<Lang, SiteContent> = {
               'El 21,1 % de las empresas españolas de diez o más empleados usó inteligencia artificial en el primer trimestre de 2025, según el Instituto Nacional de Estadística. Son 8,7 puntos más que un año antes. Lo que esa cifra mide es cuánta gente la usa, que no es lo mismo que cuánta gente gana dinero con ella.',
               'La pregunta que decide si la IA sale a cuenta en una empresa pequeña va por otro lado. No cuál es la herramienta del momento, sino qué proceso tuyo se repite lo suficiente y cuesta lo suficiente cada vez como para pagarse su propia automatización.',
               '<strong>Ese proceso casi siempre existe y casi nunca es el que sale en los titulares.</strong> En las empresas donde hemos trabajado suele ser el que alguien hace todos los días sin quejarse, porque lleva años haciéndolo y ya nadie lo mira.',
-              'Encontrarlo es la mitad del trabajo. La otra mitad es ponerle un número antes de construir nada, para que dentro de seis meses se pueda decir si la cosa funcionó sin depender de la impresión de nadie.',
+              'Encontrarlo es la mitad del trabajo, y para eso hemos hecho <a href="/que-automatizar" class="link-inline">una herramienta gratuita que mira tus tareas una a una</a>. La otra mitad es ponerle un número antes de construir nada, para que dentro de seis meses se pueda decir si la cosa funcionó sin depender de la impresión de nadie.',
             ],
           },
           {
@@ -4749,6 +4756,7 @@ export const content: Record<Lang, SiteContent> = {
               {
                 q: '¿Qué procesos se pueden automatizar con IA?',
                 a: 'Procesos administrativos, documentales, comerciales, operativos, de atención y coordinación entre sistemas.',
+                link: { label: 'Comprueba si compensa automatizar una tarea tuya', href: '/que-automatizar' },
               },
               {
                 q: '¿La IA sustituye todas las reglas del proceso?',
@@ -7268,6 +7276,7 @@ export const content: Record<Lang, SiteContent> = {
               {
                 type: 'uses',
                 h2: '¿Qué puede automatizar la IA en una gestoría o asesoría?',
+                prueba: { label: 'Comprueba si te compensa automatizar el paso de facturas a contabilidad', href: '/que-automatizar?ejemplo=facturas' },
                 lead: 'La IA puede intervenir en procesos administrativos, documentales, de atención y de gestión interna.',
                 subs: [
                   {
@@ -8027,6 +8036,7 @@ export const content: Record<Lang, SiteContent> = {
               {
                 type: 'uses',
                 h2: '¿Qué puede automatizar la IA en una organización sanitaria?',
+                prueba: { label: 'Comprueba si te compensa automatizar la gestión de citas', href: '/que-automatizar?ejemplo=citas' },
                 lead: 'La IA puede intervenir en procesos administrativos, de atención, documentación y coordinación interna.',
                 subs: [
                   {
@@ -8418,6 +8428,7 @@ export const content: Record<Lang, SiteContent> = {
               {
                 type: 'uses',
                 h2: '¿Qué puede automatizar la IA en logística y transporte?',
+                prueba: { label: 'Comprueba si te compensa automatizar el reparto de los correos que llegan', href: '/que-automatizar?ejemplo=correos' },
                 lead: 'La IA puede intervenir en procesos operativos, administrativos, documentales y de atención.',
                 subs: [
                   {
@@ -9157,6 +9168,7 @@ export const content: Record<Lang, SiteContent> = {
               {
                 type: 'uses',
                 h2: '¿Qué puede automatizar la IA en ecommerce y retail?',
+                prueba: { label: 'Comprueba si te compensa automatizar las respuestas a clientes', href: '/que-automatizar?ejemplo=consultas' },
                 lead: 'La IA puede intervenir en procesos comerciales, operativos, administrativos y de atención.',
                 subs: [
                   {
@@ -9832,6 +9844,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             capabilities: {
               h2: '¿Qué procesos puede automatizar la inteligencia artificial?',
+              link: { label: 'Comprueba si te compensa automatizar una tarea concreta', href: '/que-automatizar' },
               lead: 'Casi todo lo que nos piden encaja en cuatro tipos de proceso. El quinto punto no es un tipo de proceso, sino lo que ocurre cuando un caso necesita que intervenga una persona.',
               items: [
                 [
@@ -10793,6 +10806,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             when: {
               h2: '¿Cuándo tiene sentido una consultoría de IA?',
+              link: { label: 'Antes de contratar una consultoría, prueba gratis qué tarea automatizar primero', href: '/que-automatizar' },
               lead: 'Aporta valor cuando la empresa sabe que existen oportunidades, pero todavía necesita decidir cuáles abordar. Puede centrarse en un único proceso. Y a veces el siguiente paso es simplemente construir.',
               yes: {
                 label: 'Puede tener sentido si',
@@ -11869,7 +11883,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Antes de pedir presupuesto, calcula dos datos: cuántos minutos lleva hoy esa tarea y cuántas veces se repite al mes.',
               'Así se ve en dos de nuestros sistemas. En una gestora inmobiliaria, cada factura de suministros costaba un minuto de teclado y hoy el 98 % pasa sin que nadie la toque. En una agencia de alquiler, cada consulta de WhatsApp llevaba entre cinco y diez minutos de comprobación manual y el equipo recupera más de tres horas al día.',
-              'Multiplica esos dos datos y tendrás las horas que ese trabajo se come cada mes. Compara esas horas con el coste estimado de construcción y operación del agente y sabrás si la automatización compensa. <strong>Si no compensa, también es útil saberlo antes de construir nada</strong>, porque hay procesos cuyo ahorro no justifica el coste de automatizarlos, y puedes detectarlo con esta cuenta antes de invertir.',
+              'Multiplica esos dos datos y tendrás las horas que ese trabajo se come cada mes. Compara esas horas con el coste estimado de construcción y operación del agente y sabrás si la automatización compensa. <strong>Si no compensa, también es útil saberlo antes de construir nada</strong>, porque hay procesos cuyo ahorro no justifica el coste de automatizarlos, y puedes detectarlo con esta cuenta antes de invertir. Si quieres sumar también lo que pierdes cada vez que la tarea sale mal, <a href="/que-automatizar" class="link-inline">nuestra herramienta gratuita</a> hace la cuenta con una tarea tuya.',
             ],
             link: {
               label: 'Los dos procesos, contados enteros',
@@ -14901,6 +14915,7 @@ export const content: Record<Lang, SiteContent> = {
             { label: 'GDPR-compliant AI', href: '/en/guides/gdpr-compliant-ai' },
             { label: 'EU AI Act', href: '/en/guides/eu-ai-act-compliance' },
             { label: 'AI for small business', href: '/en/guides/ai-for-small-business' },
+            { label: 'What to automate first', href: '/en/what-to-automate' },
           ],
         },
       ],
@@ -15220,6 +15235,7 @@ export const content: Record<Lang, SiteContent> = {
               {
                 q: 'Which processes can be automated with AI?',
                 a: 'Administrative, document, sales, operations and customer service processes, as well as coordination between systems.',
+                link: { label: 'Check whether automating one of your tasks pays off', href: '/en/what-to-automate' },
               },
               {
                 q: 'Does AI replace all the rules in the process?',
@@ -17712,6 +17728,7 @@ export const content: Record<Lang, SiteContent> = {
               {
                 type: 'uses',
                 h2: 'What can AI automate in an accounting or advisory firm?',
+                prueba: { label: 'Check whether automating invoice entry pays off for you', href: '/en/what-to-automate?ejemplo=facturas' },
                 lead: 'AI can step into administrative, document, client service and internal management processes.',
                 subs: [
                   {
@@ -18471,6 +18488,7 @@ export const content: Record<Lang, SiteContent> = {
               {
                 type: 'uses',
                 h2: 'What can AI automate in a healthcare organization?',
+                prueba: { label: 'Check whether automating appointment booking pays off for you', href: '/en/what-to-automate?ejemplo=citas' },
                 lead: 'AI can step into administrative, patient service, documentation and internal coordination processes.',
                 subs: [
                   {
@@ -18862,6 +18880,7 @@ export const content: Record<Lang, SiteContent> = {
               {
                 type: 'uses',
                 h2: 'What can AI automate in logistics and transportation?',
+                prueba: { label: 'Check whether automating email routing pays off for you', href: '/en/what-to-automate?ejemplo=correos' },
                 lead: 'AI can step into operational, administrative, document and customer service processes.',
                 subs: [
                   {
@@ -19601,6 +19620,7 @@ export const content: Record<Lang, SiteContent> = {
               {
                 type: 'uses',
                 h2: 'What can AI automate in ecommerce and retail?',
+                prueba: { label: 'Check whether automating customer replies pays off for you', href: '/en/what-to-automate?ejemplo=consultas' },
                 lead: 'AI can step into sales, operational, administrative and customer service processes.',
                 subs: [
                   {
@@ -20259,6 +20279,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             capabilities: {
               h2: 'Which processes can artificial intelligence automate?',
+              link: { label: 'Check whether automating one specific task pays off', href: '/en/what-to-automate' },
               lead: 'Almost everything we’re asked for fits into four types of process. The fifth point isn’t a type of process, it’s what happens when a case needs a person to step in.',
               items: [
                 [
@@ -21220,6 +21241,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             when: {
               h2: 'When does AI consulting make sense?',
+              link: { label: 'Before hiring a consultant, try our free tool for what to automate first', href: '/en/what-to-automate' },
               lead: 'It adds value when the company knows there are opportunities but still needs to decide which ones to tackle. It can focus on a single process. And sometimes the next step is simply to build.',
               yes: {
                 label: 'It can make sense if',
@@ -21321,7 +21343,7 @@ export const content: Record<Lang, SiteContent> = {
             id: 'the-problem',
             paragraphs: [
               'Search “AI for small business” and what comes back is lists. The biggest names in software publish rankings of tools, one for marketing, one for bookkeeping, one more for answering messages. None of it is wrong. It just answers a question you were not asking.',
-              'The question that decides whether AI pays in a small business runs the other way around. Not which tools exist, but which of your processes repeats often enough, and costs enough each time, to pay for its own automation. The best AI for a small business is the one attached to that number.',
+              'The question that decides whether AI pays in a small business runs the other way around. Not which tools exist, but which of your processes repeats often enough, and costs enough each time, to pay for its own automation. The best AI for a small business is the one attached to that number, and <a href="/en/what-to-automate" class="link-inline">our free tool checks your tasks one at a time</a> to find it.',
               'The official statistics show who is getting that answer right. Eurostat, the statistics office of the European Union, measured that one in five European companies with ten or more employees used AI technologies in 2025, up from 13.5% the year before. Split by company size it stops being one story, 17% of small companies against 55% of large ones.',
               'Large companies are not three times more convinced than you are. They can afford systems built around their own operations, with engineering behind them, and that is the kind of AI that moves a business number. <strong>We package the engineering large companies get, for one process at a time and with the price said first.</strong>',
             ],
@@ -21797,7 +21819,7 @@ export const content: Record<Lang, SiteContent> = {
             paragraphs: [
               'Before asking for a quote, run a calculation that only needs two of your own numbers: how many minutes the task you want off your plate takes today and how many times it happens a month.',
               'Here’s how it looks in two of our systems. At a property management company, each utility bill took a minute of typing, and today 98% go through without anyone touching them. At a rental agency, each WhatsApp inquiry took five to ten minutes of manual checking, and the team gets back more than three hours a day.',
-              'Multiply your two numbers and you have the hours that work eats up every month. Put them next to the price range above and the math either works or it doesn’t. <strong>If it doesn’t, that’s an answer too</strong>, because some processes don’t pay for their automation, and finding out before you build costs you one multiplication.',
+              'Multiply your two numbers and you have the hours that work eats up every month. Put them next to the price range above and the math either works or it doesn’t. <strong>If it doesn’t, that’s an answer too</strong>, because some processes don’t pay for their automation, and finding out before you build costs you one multiplication. To add what you lose each time the task goes wrong, <a href="/en/what-to-automate" class="link-inline">our free tool</a> does the math with one of your tasks.',
             ],
             link: {
               label: 'Both processes, told in full',

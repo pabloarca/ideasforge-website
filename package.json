@@ -12,7 +12,8 @@
     "astro": "astro",
     "check:copy": "node scripts/check-copy.mjs",
     "check:seo": "node scripts/check-seo.mjs",
-    "check:all": "npm run check && npm run check:copy && npm run build && npm run check:seo",
+    "check:herramienta": "node --experimental-strip-types --no-warnings scripts/test-que-automatizar.mjs",
+    "check:all": "npm run check && npm run check:copy && npm run check:herramienta && npm run build && npm run check:seo",
     "frio": "node scripts/revision-fria.mjs",
     "indexnow": "node scripts/indexnow.mjs"
   },

@@ -146,7 +146,10 @@ const n = d.method.steps.length;
     <section class="section-y">
       <div class="section-head" data-reveal>
         <h2 class="sol-h2">{d.capabilities.h2}</h2>
-        <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{d.capabilities.lead}</p>
+        <div>
+          <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{d.capabilities.lead}</p>
+        {d.capabilities.link && <a href={d.capabilities.link.href} class="link-arrow mt-5">{d.capabilities.link.label} →</a>}
+        </div>
       </div>
       <div class="ruled-grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))]">
         {
@@ -293,7 +296,10 @@ const n = d.method.steps.length;
     <section class="section-y">
       <div class="section-head" data-reveal>
         <h2 class="sol-h2">{d.when.h2}</h2>
-        <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{d.when.lead}</p>
+        <div>
+          <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{d.when.lead}</p>
+        {d.when.link && <a href={d.when.link.href} class="link-arrow mt-5">{d.when.link.label} →</a>}
+        </div>
       </div>
       <div class="sol-diptico">
         <div class="bg-bg p-[clamp(24px,3vw,40px)]">

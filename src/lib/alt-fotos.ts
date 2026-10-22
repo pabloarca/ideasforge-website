@@ -52,6 +52,10 @@ const ALT: Record<string, Record<Lang, string>> = {
     es: 'Tres sobres blancos separados sobre una mesa, vistos desde arriba',
     en: 'Three separate white envelopes on a desk, seen from above',
   },
+  '/guias/que-automatizar-pizarra.jpg': {
+    es: 'Una mujer, de espaldas, señala una de las hojas en blanco clavadas en la pared de una oficina',
+    en: 'A woman, seen from behind, points at one of the blank sheets pinned to an office wall',
+  },
   '/guias/rgpd.jpg': {
     es: 'Sala de reuniones con cristal esmerilado; dentro se adivinan cuatro personas',
     en: 'Meeting room behind frosted glass, with four people barely visible inside',

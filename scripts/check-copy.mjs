@@ -17,6 +17,28 @@ import { join } from 'node:path';
 const UI = 'src/i18n/ui.ts';
 const BLOG_ES = 'src/content/blog/es';
 const BLOG_EN = 'src/content/blog/en';
+/* La herramienta «qué automatizar primero» guarda su texto aparte de ui.ts
+   (t0202, 21 oct 2026): sin esto, sus frases no las revisaba nadie. */
+const QA_ES = 'src/i18n/que-automatizar.ts';
+const QA_EN = 'src/i18n/que-automatizar-en.ts';
+/** Solo las cadenas entre comillas simples, sin comentarios: en esos
+ *  ficheros el resto es código y tipos, no texto visible. Cada cadena se
+ *  revisa por separado, porque cada una se pinta en un sitio distinto y dos
+ *  etiquetas cortas seguidas no son una ráfaga. */
+function literales(src) {
+  const sinComentarios = src.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/^\s*\/\/.*$/gm, ' ');
+  return [...sinComentarios.matchAll(/'((?:[^'\\\n]|\\.)*)'/g)].map((m) => m[1]).filter((x) => /\s/.test(x));
+}
+/** Revisa cada trozo con `fn` y junta lo encontrado bajo un solo nombre. */
+function porTrozos(fn, nombre, trozos) {
+  const r = { nombre, fallos: [], avisos: [] };
+  for (const t of trozos) {
+    const x = fn(nombre, t);
+    r.fallos.push(...x.fallos);
+    r.avisos.push(...x.avisos);
+  }
+  return r;
+}
 
 /** Solo el bloque español de ui.ts: el inglés no sigue estas reglas. */
 function bloqueEspanol(src) {
@@ -619,6 +641,7 @@ function contexto(t, i) {
 
 const objetivos = [
   { nombre: UI, texto: bloqueEspanol(readFileSync(UI, 'utf8')) },
+  { nombre: QA_ES, trozos: literales(readFileSync(QA_ES, 'utf8')) },
   ...readdirSync(BLOG_ES)
     .filter((f) => f.endsWith('.md'))
     .map((f) => ({ nombre: join(BLOG_ES, f), texto: readFileSync(join(BLOG_ES, f), 'utf8') })),
@@ -628,7 +651,7 @@ let totalFallos = 0;
 let totalAvisos = 0;
 
 for (const o of objetivos) {
-  const r = revisa(o.nombre, o.texto);
+  const r = o.trozos ? porTrozos(revisa, o.nombre, o.trozos) : revisa(o.nombre, o.texto);
   if (!r.fallos.length && !r.avisos.length) continue;
   console.log(`\n${r.nombre}`);
   for (const [regla, ctx] of r.fallos) {
@@ -643,13 +666,14 @@ for (const o of objetivos) {
 
 const objetivosEn = [
   { nombre: `${UI} (bloque inglés)`, texto: bloqueIngles(readFileSync(UI, 'utf8')) },
+  { nombre: QA_EN, trozos: literales(readFileSync(QA_EN, 'utf8')) },
   ...readdirSync(BLOG_EN)
     .filter((f) => f.endsWith('.md'))
     .map((f) => ({ nombre: join(BLOG_EN, f), texto: readFileSync(join(BLOG_EN, f), 'utf8') })),
 ];
 
 for (const o of objetivosEn) {
-  const r = revisaIngles(o.nombre, o.texto);
+  const r = o.trozos ? porTrozos(revisaIngles, o.nombre, o.trozos) : revisaIngles(o.nombre, o.texto);
   if (!r.fallos.length && !r.avisos.length) continue;
   console.log(`\n${r.nombre}`);
   for (const [regla, ctx] of r.fallos) {

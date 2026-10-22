@@ -135,7 +135,10 @@ const reticula = (n: number, fijas?: number) => {
             <section id="usos" class="section-y">
               <div class="section-head" data-reveal>
                 <h2 class="sec-h2">{b.h2}</h2>
-                <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{b.lead}</p>
+                <div>
+                  <p class="max-w-[44ch] text-base leading-[1.6] text-muted">{b.lead}</p>
+                  {b.prueba && <a href={b.prueba.href} class="link-arrow mt-5">{b.prueba.label} →</a>}
+                </div>
               </div>
               <div class="sec-usos" data-usos>
                 <div class="sec-usos-lista border-t-2 border-border">

@@ -18,6 +18,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from './home/ContactForm.astro';
 import { type Lang, content } from '../i18n/ui';
 import { altsFor, routeMap } from '../i18n/utils';
+import { qa as qaEs } from '../i18n/que-automatizar';
+import { qaEn } from '../i18n/que-automatizar-en';
 
 interface Props {
   lang: Lang;
@@ -41,6 +43,8 @@ const descripcionDe = (href: string) => {
   const clave = Object.keys(routeMap).find((k) => routeMap[k][lang] === href);
   /* El sector primero: es el texto de la plantilla que la página pinta hoy. Las
      páginas largas viejas siguen en `pages` sin uso (16 oct 2026). */
+  /* La herramienta de qué automatizar (21 oct 2026) tiene su texto aparte. */
+  if (clave === 'whatToAutomate') return (lang === 'en' ? qaEn : qaEs).metaDescription;
   return clave ? (sectores[clave]?.metaDescription ?? paginas[clave]?.metaDescription) : undefined;
 };
 const items = enlaces.map((e) => ({ ...e, desc: descripcionDe(e.href) }));

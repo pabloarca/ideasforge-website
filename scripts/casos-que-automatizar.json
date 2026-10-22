@@ -1,0 +1,709 @@
+{
+  "nota": "Casos de referencia de /que-automatizar (t0190). Cada uno es una tarea de pyme con el veredicto y el estado del semáforo que se dan por buenos. Los marcados con \"validado\": false los propuso Claude el 21 oct 2026 y esperan el visto bueno del propietario; cuando él corrija uno, se cambia aquí y se pone \"validado\": true. Lo comprueba scripts/test-que-automatizar.mjs.",
+  "casos": [
+    {
+      "nombre": "Presupuestos de mantenimiento de piscinas",
+      "validado": false,
+      "por": "Hay cuentas: nunca un chat. La IA lee la petición, un programa calcula.",
+      "a": {
+        "veces": "semana",
+        "min": "m22",
+        "hace": [
+          "leer",
+          "cuentas",
+          "escribir"
+        ],
+        "pasos": "igual",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "no",
+        "destino": "cliente",
+        "revisa": "todo",
+        "riesgo": "cuesta",
+        "fallos": "f6",
+        "coste": "c600",
+        "tiempo": "vender",
+        "hora": "h25"
+      },
+      "esperado": {
+        "v": "flujo",
+        "estado": "verde"
+      }
+    },
+    {
+      "nombre": "Recordatorios de vacunas",
+      "validado": false,
+      "por": "Solo normas escritas y poco trabajo: lo hace la agenda o un programa normal.",
+      "a": {
+        "veces": "dia",
+        "min": "m3",
+        "hace": [
+          "normas"
+        ],
+        "normas": "lista",
+        "pasos": "igual",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "no",
+        "destino": "cliente",
+        "revisa": "no",
+        "riesgo": "leve",
+        "fallos": "f1",
+        "coste": "c25",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "noia",
+        "estado": "noia"
+      }
+    },
+    {
+      "nombre": "Pasar pedidos de WhatsApp y correo al ERP",
+      "validado": false,
+      "por": "Leer y copiar con normas escritas, de dos sitios: automatización a medida. Mucho volumen: hablemos.",
+      "a": {
+        "veces": "decenas",
+        "min": "m10",
+        "hace": [
+          "leer",
+          "normas"
+        ],
+        "normas": "lista",
+        "pasos": "igual",
+        "info": [
+          "programa",
+          "correos"
+        ],
+        "sensibles": "no",
+        "destino": "programa",
+        "revisa": "dudosos",
+        "riesgo": "cuesta",
+        "fallos": "f6",
+        "coste": "c150",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "flujo",
+        "estado": "ambar",
+        "dejas": [
+          400,
+          500
+        ]
+      }
+    },
+    {
+      "nombre": "Citas por WhatsApp en una clínica dental",
+      "validado": false,
+      "por": "Conversación de ida y vuelta con el paciente: agente.",
+      "a": {
+        "veces": "decenas",
+        "min": "m10",
+        "hace": [
+          "leer",
+          "escribir"
+        ],
+        "pasos": "conversa",
+        "info": [
+          "programa",
+          "cabeza"
+        ],
+        "cabeza": "parte",
+        "sensibles": "salud",
+        "destino": "cliente",
+        "revisa": "dudosos",
+        "riesgo": "cuesta",
+        "fallos": "f20",
+        "coste": "c150",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "agente",
+        "estado": "verde"
+      }
+    },
+    {
+      "nombre": "Ideas y textos para las redes de la tienda",
+      "validado": false,
+      "por": "Contenido sin consecuencias, revisado, poco volumen: evidente que basta un chat.",
+      "a": {
+        "veces": "pocas",
+        "min": "m45",
+        "hace": [
+          "escribir"
+        ],
+        "pasos": "igual",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "no",
+        "destino": "equipo",
+        "revisa": "todo",
+        "riesgo": "leve",
+        "fallos": "f0",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "suscripcion",
+        "estado": "suscripcion"
+      }
+    },
+    {
+      "nombre": "Fichas de producto para la tienda online (unas pocas a la semana)",
+      "validado": false,
+      "por": "Escribir, revisado, sin consecuencias y poco volumen: basta un chat.",
+      "a": {
+        "veces": "semana",
+        "min": "m22",
+        "hace": [
+          "escribir"
+        ],
+        "pasos": "igual",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "no",
+        "destino": "equipo",
+        "revisa": "todo",
+        "riesgo": "leve",
+        "fallos": "f0",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "suscripcion",
+        "estado": "suscripcion"
+      }
+    },
+    {
+      "nombre": "Fichas de producto para la tienda online (decenas al día)",
+      "validado": false,
+      "por": "Con ese volumen ya no es copiar y pegar en un chat: automatización y hablemos.",
+      "a": {
+        "veces": "decenas",
+        "min": "m10",
+        "hace": [
+          "escribir"
+        ],
+        "pasos": "igual",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "no",
+        "destino": "equipo",
+        "revisa": "todo",
+        "riesgo": "leve",
+        "fallos": "f0",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "flujo",
+        "estado": "ambar"
+      }
+    },
+    {
+      "nombre": "Informe para la mutua tras cada sesión de fisio",
+      "validado": false,
+      "por": "Datos de salud: nunca un chat cualquiera. Con poco volumen y sin pérdidas, hoy no compensa.",
+      "a": {
+        "veces": "semana",
+        "min": "m22",
+        "hace": [
+          "escribir"
+        ],
+        "pasos": "igual",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "salud",
+        "destino": "equipo",
+        "revisa": "todo",
+        "riesgo": "leve",
+        "fallos": "f0",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "flujo",
+        "estado": "rojo"
+      }
+    },
+    {
+      "nombre": "Rutas de reparto de cada día",
+      "validado": false,
+      "por": "Repartir es cálculo: programa a medida. Una vez al día son 16 h al mes: hablemos, sin prometer verde.",
+      "a": {
+        "veces": "diaria",
+        "min": "m45",
+        "hace": [
+          "repartir",
+          "leer"
+        ],
+        "pasos": "igual",
+        "info": [
+          "programa",
+          "correos"
+        ],
+        "sensibles": "no",
+        "destino": "programa",
+        "revisa": "dudosos",
+        "riesgo": "cuesta",
+        "fallos": "f6",
+        "coste": "c150",
+        "tiempo": "pagar",
+        "hora": "h25"
+      },
+      "esperado": {
+        "v": "flujo",
+        "estado": "ambar"
+      }
+    },
+    {
+      "nombre": "Cuadrante de turnos semanal",
+      "validado": false,
+      "por": "Repartir sin nada que leer: programa a medida, sin IA.",
+      "a": {
+        "veces": "semana",
+        "min": "m45",
+        "hace": [
+          "repartir"
+        ],
+        "pasos": "igual",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "no",
+        "destino": "equipo",
+        "revisa": "todo",
+        "riesgo": "cuesta",
+        "fallos": "f1",
+        "coste": "c150",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "programa",
+        "estado": "rojo"
+      }
+    },
+    {
+      "nombre": "Conciliación bancaria",
+      "validado": false,
+      "por": "Cuentas con normas escritas y poco trabajo: el programa contable lo hace.",
+      "a": {
+        "veces": "dia",
+        "min": "m3",
+        "hace": [
+          "normas",
+          "cuentas"
+        ],
+        "normas": "lista",
+        "pasos": "igual",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "personales",
+        "destino": "programa",
+        "revisa": "no",
+        "riesgo": "cuesta",
+        "fallos": "f1",
+        "coste": "c25",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "noia",
+        "estado": "noia"
+      }
+    },
+    {
+      "nombre": "Albaranes en papel a facturación",
+      "validado": false,
+      "por": "Leer papel y pasarlo a un programa: automatización sencilla.",
+      "a": {
+        "veces": "dia",
+        "min": "m10",
+        "hace": [
+          "leer"
+        ],
+        "pasos": "igual",
+        "info": [
+          "papel"
+        ],
+        "sensibles": "no",
+        "destino": "programa",
+        "revisa": "dudosos",
+        "riesgo": "cuesta",
+        "fallos": "f6",
+        "coste": "c150",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "flujo",
+        "estado": "verde",
+        "dejas": [
+          400,
+          500
+        ]
+      }
+    },
+    {
+      "nombre": "Cribar currículos",
+      "validado": false,
+      "por": "Criterio de experto: la IA prepara y una persona decide. Poco volumen: hoy no compensa.",
+      "a": {
+        "veces": "semana",
+        "min": "m22",
+        "hace": [
+          "leer",
+          "decidir"
+        ],
+        "pasos": "casi",
+        "info": [
+          "correos"
+        ],
+        "sensibles": "personales",
+        "destino": "equipo",
+        "revisa": "todo",
+        "riesgo": "cuesta",
+        "fallos": "f0",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "asistente",
+        "estado": "rojo"
+      }
+    },
+    {
+      "nombre": "Pagar facturas de proveedores",
+      "validado": false,
+      "por": "Sale dinero y no hay vuelta atrás: una persona aprueba el último paso.",
+      "a": {
+        "veces": "dia",
+        "min": "m10",
+        "hace": [
+          "leer",
+          "cuentas"
+        ],
+        "pasos": "igual",
+        "info": [
+          "programa",
+          "correos"
+        ],
+        "sensibles": "personales",
+        "destino": "programa",
+        "revisa": "todo",
+        "riesgo": "irreversible",
+        "fallos": "f1",
+        "coste": "c1500",
+        "tiempo": "pagar",
+        "hora": "h25"
+      },
+      "esperado": {
+        "v": "asistente",
+        "estado": "verde"
+      }
+    },
+    {
+      "nombre": "Presupuestos que solo sabe hacer el jefe",
+      "validado": false,
+      "por": "Casi todo está en su cabeza: primero hay que escribirlo.",
+      "a": {
+        "veces": "semana",
+        "min": "m45",
+        "hace": [
+          "decidir",
+          "cuentas"
+        ],
+        "pasos": "casi",
+        "info": [
+          "cabeza"
+        ],
+        "cabeza": "todo",
+        "sensibles": "no",
+        "destino": "cliente",
+        "revisa": "todo",
+        "riesgo": "cuesta",
+        "fallos": "f6",
+        "coste": "c600",
+        "tiempo": "vender",
+        "hora": "h40"
+      },
+      "esperado": {
+        "v": "datos",
+        "estado": "datos"
+      }
+    },
+    {
+      "nombre": "Llamadas de «¿cómo va mi coche?» en un taller",
+      "validado": false,
+      "por": "Conversación con el cliente, pero poco volumen y poca pérdida: hoy no compensa.",
+      "a": {
+        "veces": "dia",
+        "min": "m3",
+        "hace": [
+          "leer",
+          "escribir"
+        ],
+        "pasos": "conversa",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "no",
+        "destino": "cliente",
+        "revisa": "no",
+        "riesgo": "leve",
+        "fallos": "f6",
+        "coste": "c25",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "agente",
+        "estado": "rojo"
+      }
+    },
+    {
+      "nombre": "Reclamaciones por correo (no sabe lo que le cuestan)",
+      "validado": false,
+      "por": "Con «no lo sé», nunca rojo: hablemos.",
+      "a": {
+        "veces": "semana",
+        "min": "m22",
+        "hace": [
+          "leer"
+        ],
+        "pasos": "igual",
+        "info": [
+          "correos"
+        ],
+        "sensibles": "no",
+        "destino": "programa",
+        "revisa": "dudosos",
+        "riesgo": "cuesta",
+        "fallos": "f6",
+        "coste": "nose",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "flujo",
+        "estado": "ambar"
+      }
+    },
+    {
+      "nombre": "Responder reseñas de Google",
+      "validado": false,
+      "por": "Contenido que se publica, revisado entero y sin consecuencias graves: basta un chat (decisión del propietario, 21 oct).",
+      "a": {
+        "veces": "semana",
+        "min": "m10",
+        "hace": [
+          "escribir"
+        ],
+        "pasos": "igual",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "no",
+        "destino": "publica",
+        "revisa": "todo",
+        "riesgo": "leve",
+        "fallos": "f0",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "suscripcion",
+        "estado": "suscripcion"
+      }
+    },
+    {
+      "nombre": "Respuestas que no cuadran (cientos al día, más de una hora cada una)",
+      "validado": false,
+      "por": "Salen decenas de personas: se avisa y se invita a hablar.",
+      "a": {
+        "veces": "cientos",
+        "min": "m90",
+        "hace": [
+          "leer"
+        ],
+        "pasos": "igual",
+        "info": [
+          "correos"
+        ],
+        "sensibles": "no",
+        "destino": "programa",
+        "revisa": "dudosos",
+        "riesgo": "cuesta",
+        "fallos": "f0",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "flujo",
+        "estado": "ambar"
+      }
+    },
+    {
+      "nombre": "Copiar datos de un programa a otro, decenas de veces al día",
+      "validado": false,
+      "por": "Sin IA, pero mucho trabajo: un programa a medida, y eso también lo hacemos.",
+      "a": {
+        "veces": "decenas",
+        "min": "m10",
+        "hace": [
+          "normas"
+        ],
+        "normas": "lista",
+        "pasos": "igual",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "no",
+        "destino": "programa",
+        "revisa": "no",
+        "riesgo": "cuesta",
+        "fallos": "f0",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "programa",
+        "estado": "ambar"
+      }
+    },
+    {
+      "nombre": "Facturas de proveedores a contabilidad, 31 h al mes, sin plan para ese tiempo",
+      "validado": false,
+      "por": "Nuestro producto central. Con 31 h al mes nunca rojo: hablemos.",
+      "a": {
+        "veces": "dia",
+        "min": "m22",
+        "hace": [
+          "leer"
+        ],
+        "pasos": "igual",
+        "info": [
+          "correos",
+          "programa"
+        ],
+        "sensibles": "personales",
+        "destino": "programa",
+        "revisa": "dudosos",
+        "riesgo": "cuesta",
+        "fallos": "f1",
+        "coste": "c25",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "flujo",
+        "estado": "ambar"
+      }
+    },
+    {
+      "nombre": "Descripciones de pisos para los portales",
+      "validado": false,
+      "por": "Contenido que se publica, revisado: basta un chat.",
+      "a": {
+        "veces": "semana",
+        "min": "m22",
+        "hace": [
+          "escribir"
+        ],
+        "pasos": "igual",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "no",
+        "destino": "publica",
+        "revisa": "todo",
+        "riesgo": "cuesta",
+        "fallos": "f0",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "suscripcion",
+        "estado": "suscripcion"
+      }
+    },
+    {
+      "nombre": "Presupuestos de reformas (marca escribir y cuentas)",
+      "validado": false,
+      "por": "Hay cuentas: la IA lee y un programa calcula.",
+      "a": {
+        "veces": "semana",
+        "min": "m45",
+        "hace": [
+          "leer",
+          "escribir",
+          "cuentas"
+        ],
+        "pasos": "casi",
+        "info": [
+          "programa",
+          "correos"
+        ],
+        "sensibles": "no",
+        "destino": "cliente",
+        "revisa": "todo",
+        "riesgo": "cuesta",
+        "fallos": "f6",
+        "coste": "c600",
+        "tiempo": "vender",
+        "hora": "h40"
+      },
+      "esperado": {
+        "v": "flujo"
+      }
+    },
+    {
+      "nombre": "Inspeccionar fotos de piezas, cientos al día",
+      "validado": false,
+      "por": "Volumen enorme: nunca al precio del proyecto pequeño. Pérdidas que no cuadran: ámbar, nunca verde.",
+      "a": {
+        "veces": "cientos",
+        "min": "m3",
+        "hace": [
+          "leer",
+          "decidir"
+        ],
+        "pasos": "igual",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "no",
+        "destino": "programa",
+        "revisa": "dudosos",
+        "riesgo": "cuesta",
+        "fallos": "f20",
+        "coste": "c1500",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "asistente",
+        "estado": "ambar"
+      }
+    },
+    {
+      "nombre": "Cuadrar el banco con 669 € al mes en juego",
+      "validado": false,
+      "por": "Sin IA, pero con dinero en juego: un programa a medida, que también hacemos.",
+      "a": {
+        "veces": "semana",
+        "min": "m22",
+        "hace": [
+          "normas",
+          "cuentas"
+        ],
+        "normas": "lista",
+        "pasos": "casi",
+        "info": [
+          "programa"
+        ],
+        "sensibles": "personales",
+        "destino": "programa",
+        "revisa": "todo",
+        "riesgo": "cuesta",
+        "fallos": "f6",
+        "coste": "c150",
+        "tiempo": "nada"
+      },
+      "esperado": {
+        "v": "programa"
+      }
+    }
+  ]
+}

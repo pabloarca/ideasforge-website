@@ -1,0 +1,20 @@
+---
+/*
+  La herramienta de t0190. Salió del `noindex` el 21 oct 2026, con su espejo
+  inglés en `/en/what-to-automate`, y entró en el menú de guías.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import QueAutomatizar from '../components/QueAutomatizar.astro';
+import { qa } from '../i18n/que-automatizar';
+import { altsFor } from '../i18n/utils';
+---
+
+<BaseLayout
+  lang="es"
+  title={qa.metaTitle}
+  description={qa.metaDescription}
+  alternates={altsFor('whatToAutomate')}
+  breadcrumbName={qa.breadcrumb}
+>
+  <QueAutomatizar lang="es" />
+</BaseLayout>

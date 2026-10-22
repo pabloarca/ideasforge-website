@@ -85,6 +85,10 @@ export const routeMap: Record<string, Partial<Record<Lang, string>>> = {
   // término recién nacido. Antes esta entrada era solo inglesa porque en agosto
   // no había demanda medible de coste en español.
   cost:        { es: '/guias/cuanto-cuesta-un-agente-de-ia',  en: '/en/guides/ai-agent-development-cost' },
+  // La herramienta «qué automatizar primero» (t0190), con su espejo inglés
+  // desde el 21 oct 2026. Vive en la raíz porque no es una guía, aunque
+  // salga en ese grupo del menú.
+  whatToAutomate: { es: '/que-automatizar', en: '/en/what-to-automate' },
   // Pilar de confianza. Nació solo en inglés porque `gdpr compliant ai` crece
   // un 9.900 % con competencia 0 mientras el planificador no veía nada en
   // español. El espejo español se añadió el 27 ago 2026 por decisión del

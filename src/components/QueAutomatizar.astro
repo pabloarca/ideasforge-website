@@ -1,0 +1,1174 @@
+---
+/*
+  La herramienta «¿Qué tareas automatizar primero?» (t0190). Una pregunta por
+  pantalla, con barra de progreso, y casi todas se contestan con un toque
+  (decisión del propietario, 21 oct 2026: la versión con todo el formulario a
+  la vista «chocaba»).
+
+  Todo ocurre en el navegador. Las tareas analizadas (nombre y respuestas) se
+  guardan en el `localStorage` de quien las contesta, para que sigan ahí al
+  probar otra o al recargar (propietario, 21 oct 2026); nunca salen de allí. Sale un evento anónimo por `forge.track` (veredicto, cuántas
+  tareas, si se pide la revisión), que pasa por la reja de consentimiento y
+  de campos de `Analitica.astro`. El nombre de la tarea y las respuestas solo
+  viajan si la persona pide la revisión al final: entonces el resumen va a
+  Web3Forms con su nombre y su correo, como el resto de formularios de la web.
+
+  El texto vive en `src/i18n/que-automatizar.ts` (español) y en
+  `que-automatizar-en.ts` (inglés, 21 oct 2026), y llega al script como JSON.
+
+  Debajo de la herramienta van los ejemplos por departamento y tres preguntas
+  frecuentes (21 oct 2026): son lo que posiciona la página sin meter texto
+  delante de la herramienta. El resultado de cada ejemplo lo calcula `analiza`
+  al compilar, y «Probar con esta tarea» (o `?ejemplo=<id>` en la dirección)
+  carga sus respuestas en la herramienta.
+
+  La lógica (qué solución, cuánto se deja de perder, en qué estado del
+  semáforo cae) vive en `src/lib/que-automatizar.ts`, sin textos ni
+  navegador, y la prueban `npm run check:herramienta` y el CI.
+*/
+import { Picture } from 'astro:assets';
+import FaqList from './FaqList.astro';
+import { qa as qaEs } from '../i18n/que-automatizar';
+import { qaEn } from '../i18n/que-automatizar-en';
+import { type Lang } from '../i18n/ui';
+import { foto } from '../lib/fotos';
+import { altFoto } from '../lib/alt-fotos';
+import { routeMap } from '../i18n/utils';
+import { CLAVE_WEB3FORMS } from '../lib/formulario';
+import { analiza } from '../lib/que-automatizar';
+import { EJEMPLOS, DEPARTAMENTOS } from '../lib/que-automatizar-ejemplos';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const qa = lang === 'en' ? qaEn : qaEs;
+const c = qa.cta;
+const empezar = routeMap.start[lang];
+const ej = qa.ejemplos;
+/* Cada ejemplo con lo que la herramienta dice de él, calculado aquí y no
+   escrito a mano: si cambian las reglas, cambia también el ejemplo. */
+const grupos = DEPARTAMENTOS.map((dep) => ({
+  dep,
+  items: EJEMPLOS.filter((e) => e.dep === dep).map((e) => {
+    const r = analiza(e.a, qa.pasos);
+    return { id: e.id, ...ej.items[e.id as keyof typeof ej.items], estado: qa.t.estados[r.estado], solucion: qa.verdicts[r.v].t, color: r.estado };
+  }),
+}));
+const ejemplos = Object.fromEntries(EJEMPLOS.map((e) => [e.id, { ...e.a, name: ej.items[e.id as keyof typeof ej.items].n }]));
+/* La herramienta declarada como tal: gratis, en el navegador y sin registro.
+   El precio va a cero en euros porque el esquema exige moneda; no se pinta. */
+const site = Astro.site ?? new URL('https://ideasforge.io');
+const appJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: qa.app.name,
+  description: qa.app.description,
+  url: new URL(Astro.url.pathname.replace(/\.html$/, ''), site).href,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  inLanguage: lang,
+  isAccessibleForFree: true,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+  publisher: { '@type': 'Organization', name: 'Ideasforge', url: site.href },
+}).replace(/</g, '\\u003c');
+const datos = JSON.stringify({ locale: qa.locale, pasos: qa.pasos, ui: qa.ui, t: qa.t, v: qa.verdicts, cta: c, ejemplos });
+---
+
+<script is:inline type="application/ld+json" set:html={appJsonLd} />
+
+<section class="wrap pb-[clamp(48px,6vw,80px)] pt-[clamp(56px,7vw,96px)]">
+  <div class="grid items-end gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+    <div>
+      <span class="kicker mb-7">{qa.hero.kicker}</span>
+      <h1 class="t-display max-w-[18ch]">{qa.hero.title}</h1>
+      <div class="mt-6 max-w-[56ch] space-y-4 text-[17px] leading-[1.55] text-muted">
+        {qa.hero.lead.map((p) => <p>{p}</p>)}
+      </div>
+      <a href="#herramienta" class="btn-primary hover:btn-primary-hover mt-9">{qa.hero.cta}</a>
+    </div>
+    <Picture
+      src={foto('/guias/que-automatizar-pizarra.jpg')}
+      alt={altFoto('/guias/que-automatizar-pizarra.jpg', lang)}
+      formats={['avif', 'webp']}
+      widths={[480, 800, 1200]}
+      sizes="(min-width: 1024px) 45vw, 100vw"
+      loading="eager"
+      class="aspect-[3/2] w-full object-cover"
+    />
+  </div>
+</section>
+
+<section id="herramienta" class="wrap scroll-mt-28">
+  <div class="qa-shell">
+    <div id="qa-hechas" class="qa-hechas" hidden></div>
+    <div id="qa-wiz" class="qa-card">
+      <p id="qa-cargado" class="qa-cargado" hidden></p>
+      <div class="qa-prog">
+        <div class="qa-bar" aria-hidden="true"><span id="qa-fill"></span></div>
+        <span id="qa-count" class="qa-hint"></span>
+      </div>
+      <div id="qa-step"></div>
+      <p class="qa-err" id="qa-err" role="alert" hidden></p>
+      <div class="qa-nav">
+        <button type="button" id="qa-back" class="qa-link">{qa.ui.atras}</button>
+        <button type="button" id="qa-next" class="btn-primary hover:btn-primary-hover">{qa.ui.siguiente}</button>
+      </div>
+    </div>
+    <div id="qa-out" class="qa-card" aria-live="polite" hidden></div>
+  </div>
+</section>
+
+<section class="wrap section-y" id="qa-sum" aria-label={qa.t.summary.kicker} hidden></section>
+
+<section class="wrap section-y" id="ejemplos">
+  <div class="section-head">
+    <div>
+      <span class="kicker mb-5">{ej.kicker}</span>
+      <h2 class="t-h2-compact max-w-[22ch]">{ej.title}</h2>
+      <p class="mt-5 max-w-[62ch] text-[17px] leading-[1.55] text-muted">{ej.lead}</p>
+    </div>
+  </div>
+  <div class="qa-deps">
+    {
+      grupos.map((g) => (
+        <div class="qa-dep">
+          <h3 class="qa-h">{ej.deps[g.dep]}</h3>
+          <ul class="qa-ejs">
+            {g.items.map((e) => (
+              <li class="qa-ej">
+                <h4 class="text-lg font-medium leading-tight tracking-[-0.015em]">{e.n}</h4>
+                <p class="text-[15px] leading-[1.6] text-muted">{e.d}</p>
+                <p class="qa-ejr">
+                  <span class="qa-hint">{ej.resultado}</span>
+                  <span class="qa-chip" data-estado={e.color}>{e.estado}</span>
+                  <span class="text-[15px]">{e.solucion}</span>
+                </p>
+                <button type="button" class="qa-link qa-probar" data-ejemplo={e.id}>{ej.probar}</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<section class="wrap section-y">
+  <div class="grid items-start gap-x-[clamp(32px,5vw,96px)] gap-y-8 lg:grid-cols-3">
+    <div>
+      <span class="kicker mb-5">{qa.faq.kicker}</span>
+      <h2 class="t-h2-compact">{qa.faq.title}</h2>
+    </div>
+    <div class="lg:col-span-2">
+      <FaqList items={qa.faq.items as unknown as { q: string; a: string[] }[]} group="faq-qa" openFirst />
+    </div>
+  </div>
+</section>
+
+{/* El formulario de revisión vive aquí escondido y el script lo mueve dentro
+    de la tarjeta del resultado: la acción va justo debajo del veredicto. Se
+    envía por `fetch` para que el resultado siga en pantalla. */}
+<div id="qa-rev-holder" hidden>
+  <form id="qa-rev" class="qa-revf" novalidate>
+    <input type="hidden" name="access_key" value={CLAVE_WEB3FORMS} />
+    <input type="hidden" name="subject" value={c.subject} />
+    <input type="hidden" name="resumen" value="" />
+    <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+    <p class="qa-revt" id="qa-revt"></p>
+    <p class="qa-hint" id="qa-revc">{qa.t.form.cuerpo}</p>
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,200px),1fr))] gap-3">
+      <input id="qa-rn" name="name" type="text" required autocomplete="name" class="input" placeholder={c.name} aria-label={c.name} />
+      <input id="qa-re" name="email" type="email" required autocomplete="email" class="input" placeholder={c.email} aria-label={c.email} />
+    </div>
+    <label class="flex items-start gap-2.5 text-[13px] leading-normal text-muted">
+      <input type="checkbox" name="privacy" required class="mt-[3px] accent-accent" />
+      <span>{c.privacyPre}<a href={routeMap.privacy[lang]} class="link-inline">{c.privacyLink}</a>{c.privacyPost}</span>
+    </label>
+    <p class="text-[14px]" id="qa-rmsg" role="status" hidden></p>
+    <div class="qa-acts">
+      <button type="submit" class="btn-primary hover:btn-primary-hover">{qa.t.form.boton}</button>
+      <a href={empezar} id="qa-cta" class="qa-link">{qa.t.form.llamada}</a>
+    </div>
+  </form>
+</div>
+
+<script type="application/json" id="qa-datos" set:html={datos} />
+
+<style>
+  .qa-shell {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .qa-card {
+    border: 2px solid var(--color-border);
+    background: var(--color-bg);
+    padding: clamp(20px, 3vw, 36px);
+  }
+  .qa-prog {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .qa-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--color-border);
+  }
+  .qa-bar span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--color-accent);
+    transition: width 0.3s ease;
+  }
+  .qa-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+  }
+  .qa-err {
+    margin-top: 14px;
+    font-size: 14px;
+    color: #b3261e;
+  }
+  /* Lo que pinta el script: `:global` porque Astro no ve esas clases al compilar. */
+  :global(.qa-q) {
+    font-size: clamp(22px, 2.6vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  :global(.qa-qhint) {
+    margin-top: 8px;
+    font-size: 15px;
+    color: var(--color-muted);
+  }
+  :global(.qa-opts) {
+    display: grid;
+    gap: 8px;
+    margin-top: 22px;
+  }
+  :global(.qa-opt) {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    text-align: left;
+    border: 2px solid var(--color-border);
+    background: var(--color-bg);
+    padding: 13px 16px;
+    font-size: 16px;
+    line-height: 1.4;
+    cursor: pointer;
+    transition:
+      border-color 0.15s,
+      background 0.15s;
+  }
+  :global(.qa-opt:hover) {
+    border-color: var(--color-accent-300);
+  }
+  :global(.qa-opt[aria-pressed='true']) {
+    border-color: var(--color-accent);
+    background: var(--color-accent-100);
+  }
+  :global(.qa-opt:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  :global(.qa-mark) {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--color-border-strong, var(--color-faint));
+  }
+  :global(.qa-opt.una .qa-mark) {
+    border-radius: 50%;
+  }
+  :global(.qa-opt[aria-pressed='true'] .qa-mark) {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    box-shadow: inset 0 0 0 2px var(--color-bg);
+  }
+  :global(.qa-subq) {
+    margin-top: 22px;
+    padding-left: 16px;
+    border-left: 2px solid var(--color-accent-200);
+  }
+  :global(.qa-subq .qa-sublabel) {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  :global(.qa-subq .qa-opts) {
+    margin-top: 12px;
+  }
+  :global(.qa-text) {
+    margin-top: 22px;
+    width: 100%;
+    font-size: 17px;
+  }
+  :global(.qa-cuenta) {
+    margin-top: 6px;
+    text-align: right;
+    font-size: 13px;
+    color: var(--color-faint);
+    font-feature-settings: 'tnum' 1;
+  }
+  .qa-hechas {
+    margin-bottom: 16px;
+  }
+  :global(.qa-hechas ul) {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  :global(.qa-hechas li button) {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 2px solid var(--color-border);
+    background: var(--color-bg);
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    max-width: 100%;
+  }
+  :global(.qa-hechas li button[aria-current='true']) {
+    border-color: var(--color-accent);
+  }
+  :global(.qa-hechas li button:hover) {
+    border-color: var(--color-accent-300);
+  }
+  :global(.qa-dot) {
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    background: var(--vc);
+  }
+  :global(.qa-hechas .qa-nom) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 28ch;
+  }
+  :global(.qa-hechas-pie) {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: baseline;
+  }
+  :global(.qa-aviso) {
+    background: #fdf1d8;
+    color: #8a5a00;
+    padding: 10px 14px;
+    font-size: 15px;
+  }
+  :global(.qa-revf) {
+    display: grid;
+    gap: 12px;
+    border-top: 2px solid var(--color-border);
+    padding-top: 18px;
+  }
+  :global(.qa-revt) {
+    font-size: 18px;
+    font-weight: 500;
+  }
+  :global(.qa-sub2) {
+    font-size: 17px;
+    color: var(--color-muted);
+  }
+  :global(.qa-plan) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 8px;
+    counter-reset: paso;
+    font-size: 15px;
+  }
+  :global(.qa-plan li) {
+    display: grid;
+    grid-template-columns: 26px minmax(0, 1fr);
+    counter-increment: paso;
+  }
+  :global(.qa-plan li::before) {
+    content: counter(paso);
+    color: var(--color-accent);
+    font-weight: 500;
+    font-feature-settings: 'tnum' 1;
+  }
+  :global(.qa-h) {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+  :global(.qa-v) {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  :global(.qa-chip) {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+  :global(.qa-chip::before) {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: var(--vc, var(--color-accent));
+  }
+  :global(.qa-vt) {
+    font-size: clamp(26px, 3vw, 36px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+  }
+  :global(.qa-why) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 10px 16px;
+    font-size: 15px;
+    margin: 0;
+  }
+  :global(.qa-why dt) {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+    padding-top: 3px;
+  }
+  :global(.qa-why dd) {
+    margin: 0;
+  }
+  :global(.qa-money) {
+    border-top: 2px solid var(--color-border);
+    border-bottom: 2px solid var(--color-border);
+    padding: 18px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  :global(.qa-big) {
+    font-size: clamp(22px, 2.4vw, 28px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--color-accent);
+    font-feature-settings: 'tnum' 1;
+  }
+  :global(.qa-pill) {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  :global(.qa-pill.ok) {
+    background: #e6f4ea;
+    color: #137a3a;
+  }
+  :global(.qa-pill.warn) {
+    background: #fdf1d8;
+    color: #8a5a00;
+  }
+  :global(.qa-pill.bad) {
+    background: #fbe7e5;
+    color: #b3261e;
+  }
+  :global(.qa-hint) {
+    font-size: 13px;
+    color: var(--color-faint);
+  }
+  :global(.qa-det summary) {
+    cursor: pointer;
+    font-size: 15px;
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  :global(.qa-det[open] summary) {
+    margin-bottom: 14px;
+  }
+  :global(.qa-det .qa-why) {
+    margin-bottom: 14px;
+  }
+  :global(.qa-acts) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-top: 6px;
+  }
+  :global(.qa-link) {
+    border: 0;
+    background: none;
+    color: var(--color-accent);
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    font: inherit;
+  }
+  :global(.qa-link:disabled) {
+    visibility: hidden;
+  }
+  :global(.qa-cols) {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+  }
+  @media (max-width: 760px) {
+    :global(.qa-cols) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  :global(.qa-top) {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  :global(.qa-top li) {
+    border: 2px solid var(--color-border);
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 4px 14px;
+  }
+  :global(.qa-rank) {
+    font-size: 26px;
+    line-height: 1;
+    color: var(--color-accent);
+    grid-row: span 3;
+    font-feature-settings: 'tnum' 1;
+  }
+  :global(.qa-not) {
+    background: var(--color-bg-soft);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  :global(.qa-not ul) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 12px;
+    font-size: 15px;
+  }
+  :global(.qa-not li b) {
+    display: block;
+    font-weight: 500;
+  }
+  :global(.qa-row) {
+    font-size: 13px;
+  }
+  .qa-cargado {
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    background: var(--color-accent-100);
+    font-size: 15px;
+  }
+  .qa-deps {
+    display: grid;
+    gap: 40px;
+  }
+  .qa-ejs {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  }
+  .qa-ej {
+    border: 2px solid var(--color-border);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .qa-ejr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 12px;
+    margin-top: auto;
+    padding-top: 6px;
+  }
+  .qa-chip[data-estado='verde'] {
+    --vc: #137a3a;
+  }
+  .qa-chip[data-estado='ambar'],
+  .qa-chip[data-estado='datos'] {
+    --vc: #b25e00;
+  }
+  .qa-chip[data-estado='rojo'] {
+    --vc: #b3261e;
+  }
+  .qa-chip[data-estado='noia'] {
+    --vc: var(--color-neutral-600);
+  }
+  .qa-chip[data-estado='suscripcion'] {
+    --vc: #0f7c6c;
+  }
+</style>
+
+<script>
+  /* La lógica vive en `src/lib/que-automatizar.ts` (probada por
+     `npm run check:herramienta`); aquí solo se pregunta y se pinta. */
+  import { analiza, num as numDe, NUESTROS, JORNADA, MUCHAS, TOPE_PERDIDA, type A, type Analisis, type Opcion } from '../lib/que-automatizar';
+
+  type Paso = {
+    id: string;
+    tipo: 'texto' | 'una' | 'varias';
+    q: string;
+    hint?: string;
+    placeholder?: string;
+    max?: number;
+    opts?: Opcion[];
+    sub?: { id: string; si: string | string[]; q: string; hint?: string; opts: Opcion[] };
+    cuando?: 'fallos';
+  };
+  type P = { name: string; a: A; r: Analisis };
+
+  const D = JSON.parse(document.getElementById('qa-datos')!.textContent!);
+  const PASOS = D.pasos as Paso[];
+  const U = D.ui;
+  const T = D.t;
+  const V = D.v as Record<string, { t: string; d: string }>;
+  const C = D.cta;
+  const COLOR: Record<string, string> = {
+    verde: '#137a3a',
+    ambar: '#b25e00',
+    rojo: '#b3261e',
+    noia: 'var(--color-neutral-600)',
+    datos: '#b25e00',
+    suscripcion: '#0f7c6c',
+  };
+
+  const sub = (s: string, o: Record<string, string | number>) => s.replace(/\{(\w)\}/g, (_, k) => String(o[k] ?? ''));
+  const fmt = (n: number, d = 0) => n.toLocaleString(D.locale, { maximumFractionDigits: d, minimumFractionDigits: d, useGrouping: 'always' } as Intl.NumberFormatOptions);
+  /* Las cantidades van sin símbolo de moneda (propietario, 21 oct 2026): la
+     página sirve igual en euros que en dólares. */
+  const eur = (n: number) => fmt(Math.round(n));
+  /** Redondeo amable para horquillas: a la decena o a la centena. */
+  const redondo = (n: number) => (n >= 1000 ? Math.round(n / 100) * 100 : n >= 100 ? Math.round(n / 10) * 10 : Math.round(n));
+  const lista = (a: A, k: string) => (Array.isArray(a[k]) ? (a[k] as string[]) : []);
+  const num = (a: A, id: string) => numDe(PASOS, a, id);
+  /** ¿La respuesta `v` abre la subpregunta de `p`? */
+  const abre = (p: Paso, v: string) => !!p.sub && (Array.isArray(p.sub.si) ? p.sub.si.includes(v) : p.sub.si === v);
+  const subAbierta = (p: Paso) => (p.tipo === 'varias' ? lista(state.a, p.id).some((x) => abre(p, x)) : abre(p, state.a[p.id] as string));
+
+  function track(nombre: string, params: Record<string, string | number>) {
+    (window as any).forge?.track?.(nombre, { seccion: 'que-automatizar', ...params });
+  }
+  function el(tag: string, cls?: string | null, txt?: string | null) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt != null) e.textContent = txt;
+    return e;
+  }
+
+  /* ---------- El asistente, pregunta a pregunta ---------- */
+  const wiz = document.getElementById('qa-wiz')!;
+  const stepBox = document.getElementById('qa-step')!;
+  const fill = document.getElementById('qa-fill')!;
+  const count = document.getElementById('qa-count')!;
+  const err = document.getElementById('qa-err')!;
+  const back = document.getElementById('qa-back') as HTMLButtonElement;
+  const next = document.getElementById('qa-next') as HTMLButtonElement;
+  const out = document.getElementById('qa-out')!;
+  const sumBox = document.getElementById('qa-sum')!;
+  const rev = document.getElementById('qa-rev') as HTMLFormElement;
+  const revT = document.getElementById('qa-revt')!;
+  const rmsg = document.getElementById('qa-rmsg')!;
+
+  const state: { procs: P[]; last: P | null; a: A; i: number } = { procs: [], last: null, a: {}, i: 0 };
+  /* Las tareas se guardan en este navegador para que sigan ahí al probar otra
+     o al recargar. Solo nombre y respuestas: el resultado se recalcula al
+     cargar, así que un cambio en las reglas llega también a lo guardado.
+     Nunca sale de aquí; si el navegador no deja guardar, se sigue sin ello. */
+  // Una lista por idioma: el nombre de la tarea lo escribe la persona en el suyo.
+  const CLAVE = D.locale === 'es-ES' ? 'qa-tareas-v1' : `qa-tareas-v1-${D.locale}`;
+  function guarda() {
+    try {
+      localStorage.setItem(CLAVE, JSON.stringify(state.procs.map((p) => ({ name: p.name, a: p.a }))));
+    } catch {}
+  }
+  function recupera() {
+    try {
+      const l = JSON.parse(localStorage.getItem(CLAVE) ?? '[]') as { name: string; a: A }[];
+      state.procs = l.filter((x) => x && x.a).map((x) => ({ name: x.name, a: x.a, r: analiza(x.a, PASOS) }));
+    } catch {
+      state.procs = [];
+    }
+  }
+  const visibles = () => PASOS.filter((p) => !p.cuando || (num(state.a, 'fallos') ?? 0) > 0);
+
+  function completo(p: Paso) {
+    const v = state.a[p.id];
+    if (p.tipo === 'texto') return typeof v === 'string' && v.trim() !== '';
+    if (p.tipo === 'varias' ? !lista(state.a, p.id).length : !v) return false;
+    if (p.sub && subAbierta(p) && !state.a[p.sub.id]) return false;
+    return true;
+  }
+  function opcion(o: Opcion, tipo: 'una' | 'varias', on: boolean, pulsa: () => void) {
+    const b = el('button', 'qa-opt ' + tipo) as HTMLButtonElement;
+    b.type = 'button';
+    b.setAttribute('aria-pressed', String(on));
+    b.append(el('span', 'qa-mark'), el('span', null, o.l));
+    b.onclick = pulsa;
+    return b;
+  }
+  function avanzarLuego() {
+    window.setTimeout(() => avanzar(), 220);
+  }
+  function pinta() {
+    const vs = visibles();
+    const p = vs[state.i];
+    err.hidden = true;
+    fill.style.width = `${(state.i / vs.length) * 100}%`;
+    count.textContent = sub(U.progreso, { a: state.i + 1, b: vs.length });
+    back.disabled = state.i === 0;
+    next.textContent = state.i === vs.length - 1 ? U.verResultado : U.siguiente;
+    stepBox.innerHTML = '';
+    const q = el('h2', 'qa-q', p.q);
+    q.id = 'qa-qt';
+    stepBox.append(q);
+    if (p.hint) stepBox.append(el('p', 'qa-qhint', p.hint));
+    if (p.tipo === 'texto') {
+      const i = el('input', 'input qa-text') as HTMLInputElement;
+      i.type = 'text';
+      const max = p.max ?? 80;
+      i.maxLength = max;
+      i.placeholder = p.placeholder ?? '';
+      i.value = (state.a[p.id] as string) ?? '';
+      i.setAttribute('aria-labelledby', 'qa-qt');
+      const cuenta = el('p', 'qa-cuenta');
+      cuenta.id = 'qa-cuenta';
+      i.setAttribute('aria-describedby', 'qa-cuenta');
+      const pon = () => (cuenta.textContent = `${i.value.length}/${max}`);
+      pon();
+      i.oninput = () => {
+        state.a[p.id] = i.value;
+        pon();
+      };
+      i.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          avanzar();
+        }
+      };
+      stepBox.append(i, cuenta);
+      window.setTimeout(() => i.focus({ preventScroll: true }), 0);
+      return;
+    }
+    const box = el('div', 'qa-opts');
+    box.setAttribute('role', 'group');
+    box.setAttribute('aria-labelledby', 'qa-qt');
+    for (const o of p.opts!) {
+      const on = p.tipo === 'varias' ? lista(state.a, p.id).includes(o.v) : state.a[p.id] === o.v;
+      box.append(
+        opcion(o, p.tipo as 'una' | 'varias', on, () => {
+          if (p.tipo === 'varias') {
+            const l = lista(state.a, p.id);
+            state.a[p.id] = on ? l.filter((x) => x !== o.v) : [...l, o.v];
+            if (p.sub && !subAbierta(p)) delete state.a[p.sub.id];
+            pinta();
+          } else {
+            state.a[p.id] = o.v;
+            if (p.sub && !abre(p, o.v)) delete state.a[p.sub.id];
+            pinta();
+            // Un toque y a la siguiente, salvo que se abra una subpregunta.
+            if (!abre(p, o.v)) avanzarLuego();
+          }
+        })
+      );
+    }
+    stepBox.append(box);
+    if (p.sub && subAbierta(p)) {
+      const s = p.sub;
+      const sb = el('div', 'qa-subq');
+      sb.append(el('p', 'qa-sublabel', s.q));
+      if (s.hint) sb.append(el('p', 'qa-qhint', s.hint));
+      const so = el('div', 'qa-opts');
+      for (const o of s.opts)
+        so.append(
+          opcion(o, 'una', state.a[s.id] === o.v, () => {
+            state.a[s.id] = o.v;
+            pinta();
+            if (p.tipo === 'una') avanzarLuego();
+          })
+        );
+      sb.append(so);
+      stepBox.append(sb);
+    }
+  }
+  function avanzar() {
+    const vs = visibles();
+    const p = vs[state.i];
+    if (!completo(p)) {
+      err.textContent = p.tipo === 'texto' ? U.faltaTexto : U.falta;
+      err.hidden = false;
+      return;
+    }
+    if (state.i < vs.length - 1) {
+      state.i++;
+      pinta();
+    } else termina();
+  }
+  next.onclick = avanzar;
+  back.onclick = () => {
+    if (state.i > 0) {
+      state.i--;
+      pinta();
+    }
+  };
+  const cargado = document.getElementById('qa-cargado')!;
+  function empieza() {
+    state.a = {};
+    state.i = 0;
+    cargado.hidden = true;
+    out.hidden = true;
+    wiz.hidden = false;
+    pinta();
+    if (typeof renderHechas === 'function') renderHechas();
+  }
+  function termina() {
+    const a = { ...state.a };
+    if ((num(a, 'fallos') ?? 0) === 0) delete a.coste;
+    const p: P = { name: (a.name as string).trim() || sub(U.tarea, { n: state.procs.length + 1 }), a, r: analiza(a, PASOS) };
+    state.procs.push(p);
+    state.last = p;
+    guarda();
+    track('herramienta_veredicto', { valor: p.r.v + ':' + p.r.estado, pagina: String(state.procs.length) });
+    wiz.hidden = true;
+    render();
+    document.getElementById('herramienta')!.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ---------- El resultado ---------- */
+  function chip(txt: string, color: string) {
+    const c = el('span', 'qa-chip', txt);
+    c.style.setProperty('--vc', color);
+    return c;
+  }
+  function personas(n: number) {
+    return n < 1.05 ? T.persona1 : sub(T.personasN, { n: fmt(n, n < 10 ? 1 : 0) });
+  }
+  const minusc = (t: string) => t.charAt(0).toLowerCase() + t.slice(1);
+  /** «entre 2 y 9 meses», «unos 3 meses con el precio bajo» o «un mes». */
+  function plazo(r: Analisis) {
+    const b = Math.max(1, Math.round(r.c.mBajo));
+    if (!isFinite(r.c.mAlto)) return sub(T.precio.desde, { a: fmt(b) });
+    const a = Math.max(b, Math.round(r.c.mAlto));
+    if (a === 1) return T.precio.uno;
+    return a === b ? sub(T.precio.desde, { a: fmt(b) }) : sub(T.precio.entre, { a: fmt(b), b: fmt(a) });
+  }
+  function renderVerdict(p: P) {
+    out.innerHTML = '';
+    out.hidden = false;
+    const r = p.r;
+    const c = r.c;
+    const v = V[r.v];
+    const nuestro = NUESTROS.includes(r.v);
+    const box = el('div', 'qa-v');
+    box.append(chip(T.estados[r.estado], COLOR[r.estado]));
+
+    // El titular: la cifra que hace saltar la alarma, si la hay.
+    if (c.avisos.length) box.append(el('div', 'qa-vt', T.titulos.revisa));
+    else if (nuestro && c.horas >= MUCHAS) {
+      box.append(el('div', 'qa-vt', sub(T.titulos.horas, { h: fmt(c.horas, c.horas < 10 ? 1 : 0) })));
+      const n = c.personas;
+      box.append(el('p', 'qa-sub2', n >= 0.9 ? sub(T.personas, { p: personas(n) }) : n >= 0.6 ? T.casi : n >= 0.4 ? T.media : n >= 0.2 ? T.cuarto : sub(T.semana, { h: fmt(c.horas / 4.33) })));
+    } else if (nuestro && c.dejas > 0 && r.estado !== 'rojo') box.append(el('div', 'qa-vt', sub(T.titulos.ahorro, { a: eur(redondo(c.dejas)), b: eur(redondo(c.techo)) })));
+    else if (nuestro && c.desconocido && r.estado === 'ambar') box.append(el('div', 'qa-vt', T.titulos.depende));
+    else box.append(el('div', 'qa-vt', r.estado === 'rojo' ? T.titulos.rojo : v.t));
+    box.append(el('div', 'text-[15px] text-muted', p.name));
+    c.avisos.forEach((k) => box.append(el('p', 'qa-aviso', sub(T.avisos[k], { h: fmt(c.horas), p: fmt(c.personas, 0), x: eur(k === 'perdida' ? TOPE_PERDIDA : redondo(c.perdida)) }))));
+
+    // Qué haríamos: el tipo de solución y, si lo construimos, el plan y el precio.
+    if (nuestro && r.estado !== 'rojo') {
+      box.append(el('p', 'qa-h', T.haremos));
+      box.append(el('p', null, v.t + '. ' + v.d));
+      const ol = el('ol', 'qa-plan');
+      // El último paso dice lo que la persona eligió sobre revisar, no otra cosa.
+      const plan = [...(T.planes[r.v] as string[])];
+      if ((r.v === 'flujo' || r.v === 'asistente') && T.revision[p.a.revisa as string]) plan[plan.length - 1] = T.revision[p.a.revisa as string];
+      plan.forEach((x) => ol.append(el('li', null, x)));
+      box.append(ol);
+      const t = c.t!;
+      const precio = [sub(T.precio.rango, { a: eur(t.bajo.build), b: eur(t.alto.build), c: eur(t.bajo.fee), d: eur(t.alto.fee) })];
+      // Con respuestas que no cuadran no se da plazo ni cifras: solo el precio.
+      if (!c.avisos.length) {
+        if (c.perdida > 0) precio.push(sub(T.multiplica, { f: fmt(c.fallos, Number.isInteger(c.fallos) ? 0 : 1), c: eur(c.perdida / c.fallos), p: eur(c.perdida) }));
+        if (c.dejas > 0) precio.push(isFinite(c.mBajo) && c.mBajo <= 24 ? sub(T.precio.plazo, { m: plazo(r) }) : T.precio.plazoLargo);
+        else if (c.desconocido) precio.push(sub(T.precio.sinDato, { x: eur(redondo(c.equilibrio)) }));
+        else if (c.vender === 0) precio.push(T.precio.tiempo);
+        if (c.vender > 0) precio.push(sub(T.precio.vender, { h: fmt(c.horas), g: eur(redondo(c.vender)) }));
+      }
+      box.append(el('p', 'qa-hint', precio.join(' ')));
+    } else if (r.estado === 'rojo') {
+      box.append(el('p', null, T.labels.noCompensaD));
+      box.append(el('p', 'text-[15px] text-muted', sub(T.labels.siCompensa, { v: minusc(v.t) })));
+      // Las horas se enseñan siempre, aunque no cuenten como ahorro.
+      if (c.horas > 0) box.append(el('p', 'qa-hint', p.a.tiempo === 'nada' ? sub(T.horasRojo, { h: fmt(c.horas, c.horas < 10 ? 1 : 0) }) : sub(T.money.horas, { h: fmt(c.horas, c.horas < 10 ? 1 : 0) })));
+    } else box.append(el('p', null, v.d));
+    const why = el('dl', 'qa-why');
+    why.append(el('dt', null, T.labels.why), el('dd', null, T.why[r.por]));
+    box.append(why);
+
+    // La acción: revisar si hay algo que mirar; si no, probar otra tarea.
+    const conForm = r.estado === 'verde' || r.estado === 'ambar';
+    const otra = el('button', conForm ? 'qa-link' : 'btn-primary hover:btn-primary-hover', U.otra) as HTMLButtonElement;
+    otra.type = 'button';
+    otra.onclick = () => {
+      empieza();
+      wiz.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    revT.textContent = conForm ? T.form.titulo : T.form.tituloOtro;
+    rmsg.hidden = true;
+    const det = el('details', 'qa-det');
+    const acts = el('div', 'qa-acts');
+    if (conForm) {
+      box.append(rev);
+      acts.append(otra);
+    } else {
+      const ver = el('button', 'qa-link', T.form.tituloOtro) as HTMLButtonElement;
+      ver.type = 'button';
+      ver.onclick = () => {
+        acts.remove();
+        box.insertBefore(rev, det.isConnected ? det : null);
+        rev.querySelector<HTMLInputElement>('input[name=name]')?.focus();
+      };
+      acts.append(otra, ver);
+    }
+    box.append(acts);
+
+    // Lo demás, plegado y corto: tres avisos como mucho.
+    det.append(el('summary', null, T.labels.detalles));
+    const dd = el('dl', 'qa-why');
+    r.notas.slice(0, 3).forEach((k) => dd.append(el('dt', null, T.labels.note), el('dd', null, T.notes[k])));
+    if (r.alt) {
+      const [k, val] = r.alt.k.split(':');
+      const txt = ({ 'pasos:conversa': T.whatIf.conversa, 'pasos:igual': T.whatIf.igual, 'riesgo:cuesta': T.whatIf.riesgo, 'cabeza:parte': T.whatIf.escrito, 'revisa:todo': T.whatIf.revisa, 'destino:programa': T.whatIf.programa } as Record<string, string>)[`${k}:${val}`];
+      if (txt) dd.append(el('dt', null, T.labels.whatIf), el('dd', null, sub(T.whatIf.saldria, { x: txt, v: V[r.alt.v].t })));
+    }
+    if (nuestro) dd.append(el('dt', null, T.labels.partida), el('dd', null, T.notes.partida));
+    det.append(dd);
+    if (nuestro && c.dejas > 0 && !c.avisos.length) {
+      det.append(el('p', 'qa-hint mb-2', T.money.horquilla));
+      det.append(el('p', 'qa-hint mb-2', sub(T.money.tope, { a: eur(redondo(c.dejas * 12)), b: eur(redondo(c.dejas * 24)) })));
+    }
+    if (nuestro && c.horas >= JORNADA * 0.25) det.append(el('p', 'qa-hint', T.jornada));
+    if (dd.childElementCount || det.childElementCount > 2) box.append(det);
+    out.append(box);
+  }
+  function renderSummary() {
+    sumBox.innerHTML = '';
+    sumBox.hidden = state.procs.length < 2;
+    if (sumBox.hidden) return;
+    const S = T.summary;
+    sumBox.append(el('span', 'kicker mb-5', S.kicker));
+    // Primero lo verde, luego lo ámbar; dentro, lo que más deja de perder o más horas se come.
+    const peso = (p: P) => (p.r.estado === 'verde' ? 2 : p.r.estado === 'ambar' ? 1 : 0) * 1e9 + p.r.c.dejas * 1000 + p.r.c.horas;
+    const top = state.procs.filter((p) => p.r.estado === 'verde' || p.r.estado === 'ambar' || p.r.estado === 'suscripcion').sort((a, b) => peso(b) - peso(a));
+    const not = state.procs.filter((p) => !top.includes(p));
+    const enlaces = (p: P) => {
+      const s = el('span', 'qa-row');
+      const b1 = el('button', 'qa-link', S.ver) as HTMLButtonElement;
+      b1.type = 'button';
+      b1.onclick = () => {
+        state.last = p;
+        wiz.hidden = true;
+        renderVerdict(p);
+        out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+      const b2 = el('button', 'qa-link ml-3', S.quitar) as HTMLButtonElement;
+      b2.type = 'button';
+      b2.onclick = () => {
+        state.procs.splice(state.procs.indexOf(p), 1);
+        if (state.last === p) state.last = state.procs[state.procs.length - 1] ?? null;
+        guarda();
+        render();
+      };
+      s.append(b1, b2);
+      return s;
+    };
+    const cols = el('div', 'qa-cols');
+    const c1 = el('div');
+    c1.append(el('h3', 't-h3-row', S.top));
+    if (top.length) {
+      const ol = el('ol', 'qa-top');
+      top.forEach((p, i) => {
+        const li = el('li');
+        const meta = T.estados[p.r.estado] + (p.r.c.dejas > 0 && NUESTROS.includes(p.r.v) ? ' · ' + sub(S.topMeta, { g: eur(redondo(p.r.c.dejas)) }) : '');
+        li.append(el('span', 'qa-rank', String(i + 1)), el('b', 'font-medium', p.name), el('span', 'qa-hint', meta), enlaces(p));
+        ol.append(li);
+      });
+      c1.append(ol);
+    } else c1.append(el('p', 'qa-hint mt-3', S.topEmpty));
+    const c2 = el('div', 'qa-not');
+    c2.append(el('h3', 't-h3-row', S.not));
+    if (not.length) {
+      const ul = el('ul');
+      not.forEach((p) => {
+        const li = el('li');
+        li.append(el('b', null, p.name), document.createTextNode((p.r.estado === 'rojo' ? S.noCompensa : V[p.r.v].t + '. ' + T.why[p.r.por]) + ' '), enlaces(p));
+        ul.append(li);
+      });
+      c2.append(ul);
+    } else c2.append(el('p', 'qa-hint', S.notEmpty));
+    c2.append(el('p', 'qa-hint', S.notFoot));
+    cols.append(c1, c2);
+    sumBox.append(cols);
+  }
+  const hechas = document.getElementById('qa-hechas')!;
+  function renderHechas() {
+    hechas.innerHTML = '';
+    hechas.hidden = !state.procs.length;
+    if (hechas.hidden) return;
+    hechas.append(el('span', 'qa-h', U.hechas));
+    const ul = el('ul');
+    for (const p of state.procs) {
+      const b = el('button') as HTMLButtonElement;
+      b.type = 'button';
+      b.title = `${p.name}: ${T.estados[p.r.estado]}`;
+      if (!out.hidden && state.last === p) b.setAttribute('aria-current', 'true');
+      const d = el('span', 'qa-dot');
+      d.style.setProperty('--vc', COLOR[p.r.estado]);
+      b.append(d, el('span', 'qa-nom', p.name));
+      b.onclick = () => {
+        state.last = p;
+        wiz.hidden = true;
+        renderVerdict(p);
+        renderHechas();
+        out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+      const li = el('li');
+      li.append(b);
+      ul.append(li);
+    }
+    hechas.append(ul);
+    const pie = el('div', 'qa-hechas-pie mt-2');
+    const borrar = el('button', 'qa-link text-[13px]', U.borrar) as HTMLButtonElement;
+    borrar.type = 'button';
+    borrar.onclick = () => {
+      state.procs = [];
+      state.last = null;
+      guarda();
+      empieza();
+      render();
+    };
+    pie.append(el('span', 'qa-hint', U.hechasNota), borrar);
+    hechas.append(pie);
+  }
+  function render() {
+    if (state.last && !wiz.hidden) {
+      // Se está contestando otra tarea: el resultado anterior sigue en la lista.
+    } else if (state.last) renderVerdict(state.last);
+    else empieza();
+    renderSummary();
+    renderHechas();
+  }
+  // El enlace va dentro del formulario, que se mueve con la tarjeta.
+  document.getElementById('qa-cta')?.addEventListener('click', () => track('herramienta_llamada', { valor: String(state.procs.length) }));
+
+  /* ---------- La revisión por correo ----------
+     Lo único que sale de la página, y solo al pedirlo: cada tarea en texto
+     plano, pregunta y respuesta, para leerlo en el correo. */
+  function etiqueta(id: string, v: string) {
+    for (const p of PASOS) {
+      const o = p.id === id ? p.opts : p.sub?.id === id ? p.sub.opts : null;
+      if (o) return o.find((x) => x.v === v)?.l ?? v;
+    }
+    return v;
+  }
+  function resumen() {
+    return state.procs
+      .map((p, i) => {
+        const c = p.r.c;
+        const r = [`${i + 1}. ${p.name}`, `Resultado: ${T.estados[p.r.estado]} (${V[p.r.v].t})`];
+        r.push(
+          `${fmt(c.horas, 1)} h/mes (${fmt(c.personas, 1)} personas) · se pierde ${c.desconocido ? 'no lo sabe' : eur(c.perdida) + '/mes'} · deja de perder ${eur(c.dejas)}–${eur(c.techo)}/mes` +
+            (c.vender ? ` · horas para vender ${eur(c.vender)}/mes` : '') +
+            (c.avisos.length ? ` · AVISO: ${c.avisos.join(', ')}` : '')
+        );
+        for (const q of PASOS) {
+          if (q.tipo === 'texto' || p.a[q.id] === undefined) continue;
+          const v = p.a[q.id]!;
+          r.push(`${q.q} ${(Array.isArray(v) ? v : [v]).map((x) => etiqueta(q.id, x)).join(' / ')}`);
+          if (q.sub && p.a[q.sub.id]) r.push(`  ${q.sub.q} ${etiqueta(q.sub.id, p.a[q.sub.id] as string)}`);
+        }
+        return r.join('\n');
+      })
+      .join('\n\n');
+  }
+  const aviso = (txt: string, ok = false) => {
+    rmsg.textContent = txt;
+    rmsg.style.color = ok ? '#137a3a' : '#b3261e';
+    rmsg.hidden = false;
+  };
+  rev.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!state.procs.length) return aviso(C.empty);
+    if (!rev.reportValidity()) return;
+    (rev.elements.namedItem('resumen') as HTMLInputElement).value = resumen();
+    const btn = rev.querySelector('button')!;
+    btn.disabled = true;
+    aviso(C.sending, true);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(rev) });
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok || !j.success) throw new Error(j.message || String(res.status));
+      aviso(C.ok, true);
+      rev.reset();
+      track('herramienta_revision', { valor: String(state.procs.length) });
+    } catch {
+      aviso(C.fail);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  /* Los ejemplos: cargan sus respuestas y la herramienta arranca en la segunda
+     pregunta, con todo marcado, para que la persona cambie lo que no cuadre. */
+  const EJ = D.ejemplos as Record<string, A>;
+  function cargaEjemplo(id: string) {
+    const e = EJ[id];
+    if (!e) return false;
+    empieza();
+    state.a = JSON.parse(JSON.stringify(e));
+    state.i = 1;
+    cargado.textContent = sub(U.cargado, { n: e.name as string });
+    cargado.hidden = false;
+    pinta();
+    track('herramienta_ejemplo', { valor: id });
+    return true;
+  }
+  document.querySelectorAll<HTMLButtonElement>('.qa-probar').forEach((b) =>
+    b.addEventListener('click', () => {
+      if (cargaEjemplo(b.dataset.ejemplo!)) document.getElementById('herramienta')!.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    })
+  );
+
+  recupera();
+  empieza();
+  renderSummary();
+  const pedido = new URLSearchParams(location.search).get('ejemplo');
+  if (pedido && cargaEjemplo(pedido)) document.getElementById('herramienta')!.scrollIntoView({ block: 'start' });
+</script>

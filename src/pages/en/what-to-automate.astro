@@ -1,0 +1,20 @@
+---
+/*
+  English mirror of the t0190 tool (21 oct 2026). Same component and logic as
+  `/que-automatizar`; the text lives in `src/i18n/que-automatizar-en.ts`.
+*/
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import QueAutomatizar from '../../components/QueAutomatizar.astro';
+import { qaEn } from '../../i18n/que-automatizar-en';
+import { altsFor } from '../../i18n/utils';
+---
+
+<BaseLayout
+  lang="en"
+  title={qaEn.metaTitle}
+  description={qaEn.metaDescription}
+  alternates={altsFor('whatToAutomate')}
+  breadcrumbName={qaEn.breadcrumb}
+>
+  <QueAutomatizar lang="en" />
+</BaseLayout>
