@@ -145,7 +145,8 @@ const GRUPOS = [
     clave: 'guias',
     titulo: { es: 'Guías', en: 'Guides' },
     indice: ['/guias', '/en/guides'],
-    es: (r) => /^\/(guias|en\/guides)(\/|$)/.test(r),
+    // La herramienta de qué automatizar vive en la raíz, pero en el menú va con las guías.
+    es: (r) => /^\/(guias|en\/guides)(\/|$)/.test(r) || ['/que-automatizar', '/en/what-to-automate'].includes(r),
   },
   {
     clave: 'faqs',
