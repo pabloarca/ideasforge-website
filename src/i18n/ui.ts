@@ -13113,7 +13113,9 @@ export const content: Record<Lang, SiteContent> = {
         { label: 'Blog', href: '/en/blog' },
         { label: 'FAQs', href: '/en/faqs' },
         { label: 'Security', href: '/en/security' },
-        { label: 'About us' },
+        /* «About us» sale del menú el 22 oct 2026 (propietario): se pintaba
+           apagado porque /en/about no existe. Vuelve con su href cuando se
+           escriba el espejo de /quienes-somos. */
       ],
       cta: 'Tell us what you want to improve',
       menu: 'Menu',
