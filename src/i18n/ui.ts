@@ -4109,7 +4109,7 @@ export const content: Record<Lang, SiteContent> = {
         nav: false,
         metaTitle: 'Quiénes somos, Ideasforge',
         metaDescription:
-          'Diseñamos, construimos y mantenemos agentes de IA y automatización de procesos que llegan a producción. Cinco sistemas funcionando hoy con usuarios reales.',
+          'Un equipo de ingenieros en España que diseña, construye y mantiene agentes de IA y automatizaciones. Quien te atiende el primer día es quien mantiene tu sistema.',
         hero: {
           title: 'Un equipo que mantiene lo que construye',
           subtitle:
@@ -21469,7 +21469,7 @@ export const content: Record<Lang, SiteContent> = {
         nav: false,
         metaTitle: 'About us, Ideasforge',
         metaDescription:
-          'We design, build and maintain AI agents and process automation that reach production. Five systems running today with real users.',
+          'A team of engineers in Spain who design, build and maintain AI agents and automations. The person on your first call is the one who maintains your system.',
         hero: {
           title: 'A team that maintains what it builds',
           subtitle:
