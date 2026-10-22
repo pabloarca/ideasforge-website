@@ -65,6 +65,9 @@ const rutaGracias = RUTA_GRACIAS[lang];
             )}
             <p class="mt-7 max-w-[44ch] text-[17px] leading-[1.6] text-muted">{t.p1}</p>
             <p class="mt-4 max-w-[44ch] text-[15px] leading-[1.6] text-muted">{t.p2}</p>
+            {principal && t.herramienta && (
+              <a href={t.herramienta.href} class="link-arrow mt-7">{t.herramienta.label} →</a>
+            )}
           </>
         )
       }

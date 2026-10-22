@@ -906,6 +906,8 @@ export interface HomeContent {
     title: string;
     p1: string;
     p2: string;
+    /** Solo en la página de contacto: para quien aún no sabe qué contar (22 oct 2026). */
+    herramienta?: { label: string; href: string };
     message: string;
     placeholder: string;
     submit: string;
@@ -1704,7 +1706,9 @@ export const content: Record<Lang, SiteContent> = {
         title: 'Desarrollo de IA a medida para empresas.',
         lead: 'Diseñamos agentes de IA, automatizaciones y software inteligente conectado con los datos, herramientas y procesos reales de cada organización.',
         ctaPrimary: 'Cuéntanos qué quieres mejorar',
-        ctaSecondary: 'Ver proyectos reales',
+        /* Llevaba a los proyectos hasta el 22 oct 2026 y desde entonces, a la
+           herramienta de qué automatizar (propietario). */
+        ctaSecondary: 'Prueba qué tarea automatizar primero',
       },
       logos: {
         label: 'Empresas con las que trabajamos',
@@ -2026,6 +2030,7 @@ export const content: Record<Lang, SiteContent> = {
         title: 'Cuéntanos el proceso que quieres mejorar.',
         p1: 'No necesitas saber qué modelo utilizar, qué arquitectura necesitas o si el problema requiere un agente de IA. Cuéntanos cómo funciona hoy el proceso, qué personas intervienen y qué herramientas utilizáis.',
         p2: 'Te respondemos en un día laborable con una primera lectura de tu caso.',
+        herramienta: { label: '¿Aún no sabes qué contarnos? Prueba antes con una tarea tuya', href: '/que-automatizar' },
         message: 'Cómo funciona hoy el proceso que quieres mejorar',
         placeholder:
           'Cuéntanoslo como se lo contarías a un compañero. No hace falta que sepas qué tecnología lo resuelve.',
@@ -3502,6 +3507,9 @@ export const content: Record<Lang, SiteContent> = {
         {
           heading: 'Guías',
           links: [
+            /* La herramienta entra aquí el 21 oct 2026 (no es una guía, pero es
+               donde se busca por dónde empezar) y pasa al primer puesto el 22. */
+            { label: 'Qué automatizar primero', href: '/que-automatizar' },
             { label: 'Qué es un agente de IA', href: '/guias/que-es-un-agente-de-ia' },
             { label: 'Cuánto cuesta un agente de IA', href: '/guias/cuanto-cuesta-un-agente-de-ia' },
             { label: 'IA y RGPD', href: '/guias/ia-y-rgpd' },
@@ -3509,9 +3517,6 @@ export const content: Record<Lang, SiteContent> = {
             /* Pymes pasó aquí desde «Sectores» el 7 oct 2026, por decisión del
                propietario, con este nombre. */
             { label: 'IA para Pymes', href: '/guias/ia-para-pymes' },
-            /* La herramienta entra aquí el 21 oct 2026: no es una guía, pero
-               es el sitio del menú donde se busca por dónde empezar. */
-            { label: 'Qué automatizar primero', href: '/que-automatizar' },
           ],
         },
       ],
@@ -13136,7 +13141,7 @@ export const content: Record<Lang, SiteContent> = {
         title: 'Custom AI development for companies.',
         lead: 'We design AI agents, automations and intelligent software connected to the real data, tools and processes of each organization.',
         ctaPrimary: 'Tell us what you want to improve',
-        ctaSecondary: 'See real projects',
+        ctaSecondary: 'Find out which task to automate first',
       },
       logos: {
         label: 'Companies we work with',
@@ -13457,6 +13462,7 @@ export const content: Record<Lang, SiteContent> = {
         title: 'Tell us about the process you want to improve.',
         p1: 'You do not need to know which model to use, which architecture you need or whether the problem calls for an AI agent. Tell us how the process works today, who is involved and which tools you use.',
         p2: 'We’ll reply within one business day with a first read of your case.',
+        herramienta: { label: 'Not sure what to tell us yet? Try it first with one of your tasks', href: '/en/what-to-automate' },
         message: 'How the process you want to improve works today',
         placeholder:
           'Describe it the way you would to a colleague. You do not need to know which technology solves it.',
@@ -14930,12 +14936,12 @@ export const content: Record<Lang, SiteContent> = {
         {
           heading: 'Guides',
           links: [
+            { label: 'What to automate first', href: '/en/what-to-automate' },
             { label: 'What an AI agent is', href: '/en/guides/ai-agents' },
             { label: 'What an AI agent costs', href: '/en/guides/ai-agent-development-cost' },
             { label: 'GDPR-compliant AI', href: '/en/guides/gdpr-compliant-ai' },
             { label: 'EU AI Act', href: '/en/guides/eu-ai-act-compliance' },
             { label: 'AI for small business', href: '/en/guides/ai-for-small-business' },
-            { label: 'What to automate first', href: '/en/what-to-automate' },
           ],
         },
       ],

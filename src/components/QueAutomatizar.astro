@@ -26,13 +26,10 @@
   semáforo cae) vive en `src/lib/que-automatizar.ts`, sin textos ni
   navegador, y la prueban `npm run check:herramienta` y el CI.
 */
-import { Picture } from 'astro:assets';
 import FaqList from './FaqList.astro';
 import { qa as qaEs } from '../i18n/que-automatizar';
 import { qaEn } from '../i18n/que-automatizar-en';
 import { type Lang } from '../i18n/ui';
-import { foto } from '../lib/fotos';
-import { altFoto } from '../lib/alt-fotos';
 import { routeMap } from '../i18n/utils';
 import { CLAVE_WEB3FORMS } from '../lib/formulario';
 import { analiza } from '../lib/que-automatizar';
@@ -77,45 +74,36 @@ const datos = JSON.stringify({ locale: qa.locale, pasos: qa.pasos, ui: qa.ui, t:
 
 <script is:inline type="application/ld+json" set:html={appJsonLd} />
 
-<section class="wrap pb-[clamp(48px,6vw,80px)] pt-[clamp(56px,7vw,96px)]">
-  <div class="grid items-end gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
-    <div>
+{/* La herramienta, arriba y a la derecha del titular, donde antes iba una
+    foto (propietario, 22 oct 2026: «que resalte más»). Así se ve nada más
+    entrar. En el móvil va debajo del texto, con el botón «Empezar» para bajar. */}
+<section class="wrap pb-[clamp(48px,6vw,80px)] pt-[clamp(40px,5vw,72px)]">
+  <div class="grid items-start gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-14">
+    <div class="lg:sticky lg:top-28">
       <span class="kicker mb-7">{qa.hero.kicker}</span>
-      <h1 class="t-display max-w-[18ch]">{qa.hero.title}</h1>
-      <div class="mt-6 max-w-[56ch] space-y-4 text-[17px] leading-[1.55] text-muted">
+      <h1 class="t-display max-w-[16ch]">{qa.hero.title}</h1>
+      <div class="mt-6 max-w-[48ch] space-y-4 text-[17px] leading-[1.55] text-muted">
         {qa.hero.lead.map((p) => <p>{p}</p>)}
       </div>
-      <a href="#herramienta" class="btn-primary hover:btn-primary-hover mt-9">{qa.hero.cta}</a>
+      <a href="#herramienta" class="btn-primary hover:btn-primary-hover mt-9 lg:hidden">{qa.hero.cta}</a>
     </div>
-    <Picture
-      src={foto('/guias/que-automatizar-pizarra.jpg')}
-      alt={altFoto('/guias/que-automatizar-pizarra.jpg', lang)}
-      formats={['avif', 'webp']}
-      widths={[480, 800, 1200]}
-      sizes="(min-width: 1024px) 45vw, 100vw"
-      loading="eager"
-      class="aspect-[3/2] w-full object-cover"
-    />
-  </div>
-</section>
-
-<section id="herramienta" class="wrap scroll-mt-28">
-  <div class="qa-shell">
-    <div id="qa-hechas" class="qa-hechas" hidden></div>
-    <div id="qa-wiz" class="qa-card">
-      <p id="qa-cargado" class="qa-cargado" hidden></p>
-      <div class="qa-prog">
-        <div class="qa-bar" aria-hidden="true"><span id="qa-fill"></span></div>
-        <span id="qa-count" class="qa-hint"></span>
+    <div id="herramienta" class="qa-shell scroll-mt-28">
+      <div id="qa-hechas" class="qa-hechas" hidden></div>
+      <div id="qa-wiz" class="qa-card">
+        <p id="qa-cargado" class="qa-cargado" hidden></p>
+        <div class="qa-prog">
+          <div class="qa-bar" aria-hidden="true"><span id="qa-fill"></span></div>
+          <span id="qa-count" class="qa-hint"></span>
+        </div>
+        <div id="qa-step"></div>
+        <p class="qa-err" id="qa-err" role="alert" hidden></p>
+        <div class="qa-nav">
+          <button type="button" id="qa-back" class="qa-link">{qa.ui.atras}</button>
+          <button type="button" id="qa-next" class="btn-primary hover:btn-primary-hover">{qa.ui.siguiente}</button>
+        </div>
       </div>
-      <div id="qa-step"></div>
-      <p class="qa-err" id="qa-err" role="alert" hidden></p>
-      <div class="qa-nav">
-        <button type="button" id="qa-back" class="qa-link">{qa.ui.atras}</button>
-        <button type="button" id="qa-next" class="btn-primary hover:btn-primary-hover">{qa.ui.siguiente}</button>
-      </div>
+      <div id="qa-out" class="qa-card" aria-live="polite" hidden></div>
     </div>
-    <div id="qa-out" class="qa-card" aria-live="polite" hidden></div>
   </div>
 </section>
 
@@ -197,11 +185,10 @@ const datos = JSON.stringify({ locale: qa.locale, pasos: qa.pasos, ui: qa.ui, t:
 
 <style>
   .qa-shell {
-    max-width: 760px;
-    margin: 0 auto;
+    min-width: 0;
   }
   .qa-card {
-    border: 2px solid var(--color-border);
+    border: 2px solid var(--color-fg);
     background: var(--color-bg);
     padding: clamp(20px, 3vw, 36px);
   }
