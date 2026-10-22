@@ -208,6 +208,7 @@ export const qaEn = {
     title: 'Which tasks should you automate first?',
     lead: [
       'Answer a few quick questions about a task in your business and we’ll tell you whether it’s worth automating, how and how much you could save.',
+      'It isn’t always about automating all of it. Sometimes AI prepares the work and someone on your team approves it, and sometimes a program with no AI is enough.',
       'Almost every question takes a single tap. You can try several tasks and see which one to start with.',
     ],
     cta: 'Start',
@@ -480,6 +481,13 @@ export const qaEn = {
     kicker: 'FAQ',
     title: 'Which processes can be automated, and when it pays',
     items: [
+      {
+        q: 'What can AI do in a business, and which tasks should you hand over to it?',
+        a: [
+          'AI is good at reading and writing. It understands emails, PDFs, messages or voice notes, pulls out the data that’s needed and drafts replies, summaries or first versions. What you shouldn’t leave to it is the math or decisions that can’t be undone: a program or a person does that better.',
+          'That’s why handing work over to AI is rarely all or nothing. Some tasks run on their own, because AI only reads or writes and a program does the rest, and in others AI prepares the work and a person approves it before it goes out. And sometimes the answer is that you don’t need AI at all. The tool on this page tells you which of those cases each of your tasks falls into.',
+        ],
+      },
       {
         q: 'Which processes or tasks can be automated in a business?',
         a: [

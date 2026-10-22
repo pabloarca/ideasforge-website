@@ -248,6 +248,9 @@ export const qa = {
     title: '¿Qué tareas automatizar primero?',
     lead: [
       'Contesta unas preguntas rápidas sobre una tarea de tu empresa y te decimos si merece la pena automatizarla, cómo y cuánto podrías ahorrar.',
+      /* Delegar, no solo automatizar (propietario, 22 oct 2026): la mitad de
+         los resultados dejan a una persona aprobando, y uno no usa IA. */
+      'No siempre se trata de automatizar del todo. A veces la IA prepara el trabajo y una persona de tu equipo lo aprueba, y a veces basta un programa sin IA.',
       'Casi todas se contestan con un toque. Puedes probar varias tareas y ver por cuál empezar.',
     ],
     cta: 'Empezar',
@@ -530,6 +533,15 @@ export const qa = {
     kicker: 'Preguntas frecuentes',
     title: 'Qué procesos se pueden automatizar y cuándo compensa',
     items: [
+      /* La pregunta de delegar (22 oct 2026): «qué puede hacer la IA» es la
+         única búsqueda medida de esa familia (10-100 al mes, España). */
+      {
+        q: '¿Qué puede hacer la IA en una empresa y qué tareas conviene delegarle?',
+        a: [
+          'La IA es buena leyendo y escribiendo. Entiende correos, PDF, mensajes o audios, saca de ellos los datos que hacen falta y prepara respuestas, resúmenes o borradores. Lo que no conviene dejarle son las cuentas ni las decisiones que no tienen vuelta atrás: eso lo hace mejor un programa o una persona.',
+          'Por eso delegar en la IA casi nunca es todo o nada. Hay tareas que se hacen solas, porque la IA solo lee o escribe y un programa hace el resto, y otras en las que la IA prepara el trabajo y una persona lo aprueba antes de que salga. Y a veces la respuesta es que no hace falta IA. La herramienta de esta página te dice en cuál de esos casos cae cada tarea tuya.',
+        ],
+      },
       {
         q: '¿Qué procesos o tareas se pueden automatizar en una empresa?',
         a: [
