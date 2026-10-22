@@ -49,12 +49,13 @@ const PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID?.trim();
     /*
       Consent Mode v2 (22 oct 2026). Nada se carga antes del sí, igual que
       siempre, pero Google Ads exige en Europa que la etiqueta diga QUÉ se ha
-      consentido. El aviso de cookies pide permiso solo para medir con Google
-      Analytics, así que los permisos de publicidad van en «denied». Pasarlos a
-      «granted» exige antes cambiar el aviso y la política de cookies para que
-      nombren Google Ads: si no, se mandaría un consentimiento que nadie dio.
+      consentido. Desde el mismo día el aviso pide permiso para Google
+      Analytics y Google Ads con un solo sí (versión 2 del consentimiento).
+      Un sí de antes, sin versión, solo cubría medir: con él la publicidad
+      sigue en «denied» hasta que la persona vuelva a contestar.
     */
     var ANUNCIOS = 'denied';
+    var VERSION_CON_ANUNCIOS = 2;
     function permisos(medir) {
       return {
         analytics_storage: medir,
@@ -141,7 +142,7 @@ const PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID?.trim();
         envia(nombre, p);
       },
       /** La llama el aviso de cookies. 'granted' carga y vacía la cola. */
-      consentir: function (estado) {
+      consentir: function (estado, version) {
         if (estado !== 'granted') {
           concedido = false;
           cola = [];
@@ -159,6 +160,7 @@ const PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID?.trim();
         }
         if (GA_ID) window['ga-disable-' + GA_ID] = false;
         if (ADS_ID) window['ga-disable-' + ADS_ID] = false;
+        ANUNCIOS = version === VERSION_CON_ANUNCIOS ? 'granted' : 'denied';
         concedido = true;
         cargaTerceros();
         // Volver a aceptar en la misma visita, después de haber revocado.
@@ -173,7 +175,7 @@ const PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID?.trim();
     /* Consentimiento ya dado en una visita anterior. */
     try {
       var previo = JSON.parse(localStorage.getItem(CLAVE) || 'null');
-      if (previo && previo.estado === 'granted') forge.consentir('granted');
+      if (previo && previo.estado === 'granted') forge.consentir('granted', previo.v);
     } catch (e) {
       /* Navegación privada o almacenamiento bloqueado: se preguntará otra vez.
          Nunca se asume un sí. */

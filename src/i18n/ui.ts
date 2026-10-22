@@ -1644,8 +1644,10 @@ export const content: Record<Lang, SiteContent> = {
         'Para medianas y grandes empresas: un asistente que responde en lenguaje natural consultando tu documentación interna, tus wikis y tus sistemas.',
     },
     consent: {
-      heading: 'Cookies de medición',
-      body: 'Usamos Google Analytics para saber qué páginas sirven y cuáles no. Instala cookies, así que no se carga hasta que decidas. Si dices que no, la web funciona exactamente igual.',
+      /* Desde el 22 oct 2026 cubre también Google Ads, con un solo sí (opción
+         del propietario). El aviso vuelve a salir a quien aceptó antes. */
+      heading: 'Cookies de medición y de anuncios',
+      body: 'Usamos Google Analytics para saber qué páginas sirven y cuáles no, y Google Ads para saber qué anuncios nos traen visitas. Instalan cookies, así que nada se carga hasta que decidas. Si dices que no, la web funciona exactamente igual.',
       accept: 'Aceptar',
       reject: 'Rechazar',
       link: 'Leer la política de cookies',
@@ -13089,8 +13091,8 @@ export const content: Record<Lang, SiteContent> = {
         'For mid-size and large companies: an assistant that answers in natural language by querying your internal documentation, wikis and systems.',
     },
     consent: {
-      heading: 'Measurement cookies',
-      body: 'We use Google Analytics to learn which pages earn their place and which do not. It sets cookies, so nothing loads until you decide. If you say no, the site works exactly the same.',
+      heading: 'Measurement and advertising cookies',
+      body: 'We use Google Analytics to learn which pages earn their place and which do not, and Google Ads to learn which ads bring us visits. They set cookies, so nothing loads until you decide. If you say no, the site works exactly the same.',
       accept: 'Accept',
       reject: 'Reject',
       link: 'Read the cookies policy',

@@ -125,14 +125,14 @@ const HAY_MEDICION = !!(
             try {
               localStorage.setItem(
                 CLAVE,
-                JSON.stringify({ estado: valor, fecha: new Date().toISOString() })
+                JSON.stringify({ estado: valor, fecha: new Date().toISOString(), v: 2 })
               );
             } catch (e) {
               /* Navegación privada o almacenamiento bloqueado: la decisión vale
                  para esta visita y se volverá a preguntar. Nunca se asume un sí. */
             }
             if (aviso) aviso.hidden = true;
-            if (window.forge) window.forge.consentir(valor);
+            if (window.forge) window.forge.consentir(valor, 2);
           }
 
           if (aviso) {
@@ -153,7 +153,11 @@ const HAY_MEDICION = !!(
 
           /* La carga de un consentimiento previo la hace `Analitica.astro`,
              que corre antes. Aquí solo queda decidir si hay que preguntar. */
-          if (!leer() && aviso) aviso.hidden = false;
+          /* Versión 2 desde el 22 oct 2026, cuando el aviso pasó a cubrir Google
+             Ads. Quien decidió antes solo contestó sobre medir: se le vuelve a
+             preguntar y, mientras tanto, sigue solo con medición. */
+          var previa = leer();
+          if ((!previa || previa.v !== 2) && aviso) aviso.hidden = false;
         })();
       </script>
     </>
