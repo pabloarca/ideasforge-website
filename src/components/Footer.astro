@@ -40,6 +40,8 @@ const [soluciones, ...otrosGrupos] = t.footer.navGroups;
 const columnas = [soluciones, { heading: t.nav.sectors, links: t.nav.sectorLinks }, ...otrosGrupos];
 
 const empresa = [
+  // Igual que las preguntas frecuentes: solo en el idioma que tiene la página.
+  ...(routeMap.about[lang] ? [{ label: t.nav.about, href: routeMap.about[lang] }] : []),
   { label: t.nav.blog, href: localizedPath('/blog', lang) },
   // Solo donde la sección existe: en inglés todavía no hay preguntas frecuentes.
   ...(routeMap.faqs[lang] ? [{ label: t.nav.faqs, href: routeMap.faqs[lang] }] : []),

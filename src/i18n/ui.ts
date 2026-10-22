@@ -1671,7 +1671,7 @@ export const content: Record<Lang, SiteContent> = {
         { label: 'Blog', href: '/blog' },
         { label: 'FAQs', href: '/preguntas-frecuentes' },
         { label: 'Seguridad', href: '/seguridad' },
-        { label: 'Sobre nosotros' },
+        { label: 'Sobre nosotros', href: '/quienes-somos' },
       ],
       cta: 'Cuéntanos qué quieres mejorar',
       menu: 'Menú',
@@ -4113,24 +4113,42 @@ export const content: Record<Lang, SiteContent> = {
         hero: {
           title: 'Un equipo que mantiene lo que construye',
           subtitle:
-            'Si tu idea no es viable, te lo decimos antes de cobrarla. Si tiene recorrido, trabajamos contigo codo con codo hasta que funcione en producción.',
+            'No desaparecemos cuando el sistema ya funciona. Seguimos ahí, lo revisamos cada semana y lo cambiamos cuando cambia algo en tu empresa.',
           cta: 'Cuéntanos tu reto',
         },
         sections: [
           {
-            heading: 'Qué hacemos',
+            heading: 'Quiénes somos',
             paragraphs: [
-              'En Ideasforge diseñamos, construimos y mantenemos agentes de IA y automatización de procesos. Trabajamos sobre lo que ya tienes y nos conectamos a tus sistemas y a las herramientas con las que tu gente trabaja cada día, en lugar de pedirte que cambies tu manera de trabajar para encajar con la nuestra.',
-              '<strong>El repositorio y la infraestructura quedan a tu nombre desde el primer día</strong>, porque un sistema del que dependes tiene que ser tuyo.',
-              'Hoy hay <strong>cinco sistemas nuestros funcionando con usuarios reales</strong> en industria, agricultura, inmobiliaria, salud y servicios. Uno es producto propio, Wazzy, un asistente de citas por WhatsApp que trata datos de salud a diario y que usamos como campo de pruebas de nuestras prácticas antes de llevarlas a un cliente.',
-              'El criterio con el que juzgamos todos es el mismo, lo que gana el negocio antes que lo que luce en una demostración.',
+              'Somos un equipo de ingenieros que trabaja desde España. Quien te atiende en la primera llamada es quien diseña tu sistema y quien lo mantiene después.',
             ],
-            link: { label: 'Ver los servicios', href: '/#soluciones' },
+          },
+          {
+            heading: 'Qué vale la pena automatizar y qué no, visto desde dentro',
+            paragraphs: [
+              'Nos hemos metido hasta la cocina en un montón de empresas. Nos hemos sentado con quien teclea facturas una a una y con quien necesita una cifra en mitad del campo, sin un ordenador delante. Lo que más nos llama la atención es que esas personas saben muy bien qué parte de su trabajo sobra y casi nunca han tenido tiempo de quitarla.',
+              'Ahí hemos aprendido a distinguir lo que funciona de lo que solo queda bien en una demostración. Y también qué vale la pena automatizar y qué no. Unas veces la respuesta es un agente de IA y otras una automatización sencilla, sin modelo. Cuando no compensa hacer nada, te lo decimos antes de cobrarlo.',
+            ],
+          },
+          {
+            heading: 'Cómo llevamos un proyecto, de la primera prueba al mantenimiento',
+            paragraphs: [
+              'Antes de conectar ningún programa, probamos la IA con casos reales tuyos. Si no acierta lo suficiente, el proyecto se para ahí. Si acierta, arrancamos con un piloto, que se paga y cuyo precio entra en el proyecto final.',
+              'El reparto es siempre el mismo: la IA interpreta y el código ejecuta. El modelo entiende la petición y el código decide qué acción se ejecuta.',
+              'Ningún cambio llega a producción sin pasar la batería de pruebas, tampoco una versión nueva del modelo. Antes de aplicarlo hacemos copia de la base de datos y, si después el servicio no responde, se vuelve solo a la versión anterior. Además, cada semana pasa una tanda de conversaciones de prueba por todos los sistemas que mantenemos.',
+            ],
+          },
+          {
+            heading: 'Lo que queda a tu nombre y lo que no hacemos',
+            paragraphs: [
+              'El repositorio y la nube donde funciona el sistema están a tu nombre desde el primer día, y el consumo del modelo se paga en cuentas tuyas. La cuota mensual cubre solo la vigilancia y el mantenimiento, no tiene permanencia y, si la dejas, lo construido sigue funcionando.',
+              'No auditamos ni certificamos que tu empresa cumpla el RGPD o el reglamento europeo de IA, porque eso es trabajo de tus abogados. Construimos el sistema para que el cumplimiento se pueda demostrar.',
+            ],
           },
         ],
         cta: {
           heading: '¿Hablamos de tu caso?',
-          body: 'Escríbenos con el problema que tienes ahora mismo, no con la tecnología que crees que lo arregla. Respondemos en un día laborable.',
+          body: 'Escríbenos con el problema que tienes ahora, no con la tecnología que crees que lo arregla. Te respondemos en un día laborable.',
           button: 'Cuéntanos tu reto',
         },
       },
