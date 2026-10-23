@@ -809,7 +809,9 @@ export interface HomeContent {
     title: string;
     body: string;
     statement: string;
-    imageCaption: string;
+    /** Opcional desde el 22 oct 2026: «Ideasforge, España» bajo la foto de la
+     *  escalera daba a entender que era nuestra oficina (propietario). */
+    imageCaption?: string;
   };
   services: {
     title: string;
@@ -1722,7 +1724,6 @@ export const content: Record<Lang, SiteContent> = {
         body: 'Desde sistemas capaces de consultar bases de datos y documentación interna hasta automatización documental, agentes conversacionales o aplicaciones con inteligencia artificial integradas con ERP, CRM y software propio.',
         statement:
           'No construimos IA porque esté de moda. Construimos sistemas cuando existe un problema que merece la pena resolver.',
-        imageCaption: 'Ideasforge, España.',
       },
       services: {
         title: 'Soluciones de inteligencia artificial para empresas.',
@@ -13155,7 +13156,6 @@ export const content: Record<Lang, SiteContent> = {
         body: 'From systems that query databases and internal documentation to document automation, conversational agents and AI-powered applications integrated with ERP, CRM and in-house software.',
         statement:
           'We do not build AI because it is in fashion. We build systems when there is a problem worth solving.',
-        imageCaption: 'Ideasforge, Spain.',
       },
       services: {
         title: 'Artificial intelligence solutions for companies.',
