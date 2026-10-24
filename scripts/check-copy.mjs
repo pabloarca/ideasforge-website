@@ -131,6 +131,40 @@ const PALABRAS_VETADAS = [
   // castellano se dice «flujo», «interesados» o «solicitudes» y «gestoras de
   // alquiler» (decisiones del 19 ago 2026 y revisión del 8 oct 2026).
   'workflow', 'leads', 'property manag',
+  // Contraste con la lista de blader/humanizer (24 oct 2026): lo que le
+  // faltaba a esta. Cero usos en la web el día que entran, así que cualquier
+  // aparición es una recaída. Las cuatro últimas son tics de LinkedIn, que
+  // pasa por esta misma función desde .private/cuadro/publica.mjs.
+  'en el corazón de', 'juega un papel', 'desempeña un papel',
+  'pone de manifiesto', 'pone de relieve', 'cabe destacar',
+  'vale la pena destacar', 'seamos sinceros', 'seamos claros',
+  'sin más preámbulos', 'no me malinterpretes', 'sin precedentes',
+  'un antes y un después', 'sienta las bases', 'allana el camino',
+  'de vanguardia', 'revolucionari', 'eso lo cambia todo', 'esto lo cambia todo', 'en el mundo actual',
+  'lo que nadie te cuenta', 'aquí viene lo interesante', 'vamos al grano',
+  'te leo en comentarios', 'se erig',
+];
+
+/*
+ * Gerundio de cola (patrón 15 de humanizer, «…, highlighting its
+ * importance»): la coma seguida de un gerundio que añade una consecuencia o
+ * un juicio. En español es además gerundio de posterioridad, que la norma no
+ * admite. Cero usos el 24 oct 2026. La lista es explícita a propósito: una
+ * regla general sobre «, -ando» cazaría «, esperando a que llegue», que es
+ * correcto.
+ */
+const GERUNDIO_COLA = /,\s+(destacando|subrayando|resaltando|garantizando|asegurando|reflejando|fomentando|contribuyendo|generando|permitiendo|consiguiendo|logrando|demostrando|evidenciando|convirtiéndo\w*|posicionándo\w*)\b/gi;
+
+/*
+ * Fórmulas de efecto (patrones 1 y 2 de humanizer, 24 oct 2026). AVISO y no
+ * error: «no solo» vale cuando la segunda mitad añade un hecho y no un
+ * énfasis, y el árbitro solo veta la fórmula «no es solo X, es Y», que ya
+ * caza PALABRAS_VETADAS. El cierre que le pide al lector que relea es el
+ * mismo gesto que la frase que resume lo recién dicho (§7).
+ */
+const FORMULAS_EFECTO = [
+  [/\bno solo\b/gi, '«no solo… sino/también»: ¿la segunda mitad añade un hecho o solo énfasis?'],
+  [/l[ée]elo (otra vez|de nuevo|dos veces)/gi, 'cierre de efecto: si la frase importa, que lo diga ella'],
 ];
 
 /*
@@ -410,6 +444,16 @@ function revisa(nombre, textoBruto) {
     fallos.push(['raya larga', contexto(t, m.index)]);
   }
 
+  for (const [re, motivo] of FORMULAS_EFECTO) {
+    for (const m of [...t.matchAll(new RegExp(re.source, re.flags))]) {
+      avisos.push([motivo, contexto(t, m.index)]);
+    }
+  }
+
+  for (const m of [...t.matchAll(GERUNDIO_COLA)]) {
+    fallos.push(['gerundio de cola: parte la frase y di la consecuencia con su verbo', contexto(t, m.index)]);
+  }
+
   for (const w of PALABRAS_VETADAS) {
     for (const m of [...t.matchAll(new RegExp(`\\b${w}`, 'gi'))]) {
       fallos.push([`palabra vetada «${w}»`, contexto(t, m.index)]);
@@ -531,6 +575,44 @@ const VOCABULARIO_BRITANICO = {
   'the other way round': 'the other way around',
 };
 
+/*
+ * El inglés no tenía lista de palabras de texto generado: PALABRAS_VETADAS
+ * solo se aplica al español. Sale de contrastar la lista de blader/humanizer
+ * (24 oct 2026) con lo publicado, y entra solo lo que tiene cero usos ese día
+ * o un uso que se corrige en el mismo cambio. Fuera, con motivo:
+ * «quietly» (es «en silencio», el término de la casa para el fallo que no
+ * avisa, y ese uso es literal), «rather than» y «not X, Y» (el contraste es
+ * el ritmo de la casa, decisión del 14 sep 2026), «key» (API key),
+ * «unlock» suelto (hay una puerta que se abre de verdad), «landscape» (es un
+ * tipo de bloque en el código), «essential» (servicios esenciales del
+ * anexo III del reglamento) y «actually», que parecía muletilla y no lo es:
+ * 31 veces en 83.000 palabras, casi siempre en su sentido de «lo que el
+ * sistema hace de verdad» frente a lo que dice que hace.
+ */
+const PALABRAS_VETADAS_EN = [
+  'additionally', 'bolster', 'crucial', 'delv', 'deep dive', 'enduring',
+  'enhanc', 'garner', 'interplay', 'intricac', 'intricate', 'meticulous',
+  'pivotal', 'showcas', 'tapestry', 'testament', 'underscor', 'vibrant',
+  'robust', 'seamless', 'leverag', 'empower', 'game-changer', 'game changer',
+  'cutting-edge', 'cutting edge', 'revolutioniz', 'transformative',
+  'ever-evolving', 'fast-paced', 'groundbreaking', 'renowned', 'nestled',
+  'breathtaking', 'unlock the', 'unlock your', 'in today’s', "in today's",
+  'plays a key role', 'plays a crucial role', 'plays a pivotal role',
+  'plays a vital role', 'setting the stage', 'paving the way', 'stands as',
+  'at its core', 'without further ado', 'let’s dive', "let's dive",
+  'let’s explore', "let's explore", 'let’s break', "let's break",
+  'here’s the thing', "here's the thing", 'don’t get me wrong',
+  "don't get me wrong", 'let that sink in', 'i hope this helps',
+  'great question',
+];
+
+/* Fórmulas de efecto: el mismo AVISO que FORMULAS_EFECTO en español. */
+const FORMULAS_EFECTO_EN = [
+  // «not just any tool» es locución, no contraste.
+  [/\bnot (just|only|merely)\b(?! any\b)/gi, '«not just/only…»: ¿la segunda mitad añade un hecho o solo énfasis?'],
+  [/\bread that (again|twice)\b/gi, 'cierre de efecto: si la frase importa, que lo diga ella'],
+];
+
 /** Solo el bloque inglés de ui.ts. */
 function bloqueIngles(src) {
   const ini = src.indexOf('\n  en: {');
@@ -584,6 +666,16 @@ function revisaIngles(nombre, textoBruto) {
   for (const [brit, ameri] of Object.entries(VOCABULARIO_BRITANICO)) {
     for (const m of [...t.matchAll(new RegExp(brit, 'gi'))]) {
       fallos.push([`vocabulario británico «${brit}», debe ser «${ameri}»`, contexto(t, m.index)]);
+    }
+  }
+  for (const w of PALABRAS_VETADAS_EN) {
+    for (const m of [...t.matchAll(new RegExp(`\\b${w}`, 'gi'))]) {
+      fallos.push([`palabra vetada «${w}»`, contexto(t, m.index)]);
+    }
+  }
+  for (const [re, motivo] of FORMULAS_EFECTO_EN) {
+    for (const m of [...t.matchAll(new RegExp(re.source, re.flags))]) {
+      avisos.push([motivo, contexto(t, m.index)]);
     }
   }
   /*

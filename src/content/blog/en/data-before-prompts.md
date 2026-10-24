@@ -26,7 +26,7 @@ The classic temptation would have been to ask the model, with more emphasis, to 
 
 In another of our systems, the separation between clients initially depended on a filter added to every query. It worked, but the whole security posture hung on a condition someone could forget to add. The real improvement was not a stricter instruction or one more check. It was reorganizing the data, with one schema per client in the warehouse. Isolation went from being a predicate to remember to being the very shape of the data. An entire class of failures ceased to exist.
 
-That is the recurring pattern. **The robust solution almost never lives in the text you pass the model.** It lives in how the data the model consumes is organized, and in the code that decides what it may touch.
+That is the recurring pattern. **The solid solution almost never lives in the text you pass the model.** It lives in how the data the model consumes is organized, and in the code that decides what it may touch.
 
 ## The industry knows it and dodges it
 
